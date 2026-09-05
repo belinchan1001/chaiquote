@@ -116,22 +116,21 @@ function Home() {
 
       <section className="bg-surface">
         <div className="mx-auto max-w-6xl px-4 py-12">
-          <div className="flex items-end justify-between gap-4">
-            <div>
-              <h2 className="text-title font-semibold">入門價一覽</h2>
-              <p className="mt-2 text-sm text-muted">四條常見起步計劃。實際覆蓋及月費以申請時確認為準。</p>
-            </div>
-            <Button asChild variant="outline" size="sm">
-              <Link to="/plans" search={{ cat: "broadband" }}>
-                睇晒計劃
-              </Link>
-            </Button>
+          <div>
+            <h2 className="text-title font-semibold">入門價一覽</h2>
+            <p className="mt-2 text-sm text-muted">四條常見起步計劃。實際覆蓋及月費以申請時確認為準。</p>
           </div>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {featured.map((plan) => (
               <PlanCard key={plan.id} plan={plan} />
             ))}
           </div>
+          <Button asChild size="lg" className="mt-8 w-full sm:w-auto">
+            <Link to="/plans" search={{ cat: "broadband" }}>
+              睇晒所有計劃
+              <ArrowRight className="size-4" />
+            </Link>
+          </Button>
         </div>
       </section>
 

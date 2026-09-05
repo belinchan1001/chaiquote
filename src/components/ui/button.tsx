@@ -13,6 +13,7 @@ const buttonVariants = cva(
           "bg-transparent text-fg shadow-[var(--shadow-border)] hover:shadow-[var(--shadow-border-hover)]",
         ghost: "text-fg hover:bg-surface",
         accent: "bg-accent text-accent-foreground hover:bg-accent/90",
+        whatsapp: "bg-whatsapp text-whatsapp-foreground hover:bg-whatsapp/90",
         link: "text-fg underline-offset-4 hover:underline",
       },
       size: {

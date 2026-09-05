@@ -11,7 +11,7 @@ export function QuoteLink({
   plan,
   plans,
   inquiry,
-  variant = "default",
+  variant = "whatsapp",
   size = "default",
   className,
   children,
@@ -20,7 +20,7 @@ export function QuoteLink({
   plan?: Plan;
   plans?: Plan[];
   inquiry?: Partial<Inquiry>;
-  variant?: "default" | "outline" | "ghost" | "accent";
+  variant?: "default" | "outline" | "ghost" | "accent" | "whatsapp";
   size?: "default" | "sm" | "lg";
   className?: string;
   children?: ReactNode;
@@ -37,7 +37,7 @@ export function QuoteLink({
       >
         <WhatsAppIcon />
         <span className="truncate">
-          {children ?? (showNumber ? `WhatsApp 專人解答 ${SITE.phoneDisplay}` : "WhatsApp 專人解答")}
+          {children ?? (showNumber ? `WhatsApp ${SITE.phoneDisplay}` : "WhatsApp 問價")}
         </span>
       </a>
     </Button>
