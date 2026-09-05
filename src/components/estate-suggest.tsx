@@ -1,6 +1,12 @@
 import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { Input } from "@/components/ui/input";
-import { estateLabel, searchEstates, type Estate } from "@/lib/estates";
+import {
+  addressHitLabel,
+  addressHitValue,
+  localAddressHits,
+  searchAddresses,
+  type AddressHit,
+} from "@/lib/address-search";
 import { cn } from "@/lib/utils";
 
 export function EstateSuggest({
@@ -8,13 +14,13 @@ export function EstateSuggest({
   value,
   onChange,
   onSelect,
-  placeholder = "請輸入屋苑或大廈名稱...",
+  placeholder = "輸入屋苑、大廈或街道名稱…",
   name,
 }: {
   id: string;
   value: string;
   onChange: (value: string) => void;
-  onSelect?: (estate: Estate) => void;
+  onSelect?: (hit: AddressHit) => void;
   placeholder?: string;
   name?: string;
 }) {
@@ -22,10 +28,39 @@ export function EstateSuggest({
   const rootRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
-  const results = searchEstates(value);
+  const [remote, setRemote] = useState<AddressHit[]>([]);
+  const [loading, setLoading] = useState(false);
+  const local = localAddressHits(value, 6);
+  const results = value.trim().length >= 2 && remote.length ? remote : local;
 
   useEffect(() => {
     setActive(0);
+  }, [value]);
+
+  useEffect(() => {
+    const q = value.trim();
+    if (q.length < 2) {
+      setRemote([]);
+      setLoading(false);
+      return;
+    }
+    const ac = new AbortController();
+    const timer = window.setTimeout(() => {
+      setLoading(true);
+      void searchAddresses(q, ac.signal)
+        .then((hits) => {
+          setRemote(hits);
+          setLoading(false);
+        })
+        .catch((error: unknown) => {
+          if (error instanceof DOMException && error.name === "AbortError") return;
+          setLoading(false);
+        });
+    }, 280);
+    return () => {
+      window.clearTimeout(timer);
+      ac.abort();
+    };
   }, [value]);
 
   useEffect(() => {
@@ -36,9 +71,9 @@ export function EstateSuggest({
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
 
-  function pick(estate: Estate) {
-    onChange(estate.name);
-    onSelect?.(estate);
+  function pick(hit: AddressHit) {
+    onChange(addressHitValue(hit));
+    onSelect?.(hit);
     setOpen(false);
   }
 
@@ -90,8 +125,8 @@ export function EstateSuggest({
           className="absolute z-50 mt-1 max-h-64 w-full overflow-y-auto rounded-xl bg-card py-1 shadow-[var(--shadow-border-hover)]"
         >
           {results.length ? (
-            results.map((estate, i) => (
-              <li key={estate.name} role="option" aria-selected={i === active}>
+            results.map((hit, i) => (
+              <li key={hit.key} role="option" aria-selected={i === active}>
                 <button
                   type="button"
                   className={cn(
@@ -100,16 +135,21 @@ export function EstateSuggest({
                   )}
                   onMouseDown={(e) => e.preventDefault()}
                   onMouseEnter={() => setActive(i)}
-                  onClick={() => pick(estate)}
+                  onClick={() => pick(hit)}
                 >
-                  <span className="font-medium">{estate.name}</span>
-                  <span className="text-xs text-muted">{estateLabel(estate)}</span>
+                  <span className="font-medium">{hit.name}</span>
+                  <span className="text-xs text-muted">{addressHitLabel(hit) || "香港"}</span>
                 </button>
               </li>
             ))
           ) : (
-            <li className="px-3 py-3 text-sm text-muted">搵唔到完全相同嘅屋苑，可以直接用你輸入嘅名稱。</li>
+            <li className="px-3 py-3 text-sm text-muted">
+              {loading ? "搜緊全港地址…" : "搵唔到完全相同嘅地址，可以直接用你輸入嘅名稱。"}
+            </li>
           )}
+          {loading && results.length ? (
+            <li className="px-3 py-2 text-xs text-subtle">正在補齊全港街道／大廈…</li>
+          ) : null}
         </ul>
       ) : null}
     </div>

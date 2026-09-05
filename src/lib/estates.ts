@@ -310,7 +310,7 @@ export const ESTATES: Estate[] = RAW.split("\n")
   })
   .filter((item, index, list) => list.findIndex((x) => x.name === item.name) === index);
 
-function compact(value: string) {
+export function compact(value: string) {
   return value.replace(/\s+/g, "").toLowerCase();
 }
 

@@ -18,11 +18,15 @@ function RadioChip({
   name,
   value,
   defaultChecked,
+  checked,
+  onChange,
   children,
 }: {
   name: string;
   value: string;
   defaultChecked?: boolean;
+  checked?: boolean;
+  onChange?: (value: string) => void;
   children: ReactNode;
 }) {
   return (
@@ -31,7 +35,15 @@ function RadioChip({
         "inline-flex h-11 min-w-11 cursor-pointer items-center justify-center rounded-full bg-surface px-4 text-sm font-medium transition-[background-color,color,transform] duration-150 ease-out has-[:checked]:bg-primary has-[:checked]:text-primary-foreground active:scale-[0.96]",
       )}
     >
-      <input type="radio" name={name} value={value} defaultChecked={defaultChecked} className="sr-only" />
+      <input
+        type="radio"
+        name={name}
+        value={value}
+        className="sr-only"
+        {...(checked === undefined
+          ? { defaultChecked }
+          : { checked, onChange: () => onChange?.(value) })}
+      />
       {children}
     </label>
   );
@@ -40,6 +52,7 @@ function RadioChip({
 export function SearchPanel() {
   const navigate = useNavigate();
   const [estate, setEstate] = useState("");
+  const [housing, setHousing] = useState("");
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -63,13 +76,21 @@ export function SearchPanel() {
       onSubmit={onSubmit}
     >
       <p className="text-sm font-medium">輸入你住邊，即刻比較</p>
-      <p className="mt-1 text-xs text-muted">先揀樓宇同網速，再填屋苑，愈清楚愈準。</p>
+      <p className="mt-1 text-xs text-muted">輸入屋苑、大廈或街道，系統會用政府地址資料補齊。</p>
       <div className="mt-5 space-y-5">
         <div className="space-y-2">
           <label htmlFor="estate-search" className="text-xs font-medium tracking-wider text-muted">
-            屋苑或大廈
+            屋苑、大廈或街道
           </label>
-          <EstateSuggest id="estate-search" value={estate} onChange={setEstate} name="estate" />
+          <EstateSuggest
+            id="estate-search"
+            value={estate}
+            onChange={setEstate}
+            name="estate"
+            onSelect={(hit) => {
+              if (hit.housing) setHousing(hit.housing);
+            }}
+          />
         </div>
         <fieldset>
           <legend className="text-xs font-medium tracking-wider text-muted">你想睇咩</legend>
@@ -85,11 +106,17 @@ export function SearchPanel() {
         <fieldset className="group-has-[[name=cat][value=mobile]:checked]/search:hidden">
           <legend className="text-xs font-medium tracking-wider text-muted">你住邊類樓</legend>
           <div className="mt-2 flex flex-wrap gap-2">
-            <RadioChip name="housing" value="" defaultChecked>
+            <RadioChip name="housing" value="" checked={housing === ""} onChange={setHousing}>
               唔限
             </RadioChip>
             {HOUSING_OPTIONS.map((option) => (
-              <RadioChip key={option.id} name="housing" value={option.id}>
+              <RadioChip
+                key={option.id}
+                name="housing"
+                value={option.id}
+                checked={housing === option.id}
+                onChange={setHousing}
+              >
                 {option.label}
               </RadioChip>
             ))}

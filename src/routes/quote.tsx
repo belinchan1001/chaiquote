@@ -170,6 +170,9 @@ function QuotePage() {
                     {d}
                   </option>
                 ))}
+                {district && !(DISTRICTS as readonly string[]).includes(district) ? (
+                  <option value={district}>{district}</option>
+                ) : null}
               </Select>
             </div>
           </div>
@@ -180,9 +183,8 @@ function QuotePage() {
               value={estate}
               onChange={setEstate}
               onSelect={(item) => {
-                setEstate(item.name);
-                setHousing(item.housing);
-                setDistrict(item.district);
+                if (item.housing) setHousing(item.housing);
+                if (item.district) setDistrict(item.district);
               }}
             />
           </div>
