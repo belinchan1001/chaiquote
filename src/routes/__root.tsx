@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { CompareBar } from "@/components/compare-bar";
 import { NavProgress } from "@/components/nav-progress";
 import { DeferredWhatsApp } from "@/components/whatsapp-widget";
+import { FirstVisitTour } from "@/components/first-visit-tour";
 import { SITE } from "@/lib/site";
 import appCss from "../styles.css?url";
 
@@ -67,6 +68,7 @@ function RootLayout() {
           </div>
           <CompareBar />
           <DeferredWhatsApp />
+          <FirstVisitTour />
         </AuthProvider>
         <Scripts />
       </body>
