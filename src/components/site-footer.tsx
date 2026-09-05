@@ -56,7 +56,7 @@ export function SiteFooter() {
             </li>
             <li>
               <Link to="/quote" className="hover:underline">
-                填表問價
+                留低電話
               </Link>
             </li>
             <li>

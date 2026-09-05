@@ -6,6 +6,7 @@ export const SITE = {
   updated: "2026年9月",
   phoneDisplay: "9862 2444",
   whatsappE164: "85298622444",
+  leadEmail: "",
 } as const;
 
 export const DISCLAIMER = [
@@ -17,6 +18,13 @@ export const SHORTCUTS = [
   { label: "就到期轉台", search: { cat: "mobile" as const, portIn: true } },
   { label: "平價入門", search: { cat: "broadband" as const, maxFee: 120 } },
   { label: "高速打機首選", search: { cat: "broadband" as const, sort: "speed" as const } },
+] as const;
+
+export const CALL_WINDOWS = [
+  { id: "anytime", label: "隨時都可以" },
+  { id: "weekday", label: "平日 10:00–18:00" },
+  { id: "evening", label: "平日晚上" },
+  { id: "weekend", label: "週末" },
 ] as const;
 
 export const DISTRICTS = [
@@ -100,6 +108,6 @@ export const FAQ = [
   },
   {
     q: "點樣即時問價？",
-    a: "於各計劃頁面或右下角 WhatsApp 視窗按「WhatsApp 專人解答」，即可聯絡 9862 2444。亦可先填寫屋苑及地址，再轉至 WhatsApp 核對覆蓋。",
+    a: "最快用 WhatsApp 9862 2444。冇 WhatsApp 可以撳「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼。",
   },
 ] as const;

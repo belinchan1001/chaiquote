@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { QuoteLink } from "@/components/quote-link";
 import { EstateSuggest } from "@/components/estate-suggest";
@@ -8,9 +9,11 @@ import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
+import { sendLead } from "@/lib/lead";
 import { CATEGORY_LABEL, getPlan, type Category } from "@/lib/plans";
-import { CATEGORY_OPTIONS, DISTRICTS, HOUSING_OPTIONS, SITE } from "@/lib/site";
-import { formQuoteMessage, whatsappHref } from "@/lib/whatsapp";
+import { CALL_WINDOWS, CATEGORY_OPTIONS, HOUSING_OPTIONS, SITE } from "@/lib/site";
+import { addressHitValue } from "@/lib/address-search";
+import { planLine } from "@/lib/whatsapp";
 
 type QuoteSearch = { plan?: string };
 
@@ -19,14 +22,13 @@ export const Route = createFileRoute("/quote")({
     plan: typeof search.plan === "string" ? search.plan : undefined,
   }),
   component: QuotePage,
-  head: () => ({ meta: [{ title: `即時報價 · ${SITE.name}` }] }),
+  head: () => ({ meta: [{ title: `留低電話 · ${SITE.name}` }] }),
 });
 
 function QuotePage() {
   const { plan: planParam } = Route.useSearch();
   useHydrateDesk();
   const compare = useDesk((s) => s.compare);
-  const quotes = useDesk((s) => s.quotes);
   const addQuote = useDesk((s) => s.addQuote);
   const inquiry = useDesk((s) => s.inquiry);
   const setInquiry = useDesk((s) => s.setInquiry);
@@ -46,10 +48,11 @@ function QuotePage() {
   const [district, setDistrict] = useState("");
   const [estate, setEstate] = useState("");
   const [category, setCategory] = useState<Category>(preselected[0]?.category ?? "broadband");
-  const [currentProvider, setCurrentProvider] = useState("");
+  const [callWindow, setCallWindow] = useState("anytime");
   const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
-  const [doneId, setDoneId] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
+  const [done, setDone] = useState<{ phone: string; emailed: boolean } | null>(null);
 
   useEffect(() => {
     if (!inquiry.estate && !inquiry.housing && !inquiry.district) return;
@@ -58,7 +61,7 @@ function QuotePage() {
     setDistrict((value) => value || inquiry.district);
   }, [inquiry.estate, inquiry.housing, inquiry.district]);
 
-  function submit(e: FormEvent) {
+  async function submit(e: FormEvent) {
     e.preventDefault();
     const phoneClean = phone.replace(/\s/g, "");
     if (!name.trim()) {
@@ -69,53 +72,75 @@ function QuotePage() {
       setError("請填 8 位香港電話。");
       return;
     }
-    if (!housing) {
-      setError("請揀樓宇類型，方便核對覆蓋。");
+    if (!estate.trim() && !housing) {
+      setError("請填申請地址，或揀樓宇類型。");
       return;
     }
-    const quote = addQuote({
+    setSending(true);
+    setError("");
+    addQuote({
       name: name.trim(),
       phone: phoneClean,
       housing,
       district,
       estate: estate.trim(),
       category,
-      currentProvider: currentProvider.trim(),
+      currentProvider: "",
       planIds: preselected.map((p) => p.id),
-      notes: notes.trim(),
+      notes: [callWindow, notes.trim()].filter(Boolean).join(" · "),
     });
     setInquiry({ estate: estate.trim(), housing, district });
-    const message = formQuoteMessage({
+    const payload = {
       name: name.trim(),
       phone: phoneClean,
       housing,
       district,
       estate: estate.trim(),
       category,
-      currentProvider: currentProvider.trim(),
+      callWindow,
       notes: notes.trim(),
-      plans: preselected,
-    });
-    window.open(whatsappHref(message), "_blank", "noopener,noreferrer");
-    setError("");
-    setDoneId(quote.id);
+      plans: preselected.map(planLine).join("；"),
+    };
+    let emailed = false;
+    try {
+      const result = await sendLead({ data: payload });
+      emailed = result.ok;
+    } catch {
+      emailed = false;
+    }
+    setSending(false);
+    setDone({ phone: phoneClean, emailed });
   }
 
-  if (doneId) {
+  if (done) {
     return (
       <div className="mx-auto max-w-lg px-4 py-16">
-        <p className="text-xs tracking-widest text-accent">搞掂</p>
-        <h1 className="mt-2 text-title font-semibold">已收到你嘅報價</h1>
+        <p className="text-xs tracking-widest text-accent">已收到</p>
+        <h1 className="mt-2 text-title font-semibold">我哋會打俾你</h1>
         <p className="mt-4 text-muted">
-          如果 WhatsApp 未自動開，再撳下面掣，將資料傳去 {SITE.phoneDisplay}。
+          已記下 {name}，電話 {done.phone.replace(/(\d{4})(\d{4})/, "$1 $2")}
+          {estate ? `，地址 ${estate}` : ""}。目標今日內致電。
         </p>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+        {done.emailed ? null : (
+          <p className="mt-3 text-sm text-muted">
+            電郵通道尚未接上期間，等唔切請直接致電或 WhatsApp {SITE.phoneDisplay}。
+          </p>
+        )}
+        <div className="mt-8 flex flex-col gap-3">
+          <Button asChild size="lg">
+            <a href={`tel:+${SITE.whatsappE164}`}>
+              <Phone className="size-4" />
+              即刻致電 {SITE.phoneDisplay}
+            </a>
+          </Button>
           <QuoteLink
+            size="lg"
             plans={preselected}
-            showNumber
             inquiry={{ estate, housing, district }}
-          />
-          <Button asChild variant="outline">
+          >
+            WhatsApp即時查詢
+          </QuoteLink>
+          <Button asChild variant="ghost">
             <Link to="/plans" search={{ cat: category }}>
               繼續格價
             </Link>
@@ -126,31 +151,14 @@ function QuotePage() {
   }
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-10 px-4 py-8 lg:grid-cols-[1fr_0.9fr]">
+    <div className="mx-auto grid max-w-6xl gap-10 px-4 py-8 lg:grid-cols-[1fr_0.85fr]">
       <div>
-        <h1 className="text-title font-semibold">即時問價</h1>
+        <h1 className="text-title font-semibold">留低電話，我哋打俾你</h1>
         <p className="mt-2 text-muted">
-          填地址同而家用緊邊間，交表就會開 WhatsApp 去 {SITE.phoneDisplay}。想即刻傾就唔使填表。
+          冇 WhatsApp 都得。只需姓名同電話，目標今日內致電。等唔切就直接打 {SITE.phoneDisplay}。
         </p>
-        <QuoteLink
-          className="mt-5"
-          plans={preselected}
-          showNumber
-          inquiry={{ estate, housing, district }}
-        />
 
-        {preselected.length ? (
-          <ul className="mt-6 space-y-2 rounded-xl bg-surface p-4 text-sm">
-            <li className="text-xs tracking-wider text-muted">你揀咗</li>
-            {preselected.map((plan) => (
-              <li key={plan.id} className="font-medium">
-                {plan.name} · {CATEGORY_LABEL[plan.category]}
-              </li>
-            ))}
-          </ul>
-        ) : null}
-
-        <form className="mt-8 space-y-4" onSubmit={submit}>
+        <form className="mt-8 space-y-4" onSubmit={(e) => void submit(e)}>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="name">姓名</Label>
@@ -168,11 +176,31 @@ function QuotePage() {
               />
             </div>
           </div>
+          <div className="space-y-2">
+            <Label htmlFor="estate">申請地址</Label>
+            <EstateSuggest
+              id="estate"
+              value={estate}
+              onChange={setEstate}
+              onSelect={(item) => {
+                const nextEstate = addressHitValue(item);
+                const nextHousing = item.housing ?? housing;
+                setEstate(nextEstate);
+                if (item.housing) setHousing(item.housing);
+                if (item.district) setDistrict(item.district);
+                setInquiry({
+                  estate: nextEstate,
+                  housing: nextHousing,
+                  district: item.district,
+                });
+              }}
+            />
+          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="housing">樓宇類型</Label>
               <Select id="housing" value={housing} onChange={(e) => setHousing(e.target.value)}>
-                <option value="">揀一揀</option>
+                <option value="">未確定</option>
                 {HOUSING_OPTIONS.map((o) => (
                   <option key={o.id} value={o.id}>
                     {o.label}
@@ -181,92 +209,76 @@ function QuotePage() {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="district">地區</Label>
-              <Select id="district" value={district} onChange={(e) => setDistrict(e.target.value)}>
-                <option value="">揀一揀</option>
-                {DISTRICTS.map((d) => (
-                  <option key={d} value={d}>
-                    {d}
-                  </option>
-                ))}
-                {district && !(DISTRICTS as readonly string[]).includes(district) ? (
-                  <option value={district}>{district}</option>
-                ) : null}
-              </Select>
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="estate">屋苑／街道（愈詳細愈準）</Label>
-            <EstateSuggest
-              id="estate"
-              value={estate}
-              onChange={setEstate}
-              onSelect={(item) => {
-                if (item.housing) setHousing(item.housing);
-                if (item.district) setDistrict(item.district);
-                setInquiry({
-                  estate: item.address ? `${item.name}，${item.address}` : item.name,
-                  housing: item.housing ?? "",
-                  district: item.district,
-                });
-              }}
-            />
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="category">主要想問</Label>
-              <Select
-                id="category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value as Category)}
-              >
-                {CATEGORY_OPTIONS.map((o) => (
-                  <option key={o.id} value={o.id}>
-                    {o.label}
+              <Label htmlFor="callWindow">方便致電</Label>
+              <Select id="callWindow" value={callWindow} onChange={(e) => setCallWindow(e.target.value)}>
+                {CALL_WINDOWS.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.label}
                   </option>
                 ))}
               </Select>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="current">而家用緊邊間（可留空）</Label>
-              <Input id="current" value={currentProvider} onChange={(e) => setCurrentProvider(e.target.value)} />
-            </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="notes">備註</Label>
+            <Label htmlFor="category">主要想問</Label>
+            <Select
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value as Category)}
+            >
+              {CATEGORY_OPTIONS.map((o) => (
+                <option key={o.id} value={o.id}>
+                  {o.label}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="notes">備註（可留空）</Label>
             <Textarea
               id="notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="例如：村屋無光纖、想保留舊號碼、要 Disney+"
+              placeholder="例如：村屋未有光纖、想保留舊號碼"
             />
           </div>
-          {error ? <p className="text-sm font-medium">{error}</p> : null}
-          <Button type="submit" size="lg">
-            交表，開 WhatsApp
+          {error ? <p className="text-sm font-medium text-hot">{error}</p> : null}
+          <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={sending}>
+            {sending ? "送出緊…" : "請致電我"}
           </Button>
         </form>
       </div>
 
-      <aside>
-        <div className="rounded-xl bg-card p-5 shadow-[var(--shadow-border)]">
-          <h2 className="font-semibold">呢部機嘅報價紀錄</h2>
-          {quotes.length === 0 ? (
-            <p className="mt-3 text-sm text-muted">交表之後會出喺呢度，淨係存在你部機。</p>
-          ) : (
-            <ul className="mt-4 space-y-3 text-sm">
-              {quotes.map((q) => (
-                <li key={q.id} className="border-t border-border pt-3">
-                  <p className="font-medium">
-                    {q.name} · {q.phone}
-                  </p>
-                  <p className="text-muted">
-                    {new Date(q.createdAt).toLocaleString("zh-HK")} · {q.estate || q.district || "未填地址"}
-                  </p>
+      <aside className="space-y-4">
+        {preselected.length ? (
+          <div className="rounded-xl bg-card p-5 shadow-[var(--shadow-border)]">
+            <p className="text-xs tracking-wider text-muted">你揀咗</p>
+            <ul className="mt-3 space-y-2 text-sm">
+              {preselected.map((plan) => (
+                <li key={plan.id} className="font-medium">
+                  {plan.name}
+                  <span className="mt-0.5 block text-xs font-normal text-muted">
+                    {CATEGORY_LABEL[plan.category]}
+                  </span>
                 </li>
               ))}
             </ul>
-          )}
+          </div>
+        ) : null}
+        <div className="rounded-xl bg-card p-5 shadow-[var(--shadow-border)]">
+          <h2 className="font-semibold">等唔切？</h2>
+          <p className="mt-2 text-sm text-muted">有 WhatsApp 或者想即刻講，用下面兩粒掣。</p>
+          <div className="mt-4 flex flex-col gap-2">
+            <QuoteLink plans={preselected} inquiry={{ estate, housing, district }}>
+              WhatsApp即時查詢
+            </QuoteLink>
+            <Button asChild variant="outline">
+              <a href={`tel:+${SITE.whatsappE164}`}>
+                <Phone className="size-4" />
+                致電 {SITE.phoneDisplay}
+              </a>
+            </Button>
+          </div>
         </div>
       </aside>
     </div>
