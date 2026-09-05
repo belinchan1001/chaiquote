@@ -1,4 +1,4 @@
-import type { FormEvent, ReactNode } from "react";
+import { startTransition, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { EstateSuggest } from "@/components/estate-suggest";
@@ -16,7 +16,6 @@ import { useDesk } from "@/lib/desk";
 import { addressHitValue } from "@/lib/address-search";
 import type { Housing } from "@/lib/plans";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 
 function RadioChip({
   name,
@@ -76,15 +75,17 @@ export function SearchPanel() {
     const data = Object.fromEntries(new FormData(e.currentTarget).entries());
     const housingValue = housing || resolvedHousing(estate) || undefined;
     remember({ estate, housing: housingValue ?? "", district });
-    void navigate({
-      to: "/plans",
-      search: compactSearch(
-        parsePlansSearch({
-          ...data,
-          estate: estate.trim() || undefined,
-          housing: housingValue,
-        }),
-      ),
+    startTransition(() => {
+      void navigate({
+        to: "/plans",
+        search: compactSearch(
+          parsePlansSearch({
+            ...data,
+            estate: estate.trim() || undefined,
+            housing: housingValue,
+          }),
+        ),
+      });
     });
   }
 
@@ -92,7 +93,7 @@ export function SearchPanel() {
     <form
       method="get"
       action="/plans"
-      className="group/search overflow-visible rounded-2xl bg-card p-5 shadow-[var(--shadow-border)] sm:p-6"
+      className="group/search relative z-10 overflow-visible rounded-2xl bg-card p-5 shadow-[var(--shadow-border)] sm:p-6"
       onSubmit={onSubmit}
     >
       <p className="text-sm font-medium">輸入你住邊，即刻比較</p>

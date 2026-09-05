@@ -168,3 +168,27 @@ export function WhatsAppWidget() {
     </div>
   );
 }
+
+export function DeferredWhatsApp() {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    const timer = window.setTimeout(() => setReady(true), 1);
+    return () => window.clearTimeout(timer);
+  }, []);
+  if (!ready) {
+    return (
+      <a
+        href={`https://wa.me/${SITE.whatsappE164}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed right-4 bottom-6 z-50 flex h-14 items-center gap-2 rounded-full bg-accent px-4 text-sm font-medium text-accent-foreground shadow-[var(--shadow-border-hover)]"
+        aria-label={`WhatsApp ${SITE.phoneDisplay}`}
+      >
+        <WhatsAppIcon className="size-5" />
+        <span className="hidden sm:inline">WhatsApp {SITE.phoneDisplay}</span>
+      </a>
+    );
+  }
+  return <WhatsAppWidget />;
+}
+

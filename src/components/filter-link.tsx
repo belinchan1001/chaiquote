@@ -23,6 +23,8 @@ export function FilterLink({
   return (
     <Link
       to="/plans"
+      replace
+      preload={false}
       search={compactSearch(search)}
       aria-current={selected ? "page" : undefined}
       className={chipClass(selected)}

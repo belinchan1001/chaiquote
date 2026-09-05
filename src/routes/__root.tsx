@@ -4,7 +4,8 @@ import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { CompareBar } from "@/components/compare-bar";
-import { WhatsAppWidget } from "@/components/whatsapp-widget";
+import { NavProgress } from "@/components/nav-progress";
+import { DeferredWhatsApp } from "@/components/whatsapp-widget";
 import { SITE } from "@/lib/site";
 import appCss from "../styles.css?url";
 
@@ -55,6 +56,7 @@ function RootLayout() {
           跳去正文
         </a>
         <PreviewHostBridge />
+        <NavProgress />
         <AuthProvider>
           <div className="flex min-h-dvh flex-col">
             <SiteHeader />
@@ -64,7 +66,7 @@ function RootLayout() {
             <SiteFooter />
           </div>
           <CompareBar />
-          <WhatsAppWidget />
+          <DeferredWhatsApp />
         </AuthProvider>
         <Scripts />
       </body>

@@ -125,6 +125,8 @@ function ProviderChip({
   return (
     <Link
       to="/plans"
+      replace
+      preload={false}
       search={compactSearch({ ...search, cat: search.cat, provider })}
       aria-current={selected ? "page" : undefined}
       aria-label={typeof count === "number" ? `${label}，${count} 個計劃` : label}

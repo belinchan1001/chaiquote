@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, startTransition } from "react";
 import { PlanCard } from "@/components/plan-card";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
@@ -65,10 +65,20 @@ function PlansPage() {
   const showSpeed = search.cat === "broadband" || search.cat === "business";
   const showMobile = search.cat === "mobile";
   const [visible, setVisible] = useState(PAGE_SIZE);
+  const [estateDraft, setEstateDraft] = useState(search.estate ?? "");
+  const [qDraft, setQDraft] = useState(search.q ?? "");
 
   useEffect(() => {
     setVisible(PAGE_SIZE);
   }, [search]);
+
+  useEffect(() => {
+    setEstateDraft(search.estate ?? "");
+  }, [search.estate]);
+
+  useEffect(() => {
+    setQDraft(search.q ?? "");
+  }, [search.q]);
 
   useEffect(() => {
     if (!search.estate && !search.housing) return;
@@ -78,21 +88,45 @@ function PlansPage() {
     });
   }, [search.estate, search.housing, setInquiry]);
 
+  useEffect(() => {
+    const next = estateDraft.trim();
+    if (next === (search.estate ?? "")) return;
+    const timer = window.setTimeout(() => {
+      patch({ estate: next || undefined });
+    }, 400);
+    return () => window.clearTimeout(timer);
+  }, [estateDraft]);
+
+  useEffect(() => {
+    const next = qDraft.trim();
+    if (next === (search.q ?? "")) return;
+    const timer = window.setTimeout(() => {
+      patch({ q: next || undefined });
+    }, 400);
+    return () => window.clearTimeout(timer);
+  }, [qDraft]);
+
   function patch(next: Partial<PlansSearch>) {
-    const merged = { ...search, ...next };
-    if (
-      merged.provider &&
-      filterPlans({ ...merged, provider: merged.provider }, saved).length === 0
-    ) {
-      merged.provider = undefined;
-    }
+    startTransition(() => {
+      void navigate({
+        search: (prev) => {
+          const merged = { ...prev, ...next };
+          if (
+            merged.provider &&
+            filterPlans({ ...merged, provider: merged.provider }, saved).length === 0
+          ) {
+            merged.provider = undefined;
+          }
+          return compactSearch(merged);
+        },
+      });
+    });
     if (next.estate !== undefined || next.housing !== undefined) {
       setInquiry({
-        estate: merged.estate ?? "",
-        housing: merged.housing ?? "",
+        estate: (next.estate ?? search.estate) ?? "",
+        housing: (next.housing ?? search.housing) ?? "",
       });
     }
-    void navigate({ search: compactSearch(merged) });
   }
 
   const resetSearch = compactSearch({ cat: search.cat });
@@ -173,8 +207,8 @@ function PlansPage() {
           </label>
           <EstateSuggest
             id="plans-estate"
-            value={search.estate ?? ""}
-            onChange={(value) => patch({ estate: value || undefined })}
+            value={estateDraft}
+            onChange={setEstateDraft}
             onSelect={(item) => {
               const housing =
                 search.cat === "mobile"
@@ -191,16 +225,16 @@ function PlansPage() {
               });
             }}
           />
-          {showHousing ? <HousingGuessNote query={search.estate ?? ""} applied={search.housing} /> : null}
+          {showHousing ? <HousingGuessNote query={estateDraft} applied={search.housing} /> : null}
           {showHousing ? (
             <Button
               type="button"
               className="w-full sm:w-auto"
               onClick={() => {
-                const next = resolvedHousing(search.estate ?? "", search.housing);
+                const next = resolvedHousing(estateDraft, search.housing);
                 patch({
                   housing: search.cat === "mobile" ? search.housing : next,
-                  estate: search.estate,
+                  estate: estateDraft.trim() || undefined,
                 });
               }}
             >
@@ -314,9 +348,9 @@ function PlansPage() {
             搜計劃
             <Input
               className="mt-1"
-              value={search.q ?? ""}
+              value={qDraft}
               placeholder="公司名、計劃名"
-              onChange={(e) => patch({ q: e.target.value || undefined })}
+              onChange={(e) => setQDraft(e.target.value)}
             />
           </label>
           <div className="flex items-end gap-2">

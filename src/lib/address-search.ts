@@ -2,6 +2,7 @@ import { compact, ESTATES, searchEstates, type Estate } from "@/lib/estates";
 import type { Housing } from "@/lib/plans";
 
 const GOV_SEARCH = "https://www.map.gov.hk/gs/api/v1.0.0/locationSearch";
+const RESULT_CACHE = new Map<string, AddressHit[]>();
 
 const NOISE =
   /巴士站|小巴站|專線小巴|智郵|郵政局|電車站|港鐵站|總站|外面|公園|小學|中學|幼稚園|教堂|廟/;
@@ -107,6 +108,9 @@ function fromGov(row: GovRow): AddressHit | null {
 export async function searchAddresses(query: string, signal?: AbortSignal): Promise<AddressHit[]> {
   const q = query.trim();
   if (q.length < 2) return [];
+  const cacheKey = compact(q);
+  const cached = RESULT_CACHE.get(cacheKey);
+  if (cached) return cached;
   const local = localAddressHits(q, 5);
   const seen = new Set(local.map((hit) => compact(hit.name)));
 
@@ -132,7 +136,9 @@ export async function searchAddresses(query: string, signal?: AbortSignal): Prom
       const bs = compact(b.name).startsWith(compactQ) ? 1 : 0;
       return bs - as;
     });
-    return [...local, ...gov].slice(0, 12);
+    const merged = [...local, ...gov].slice(0, 12);
+    RESULT_CACHE.set(cacheKey, merged);
+    return merged;
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") throw error;
     return local;
