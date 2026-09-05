@@ -8,6 +8,7 @@ import {
   type Plan,
 } from "@/lib/plans";
 import { SITE } from "@/lib/site";
+import type { Inquiry } from "@/lib/desk";
 
 export function whatsappHref(text: string) {
   const params = new URLSearchParams({
@@ -24,15 +25,41 @@ export function planLine(plan: Plan) {
   return `${provider.name} ${plan.name}（${CATEGORY_LABEL[plan.category]}，月費 ${formatFee(plan.monthlyFee)}／${plan.contractMonths}個月）`;
 }
 
-export function quoteMessage(plans: Plan[] = []) {
+function housingLabel(value?: string) {
+  if (!value) return "";
+  return value in HOUSING_LABEL ? HOUSING_LABEL[value as Housing] : value;
+}
+
+export function inquiryLines(inquiry?: Partial<Inquiry> | null) {
+  if (!inquiry) return [];
+  const estate = inquiry.estate?.trim() ?? "";
+  const district = inquiry.district?.trim() ?? "";
+  const housing = housingLabel(inquiry.housing?.trim() ?? "");
+  return [
+    estate ? `申請地址：${estate}` : "",
+    housing ? `樓宇類型：${housing}` : "",
+    district && !estate.includes(district) ? `地區：${district}` : "",
+  ].filter(Boolean);
+}
+
+export function withInquiry(text: string, inquiry?: Partial<Inquiry> | null) {
+  const extra = inquiryLines(inquiry);
+  if (!extra.length) return text;
+  if (text.includes("申請地址：") || text.includes("屋苑／街道：")) return text;
+  return `${text}\n${extra.join("\n")}`;
+}
+
+export function quoteMessage(plans: Plan[] = [], inquiry?: Partial<Inquiry> | null) {
+  let text: string;
   if (plans.length === 1) {
-    return `你好，我想即時報價：\n${planLine(plans[0])}\n請幫我核對覆蓋同最新優惠。`;
-  }
-  if (plans.length > 1) {
+    text = `你好，我想即時報價：\n${planLine(plans[0])}\n請幫我核對覆蓋同最新優惠。`;
+  } else if (plans.length > 1) {
     const list = plans.map((plan, i) => `${i + 1}. ${planLine(plan)}`).join("\n");
-    return `你好，我想即時報價以下計劃：\n${list}\n請幫我核對覆蓋同最新優惠。`;
+    text = `你好，我想即時報價以下計劃：\n${list}\n請幫我核對覆蓋同最新優惠。`;
+  } else {
+    text = "你好，我想查詢寬頻／手機月費計劃，請幫手即時報價。";
   }
-  return "你好，我想查詢寬頻／手機月費計劃，請幫手即時報價。";
+  return withInquiry(text, inquiry);
 }
 
 export function formQuoteMessage(input: {
@@ -46,15 +73,13 @@ export function formQuoteMessage(input: {
   notes: string;
   plans: Plan[];
 }) {
-  const housingLabel =
-    input.housing in HOUSING_LABEL ? HOUSING_LABEL[input.housing as Housing] : input.housing;
   const lines = [
     "你好，我想申請即時報價。",
     `姓名：${input.name}`,
     `電話：${input.phone}`,
-    `樓宇：${housingLabel}`,
+    `樓宇：${housingLabel(input.housing) || input.housing}`,
     input.district ? `地區：${input.district}` : "",
-    input.estate ? `屋苑／街道：${input.estate}` : "",
+    input.estate ? `申請地址：${input.estate}` : "",
     `想問：${CATEGORY_LABEL[input.category]}`,
     input.plans.length ? `已選計劃：${input.plans.map(planLine).join("；")}` : "",
     input.currentProvider ? `而家用：${input.currentProvider}` : "",

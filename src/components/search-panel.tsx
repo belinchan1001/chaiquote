@@ -12,6 +12,8 @@ import {
   SPEED_OPTIONS,
 } from "@/lib/site";
 import { compactSearch, parsePlansSearch } from "@/lib/search";
+import { useDesk } from "@/lib/desk";
+import { addressHitValue } from "@/lib/address-search";
 import type { Housing } from "@/lib/plans";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -53,13 +55,27 @@ function RadioChip({
 
 export function SearchPanel() {
   const navigate = useNavigate();
+  const setInquiry = useDesk((s) => s.setInquiry);
   const [estate, setEstate] = useState("");
   const [housing, setHousing] = useState("");
+  const [district, setDistrict] = useState("");
+
+  function remember(next: { estate?: string; housing?: string; district?: string }) {
+    const estateValue = (next.estate ?? estate).trim();
+    const housingValue = next.housing ?? housing;
+    const districtValue = next.district ?? district;
+    setInquiry({
+      estate: estateValue,
+      housing: housingValue,
+      district: districtValue,
+    });
+  }
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget).entries());
     const housingValue = housing || resolvedHousing(estate) || undefined;
+    remember({ estate, housing: housingValue ?? "", district });
     void navigate({
       to: "/plans",
       search: compactSearch(
@@ -92,11 +108,16 @@ export function SearchPanel() {
             onChange={setEstate}
             name="estate"
             onSelect={(hit) => {
-              if (hit.housing) setHousing(hit.housing);
-              else {
-                const guessed = resolvedHousing(hit.name);
-                if (guessed) setHousing(guessed);
-              }
+              const nextHousing = hit.housing ?? resolvedHousing(hit.name) ?? "";
+              const nextEstate = addressHitValue(hit);
+              if (nextHousing) setHousing(nextHousing);
+              if (hit.district) setDistrict(hit.district);
+              setEstate(nextEstate);
+              remember({
+                estate: nextEstate,
+                housing: nextHousing,
+                district: hit.district,
+              });
             }}
           />
           <HousingGuessNote query={estate} applied={(housing || undefined) as Housing | undefined} />

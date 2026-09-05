@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { QuoteLink } from "@/components/quote-link";
@@ -28,6 +28,8 @@ function QuotePage() {
   const compare = useDesk((s) => s.compare);
   const quotes = useDesk((s) => s.quotes);
   const addQuote = useDesk((s) => s.addQuote);
+  const inquiry = useDesk((s) => s.inquiry);
+  const setInquiry = useDesk((s) => s.setInquiry);
 
   const preselected = useMemo(() => {
     const fromQuery = (planParam ?? "")
@@ -48,6 +50,13 @@ function QuotePage() {
   const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
   const [doneId, setDoneId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!inquiry.estate && !inquiry.housing && !inquiry.district) return;
+    setEstate((value) => value || inquiry.estate);
+    setHousing((value) => value || inquiry.housing);
+    setDistrict((value) => value || inquiry.district);
+  }, [inquiry.estate, inquiry.housing, inquiry.district]);
 
   function submit(e: FormEvent) {
     e.preventDefault();
@@ -75,6 +84,7 @@ function QuotePage() {
       planIds: preselected.map((p) => p.id),
       notes: notes.trim(),
     });
+    setInquiry({ estate: estate.trim(), housing, district });
     const message = formQuoteMessage({
       name: name.trim(),
       phone: phoneClean,
@@ -100,7 +110,11 @@ function QuotePage() {
           如果 WhatsApp 未自動開，再撳下面掣，將資料傳去 {SITE.phoneDisplay}。
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <QuoteLink plans={preselected} showNumber />
+          <QuoteLink
+            plans={preselected}
+            showNumber
+            inquiry={{ estate, housing, district }}
+          />
           <Button asChild variant="outline">
             <Link to="/plans" search={{ cat: category }}>
               繼續格價
@@ -118,7 +132,12 @@ function QuotePage() {
         <p className="mt-2 text-muted">
           填地址同而家用緊邊間，交表就會開 WhatsApp 去 {SITE.phoneDisplay}。想即刻傾就唔使填表。
         </p>
-        <QuoteLink className="mt-5" plans={preselected} showNumber />
+        <QuoteLink
+          className="mt-5"
+          plans={preselected}
+          showNumber
+          inquiry={{ estate, housing, district }}
+        />
 
         {preselected.length ? (
           <ul className="mt-6 space-y-2 rounded-xl bg-surface p-4 text-sm">
@@ -185,6 +204,11 @@ function QuotePage() {
               onSelect={(item) => {
                 if (item.housing) setHousing(item.housing);
                 if (item.district) setDistrict(item.district);
+                setInquiry({
+                  estate: item.address ? `${item.name}，${item.address}` : item.name,
+                  housing: item.housing ?? "",
+                  district: item.district,
+                });
               }}
             />
           </div>

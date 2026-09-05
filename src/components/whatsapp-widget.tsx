@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { getPlan } from "@/lib/plans";
 import { SITE } from "@/lib/site";
-import { QUICK_REPLIES, quoteMessage, whatsappHref } from "@/lib/whatsapp";
+import { QUICK_REPLIES, quoteMessage, whatsappHref, withInquiry } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 type Bubble = { id: string; from: "biz" | "me"; text: string };
@@ -27,6 +27,7 @@ export function WhatsAppWidget() {
   const endRef = useRef<HTMLDivElement>(null);
   useHydrateDesk();
   const compare = useDesk((s) => s.compare);
+  const inquiry = useDesk((s) => s.inquiry);
   const plans = compare.map(getPlan).filter((p): p is NonNullable<typeof p> => Boolean(p));
   const lifted = compare.length > 0;
 
@@ -57,7 +58,7 @@ export function WhatsAppWidget() {
       },
     ]);
     setDraft("");
-    window.open(whatsappHref(trimmed), "_blank", "noopener,noreferrer");
+    window.open(whatsappHref(withInquiry(trimmed, inquiry)), "_blank", "noopener,noreferrer");
   }
 
   return (
@@ -123,7 +124,7 @@ export function WhatsAppWidget() {
                 <button
                   type="button"
                   className="h-11 rounded-full bg-accent px-3 text-sm font-medium text-accent-foreground"
-                  onClick={() => send(quoteMessage(plans))}
+                  onClick={() => send(quoteMessage(plans, inquiry))}
                 >
                   報呢幾個
                 </button>

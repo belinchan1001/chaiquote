@@ -1,9 +1,19 @@
 import { useEffect, useState } from "react";
 import { create } from "zustand";
+import type { Housing } from "@/lib/plans";
 
 const COMPARE_KEY = "chaiquote-compare";
 const SAVED_KEY = "chaiquote-saved";
 const QUOTES_KEY = "chaiquote-quotes";
+const INQUIRY_KEY = "chaiquote-inquiry";
+
+export type Inquiry = {
+  estate: string;
+  housing: string;
+  district: string;
+};
+
+const EMPTY_INQUIRY: Inquiry = { estate: "", housing: "", district: "" };
 
 function readList(key: string): string[] {
   try {
@@ -17,6 +27,20 @@ function readList(key: string): string[] {
 
 function writeList(key: string, value: string[]) {
   localStorage.setItem(key, JSON.stringify(value));
+}
+
+function readInquiry(): Inquiry {
+  try {
+    const raw = localStorage.getItem(INQUIRY_KEY);
+    const parsed = raw ? (JSON.parse(raw) as Partial<Inquiry>) : {};
+    return {
+      estate: typeof parsed.estate === "string" ? parsed.estate : "",
+      housing: typeof parsed.housing === "string" ? parsed.housing : "",
+      district: typeof parsed.district === "string" ? parsed.district : "",
+    };
+  } catch {
+    return EMPTY_INQUIRY;
+  }
 }
 
 export type QuoteRequest = {
@@ -37,6 +61,7 @@ type DeskState = {
   compare: string[];
   saved: string[];
   quotes: QuoteRequest[];
+  inquiry: Inquiry;
   hydrated: boolean;
   notice: string | null;
   hydrate: () => void;
@@ -44,6 +69,7 @@ type DeskState = {
   removeCompare: (id: string) => void;
   clearCompare: () => void;
   toggleSaved: (id: string) => void;
+  setInquiry: (next: Partial<Inquiry>) => void;
   addQuote: (quote: Omit<QuoteRequest, "id" | "createdAt">) => QuoteRequest;
   clearNotice: () => void;
 };
@@ -52,6 +78,7 @@ export const useDesk = create<DeskState>((set, get) => ({
   compare: [],
   saved: [],
   quotes: [],
+  inquiry: EMPTY_INQUIRY,
   hydrated: false,
   notice: null,
   hydrate: () => {
@@ -63,6 +90,7 @@ export const useDesk = create<DeskState>((set, get) => ({
         compare: readList(COMPARE_KEY),
         saved: readList(SAVED_KEY),
         quotes: Array.isArray(quotes) ? quotes : [],
+        inquiry: readInquiry(),
         hydrated: true,
       });
     } catch {
@@ -100,6 +128,14 @@ export const useDesk = create<DeskState>((set, get) => ({
     writeList(SAVED_KEY, next);
     set({ saved: next });
   },
+  setInquiry: (partial) => {
+    const next: Inquiry = { ...get().inquiry, ...partial };
+    next.estate = next.estate.trim();
+    next.housing = next.housing.trim();
+    next.district = next.district.trim();
+    localStorage.setItem(INQUIRY_KEY, JSON.stringify(next));
+    set({ inquiry: next });
+  },
   addQuote: (input) => {
     const quote: QuoteRequest = {
       ...input,
@@ -123,4 +159,8 @@ export function useHydrateDesk() {
     setReady(true);
   }, [hydrate]);
   return ready || hydrated;
+}
+
+export function isHousing(value: string): value is Housing {
+  return value === "public" || value === "hos" || value === "private" || value === "village";
 }

@@ -59,6 +59,7 @@ function PlansPage() {
   const navigate = Route.useNavigate();
   useHydrateDesk();
   const saved = useDesk((s) => s.saved);
+  const setInquiry = useDesk((s) => s.setInquiry);
   const rows = filterPlans(search, saved);
   const showHousing = search.cat !== "mobile";
   const showSpeed = search.cat === "broadband" || search.cat === "business";
@@ -69,6 +70,14 @@ function PlansPage() {
     setVisible(PAGE_SIZE);
   }, [search]);
 
+  useEffect(() => {
+    if (!search.estate && !search.housing) return;
+    setInquiry({
+      estate: search.estate ?? "",
+      housing: search.housing ?? "",
+    });
+  }, [search.estate, search.housing, setInquiry]);
+
   function patch(next: Partial<PlansSearch>) {
     const merged = { ...search, ...next };
     if (
@@ -76,6 +85,12 @@ function PlansPage() {
       filterPlans({ ...merged, provider: merged.provider }, saved).length === 0
     ) {
       merged.provider = undefined;
+    }
+    if (next.estate !== undefined || next.housing !== undefined) {
+      setInquiry({
+        estate: merged.estate ?? "",
+        housing: merged.housing ?? "",
+      });
     }
     void navigate({ search: compactSearch(merged) });
   }
@@ -160,15 +175,21 @@ function PlansPage() {
             id="plans-estate"
             value={search.estate ?? ""}
             onChange={(value) => patch({ estate: value || undefined })}
-            onSelect={(item) =>
+            onSelect={(item) => {
+              const housing =
+                search.cat === "mobile"
+                  ? search.housing
+                  : item.housing ?? resolvedHousing(item.name) ?? search.housing;
+              setInquiry({
+                estate: addressHitValue(item),
+                housing: housing ?? "",
+                district: item.district,
+              });
               patch({
                 estate: addressHitValue(item),
-                housing:
-                  search.cat === "mobile"
-                    ? search.housing
-                    : item.housing ?? resolvedHousing(item.name) ?? search.housing,
-              })
-            }
+                housing,
+              });
+            }}
           />
           {showHousing ? <HousingGuessNote query={search.estate ?? ""} applied={search.housing} /> : null}
           {showHousing ? (
