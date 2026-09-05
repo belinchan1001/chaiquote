@@ -54,9 +54,6 @@ export function SiteHeader() {
             <Link to="/compare">比較月費{compareCount ? ` ${compareCount}` : ""}</Link>
           </Button>
           <QuoteLink size="sm" className="hidden sm:inline-flex" />
-          <QuoteLink size="sm" className="sm:hidden">
-            WhatsApp
-          </QuoteLink>
           <Button
             type="button"
             variant="outline"

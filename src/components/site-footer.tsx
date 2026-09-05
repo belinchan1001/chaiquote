@@ -55,16 +55,6 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
-              <a
-                href={`https://wa.me/${SITE.whatsappE164}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:underline"
-              >
-                WhatsApp {SITE.phoneDisplay}
-              </a>
-            </li>
-            <li>
               <Link to="/quote" className="hover:underline">
                 填表問價
               </Link>
@@ -72,11 +62,6 @@ export function SiteFooter() {
             <li>
               <Link to="/about" className="hover:underline">
                 關於我們
-              </Link>
-            </li>
-            <li>
-              <Link to="/brand" className="hover:underline">
-                品牌指引
               </Link>
             </li>
           </ul>

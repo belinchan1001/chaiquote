@@ -192,7 +192,7 @@ function PlansPage() {
 
       {search.housing === "village" && search.cat === "broadband" ? (
         <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
-          村屋光纖現時主要由香港寬頻、HGC 及網上行提供指定計劃；公屋、居屋及私人樓宇計劃一般不適用於村屋地址。香港寬頻村屋計劃豁免安裝費，並可延遲服務生效日（最長 365 日）；HGC 村屋計劃多須預繳 HK$300，馬灣或若干指定村落未必享有額外特別優惠，詳情請向當值銷售員查詢。網上行村屋／唐樓計劃須另行繳付安裝費。實際覆蓋須核對門牌。你可以一併睇{" "}
+          村屋光纖主要由香港寬頻、HGC 及網上行提供；一般公屋／居屋／私樓計劃唔適用。實際覆蓋須核對門牌。尚未有光纖可睇{" "}
           <Link to="/plans" search={{ cat: "home5g", housing: "village" }} className="text-accent underline">
             5G 家居寬頻
           </Link>

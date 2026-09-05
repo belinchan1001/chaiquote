@@ -4,7 +4,7 @@ import { PlanCard } from "@/components/plan-card";
 import { SearchPanel } from "@/components/search-panel";
 import { Button } from "@/components/ui/button";
 import { ESTATES } from "@/lib/estates";
-import { PLANS, formatFee, minMonthlyFee, minVillageBroadbandFee } from "@/lib/plans";
+import { PLANS, formatFee, getPlan, minMonthlyFee, minVillageBroadbandFee } from "@/lib/plans";
 import { FAQ, SITE } from "@/lib/site";
 
 export const Route = createFileRoute("/")({
@@ -14,11 +14,12 @@ export const Route = createFileRoute("/")({
   }),
 });
 
-const STEPS = [
-  { title: "講你住邊", text: "輸入屋苑或大廈，再揀公屋、居屋、私樓定村屋。" },
-  { title: "一次過睇晒", text: "月費、網速、合約期排同一張表，最多三個計劃對住比較。" },
-  { title: "WhatsApp 專人解答", text: "有問題即問 9862 2444，我哋幫你核對覆蓋同最新優惠。" },
-];
+const FEATURED_IDS = [
+  "hkbn-ftth-1000-36m-98",
+  "hgc-ftth-1000-public-36m",
+  "cmhk-home5g-350-48-88",
+  "three-45g-44",
+] as const;
 
 const CATEGORIES = [
   { to: "/plans", search: { cat: "broadband" as const }, src: "/images/cat-broadband.jpg", label: "光纖寬頻", text: "1000M 至 10000M，公屋／居屋／私樓／村屋" },
@@ -28,7 +29,7 @@ const CATEGORIES = [
 ] as const;
 
 function Home() {
-  const featured = PLANS.filter((p) => p.hot);
+  const featured = FEATURED_IDS.map(getPlan).filter((p): p is NonNullable<typeof p> => Boolean(p));
   const fiberFrom = minMonthlyFee("broadband");
   const home5gFrom = minMonthlyFee("home5g");
   const mobileFrom = minMonthlyFee("mobile");
@@ -117,12 +118,12 @@ function Home() {
         <div className="mx-auto max-w-6xl px-4 py-12">
           <div className="flex items-end justify-between gap-4">
             <div>
-              <h2 className="text-title font-semibold">而家最多人睇</h2>
-              <p className="mt-2 text-sm text-muted">熱門與入門計劃。實際覆蓋及月費以申請時確認為準。</p>
+              <h2 className="text-title font-semibold">入門價一覽</h2>
+              <p className="mt-2 text-sm text-muted">四條常見起步計劃。實際覆蓋及月費以申請時確認為準。</p>
             </div>
             <Button asChild variant="outline" size="sm">
               <Link to="/plans" search={{ cat: "broadband" }}>
-                即刻睇計劃
+                睇晒計劃
               </Link>
             </Button>
           </div>
@@ -132,19 +133,6 @@ function Home() {
             ))}
           </div>
         </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-12">
-        <h2 className="text-title font-semibold">三步搞掂</h2>
-        <ol className="mt-8 grid gap-6 sm:grid-cols-3">
-          {STEPS.map((step, i) => (
-            <li key={step.title} className="rounded-xl bg-card p-5 shadow-[var(--shadow-border)]">
-              <p className="font-display text-sm tabular-nums text-accent">0{i + 1}</p>
-              <h3 className="mt-3 text-lg font-semibold">{step.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{step.text}</p>
-            </li>
-          ))}
-        </ol>
       </section>
 
       <section className="border-t border-border bg-card">
