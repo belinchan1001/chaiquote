@@ -2,6 +2,7 @@ import type { FormEvent, ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { EstateSuggest } from "@/components/estate-suggest";
+import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import {
   BUDGET_OPTIONS,
   CATEGORY_OPTIONS,
@@ -11,6 +12,7 @@ import {
   SPEED_OPTIONS,
 } from "@/lib/site";
 import { compactSearch, parsePlansSearch } from "@/lib/search";
+import type { Housing } from "@/lib/plans";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
@@ -57,12 +59,14 @@ export function SearchPanel() {
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget).entries());
+    const housingValue = housing || resolvedHousing(estate) || undefined;
     void navigate({
       to: "/plans",
       search: compactSearch(
         parsePlansSearch({
           ...data,
           estate: estate.trim() || undefined,
+          housing: housingValue,
         }),
       ),
     });
@@ -76,7 +80,7 @@ export function SearchPanel() {
       onSubmit={onSubmit}
     >
       <p className="text-sm font-medium">輸入你住邊，即刻比較</p>
-      <p className="mt-1 text-xs text-muted">輸入屋苑、大廈或街道，系統會用政府地址資料補齊。</p>
+      <p className="mt-1 text-xs text-muted">輸入地址後，系統會判斷公屋、居屋、私人樓或村屋，再篩選相應計劃。</p>
       <div className="mt-5 space-y-5">
         <div className="space-y-2">
           <label htmlFor="estate-search" className="text-xs font-medium tracking-wider text-muted">
@@ -89,8 +93,13 @@ export function SearchPanel() {
             name="estate"
             onSelect={(hit) => {
               if (hit.housing) setHousing(hit.housing);
+              else {
+                const guessed = resolvedHousing(hit.name);
+                if (guessed) setHousing(guessed);
+              }
             }}
           />
+          <HousingGuessNote query={estate} applied={(housing || undefined) as Housing | undefined} />
         </div>
         <fieldset>
           <legend className="text-xs font-medium tracking-wider text-muted">你想睇咩</legend>
@@ -193,7 +202,7 @@ export function SearchPanel() {
         ))}
       </div>
       <Button type="submit" size="lg" className="mt-6 w-full sm:w-auto">
-        即刻睇計劃
+        自動篩選計劃
       </Button>
     </form>
   );

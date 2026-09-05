@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { PlanCard } from "@/components/plan-card";
 import { EstateSuggest } from "@/components/estate-suggest";
+import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import { ProviderFilter } from "@/components/provider-filter";
 import { FilterLink } from "@/components/filter-link";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,7 @@ import {
   type PlansSearch,
   type SpeedMbps,
 } from "@/lib/plans";
+import { addressHitValue } from "@/lib/address-search";
 import { compactSearch, parsePlansSearch } from "@/lib/search";
 import {
   CATEGORY_OPTIONS,
@@ -152,7 +154,7 @@ function PlansPage() {
       <div className="mt-6 space-y-4 rounded-xl bg-card p-4 shadow-[var(--shadow-border)] sm:p-5">
         <div className="space-y-2">
           <label htmlFor="plans-estate" className="text-xs font-medium tracking-wider text-muted">
-            屋苑或大廈
+            屋苑、大廈或街道
           </label>
           <EstateSuggest
             id="plans-estate"
@@ -160,11 +162,30 @@ function PlansPage() {
             onChange={(value) => patch({ estate: value || undefined })}
             onSelect={(item) =>
               patch({
-                estate: item.name,
-                housing: search.cat === "mobile" ? search.housing : item.housing,
+                estate: addressHitValue(item),
+                housing:
+                  search.cat === "mobile"
+                    ? search.housing
+                    : item.housing ?? resolvedHousing(item.name) ?? search.housing,
               })
             }
           />
+          {showHousing ? <HousingGuessNote query={search.estate ?? ""} applied={search.housing} /> : null}
+          {showHousing ? (
+            <Button
+              type="button"
+              className="w-full sm:w-auto"
+              onClick={() => {
+                const next = resolvedHousing(search.estate ?? "", search.housing);
+                patch({
+                  housing: search.cat === "mobile" ? search.housing : next,
+                  estate: search.estate,
+                });
+              }}
+            >
+              自動篩選計劃
+            </Button>
+          ) : null}
         </div>
         <fieldset>
           <legend className="text-xs font-medium tracking-wider text-muted">計劃類型</legend>

@@ -47,11 +47,31 @@ function guessHousing(name: string, address: string): Housing | undefined {
   const known = matchKnownEstate(name, address);
   if (known) return known.housing;
   const text = `${name}${address}`;
-  if (/邨|屋邨/.test(text)) return "public";
+  if (/公屋|屋邨/.test(text)) return "public";
   if (/居屋/.test(text)) return "hos";
-  if (/(新村|村$|圍$)/.test(name) && !/邨/.test(name)) return "village";
+  if (/村屋|丁屋/.test(text)) return "village";
+  if (/新邨|花園|廣場|中心|大廈|洋房|半島|豪庭|屋苑/.test(text)) return "private";
+  if (/邨/.test(text)) return "public";
+  const title = name.replace(/[，,].*$/, "").trim();
+  if (/(新村|村|圍)$/.test(title) && !/邨/.test(title)) return "village";
   return undefined;
 }
+
+export type HousingGuess = {
+  housing?: Housing;
+  confidence: "high" | "medium" | "none";
+};
+
+export function classifyAddress(query: string): HousingGuess {
+  const q = query.trim();
+  if (q.length < 2) return { confidence: "none" };
+  const known = matchKnownEstate(q, "");
+  if (known) return { housing: known.housing, confidence: "high" };
+  const guessed = guessHousing(q, "");
+  if (guessed) return { housing: guessed, confidence: "medium" };
+  return { confidence: "none" };
+}
+
 
 function fromLocal(estate: Estate): AddressHit {
   return {
