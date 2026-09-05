@@ -159,11 +159,10 @@ export function WhatsAppWidget() {
         aria-expanded={open}
         aria-controls={open ? panelId : undefined}
         aria-label={open ? "閂 WhatsApp" : `開 WhatsApp ${SITE.phoneDisplay}`}
-        className="ml-auto flex h-16 items-center gap-2 rounded-full bg-whatsapp px-5 text-base font-semibold text-whatsapp-foreground shadow-[var(--shadow-border-hover)]"
+        className="ml-auto flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)]"
         onClick={() => setOpen((v) => !v)}
       >
-        <WhatsAppIcon className="size-6" />
-        <span>WhatsApp 問價</span>
+        <WhatsAppIcon className="size-7" />
       </button>
     </div>
   );
@@ -181,11 +180,10 @@ export function DeferredWhatsApp() {
         href={`https://wa.me/${SITE.whatsappE164}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed right-4 bottom-6 z-50 flex h-16 items-center gap-2 rounded-full bg-whatsapp px-5 text-base font-semibold text-whatsapp-foreground shadow-[var(--shadow-border-hover)]"
+        className="fixed right-4 bottom-6 z-50 flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)]"
         aria-label={`WhatsApp ${SITE.phoneDisplay}`}
       >
-        <WhatsAppIcon className="size-6" />
-        <span>WhatsApp 問價</span>
+        <WhatsAppIcon className="size-7" />
       </a>
     );
   }

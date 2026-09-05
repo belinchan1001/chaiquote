@@ -74,7 +74,7 @@ export function FirstVisitTour() {
       />
       {last ? (
         <div
-          className="pointer-events-none absolute right-4 bottom-6 size-20 rounded-full ring-4 ring-whatsapp"
+          className="pointer-events-none absolute right-4 bottom-6 size-14 rounded-full ring-4 ring-whatsapp"
           aria-hidden
         />
       ) : null}

@@ -53,7 +53,7 @@ export function SiteHeader() {
           <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
             <Link to="/compare">比較月費{compareCount ? ` ${compareCount}` : ""}</Link>
           </Button>
-          <QuoteLink size="sm">WhatsApp</QuoteLink>
+          <QuoteLink size="sm">WhatsApp即時查詢</QuoteLink>
           <Button
             type="button"
             variant="outline"
