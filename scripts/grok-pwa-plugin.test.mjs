@@ -257,6 +257,18 @@ test("rejects Vercel system hosts as og:image origins", () => {
   assert.equal(publicAppHost("wild-race.grok.me"), "wild-race.grok.me");
 });
 
+test("allows chaiquote.vercel.app as a public og:image origin", () => {
+  assert.equal(publicAppHost("chaiquote.vercel.app"), "chaiquote.vercel.app");
+  const out = injectGrokPwaHead("<html><head><title>齊Quote</title></head></html>", {
+    host: "chaiquote.vercel.app",
+    site: { title: "齊Quote", card: "custom", image: "/og.jpg" },
+  });
+  assert.match(
+    out,
+    /property="og:image" content="https:\/\/chaiquote\.vercel\.app\/og\.jpg"/,
+  );
+});
+
 test("published VITE_PUBLIC_HOSTNAME wins over request Host for og:image", () => {
   const prev = process.env.VITE_PUBLIC_HOSTNAME;
   process.env.VITE_PUBLIC_HOSTNAME = "plum-plaza-reef-dream.grok.me";
