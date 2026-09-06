@@ -184,6 +184,7 @@ function PlansPage() {
         <h1 className="text-title font-semibold">{categoryLabel(search.cat)}</h1>
         <p className="text-sm text-muted" aria-live="polite">
           {t("foundPlans", { n: rows.length })}
+          <span className="mt-1 block text-xs text-subtle sm:mt-0 sm:ml-2 sm:inline">{t("coverageCheck")}</span>
         </p>
       </div>
 
