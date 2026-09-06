@@ -20,6 +20,7 @@ export const Route = createRootRoute({
       { name: "description", content: SITE.description },
       { name: "theme-color", content: "#1557C4" },
       { name: "robots", content: "index,follow" },
+      { property: "og:url", content: `${SITE.url}/` },
     ],
     links: [
       { rel: "canonical", href: `${SITE.url}/` },

@@ -7,10 +7,10 @@
  * the same generator as the static file — no React, no DB, no filesystem
  * read of public/ (that directory is not on the lambda).
  */
-import { renderSitemapXml, SEO_CACHE_CONTROL, SITEMAP_CONTENT_TYPE } from "../../src/lib/seo";
+import { renderSitemapXml, runtimeSeoOrigin, SEO_CACHE_CONTROL, SITEMAP_CONTENT_TYPE } from "../../src/lib/seo";
 
 export default function sitemapXml() {
-  return new Response(renderSitemapXml(), {
+  return new Response(renderSitemapXml(runtimeSeoOrigin()), {
     headers: {
       "content-type": SITEMAP_CONTENT_TYPE,
       "cache-control": SEO_CACHE_CONTROL,

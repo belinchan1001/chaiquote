@@ -58,9 +58,15 @@ function AboutPage() {
 
       <section className="mt-8">
         <h2 className="text-lg font-semibold">{t("aboutDisclaimer")}</h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted">{t("referencePrice")}</p>
         <p className="mt-3 text-sm leading-relaxed text-muted">{t("disclaimer1")}</p>
         <p className="mt-3 text-sm leading-relaxed text-muted">{t("disclaimer2")}</p>
         <p className="mt-3 text-sm leading-relaxed text-muted">{t("disclaimer3")}</p>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          <Link to="/privacy" className="text-accent underline-offset-4 hover:underline">
+            {t("aboutPrivacy")}
+          </Link>
+        </p>
       </section>
 
       <div className="mt-10 flex flex-col gap-3 sm:flex-row">

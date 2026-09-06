@@ -1,7 +1,7 @@
 export const SITE = {
   name: "齊Quote",
   tagline: "搵寬頻唔使四圍問",
-  url: "https://chaiquote.vercel.app",
+  url: "https://www.chaiquote.hk",
   description:
     "齊Quote 為獨立電訊比較平台，協助用戶一次過比較香港家居寬頻、商業寬頻及流動通訊計劃。所列月費僅供參考。",
   updated: "2026年9月",
@@ -10,7 +10,21 @@ export const SITE = {
   leadEmail: "",
 } as const;
 
+/** Locked compliance copy. Do not invent a personal legal name. */
+export const LEGAL = {
+  controllerKind: "個人獨立營運",
+  consent:
+    "提交即表示你同意我哋以電話／WhatsApp 聯絡你，並在有需要時將查詢轉介相關電訊商跟進。",
+  overseas:
+    "網站由 Vercel 等服務託管，你提交嘅資料可能儲存或處理於香港以外地區。",
+  referencePrice:
+    "以上月費及優惠為市場參考資料，實際價格、覆蓋、合約期及安裝安排，一律以電訊商確認為準。",
+  whatsappTip:
+    "撳下去會開啟 WhatsApp 聯絡我哋（{phone}）。請勿分享密碼或驗證碼。非電訊商官方客服。",
+} as const;
+
 export const DISCLAIMER = [
+  LEGAL.referencePrice,
   "本網站所列之所有月費計劃、禮券優惠及安裝條款僅供參考，實際收費及服務細則受相關電訊供應商之最新合約條款約束。",
   "本平台將盡力維持資料之準確性，惟各營運商之優惠可能隨時調整，最終價格以用戶與電訊商簽署之合約為準。",
 ] as const;
@@ -108,7 +122,7 @@ export const FAQ = [
     a: "流動通訊計劃可篩選「大灣區數據」，即包含中國內地及／或澳門用量，或三地共享數據池。實際適用地區及用量以電訊商條款為準。",
   },
   {
-    q: "點樣即時問價？",
+    q: "點樣查核報價？",
     a: "最快用 WhatsApp 9862 2444。冇 WhatsApp 可以撳「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼。",
   },
 ] as const;

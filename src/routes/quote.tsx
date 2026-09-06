@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { QuoteLink } from "@/components/quote-link";
+import { WhatsAppTip } from "@/components/whatsapp-tip";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -69,6 +70,7 @@ function QuotePage() {
   const [callWindow, setCallWindow] = useState("anytime");
   const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
+  const [consented, setConsented] = useState(false);
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState<{ phone: string; emailed: boolean } | null>(null);
 
@@ -92,6 +94,10 @@ function QuotePage() {
     }
     if (!estate.trim() && !housing) {
       setError(t("errAddress"));
+      return;
+    }
+    if (!consented) {
+      setError(t("errConsent"));
       return;
     }
     setSending(true);
@@ -161,6 +167,7 @@ function QuotePage() {
           >
             {t("waHeader")}
           </QuoteLink>
+          <WhatsAppTip />
           <Button asChild variant="ghost">
             <Link to="/plans" search={{ cat: category }}>
               {t("keepComparing")}
@@ -269,8 +276,25 @@ function QuotePage() {
               placeholder={t("notesPh")}
             />
           </div>
+          <div className="space-y-2">
+            <label htmlFor="consent" className="flex items-start gap-3 text-sm leading-relaxed text-muted">
+              <input
+                id="consent"
+                type="checkbox"
+                checked={consented}
+                onChange={(e) => setConsented(e.target.checked)}
+                className="mt-1 size-4 shrink-0 accent-primary"
+              />
+              <span>{t("consentLead")}</span>
+            </label>
+            <p className="pl-7 text-xs">
+              <Link to="/privacy" className="text-accent underline-offset-4 hover:underline">
+                {t("navPrivacy")}
+              </Link>
+            </p>
+          </div>
           {error ? <p className="text-sm font-medium text-hot">{error}</p> : null}
-          <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={sending}>
+          <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={sending || !consented}>
             {sending ? t("sending") : t("submitCall")}
           </Button>
         </form>
@@ -305,6 +329,7 @@ function QuotePage() {
                 {t("callNumber", { phone: SITE.phoneDisplay })}
               </a>
             </Button>
+            <WhatsAppTip />
           </div>
         </div>
       </aside>

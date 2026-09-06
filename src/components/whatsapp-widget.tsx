@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { WhatsAppTip } from "@/components/whatsapp-tip";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
@@ -92,7 +93,7 @@ export function WhatsAppWidget() {
             role="dialog"
             aria-hidden={!open}
             aria-label={t("waDialog")}
-            className="flex h-80 w-80 flex-col overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border-hover)]"
+            className="flex h-96 w-80 flex-col overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border-hover)]"
           >
           <div className="flex items-center gap-3 bg-primary px-4 py-3 text-primary-foreground">
             <span className="flex size-11 items-center justify-center bg-accent text-accent-foreground">
@@ -170,6 +171,9 @@ export function WhatsAppWidget() {
               {t("waSend")}
             </Button>
           </form>
+          <div className="border-t border-border bg-card px-3 pb-3">
+            <WhatsAppTip />
+          </div>
           </div>
         </div>
       </div>

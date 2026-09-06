@@ -21,6 +21,9 @@ export function SiteFooter() {
               WhatsApp {SITE.phoneDisplay}
             </a>
           </p>
+          <p className="mt-2 text-xs leading-relaxed text-primary-foreground/55">
+            {t("whatsappTip", { phone: SITE.phoneDisplay })}
+          </p>
           <p className="mt-2 text-xs text-primary-foreground/55">
             {t("updatedPrefix")}
             {updated}
@@ -69,12 +72,17 @@ export function SiteFooter() {
                 {t("navAbout")}
               </Link>
             </li>
+            <li>
+              <Link to="/privacy" className="hover:underline">
+                {t("footerPrivacy")}
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
       <div className="border-t border-primary-foreground/10 px-4 py-6">
         <p className="mx-auto max-w-6xl text-xs leading-relaxed text-primary-foreground/55">
-          {t("disclaimer1")} {t("disclaimer2")} {t("disclaimer3")}
+          {t("referencePrice")} {t("disclaimer1")} {t("disclaimer2")} {t("disclaimer3")}
         </p>
       </div>
     </footer>
