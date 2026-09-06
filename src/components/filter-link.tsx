@@ -24,6 +24,7 @@ export function FilterLink({
     <Link
       to="/plans"
       replace
+      viewTransition={false}
       preload="intent"
       search={compactSearch(search)}
       aria-current={selected ? "page" : undefined}

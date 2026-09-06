@@ -219,7 +219,9 @@ export function SearchPanel() {
             {t("advancedBudget")}
             <span className="ml-2 text-subtle transition-transform duration-150 group-open:rotate-45">+</span>
           </summary>
-          <div className="mt-4 space-y-4">
+          <div className="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-200 ease-out group-open:grid-rows-[1fr] group-open:opacity-100">
+            <div className="min-h-0 overflow-hidden">
+              <div className="mt-4 space-y-4 pb-1">
             <fieldset>
               <legend className="text-xs font-medium tracking-wider text-muted">{t("monthlyBudget")}</legend>
               <div className="mt-2 flex flex-wrap gap-2">
@@ -235,6 +237,8 @@ export function SearchPanel() {
                 ))}
               </div>
             </fieldset>
+              </div>
+            </div>
           </div>
         </details>
       </div>

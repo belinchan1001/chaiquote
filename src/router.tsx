@@ -8,7 +8,7 @@ export function getRouter() {
     defaultErrorComponent: AppErrorComponent,
     defaultPreload: "intent",
     defaultPreloadStaleTime: 30_000,
-    defaultViewTransition: true,
+    defaultViewTransition: false,
     scrollRestoration: true,
   });
 }

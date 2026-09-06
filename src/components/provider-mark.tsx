@@ -39,7 +39,7 @@ export function ProviderLogo({
         width={48}
         height={48}
         className={cn("size-full", logo.fill ? "object-cover" : "object-contain")}
-        loading="lazy"
+        loading="eager"
         decoding="async"
       />
       <span className="sr-only">{provider.name}</span>
