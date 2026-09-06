@@ -1,3 +1,5 @@
+import { LEGAL } from "@/lib/site";
+
 export type Locale = "zh" | "en";
 
 export const MESSAGES = {
@@ -13,6 +15,7 @@ export const MESSAGES = {
     navBusiness: "商業寬頻",
     navGuides: "點揀",
     navAbout: "關於我們",
+    navPrivacy: "私隱政策",
     navCompare: "比較月費",
     waHeader: "WhatsApp 問價",
     waQuote: "WhatsApp 問價",
@@ -27,6 +30,7 @@ export const MESSAGES = {
     footerHelp: "幫手",
     footerGuides: "點揀 plan",
     footerQuote: "留低電話",
+    footerPrivacy: "私隱政策",
     footerHome5g: "5G 家居寬頻",
     heroTitle1: "搵寬頻唔使四圍問，",
     heroTitle2: "呢度一次過幫你睇晒。",
@@ -139,6 +143,8 @@ export const MESSAGES = {
     errName: "請填姓名。",
     errPhone: "請填 8 位香港電話。",
     errAddress: "請填申請地址，或揀樓宇類型。",
+    errConsent: "請先同意聯絡同轉介安排。",
+    consentLead: LEGAL.consent,
     quoteOk: "已收到。我哋會打去 {phone}。",
     quoteEmailFail: "表格未能電郵，請直接致電。",
     callNow: "立即致電",
@@ -164,6 +170,7 @@ export const MESSAGES = {
     aboutProviders: "現時覆蓋之供應商",
     aboutBrand: "品牌指引",
     aboutDisclaimer: "免責聲明",
+    aboutPrivacy: "私隱政策",
     formQuote: "填表問價",
     guidesTitle: "點揀",
     waWelcome: "你好，呢度係 {name}。報價會直達 {phone}。撳下面掣，或者直接打字。",
@@ -194,6 +201,31 @@ export const MESSAGES = {
     disclaimer2:
       "本平台將盡力維持資料之準確性，惟各營運商之優惠可能隨時調整，最終價格以用戶與電訊商簽署之合約為準。",
     disclaimer3: "各電訊商名稱及標誌為其商標，僅供識別所比較之計劃。",
+    referencePrice: LEGAL.referencePrice,
+    overseasNote: LEGAL.overseas,
+    whatsappTip: LEGAL.whatsappTip,
+    privacyTitle: "私隱政策",
+    privacyLead:
+      "齊Quote（「本網站」）由獨立比較服務營運，並非電訊商官網。我哋重視你嘅私隱，並按香港《個人資料（私隱）條例》處理資料。",
+    privacyController: "資料使用者",
+    privacyControllerText:
+      "齊Quote（個人獨立營運）。查閱或改正個人資料，請 WhatsApp／致電 {phone}，或透過網站「留低電話」留下聯絡。",
+    privacyCollect: "收集咩資料",
+    privacyCollectText: "姓名／電話（留低電話）、WhatsApp／電話聯絡資料、一般瀏覽技術資料。",
+    privacyUse: "用嚟做咩",
+    privacyUseText: "回覆查詢、提供計劃參考同跟進、改善網站、法律要求下配合。",
+    privacyContactHow: "點樣聯絡你",
+    privacyContactHowText: "可能用電話／WhatsApp 回覆；唔想再收聯絡可用同一渠道通知。",
+    privacyThird: "會唔會交畀第三者",
+    privacyThirdText:
+      "唔會出售；只在同意、完成查詢所必需（轉介電訊商）、或法律要求時分享必要資料。",
+    privacyKeep: "保存同保安",
+    privacyKeepText: "只保留所需時間＋合理保安措施。",
+    privacyOverseas: "境外存放",
+    privacyRights: "你嘅權利",
+    privacyRightsText: "查閱／改正；渠道同上。",
+    privacyUpdate: "更新",
+    privacyUpdateText: "政策或會更新；重大改動喺本頁公布。最後更新日期：{date}。",
     sort: "點排",
     sortFee: "月費由低至高",
     sortAvg: "均價由低至高",
@@ -301,6 +333,7 @@ export const MESSAGES = {
     navBusiness: "Business",
     navGuides: "How to choose",
     navAbout: "About",
+    navPrivacy: "Privacy",
     navCompare: "Compare",
     waHeader: "WhatsApp now",
     waQuote: "WhatsApp quote",
@@ -315,6 +348,7 @@ export const MESSAGES = {
     footerHelp: "Help",
     footerGuides: "How to choose",
     footerQuote: "Leave a number",
+    footerPrivacy: "Privacy",
     footerHome5g: "5G home broadband",
     heroTitle1: "Stop shopping around for broadband.",
     heroTitle2: "Compare every plan here.",
@@ -427,6 +461,9 @@ export const MESSAGES = {
     errName: "Please enter your name.",
     errPhone: "Please enter an 8-digit Hong Kong number.",
     errAddress: "Please enter an address or housing type.",
+    errConsent: "Please agree to contact and referral before submitting.",
+    consentLead:
+      "By submitting, you agree that we may contact you by phone or WhatsApp and, if needed, refer your enquiry to the relevant carrier.",
     quoteOk: "Received. We will call {phone}.",
     quoteEmailFail: "The form could not be emailed. Please call us.",
     callNow: "Call now",
@@ -452,6 +489,7 @@ export const MESSAGES = {
     aboutProviders: "Providers listed",
     aboutBrand: "Brand guidelines",
     aboutDisclaimer: "Disclaimer",
+    aboutPrivacy: "Privacy policy",
     formQuote: "Leave a number",
     guidesTitle: "How to choose",
     waWelcome: "Hi, this is {name}. Quotes go to {phone}. Tap a button below, or type.",
@@ -482,6 +520,37 @@ export const MESSAGES = {
     disclaimer2:
       "We keep information as current as we can. Offers can change. The signed contract is final.",
     disclaimer3: "Carrier names and logos are trademarks of their owners, used here only to identify the plans being compared.",
+    referencePrice:
+      "Fees and offers above are market reference only. Actual price, coverage, contract term and installation are confirmed by the carrier.",
+    overseasNote:
+      "The site is hosted by Vercel and similar services. Information you submit may be stored or processed outside Hong Kong.",
+    whatsappTip:
+      "This opens WhatsApp to reach us ({phone}). Do not share passwords or verification codes. We are not the carrier’s official customer service.",
+    privacyTitle: "Privacy policy",
+    privacyLead:
+      "ChaiQuote (“this site”) is an independent comparison service, not a carrier website. We take your privacy seriously and handle personal data under Hong Kong’s Personal Data (Privacy) Ordinance.",
+    privacyController: "Data user",
+    privacyControllerText:
+      "ChaiQuote (personal independent operation). To access or correct your personal data, WhatsApp or call {phone}, or leave a number on this site.",
+    privacyCollect: "What we collect",
+    privacyCollectText:
+      "Name and phone number (leave-a-number form), WhatsApp / phone contact details, and ordinary browsing technical data.",
+    privacyUse: "What we use it for",
+    privacyUseText:
+      "To reply to enquiries, provide plan references and follow-up, improve the site, and comply when the law requires it.",
+    privacyContactHow: "How we contact you",
+    privacyContactHowText:
+      "We may reply by phone or WhatsApp. To stop further contact, tell us through the same channel.",
+    privacyThird: "Do we share with third parties?",
+    privacyThirdText:
+      "We do not sell your data. We share only what is needed with your consent, to complete an enquiry (referring a carrier), or when the law requires it.",
+    privacyKeep: "Retention and security",
+    privacyKeepText: "We keep data only as long as needed and apply reasonable security measures.",
+    privacyOverseas: "Overseas storage",
+    privacyRights: "Your rights",
+    privacyRightsText: "Access and correction — same channels as above.",
+    privacyUpdate: "Updates",
+    privacyUpdateText: "This policy may change. Material updates are posted on this page. Last updated: {date}.",
     sort: "Sort",
     sortFee: "Fee: low to high",
     sortAvg: "Average fee: low to high",

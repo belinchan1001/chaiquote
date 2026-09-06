@@ -12,4 +12,5 @@
   <url><loc>https://chaiquote.vercel.app/guides/fiber-vs-5g</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://chaiquote.vercel.app/guides/village</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://chaiquote.vercel.app/about</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://chaiquote.vercel.app/privacy</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
 </urlset>

@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { QuoteLink } from "@/components/quote-link";
+import { WhatsAppTip } from "@/components/whatsapp-tip";
 import { ProviderMark } from "@/components/provider-mark";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n, usePageTitle } from "@/lib/i18n";
@@ -71,6 +72,8 @@ function ComparePage() {
           <QuoteLink plans={plans}>{t("quoteThese")}</QuoteLink>
         </div>
       </div>
+      <p className="mt-3 text-xs leading-relaxed text-muted">{t("referencePrice")}</p>
+      <WhatsAppTip className="mt-2" />
 
       <div className="mt-8 overflow-x-auto">
         <table className="w-full min-w-3xl border-separate border-spacing-0 bg-card text-sm shadow-[var(--shadow-border)]">

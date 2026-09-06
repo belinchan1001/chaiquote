@@ -32,6 +32,7 @@ describe("renderSitemapXml", () => {
       assert.match(xml, new RegExp(`<loc>https://chaiquote\\.vercel\\.app${page.path.replaceAll("?", "\\?")}</loc>`));
     }
     assert.doesNotMatch(xml, /chaiquote\.hk/);
+    assert.ok(SITEMAP_PAGES.some((page) => page.path === "/privacy"));
   });
 
   it("stays in sync with public/sitemap.xml so Vite/CDN and the Nitro route agree", () => {

@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Bookmark, GitCompareArrows } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { QuoteLink } from "@/components/quote-link";
+import { WhatsAppTip } from "@/components/whatsapp-tip";
 import { ProviderMark } from "@/components/provider-mark";
 import { PlanCard } from "@/components/plan-card";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
@@ -108,11 +109,12 @@ function PlanDetailPage() {
             </Link>
           </Button>
         </div>
+        <WhatsAppTip className="mt-3" />
 
         <div className="mt-8 rounded-xl bg-surface p-5">
           <p className="text-xs tracking-wider text-muted">{t("serviceLimits")}</p>
           <p className="mt-2 text-sm leading-relaxed text-muted">
-            {t("installCoverage")} {t("disclaimer1")}
+            {t("installCoverage")} {t("referencePrice")} {t("disclaimer1")}
           </p>
         </div>
 

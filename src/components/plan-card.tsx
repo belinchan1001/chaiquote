@@ -118,6 +118,7 @@ export function PlanCard({ plan }: { plan: Plan }) {
           {t("askWa")}
         </QuoteLink>
       </div>
+      <p className="mt-3 text-[11px] leading-relaxed text-subtle">{t("referencePrice")}</p>
     </article>
   );
 }

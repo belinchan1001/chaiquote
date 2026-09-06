@@ -15,6 +15,7 @@ import { Route as BrandRouteImport } from './routes/brand'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as GuidesRouteImport } from './routes/guides'
 import { Route as PlansRouteImport } from './routes/plans'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as GuidesSlugRouteImport } from './routes/guides_.$slug'
 import { Route as PlansPlanIdRouteImport } from './routes/plans_.$planId'
@@ -49,6 +50,11 @@ const PlansRoute = PlansRouteImport.update({
   path: '/plans',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuoteRoute = QuoteRouteImport.update({
   id: '/quote',
   path: '/quote',
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/compare': typeof CompareRoute
   '/guides': typeof GuidesRoute
   '/plans': typeof PlansRoute
+  '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/plans/$planId': typeof PlansPlanIdRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/compare': typeof CompareRoute
   '/guides': typeof GuidesRoute
   '/plans': typeof PlansRoute
+  '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/plans/$planId': typeof PlansPlanIdRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/compare': typeof CompareRoute
   '/guides': typeof GuidesRoute
   '/plans': typeof PlansRoute
+  '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/guides_/$slug': typeof GuidesSlugRoute
   '/plans_/$planId': typeof PlansPlanIdRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/compare'
     | '/guides'
     | '/plans'
+    | '/privacy'
     | '/quote'
     | '/guides/$slug'
     | '/plans/$planId'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/compare'
     | '/guides'
     | '/plans'
+    | '/privacy'
     | '/quote'
     | '/guides/$slug'
     | '/plans/$planId'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/compare'
     | '/guides'
     | '/plans'
+    | '/privacy'
     | '/quote'
     | '/guides_/$slug'
     | '/plans_/$planId'
@@ -142,6 +154,7 @@ export interface RootRouteChildren {
   CompareRoute: typeof CompareRoute
   GuidesRoute: typeof GuidesRoute
   PlansRoute: typeof PlansRoute
+  PrivacyRoute: typeof PrivacyRoute
   QuoteRoute: typeof QuoteRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
   PlansPlanIdRoute: typeof PlansPlanIdRoute
@@ -191,6 +204,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlansRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quote': {
       id: '/quote'
       path: '/quote'
@@ -222,6 +242,7 @@ const rootRouteChildren: RootRouteChildren = {
   CompareRoute: CompareRoute,
   GuidesRoute: GuidesRoute,
   PlansRoute: PlansRoute,
+  PrivacyRoute: PrivacyRoute,
   QuoteRoute: QuoteRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   PlansPlanIdRoute: PlansPlanIdRoute,

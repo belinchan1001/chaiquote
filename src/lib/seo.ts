@@ -34,6 +34,7 @@ export const SITEMAP_PAGES: readonly SitemapPage[] = [
   { path: "/guides/fiber-vs-5g", changefreq: "monthly", priority: "0.6" },
   { path: "/guides/village", changefreq: "monthly", priority: "0.6" },
   { path: "/about", changefreq: "monthly", priority: "0.5" },
+  { path: "/privacy", changefreq: "monthly", priority: "0.4" },
 ];
 
 function escapeXml(value: string): string {
