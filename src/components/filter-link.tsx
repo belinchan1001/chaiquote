@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 export function chipClass(selected: boolean) {
   return cn(
-    "inline-flex h-11 min-w-11 items-center justify-center rounded-full px-3 text-sm font-medium transition-[background-color,color] duration-150",
+    "inline-flex h-11 min-w-11 items-center justify-center rounded-full px-3 text-sm font-medium transition-[background-color,color,transform] duration-150 ease-out active:scale-[0.96]",
     selected ? "bg-primary text-primary-foreground" : "bg-surface text-fg hover:bg-border",
   );
 }
@@ -24,7 +24,7 @@ export function FilterLink({
     <Link
       to="/plans"
       replace
-      preload={false}
+      preload="intent"
       search={compactSearch(search)}
       aria-current={selected ? "page" : undefined}
       className={chipClass(selected)}

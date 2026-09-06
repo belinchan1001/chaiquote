@@ -70,17 +70,17 @@ function Home() {
             </h1>
             <p className="mt-5 max-w-lg text-lead text-primary-foreground/80">{t("heroLead")}</p>
             <div className="mt-8 hidden gap-6 text-sm text-primary-foreground/75 sm:flex">
-              <p>
-                <span className="font-display text-lg font-semibold tabular-nums text-primary-foreground">8</span>{" "}
-                {t("statProviders", { n: 8 }).replace("8 ", "")}
+              <p className="flex items-baseline gap-1.5">
+                <span className="font-display text-lg font-semibold tabular-nums text-primary-foreground">8</span>
+                {t("statProvidersUnit")}
               </p>
-              <p>
-                <span className="font-display text-lg font-semibold tabular-nums text-primary-foreground">{PLANS.length}</span>{" "}
-                {t("statPlans", { n: PLANS.length }).replace(`${PLANS.length} `, "")}
+              <p className="flex items-baseline gap-1.5">
+                <span className="font-display text-lg font-semibold tabular-nums text-primary-foreground">{PLANS.length}</span>
+                {t("statPlansUnit")}
               </p>
-              <p>
-                <span className="font-display text-lg font-semibold tabular-nums text-primary-foreground">{ESTATES.length}</span>{" "}
-                {t("statEstates", { n: ESTATES.length }).replace(`${ESTATES.length} `, "")}
+              <p className="flex items-baseline gap-1.5">
+                <span className="font-display text-lg font-semibold tabular-nums text-primary-foreground">{ESTATES.length}</span>
+                {t("statEstatesUnit")}
               </p>
             </div>
           </div>

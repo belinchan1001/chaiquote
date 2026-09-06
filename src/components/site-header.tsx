@@ -74,9 +74,9 @@ export function SiteHeader() {
           </Button>
         </div>
       </div>
-      {open ? (
-        <div className="border-t border-border bg-bg px-4 py-4 lg:hidden">
-          <nav className="flex flex-col">
+      <div className={cn("sheet-fold border-t border-border bg-bg lg:hidden", open && "open")}>
+        <div className="sheet-fold-inner">
+          <nav className="flex flex-col px-4 py-4">
             {links.map((link) => (
               <Link
                 key={link.labelKey}
@@ -103,7 +103,7 @@ export function SiteHeader() {
             </a>
           </nav>
         </div>
-      ) : null}
+      </div>
     </header>
   );
 }

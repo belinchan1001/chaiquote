@@ -124,7 +124,7 @@ export function EstateSuggest({
         <ul
           id={listId}
           role="listbox"
-          className="absolute z-50 mt-1 max-h-64 w-full overflow-y-auto rounded-xl bg-card py-1 shadow-[var(--shadow-border-hover)]"
+          className="popover-in absolute z-50 mt-1 max-h-64 w-full overflow-y-auto rounded-xl bg-card py-1 shadow-[var(--shadow-border-hover)]"
         >
           {results.length ? (
             results.map((hit, i) => (

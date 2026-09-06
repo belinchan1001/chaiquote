@@ -155,56 +155,62 @@ export function SearchPanel() {
           </div>
         </fieldset>
 
-        <fieldset className="group-has-[[name=cat][value=mobile]:checked]/search:hidden">
-          <legend className="text-xs font-medium tracking-wider text-muted">{t("housingType")}</legend>
-          <div className="mt-2 flex flex-wrap gap-2">
-            <RadioChip name="housing" value="" checked={housing === ""} onChange={setHousing}>
-              {t("any")}
-            </RadioChip>
-            {housingOpts.map((option) => (
-              <RadioChip
-                key={option.id}
-                name="housing"
-                value={option.id}
-                checked={housing === option.id}
-                onChange={setHousing}
-              >
-                {t(option.label)}
+        <fieldset className="soft-fold fold-mobile">
+          <div className="soft-fold-inner">
+            <legend className="text-xs font-medium tracking-wider text-muted">{t("housingType")}</legend>
+            <div className="mt-2 flex flex-wrap gap-2 pb-1">
+              <RadioChip name="housing" value="" checked={housing === ""} onChange={setHousing}>
+                {t("any")}
               </RadioChip>
-            ))}
+              {housingOpts.map((option) => (
+                <RadioChip
+                  key={option.id}
+                  name="housing"
+                  value={option.id}
+                  checked={housing === option.id}
+                  onChange={setHousing}
+                >
+                  {t(option.label)}
+                </RadioChip>
+              ))}
+            </div>
           </div>
         </fieldset>
 
-        <fieldset className="group-has-[[name=cat][value=mobile]:checked]/search:hidden group-has-[[name=cat][value=home5g]:checked]/search:hidden">
-          <legend className="text-xs font-medium tracking-wider text-muted">{t("netSpeed")}</legend>
-          <div className="mt-2 flex flex-wrap gap-2">
-            <RadioChip name="speed" value="" defaultChecked>
-              {t("any")}
-            </RadioChip>
-            {[200, 500, 1000, 2000, 2500, 5000, 10000].map((speed) => (
-              <RadioChip key={speed} name="speed" value={String(speed)}>
-                {speed}M
+        <fieldset className="soft-fold fold-fibre">
+          <div className="soft-fold-inner">
+            <legend className="text-xs font-medium tracking-wider text-muted">{t("netSpeed")}</legend>
+            <div className="mt-2 flex flex-wrap gap-2 pb-1">
+              <RadioChip name="speed" value="" defaultChecked>
+                {t("any")}
               </RadioChip>
-            ))}
+              {[200, 500, 1000, 2000, 2500, 5000, 10000].map((speed) => (
+                <RadioChip key={speed} name="speed" value={String(speed)}>
+                  {speed}M
+                </RadioChip>
+              ))}
+            </div>
           </div>
         </fieldset>
 
-        <fieldset className="hidden group-has-[[name=cat][value=mobile]:checked]/search:block">
-          <legend className="text-xs font-medium tracking-wider text-muted">{t("mobileNet")}</legend>
-          <div className="mt-2 flex flex-wrap gap-2">
-            <RadioChip name="generation" value="" defaultChecked>
-              {t("anyNetwork")}
-            </RadioChip>
-            <RadioChip name="generation" value="4g">
-              {t("gen45")}
-            </RadioChip>
-            <RadioChip name="generation" value="5g">
-              {t("gen5")}
-            </RadioChip>
-            <label className="inline-flex h-11 cursor-pointer items-center rounded-full bg-surface px-4 text-sm font-medium has-[:checked]:bg-primary has-[:checked]:text-primary-foreground">
-              <input type="checkbox" name="gba" value="1" className="sr-only" />
-              {t("gba")}
-            </label>
+        <fieldset className="soft-fold fold-unless-mobile">
+          <div className="soft-fold-inner">
+            <legend className="text-xs font-medium tracking-wider text-muted">{t("mobileNet")}</legend>
+            <div className="mt-2 flex flex-wrap gap-2 pb-1">
+              <RadioChip name="generation" value="" defaultChecked>
+                {t("anyNetwork")}
+              </RadioChip>
+              <RadioChip name="generation" value="4g">
+                {t("gen45")}
+              </RadioChip>
+              <RadioChip name="generation" value="5g">
+                {t("gen5")}
+              </RadioChip>
+              <label className="inline-flex h-11 cursor-pointer items-center rounded-full bg-surface px-4 text-sm font-medium transition-[background-color,color,transform] duration-150 ease-out has-[:checked]:bg-primary has-[:checked]:text-primary-foreground active:scale-[0.96]">
+                <input type="checkbox" name="gba" value="1" className="sr-only" />
+                {t("gba")}
+              </label>
+            </div>
           </div>
         </fieldset>
 
@@ -239,7 +245,7 @@ export function SearchPanel() {
             key={item.label}
             to="/plans"
             search={item.search}
-            className="inline-flex h-11 items-center rounded-full bg-surface px-4 text-sm font-medium hover:bg-border"
+            className="inline-flex h-11 items-center rounded-full bg-surface px-4 text-sm font-medium transition-[background-color,transform] duration-150 ease-out hover:bg-border active:scale-[0.96]"
           >
             {item.label}
           </Link>

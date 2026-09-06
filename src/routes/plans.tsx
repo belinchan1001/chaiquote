@@ -398,7 +398,10 @@ function PlansPage() {
         </div>
       ) : (
         <>
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
+          <div
+            key={`${search.cat}-${search.housing ?? ""}-${search.speed ?? ""}-${search.provider ?? ""}-${search.generation ?? ""}-${search.maxFee ?? ""}-${search.q ?? ""}-${search.estate ?? ""}-${search.saved ? "1" : "0"}-${search.sort ?? "fee"}`}
+            className="plan-list mt-8 grid gap-4 md:grid-cols-2"
+          >
             {shown.map((plan) => (
               <PlanCard key={plan.id} plan={plan} />
             ))}

@@ -57,6 +57,7 @@
     background: var(--color-bg);
     color: var(--color-fg);
     touch-action: manipulation;
+    scroll-behavior: smooth;
   }
 
   body {
@@ -88,26 +89,131 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .page-enter > * {
-    animation: none;
+  html {
+    scroll-behavior: auto;
+  }
+
+  .page-enter > *,
+  .page-shell,
+  .plan-list > *,
+  .nav-progress-bar,
+  .popover-in {
+    animation: none !important;
+  }
+
+  .soft-fold,
+  .sheet-fold,
+  .wa-panel,
+  .compare-dock,
+  .fab-lift {
+    transition: none !important;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
   }
 }
 
 @layer components {
-  .page-enter > * {
-    animation: rise-in 420ms var(--ease-out-smooth) both;
+  .page-enter > *,
+  .page-shell {
+    animation: rise-in 280ms var(--ease-out-smooth) both;
   }
   .page-enter > *:nth-child(1) {
     animation-delay: 0ms;
   }
   .page-enter > *:nth-child(2) {
-    animation-delay: 70ms;
+    animation-delay: 60ms;
   }
   .page-enter > *:nth-child(3) {
-    animation-delay: 140ms;
+    animation-delay: 120ms;
   }
   .page-enter > *:nth-child(4) {
-    animation-delay: 210ms;
+    animation-delay: 180ms;
+  }
+
+  .plan-list > * {
+    animation: rise-in 240ms var(--ease-out-smooth) both;
+  }
+  .plan-list > *:nth-child(1) {
+    animation-delay: 0ms;
+  }
+  .plan-list > *:nth-child(2) {
+    animation-delay: 35ms;
+  }
+  .plan-list > *:nth-child(3) {
+    animation-delay: 70ms;
+  }
+  .plan-list > *:nth-child(4) {
+    animation-delay: 105ms;
+  }
+  .plan-list > *:nth-child(5) {
+    animation-delay: 140ms;
+  }
+  .plan-list > *:nth-child(6) {
+    animation-delay: 175ms;
+  }
+
+  .soft-fold {
+    display: grid;
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transition:
+      grid-template-rows 220ms var(--ease-out-smooth),
+      opacity 160ms ease,
+      margin 220ms ease;
+  }
+  .soft-fold > .soft-fold-inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .group\/search:has([name="cat"][value="mobile"]:checked) .fold-mobile,
+  .group\/search:has([name="cat"][value="mobile"]:checked) .fold-fibre,
+  .group\/search:has([name="cat"][value="home5g"]:checked) .fold-fibre {
+    grid-template-rows: 0fr;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .fold-unless-mobile {
+    grid-template-rows: 0fr;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .group\/search:has([name="cat"][value="mobile"]:checked) .fold-unless-mobile {
+    grid-template-rows: 1fr;
+    margin: revert;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .popover-in {
+    animation: rise-in 160ms var(--ease-out-smooth) both;
+  }
+
+  .nav-progress-bar {
+    animation: nav-slide 900ms ease-in-out infinite;
+  }
+
+  .sheet-fold {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 220ms var(--ease-out-smooth),
+      opacity 180ms ease;
+  }
+  .sheet-fold.open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  .sheet-fold > .sheet-fold-inner {
+    min-height: 0;
+    overflow: hidden;
   }
 
   @keyframes rise-in {
@@ -119,5 +225,32 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  @keyframes nav-slide {
+    0% {
+      transform: translateX(-120%);
+    }
+    100% {
+      transform: translateX(420%);
+    }
+  }
+}
+
+::view-transition-old(root) {
+  animation: vt-out 160ms var(--ease-out-smooth) both;
+}
+::view-transition-new(root) {
+  animation: vt-in 200ms var(--ease-out-smooth) both;
+}
+
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
   }
 }

@@ -73,7 +73,7 @@ export function FirstVisitTour() {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="relative m-4 w-full max-w-md rounded-2xl bg-card p-5 shadow-[var(--shadow-border-hover)] sm:p-6"
+        className="relative m-4 w-full max-w-md rounded-2xl bg-card p-5 shadow-[var(--shadow-border-hover)] sm:p-6 popover-in"
       >
         <p className="text-xs font-medium tracking-wider text-muted">
           {t("tourStep", { n: step + 1, total: STEPS.length })}

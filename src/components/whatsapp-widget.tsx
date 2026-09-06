@@ -76,17 +76,24 @@ export function WhatsAppWidget() {
   return (
     <div
       className={cn(
-        "fixed right-4 z-50 flex flex-col items-end gap-3",
+        "fab-lift fixed right-4 z-50 flex flex-col items-end gap-3 transition-[bottom] duration-200 ease-out",
         lifted ? "bottom-32" : "bottom-6",
       )}
     >
-      {open ? (
-        <div
-          id={panelId}
-          role="dialog"
-          aria-label={t("waDialog")}
-          className="flex h-80 w-80 flex-col overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border-hover)]"
-        >
+      <div
+        className={cn(
+          "wa-panel grid origin-bottom-right transition-[grid-template-rows,opacity,transform] duration-200 ease-out",
+          open ? "grid-rows-[1fr] scale-100 opacity-100" : "pointer-events-none grid-rows-[0fr] scale-[0.96] opacity-0",
+        )}
+      >
+        <div className="min-h-0 overflow-hidden">
+          <div
+            id={panelId}
+            role="dialog"
+            aria-hidden={!open}
+            aria-label={t("waDialog")}
+            className="flex h-80 w-80 flex-col overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border-hover)]"
+          >
           <div className="flex items-center gap-3 bg-primary px-4 py-3 text-primary-foreground">
             <span className="flex size-11 items-center justify-center bg-accent text-accent-foreground">
               <WhatsAppIcon className="size-5" />
@@ -163,15 +170,16 @@ export function WhatsAppWidget() {
               {t("waSend")}
             </Button>
           </form>
+          </div>
         </div>
-      ) : null}
+      </div>
 
       <button
         type="button"
         aria-expanded={open}
-        aria-controls={open ? panelId : undefined}
+        aria-controls={panelId}
         aria-label={open ? t("waCloseFab") : t("waOpenNum", { phone: SITE.phoneDisplay })}
-        className="ml-auto flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)]"
+        className="ml-auto flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)] transition-transform duration-150 ease-out active:scale-[0.96]"
         onClick={() => setOpen((v) => !v)}
       >
         <WhatsAppIcon className="size-7" />
