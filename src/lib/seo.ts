@@ -1,14 +1,26 @@
 /**
- * Public origin for sitemap loc tags and robots.txt Sitemap.
+ * Official canonical host for loc tags, robots Sitemap, and share URLs.
+ * Apex chaiquote.hk redirects to www — always prefer www.
+ * Keep in sync with SITE.url.
  *
- * TODO: make this host configurable (e.g. via SITE.url / env) once
- * chaiquote.hk is Valid + HTTPS. Do not switch loc URLs off
- * chaiquote.vercel.app until then.
+ * Preview: set SEO_ORIGIN (e.g. https://chaiquote.vercel.app) so a Vercel
+ * preview can emit its own sitemap without changing production defaults.
  */
-export const DEFAULT_SEO_ORIGIN = "https://chaiquote.vercel.app";
+export const DEFAULT_SEO_ORIGIN = "https://www.chaiquote.hk";
 
-export function seoOrigin(origin = DEFAULT_SEO_ORIGIN): string {
-  return origin.replace(/\/+$/, "");
+export function seoOrigin(origin: string = DEFAULT_SEO_ORIGIN): string {
+  const host = origin.replace(/\/+$/, "");
+  if (host === "https://chaiquote.hk" || host === "http://chaiquote.hk") {
+    return "https://www.chaiquote.hk";
+  }
+  return host;
+}
+
+/** Runtime origin: SEO_ORIGIN override, else the official www host. */
+export function runtimeSeoOrigin(): string {
+  const override =
+    (typeof process !== "undefined" ? process.env.SEO_ORIGIN?.trim() : "") || "";
+  return seoOrigin(override || DEFAULT_SEO_ORIGIN);
 }
 
 export type SitemapChangefreq = "weekly" | "monthly";
@@ -41,7 +53,7 @@ function escapeXml(value: string): string {
   return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 }
 
-export function renderSitemapXml(origin = DEFAULT_SEO_ORIGIN): string {
+export function renderSitemapXml(origin: string = DEFAULT_SEO_ORIGIN): string {
   const host = seoOrigin(origin);
   const urls = SITEMAP_PAGES.map((page) => {
     const loc = escapeXml(`${host}${page.path}`);
@@ -50,7 +62,7 @@ export function renderSitemapXml(origin = DEFAULT_SEO_ORIGIN): string {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>\n`;
 }
 
-export function renderRobotsTxt(origin = DEFAULT_SEO_ORIGIN): string {
+export function renderRobotsTxt(origin: string = DEFAULT_SEO_ORIGIN): string {
   return `User-agent: *\nAllow: /\n\nSitemap: ${seoOrigin(origin)}/sitemap.xml\n`;
 }
 

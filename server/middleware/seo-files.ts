@@ -11,6 +11,7 @@ import {
   renderRobotsTxt,
   renderSitemapXml,
   ROBOTS_CONTENT_TYPE,
+  runtimeSeoOrigin,
   SEO_CACHE_CONTROL,
   SITEMAP_CONTENT_TYPE,
 } from "../../src/lib/seo";
@@ -33,7 +34,7 @@ export default function seoFilesMiddleware(
 
   const path = event.url.pathname;
   if (path === "/sitemap.xml") {
-    return new Response(renderSitemapXml(), {
+    return new Response(renderSitemapXml(runtimeSeoOrigin()), {
       headers: {
         "content-type": SITEMAP_CONTENT_TYPE,
         "cache-control": SEO_CACHE_CONTROL,
@@ -41,7 +42,7 @@ export default function seoFilesMiddleware(
     });
   }
   if (path === "/robots.txt") {
-    return new Response(renderRobotsTxt(), {
+    return new Response(renderRobotsTxt(runtimeSeoOrigin()), {
       headers: {
         "content-type": ROBOTS_CONTENT_TYPE,
         "cache-control": SEO_CACHE_CONTROL,

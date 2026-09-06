@@ -269,6 +269,16 @@ test("allows chaiquote.vercel.app as a public og:image origin", () => {
   );
 });
 
+test("allows www.chaiquote.hk as the official og:image origin and folds apex", () => {
+  assert.equal(publicAppHost("www.chaiquote.hk"), "www.chaiquote.hk");
+  assert.equal(publicAppHost("chaiquote.hk"), "www.chaiquote.hk");
+  const out = injectGrokPwaHead("<html><head><title>齊Quote</title></head></html>", {
+    host: "www.chaiquote.hk",
+    site: { title: "齊Quote", card: "custom", image: "/og.jpg" },
+  });
+  assert.match(out, /property="og:image" content="https:\/\/www\.chaiquote\.hk\/og\.jpg"/);
+});
+
 test("published VITE_PUBLIC_HOSTNAME wins over request Host for og:image", () => {
   const prev = process.env.VITE_PUBLIC_HOSTNAME;
   process.env.VITE_PUBLIC_HOSTNAME = "plum-plaza-reef-dream.grok.me";

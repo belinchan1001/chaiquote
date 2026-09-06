@@ -100,7 +100,10 @@ export function publicAppHost(hostHeader) {
     .toLowerCase();
   if (!host || !/^[a-z0-9.-]+$/.test(host) || !host.includes(".")) return "";
   if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(host)) return "";
-  // chaiquote.vercel.app is this project's public production host; /og.jpg is not SSO-gated.
+  // Official production host. Apex redirects to www.
+  if (host === "chaiquote.hk") return "www.chaiquote.hk";
+  if (host === "www.chaiquote.hk") return host;
+  // Legacy / preview alias — /og.jpg is not SSO-gated on this custom Vercel host.
   if (host === "chaiquote.vercel.app") return host;
   if (isVercelSystemHost(host)) return "";
   return host;

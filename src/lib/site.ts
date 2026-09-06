@@ -1,7 +1,7 @@
 export const SITE = {
   name: "齊Quote",
   tagline: "搵寬頻唔使四圍問",
-  url: "https://chaiquote.vercel.app",
+  url: "https://www.chaiquote.hk",
   description:
     "齊Quote 為獨立電訊比較平台，協助用戶一次過比較香港家居寬頻、商業寬頻及流動通訊計劃。所列月費僅供參考。",
   updated: "2026年9月",
