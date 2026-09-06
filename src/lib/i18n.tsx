@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, startTransition, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { toEnglish } from "@/lib/plan-en";
 import { MESSAGES, type Locale, type MessageKey } from "@/lib/messages";
-import { PROVIDER_MAP, type Category, type Housing, type ProviderId } from "@/lib/plans";
+import { PLANS, PROVIDER_MAP, type Category, type Housing, type ProviderId } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 
 const STORAGE_KEY = "chaiquote-lang";
@@ -57,6 +57,22 @@ function readStored(): Locale {
   return "zh";
 }
 
+function warmupEnglish() {
+  for (const plan of PLANS) {
+    toEnglish(plan.name);
+    toEnglish(plan.network);
+    toEnglish(plan.install);
+    toEnglish(plan.bestFor);
+    if (plan.prepaid) toEnglish(plan.prepaid);
+    if (plan.limits) toEnglish(plan.limits);
+    if (plan.fupNote) toEnglish(plan.fupNote);
+    if (plan.voice) toEnglish(plan.voice);
+    if (plan.roaming) toEnglish(plan.roaming);
+    if (plan.portInPerk) toEnglish(plan.portInPerk);
+    for (const perk of plan.perks) toEnglish(perk);
+  }
+}
+
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>("zh");
 
@@ -68,14 +84,32 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = locale === "en" ? "en" : "zh-Hant";
   }, [locale]);
 
+  useEffect(() => {
+    let cancelled = false;
+    const run = () => {
+      if (!cancelled) warmupEnglish();
+    };
+    const idle =
+      typeof requestIdleCallback === "function"
+        ? requestIdleCallback(run, { timeout: 1200 })
+        : window.setTimeout(run, 200);
+    return () => {
+      cancelled = true;
+      if (typeof cancelIdleCallback === "function") cancelIdleCallback(idle as number);
+      else window.clearTimeout(idle as number);
+    };
+  }, []);
+
   const value = useMemo<I18nValue>(() => {
     function setLocale(next: Locale) {
-      setLocaleState(next);
       try {
         localStorage.setItem(STORAGE_KEY, next);
       } catch {
         /* ignore */
       }
+      startTransition(() => {
+        setLocaleState(next);
+      });
     }
     function t(key: MessageKey, vars?: Record<string, string | number>) {
       return fill(MESSAGES[locale][key] ?? MESSAGES.zh[key] ?? key, vars);
