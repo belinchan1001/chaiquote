@@ -166,7 +166,12 @@ export default defineConfig(({ command, isPreview }) => ({
     // PWA head + ?install=1 tutorial page; runs before Start/Nitro.
     grokPwaPlugin(),
     tailwindcss(),
-    tanstackStart(),
+    // Built-in sitemap writer defaults to enabled and would overwrite
+    // public/sitemap.xml (or throw without `host`). We serve a dedicated
+    // Nitro route + the static file from src/lib/seo.ts instead.
+    tanstackStart({
+      sitemap: { enabled: false },
+    }),
     ...(command === "build" || isPreview
       ? [
           nitro({
