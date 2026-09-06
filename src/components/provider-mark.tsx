@@ -2,15 +2,15 @@ import { PROVIDER_MAP, type ProviderId } from "@/lib/plans";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
-const LOGO_SRC: Record<ProviderId, string> = {
-  hkbn: "/images/providers/hkbn.svg",
-  netvigator: "/images/providers/netvigator.svg",
-  cmhk: "/images/providers/cmhk.svg",
-  hgc: "/images/providers/hgc.png",
-  smartone: "/images/providers/smartone.svg",
-  three: "/images/providers/three.png",
-  csl: "/images/providers/csl.png",
-  icable: "/images/providers/icable.png",
+const LOGO: Record<ProviderId, { src: string; fill?: boolean }> = {
+  hkbn: { src: "/images/providers/hkbn.png", fill: true },
+  netvigator: { src: "/images/providers/netvigator.png" },
+  cmhk: { src: "/images/providers/cmhk.png" },
+  hgc: { src: "/images/providers/hgc.png" },
+  smartone: { src: "/images/providers/smartone.png", fill: true },
+  three: { src: "/images/providers/three.png" },
+  csl: { src: "/images/providers/csl.png", fill: true },
+  icable: { src: "/images/providers/icable.png" },
 };
 
 export function ProviderLogo({
@@ -21,21 +21,24 @@ export function ProviderLogo({
   size?: "sm" | "md" | "lg";
 }) {
   const provider = PROVIDER_MAP[id];
+  const logo = LOGO[id];
   return (
     <span
       className={cn(
         "inline-flex shrink-0 items-center justify-center overflow-hidden rounded-md bg-card shadow-[var(--shadow-border)]",
-        size === "sm" && "size-7 p-0.5",
-        size === "md" && "size-10 p-1",
-        size === "lg" && "size-12 p-1.5",
+        size === "sm" && "size-7",
+        size === "md" && "size-10",
+        size === "lg" && "size-12",
+        !logo.fill && size === "sm" && "p-0.5",
+        !logo.fill && size !== "sm" && "p-1",
       )}
     >
       <img
-        src={LOGO_SRC[id]}
+        src={logo.src}
         alt=""
-        width={40}
-        height={40}
-        className="size-full object-contain"
+        width={48}
+        height={48}
+        className={cn("size-full", logo.fill ? "object-cover" : "object-contain")}
         loading="lazy"
         decoding="async"
       />
