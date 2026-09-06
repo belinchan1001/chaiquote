@@ -26,6 +26,23 @@ export function isLegacyProductionHost(hostHeader: string | null | undefined): b
   return (LEGACY_PRODUCTION_HOSTS as readonly string[]).includes(requestHostname(hostHeader));
 }
 
+/** Absolute official URL for a site path (`/` → https://www.chaiquote.hk/). */
+export function canonicalUrl(pathname: string): string {
+  const raw = pathname.trim() || "/";
+  const withSlash = raw.startsWith("/") ? raw : `/${raw}`;
+  const path = withSlash === "/" ? "/" : withSlash.replace(/\/+$/, "");
+  return `${DEFAULT_SEO_ORIGIN}${path}`;
+}
+
+export function canonicalUrlFromMatches(matches: ReadonlyArray<{ pathname?: string }>): string {
+  const path =
+    [...matches]
+      .map((match) => match.pathname)
+      .filter((value): value is string => Boolean(value))
+      .at(-1) ?? "/";
+  return canonicalUrl(path);
+}
+
 /** 301 Location for the official www host, or null when this request should stay. */
 export function canonicalRedirectLocation(
   requestUrl: URL,

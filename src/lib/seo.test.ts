@@ -6,6 +6,8 @@ import { fileURLToPath } from "node:url";
 import { SITE } from "./site.ts";
 import {
   canonicalRedirectLocation,
+  canonicalUrl,
+  canonicalUrlFromMatches,
   DEFAULT_SEO_ORIGIN,
   isLegacyProductionHost,
   renderRobotsTxt,
@@ -46,6 +48,24 @@ describe("runtimeSeoOrigin", () => {
       if (prev === undefined) delete process.env.SEO_ORIGIN;
       else process.env.SEO_ORIGIN = prev;
     }
+  });
+});
+
+describe("canonicalUrl", () => {
+  it("maps each path to its own www.chaiquote.hk URL", () => {
+    assert.equal(canonicalUrl("/"), "https://www.chaiquote.hk/");
+    assert.equal(canonicalUrl("/privacy"), "https://www.chaiquote.hk/privacy");
+    assert.equal(canonicalUrl("/about"), "https://www.chaiquote.hk/about");
+    assert.equal(canonicalUrl("/plans"), "https://www.chaiquote.hk/plans");
+    assert.equal(canonicalUrl("/plans/"), "https://www.chaiquote.hk/plans");
+    assert.equal(canonicalUrl("guides/village"), "https://www.chaiquote.hk/guides/village");
+    assert.equal(
+      canonicalUrlFromMatches([{ pathname: "/" }, { pathname: "/privacy" }]),
+      "https://www.chaiquote.hk/privacy",
+    );
+    assert.doesNotMatch(canonicalUrl("/privacy"), /\/$/);
+    assert.doesNotMatch(canonicalUrl("/about"), /chaiquote\.vercel\.app/);
+    assert.equal(canonicalUrlFromMatches([]), "https://www.chaiquote.hk/");
   });
 });
 

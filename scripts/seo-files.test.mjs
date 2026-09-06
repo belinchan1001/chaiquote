@@ -26,6 +26,14 @@ test("vercel.json 301s only the production vercel.app host to www.chaiquote.hk",
   assert.ok(redirects.some((rule) => rule.has?.[0]?.value === "chaiquote.vercel.app"));
 });
 
+test("root head emits a per-route canonical, not a hardcoded homepage", () => {
+  const root = readFileSync(join(ROOT, "src/routes/__root.tsx"), "utf8");
+  assert.match(root, /canonicalUrlFromMatches/);
+  assert.match(root, /rel:\s*"canonical"/);
+  assert.match(root, /property:\s*"og:url"/);
+  assert.doesNotMatch(root, /href:\s*`\$\{SITE\.url\}\/`/);
+});
+
 test("Nitro has dedicated sitemap and robots routes plus early middleware", () => {
   const sitemap = readFileSync(join(ROOT, "server/routes/sitemap.xml.ts"), "utf8");
   const robots = readFileSync(join(ROOT, "server/routes/robots.txt.ts"), "utf8");
