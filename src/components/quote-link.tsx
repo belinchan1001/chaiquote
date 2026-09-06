@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { useDesk, type Inquiry } from "@/lib/desk";
+import { useI18n } from "@/lib/i18n";
 import type { Plan } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 import { quoteMessage, whatsappHref } from "@/lib/whatsapp";
@@ -28,17 +29,19 @@ export function QuoteLink({
 }) {
   const stored = useDesk((s) => s.inquiry);
   const selected = plans ?? (plan ? [plan] : []);
+  const { t, locale } = useI18n();
+  const label = showNumber
+    ? t("waQuoteWithNumber", { phone: SITE.phoneDisplay })
+    : t("waQuote");
   return (
     <Button asChild variant={variant} size={size} className={cn("min-w-0", className)}>
       <a
-        href={whatsappHref(quoteMessage(selected, inquiry ?? stored))}
+        href={whatsappHref(quoteMessage(selected, inquiry ?? stored, locale))}
         target="_blank"
         rel="noopener noreferrer"
       >
         <WhatsAppIcon />
-        <span className="truncate">
-          {children ?? (showNumber ? `WhatsApp ${SITE.phoneDisplay}` : "WhatsApp 問價")}
-        </span>
+        <span className="truncate">{children ?? label}</span>
       </a>
     </Button>
   );

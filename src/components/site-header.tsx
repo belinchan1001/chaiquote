@@ -4,18 +4,12 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
 import { QuoteLink } from "@/components/quote-link";
+import { LangToggle } from "@/components/lang-toggle";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
+import { useI18n } from "@/lib/i18n";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
-
-const LINKS = [
-  { to: "/plans", label: "光纖寬頻", search: { cat: "broadband" as const } },
-  { to: "/plans", label: "5G 家居", search: { cat: "home5g" as const } },
-  { to: "/plans", label: "手機月費", search: { cat: "mobile" as const } },
-  { to: "/plans", label: "商業寬頻", search: { cat: "business" as const } },
-  { to: "/guides", label: "點揀" },
-  { to: "/about", label: "關於我們" },
-] as const;
+import type { MessageKey } from "@/lib/messages";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -24,9 +18,19 @@ export function SiteHeader() {
   const currentCat = new URL(href, "https://quote.local").searchParams.get("cat");
   useHydrateDesk();
   const compareCount = useDesk((s) => s.compare.length);
+  const { t } = useI18n();
 
-  function isActive(link: (typeof LINKS)[number]) {
-    if (!("search" in link)) return pathname === link.to;
+  const links: { to: "/plans" | "/guides" | "/about"; labelKey: MessageKey; search?: { cat: "broadband" | "home5g" | "mobile" | "business" } }[] = [
+    { to: "/plans", labelKey: "navFibre", search: { cat: "broadband" } },
+    { to: "/plans", labelKey: "navHome5g", search: { cat: "home5g" } },
+    { to: "/plans", labelKey: "navMobile", search: { cat: "mobile" } },
+    { to: "/plans", labelKey: "navBusiness", search: { cat: "business" } },
+    { to: "/guides", labelKey: "navGuides" },
+    { to: "/about", labelKey: "navAbout" },
+  ];
+
+  function isActive(link: (typeof links)[number]) {
+    if (!link.search) return pathname === link.to;
     return pathname === "/plans" && (currentCat ?? "broadband") === link.search.cat;
   }
 
@@ -35,31 +39,35 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
         <Logo />
         <nav className="hidden items-center gap-1 lg:flex">
-          {LINKS.map((link) => (
+          {links.map((link) => (
             <Link
-              key={link.label}
+              key={link.labelKey}
               to={link.to}
-              search={"search" in link ? link.search : undefined}
+              search={link.search}
               className={cn(
                 "flex h-11 items-center rounded-full px-3 text-sm font-medium transition-[background-color,color] duration-150",
                 isActive(link) ? "bg-surface text-fg" : "text-muted hover:text-fg",
               )}
             >
-              {link.label}
+              {t(link.labelKey)}
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
+          <LangToggle />
           <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
-            <Link to="/compare">比較月費{compareCount ? ` ${compareCount}` : ""}</Link>
+            <Link to="/compare">
+              {t("navCompare")}
+              {compareCount ? ` ${compareCount}` : ""}
+            </Link>
           </Button>
-          <QuoteLink size="sm">WhatsApp即時查詢</QuoteLink>
+          <QuoteLink size="sm">{t("waHeader")}</QuoteLink>
           <Button
             type="button"
             variant="outline"
             size="icon"
             className="lg:hidden"
-            aria-label={open ? "閂選單" : "開選單"}
+            aria-label={open ? t("menuClose") : t("menuOpen")}
             onClick={() => setOpen((v) => !v)}
           >
             {open ? <X /> : <Menu />}
@@ -69,22 +77,20 @@ export function SiteHeader() {
       {open ? (
         <div className="border-t border-border bg-bg px-4 py-4 lg:hidden">
           <nav className="flex flex-col">
-            {LINKS.map((link) => (
+            {links.map((link) => (
               <Link
-                key={link.label}
+                key={link.labelKey}
                 to={link.to}
-                search={"search" in link ? link.search : undefined}
-                className={cn(
-                  "flex h-12 items-center text-base font-medium",
-                  isActive(link) && "text-primary",
-                )}
+                search={link.search}
+                className={cn("flex h-12 items-center text-base font-medium", isActive(link) && "text-primary")}
                 onClick={() => setOpen(false)}
               >
-                {link.label}
+                {t(link.labelKey)}
               </Link>
             ))}
             <Link to="/compare" className="flex h-12 items-center text-base font-medium" onClick={() => setOpen(false)}>
-              比較月費{compareCount ? `（${compareCount}）` : ""}
+              {t("navCompare")}
+              {compareCount ? `（${compareCount}）` : ""}
             </Link>
             <a
               href={`https://wa.me/${SITE.whatsappE164}`}
@@ -93,7 +99,7 @@ export function SiteHeader() {
               className="flex h-12 items-center text-base font-medium"
               onClick={() => setOpen(false)}
             >
-              WhatsApp 報價 {SITE.phoneDisplay}
+              {t("waQuoteWithNumber", { phone: SITE.phoneDisplay })}
             </a>
           </nav>
         </div>

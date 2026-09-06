@@ -106,7 +106,7 @@ export const useDesk = create<DeskState>((set, get) => ({
       return;
     }
     if (compare.length >= 3) {
-      set({ notice: "最多比較 3 個，除咗其中一個先再加。" });
+      set({ notice: "compareMax" });
       return;
     }
     const next = [...compare, id];

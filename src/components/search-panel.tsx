@@ -3,19 +3,13 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
-import {
-  BUDGET_OPTIONS,
-  CATEGORY_OPTIONS,
-  GENERATION_OPTIONS,
-  HOUSING_OPTIONS,
-  SHORTCUTS,
-  SPEED_OPTIONS,
-} from "@/lib/site";
 import { compactSearch, parsePlansSearch } from "@/lib/search";
 import { useDesk } from "@/lib/desk";
 import { addressHitValue } from "@/lib/address-search";
+import { useI18n } from "@/lib/i18n";
 import type { Housing } from "@/lib/plans";
 import { cn } from "@/lib/utils";
+import type { MessageKey } from "@/lib/messages";
 
 function RadioChip({
   name,
@@ -58,6 +52,32 @@ export function SearchPanel() {
   const [estate, setEstate] = useState("");
   const [housing, setHousing] = useState("");
   const [district, setDistrict] = useState("");
+  const { t } = useI18n();
+
+  const categories: { id: "broadband" | "mobile" | "business" | "home5g"; label: MessageKey }[] = [
+    { id: "broadband", label: "catBroadband" },
+    { id: "mobile", label: "catMobile" },
+    { id: "business", label: "catBusiness" },
+    { id: "home5g", label: "catHome5g" },
+  ];
+  const housingOpts: { id: Housing; label: MessageKey }[] = [
+    { id: "public", label: "housingPublic" },
+    { id: "hos", label: "housingHos" },
+    { id: "private", label: "housingPrivate" },
+    { id: "village", label: "housingVillage" },
+  ];
+  const budgets: { maxFee?: number; n?: number }[] = [
+    {},
+    { maxFee: 80, n: 80 },
+    { maxFee: 120, n: 120 },
+    { maxFee: 180, n: 180 },
+    { maxFee: 400, n: 400 },
+  ];
+  const shortcuts = [
+    { label: t("shortcutExpiry"), search: { cat: "mobile" as const, portIn: true } },
+    { label: t("shortcutCheap"), search: { cat: "broadband" as const, maxFee: 120 } },
+    { label: t("shortcutGaming"), search: { cat: "broadband" as const, sort: "speed" as const } },
+  ];
 
   function remember(next: { estate?: string; housing?: string; district?: string }) {
     const estateValue = (next.estate ?? estate).trim();
@@ -96,18 +116,19 @@ export function SearchPanel() {
       className="group/search relative z-10 overflow-visible rounded-2xl bg-card p-5 shadow-[var(--shadow-border)] sm:p-6"
       onSubmit={onSubmit}
     >
-      <p className="text-sm font-medium">輸入你住邊，即刻比較</p>
-      <p className="mt-1 text-xs text-muted">輸入地址後，系統會判斷公屋、居屋、私人樓或村屋，再篩選相應計劃。</p>
+      <p className="text-sm font-medium">{t("searchTitle")}</p>
+      <p className="mt-1 text-xs text-muted">{t("searchLead")}</p>
       <div className="mt-5 space-y-5">
         <div className="space-y-2">
           <label htmlFor="estate-search" className="text-xs font-medium tracking-wider text-muted">
-            屋苑、大廈或街道
+            {t("estateLabel")}
           </label>
           <EstateSuggest
             id="estate-search"
             value={estate}
             onChange={setEstate}
             name="estate"
+            placeholder={t("estatePlaceholder")}
             onSelect={(hit) => {
               const nextHousing = hit.housing ?? resolvedHousing(hit.name) ?? "";
               const nextEstate = addressHitValue(hit);
@@ -124,23 +145,23 @@ export function SearchPanel() {
           <HousingGuessNote query={estate} applied={(housing || undefined) as Housing | undefined} />
         </div>
         <fieldset>
-          <legend className="text-xs font-medium tracking-wider text-muted">你想睇咩</legend>
+          <legend className="text-xs font-medium tracking-wider text-muted">{t("wantWhat")}</legend>
           <div className="mt-2 flex flex-wrap gap-2">
-            {CATEGORY_OPTIONS.map((option) => (
+            {categories.map((option) => (
               <RadioChip key={option.id} name="cat" value={option.id} defaultChecked={option.id === "broadband"}>
-                {option.label}
+                {t(option.label)}
               </RadioChip>
             ))}
           </div>
         </fieldset>
 
         <fieldset className="group-has-[[name=cat][value=mobile]:checked]/search:hidden">
-          <legend className="text-xs font-medium tracking-wider text-muted">你住邊類樓</legend>
+          <legend className="text-xs font-medium tracking-wider text-muted">{t("housingType")}</legend>
           <div className="mt-2 flex flex-wrap gap-2">
             <RadioChip name="housing" value="" checked={housing === ""} onChange={setHousing}>
-              唔限
+              {t("any")}
             </RadioChip>
-            {HOUSING_OPTIONS.map((option) => (
+            {housingOpts.map((option) => (
               <RadioChip
                 key={option.id}
                 name="housing"
@@ -148,61 +169,62 @@ export function SearchPanel() {
                 checked={housing === option.id}
                 onChange={setHousing}
               >
-                {option.label}
+                {t(option.label)}
               </RadioChip>
             ))}
           </div>
         </fieldset>
 
         <fieldset className="group-has-[[name=cat][value=mobile]:checked]/search:hidden group-has-[[name=cat][value=home5g]:checked]/search:hidden">
-          <legend className="text-xs font-medium tracking-wider text-muted">網絡速度</legend>
+          <legend className="text-xs font-medium tracking-wider text-muted">{t("netSpeed")}</legend>
           <div className="mt-2 flex flex-wrap gap-2">
             <RadioChip name="speed" value="" defaultChecked>
-              唔限
+              {t("any")}
             </RadioChip>
-            {SPEED_OPTIONS.map((option) => (
-              <RadioChip key={option.speed} name="speed" value={String(option.speed)}>
-                {option.label}
+            {[200, 500, 1000, 2000, 2500, 5000, 10000].map((speed) => (
+              <RadioChip key={speed} name="speed" value={String(speed)}>
+                {speed}M
               </RadioChip>
             ))}
           </div>
         </fieldset>
 
         <fieldset className="hidden group-has-[[name=cat][value=mobile]:checked]/search:block">
-          <legend className="text-xs font-medium tracking-wider text-muted">手機網絡</legend>
+          <legend className="text-xs font-medium tracking-wider text-muted">{t("mobileNet")}</legend>
           <div className="mt-2 flex flex-wrap gap-2">
             <RadioChip name="generation" value="" defaultChecked>
-              唔限網絡
+              {t("anyNetwork")}
             </RadioChip>
-            {GENERATION_OPTIONS.map((option) => (
-              <RadioChip key={option.id} name="generation" value={option.id}>
-                {option.label}
-              </RadioChip>
-            ))}
+            <RadioChip name="generation" value="4g">
+              {t("gen45")}
+            </RadioChip>
+            <RadioChip name="generation" value="5g">
+              {t("gen5")}
+            </RadioChip>
             <label className="inline-flex h-11 cursor-pointer items-center rounded-full bg-surface px-4 text-sm font-medium has-[:checked]:bg-primary has-[:checked]:text-primary-foreground">
               <input type="checkbox" name="gba" value="1" className="sr-only" />
-              大灣區數據
+              {t("gba")}
             </label>
           </div>
         </fieldset>
 
         <details className="group">
           <summary className="flex h-11 cursor-pointer list-none items-center text-sm font-medium text-muted">
-            進階篩選（預算）
+            {t("advancedBudget")}
             <span className="ml-2 text-subtle transition-transform duration-150 group-open:rotate-45">+</span>
           </summary>
           <div className="mt-4 space-y-4">
             <fieldset>
-              <legend className="text-xs font-medium tracking-wider text-muted">每月預算（可選）</legend>
+              <legend className="text-xs font-medium tracking-wider text-muted">{t("monthlyBudget")}</legend>
               <div className="mt-2 flex flex-wrap gap-2">
-                {BUDGET_OPTIONS.map((option) => (
+                {budgets.map((option) => (
                   <RadioChip
-                    key={option.label}
+                    key={option.maxFee ?? "any"}
                     name="maxFee"
                     value={option.maxFee ? String(option.maxFee) : ""}
                     defaultChecked={!option.maxFee}
                   >
-                    {option.label}
+                    {option.maxFee ? t("budgetUnder", { n: option.maxFee }) : t("budgetAny")}
                   </RadioChip>
                 ))}
               </div>
@@ -212,7 +234,7 @@ export function SearchPanel() {
       </div>
 
       <div className="mt-5 flex flex-wrap gap-2">
-        {SHORTCUTS.map((item) => (
+        {shortcuts.map((item) => (
           <Link
             key={item.label}
             to="/plans"
@@ -224,7 +246,7 @@ export function SearchPanel() {
         ))}
       </div>
       <Button type="submit" size="lg" className="mt-6 w-full sm:w-auto">
-        自動篩選計劃
+        {t("autoFilter")}
       </Button>
     </form>
   );

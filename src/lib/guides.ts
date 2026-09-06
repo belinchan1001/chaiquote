@@ -1,17 +1,24 @@
+export type GuideSection = { heading: string; paragraphs: string[] };
+
 export type Guide = {
   slug: string;
+  minutes: number;
   title: string;
   excerpt: string;
-  minutes: number;
-  body: { heading: string; paragraphs: string[] }[];
+  body: GuideSection[];
+  titleEn: string;
+  excerptEn: string;
+  bodyEn: GuideSection[];
 };
 
 export const GUIDES: Guide[] = [
   {
     slug: "port-in",
+    minutes: 4,
     title: "攜號轉台點樣做，先唔會斷線",
     excerpt: "留舊號碼轉去新電訊商，行政費、幾時生效、寬頻轉台有咩分別。",
-    minutes: 4,
+    titleEn: "How to port your number without losing service",
+    excerptEn: "Keep your number when you switch. Admin fees, when it takes effect, and how broadband switching is different.",
     body: [
       {
         heading: "手機：先申請、後停舊台",
@@ -34,12 +41,36 @@ export const GUIDES: Guide[] = [
         ],
       },
     ],
+    bodyEn: [
+      {
+        heading: "Mobile: apply first, then stop the old plan",
+        paragraphs: [
+          "Bring ID and a recent bill from your current carrier and apply for number porting with the new one. The old SIM still works until the new SIM is active.",
+          "It usually takes 1–2 working days. The old plan stops the moment porting completes, so do not cancel early — you may pay an early-termination fee.",
+        ],
+      },
+      {
+        heading: "Admin and tunnel fees",
+        paragraphs: [
+          "Port-in offers often waive admin / tunnel fees. ChaiQuote flags those plans; the actual waiver is confirmed at application.",
+        ],
+      },
+      {
+        heading: "Switching broadband",
+        paragraphs: [
+          "Broadband cannot “port a number”. A technician installs the new line. Book the install, test the new line, then cancel the old one so you are not left without internet.",
+          "Some contracts include one free relocation. If you are moving soon, ask before you sign.",
+        ],
+      },
+    ],
   },
   {
     slug: "fiber-vs-5g",
+    minutes: 5,
     title: "光纖同 5G 家居寬頻點揀",
     excerpt: "拉線穩唔穩、幾時裝到、有冇數據上限、村屋適唔適合。",
-    minutes: 5,
+    titleEn: "Fibre vs 5G home broadband",
+    excerptEn: "Stability, install time, data caps, and what works for village houses.",
     body: [
       {
         heading: "光纖入屋",
@@ -62,12 +93,36 @@ export const GUIDES: Guide[] = [
         ],
       },
     ],
+    bodyEn: [
+      {
+        heading: "Fibre to the home",
+        paragraphs: [
+          "FTTH starts from 1000M with low latency. It suits cloud backup, several 4K streams and video calls from home.",
+          "A technician has to run a line through walls. Older buildings or a landlord who says no can block install.",
+        ],
+      },
+      {
+        heading: "5G home broadband",
+        paragraphs: [
+          "Plug in a router. Useful for village houses, rentals, and as a backup while you wait for fibre.",
+          "Most plans have a high-speed data cap, then slow down or deprioritise. Busy cells nearby can be slower at peak hours.",
+        ],
+      },
+      {
+        heading: "A simple rule",
+        paragraphs: [
+          "If fibre can be installed, pick fibre. If it cannot, or you need internet today, look at 5G home. If budget allows, use fibre as primary and 5G as backup.",
+        ],
+      },
+    ],
   },
   {
     slug: "village",
+    minutes: 3,
     title: "村屋／丁屋寬頻點算",
     excerpt: "覆蓋點查、5G 家居同光纖到村實際有咩分別。",
-    minutes: 3,
+    titleEn: "Broadband for village houses",
+    excerptEn: "How to check coverage, and how 5G home differs from fibre to the village.",
     body: [
       {
         heading: "先問覆蓋，唔好淨睇月費",
@@ -82,9 +137,30 @@ export const GUIDES: Guide[] = [
         ],
       },
     ],
+    bodyEn: [
+      {
+        heading: "Check coverage first, not just the fee",
+        paragraphs: [
+          "Fibre to a New Territories village house depends on the village, the street, even the house next door. Give the full address on a quote so we can ask whether it can be installed.",
+        ],
+      },
+      {
+        heading: "5G home is a common option",
+        paragraphs: [
+          "Village houses and tong lau without fibre can use 5G home — plug in and go. Ask about the high-speed GB cap and peak-hour performance.",
+        ],
+      },
+    ],
   },
 ];
 
 export function getGuide(slug: string) {
   return GUIDES.find((g) => g.slug === slug);
+}
+
+export function guideCopy(guide: Guide, locale: "zh" | "en") {
+  if (locale === "en") {
+    return { title: guide.titleEn, excerpt: guide.excerptEn, body: guide.bodyEn };
+  }
+  return { title: guide.title, excerpt: guide.excerpt, body: guide.body };
 }

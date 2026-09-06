@@ -1,4 +1,5 @@
 import { PROVIDER_MAP, type ProviderId } from "@/lib/plans";
+import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 function LogoSvg({
@@ -158,14 +159,16 @@ export function ProviderMark({
   showEn?: boolean;
 }) {
   const provider = PROVIDER_MAP[id];
+  const { locale, providerName } = useI18n();
+  const showSubtitle = showEn && size !== "sm" && locale === "zh";
   return (
     <span className="inline-flex min-w-0 items-center gap-2">
       <ProviderLogo id={id} size={size} />
       <span className="min-w-0">
         <span className={cn("block font-medium leading-tight", size === "sm" ? "text-xs" : "text-sm")}>
-          {provider.name}
+          {providerName(id)}
         </span>
-        {showEn && size !== "sm" ? (
+        {showSubtitle ? (
           <span className="block text-xs leading-tight text-subtle">{provider.nameEn}</span>
         ) : null}
       </span>

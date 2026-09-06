@@ -4,32 +4,44 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
+import { useI18n } from "@/lib/i18n";
 import { getPlan } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 import { QUICK_REPLIES, quoteMessage, whatsappHref, withInquiry } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
+import type { MessageKey } from "@/lib/messages";
 
 type Bubble = { id: string; from: "biz" | "me"; text: string };
 
-const WELCOME: Bubble[] = [
-  {
-    id: "w1",
-    from: "biz",
-    text: `你好，呢度係 ${SITE.name}。報價會直達 ${SITE.phoneDisplay}。撳下面掣，或者直接打字。`,
-  },
-];
+const QUICK_LABEL: Record<(typeof QUICK_REPLIES)[number]["id"], MessageKey> = {
+  broadband: "catBroadband",
+  mobile: "catMobile",
+  business: "catBusiness",
+  home5g: "catHome5g",
+};
 
 export function WhatsAppWidget() {
   const panelId = useId();
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState("");
-  const [bubbles, setBubbles] = useState<Bubble[]>(WELCOME);
+  const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const endRef = useRef<HTMLDivElement>(null);
   useHydrateDesk();
   const compare = useDesk((s) => s.compare);
   const inquiry = useDesk((s) => s.inquiry);
   const plans = compare.map(getPlan).filter((p): p is NonNullable<typeof p> => Boolean(p));
   const lifted = compare.length > 0;
+  const { t, locale } = useI18n();
+
+  useEffect(() => {
+    setBubbles([
+      {
+        id: "w1",
+        from: "biz",
+        text: t("waWelcome", { name: SITE.name, phone: SITE.phoneDisplay }),
+      },
+    ]);
+  }, [locale, t]);
 
   useEffect(() => {
     if (!open) return;
@@ -54,11 +66,11 @@ export function WhatsAppWidget() {
       {
         id: `${Date.now()}-ack`,
         from: "biz",
-        text: "好，而家幫你開 WhatsApp，將呢段訊息傳去我哋。",
+        text: t("waAck"),
       },
     ]);
     setDraft("");
-    window.open(whatsappHref(withInquiry(trimmed, inquiry)), "_blank", "noopener,noreferrer");
+    window.open(whatsappHref(withInquiry(trimmed, inquiry, locale)), "_blank", "noopener,noreferrer");
   }
 
   return (
@@ -72,7 +84,7 @@ export function WhatsAppWidget() {
         <div
           id={panelId}
           role="dialog"
-          aria-label="WhatsApp 即時問價"
+          aria-label={t("waDialog")}
           className="flex h-80 w-80 flex-col overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border-hover)]"
         >
           <div className="flex items-center gap-3 bg-primary px-4 py-3 text-primary-foreground">
@@ -87,7 +99,7 @@ export function WhatsAppWidget() {
             </div>
             <button
               type="button"
-              aria-label="閂對話"
+              aria-label={t("waClose")}
               className="flex size-11 items-center justify-center"
               onClick={() => setOpen(false)}
             >
@@ -115,18 +127,18 @@ export function WhatsAppWidget() {
                   key={item.id}
                   type="button"
                   className="h-11 rounded-full bg-card px-3 text-sm font-medium shadow-[var(--shadow-border)]"
-                  onClick={() => send(item.text)}
+                  onClick={() => send(locale === "en" ? item.textEn : item.text)}
                 >
-                  {item.label}
+                  {t(QUICK_LABEL[item.id])}
                 </button>
               ))}
               {plans.length ? (
                 <button
                   type="button"
                   className="h-11 rounded-full bg-accent px-3 text-sm font-medium text-accent-foreground"
-                  onClick={() => send(quoteMessage(plans, inquiry))}
+                  onClick={() => send(quoteMessage(plans, inquiry, locale))}
                 >
-                  報呢幾個
+                  {t("waQuoteThese")}
                 </button>
               ) : null}
             </div>
@@ -143,12 +155,12 @@ export function WhatsAppWidget() {
             <Input
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
-              placeholder="想問咩 plan…"
-              aria-label="WhatsApp 訊息"
+              placeholder={t("waDraft")}
+              aria-label={t("waMsg")}
               className="flex-1"
             />
             <Button type="submit">
-              送出
+              {t("waSend")}
             </Button>
           </form>
         </div>
@@ -158,7 +170,7 @@ export function WhatsAppWidget() {
         type="button"
         aria-expanded={open}
         aria-controls={open ? panelId : undefined}
-        aria-label={open ? "閂 WhatsApp" : `開 WhatsApp ${SITE.phoneDisplay}`}
+        aria-label={open ? t("waCloseFab") : t("waOpenNum", { phone: SITE.phoneDisplay })}
         className="ml-auto flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)]"
         onClick={() => setOpen((v) => !v)}
       >
@@ -170,6 +182,7 @@ export function WhatsAppWidget() {
 
 export function DeferredWhatsApp() {
   const [ready, setReady] = useState(false);
+  const { t } = useI18n();
   useEffect(() => {
     const timer = window.setTimeout(() => setReady(true), 1);
     return () => window.clearTimeout(timer);
@@ -181,7 +194,7 @@ export function DeferredWhatsApp() {
         target="_blank"
         rel="noopener noreferrer"
         className="fixed right-4 bottom-6 z-50 flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)]"
-        aria-label={`WhatsApp ${SITE.phoneDisplay}`}
+        aria-label={t("waQuoteWithNumber", { phone: SITE.phoneDisplay })}
       >
         <WhatsAppIcon className="size-7" />
       </a>
@@ -189,4 +202,3 @@ export function DeferredWhatsApp() {
   }
   return <WhatsAppWidget />;
 }
-

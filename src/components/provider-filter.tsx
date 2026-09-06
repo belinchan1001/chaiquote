@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Link } from "@tanstack/react-router";
 import { ProviderLogo } from "@/components/provider-mark";
 import { chipClass } from "@/components/filter-link";
+import { useI18n } from "@/lib/i18n";
 import {
   PROVIDERS,
   filterPlans,
@@ -34,25 +35,27 @@ export function ProviderFilter({
     }
     return map;
   }, [search, savedIds]);
+  const { t, providerName } = useI18n();
 
   const visible = PROVIDERS.filter((p) => counts[p.id] > 0 || value === p.id);
   if (!visible.length) return null;
 
   return (
     <fieldset>
-      <legend className="text-xs font-medium tracking-wider text-muted">網絡供應商</legend>
+      <legend className="text-xs font-medium tracking-wider text-muted">{t("providers")}</legend>
       <div className="mt-2 flex flex-wrap gap-2">
         <ProviderChip
           selected={!value}
           search={search}
           provider={undefined}
           onChange={onChange}
-          label="唔限"
+          label={t("any")}
         />
         {visible.map((p) => {
           const count = counts[p.id];
           const selected = value === p.id;
           const disabled = count === 0 && !selected;
+          const label = providerName(p.id);
           return (
             <ProviderChip
               key={p.id}
@@ -61,9 +64,10 @@ export function ProviderFilter({
               search={search}
               provider={selected ? undefined : p.id}
               onChange={onChange}
-              label={p.name}
+              label={label}
               count={count}
               logoId={p.id}
+              ariaLabel={t("providerCount", { name: label, n: count })}
             />
           );
         })}
@@ -81,6 +85,7 @@ function ProviderChip({
   label,
   count,
   logoId,
+  ariaLabel,
 }: {
   selected: boolean;
   disabled?: boolean;
@@ -90,6 +95,7 @@ function ProviderChip({
   label: string;
   count?: number;
   logoId?: ProviderId;
+  ariaLabel?: string;
 }) {
   const inner = (
     <>
@@ -129,7 +135,7 @@ function ProviderChip({
       preload={false}
       search={compactSearch({ ...search, cat: search.cat, provider })}
       aria-current={selected ? "page" : undefined}
-      aria-label={typeof count === "number" ? `${label}，${count} 個計劃` : label}
+      aria-label={ariaLabel ?? label}
       className={cn(chipClass(selected), "gap-2 px-3")}
     >
       {inner}

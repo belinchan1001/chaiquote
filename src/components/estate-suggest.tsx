@@ -7,6 +7,7 @@ import {
   searchAddresses,
   type AddressHit,
 } from "@/lib/address-search";
+import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export function EstateSuggest({
@@ -14,7 +15,7 @@ export function EstateSuggest({
   value,
   onChange,
   onSelect,
-  placeholder = "輸入屋苑、大廈或街道名稱…",
+  placeholder,
   name,
 }: {
   id: string;
@@ -32,6 +33,7 @@ export function EstateSuggest({
   const [loading, setLoading] = useState(false);
   const local = localAddressHits(value, 6);
   const results = value.trim().length >= 2 && remote.length ? remote : local;
+  const { t } = useI18n();
 
   useEffect(() => {
     setActive(0);
@@ -110,7 +112,7 @@ export function EstateSuggest({
         aria-controls={listId}
         aria-autocomplete="list"
         value={value}
-        placeholder={placeholder}
+        placeholder={placeholder ?? t("estatePlaceholder")}
         onChange={(e) => {
           onChange(e.target.value);
           setOpen(true);
@@ -138,17 +140,17 @@ export function EstateSuggest({
                   onClick={() => pick(hit)}
                 >
                   <span className="font-medium">{hit.name}</span>
-                  <span className="text-xs text-muted">{addressHitLabel(hit) || "香港"}</span>
+                  <span className="text-xs text-muted">{addressHitLabel(hit) || t("hk")}</span>
                 </button>
               </li>
             ))
           ) : (
             <li className="px-3 py-3 text-sm text-muted">
-              {loading ? "搜緊全港地址…" : "搵唔到完全相同嘅地址，可以直接用你輸入嘅名稱。"}
+              {loading ? t("searchingAddr") : t("noExactAddr")}
             </li>
           )}
           {loading && results.length ? (
-            <li className="px-3 py-2 text-xs text-subtle">正在補齊全港街道／大廈…</li>
+            <li className="px-3 py-2 text-xs text-subtle">{t("fillingAddr")}</li>
           ) : null}
         </ul>
       ) : null}

@@ -7,6 +7,7 @@ import { CompareBar } from "@/components/compare-bar";
 import { NavProgress } from "@/components/nav-progress";
 import { DeferredWhatsApp } from "@/components/whatsapp-widget";
 import { FirstVisitTour } from "@/components/first-visit-tour";
+import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SITE } from "@/lib/site";
 import appCss from "../styles.css?url";
 
@@ -32,14 +33,27 @@ export const Route = createRootRoute({
 });
 
 function NotFound() {
+  const { t } = useI18n();
   return (
     <div className="mx-auto max-w-lg px-4 py-20 text-center">
-      <h1 className="text-title font-semibold">搵唔到呢頁</h1>
-      <p className="mt-3 text-muted">呢個計劃或者教學可能已經唔喺度。</p>
+      <h1 className="text-title font-semibold">{t("notFound")}</h1>
+      <p className="mt-3 text-muted">{t("notFoundLead")}</p>
       <Link to="/" className="mt-6 inline-flex h-11 items-center rounded-md bg-primary px-5 text-sm font-medium text-primary-foreground">
-        返去首頁
+        {t("backHome")}
       </Link>
     </div>
+  );
+}
+
+function SkipLink() {
+  const { t } = useI18n();
+  return (
+    <a
+      href="#main"
+      className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
+    >
+      {t("skipMain")}
+    </a>
   );
 }
 
@@ -50,26 +64,23 @@ function RootLayout() {
         <HeadContent />
       </head>
       <body className="min-h-dvh bg-bg text-fg">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
-        >
-          跳去正文
-        </a>
         <PreviewHostBridge />
         <NavProgress />
-        <AuthProvider>
-          <div className="flex min-h-dvh flex-col">
-            <SiteHeader />
-            <main id="main" className="flex-1">
-              <Outlet />
-            </main>
-            <SiteFooter />
-          </div>
-          <CompareBar />
-          <DeferredWhatsApp />
-          <FirstVisitTour />
-        </AuthProvider>
+        <I18nProvider>
+          <AuthProvider>
+            <SkipLink />
+            <div className="flex min-h-dvh flex-col">
+              <SiteHeader />
+              <main id="main" className="flex-1">
+                <Outlet />
+              </main>
+              <SiteFooter />
+            </div>
+            <CompareBar />
+            <DeferredWhatsApp />
+            <FirstVisitTour />
+          </AuthProvider>
+        </I18nProvider>
         <Scripts />
       </body>
     </html>

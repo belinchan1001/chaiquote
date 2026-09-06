@@ -9,10 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
+import { useI18n, usePageTitle } from "@/lib/i18n";
 import {
-  CATEGORY_LABEL,
-  HOUSING_LABEL,
-  PROVIDERS,
   filterPlans,
   type Category,
   type Generation,
@@ -29,8 +27,23 @@ import {
   SPEED_OPTIONS,
   SITE,
 } from "@/lib/site";
+import type { MessageKey } from "@/lib/messages";
 
 const PAGE_SIZE = 12;
+
+const CAT_KEYS: Record<Category, MessageKey> = {
+  broadband: "catBroadband",
+  mobile: "catMobile",
+  home5g: "catHome5gLong",
+  business: "catBusiness",
+};
+
+const HOUSING_KEYS: Record<Housing, MessageKey> = {
+  public: "housingPublic",
+  hos: "housingHos",
+  private: "housingPrivate",
+  village: "housingVillage",
+};
 
 export const Route = createFileRoute("/plans")({
   validateSearch: (search: Record<string, unknown>) => parsePlansSearch(search),
@@ -67,6 +80,8 @@ function PlansPage() {
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [estateDraft, setEstateDraft] = useState(search.estate ?? "");
   const [qDraft, setQDraft] = useState(search.q ?? "");
+  const { t, providerName, categoryLabel, housingLabel } = useI18n();
+  usePageTitle(`${t("filterPlans")} · ${SITE.name}`);
 
   useEffect(() => {
     setVisible(PAGE_SIZE);
@@ -133,7 +148,7 @@ function PlansPage() {
 
   const active: { key: string; label: string; search: PlansSearch }[] = [];
   if (search.housing) {
-    active.push({ key: "housing", label: HOUSING_LABEL[search.housing], search: { ...search, housing: undefined } });
+    active.push({ key: "housing", label: housingLabel(search.housing), search: { ...search, housing: undefined } });
   }
   if (search.speed) {
     active.push({ key: "speed", label: `${search.speed}M`, search: { ...search, speed: undefined } });
@@ -141,34 +156,34 @@ function PlansPage() {
   if (search.generation) {
     active.push({
       key: "gen",
-      label: search.generation === "5g" ? "5G" : "4G／4.5G",
+      label: search.generation === "5g" ? t("gen5") : t("gen45"),
       search: { ...search, generation: undefined },
     });
   }
-  if (search.gba) active.push({ key: "gba", label: "大灣區數據", search: { ...search, gba: undefined } });
-  if (search.portIn) active.push({ key: "port", label: "轉台優惠", search: { ...search, portIn: undefined } });
+  if (search.gba) active.push({ key: "gba", label: t("gba"), search: { ...search, gba: undefined } });
+  if (search.portIn) active.push({ key: "port", label: t("portIn"), search: { ...search, portIn: undefined } });
   if (search.maxFee) {
-    active.push({ key: "fee", label: `$${search.maxFee} 以下`, search: { ...search, maxFee: undefined } });
+    active.push({ key: "fee", label: t("budgetUnder", { n: search.maxFee }), search: { ...search, maxFee: undefined } });
   }
   if (search.provider) {
     active.push({
       key: "prov",
-      label: PROVIDERS.find((p) => p.id === search.provider)?.name ?? "",
+      label: providerName(search.provider),
       search: { ...search, provider: undefined },
     });
   }
-  if (search.saved) active.push({ key: "saved", label: "淨係睇收藏", search: { ...search, saved: undefined } });
+  if (search.saved) active.push({ key: "saved", label: t("savedOnly"), search: { ...search, saved: undefined } });
   if (search.estate) active.push({ key: "estate", label: search.estate, search: { ...search, estate: undefined } });
 
   const shown = rows.slice(0, visible);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <p className="text-xs font-medium tracking-wider text-accent">篩選計劃</p>
+      <p className="text-xs font-medium tracking-wider text-accent">{t("filterPlans")}</p>
       <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <h1 className="text-title font-semibold">{CATEGORY_LABEL[search.cat]}</h1>
+        <h1 className="text-title font-semibold">{categoryLabel(search.cat)}</h1>
         <p className="text-sm text-muted" aria-live="polite">
-          搵到 {rows.length} 個計劃
+          {t("foundPlans", { n: rows.length })}
         </p>
       </div>
 
@@ -185,25 +200,25 @@ function PlansPage() {
             search={resetSearch}
             className="inline-flex h-11 items-center px-3 text-sm text-muted underline-offset-4 hover:underline"
           >
-            清晒
+            {t("clearAll")}
           </Link>
         </div>
       ) : null}
 
       {search.housing === "village" && search.cat === "broadband" ? (
         <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
-          村屋光纖主要由香港寬頻、HGC 及網上行提供；一般公屋／居屋／私樓計劃唔適用。實際覆蓋須核對門牌。尚未有光纖可睇{" "}
+          {t("villageNote")}{" "}
           <Link to="/plans" search={{ cat: "home5g", housing: "village" }} className="text-accent underline">
-            5G 家居寬頻
+            {t("villageNoteLink")}
           </Link>
-          。
+          {t("villageNoteEnd")}
         </p>
       ) : null}
 
       <div className="mt-6 space-y-4 rounded-xl bg-card p-4 shadow-[var(--shadow-border)] sm:p-5">
         <div className="space-y-2">
           <label htmlFor="plans-estate" className="text-xs font-medium tracking-wider text-muted">
-            屋苑、大廈或街道
+            {t("estateLabel")}
           </label>
           <EstateSuggest
             id="plans-estate"
@@ -238,12 +253,12 @@ function PlansPage() {
                 });
               }}
             >
-              自動篩選計劃
+              {t("autoFilter")}
             </Button>
           ) : null}
         </div>
         <fieldset>
-          <legend className="text-xs font-medium tracking-wider text-muted">計劃類型</legend>
+          <legend className="text-xs font-medium tracking-wider text-muted">{t("planType")}</legend>
           <div className="mt-2 flex flex-wrap gap-2">
             {CATEGORY_OPTIONS.map((option) => (
               <FilterLink
@@ -251,7 +266,7 @@ function PlansPage() {
                 selected={search.cat === option.id}
                 search={catPatch(search, option.id as Category)}
               >
-                {option.label}
+                {t(CAT_KEYS[option.id as Category])}
               </FilterLink>
             ))}
           </div>
@@ -259,10 +274,10 @@ function PlansPage() {
 
         {showHousing ? (
           <fieldset>
-            <legend className="text-xs font-medium tracking-wider text-muted">屋苑種類</legend>
+            <legend className="text-xs font-medium tracking-wider text-muted">{t("housingKind")}</legend>
             <div className="mt-2 flex flex-wrap gap-2">
               <FilterLink selected={!search.housing} search={{ ...search, housing: undefined }}>
-                唔限
+                {t("any")}
               </FilterLink>
               {HOUSING_OPTIONS.map((option) => (
                 <FilterLink
@@ -270,7 +285,7 @@ function PlansPage() {
                   selected={search.housing === option.id}
                   search={{ ...search, housing: option.id as Housing }}
                 >
-                  {option.label}
+                  {t(HOUSING_KEYS[option.id])}
                 </FilterLink>
               ))}
             </div>
@@ -279,10 +294,10 @@ function PlansPage() {
 
         {showSpeed ? (
           <fieldset>
-            <legend className="text-xs font-medium tracking-wider text-muted">網絡速度</legend>
+            <legend className="text-xs font-medium tracking-wider text-muted">{t("netSpeed")}</legend>
             <div className="mt-2 flex flex-wrap gap-2">
               <FilterLink selected={!search.speed} search={{ ...search, speed: undefined }}>
-                唔限
+                {t("any")}
               </FilterLink>
               {SPEED_OPTIONS.map((option) => (
                 <FilterLink
@@ -299,10 +314,10 @@ function PlansPage() {
 
         {showMobile ? (
           <fieldset>
-            <legend className="text-xs font-medium tracking-wider text-muted">手機網絡</legend>
+            <legend className="text-xs font-medium tracking-wider text-muted">{t("mobileNet")}</legend>
             <div className="mt-2 flex flex-wrap gap-2">
               <FilterLink selected={!search.generation} search={{ ...search, generation: undefined }}>
-                唔限網絡
+                {t("anyNetwork")}
               </FilterLink>
               {GENERATION_OPTIONS.map((option) => (
                 <FilterLink
@@ -310,17 +325,17 @@ function PlansPage() {
                   selected={search.generation === option.id}
                   search={{ ...search, generation: option.id as Generation }}
                 >
-                  {option.label}
+                  {option.id === "5g" ? t("gen5") : t("gen45")}
                 </FilterLink>
               ))}
               <FilterLink selected={!!search.gba} search={{ ...search, gba: search.gba ? undefined : true }}>
-                大灣區數據
+                {t("gba")}
               </FilterLink>
               <FilterLink
                 selected={!!search.portIn}
                 search={{ ...search, portIn: search.portIn ? undefined : true }}
               >
-                轉台優惠
+                {t("portIn")}
               </FilterLink>
             </div>
           </fieldset>
@@ -330,26 +345,26 @@ function PlansPage() {
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <label className="block text-xs text-muted">
-            排法
+            {t("sort")}
             <Select
               className="mt-1"
               value={search.sort ?? "fee"}
               onChange={(e) => patch({ sort: e.target.value as PlansSearch["sort"] })}
             >
-              <option value="fee">月費由低至高</option>
-              <option value="avg">均價由低至高</option>
-              {search.cat !== "mobile" ? <option value="speed">速度由高至低</option> : null}
+              <option value="fee">{t("sortFee")}</option>
+              <option value="avg">{t("sortAvg")}</option>
+              {search.cat !== "mobile" ? <option value="speed">{t("sortSpeed")}</option> : null}
               {search.cat === "mobile" || search.cat === "home5g" ? (
-                <option value="data">數據由高至低</option>
+                <option value="data">{t("sortData")}</option>
               ) : null}
             </Select>
           </label>
           <label className="block text-xs text-muted">
-            搜計劃
+            {t("searchPlan")}
             <Input
               className="mt-1"
               value={qDraft}
-              placeholder="公司名、計劃名"
+              placeholder={t("searchPlanPh")}
               onChange={(e) => setQDraft(e.target.value)}
             />
           </label>
@@ -363,7 +378,7 @@ function PlansPage() {
                   : "inline-flex h-11 flex-1 items-center justify-center rounded-md border border-border bg-card px-4 text-sm font-medium"
               }
             >
-              {search.saved ? "而家淨睇收藏" : "淨係睇收藏"}
+              {search.saved ? t("savedNow") : t("savedOnly")}
             </Link>
           </div>
         </div>
@@ -371,14 +386,14 @@ function PlansPage() {
 
       {rows.length === 0 ? (
         <div className="mt-10 rounded-xl bg-card px-6 py-16 text-center shadow-[var(--shadow-border)]">
-          <p className="font-medium">冇啱嘅計劃</p>
-          <p className="mt-2 text-sm text-muted">試下放寬屋苑、網速，或者取消大灣區／收藏。</p>
+          <p className="font-medium">{t("emptyPlans")}</p>
+          <p className="mt-2 text-sm text-muted">{t("emptyPlansLead")}</p>
           <Link
             to="/plans"
             search={resetSearch}
             className="mt-6 inline-flex h-11 items-center rounded-md border border-border px-4 text-sm font-medium"
           >
-            重新篩
+            {t("resetFilter")}
           </Link>
         </div>
       ) : (
@@ -391,7 +406,7 @@ function PlansPage() {
           {visible < rows.length ? (
             <div className="mt-6 flex justify-center">
               <Button type="button" variant="outline" onClick={() => setVisible((n) => n + PAGE_SIZE)}>
-                再睇 {Math.min(PAGE_SIZE, rows.length - visible)} 個
+                {t("loadMoreN", { n: Math.min(PAGE_SIZE, rows.length - visible) })}
               </Button>
             </div>
           ) : null}

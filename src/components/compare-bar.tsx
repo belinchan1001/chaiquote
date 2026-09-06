@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
+import { useI18n } from "@/lib/i18n";
 import { formatFee, getPlan } from "@/lib/plans";
 
 export function CompareBar() {
@@ -11,6 +12,7 @@ export function CompareBar() {
   const removeCompare = useDesk((s) => s.removeCompare);
   const clearCompare = useDesk((s) => s.clearCompare);
   const clearNotice = useDesk((s) => s.clearNotice);
+  const { t, tx } = useI18n();
 
   if (!ready || (compare.length === 0 && !notice)) return null;
 
@@ -29,12 +31,12 @@ export function CompareBar() {
                 className="inline-flex items-center gap-2 rounded-full bg-surface px-3 py-2 text-sm"
               >
                 <span className="max-w-40 truncate">
-                  {plan.name}
+                  {tx(plan.name)}
                   <span className="ml-2 font-display tabular-nums">{formatFee(plan.monthlyFee)}</span>
                 </span>
                 <button
                   type="button"
-                  aria-label={`移出比較：${plan.name}`}
+                  aria-label={t("removeCompare", { name: tx(plan.name) })}
                   onClick={() => removeCompare(id)}
                   className="relative size-6 after:absolute after:inset-1/2 after:size-10 after:-translate-x-1/2 after:-translate-y-1/2"
                 >
@@ -45,19 +47,19 @@ export function CompareBar() {
           })}
           {notice ? (
             <p className="text-sm text-accent">
-              {notice}{" "}
+              {t("compareMax")}{" "}
               <button type="button" className="underline" onClick={clearNotice}>
-                知道
+                {t("compareBarKnow")}
               </button>
             </p>
           ) : null}
         </div>
         <div className="flex gap-2">
           <Button variant="ghost" size="sm" onClick={clearCompare}>
-            清空
+            {t("compareClear")}
           </Button>
           <Button asChild size="sm">
-            <Link to="/compare">比較月費 {compare.length}／3</Link>
+            <Link to="/compare">{t("compareCount", { n: compare.length })}</Link>
           </Button>
         </div>
       </div>

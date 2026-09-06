@@ -2,33 +2,24 @@ import { useEffect, useId, useState } from "react";
 import { MapPin, MessageCircle, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { useI18n } from "@/lib/i18n";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import type { MessageKey } from "@/lib/messages";
 
 const TOUR_KEY = "chaiquote-tour-done";
 
 const STEPS = [
-  {
-    title: "第一步：講你住邊",
-    text: "輸入屋苑、大廈或街道。系統會判斷公屋、居屋、私人樓或村屋，再撳「自動篩選計劃」，就只睇啱你地址嘅月費。",
-    icon: MapPin,
-  },
-  {
-    title: "第二步：篩選同比較",
-    text: "可以再揀網速、電訊商同預算。最多同時比較 3 個計劃，月費、合約同禮遇一次過睇晒。",
-    icon: SlidersHorizontal,
-  },
-  {
-    title: "即刻問？撳 WhatsApp",
-    text: `右下角綠色掣可以直接 WhatsApp ${SITE.phoneDisplay}。篩過地址再問，訊息會自動帶你嘅申請地址。`,
-    icon: MessageCircle,
-  },
-] as const;
+  { title: "tour1Title", text: "tour1Text", icon: MapPin },
+  { title: "tour2Title", text: "tour2Text", icon: SlidersHorizontal },
+  { title: "tour3Title", text: "tour3Text", icon: MessageCircle },
+] as const satisfies { title: MessageKey; text: MessageKey; icon: typeof MapPin }[];
 
 export function FirstVisitTour() {
   const titleId = useId();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
+  const { t } = useI18n();
 
   useEffect(() => {
     try {
@@ -69,7 +60,7 @@ export function FirstVisitTour() {
       <button
         type="button"
         className="absolute inset-0 bg-fg/45"
-        aria-label="略過教學"
+        aria-label={t("tourSkip")}
         onClick={finish}
       />
       {last ? (
@@ -85,15 +76,17 @@ export function FirstVisitTour() {
         className="relative m-4 w-full max-w-md rounded-2xl bg-card p-5 shadow-[var(--shadow-border-hover)] sm:p-6"
       >
         <p className="text-xs font-medium tracking-wider text-muted">
-          快速教學 {step + 1}／{STEPS.length}
+          {t("tourStep", { n: step + 1, total: STEPS.length })}
         </p>
         <div className="mt-4 flex size-11 items-center justify-center rounded-full bg-surface text-primary">
           {last ? <WhatsAppIcon className="size-5" /> : <Icon className="size-5" aria-hidden />}
         </div>
         <h2 id={titleId} className="mt-4 text-lg font-semibold">
-          {current.title}
+          {t(current.title)}
         </h2>
-        <p className="mt-2 text-sm leading-relaxed text-muted">{current.text}</p>
+        <p className="mt-2 text-sm leading-relaxed text-muted">
+          {t(current.text, { phone: SITE.phoneDisplay })}
+        </p>
         <div className="mt-4 flex gap-1.5" aria-hidden>
           {STEPS.map((item, i) => (
             <span
@@ -105,15 +98,15 @@ export function FirstVisitTour() {
         <div className="mt-5 flex flex-wrap gap-2">
           {last ? (
             <Button type="button" className="flex-1" onClick={finish}>
-              開始比較
+              {t("tourDone")}
             </Button>
           ) : (
             <Button type="button" className="flex-1" onClick={() => setStep((n) => n + 1)}>
-              下一頁
+              {t("tourNext")}
             </Button>
           )}
           <Button type="button" variant="ghost" onClick={finish}>
-            略過
+            {t("tourSkip")}
           </Button>
         </div>
       </div>
