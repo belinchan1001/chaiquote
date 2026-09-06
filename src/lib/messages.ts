@@ -193,6 +193,7 @@ export const MESSAGES = {
       "本網站所列之所有月費計劃、禮券優惠及安裝條款僅供參考，實際收費及服務細則受相關電訊供應商之最新合約條款約束。",
     disclaimer2:
       "本平台將盡力維持資料之準確性，惟各營運商之優惠可能隨時調整，最終價格以用戶與電訊商簽署之合約為準。",
+    disclaimer3: "各電訊商名稱及標誌為其商標，僅供識別所比較之計劃。",
     sort: "點排",
     sortFee: "月費由低至高",
     sortAvg: "均價由低至高",
@@ -480,6 +481,7 @@ export const MESSAGES = {
       "All monthly fees, gifts and installation terms on this site are for reference only. Actual charges follow the carrier’s latest contract.",
     disclaimer2:
       "We keep information as current as we can. Offers can change. The signed contract is final.",
+    disclaimer3: "Carrier names and logos are trademarks of their owners, used here only to identify the plans being compared.",
     sort: "Sort",
     sortFee: "Fee: low to high",
     sortAvg: "Average fee: low to high",
