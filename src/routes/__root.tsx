@@ -19,8 +19,10 @@ export const Route = createRootRoute({
       { title: `${SITE.name} · ${SITE.tagline}` },
       { name: "description", content: SITE.description },
       { name: "theme-color", content: "#1557C4" },
+      { name: "robots", content: "index,follow" },
     ],
     links: [
+      { rel: "canonical", href: `${SITE.url}/` },
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32.png" },
       { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
