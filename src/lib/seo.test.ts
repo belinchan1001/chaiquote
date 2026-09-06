@@ -5,7 +5,11 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { SITE } from "./site.ts";
 import {
+  canonicalRedirectLocation,
+  canonicalUrl,
+  canonicalUrlFromMatches,
   DEFAULT_SEO_ORIGIN,
+  isLegacyProductionHost,
   renderRobotsTxt,
   renderSitemapXml,
   runtimeSeoOrigin,
@@ -44,6 +48,54 @@ describe("runtimeSeoOrigin", () => {
       if (prev === undefined) delete process.env.SEO_ORIGIN;
       else process.env.SEO_ORIGIN = prev;
     }
+  });
+});
+
+describe("canonicalUrl", () => {
+  it("maps each path to its own www.chaiquote.hk URL", () => {
+    assert.equal(canonicalUrl("/"), "https://www.chaiquote.hk/");
+    assert.equal(canonicalUrl("/privacy"), "https://www.chaiquote.hk/privacy");
+    assert.equal(canonicalUrl("/about"), "https://www.chaiquote.hk/about");
+    assert.equal(canonicalUrl("/plans"), "https://www.chaiquote.hk/plans");
+    assert.equal(canonicalUrl("/plans/"), "https://www.chaiquote.hk/plans");
+    assert.equal(canonicalUrl("guides/village"), "https://www.chaiquote.hk/guides/village");
+    assert.equal(
+      canonicalUrlFromMatches([{ pathname: "/" }, { pathname: "/privacy" }]),
+      "https://www.chaiquote.hk/privacy",
+    );
+    assert.doesNotMatch(canonicalUrl("/privacy"), /\/$/);
+    assert.doesNotMatch(canonicalUrl("/about"), /chaiquote\.vercel\.app/);
+    assert.equal(canonicalUrlFromMatches([]), "https://www.chaiquote.hk/");
+  });
+});
+
+describe("canonicalRedirectLocation", () => {
+  it("301s only the production vercel.app alias, with path and query", () => {
+    assert.equal(isLegacyProductionHost("chaiquote.vercel.app"), true);
+    assert.equal(isLegacyProductionHost("www.chaiquote.vercel.app"), true);
+    assert.equal(isLegacyProductionHost("chaiquote.vercel.app:443"), true);
+    assert.equal(
+      canonicalRedirectLocation(new URL("https://chaiquote.vercel.app/privacy")),
+      "https://www.chaiquote.hk/privacy",
+    );
+    assert.equal(
+      canonicalRedirectLocation(
+        new URL("https://example.test/plans?cat=broadband"),
+        "chaiquote.vercel.app",
+      ),
+      "https://www.chaiquote.hk/plans?cat=broadband",
+    );
+  });
+
+  it("leaves preview *.vercel.app, localhost, and the official host alone", () => {
+    assert.equal(isLegacyProductionHost("chaiquote-git-foo-songbill.vercel.app"), false);
+    assert.equal(isLegacyProductionHost("www.chaiquote.hk"), false);
+    assert.equal(isLegacyProductionHost("localhost:8080"), false);
+    assert.equal(
+      canonicalRedirectLocation(new URL("https://chaiquote-git-foo.vercel.app/privacy")),
+      null,
+    );
+    assert.equal(canonicalRedirectLocation(new URL("https://www.chaiquote.hk/privacy")), null);
   });
 });
 

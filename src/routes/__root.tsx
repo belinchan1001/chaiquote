@@ -9,28 +9,32 @@ import { DeferredWhatsApp } from "@/components/whatsapp-widget";
 import { FirstVisitTour } from "@/components/first-visit-tour";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SITE } from "@/lib/site";
+import { canonicalUrlFromMatches } from "@/lib/seo";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: `${SITE.name} · ${SITE.tagline}` },
-      { name: "description", content: SITE.description },
-      { name: "theme-color", content: "#1557C4" },
-      { name: "robots", content: "index,follow" },
-      { property: "og:url", content: `${SITE.url}/` },
-    ],
-    links: [
-      { rel: "canonical", href: `${SITE.url}/` },
-      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
-      { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32.png" },
-      { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
-      { rel: "stylesheet", href: appCss },
-      { rel: "manifest", href: "/__grok/manifest.webmanifest" },
-    ],
-  }),
+  head: ({ matches }) => {
+    const pageUrl = canonicalUrlFromMatches(matches);
+    return {
+      meta: [
+        { charSet: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { title: `${SITE.name} · ${SITE.tagline}` },
+        { name: "description", content: SITE.description },
+        { name: "theme-color", content: "#1557C4" },
+        { name: "robots", content: "index,follow" },
+        { property: "og:url", content: pageUrl },
+      ],
+      links: [
+        { rel: "canonical", href: pageUrl },
+        { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+        { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32.png" },
+        { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+        { rel: "stylesheet", href: appCss },
+        { rel: "manifest", href: "/__grok/manifest.webmanifest" },
+      ],
+    };
+  },
   notFoundComponent: NotFound,
   component: RootLayout,
 });
