@@ -2,8 +2,8 @@ import { PROVIDER_MAP, type ProviderId } from "@/lib/plans";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
-const LOGO: Record<ProviderId, { src: string; fill?: boolean; wide?: boolean }> = {
-  hkbn: { src: "/images/providers/hkbn.png", wide: true },
+const LOGO: Record<ProviderId, { src: string; fill?: boolean }> = {
+  hkbn: { src: "/images/providers/hkbn.png" },
   netvigator: { src: "/images/providers/netvigator.png" },
   cmhk: { src: "/images/providers/cmhk.png" },
   hgc: { src: "/images/providers/hgc.png", fill: true },
@@ -26,9 +26,9 @@ export function ProviderLogo({
     <span
       className={cn(
         "inline-flex shrink-0 items-center justify-center overflow-hidden rounded-md bg-card shadow-[var(--shadow-border)]",
-        size === "sm" && (logo.wide ? "h-7 w-12" : "size-7"),
-        size === "md" && (logo.wide ? "h-10 w-[4.75rem]" : "size-10"),
-        size === "lg" && (logo.wide ? "h-12 w-[5.75rem]" : "size-12"),
+        size === "sm" && "size-7",
+        size === "md" && "size-10",
+        size === "lg" && "size-12",
         !logo.fill && size === "sm" && "p-0.5",
         !logo.fill && size !== "sm" && "p-1",
       )}
@@ -36,7 +36,7 @@ export function ProviderLogo({
       <img
         src={logo.src}
         alt=""
-        width={logo.wide ? 76 : 48}
+        width={48}
         height={48}
         className={cn("size-full", logo.fill ? "object-cover" : "object-contain")}
         loading="lazy"
