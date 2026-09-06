@@ -8,6 +8,33 @@
  */
 export const DEFAULT_SEO_ORIGIN = "https://www.chaiquote.hk";
 
+/** Production Vercel aliases only — never *.vercel.app preview hosts. */
+export const LEGACY_PRODUCTION_HOSTS = [
+  "chaiquote.vercel.app",
+  "www.chaiquote.vercel.app",
+] as const;
+
+export function requestHostname(hostHeader: string | null | undefined): string {
+  return String(hostHeader ?? "")
+    .split(",")[0]
+    .trim()
+    .split(":")[0]
+    .toLowerCase();
+}
+
+export function isLegacyProductionHost(hostHeader: string | null | undefined): boolean {
+  return (LEGACY_PRODUCTION_HOSTS as readonly string[]).includes(requestHostname(hostHeader));
+}
+
+/** 301 Location for the official www host, or null when this request should stay. */
+export function canonicalRedirectLocation(
+  requestUrl: URL,
+  hostHeader?: string | null,
+): string | null {
+  if (!isLegacyProductionHost(hostHeader ?? requestUrl.host)) return null;
+  return `${DEFAULT_SEO_ORIGIN}${requestUrl.pathname}${requestUrl.search}`;
+}
+
 export function seoOrigin(origin: string = DEFAULT_SEO_ORIGIN): string {
   const host = origin.replace(/\/+$/, "");
   if (host === "https://chaiquote.hk" || host === "http://chaiquote.hk") {
