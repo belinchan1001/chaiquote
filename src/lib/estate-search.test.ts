@@ -11,6 +11,7 @@ import {
   isCatalogueParent,
   isImpracticalPlace,
   isRelatedBlock,
+  shouldDropAsNoise,
   matchKnownEstate,
   relatedBlocks,
   searchEstates,
@@ -435,6 +436,48 @@ describe("locked copy", () => {
   });
 });
 
+describe("locked noise acceptance", () => {
+  it("1) drop XX公廁 / 的士站 / standalone 管理處 (WhatsApp tip, no housing)", () => {
+    for (const name of ["東頭村公廁", "東頭邨公廁", "XX公廁", "的士站", "管理處"]) {
+      assert.equal(isImpracticalPlace(name), true, name);
+      assert.equal(classifyAddress(name).housing, undefined, name);
+      assert.equal(classifyAddress(name).confidence, "none", name);
+    }
+    assert.equal(isImpracticalPlace("東頭邨管理處"), true);
+    assert.equal(classifyAddress("東頭邨管理處").housing, undefined);
+  });
+
+  it("2) keep a normal estate hit; 管理處 inside a longer official name is not a false positive", () => {
+    assert.equal(isImpracticalPlace("東頭邨"), false);
+    assert.equal(isImpracticalPlace("康東樓"), false);
+    assert.equal(isImpracticalPlace("彩明苑"), false);
+    assert.equal(searchEstates("東頭邨", 24)[0]?.name, "東頭邨");
+    assert.equal(classifyAddress("東頭邨").housing, "public");
+    for (const item of ESTATES) {
+      assert.equal(isImpracticalPlace(item.name), false, item.name);
+    }
+    assert.equal(shouldDropAsNoise("金管理處華庭", "金管理處華庭"), false);
+    assert.equal(shouldDropAsNoise("金管理處華庭管理處", "金管理處華庭"), true);
+    assert.equal(shouldDropAsNoise("管理處", undefined), true);
+  });
+
+  it("3) village / estate anti-cross still required", () => {
+    assert.equal(classifyAddress("東頭村").housing, "village");
+    assert.equal(classifyAddress("東頭邨").housing, "public");
+    const villageHits = searchEstates("東頭村", 24);
+    assert.deepEqual(
+      villageHits.map((item) => item.name),
+      ["東頭村"],
+    );
+    assert.ok(!villageHits.some((hit) => hit.housing === "public"));
+    const estateHits = searchEstates("東頭邨", 24);
+    assert.equal(estateHits[0]?.name, "東頭邨");
+    assert.ok(estateHits.some((hit) => hit.name === "康東樓"));
+    assert.ok(!estateHits.some((hit) => hit.name === "東頭村"));
+    assert.ok(!estateHits.some((hit) => hit.housing === "village"));
+  });
+});
+
 describe("impractical address noise", () => {
   it("drops toilets, stops, plant rooms, and management offices", () => {
     for (const name of [
@@ -462,11 +505,6 @@ describe("impractical address noise", () => {
     for (const name of ["東頭邨", "東頭村", "康東樓", "美東樓", "彩明苑", "彩楊閣", "廟街"]) {
       assert.equal(isImpracticalPlace(name), false, name);
     }
-    for (const item of ESTATES) {
-      assert.equal(isImpracticalPlace(item.name), false, item.name);
-    }
     assert.equal(isImpracticalPlace("黃大仙廟"), true);
-    assert.equal(classifyAddress("東頭邨管理處").housing, undefined);
-    assert.equal(classifyAddress("東頭邨").housing, "public");
   });
 });

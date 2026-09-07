@@ -596,19 +596,46 @@ function longestNoiseToken(name: string): string | undefined {
   return [...FACILITY_NOISE, ...AMBIGUOUS_NOISE].find((token) => name.includes(token));
 }
 
+function isFacilityRemainder(rest: string): boolean {
+  const stripped = rest.replace(/[()（）[\]【】\-–—·.,，、\s近外]/g, "");
+  if (!stripped) return false;
+  return [...FACILITY_NOISE, ...AMBIGUOUS_NOISE].some(
+    (token) => stripped === compact(token) || stripped.endsWith(compact(token)),
+  );
+}
+
 /**
- * Drop toilets, stops, management offices, plant rooms, etc.
- * Keep catalogue estates/blocks (longest-match). When unsure, keep.
+ * Drop standalone / suffixed facilities (公廁、的士站、管理處).
+ * Keep a longer official name that only happens to contain 管理處.
+ * When the remainder is not a clean facility, keep.
  */
-export function isImpracticalPlace(name: string, _address = ""): boolean {
+export function shouldDropAsNoise(name: string, knownName?: string): boolean {
   const title = name.replace(/\s+/g, "").trim();
   if (!title) return false;
   const token = longestNoiseToken(title);
   if (!token) return false;
 
-  const known = matchKnownEstate(name, "");
-  if (known && compact(known.name) === compact(title)) return false;
-  if (known && /[樓閣]$/.test(title) && compact(title).startsWith(compact(known.name))) return false;
+  const titleKey = compact(title);
+  const knownKey = knownName ? compact(knownName) : "";
+
+  if (knownKey && titleKey === knownKey) return false;
+  if (knownKey && titleKey.startsWith(knownKey)) {
+    const rest = titleKey.slice(knownKey.length);
+    if (isFacilityRemainder(rest)) return true;
+    return false;
+  }
+  if (knownKey && titleKey.includes(knownKey) && knownKey.length >= 3) {
+    const rest = titleKey.replace(knownKey, "");
+    if (isFacilityRemainder(rest)) return true;
+    return false;
+  }
+
   if (AMBIGUOUS_NOISE.includes(token) && !title.endsWith(token)) return false;
   return true;
+}
+
+/** Catalogue longest-match, then {@link shouldDropAsNoise}. */
+export function isImpracticalPlace(name: string, _address = ""): boolean {
+  const known = matchKnownEstate(name, "");
+  return shouldDropAsNoise(name, known?.name);
 }
