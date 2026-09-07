@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useId, useState } from "react";
-import { Smartphone, X } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { PWA, isStandaloneDisplay, pwaInstallPlatform, pwaInstallTip } from "@/lib/pwa";
@@ -11,7 +11,6 @@ type BeforeInstallPromptEvent = Event & {
 };
 
 export function PwaInstallTip() {
-  const titleId = useId();
   const [visible, setVisible] = useState(false);
   const [platform, setPlatform] = useState<ReturnType<typeof pwaInstallPlatform>>("other");
   const [installEvent, setInstallEvent] = useState<BeforeInstallPromptEvent | null>(null);
@@ -98,24 +97,18 @@ export function PwaInstallTip() {
   return (
     <aside
       role="region"
-      aria-labelledby={titleId}
+      aria-label="加到主畫面"
       className={cn(
-        "fixed left-4 z-30 w-[min(22rem,calc(100vw-5.5rem))] rounded-xl bg-card p-4 shadow-[var(--shadow-border-hover)] transition-[bottom] duration-200 ease-out",
+        "fixed left-4 z-30 w-[min(20rem,calc(100vw-5.5rem))] rounded-xl bg-card px-3.5 py-3 shadow-[var(--shadow-border-hover)] transition-[bottom] duration-200 ease-out",
         lifted ? "bottom-36 sm:bottom-32" : "bottom-6",
       )}
     >
-      <div className="flex items-start gap-3">
-        <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-full bg-surface text-primary">
-          <Smartphone className="size-4" aria-hidden />
-        </span>
+      <div className="flex items-start gap-2">
         <div className="min-w-0 flex-1">
-          <p id={titleId} className="text-sm font-medium">
-            加到主畫面
-          </p>
-          <p className="mt-1 text-sm leading-relaxed text-muted">{pwaInstallTip(platform)}</p>
-          <p className="mt-2 text-xs leading-relaxed text-subtle">{PWA.disclaimer}</p>
+          <p className="text-sm leading-relaxed">{pwaInstallTip(platform)}</p>
+          <p className="mt-1.5 text-[11px] leading-relaxed text-subtle">{PWA.disclaimer}</p>
           {installEvent ? (
-            <Button type="button" size="sm" className="mt-3" onClick={() => void install()}>
+            <Button type="button" size="sm" className="mt-2.5" onClick={() => void install()}>
               加到主畫面
             </Button>
           ) : null}
@@ -123,7 +116,7 @@ export function PwaInstallTip() {
         <button
           type="button"
           aria-label="關閉"
-          className="relative -mr-1 -mt-1 flex size-8 shrink-0 items-center justify-center text-muted after:absolute after:inset-1/2 after:size-11 after:-translate-x-1/2 after:-translate-y-1/2"
+          className="relative -mr-1 -mt-0.5 flex size-7 shrink-0 items-center justify-center text-muted after:absolute after:inset-1/2 after:size-11 after:-translate-x-1/2 after:-translate-y-1/2"
           onClick={dismiss}
         >
           <X className="size-4" />
