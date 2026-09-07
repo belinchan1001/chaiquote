@@ -528,6 +528,7 @@ export function guessHousing(name: string, address = ""): Housing | undefined {
 export function classifyAddress(query: string): HousingGuess {
   const q = query.trim();
   if (q.length < 2) return { confidence: "none" };
+  if (isImpracticalPlace(q)) return { confidence: "none" };
   const known = matchKnownEstate(q, "");
   if (known) return { housing: known.housing, confidence: "high" };
   if (isNonEstatePlace(q)) return { confidence: "none" };
@@ -549,4 +550,65 @@ export function allowGovHitForQuery(query: string, name: string, address = ""): 
   const known = matchKnownEstate(name, address);
   if (!known) return true;
   return known.housing === "village";
+}
+
+/** Longest first so「垃圾收集站」wins over「垃圾」-like fragments. */
+const FACILITY_NOISE = [
+  "停車場出入口",
+  "垃圾收集站",
+  "垃圾收集",
+  "公共洗手間",
+  "的士候車處",
+  "的士候車",
+  "的士站",
+  "專線小巴",
+  "小巴站",
+  "巴士站",
+  "電車站",
+  "港鐵站",
+  "智郵",
+  "郵政局",
+  "幼稚園",
+  "小學",
+  "中學",
+  "教堂",
+  "管理處",
+  "物管處",
+  "保安室",
+  "垃圾房",
+  "垃圾桶",
+  "垃圾站",
+  "泵房",
+  "變壓站",
+  "變壓器",
+  "變壓",
+  "電掣房",
+  "洗手間",
+  "公廁",
+  "總站",
+  "外面",
+].sort((a, b) => b.length - a.length);
+
+/** Short stems that appear inside real streets — only drop as a suffix. */
+const AMBIGUOUS_NOISE = ["公園", "廟"];
+
+function longestNoiseToken(name: string): string | undefined {
+  return [...FACILITY_NOISE, ...AMBIGUOUS_NOISE].find((token) => name.includes(token));
+}
+
+/**
+ * Drop toilets, stops, management offices, plant rooms, etc.
+ * Keep catalogue estates/blocks (longest-match). When unsure, keep.
+ */
+export function isImpracticalPlace(name: string, _address = ""): boolean {
+  const title = name.replace(/\s+/g, "").trim();
+  if (!title) return false;
+  const token = longestNoiseToken(title);
+  if (!token) return false;
+
+  const known = matchKnownEstate(name, "");
+  if (known && compact(known.name) === compact(title)) return false;
+  if (known && /[樓閣]$/.test(title) && compact(title).startsWith(compact(known.name))) return false;
+  if (AMBIGUOUS_NOISE.includes(token) && !title.endsWith(token)) return false;
+  return true;
 }

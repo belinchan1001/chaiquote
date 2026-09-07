@@ -9,6 +9,7 @@ import {
   ESTATES,
   estateLabel,
   isCatalogueParent,
+  isImpracticalPlace,
   isRelatedBlock,
   matchKnownEstate,
   relatedBlocks,
@@ -115,8 +116,10 @@ describe("locked acceptance checks", () => {
     assert.match(messages, /coverageCheck: "覆蓋需查核"/);
     assert.match(messages, /僅供參考/);
     assert.match(messages, /查核報價/);
+    assert.match(messages, /noisePlaceHint: "呢類地點多半唔適合申請，請 WhatsApp 查核報價"/);
     const suggest = readFileSync(join(ROOT, "src/components/estate-suggest.tsx"), "utf8");
     assert.match(suggest, /coverageCheck/);
+    assert.match(suggest, /noisePlaceHint/);
     const plans = readFileSync(join(ROOT, "src/routes/plans.tsx"), "utf8");
     assert.match(plans, /coverageCheck/);
     const pwa = readFileSync(join(ROOT, "src/lib/pwa.ts"), "utf8");
@@ -428,5 +431,42 @@ describe("locked copy", () => {
     assert.match(messages, /coverageCheck: "覆蓋需查核"/);
     assert.match(messages, /僅供參考/);
     assert.match(messages, /查核報價/);
+    assert.match(messages, /noisePlaceHint: "呢類地點多半唔適合申請，請 WhatsApp 查核報價"/);
+  });
+});
+
+describe("impractical address noise", () => {
+  it("drops toilets, stops, plant rooms, and management offices", () => {
+    for (const name of [
+      "東頭村公廁",
+      "賈炳達道公園 - 近東頭村道洗手間外",
+      "的士站",
+      "的士候車處",
+      "東頭邨管理處",
+      "彩明苑物管處",
+      "保安室",
+      "垃圾房",
+      "垃圾收集站",
+      "垃圾桶",
+      "泵房",
+      "變壓站",
+      "電掣房",
+      "停車場出入口",
+      "東頭邨巴士站",
+    ]) {
+      assert.equal(isImpracticalPlace(name), true, name);
+    }
+  });
+
+  it("keeps catalogue estates / blocks and does not over-drop 廟街", () => {
+    for (const name of ["東頭邨", "東頭村", "康東樓", "美東樓", "彩明苑", "彩楊閣", "廟街"]) {
+      assert.equal(isImpracticalPlace(name), false, name);
+    }
+    for (const item of ESTATES) {
+      assert.equal(isImpracticalPlace(item.name), false, item.name);
+    }
+    assert.equal(isImpracticalPlace("黃大仙廟"), true);
+    assert.equal(classifyAddress("東頭邨管理處").housing, undefined);
+    assert.equal(classifyAddress("東頭邨").housing, "public");
   });
 });

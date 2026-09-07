@@ -3,6 +3,7 @@ import {
   classifyAddress,
   compact,
   guessHousing,
+  isImpracticalPlace,
   matchKnownEstate,
   searchEstates,
   type Estate,
@@ -10,7 +11,7 @@ import {
 } from "@/lib/estates";
 import type { Housing } from "@/lib/plans";
 
-export { classifyAddress, matchKnownEstate };
+export { classifyAddress, isImpracticalPlace, matchKnownEstate };
 export type { HousingGuess };
 
 const GOV_SEARCH = "https://www.map.gov.hk/gs/api/v1.0.0/locationSearch";
@@ -18,9 +19,6 @@ const RESULT_CACHE = new Map<string, AddressHit[]>();
 /** Parent + a scrollable set of 樓／閣 children; keep a few gov rows after that. */
 export const LOCAL_SUGGEST_LIMIT = 24;
 const GOV_EXTRA = 8;
-
-const NOISE =
-  /巴士站|小巴站|專線小巴|智郵|郵政局|電車站|港鐵站|總站|外面|公園|小學|中學|幼稚園|教堂|廟/;
 
 export type AddressHit = {
   key: string;
@@ -58,7 +56,9 @@ function fromLocal(estate: Estate): AddressHit {
 }
 
 export function localAddressHits(query: string, limit = LOCAL_SUGGEST_LIMIT): AddressHit[] {
-  return searchEstates(query, limit).map(fromLocal);
+  return searchEstates(query, limit)
+    .filter((estate) => !isImpracticalPlace(estate.name))
+    .map(fromLocal);
 }
 
 function fromGov(row: GovRow): AddressHit | null {
@@ -98,7 +98,7 @@ export async function searchAddresses(query: string, signal?: AbortSignal): Prom
       const hit = fromGov(row);
       if (!hit) continue;
       if (!allowGovHitForQuery(q, hit.name, hit.address)) continue;
-      if (NOISE.test(hit.name) && !compact(hit.name).startsWith(compactQ)) continue;
+      if (isImpracticalPlace(hit.name, hit.address)) continue;
       const nameKey = compact(hit.name);
       if (seen.has(nameKey) || seen.has(hit.key)) continue;
       seen.add(nameKey);

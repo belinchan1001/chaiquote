@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import {
   addressHitLabel,
   addressHitValue,
+  isImpracticalPlace,
   localAddressHits,
   searchAddresses,
   type AddressHit,
@@ -150,7 +151,11 @@ export function EstateSuggest({
             ))
           ) : (
             <li className="px-3 py-3 text-sm text-muted">
-              {loading ? t("searchingAddr") : t("noExactAddr")}
+              {isImpracticalPlace(value)
+                ? t("noisePlaceHint")
+                : loading
+                  ? t("searchingAddr")
+                  : t("noExactAddr")}
             </li>
           )}
           {loading && results.length ? (
