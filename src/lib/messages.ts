@@ -530,7 +530,7 @@ export const MESSAGES = {
     overseasNote:
       "The site is hosted by Vercel and similar services. Information you submit may be stored or processed outside Hong Kong.",
     whatsappTip:
-      "This opens WhatsApp to reach us ({phone}). Do not share passwords or verification codes. We are not the carrier’s official customer service.",
+      "This opens WhatsApp to reach us ({phone}). Do not send bank or carrier account login passwords. If we send a registration verification code for online signup and ask you to reply, you can send that code back so we can complete registration. We are not the carrier’s official customer service.",
     privacyTitle: "Privacy policy",
     privacyLead:
       "ChaiQuote (“this site”) is an independent comparison service, not a carrier website. We take your privacy seriously and handle personal data under Hong Kong’s Personal Data (Privacy) Ordinance.",
