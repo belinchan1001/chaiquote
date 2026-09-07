@@ -6,7 +6,15 @@ export type Estate = {
   district: string;
   housing: Housing;
   area?: string;
+  /** Rebuilding / demolished / coverage unknown — UI may only say 覆蓋需查核. */
+  coverageCheck?: boolean;
 };
+
+const HOUSING_VALUES: Housing[] = ["public", "hos", "private", "village"];
+
+function isKnownHousing(value: string): value is Housing {
+  return HOUSING_VALUES.includes(value as Housing);
+}
 
 const RAW = `
 華富邨|華富,Wah Fu|南區|public
@@ -40,6 +48,33 @@ const RAW = `
 慈雲山邨|慈雲山,Tsz Wan Shan|黃大仙|public
 慈樂邨|慈樂,Tsz Lok|黃大仙|public
 東頭邨|東頭,Tung Tau|黃大仙|public
+美東邨|美東,Mei Tung,Mei Tung Estate|黃大仙|public
+東匯邨|東匯,Tung Wui,Tung Wui Estate|黃大仙|public
+美東樓|美東樓,Mei Tung House,美東邨美東樓,東頭邨美東樓|黃大仙|public||check
+美寶樓|美寶,Mei Po House,美東邨美寶樓|黃大仙|public||check
+美仁樓|美仁,Mei Yan House,美東邨美仁樓|黃大仙|public
+美德樓|美德,Mei Tak House,美東邨美德樓|黃大仙|public
+康東樓|康東,Hong Tung House,東頭邨康東樓|黃大仙|public
+裕東樓|裕東,Yu Tung House,東頭邨裕東樓|黃大仙|public
+耀東樓|耀東,Yiu Tung House,東頭邨耀東樓|黃大仙|public
+富東樓|富東,Fu Tung House,東頭邨富東樓|黃大仙|public
+泰東樓|泰東,Tai Tung House,東頭邨泰東樓|黃大仙|public
+欣東樓|欣東,Yan Tung House,東頭邨欣東樓|黃大仙|public
+逸東樓|逸東樓,Yat Tung House,東頭邨逸東樓|黃大仙|public
+盈東樓|盈東,Ying Tung House,東頭邨盈東樓|黃大仙|public
+柏東樓|柏東,Pak Tung House,東頭邨柏東樓|黃大仙|public
+偉東樓|偉東,Wai Tung House,東頭邨偉東樓|黃大仙|public
+榮東樓|榮東,Wing Tung House,東頭邨榮東樓|黃大仙|public
+振東樓|振東,Chun Tung House,東頭邨振東樓|黃大仙|public
+貴東樓|貴東,Kwai Tung House,東頭邨貴東樓|黃大仙|public
+彩東樓|彩東,Choi Tung House,東頭邨彩東樓|黃大仙|public
+興東樓|興東樓,Hing Tung House,東頭邨興東樓|黃大仙|public
+祥東樓|祥東,Cheung Tung House,東頭邨祥東樓|黃大仙|public
+旺東樓|旺東,Wong Tung House,東頭邨旺東樓|黃大仙|public
+安東樓|安東,On Tung House,東頭邨安東樓|黃大仙|public
+茂東樓|茂東,Mau Tung House,東頭邨茂東樓|黃大仙|public
+盛東樓|盛東,Shing Tung House,東頭邨盛東樓|黃大仙|public
+東頭村|東頭村,Tung Tau Village|黃大仙|village
 樂富邨|樂富,Lok Fu|黃大仙|public
 彩雲邨|彩雲,Choi Wan|黃大仙|public
 橫頭磡邨|橫頭磡,Wang Tau Hom|黃大仙|public
@@ -106,8 +141,7 @@ const RAW = `
 東港城|東港城,East Point City|西貢|private|將軍澳
 新都城|新都城,Metro City|西貢|private|將軍澳
 慧安園|慧安園,Well On Garden|西貢|hos|將軍澳
-廣明苑|廣明,Kwong Ming Court|西貢|hos|將軍澳
-廣明苑|廣明苑|西貢|hos|將軍澳
+廣明苑|廣明,廣明苑,Kwong Ming Court|西貢|hos|將軍澳
 厚德邨|厚德,Hau Tak|西貢|public|將軍澳
 明德邨|明德,Ming Tak|西貢|public|將軍澳
 景林邨|景林,King Lam|西貢|public|將軍澳
@@ -117,9 +151,14 @@ const RAW = `
 健明邨|健明,Kin Ming|西貢|public|將軍澳
 善明邨|善明,Shin Ming|西貢|public|將軍澳
 彩明苑|彩明,Choi Ming Court|西貢|hos|將軍澳
+彩楊閣|彩楊,Choi Yeung House,彩明苑彩楊閣|西貢|hos|將軍澳
+彩柳閣|彩柳,Choi Lau House,彩明苑彩柳閣|西貢|hos|將軍澳
+彩松閣|彩松,Choi Chung House,彩明苑彩松閣|西貢|hos|將軍澳
+彩柏閣|彩柏,Choi Pak House,彩明苑彩柏閣|西貢|hos|將軍澳
+彩桃閣|彩桃,Choi Tao House,彩明苑彩桃閣|西貢|hos|將軍澳
+彩梅閣|彩梅,Choi Mui House,彩明苑彩梅閣|西貢|hos|將軍澳
 沙田第一城|第一城,City One|沙田|private
 沙田中心|沙田中心,Shatin Centre|沙田|private
-新城市廣場|新城市,New Town Plaza|沙田|private
 沙田圍|沙田圍,Sha Tin Wai|沙田|public
 瀝源邨|瀝源,Lek Yuen|沙田|public
 禾輋邨|禾輋,Wo Che|沙田|public
@@ -157,16 +196,9 @@ const RAW = `
 杏花邨|杏花邨,Heng Fa Chuen|東區|private
 嘉亨灣|嘉亨灣,Grand Promenade|東區|private
 南豐新邨|南豐新邨,Nam Fung Sun Chuen|東區|private
-鰂魚涌|鰂魚涌,Quarry Bay|東區|private
 北角匯|北角匯,Harbour North|東區|private
 城市花園|城市花園,City Garden|東區|private
 和富中心|和富,Provident Centre|東區|private
-炮台山|炮台山,Fortress Hill|東區|private
-寶馬山|寶馬山,Braemar Hill|東區|private
-半山區|半山,Mid-Levels|中西區|private
-西半山|西半山,Western Mid-Levels|中西區|private
-堅尼地城|堅尼地城,Kennedy Town|中西區|private
-西營盤|西營盤,Sai Ying Pun|中西區|private
 薄扶林花園|薄扶林,Pokfulam Gardens|南區|private
 置富花園|置富,Chi Fu Fa Yuen|南區|private
 貝沙灣|貝沙灣,Residence Bel-Air|南區|private
@@ -178,7 +210,6 @@ const RAW = `
 君匯港|君匯港,Harbour Green|油尖旺|private
 浪澄灣|浪澄灣,The Long Beach|油尖旺|private
 維港灣|維港灣,Island Harbourview|油尖旺|private
-大角咀|大角咀,Tai Kok Tsui|油尖旺|private
 旺角中心|旺角中心,Argyle Centre|油尖旺|private
 美孚新邨|美孚,Mei Foo Sun Chuen|深水埗|private
 碧海藍天|碧海藍天,Aqua Marine|深水埗|private
@@ -186,23 +217,17 @@ const RAW = `
 昇悅居|昇悅居,Banyan Garden|深水埗|private
 海麗|海麗商場|深水埗|public
 又一村|又一村,Yau Yat Tsuen|深水埗|private
-九龍塘|九龍塘,Kowloon Tong|九龍城|private
-廣播道|廣播道,Broadcast Drive|九龍城|private
-何文田山道|何文田山|九龍城|private
 麗港城|麗港城,Laguna City|觀塘|private
 匯景花園|匯景,Sceneway Garden|觀塘|private
 德福花園|德福,Telford Gardens|觀塘|private
 淘大花園|淘大,Amoy Gardens|觀塘|private
 麗晶花園|麗晶,Richland Gardens|觀塘|private
-啟德|啟德新區,Kai Tak|九龍城|private
 啟德1號|啟德1號|九龍城|private
 天水圍嘉湖山莊|嘉湖,嘉湖山莊,Kingswood Villas|元朗|private|天水圍
 俊宏軒|俊宏軒,Central Park Towers|元朗|private|天水圍
 慧景軒|慧景軒,Central Park|元朗|private|天水圍
-濕地公園路|濕地公園|元朗|private|天水圍
 YOHO Town|YOHO,Yoho Town,元朗YOHO|元朗|private
 YOHO Midtown|YOHO Midtown|元朗|private
-形點|形點,Yoho Mall|元朗|private
 加州花園|加州花園,Palm Springs|元朗|private
 錦繡花園|錦繡花園,Fairview Park|元朗|private
 新時代廣場|屯門市廣場,Tuen Mun Town Plaza|屯門|private
@@ -296,7 +321,8 @@ export const ESTATES: Estate[] = RAW.split("\n")
   .map((line) => line.trim())
   .filter(Boolean)
   .map((line) => {
-    const [name, aliasStr, district, housing, area] = line.split("|");
+    const [name, aliasStr, district, housing, area, flag] = line.split("|");
+    if (!name || !district || !isKnownHousing(housing ?? "")) return null;
     return {
       name,
       aliases: (aliasStr ?? "")
@@ -304,30 +330,112 @@ export const ESTATES: Estate[] = RAW.split("\n")
         .map((s) => s.trim())
         .filter(Boolean),
       district,
-      housing: housing as Housing,
+      housing,
       area: area || undefined,
-    };
+      coverageCheck: flag === "check" || flag === "覆蓋需查核" || undefined,
+    } satisfies Estate;
   })
+  .filter((item): item is Estate => Boolean(item))
   .filter((item, index, list) => list.findIndex((x) => x.name === item.name) === index);
 
 export function compact(value: string) {
   return value.replace(/\s+/g, "").toLowerCase();
 }
 
+const NON_ESTATE_RAW = `
+鰂魚涌|Quarry Bay
+炮台山|Fortress Hill
+寶馬山|Braemar Hill
+半山區|半山,Mid-Levels
+西半山|Western Mid-Levels
+堅尼地城|Kennedy Town
+西營盤|Sai Ying Pun
+大角咀|Tai Kok Tsui
+九龍塘|Kowloon Tong
+廣播道|Broadcast Drive
+何文田山道|何文田山
+啟德|啟德新區,Kai Tak
+濕地公園路|濕地公園
+新城市廣場|New Town Plaza
+形點|Yoho Mall
+`.trim();
+
+const NON_ESTATE_NEEDLES = NON_ESTATE_RAW.split("\n").flatMap((line) => {
+  const [name, aliasStr] = line.split("|");
+  return [name, ...(aliasStr ?? "").split(",")]
+    .map((s) => compact(s))
+    .filter((s) => s.length >= 2);
+});
+
+export function isNonEstatePlace(query: string): boolean {
+  const q = compact(query);
+  if (!q) return false;
+  return NON_ESTATE_NEEDLES.some((needle) => q === needle || q.startsWith(needle));
+}
+
+function estateNeedles(estate: Estate): string[] {
+  return [...new Set([estate.name, ...estate.aliases].map(compact).filter((n) => n.length >= 2))];
+}
+
+const ALL_ESTATE_NEEDLES = [...new Set(ESTATES.flatMap(estateNeedles))].sort(
+  (a, b) => b.length - a.length,
+);
+
+function longestHit(candidates: string[], query: string): string | undefined {
+  return candidates.filter((item) => item.includes(query) || item.startsWith(query)).sort((a, b) => b.length - a.length)[0];
+}
+
 export function searchEstates(query: string, limit = 8): Estate[] {
   const q = compact(query);
   if (!q) return [];
   const scored = ESTATES.map((estate) => {
-    const hay = [estate.name, estate.area ?? "", estate.district, ...estate.aliases].map(compact);
+    const name = compact(estate.name);
+    const aliases = estate.aliases.map(compact);
+    const extras = [estate.area ?? "", estate.district].map(compact);
     let score = 0;
-    if (hay[0] === q) score = 100;
-    else if (hay[0].startsWith(q)) score = 80;
-    else if (hay.some((h) => h.startsWith(q))) score = 60;
-    else if (hay.some((h) => h.includes(q))) score = 40;
+    if (name === q) score = 1000 + name.length;
+    else if (aliases.includes(q)) score = 900 + q.length;
+    else if (name.startsWith(q)) score = 700 + name.length;
+    else if (aliases.some((alias) => alias.startsWith(q))) {
+      score = 600 + (longestHit(aliases, q)?.length ?? 0);
+    } else if (name.includes(q)) score = 400 + name.length;
+    else if (aliases.some((alias) => alias.includes(q))) {
+      score = 300 + (longestHit(aliases, q)?.length ?? 0);
+    } else if (extras.some((extra) => extra === q)) score = 150;
+    else if (extras.some((extra) => extra.startsWith(q) || extra.includes(q))) score = 100;
     return { estate, score };
   }).filter((row) => row.score > 0);
   scored.sort((a, b) => b.score - a.score || a.estate.name.localeCompare(b.estate.name, "zh-Hant"));
   return scored.slice(0, limit).map((row) => row.estate);
+}
+
+export function matchKnownEstate(name: string, address = ""): Estate | undefined {
+  const nameCompact = compact(name);
+  const hay = compact(`${name}${address}`);
+  if (!hay) return undefined;
+
+  const present = [...ALL_ESTATE_NEEDLES, ...NON_ESTATE_NEEDLES].filter(
+    (needle) => hay.includes(needle) || nameCompact.includes(needle),
+  );
+  if (!present.length) return undefined;
+
+  let best: { estate: Estate; score: number } | undefined;
+  for (const estate of ESTATES) {
+    const needles = estateNeedles(estate);
+    for (const needle of needles) {
+      if (!hay.includes(needle) && !nameCompact.includes(needle)) continue;
+      const coveredByOther = present.some((longer) => {
+        if (longer.length <= needle.length || !longer.includes(needle)) return false;
+        return !needles.includes(longer);
+      });
+      if (coveredByOther) continue;
+      let score = needle.length * 10;
+      if (compact(estate.name) === nameCompact) score += 50;
+      if (needle === nameCompact) score += 30;
+      if (!best || score > best.score) best = { estate, score };
+    }
+  }
+  return best?.estate;
 }
 
 export function estateLabel(estate: Estate) {
@@ -340,5 +448,36 @@ export function estateLabel(estate: Estate) {
         : estate.housing === "village"
           ? "村屋"
           : "私人樓";
-  return `${place} · ${type}`;
+  const check = estate.coverageCheck ? " · 覆蓋需查核" : "";
+  return `${place} · ${type}${check}`;
+}
+
+export type HousingGuess = {
+  housing?: Housing;
+  confidence: "high" | "medium" | "none";
+};
+
+export function guessHousing(name: string, address = ""): Housing | undefined {
+  const known = matchKnownEstate(name, address);
+  if (known) return known.housing;
+  if (isNonEstatePlace(name) || isNonEstatePlace(`${name}${address}`)) return undefined;
+  const text = `${name}${address}`;
+  if (/公屋|屋邨/.test(text)) return "public";
+  if (/居屋/.test(text)) return "hos";
+  if (/村屋|丁屋/.test(text)) return "village";
+  if (/新邨|花園|廣場|中心|大廈|洋房|半島|豪庭|屋苑/.test(text)) return "private";
+  const title = name.replace(/[，,].*$/, "").trim();
+  if (/(新村|村|圍)$/.test(title) && !/邨/.test(title)) return "village";
+  return undefined;
+}
+
+export function classifyAddress(query: string): HousingGuess {
+  const q = query.trim();
+  if (q.length < 2) return { confidence: "none" };
+  const known = matchKnownEstate(q, "");
+  if (known) return { housing: known.housing, confidence: "high" };
+  if (isNonEstatePlace(q)) return { confidence: "none" };
+  const guessed = guessHousing(q, "");
+  if (guessed) return { housing: guessed, confidence: "medium" };
+  return { confidence: "none" };
 }
