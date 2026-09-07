@@ -17,12 +17,13 @@ export type PwaInstallPlatform = "ios" | "android" | "other";
 
 export function isStandaloneDisplay(win: {
   matchMedia?: (query: string) => { matches: boolean };
-  navigator?: { standalone?: boolean };
-} = globalThis): boolean {
+  navigator?: object;
+} = {}): boolean {
   try {
     if (win.matchMedia?.("(display-mode: standalone)").matches) return true;
     if (win.matchMedia?.("(display-mode: minimal-ui)").matches) return true;
-    if (win.navigator?.standalone === true) return true;
+    const standalone = (win.navigator as { standalone?: boolean } | undefined)?.standalone;
+    if (standalone === true) return true;
   } catch {
     /* ignore */
   }

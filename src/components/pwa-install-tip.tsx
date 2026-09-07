@@ -18,6 +18,15 @@ export function PwaInstallTip() {
   useHydrateDesk();
   const lifted = useDesk((s) => s.compare.length > 0 || Boolean(s.notice));
 
+  const dismiss = useCallback(() => {
+    try {
+      localStorage.setItem(PWA.dismissStorageKey, "1");
+    } catch {
+      /* ignore */
+    }
+    setVisible(false);
+  }, []);
+
   useEffect(() => {
     if (isStandaloneDisplay(window)) return;
     try {
@@ -46,15 +55,6 @@ export function PwaInstallTip() {
       window.removeEventListener("appinstalled", onInstalled);
     };
   }, [dismiss]);
-
-  const dismiss = useCallback(() => {
-    try {
-      localStorage.setItem(PWA.dismissStorageKey, "1");
-    } catch {
-      /* ignore */
-    }
-    setVisible(false);
-  }, []);
 
   async function install() {
     if (!installEvent) return;
