@@ -1,4 +1,5 @@
 import {
+  allowGovHitForQuery,
   classifyAddress,
   compact,
   guessHousing,
@@ -96,6 +97,7 @@ export async function searchAddresses(query: string, signal?: AbortSignal): Prom
     for (const row of rows) {
       const hit = fromGov(row);
       if (!hit) continue;
+      if (!allowGovHitForQuery(q, hit.name, hit.address)) continue;
       if (NOISE.test(hit.name) && !compact(hit.name).startsWith(compactQ)) continue;
       const nameKey = compact(hit.name);
       if (seen.has(nameKey) || seen.has(hit.key)) continue;

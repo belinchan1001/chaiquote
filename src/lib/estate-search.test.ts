@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  allowGovHitForQuery,
   classifyAddress,
   ESTATES,
   estateLabel,
@@ -382,6 +383,15 @@ describe("related blocks in suggest (anti-cross)", () => {
     if (villageHit && hongTung >= 0) {
       assert.notEqual(hongTung, beforeVillage, "village must not sit as parent of 東頭邨 blocks");
     }
+  });
+
+  it("gov merge may not attach 東頭邨 rows to an exact 東頭村 query", () => {
+    assert.equal(allowGovHitForQuery("東頭村", "東頭邨 (前稱)", "東頭村道 183號"), false);
+    assert.equal(allowGovHitForQuery("東頭村", "康東樓", ""), false);
+    assert.equal(allowGovHitForQuery("東頭村", "護老樂(東頭邨)", "九龍東頭(二)邨康東樓"), false);
+    assert.equal(allowGovHitForQuery("東頭村", "東頭村公所", "東頭村 3號"), true);
+    assert.equal(allowGovHitForQuery("東頭邨", "東頭邨 (前稱)", "東頭村道 183號"), true);
+    assert.equal(allowGovHitForQuery("東頭邨", "康東樓", ""), true);
   });
 
   it("美東邨 / 彩明苑 expand their own children only", () => {

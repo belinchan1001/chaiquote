@@ -535,3 +535,18 @@ export function classifyAddress(query: string): HousingGuess {
   if (guessed) return { housing: guessed, confidence: "medium" };
   return { confidence: "none" };
 }
+
+export function exactVillageMatch(query: string): Estate | undefined {
+  const q = compact(query);
+  if (!q) return undefined;
+  return ESTATES.find((estate) => estate.housing === "village" && compact(estate.name) === q);
+}
+
+/** Exact village queries must not pull 邨／苑 catalogue rows in from gov search. */
+export function allowGovHitForQuery(query: string, name: string, address = ""): boolean {
+  const village = exactVillageMatch(query);
+  if (!village) return true;
+  const known = matchKnownEstate(name, address);
+  if (!known) return true;
+  return known.housing === "village";
+}
