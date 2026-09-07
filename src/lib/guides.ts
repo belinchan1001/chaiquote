@@ -1,5 +1,14 @@
 export type GuideSection = { heading: string; paragraphs: string[] };
 
+export type GuideCta = {
+  lead: string;
+  leadEn: string;
+  button: string;
+  buttonEn: string;
+  waText: string;
+  waTextEn: string;
+};
+
 export type Guide = {
   slug: string;
   minutes: number;
@@ -9,6 +18,8 @@ export type Guide = {
   titleEn: string;
   excerptEn: string;
   bodyEn: GuideSection[];
+  related?: string[];
+  cta?: GuideCta;
 };
 
 export const GUIDES: Guide[] = [
@@ -151,6 +162,99 @@ export const GUIDES: Guide[] = [
         ],
       },
     ],
+    related: ["village-onsite"],
+  },
+  {
+    slug: "village-onsite",
+    minutes: 4,
+    title: "村屋寬頻：實地視察同現場測 5G",
+    excerpt: "村屋光纖好唔好裝、5G 家居夠唔夠穩——可約落場睇，或帶路由器去地址測訊號，再俾建議。",
+    titleEn: "Village broadband: on-site fibre check and 5G signal test",
+    excerptEn:
+      "Not sure whether fibre is worth installing at a village house, or whether 5G home is stable enough? We can visit, or bring a router to test the signal, then advise.",
+    related: ["village"],
+    cta: {
+      lead: "僅供參考。想約視察或測 5G，用 WhatsApp 查核報價／約時間。",
+      leadEn: "For reference only. To book a visit or 5G test, WhatsApp us to check the quote and arrange a time.",
+      button: "WhatsApp 約視察／測訊號",
+      buttonEn: "WhatsApp to book a visit / 5G test",
+      waText:
+        "你好，我想約村屋實地視察／現場測 5G。完整地址：（請填）想視察：光纖／測 5G／兩樣",
+      waTextEn:
+        "Hi, I would like to book a village-house on-site fibre check / 5G signal test. Full address: (please fill in) I want: fibre inspection / 5G test / both",
+    },
+    body: [
+      {
+        heading: "點解要落場",
+        paragraphs: [
+          "村／街／左右鄰都可能唔同。網上難一次講死。",
+          "有需要就約去地址睇，再按現場俾建議。",
+        ],
+      },
+      {
+        heading: "光纖視察",
+        paragraphs: [
+          "約現場睇路綫同環境；之後講觀察同建議下一步。",
+          "計劃當參考，以查核／申請為準。",
+        ],
+      },
+      {
+        heading: "5G 測訊號",
+        paragraphs: [
+          "帶 5G 家居路由器去你地址開機睇表現同擺位；按結果建議主用定後備。",
+          "測試亦係參考。",
+        ],
+      },
+      {
+        heading: "視察同測訊號之後",
+        paragraphs: [
+          "視察／測訊號後只係**建議**；實際安裝同申請結果**以電訊商確認為準**；月費／覆蓋繼續「參考＋查核報價」。",
+        ],
+      },
+      {
+        heading: "點約",
+        paragraphs: [
+          "WhatsApp 報完整地址＋想視察光纖／測 5G／兩樣。",
+          "可先睇網上記錄計劃，村屋建議查核／視察定案。",
+        ],
+      },
+    ],
+    bodyEn: [
+      {
+        heading: "Why visit",
+        paragraphs: [
+          "The village, the street, even the house next door can be different. It is hard to settle this online in one go.",
+          "If needed, we book a visit and advise from what we see on site.",
+        ],
+      },
+      {
+        heading: "Fibre inspection",
+        paragraphs: [
+          "We look at the route and the site. Afterwards we share what we observed and suggest the next step.",
+          "Plans on the site are for reference; confirmation and application decide.",
+        ],
+      },
+      {
+        heading: "5G signal test",
+        paragraphs: [
+          "We bring a 5G home router to your address, power it up, and check performance and placement. From the result we advise whether to use it as primary or backup.",
+          "The test is also for reference.",
+        ],
+      },
+      {
+        heading: "After the visit",
+        paragraphs: [
+          "A visit or signal test is **advice** only. Actual installation and application results are **confirmed by the carrier**. Fees and coverage stay “reference + check quote”.",
+        ],
+      },
+      {
+        heading: "How to book",
+        paragraphs: [
+          "WhatsApp us the full address and whether you want a fibre inspection, a 5G test, or both.",
+          "You can browse the plans listed on the site first; for village houses we suggest confirming with a coverage check or an on-site visit.",
+        ],
+      },
+    ],
   },
 ];
 
@@ -160,7 +264,21 @@ export function getGuide(slug: string) {
 
 export function guideCopy(guide: Guide, locale: "zh" | "en") {
   if (locale === "en") {
-    return { title: guide.titleEn, excerpt: guide.excerptEn, body: guide.bodyEn };
+    return {
+      title: guide.titleEn,
+      excerpt: guide.excerptEn,
+      body: guide.bodyEn,
+      ctaLead: guide.cta?.leadEn,
+      ctaButton: guide.cta?.buttonEn,
+      waText: guide.cta?.waTextEn,
+    };
   }
-  return { title: guide.title, excerpt: guide.excerpt, body: guide.body };
+  return {
+    title: guide.title,
+    excerpt: guide.excerpt,
+    body: guide.body,
+    ctaLead: guide.cta?.lead,
+    ctaButton: guide.cta?.button,
+    waText: guide.cta?.waText,
+  };
 }
