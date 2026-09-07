@@ -1,4 +1,4 @@
-import { classifyAddress } from "@/lib/address-search";
+import { classifyAddress, isImpracticalPlace } from "@/lib/address-search";
 import { type Housing } from "@/lib/plans";
 import { useI18n } from "@/lib/i18n";
 
@@ -10,8 +10,11 @@ export function HousingGuessNote({
   applied?: Housing;
 }) {
   const { t, housingLabel } = useI18n();
-  const guess = classifyAddress(query);
   if (!query.trim()) return null;
+  if (isImpracticalPlace(query)) {
+    return <p className="text-xs text-muted">{t("noisePlaceHint")}</p>;
+  }
+  const guess = classifyAddress(query);
   if (!guess.housing) {
     return <p className="text-xs text-muted">{t("guessNone")}</p>;
   }

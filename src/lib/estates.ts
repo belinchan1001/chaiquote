@@ -378,6 +378,40 @@ function estateNeedles(estate: Estate): string[] {
   return [...new Set([estate.name, ...estate.aliases].map(compact).filter((n) => n.length >= 2))];
 }
 
+/** Estate / 苑 parents only — never village (村) or short aliases like「東頭」. */
+export function isCatalogueParent(estate: Estate): boolean {
+  return estate.housing !== "village" && /[邨苑]$/.test(estate.name);
+}
+
+/**
+ * Link 樓／閣 rows to a parent using the parent's full catalogue name only.
+ * 「東頭邨康東樓」→ 東頭邨; 「東頭」must not attach 東頭村 to 東頭邨 blocks.
+ */
+export function isRelatedBlock(child: Estate, parent: Estate): boolean {
+  if (child.name === parent.name || parent.housing === "village") return false;
+  if (!/[邨苑]$/.test(parent.name)) return false;
+  const parentKey = compact(parent.name);
+  if (parentKey.length < 3) return false;
+  return [child.name, ...child.aliases].some((raw) => {
+    const needle = compact(raw);
+    if (!needle.startsWith(parentKey) || needle === parentKey) return false;
+    const rest = needle.slice(parentKey.length);
+    return rest.length >= 2 && /樓|閣|house/.test(rest);
+  });
+}
+
+const RELATED_BLOCKS = new Map<string, Estate[]>();
+for (const parent of ESTATES) {
+  if (!isCatalogueParent(parent)) continue;
+  const children = ESTATES.filter((child) => isRelatedBlock(child, parent));
+  if (children.length) RELATED_BLOCKS.set(parent.name, children);
+}
+
+export function relatedBlocks(parent: Estate | string): Estate[] {
+  const name = typeof parent === "string" ? parent : parent.name;
+  return RELATED_BLOCKS.get(name) ?? [];
+}
+
 const ALL_ESTATE_NEEDLES = [...new Set(ESTATES.flatMap(estateNeedles))].sort(
   (a, b) => b.length - a.length,
 );
@@ -407,7 +441,26 @@ export function searchEstates(query: string, limit = 8): Estate[] {
     return { estate, score };
   }).filter((row) => row.score > 0);
   scored.sort((a, b) => b.score - a.score || a.estate.name.localeCompare(b.estate.name, "zh-Hant"));
-  return scored.slice(0, limit).map((row) => row.estate);
+  const ranked = scored.map((row) => row.estate);
+  const out: Estate[] = [];
+  const seen = new Set<string>();
+
+  function push(estate: Estate) {
+    if (seen.has(estate.name) || out.length >= limit) return;
+    seen.add(estate.name);
+    out.push(estate);
+  }
+
+  for (const estate of ranked) {
+    if (out.length >= limit) break;
+    push(estate);
+    if (!isCatalogueParent(estate)) continue;
+    for (const child of relatedBlocks(estate)) {
+      if (out.length >= limit) break;
+      push(child);
+    }
+  }
+  return out;
 }
 
 export function matchKnownEstate(name: string, address = ""): Estate | undefined {
@@ -475,10 +528,114 @@ export function guessHousing(name: string, address = ""): Housing | undefined {
 export function classifyAddress(query: string): HousingGuess {
   const q = query.trim();
   if (q.length < 2) return { confidence: "none" };
+  if (isImpracticalPlace(q)) return { confidence: "none" };
   const known = matchKnownEstate(q, "");
   if (known) return { housing: known.housing, confidence: "high" };
   if (isNonEstatePlace(q)) return { confidence: "none" };
   const guessed = guessHousing(q, "");
   if (guessed) return { housing: guessed, confidence: "medium" };
   return { confidence: "none" };
+}
+
+export function exactVillageMatch(query: string): Estate | undefined {
+  const q = compact(query);
+  if (!q) return undefined;
+  return ESTATES.find((estate) => estate.housing === "village" && compact(estate.name) === q);
+}
+
+/** Exact village queries must not pull 邨／苑 catalogue rows in from gov search. */
+export function allowGovHitForQuery(query: string, name: string, address = ""): boolean {
+  const village = exactVillageMatch(query);
+  if (!village) return true;
+  const known = matchKnownEstate(name, address);
+  if (!known) return true;
+  return known.housing === "village";
+}
+
+/** Longest first so「垃圾收集站」wins over「垃圾」-like fragments. */
+const FACILITY_NOISE = [
+  "停車場出入口",
+  "垃圾收集站",
+  "垃圾收集",
+  "公共洗手間",
+  "的士候車處",
+  "的士候車",
+  "的士站",
+  "專線小巴",
+  "小巴站",
+  "巴士站",
+  "電車站",
+  "港鐵站",
+  "智郵",
+  "郵政局",
+  "幼稚園",
+  "小學",
+  "中學",
+  "教堂",
+  "管理處",
+  "物管處",
+  "保安室",
+  "垃圾房",
+  "垃圾桶",
+  "垃圾站",
+  "泵房",
+  "變壓站",
+  "變壓器",
+  "變壓",
+  "電掣房",
+  "洗手間",
+  "公廁",
+  "總站",
+  "外面",
+].sort((a, b) => b.length - a.length);
+
+/** Short stems that appear inside real streets — only drop as a suffix. */
+const AMBIGUOUS_NOISE = ["公園", "廟"];
+
+function longestNoiseToken(name: string): string | undefined {
+  return [...FACILITY_NOISE, ...AMBIGUOUS_NOISE].find((token) => name.includes(token));
+}
+
+function isFacilityRemainder(rest: string): boolean {
+  const stripped = rest.replace(/[()（）[\]【】\-–—·.,，、\s近外]/g, "");
+  if (!stripped) return false;
+  return [...FACILITY_NOISE, ...AMBIGUOUS_NOISE].some(
+    (token) => stripped === compact(token) || stripped.endsWith(compact(token)),
+  );
+}
+
+/**
+ * Drop standalone / suffixed facilities (公廁、的士站、管理處).
+ * Keep a longer official name that only happens to contain 管理處.
+ * When the remainder is not a clean facility, keep.
+ */
+export function shouldDropAsNoise(name: string, knownName?: string): boolean {
+  const title = name.replace(/\s+/g, "").trim();
+  if (!title) return false;
+  const token = longestNoiseToken(title);
+  if (!token) return false;
+
+  const titleKey = compact(title);
+  const knownKey = knownName ? compact(knownName) : "";
+
+  if (knownKey && titleKey === knownKey) return false;
+  if (knownKey && titleKey.startsWith(knownKey)) {
+    const rest = titleKey.slice(knownKey.length);
+    if (isFacilityRemainder(rest)) return true;
+    return false;
+  }
+  if (knownKey && titleKey.includes(knownKey) && knownKey.length >= 3) {
+    const rest = titleKey.replace(knownKey, "");
+    if (isFacilityRemainder(rest)) return true;
+    return false;
+  }
+
+  if (AMBIGUOUS_NOISE.includes(token) && !title.endsWith(token)) return false;
+  return true;
+}
+
+/** Catalogue longest-match, then {@link shouldDropAsNoise}. */
+export function isImpracticalPlace(name: string, _address = ""): boolean {
+  const known = matchKnownEstate(name, "");
+  return shouldDropAsNoise(name, known?.name);
 }

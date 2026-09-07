@@ -4,10 +4,16 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  allowGovHitForQuery,
   classifyAddress,
   ESTATES,
   estateLabel,
+  isCatalogueParent,
+  isImpracticalPlace,
+  isRelatedBlock,
+  shouldDropAsNoise,
   matchKnownEstate,
+  relatedBlocks,
   searchEstates,
 } from "./estates.ts";
 
@@ -111,8 +117,10 @@ describe("locked acceptance checks", () => {
     assert.match(messages, /coverageCheck: "覆蓋需查核"/);
     assert.match(messages, /僅供參考/);
     assert.match(messages, /查核報價/);
+    assert.match(messages, /noisePlaceHint: "呢類地點多半唔適合申請，請 WhatsApp 查核報價"/);
     const suggest = readFileSync(join(ROOT, "src/components/estate-suggest.tsx"), "utf8");
     assert.match(suggest, /coverageCheck/);
+    assert.match(suggest, /noisePlaceHint/);
     const plans = readFileSync(join(ROOT, "src/routes/plans.tsx"), "utf8");
     assert.match(plans, /coverageCheck/);
     const pwa = readFileSync(join(ROOT, "src/lib/pwa.ts"), "utf8");
@@ -291,6 +299,121 @@ describe("matchKnownEstate / classifyAddress", () => {
   });
 });
 
+describe("related blocks in suggest (anti-cross)", () => {
+  it("links 樓／閣 children from full parent names only", () => {
+    assert.equal(isCatalogueParent(estate("東頭邨")!), true);
+    assert.equal(isCatalogueParent(estate("美東邨")!), true);
+    assert.equal(isCatalogueParent(estate("彩明苑")!), true);
+    assert.equal(isCatalogueParent(estate("東頭村")!), false);
+
+    const tungTauBlocks = relatedBlocks("東頭邨").map((item) => item.name);
+    assert.ok(tungTauBlocks.includes("康東樓"));
+    assert.ok(tungTauBlocks.includes("興東樓"));
+    assert.ok(tungTauBlocks.includes("美東樓"));
+    assert.ok(!tungTauBlocks.includes("東頭村"));
+
+    const meiTungBlocks = relatedBlocks("美東邨").map((item) => item.name);
+    assert.ok(meiTungBlocks.includes("美東樓"));
+    assert.ok(meiTungBlocks.includes("美寶樓"));
+    assert.ok(meiTungBlocks.includes("美德樓"));
+
+    const choiMing = relatedBlocks("彩明苑").map((item) => item.name);
+    for (const name of ["彩楊閣", "彩柳閣", "彩松閣", "彩柏閣", "彩桃閣", "彩梅閣"]) {
+      assert.ok(choiMing.includes(name), name);
+    }
+
+    assert.equal(relatedBlocks("東頭村").length, 0);
+    assert.equal(isRelatedBlock(estate("康東樓")!, estate("東頭村")!), false);
+    assert.equal(isRelatedBlock(estate("康東樓")!, estate("東頭邨")!), true);
+    assert.equal(isRelatedBlock(estate("興東樓")!, estate("興東邨")!), false);
+    assert.equal(isRelatedBlock(estate("逸東樓")!, estate("東涌逸東邨")!), false);
+  });
+
+  it("1) search 東頭邨 → parent first, then its 樓 children", () => {
+    const hits = searchEstates("東頭邨", 24);
+    assert.equal(hits[0]?.name, "東頭邨");
+    assert.equal(hits[0]?.housing, "public");
+    const names = hits.map((item) => item.name);
+    assert.ok(names.includes("康東樓"));
+    assert.ok(names.includes("裕東樓"));
+    assert.ok(names.includes("興東樓"));
+    assert.ok(names.includes("美東樓"));
+    const firstBlock = hits.findIndex((item) => item.name.endsWith("樓"));
+    assert.ok(firstBlock > 0);
+    assert.ok(!names.includes("東頭村"));
+    assert.ok(!hits.some((item) => item.housing === "village"));
+    assert.ok(hits.length > 8);
+  });
+
+  it("2) search 東頭村 → only village; zero 東頭邨 blocks", () => {
+    const hits = searchEstates("東頭村", 24);
+    assert.equal(hits.length, 1);
+    assert.equal(hits[0]?.name, "東頭村");
+    assert.equal(hits[0]?.housing, "village");
+    assert.ok(!hits.some((item) => item.name === "東頭邨"));
+    assert.ok(!hits.some((item) => item.housing === "public"));
+    for (const block of relatedBlocks("東頭邨")) {
+      assert.ok(!hits.some((item) => item.name === block.name), block.name);
+    }
+  });
+
+  it("3) searching a block name keeps the correct housing type", () => {
+    assert.equal(searchEstates("康東樓")[0]?.name, "康東樓");
+    assert.equal(searchEstates("康東樓")[0]?.housing, "public");
+    assert.equal(searchEstates("美東樓")[0]?.housing, "public");
+    assert.equal(searchEstates("彩楊閣")[0]?.name, "彩楊閣");
+    assert.equal(searchEstates("彩楊閣")[0]?.housing, "hos");
+    assert.equal(classifyAddress("康東樓").housing, "public");
+    assert.equal(classifyAddress("彩楊閣").housing, "hos");
+  });
+
+  it("does not let short 東頭 treat the village as parent of 東頭邨 blocks", () => {
+    const village = estate("東頭村")!;
+    const publicEstate = estate("東頭邨")!;
+    assert.ok(publicEstate.aliases.includes("東頭"));
+    assert.ok(!village.aliases.includes("東頭"));
+    assert.equal(isRelatedBlock(estate("康東樓")!, village), false);
+    assert.equal(relatedBlocks(village).length, 0);
+
+    const hits = searchEstates("東頭", 24);
+    assert.equal(hits[0]?.name, "東頭邨");
+    const villageHit = hits.find((item) => item.name === "東頭村");
+    if (villageHit) assert.equal(villageHit.housing, "village");
+    const beforeVillage = villageHit ? hits.indexOf(villageHit) : hits.length;
+    const parentIdx = hits.findIndex((item) => item.name === "東頭邨");
+    const hongTung = hits.findIndex((item) => item.name === "康東樓");
+    assert.ok(parentIdx === 0);
+    assert.ok(hongTung > parentIdx);
+    if (villageHit && hongTung >= 0) {
+      assert.notEqual(hongTung, beforeVillage, "village must not sit as parent of 東頭邨 blocks");
+    }
+  });
+
+  it("gov merge may not attach 東頭邨 rows to an exact 東頭村 query", () => {
+    assert.equal(allowGovHitForQuery("東頭村", "東頭邨 (前稱)", "東頭村道 183號"), false);
+    assert.equal(allowGovHitForQuery("東頭村", "康東樓", ""), false);
+    assert.equal(allowGovHitForQuery("東頭村", "護老樂(東頭邨)", "九龍東頭(二)邨康東樓"), false);
+    assert.equal(allowGovHitForQuery("東頭村", "東頭村公所", "東頭村 3號"), true);
+    assert.equal(allowGovHitForQuery("東頭邨", "東頭邨 (前稱)", "東頭村道 183號"), true);
+    assert.equal(allowGovHitForQuery("東頭邨", "康東樓", ""), true);
+  });
+
+  it("美東邨 / 彩明苑 expand their own children only", () => {
+    const mei = searchEstates("美東邨", 24).map((item) => item.name);
+    assert.equal(mei[0], "美東邨");
+    assert.ok(mei.includes("美東樓"));
+    assert.ok(mei.includes("美仁樓"));
+    assert.ok(!mei.includes("康東樓"));
+    assert.ok(!mei.includes("東頭村"));
+
+    const choi = searchEstates("彩明苑", 24);
+    assert.equal(choi[0]?.name, "彩明苑");
+    assert.equal(choi[0]?.housing, "hos");
+    assert.ok(choi.some((item) => item.name === "彩楊閣" && item.housing === "hos"));
+    assert.ok(!choi.some((item) => item.name === "彩富閣"));
+  });
+});
+
 describe("locked copy", () => {
   it("keeps 參考／覆蓋需查核 and never says 有得裝", () => {
     assert.match(estateLabel(estate("美東樓")!), /覆蓋需查核/);
@@ -309,5 +432,79 @@ describe("locked copy", () => {
     assert.match(messages, /coverageCheck: "覆蓋需查核"/);
     assert.match(messages, /僅供參考/);
     assert.match(messages, /查核報價/);
+    assert.match(messages, /noisePlaceHint: "呢類地點多半唔適合申請，請 WhatsApp 查核報價"/);
+  });
+});
+
+describe("locked noise acceptance", () => {
+  it("1) drop XX公廁 / 的士站 / standalone 管理處 (WhatsApp tip, no housing)", () => {
+    for (const name of ["東頭村公廁", "東頭邨公廁", "XX公廁", "的士站", "管理處"]) {
+      assert.equal(isImpracticalPlace(name), true, name);
+      assert.equal(classifyAddress(name).housing, undefined, name);
+      assert.equal(classifyAddress(name).confidence, "none", name);
+    }
+    assert.equal(isImpracticalPlace("東頭邨管理處"), true);
+    assert.equal(classifyAddress("東頭邨管理處").housing, undefined);
+  });
+
+  it("2) keep a normal estate hit; 管理處 inside a longer official name is not a false positive", () => {
+    assert.equal(isImpracticalPlace("東頭邨"), false);
+    assert.equal(isImpracticalPlace("康東樓"), false);
+    assert.equal(isImpracticalPlace("彩明苑"), false);
+    assert.equal(searchEstates("東頭邨", 24)[0]?.name, "東頭邨");
+    assert.equal(classifyAddress("東頭邨").housing, "public");
+    for (const item of ESTATES) {
+      assert.equal(isImpracticalPlace(item.name), false, item.name);
+    }
+    assert.equal(shouldDropAsNoise("金管理處華庭", "金管理處華庭"), false);
+    assert.equal(shouldDropAsNoise("金管理處華庭管理處", "金管理處華庭"), true);
+    assert.equal(shouldDropAsNoise("管理處", undefined), true);
+  });
+
+  it("3) village / estate anti-cross still required", () => {
+    assert.equal(classifyAddress("東頭村").housing, "village");
+    assert.equal(classifyAddress("東頭邨").housing, "public");
+    const villageHits = searchEstates("東頭村", 24);
+    assert.deepEqual(
+      villageHits.map((item) => item.name),
+      ["東頭村"],
+    );
+    assert.ok(!villageHits.some((hit) => hit.housing === "public"));
+    const estateHits = searchEstates("東頭邨", 24);
+    assert.equal(estateHits[0]?.name, "東頭邨");
+    assert.ok(estateHits.some((hit) => hit.name === "康東樓"));
+    assert.ok(!estateHits.some((hit) => hit.name === "東頭村"));
+    assert.ok(!estateHits.some((hit) => hit.housing === "village"));
+  });
+});
+
+describe("impractical address noise", () => {
+  it("drops toilets, stops, plant rooms, and management offices", () => {
+    for (const name of [
+      "東頭村公廁",
+      "賈炳達道公園 - 近東頭村道洗手間外",
+      "的士站",
+      "的士候車處",
+      "東頭邨管理處",
+      "彩明苑物管處",
+      "保安室",
+      "垃圾房",
+      "垃圾收集站",
+      "垃圾桶",
+      "泵房",
+      "變壓站",
+      "電掣房",
+      "停車場出入口",
+      "東頭邨巴士站",
+    ]) {
+      assert.equal(isImpracticalPlace(name), true, name);
+    }
+  });
+
+  it("keeps catalogue estates / blocks and does not over-drop 廟街", () => {
+    for (const name of ["東頭邨", "東頭村", "康東樓", "美東樓", "彩明苑", "彩楊閣", "廟街"]) {
+      assert.equal(isImpracticalPlace(name), false, name);
+    }
+    assert.equal(isImpracticalPlace("黃大仙廟"), true);
   });
 });
