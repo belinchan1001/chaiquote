@@ -21,6 +21,106 @@ function names(query: string) {
   return searchEstates(query, 12).map((item) => item.name);
 }
 
+describe("locked acceptance checks", () => {
+  it("1) 東頭村 → village; 東頭邨 → public; searching one must not mis-label the other", () => {
+    assert.equal(classifyAddress("東頭村").housing, "village");
+    assert.equal(classifyAddress("東頭邨").housing, "public");
+    assert.equal(matchKnownEstate("東頭村")?.name, "東頭村");
+    assert.equal(matchKnownEstate("東頭邨")?.name, "東頭邨");
+
+    const villageHits = searchEstates("東頭村", 12);
+    assert.equal(villageHits[0]?.name, "東頭村");
+    assert.equal(villageHits[0]?.housing, "village");
+    assert.ok(!villageHits.some((hit) => hit.name === "東頭邨"));
+    assert.ok(!villageHits.some((hit) => hit.housing === "public"));
+
+    const estateHits = searchEstates("東頭邨", 12);
+    assert.equal(estateHits[0]?.name, "東頭邨");
+    assert.equal(estateHits[0]?.housing, "public");
+    assert.ok(!estateHits.some((hit) => hit.name === "東頭村"));
+    assert.ok(!estateHits.some((hit) => hit.housing === "village"));
+  });
+
+  it("2) 美東樓 searchable as public; belongs under 美東邨 aliases (historical 東頭邨美東樓 OK)", () => {
+    const row = estate("美東樓");
+    assert.equal(row?.housing, "public");
+    assert.ok(row?.aliases.includes("美東邨美東樓"));
+    assert.ok(row?.aliases.includes("東頭邨美東樓"));
+    assert.ok(estate("美東邨")?.aliases.includes("美東"));
+
+    assert.equal(names("美東樓")[0], "美東樓");
+    assert.equal(searchEstates("美東樓")[0]?.housing, "public");
+    assert.equal(names("美東邨美東樓")[0], "美東樓");
+    assert.equal(names("東頭邨美東樓")[0], "美東樓");
+    assert.equal(classifyAddress("美東樓").housing, "public");
+    assert.equal(classifyAddress("美東邨美東樓").housing, "public");
+    assert.equal(classifyAddress("東頭邨美東樓").housing, "public");
+    assert.equal(matchKnownEstate("美東邨美東樓")?.name, "美東樓");
+    assert.equal(matchKnownEstate("東頭邨美東樓")?.name, "美東樓");
+  });
+
+  it("3) 興東樓 / 逸東樓 must NOT collide with 興東邨 / 逸東邨", () => {
+    assert.equal(matchKnownEstate("興東樓")?.name, "興東樓");
+    assert.equal(matchKnownEstate("興東邨")?.name, "興東邨");
+    assert.equal(classifyAddress("興東樓").housing, "public");
+    assert.equal(classifyAddress("興東邨").housing, "public");
+    assert.equal(names("興東樓")[0], "興東樓");
+    assert.ok(!names("興東樓").includes("興東邨"));
+    assert.ok(!names("興東邨").includes("興東樓"));
+
+    assert.equal(matchKnownEstate("逸東樓")?.name, "逸東樓");
+    assert.equal(matchKnownEstate("逸東邨")?.name, "東涌逸東邨");
+    assert.notEqual(matchKnownEstate("逸東樓")?.name, "東涌逸東邨");
+    assert.equal(classifyAddress("逸東樓").housing, "public");
+    assert.equal(classifyAddress("逸東邨").housing, "public");
+    assert.equal(names("逸東樓")[0], "逸東樓");
+    assert.ok(!names("逸東樓").includes("東涌逸東邨"));
+    assert.ok(!names("逸東邨").includes("逸東樓"));
+  });
+
+  it("4) 彩明苑 閣 (彩楊等) → hos; do not mark 彩富／貴／榮／耀閣 as hos if present", () => {
+    for (const name of ["彩楊閣", "彩柳閣", "彩松閣", "彩柏閣", "彩桃閣", "彩梅閣"]) {
+      assert.equal(estate(name)?.housing, "hos", name);
+      assert.equal(classifyAddress(name).housing, "hos", name);
+      assert.equal(searchEstates(name)[0]?.housing, "hos", name);
+    }
+    assert.equal(estate("彩明苑")?.housing, "hos");
+    for (const name of ["彩富閣", "彩貴閣", "彩榮閣", "彩耀閣"]) {
+      const row = estate(name);
+      if (row) assert.notEqual(row.housing, "hos", name);
+      assert.notEqual(classifyAddress(name).housing, "hos", name);
+    }
+  });
+
+  it("5) UI copy remains 參考／覆蓋需查核", () => {
+    assert.match(estateLabel(estate("美東樓")!), /覆蓋需查核/);
+    assert.doesNotMatch(estateLabel(estate("美東樓")!), /有得裝/);
+    const files = [
+      "src/lib/estates.ts",
+      "src/lib/address-search.ts",
+      "src/components/estate-suggest.tsx",
+      "src/lib/messages.ts",
+      "src/routes/plans.tsx",
+      "src/lib/pwa.ts",
+    ];
+    for (const file of files) {
+      const text = readFileSync(join(ROOT, file), "utf8");
+      assert.doesNotMatch(text, /有得裝/);
+    }
+    const messages = readFileSync(join(ROOT, "src/lib/messages.ts"), "utf8");
+    assert.match(messages, /coverageCheck: "覆蓋需查核"/);
+    assert.match(messages, /僅供參考/);
+    assert.match(messages, /查核報價/);
+    const suggest = readFileSync(join(ROOT, "src/components/estate-suggest.tsx"), "utf8");
+    assert.match(suggest, /coverageCheck/);
+    const plans = readFileSync(join(ROOT, "src/routes/plans.tsx"), "utf8");
+    assert.match(plans, /coverageCheck/);
+    const pwa = readFileSync(join(ROOT, "src/lib/pwa.ts"), "utf8");
+    assert.match(pwa, /僅供參考/);
+    assert.match(pwa, /查核報價/);
+  });
+});
+
 describe("estate catalogue", () => {
   it("adds Wong Tai Sin public blocks as their own rows", () => {
     const meiTung = estate("美東樓");
