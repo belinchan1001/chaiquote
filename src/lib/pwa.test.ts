@@ -182,8 +182,30 @@ function innerMarkCoverage(pixels: Buffer, size: number) {
   return marked / total;
 }
 
+function markSpan(pixels: Buffer, size: number) {
+  let minX = size;
+  let maxX = -1;
+  let minY = size;
+  let maxY = -1;
+  for (let y = 0; y < size; y += 1) {
+    for (let x = 0; x < size; x += 1) {
+      const i = (y * size + x) * 4;
+      if (pixels[i + 3] < 16) continue;
+      if (pixels[i] === 0x15 && pixels[i + 1] === 0x57 && pixels[i + 2] === 0xc4) continue;
+      minX = Math.min(minX, x);
+      maxX = Math.max(maxX, x);
+      minY = Math.min(minY, y);
+      maxY = Math.max(maxY, y);
+    }
+  }
+  return {
+    spanW: maxX >= 0 ? (maxX - minX + 1) / size : 0,
+    spanH: maxY >= 0 ? (maxY - minY + 1) / size : 0,
+  };
+}
+
 describe("maskable icons", () => {
-  it("are real 192/512 PNGs with the mark filling the safe zone", () => {
+  it("are real 192/512 PNGs with the mark filling ~70–80% of the canvas", () => {
     for (const [file, expected] of [
       ["public/__grok/icon-192-maskable.png", 192],
       ["public/__grok/icon-512-maskable.png", 512],
@@ -192,12 +214,33 @@ describe("maskable icons", () => {
       const { width, height, pixels } = readPngRgba(bytes);
       assert.equal(width, expected, file);
       assert.equal(height, expected, file);
+      const { spanW, spanH } = markSpan(pixels, width);
+      assert.ok(spanW >= 0.7, `${file} width span ${spanW} is still sparse`);
+      assert.ok(spanH >= 0.7, `${file} height span ${spanH} is still sparse`);
       const coverage = innerMarkCoverage(pixels, width);
-      assert.ok(coverage > 0.35, `${file} mark coverage ${coverage} is still too small`);
+      assert.ok(coverage > 0.55, `${file} mark coverage ${coverage} is still too small`);
       // Corners stay solid brand blue so Android masks never show a hole.
       assert.equal(pixels[0], 0x15);
       assert.equal(pixels[1], 0x57);
       assert.equal(pixels[2], 0xc4);
+    }
+  });
+});
+
+describe("any-purpose and apple-touch icons", () => {
+  it("use the same bold mark so home-screen tiles are not a tiny glyph", () => {
+    for (const [file, expected] of [
+      ["public/icon-192.png", 192],
+      ["public/icon-512.png", 512],
+      ["public/apple-touch-icon.png", 180],
+      ["public/__grok/icon-180.png", 180],
+    ] as const) {
+      const bytes = readFileSync(join(ROOT, file));
+      const { width, height, pixels } = readPngRgba(bytes);
+      assert.equal(width, expected, file);
+      assert.equal(height, expected, file);
+      const coverage = innerMarkCoverage(pixels, width);
+      assert.ok(coverage > 0.55, `${file} mark coverage ${coverage} is still too small`);
     }
   });
 });

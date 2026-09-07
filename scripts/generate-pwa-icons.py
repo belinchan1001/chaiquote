@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Rasterize 齊Quote maskable PNG icons.
+"""Rasterize 齊Quote PWA icons.
 
-Maskable assets are full-bleed #1557C4 with the quote mark scaled to fill
-the Android adaptive-icon safe zone (~80% of the canvas), not the whole
-32×32 lockup (that left a near-blank blue field).
+Maskable + any-purpose assets draw a *bold* quote mark that fills ~78% of
+the canvas (not the sparse 32×32 lockup, whose 20×16 bbox looked like a
+tiny glyph on a blue field). Background is solid #1557C4.
 """
 
 from __future__ import annotations
@@ -13,16 +13,18 @@ import zlib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT_DIR = ROOT / "public" / "__grok"
+OUT = ROOT / "public"
+GROK = OUT / "__grok"
 
 BLUE = (0x15, 0x57, 0xC4, 255)
 WHITE = (0xF4, 0xF8, 0xFF, 255)
 CYAN = (0x00, 0xA8, 0xC5, 255)
+CLEAR = (0, 0, 0, 0)
 
-# Quote mark in the 32×32 lockup (excludes the outer rounded tile).
-MARK_X, MARK_Y, MARK_W, MARK_H = 6.0, 8.0, 20.0, 16.0
-# Android maskable safe zone is the inner ~80% (10% padding each side).
-SAFE_ZONE = 0.80
+# Padding → mark box is 78% of the canvas on both axes (visually ~70–80%).
+MARK_PAD = 0.11
+# Each capsule is thicker than the 32×32 lockup (11/20), so the pair reads bold.
+PILL_W = 0.60
 SAMPLES = 2
 
 
@@ -64,38 +66,49 @@ def circle(px: float, py: float, cx: float, cy: float, r: float) -> bool:
     return dx * dx + dy * dy <= r * r
 
 
-def sample_mark(lx: float, ly: float) -> tuple[int, int, int, int]:
-    """Paint the two quote tiles in lockup space; default is brand blue."""
+def sample_bold_mark(nx: float, ny: float) -> tuple[int, int, int, int]:
+    """nx, ny in 0..1 canvas space. Full-bleed blue + large centered quotes."""
     color = BLUE
-    if rounded_rect(lx, ly, 6, 8, 11, 16, 3.5):
+    box0 = MARK_PAD
+    box1 = 1.0 - MARK_PAD
+    box = box1 - box0
+    if box <= 0:
+        return color
+
+    pill_w = box * PILL_W
+    pill_h = box
+    left_x = box0
+    right_x = box1 - pill_w
+    pill_y = box0
+    radius = pill_w * 0.32
+    # Dots sit in the upper third, same relative place as the lockup.
+    dot_r = pill_w * 0.155
+    left_dot = (left_x + pill_w * 0.50, pill_y + pill_h * 0.34)
+    right_dot = (right_x + pill_w * 0.50, pill_y + pill_h * 0.34)
+
+    if rounded_rect(nx, ny, left_x, pill_y, pill_w, pill_h, radius):
         color = WHITE
-    if rounded_rect(lx, ly, 15, 8, 11, 16, 3.5):
+    if rounded_rect(nx, ny, right_x, pill_y, pill_w, pill_h, radius):
         color = CYAN
-    if circle(lx, ly, 11.5, 13.5, 1.7):
+    if circle(nx, ny, left_dot[0], left_dot[1], dot_r):
         color = BLUE
-    if circle(lx, ly, 20.5, 13.5, 1.7):
+    if circle(nx, ny, right_dot[0], right_dot[1], dot_r):
         color = WHITE
     return color
 
 
-def render_maskable(size: int) -> bytearray:
-    """Full-bleed blue; mark uniformly scaled to the inner SAFE_ZONE square."""
-    target = size * SAFE_ZONE
-    scale = target / max(MARK_W, MARK_H)
-    drawn_w = MARK_W * scale
-    drawn_h = MARK_H * scale
-    origin_x = (size - drawn_w) / 2.0 - MARK_X * scale
-    origin_y = (size - drawn_h) / 2.0 - MARK_Y * scale
-
+def render(size: int, *, rounded_tile: bool) -> bytearray:
     hi = size * SAMPLES
     big = bytearray(hi * hi * 4)
+    tile_r = 0.22  # iOS-style squircle on any-purpose icons
     for y in range(hi):
         for x in range(hi):
-            px = (x + 0.5) / SAMPLES
-            py = (y + 0.5) / SAMPLES
-            lx = (px - origin_x) / scale
-            ly = (py - origin_y) / scale
-            color = sample_mark(lx, ly)
+            nx = (x + 0.5) / hi
+            ny = (y + 0.5) / hi
+            if rounded_tile and not rounded_rect(nx, ny, 0.0, 0.0, 1.0, 1.0, tile_r):
+                color = CLEAR
+            else:
+                color = sample_bold_mark(nx, ny)
             i = (y * hi + x) * 4
             big[i : i + 4] = bytes(color)
 
@@ -122,30 +135,63 @@ def render_maskable(size: int) -> bytearray:
     return out
 
 
-def mark_coverage(pixels: bytearray, size: int) -> float:
-    """Fraction of inner-80% pixels that are not solid brand blue."""
+def mark_extent(pixels: bytearray, size: int) -> tuple[float, float, float]:
+    """Width span, height span, and inner-80% non-blue coverage."""
+    min_x, max_x, min_y, max_y = size, -1, size, -1
     pad = int(size * 0.10)
-    total = 0
-    marked = 0
+    for y in range(size):
+        for x in range(size):
+            i = (y * size + x) * 4
+            if pixels[i + 3] < 16:
+                continue
+            if pixels[i : i + 3] == bytes(BLUE[:3]):
+                continue
+            min_x = min(min_x, x)
+            max_x = max(max_x, x)
+            min_y = min(min_y, y)
+            max_y = max(max_y, y)
+    inner_total = 0
+    inner_marked = 0
     for y in range(pad, size - pad):
         for x in range(pad, size - pad):
             i = (y * size + x) * 4
-            total += 1
-            if pixels[i : i + 3] != bytes(BLUE[:3]):
-                marked += 1
-    return marked / total if total else 0.0
+            inner_total += 1
+            if pixels[i : i + 3] != bytes(BLUE[:3]) and pixels[i + 3] > 16:
+                inner_marked += 1
+    span_w = (max_x - min_x + 1) / size if max_x >= 0 else 0.0
+    span_h = (max_y - min_y + 1) / size if max_y >= 0 else 0.0
+    coverage = inner_marked / inner_total if inner_total else 0.0
+    return span_w, span_h, coverage
+
+
+def emit(path: Path, size: int, *, rounded_tile: bool) -> None:
+    pixels = render(size, rounded_tile=rounded_tile)
+    span_w, span_h, coverage = mark_extent(pixels, size)
+    if span_w < 0.70 or span_h < 0.70:
+        raise SystemExit(
+            f"{path.name}: mark span {span_w:.0%}×{span_h:.0%} is still sparse "
+            f"(need ≥70% of canvas on both axes)"
+        )
+    if coverage < 0.40:
+        raise SystemExit(f"{path.name}: inner coverage {coverage:.1%} is too low")
+    write_png(path, size, size, pixels)
+    print(
+        f"wrote {path} span={span_w:.0%}×{span_h:.0%} "
+        f"coverage={coverage:.1%} bytes={path.stat().st_size}"
+    )
 
 
 def main() -> None:
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    for size, name in ((192, "icon-192-maskable.png"), (512, "icon-512-maskable.png")):
-        pixels = render_maskable(size)
-        coverage = mark_coverage(pixels, size)
-        if coverage < 0.18:
-            raise SystemExit(f"{name}: mark coverage {coverage:.1%} is too low (near-blank)")
-        path = OUT_DIR / name
-        write_png(path, size, size, pixels)
-        print(f"wrote {path} coverage={coverage:.1%} bytes={path.stat().st_size}")
+    GROK.mkdir(parents=True, exist_ok=True)
+    # Maskable: full-bleed square so Android can cut any shape.
+    emit(GROK / "icon-192-maskable.png", 192, rounded_tile=False)
+    emit(GROK / "icon-512-maskable.png", 512, rounded_tile=False)
+    # Any-purpose / home-screen: same bold mark, iOS-style rounded tile.
+    emit(OUT / "icon-192.png", 192, rounded_tile=True)
+    emit(OUT / "icon-512.png", 512, rounded_tile=True)
+    emit(OUT / "apple-touch-icon.png", 180, rounded_tile=False)
+    emit(GROK / "icon-180.png", 180, rounded_tile=False)
+    emit(OUT / "favicon-32.png", 32, rounded_tile=True)
 
 
 if __name__ == "__main__":
