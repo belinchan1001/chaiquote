@@ -31,7 +31,7 @@ export function EstateSuggest({
   const [active, setActive] = useState(0);
   const [remote, setRemote] = useState<AddressHit[]>([]);
   const [loading, setLoading] = useState(false);
-  const local = localAddressHits(value, 6);
+  const local = localAddressHits(value);
   const results = value.trim().length >= 2 && remote.length ? remote : local;
   const { t } = useI18n();
 
@@ -124,7 +124,7 @@ export function EstateSuggest({
         <ul
           id={listId}
           role="listbox"
-          className="popover-in absolute z-50 mt-1 max-h-64 w-full overflow-y-auto rounded-xl bg-card py-1 shadow-[var(--shadow-border-hover)]"
+          className="popover-in absolute z-50 mt-1 max-h-80 w-full overflow-y-auto rounded-xl bg-card py-1 shadow-[var(--shadow-border-hover)]"
         >
           {results.length ? (
             results.map((hit, i) => (

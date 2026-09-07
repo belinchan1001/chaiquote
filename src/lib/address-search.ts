@@ -14,6 +14,9 @@ export type { HousingGuess };
 
 const GOV_SEARCH = "https://www.map.gov.hk/gs/api/v1.0.0/locationSearch";
 const RESULT_CACHE = new Map<string, AddressHit[]>();
+/** Parent + a scrollable set of 樓／閣 children; keep a few gov rows after that. */
+export const LOCAL_SUGGEST_LIMIT = 24;
+const GOV_EXTRA = 8;
 
 const NOISE =
   /巴士站|小巴站|專線小巴|智郵|郵政局|電車站|港鐵站|總站|外面|公園|小學|中學|幼稚園|教堂|廟/;
@@ -53,7 +56,7 @@ function fromLocal(estate: Estate): AddressHit {
   };
 }
 
-export function localAddressHits(query: string, limit = 6): AddressHit[] {
+export function localAddressHits(query: string, limit = LOCAL_SUGGEST_LIMIT): AddressHit[] {
   return searchEstates(query, limit).map(fromLocal);
 }
 
@@ -80,7 +83,7 @@ export async function searchAddresses(query: string, signal?: AbortSignal): Prom
   const cacheKey = compact(q);
   const cached = RESULT_CACHE.get(cacheKey);
   if (cached) return cached;
-  const local = localAddressHits(q, 5);
+  const local = localAddressHits(q);
   const seen = new Set(local.map((hit) => compact(hit.name)));
 
   try {
@@ -105,7 +108,8 @@ export async function searchAddresses(query: string, signal?: AbortSignal): Prom
       const bs = compact(b.name).startsWith(compactQ) ? 1 : 0;
       return bs - as;
     });
-    const merged = [...local, ...gov].slice(0, 12);
+    const cap = Math.max(12, local.length + GOV_EXTRA);
+    const merged = [...local, ...gov].slice(0, cap);
     RESULT_CACHE.set(cacheKey, merged);
     return merged;
   } catch (error) {

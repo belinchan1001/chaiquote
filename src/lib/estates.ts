@@ -378,6 +378,40 @@ function estateNeedles(estate: Estate): string[] {
   return [...new Set([estate.name, ...estate.aliases].map(compact).filter((n) => n.length >= 2))];
 }
 
+/** Estate / 苑 parents only — never village (村) or short aliases like「東頭」. */
+export function isCatalogueParent(estate: Estate): boolean {
+  return estate.housing !== "village" && /[邨苑]$/.test(estate.name);
+}
+
+/**
+ * Link 樓／閣 rows to a parent using the parent's full catalogue name only.
+ * 「東頭邨康東樓」→ 東頭邨; 「東頭」must not attach 東頭村 to 東頭邨 blocks.
+ */
+export function isRelatedBlock(child: Estate, parent: Estate): boolean {
+  if (child.name === parent.name || parent.housing === "village") return false;
+  if (!/[邨苑]$/.test(parent.name)) return false;
+  const parentKey = compact(parent.name);
+  if (parentKey.length < 3) return false;
+  return [child.name, ...child.aliases].some((raw) => {
+    const needle = compact(raw);
+    if (!needle.startsWith(parentKey) || needle === parentKey) return false;
+    const rest = needle.slice(parentKey.length);
+    return rest.length >= 2 && /樓|閣|house/.test(rest);
+  });
+}
+
+const RELATED_BLOCKS = new Map<string, Estate[]>();
+for (const parent of ESTATES) {
+  if (!isCatalogueParent(parent)) continue;
+  const children = ESTATES.filter((child) => isRelatedBlock(child, parent));
+  if (children.length) RELATED_BLOCKS.set(parent.name, children);
+}
+
+export function relatedBlocks(parent: Estate | string): Estate[] {
+  const name = typeof parent === "string" ? parent : parent.name;
+  return RELATED_BLOCKS.get(name) ?? [];
+}
+
 const ALL_ESTATE_NEEDLES = [...new Set(ESTATES.flatMap(estateNeedles))].sort(
   (a, b) => b.length - a.length,
 );
@@ -407,7 +441,26 @@ export function searchEstates(query: string, limit = 8): Estate[] {
     return { estate, score };
   }).filter((row) => row.score > 0);
   scored.sort((a, b) => b.score - a.score || a.estate.name.localeCompare(b.estate.name, "zh-Hant"));
-  return scored.slice(0, limit).map((row) => row.estate);
+  const ranked = scored.map((row) => row.estate);
+  const out: Estate[] = [];
+  const seen = new Set<string>();
+
+  function push(estate: Estate) {
+    if (seen.has(estate.name) || out.length >= limit) return;
+    seen.add(estate.name);
+    out.push(estate);
+  }
+
+  for (const estate of ranked) {
+    if (out.length >= limit) break;
+    push(estate);
+    if (!isCatalogueParent(estate)) continue;
+    for (const child of relatedBlocks(estate)) {
+      if (out.length >= limit) break;
+      push(child);
+    }
+  }
+  return out;
 }
 
 export function matchKnownEstate(name: string, address = ""): Estate | undefined {

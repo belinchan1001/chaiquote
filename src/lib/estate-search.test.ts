@@ -7,7 +7,10 @@ import {
   classifyAddress,
   ESTATES,
   estateLabel,
+  isCatalogueParent,
+  isRelatedBlock,
   matchKnownEstate,
+  relatedBlocks,
   searchEstates,
 } from "./estates.ts";
 
@@ -288,6 +291,112 @@ describe("matchKnownEstate / classifyAddress", () => {
     assert.equal(classifyAddress("彩富閣").housing, undefined);
     assert.equal(classifyAddress("某某屋邨").housing, "public");
     assert.equal(classifyAddress("某某屋邨").confidence, "medium");
+  });
+});
+
+describe("related blocks in suggest (anti-cross)", () => {
+  it("links 樓／閣 children from full parent names only", () => {
+    assert.equal(isCatalogueParent(estate("東頭邨")!), true);
+    assert.equal(isCatalogueParent(estate("美東邨")!), true);
+    assert.equal(isCatalogueParent(estate("彩明苑")!), true);
+    assert.equal(isCatalogueParent(estate("東頭村")!), false);
+
+    const tungTauBlocks = relatedBlocks("東頭邨").map((item) => item.name);
+    assert.ok(tungTauBlocks.includes("康東樓"));
+    assert.ok(tungTauBlocks.includes("興東樓"));
+    assert.ok(tungTauBlocks.includes("美東樓"));
+    assert.ok(!tungTauBlocks.includes("東頭村"));
+
+    const meiTungBlocks = relatedBlocks("美東邨").map((item) => item.name);
+    assert.ok(meiTungBlocks.includes("美東樓"));
+    assert.ok(meiTungBlocks.includes("美寶樓"));
+    assert.ok(meiTungBlocks.includes("美德樓"));
+
+    const choiMing = relatedBlocks("彩明苑").map((item) => item.name);
+    for (const name of ["彩楊閣", "彩柳閣", "彩松閣", "彩柏閣", "彩桃閣", "彩梅閣"]) {
+      assert.ok(choiMing.includes(name), name);
+    }
+
+    assert.equal(relatedBlocks("東頭村").length, 0);
+    assert.equal(isRelatedBlock(estate("康東樓")!, estate("東頭村")!), false);
+    assert.equal(isRelatedBlock(estate("康東樓")!, estate("東頭邨")!), true);
+    assert.equal(isRelatedBlock(estate("興東樓")!, estate("興東邨")!), false);
+    assert.equal(isRelatedBlock(estate("逸東樓")!, estate("東涌逸東邨")!), false);
+  });
+
+  it("1) search 東頭邨 → parent first, then its 樓 children", () => {
+    const hits = searchEstates("東頭邨", 24);
+    assert.equal(hits[0]?.name, "東頭邨");
+    assert.equal(hits[0]?.housing, "public");
+    const names = hits.map((item) => item.name);
+    assert.ok(names.includes("康東樓"));
+    assert.ok(names.includes("裕東樓"));
+    assert.ok(names.includes("興東樓"));
+    assert.ok(names.includes("美東樓"));
+    const firstBlock = hits.findIndex((item) => item.name.endsWith("樓"));
+    assert.ok(firstBlock > 0);
+    assert.ok(!names.includes("東頭村"));
+    assert.ok(!hits.some((item) => item.housing === "village"));
+    assert.ok(hits.length > 8);
+  });
+
+  it("2) search 東頭村 → only village; zero 東頭邨 blocks", () => {
+    const hits = searchEstates("東頭村", 24);
+    assert.equal(hits.length, 1);
+    assert.equal(hits[0]?.name, "東頭村");
+    assert.equal(hits[0]?.housing, "village");
+    assert.ok(!hits.some((item) => item.name === "東頭邨"));
+    assert.ok(!hits.some((item) => item.housing === "public"));
+    for (const block of relatedBlocks("東頭邨")) {
+      assert.ok(!hits.some((item) => item.name === block.name), block.name);
+    }
+  });
+
+  it("3) searching a block name keeps the correct housing type", () => {
+    assert.equal(searchEstates("康東樓")[0]?.name, "康東樓");
+    assert.equal(searchEstates("康東樓")[0]?.housing, "public");
+    assert.equal(searchEstates("美東樓")[0]?.housing, "public");
+    assert.equal(searchEstates("彩楊閣")[0]?.name, "彩楊閣");
+    assert.equal(searchEstates("彩楊閣")[0]?.housing, "hos");
+    assert.equal(classifyAddress("康東樓").housing, "public");
+    assert.equal(classifyAddress("彩楊閣").housing, "hos");
+  });
+
+  it("does not let short 東頭 treat the village as parent of 東頭邨 blocks", () => {
+    const village = estate("東頭村")!;
+    const publicEstate = estate("東頭邨")!;
+    assert.ok(publicEstate.aliases.includes("東頭"));
+    assert.ok(!village.aliases.includes("東頭"));
+    assert.equal(isRelatedBlock(estate("康東樓")!, village), false);
+    assert.equal(relatedBlocks(village).length, 0);
+
+    const hits = searchEstates("東頭", 24);
+    assert.equal(hits[0]?.name, "東頭邨");
+    const villageHit = hits.find((item) => item.name === "東頭村");
+    if (villageHit) assert.equal(villageHit.housing, "village");
+    const beforeVillage = villageHit ? hits.indexOf(villageHit) : hits.length;
+    const parentIdx = hits.findIndex((item) => item.name === "東頭邨");
+    const hongTung = hits.findIndex((item) => item.name === "康東樓");
+    assert.ok(parentIdx === 0);
+    assert.ok(hongTung > parentIdx);
+    if (villageHit && hongTung >= 0) {
+      assert.notEqual(hongTung, beforeVillage, "village must not sit as parent of 東頭邨 blocks");
+    }
+  });
+
+  it("美東邨 / 彩明苑 expand their own children only", () => {
+    const mei = searchEstates("美東邨", 24).map((item) => item.name);
+    assert.equal(mei[0], "美東邨");
+    assert.ok(mei.includes("美東樓"));
+    assert.ok(mei.includes("美仁樓"));
+    assert.ok(!mei.includes("康東樓"));
+    assert.ok(!mei.includes("東頭村"));
+
+    const choi = searchEstates("彩明苑", 24);
+    assert.equal(choi[0]?.name, "彩明苑");
+    assert.equal(choi[0]?.housing, "hos");
+    assert.ok(choi.some((item) => item.name === "彩楊閣" && item.housing === "hos"));
+    assert.ok(!choi.some((item) => item.name === "彩富閣"));
   });
 });
 
