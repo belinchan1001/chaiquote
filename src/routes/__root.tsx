@@ -7,8 +7,10 @@ import { CompareBar } from "@/components/compare-bar";
 import { NavProgress } from "@/components/nav-progress";
 import { DeferredWhatsApp } from "@/components/whatsapp-widget";
 import { FirstVisitTour } from "@/components/first-visit-tour";
+import { PwaInstallTip } from "@/components/pwa-install-tip";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SITE } from "@/lib/site";
+import { PWA } from "@/lib/pwa";
 import { canonicalUrlFromMatches } from "@/lib/seo";
 import appCss from "../styles.css?url";
 
@@ -21,7 +23,11 @@ export const Route = createRootRoute({
         { name: "viewport", content: "width=device-width, initial-scale=1" },
         { title: `${SITE.name} · ${SITE.tagline}` },
         { name: "description", content: SITE.description },
-        { name: "theme-color", content: "#1557C4" },
+        { name: "theme-color", content: PWA.themeColor },
+        { name: "apple-mobile-web-app-title", content: SITE.name },
+        { name: "apple-mobile-web-app-capable", content: "yes" },
+        { name: "mobile-web-app-capable", content: "yes" },
+        { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
         { name: "robots", content: "index,follow" },
         { property: "og:url", content: pageUrl },
       ],
@@ -29,6 +35,8 @@ export const Route = createRootRoute({
         { rel: "canonical", href: pageUrl },
         { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
         { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32.png" },
+        { rel: "icon", type: "image/png", sizes: "192x192", href: "/icon-192.png" },
+        { rel: "icon", type: "image/png", sizes: "512x512", href: "/icon-512.png" },
         { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
         { rel: "stylesheet", href: appCss },
         { rel: "manifest", href: "/__grok/manifest.webmanifest" },
@@ -93,6 +101,7 @@ function RootLayout() {
               <SiteFooter />
             </div>
             <CompareBar />
+            <PwaInstallTip />
             <DeferredWhatsApp />
             <FirstVisitTour />
           </AuthProvider>

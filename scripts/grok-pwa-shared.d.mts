@@ -1,8 +1,22 @@
 export declare const DEFAULT_APP_NAME: string;
+export declare const CHAIQUOTE_APP_NAME: string;
+export declare const CHAIQUOTE_APP_DESCRIPTION: string;
+export declare const CHAIQUOTE_THEME_COLOR: string;
+export declare const CHAIQUOTE_BACKGROUND_COLOR: string;
+export declare const CHAIQUOTE_START_URL: string;
+export declare const CHAIQUOTE_SCOPE: string;
 export declare const OG_SERVICE_URL_DEFAULT: string;
 export declare const OG_SITE_REL_PATH: string;
 export declare function escapeHtml(value: unknown): string;
+export declare function requestHostName(hostHeader: string | null | undefined): string;
+export declare function isChaiquoteHost(hostHeader: string | null | undefined): boolean;
+export declare function isChaiquoteProductionHost(hostHeader: string | null | undefined): boolean;
 export declare function appNameFromHost(hostHeader: string | null | undefined): string;
+export declare function pwaStartScope(hostHeader: string | null | undefined): {
+  id: string;
+  start_url: string;
+  scope: string;
+};
 export declare function publicAppHost(hostHeader: string | null | undefined): string;
 export declare function resolvePublicHost(hostHeader: string | null | undefined): string;
 export declare function isInstallQuery(url: string | null | undefined): boolean;
