@@ -1,17 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { ChevronsLeftRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { QuoteLink } from "@/components/quote-link";
 import { WhatsAppTip } from "@/components/whatsapp-tip";
-import { ProviderMark } from "@/components/provider-mark";
+import { ProviderLogo, ProviderMark } from "@/components/provider-mark";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import {
-  averageFee,
-  formatFee,
-  formatPlanSpeed,
-  getPlan,
-} from "@/lib/plans";
+  compareFieldValue,
+  planSpecToken,
+  shortProviderName,
+  visibleCompareFields,
+} from "@/lib/compare";
+import { formatFee, getPlan, planPerks } from "@/lib/plans";
 import { SITE } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/compare")({
   component: ComparePage,
@@ -24,7 +27,7 @@ function ComparePage() {
   const removeCompare = useDesk((s) => s.removeCompare);
   const clearCompare = useDesk((s) => s.clearCompare);
   const plans = ids.map(getPlan).filter((p): p is NonNullable<typeof p> => Boolean(p));
-  const { t, tx, categoryLabel } = useI18n();
+  const { t, tx, categoryLabel, locale } = useI18n();
   usePageTitle(`${t("navCompare")} · ${SITE.name}`);
 
   if (plans.length === 0) {
@@ -41,25 +44,37 @@ function ComparePage() {
     );
   }
 
-  const dash = t("dash");
-  const rows: { label: string; value: (i: number) => string }[] = [
-    { label: t("rowCategory"), value: (i) => categoryLabel(plans[i].category) },
-    { label: t("rowFee"), value: (i) => formatFee(plans[i].monthlyFee) },
-    { label: t("rowAvg"), value: (i) => formatFee(averageFee(plans[i])) },
-    { label: t("rowContract"), value: (i) => t("months", { n: plans[i].contractMonths }) },
-    { label: t("rowFree"), value: (i) => (plans[i].freeMonths ? t("months", { n: plans[i].freeMonths }) : t("none")) },
-    { label: t("speed"), value: (i) => formatPlanSpeed(plans[i]) },
-    {
-      label: t("data"),
-      value: (i) =>
-        plans[i].highSpeedGb ? `${plans[i].highSpeedGb}GB` : plans[i].dataGb ? `${plans[i].dataGb}GB` : dash,
-    },
-    { label: t("rowAfter"), value: (i) => (plans[i].fupNote ? tx(plans[i].fupNote) : dash) },
-    { label: t("rowVoice"), value: (i) => (plans[i].voice ? tx(plans[i].voice) : dash) },
-    { label: t("rowRoam"), value: (i) => (plans[i].roaming ? tx(plans[i].roaming) : dash) },
-    { label: t("install"), value: (i) => tx(plans[i].install) },
-    { label: t("rowPort"), value: (i) => (plans[i].portInPerk ? tx(plans[i].portInPerk) : dash) },
-  ];
+  const copy = {
+    dash: t("dash"),
+    none: t("none"),
+    months: (n: number) => t("months", { n }),
+    categoryLabel,
+    tx,
+  };
+  const rows = visibleCompareFields(plans, copy).map((field) => ({
+    ...field,
+    label: t(
+      (
+        {
+          category: "rowCategory",
+          fee: "rowFee",
+          avg: "rowAvg",
+          contract: "rowContract",
+          free: "rowFree",
+          speed: "speed",
+          data: "data",
+          after: "rowAfter",
+          voice: "rowVoice",
+          roam: "rowRoam",
+          install: "install",
+          port: "rowPort",
+        } as const
+      )[field.key],
+    ),
+    values: plans.map((plan) => compareFieldValue(plan, field.key, copy)),
+  }));
+  const showPerks = plans.some((plan) => planPerks(plan).length > 0);
+  const showSwipe = plans.length > 1;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
@@ -75,59 +90,123 @@ function ComparePage() {
       <p className="mt-3 text-xs leading-relaxed text-muted">{t("referencePrice")}</p>
       <WhatsAppTip className="mt-2" />
 
-      <div className="mt-8 overflow-x-auto">
-        <table className="w-full min-w-3xl border-separate border-spacing-0 bg-card text-sm shadow-[var(--shadow-border)]">
-          <thead>
-            <tr>
-              <th className="sticky left-0 bg-card px-4 py-4 text-left font-medium text-muted">{t("rowItem")}</th>
-              {plans.map((plan) => (
-                <th key={plan.id} className="min-w-48 px-4 py-4 text-left font-medium">
-                  <ProviderMark id={plan.providerId} size="sm" />
-                  <Link
-                    to="/plans/$planId"
-                    params={{ planId: plan.id }}
-                    className="mt-2 block hover:underline"
-                  >
-                    {tx(plan.name)}
-                  </Link>
-                  <button
-                    type="button"
-                    className="mt-2 text-xs text-subtle hover:text-fg"
-                    onClick={() => removeCompare(plan.id)}
-                  >
-                    {t("remove")}
-                  </button>
+      {showSwipe ? (
+        <p className="mt-6 flex items-center gap-1.5 text-xs text-muted md:hidden">
+          <ChevronsLeftRight className="size-3.5 shrink-0" aria-hidden />
+          {t("compareSwipe")}
+        </p>
+      ) : null}
+
+      <div className={cn("relative", showSwipe ? "mt-2 md:mt-8" : "mt-8")}>
+        <div className="compare-scroll overflow-x-auto overscroll-x-contain">
+          <table className="w-max min-w-full border-separate border-spacing-0 bg-card text-sm shadow-[var(--shadow-border)]">
+            <thead>
+              <tr>
+                <th className="compare-label sticky left-0 z-20 bg-card px-1.5 py-2 text-left align-bottom text-[11px] leading-tight font-medium text-muted sm:px-4 sm:py-4 sm:text-sm">
+                  {t("rowItem")}
                 </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row) => (
-              <tr key={row.label} className="border-t border-border">
-                <th className="sticky left-0 bg-card px-4 py-3 text-left font-medium text-muted">
-                  {row.label}
-                </th>
-                {plans.map((plan, i) => (
-                  <td key={plan.id} className="px-4 py-3">
-                    {row.value(i)}
-                  </td>
+                {plans.map((plan) => (
+                  <th
+                    key={plan.id}
+                    className="compare-plan w-[6.75rem] min-w-[6.75rem] max-w-[6.75rem] px-2 py-2 text-left align-bottom font-medium sm:w-auto sm:min-w-48 sm:max-w-none sm:px-4 sm:py-4"
+                  >
+                    <div className="sm:hidden">
+                      <div className="flex items-center gap-1">
+                        <ProviderLogo id={plan.providerId} size="sm" />
+                        <p className="min-w-0 truncate text-[11px] leading-tight">
+                          {shortProviderName(plan.providerId, locale)}
+                        </p>
+                      </div>
+                      <Link
+                        to="/plans/$planId"
+                        params={{ planId: plan.id }}
+                        className="mt-1 block text-xs leading-snug hover:underline"
+                      >
+                        {planSpecToken(plan) || tx(plan.name)}
+                      </Link>
+                      <p className="mt-0.5 font-display text-base font-semibold tabular-nums leading-none">
+                        {formatFee(plan.monthlyFee)}
+                      </p>
+                      {plan.freeMonths ? (
+                        <p className="mt-0.5 text-[11px] leading-tight text-accent">
+                          {t("months", { n: plan.freeMonths })}
+                        </p>
+                      ) : null}
+                    </div>
+                    <div className="hidden sm:block">
+                      <ProviderMark id={plan.providerId} size="sm" />
+                      <Link
+                        to="/plans/$planId"
+                        params={{ planId: plan.id }}
+                        className="mt-2 block hover:underline"
+                      >
+                        {tx(plan.name)}
+                      </Link>
+                    </div>
+                    <button
+                      type="button"
+                      className="mt-1.5 text-[11px] text-subtle hover:text-fg sm:mt-2 sm:text-xs"
+                      onClick={() => removeCompare(plan.id)}
+                    >
+                      {t("remove")}
+                    </button>
+                  </th>
                 ))}
               </tr>
-            ))}
-            <tr>
-              <th className="sticky left-0 bg-card px-4 py-3 text-left font-medium text-muted">{t("rowPerks")}</th>
-              {plans.map((plan) => (
-                <td key={plan.id} className="px-4 py-3">
-                  <ul className="space-y-1 text-muted">
-                    {plan.perks.map((perk) => (
-                      <li key={perk}>{tx(perk)}</li>
-                    ))}
-                  </ul>
-                </td>
+            </thead>
+            <tbody>
+              {rows.map((row) => (
+                <tr key={row.key} className="border-t border-border">
+                  <th
+                    className={cn(
+                      "compare-label sticky left-0 z-10 bg-card px-1.5 py-2 text-left align-top text-[11px] leading-tight font-medium text-muted sm:px-4 sm:py-3 sm:text-sm",
+                      row.highlight && "bg-surface text-fg",
+                    )}
+                  >
+                    {row.label}
+                  </th>
+                  {row.values.map((value, i) => (
+                    <td
+                      key={plans[i].id}
+                      className={cn(
+                        "compare-plan w-[6.75rem] min-w-[6.75rem] max-w-[6.75rem] px-2 py-2 align-top break-words sm:w-auto sm:min-w-48 sm:max-w-none sm:px-4 sm:py-3",
+                        row.highlight && "bg-surface font-semibold tabular-nums",
+                        row.key === "fee" && "font-display text-base",
+                      )}
+                    >
+                      {value}
+                    </td>
+                  ))}
+                </tr>
               ))}
-            </tr>
-          </tbody>
-        </table>
+              {showPerks ? (
+                <tr>
+                  <th className="compare-label sticky left-0 z-10 bg-card px-1.5 py-2 text-left align-top text-[11px] leading-tight font-medium text-muted sm:px-4 sm:py-3 sm:text-sm">
+                    {t("rowPerks")}
+                  </th>
+                  {plans.map((plan) => (
+                    <td
+                      key={plan.id}
+                      className="compare-plan w-[6.75rem] min-w-[6.75rem] max-w-[6.75rem] px-2 py-2 align-top break-words sm:w-auto sm:min-w-48 sm:max-w-none sm:px-4 sm:py-3"
+                    >
+                      <ul className="space-y-1 text-xs break-words text-muted sm:text-sm">
+                        {planPerks(plan).map((perk) => (
+                          <li key={perk}>{tx(perk)}</li>
+                        ))}
+                      </ul>
+                    </td>
+                  ))}
+                </tr>
+              ) : null}
+            </tbody>
+          </table>
+        </div>
+        {showSwipe ? (
+          <div
+            className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-bg to-transparent md:hidden"
+            aria-hidden
+          />
+        ) : null}
       </div>
     </div>
   );
