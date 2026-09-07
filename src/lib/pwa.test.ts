@@ -1,5 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
+import { inflateSync } from "node:zlib";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -13,7 +14,15 @@ import {
   pwaStartScope,
   renderWebManifest,
 } from "../../scripts/grok-pwa-shared.mjs";
-import { PWA, isStandaloneDisplay, pwaInstallPlatform, pwaInstallTip } from "./pwa.ts";
+import {
+  PWA,
+  PWA_SERVICE_WORKER_URL,
+  isStandaloneDisplay,
+  pwaInstallPlatform,
+  pwaInstallTip,
+  shouldRegisterServiceWorker,
+} from "./pwa.ts";
+import { isDocumentPath } from "../../scripts/grok-pwa-shared.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
 
@@ -126,5 +135,91 @@ describe("renderWebManifest for www.chaiquote.hk", () => {
       assert.ok(bytes.length > 100, path);
       assert.equal(bytes.subarray(0, 8).toString("binary"), "\x89PNG\r\n\x1a\n");
     }
+  });
+});
+
+function readPngRgba(bytes: Buffer) {
+  let offset = 8;
+  const idat: Buffer[] = [];
+  let width = 0;
+  let height = 0;
+  while (offset + 8 <= bytes.length) {
+    const length = bytes.readUInt32BE(offset);
+    const type = bytes.toString("binary", offset + 4, offset + 8);
+    const data = bytes.subarray(offset + 8, offset + 8 + length);
+    if (type === "IHDR") {
+      width = data.readUInt32BE(0);
+      height = data.readUInt32BE(4);
+    } else if (type === "IDAT") {
+      idat.push(data);
+    } else if (type === "IEND") {
+      break;
+    }
+    offset += 12 + length;
+  }
+  const raw = inflateSync(Buffer.concat(idat));
+  const stride = width * 4;
+  const pixels = Buffer.alloc(width * height * 4);
+  for (let y = 0; y < height; y += 1) {
+    const row = y * (1 + stride);
+    if (raw[row] !== 0) throw new Error("unsupported PNG filter");
+    raw.copy(pixels, y * stride, row + 1, row + 1 + stride);
+  }
+  return { width, height, pixels };
+}
+
+function innerMarkCoverage(pixels: Buffer, size: number) {
+  const pad = Math.floor(size * 0.1);
+  let total = 0;
+  let marked = 0;
+  for (let y = pad; y < size - pad; y += 1) {
+    for (let x = pad; x < size - pad; x += 1) {
+      const i = (y * size + x) * 4;
+      total += 1;
+      if (pixels[i] !== 0x15 || pixels[i + 1] !== 0x57 || pixels[i + 2] !== 0xc4) marked += 1;
+    }
+  }
+  return marked / total;
+}
+
+describe("maskable icons", () => {
+  it("are real 192/512 PNGs with the mark filling the safe zone", () => {
+    for (const [file, expected] of [
+      ["public/__grok/icon-192-maskable.png", 192],
+      ["public/__grok/icon-512-maskable.png", 512],
+    ] as const) {
+      const bytes = readFileSync(join(ROOT, file));
+      const { width, height, pixels } = readPngRgba(bytes);
+      assert.equal(width, expected, file);
+      assert.equal(height, expected, file);
+      const coverage = innerMarkCoverage(pixels, width);
+      assert.ok(coverage > 0.35, `${file} mark coverage ${coverage} is still too small`);
+      // Corners stay solid brand blue so Android masks never show a hole.
+      assert.equal(pixels[0], 0x15);
+      assert.equal(pixels[1], 0x57);
+      assert.equal(pixels[2], 0xc4);
+    }
+  });
+});
+
+describe("service worker", () => {
+  it("registers only on the live chaiquote hosts", () => {
+    assert.equal(shouldRegisterServiceWorker("www.chaiquote.hk"), true);
+    assert.equal(shouldRegisterServiceWorker("chaiquote.hk"), true);
+    assert.equal(shouldRegisterServiceWorker("localhost"), false);
+    assert.equal(shouldRegisterServiceWorker("127.0.0.1"), false);
+    assert.equal(shouldRegisterServiceWorker("chaiquote.vercel.app"), false);
+    assert.equal(shouldRegisterServiceWorker("wild-race.grok.me"), false);
+    assert.equal(PWA_SERVICE_WORKER_URL, "/sw.js");
+  });
+
+  it("ships a fetch handler that leaves documents and other origins alone", () => {
+    const sw = readFileSync(join(ROOT, "public/sw.js"), "utf8");
+    assert.match(sw, /addEventListener\(\s*["']install["']/);
+    assert.match(sw, /addEventListener\(\s*["']fetch["']/);
+    assert.match(sw, /url\.origin !== self\.location\.origin/);
+    assert.match(sw, /request\.mode === ["']navigate["']/);
+    assert.doesNotMatch(sw, /wa\.me/);
+    assert.equal(isDocumentPath("/sw.js"), false);
   });
 });

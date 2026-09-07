@@ -8,6 +8,7 @@ import { NavProgress } from "@/components/nav-progress";
 import { DeferredWhatsApp } from "@/components/whatsapp-widget";
 import { FirstVisitTour } from "@/components/first-visit-tour";
 import { PwaInstallTip } from "@/components/pwa-install-tip";
+import { PwaServiceWorker } from "@/components/pwa-service-worker";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SITE } from "@/lib/site";
 import { PWA } from "@/lib/pwa";
@@ -91,6 +92,7 @@ function RootLayout() {
       </head>
       <body className="min-h-dvh bg-bg text-fg">
         <PreviewHostBridge />
+        <PwaServiceWorker />
         <NavProgress />
         <I18nProvider>
           <AuthProvider>

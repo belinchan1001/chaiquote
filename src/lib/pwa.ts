@@ -43,3 +43,13 @@ export function pwaInstallTip(platform: PwaInstallPlatform): string {
   if (platform === "ios") return PWA.iosTip;
   return PWA.androidTip;
 }
+
+/** Production www (and apex) only. Preview / grok.me hosts stay unregistered. */
+export function shouldRegisterServiceWorker(hostname: string): boolean {
+  const host = String(hostname ?? "")
+    .split(":")[0]
+    .toLowerCase();
+  return host === "www.chaiquote.hk" || host === "chaiquote.hk";
+}
+
+export const PWA_SERVICE_WORKER_URL = "/sw.js";
