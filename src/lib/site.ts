@@ -20,7 +20,7 @@ export const LEGAL = {
   referencePrice:
     "以上月費及優惠為市場參考資料，實際價格、覆蓋、合約期及安裝安排，一律以電訊商確認為準。",
   whatsappTip:
-    "撳下去會開啟 WhatsApp 聯絡我哋（{phone}）。請勿分享密碼或驗證碼。非電訊商官方客服。",
+    "撳下去會開啟 WhatsApp 聯絡我哋（{phone}）。請勿分享銀行戶口或信用卡密碼。非電訊商官方客服。",
 } as const;
 
 export const DISCLAIMER = [
