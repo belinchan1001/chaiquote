@@ -35,8 +35,34 @@ export function PwaInstallTip() {
       return;
     }
     setPlatform(pwaInstallPlatform(navigator.userAgent, navigator.maxTouchPoints ?? 0));
-    const timer = window.setTimeout(() => setVisible(true), 1200);
-    return () => window.clearTimeout(timer);
+
+    let shown = false;
+    function show() {
+      if (shown) return;
+      shown = true;
+      setVisible(true);
+    }
+    function tourDone() {
+      try {
+        return localStorage.getItem("chaiquote-tour-done") === "1";
+      } catch {
+        return true;
+      }
+    }
+
+    // Sit behind the first-visit tour; appear shortly after it is dismissed.
+    if (tourDone()) {
+      const timer = window.setTimeout(show, 800);
+      return () => window.clearTimeout(timer);
+    }
+    const started = Date.now();
+    const poll = window.setInterval(() => {
+      if (tourDone() || Date.now() - started > 12_000) {
+        window.clearInterval(poll);
+        show();
+      }
+    }, 300);
+    return () => window.clearInterval(poll);
   }, []);
 
   useEffect(() => {
