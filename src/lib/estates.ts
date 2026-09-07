@@ -320,22 +320,23 @@ YOHO Midtown|YOHO Midtown|元朗|private
 export const ESTATES: Estate[] = RAW.split("\n")
   .map((line) => line.trim())
   .filter(Boolean)
-  .map((line) => {
+  .flatMap((line): Estate[] => {
     const [name, aliasStr, district, housing, area, flag] = line.split("|");
-    if (!name || !district || !isKnownHousing(housing ?? "")) return null;
-    return {
-      name,
-      aliases: (aliasStr ?? "")
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean),
-      district,
-      housing,
-      area: area || undefined,
-      coverageCheck: flag === "check" || flag === "覆蓋需查核" || undefined,
-    } satisfies Estate;
+    if (!name || !district || !housing || !isKnownHousing(housing)) return [];
+    return [
+      {
+        name,
+        aliases: (aliasStr ?? "")
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
+        district,
+        housing,
+        area: area || undefined,
+        coverageCheck: flag === "check" || flag === "覆蓋需查核" || undefined,
+      },
+    ];
   })
-  .filter((item): item is Estate => Boolean(item))
   .filter((item, index, list) => list.findIndex((x) => x.name === item.name) === index);
 
 export function compact(value: string) {
