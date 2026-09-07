@@ -6,7 +6,14 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-export const DEFAULT_APP_NAME = "Grok App";
+export const DEFAULT_APP_NAME = "齊Quote";
+export const CHAIQUOTE_APP_NAME = "齊Quote";
+export const CHAIQUOTE_APP_DESCRIPTION =
+  "香港寬頻／手機月費參考比較，WhatsApp 查核報價";
+export const CHAIQUOTE_THEME_COLOR = "#1557C4";
+export const CHAIQUOTE_BACKGROUND_COLOR = "#EEF4FB";
+export const CHAIQUOTE_START_URL = "https://www.chaiquote.hk/";
+export const CHAIQUOTE_SCOPE = "https://www.chaiquote.hk/";
 export const OG_SERVICE_URL_DEFAULT = "https://og.grok.me";
 export const OG_SITE_REL_PATH = "src/lib/og/site.json";
 
@@ -54,31 +61,55 @@ function placeholderCardColor(site = {}) {
   return /^[0-9a-fA-F]{6}$/.test(hex) ? hex : "";
 }
 
-/**
- * "wild-race.grok.me" → "Wild Race". Only published app hosts encode the
- * display name in the first label. Preview / guest hosts are image origins
- * only — slugifying them produced internal names like "Hds Abc 3000 Xy".
- */
-export function appNameFromHost(hostHeader) {
-  const host = String(hostHeader ?? "")
+/** First hostname from Host / X-Forwarded-Host, lowercased, no port. */
+export function requestHostName(hostHeader) {
+  return String(hostHeader ?? "")
     .split(",")[0]
     .trim()
     .split(":")[0]
     .toLowerCase();
-  if (!host.endsWith(".grok.me")) {
-    return DEFAULT_APP_NAME;
-  }
-  const slug = host.split(".")[0] ?? "";
-  if (!slug || slug === "www" || !/^[a-z0-9-]{1,63}$/.test(slug)) {
-    return DEFAULT_APP_NAME;
-  }
+}
+
+/**
+ * Official 齊Quote hosts (apex folds to www). Legacy Vercel aliases keep
+ * the same product name even though they 301 to www.
+ */
+export function isChaiquoteHost(hostHeader) {
+  const host = requestHostName(hostHeader);
   return (
-    slug
-      .split("-")
-      .filter(Boolean)
-      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-      .join(" ") || DEFAULT_APP_NAME
+    host === "chaiquote.hk" ||
+    host === "www.chaiquote.hk" ||
+    host === "chaiquote.vercel.app" ||
+    host === "www.chaiquote.vercel.app" ||
+    host.endsWith(".chaiquote.hk")
   );
+}
+
+/** True when the manifest must use absolute https://www.chaiquote.hk/ URLs. */
+export function isChaiquoteProductionHost(hostHeader) {
+  return resolvePublicHost(hostHeader) === "www.chaiquote.hk";
+}
+
+/**
+ * "wild-race.grok.me" → "Wild Race". Only published grok.me hosts encode the
+ * display name in the first label. This product defaults to 齊Quote so
+ * chaiquote.hk / www.chaiquote.hk / localhost never fall back to "Grok App".
+ */
+export function appNameFromHost(hostHeader) {
+  const host = requestHostName(hostHeader);
+  if (host.endsWith(".grok.me")) {
+    const slug = host.split(".")[0] ?? "";
+    if (slug && slug !== "www" && /^[a-z0-9-]{1,63}$/.test(slug)) {
+      return (
+        slug
+          .split("-")
+          .filter(Boolean)
+          .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+          .join(" ") || DEFAULT_APP_NAME
+      );
+    }
+  }
+  return DEFAULT_APP_NAME;
 }
 
 /** True for Vercel system domains. Envoy rewrites origin Host to these; they SSO-protect `/og.jpg`. */
@@ -162,25 +193,105 @@ export function renderInstallPageHtml(template, { host, url } = {}) {
     .replaceAll("{{APP_URL}}", escapeHtml(stripInstallParams(url)));
 }
 
+function grokMeManifestIcons() {
+  return [
+    {
+      src: "/__grok/icon-180.png",
+      sizes: "180x180",
+      type: "image/png",
+    },
+  ];
+}
+
+function chaiquoteManifestIcons() {
+  return [
+    {
+      src: "/icon-192.png",
+      sizes: "192x192",
+      type: "image/png",
+      purpose: "any",
+    },
+    {
+      src: "/icon-512.png",
+      sizes: "512x512",
+      type: "image/png",
+      purpose: "any",
+    },
+    {
+      src: "/__grok/icon-192-maskable.png",
+      sizes: "192x192",
+      type: "image/png",
+      purpose: "maskable",
+    },
+    {
+      src: "/__grok/icon-512-maskable.png",
+      sizes: "512x512",
+      type: "image/png",
+      purpose: "maskable",
+    },
+    {
+      src: "/apple-touch-icon.png",
+      sizes: "180x180",
+      type: "image/png",
+      purpose: "any",
+    },
+    {
+      src: "/__grok/icon-180.png",
+      sizes: "180x180",
+      type: "image/png",
+      purpose: "any",
+    },
+  ];
+}
+
+/** Absolute www URLs on the live host; relative on preview/localhost (same-origin). */
+export function pwaStartScope(hostHeader) {
+  if (isChaiquoteProductionHost(hostHeader)) {
+    return {
+      id: CHAIQUOTE_START_URL,
+      start_url: CHAIQUOTE_START_URL,
+      scope: CHAIQUOTE_SCOPE,
+    };
+  }
+  return { id: "/", start_url: "/", scope: "/" };
+}
+
 export function renderWebManifest(hostHeader) {
   const name = appNameFromHost(hostHeader);
+  const grokMe = requestHostName(hostHeader).endsWith(".grok.me");
+  const { id, start_url, scope } = pwaStartScope(hostHeader);
+  if (grokMe) {
+    return JSON.stringify(
+      {
+        name,
+        short_name: name,
+        id: "/",
+        start_url: "/",
+        scope: "/",
+        display: "standalone",
+        background_color: "#000000",
+        theme_color: "#000000",
+        icons: grokMeManifestIcons(),
+      },
+      null,
+      2,
+    );
+  }
   return JSON.stringify(
     {
       name,
       short_name: name,
-      id: "/",
-      start_url: "/",
-      scope: "/",
+      description: CHAIQUOTE_APP_DESCRIPTION,
+      lang: "zh-Hant",
+      dir: "ltr",
+      id,
+      start_url,
+      scope,
       display: "standalone",
-      background_color: "#000000",
-      theme_color: "#000000",
-      icons: [
-        {
-          src: "/__grok/icon-180.png",
-          sizes: "180x180",
-          type: "image/png",
-        },
-      ],
+      display_override: ["standalone", "minimal-ui"],
+      background_color: CHAIQUOTE_BACKGROUND_COLOR,
+      theme_color: CHAIQUOTE_THEME_COLOR,
+      icons: chaiquoteManifestIcons(),
     },
     null,
     2,
@@ -188,9 +299,13 @@ export function renderWebManifest(hostHeader) {
 }
 
 export function grokPwaHeadTags(appName = DEFAULT_APP_NAME) {
+  const branded = appName === CHAIQUOTE_APP_NAME;
+  const theme = branded ? CHAIQUOTE_THEME_COLOR : "#000000";
+  const statusBar = branded ? "black-translucent" : "black";
   return [
-    // Standalone display comes from the manifest ("display": "standalone");
-    // the legacy *-web-app-capable metas it replaces are deliberately absent.
+    // Standalone display comes from the manifest ("display": "standalone").
+    // 齊Quote also sets apple-mobile-web-app-capable in the app document for
+    // older iOS Safari that does not read display from the manifest.
     ["manifest", '<link rel="manifest" href="/__grok/manifest.webmanifest">'],
     ["apple-touch-icon", '<link rel="apple-touch-icon" href="/__grok/icon-180.png">'],
     [
@@ -199,9 +314,9 @@ export function grokPwaHeadTags(appName = DEFAULT_APP_NAME) {
     ],
     [
       "apple-mobile-web-app-status-bar-style",
-      '<meta name="apple-mobile-web-app-status-bar-style" content="black">',
+      `<meta name="apple-mobile-web-app-status-bar-style" content="${statusBar}">`,
     ],
-    ["theme-color", '<meta name="theme-color" content="#000000">'],
+    ["theme-color", `<meta name="theme-color" content="${theme}">`],
   ];
 }
 

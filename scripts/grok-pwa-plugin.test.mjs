@@ -9,6 +9,7 @@ import {
   createHeadInjector,
   grokXCreatorHeadTags,
   injectGrokPwaHead,
+  isChaiquoteHost,
   isDocumentPath,
   isInstallQuery,
   publicAppHost,
@@ -471,14 +472,16 @@ test("strips install params from the app link", () => {
 });
 
 test("names the install page from host slug", () => {
-  assert.equal(appNameFromHost("localhost:8080"), "Grok App");
-  assert.equal(appNameFromHost("172.17.154.217:8080"), "Grok App");
+  assert.equal(appNameFromHost("localhost:8080"), "齊Quote");
+  assert.equal(appNameFromHost("172.17.154.217:8080"), "齊Quote");
+  assert.equal(appNameFromHost("www.chaiquote.hk"), "齊Quote");
+  assert.equal(appNameFromHost("chaiquote.hk"), "齊Quote");
   assert.equal(appNameFromHost("wild-race.grok.me"), "Wild Race");
 });
 
 test("rejects hosts that are not plain slugs", () => {
-  assert.equal(appNameFromHost("<script>alert(1)</script>"), "Grok App");
-  assert.equal(appNameFromHost('"><img src=x onerror=1>.grok.me'), "Grok App");
+  assert.equal(appNameFromHost("<script>alert(1)</script>"), "齊Quote");
+  assert.equal(appNameFromHost('"><img src=x onerror=1>.grok.me'), "齊Quote");
 });
 
 test("renders install page markup", () => {
@@ -502,6 +505,34 @@ test("renders the manifest with the per-app name", () => {
   assert.equal(manifest.icons[0].src, "/__grok/icon-180.png");
 });
 
+test("injects 齊Quote apple title and blue theme on chaiquote hosts", () => {
+  assert.equal(isChaiquoteHost("www.chaiquote.hk"), true);
+  assert.equal(isChaiquoteHost("chaiquote.hk"), true);
+  assert.equal(isChaiquoteHost("wild-race.grok.me"), false);
+  const out = injectGrokPwaHead("<html><head></head></html>", {
+    host: "www.chaiquote.hk",
+    cwd: TEMPLATE_ROOT,
+  });
+  assert.match(out, /apple-mobile-web-app-title" content="齊Quote"/);
+  assert.match(out, /name="theme-color" content="#1557C4"/);
+});
+
+test("renders the 齊Quote manifest on the production host", () => {
+  const manifest = JSON.parse(renderWebManifest("www.chaiquote.hk"));
+  assert.equal(manifest.name, "齊Quote");
+  assert.equal(manifest.short_name, "齊Quote");
+  assert.equal(manifest.description, "香港寬頻／手機月費參考比較，WhatsApp 查核報價");
+  assert.equal(manifest.start_url, "https://www.chaiquote.hk/");
+  assert.equal(manifest.scope, "https://www.chaiquote.hk/");
+  assert.equal(manifest.display, "standalone");
+  assert.equal(manifest.theme_color, "#1557C4");
+  assert.equal(manifest.background_color, "#EEF4FB");
+  const sizes = manifest.icons.map((icon) => icon.sizes);
+  assert.ok(sizes.includes("192x192"));
+  assert.ok(sizes.includes("512x512"));
+  assert.ok(manifest.icons.some((icon) => icon.purpose === "maskable"));
+});
+
 // Tripwires: the deployed-app path only works if Nitro scans server/ — an
 // accidental edit that drops serverDir or the middleware file would otherwise
 // fail silently (published apps would just render the app for ?install=1).
@@ -517,6 +548,10 @@ test("nitro middleware and its bundled assets exist", () => {
   assert.match(middleware, /virtual:grok-og-identity/);
   readFileSync(join(TEMPLATE_ROOT, "scripts/install-page.html"));
   readFileSync(join(TEMPLATE_ROOT, "public/__grok/icon-180.png"));
+  readFileSync(join(TEMPLATE_ROOT, "public/__grok/icon-192-maskable.png"));
+  readFileSync(join(TEMPLATE_ROOT, "public/__grok/icon-512-maskable.png"));
+  readFileSync(join(TEMPLATE_ROOT, "public/icon-192.png"));
+  readFileSync(join(TEMPLATE_ROOT, "public/icon-512.png"));
   readFileSync(join(TEMPLATE_ROOT, "public/__grok/install/styles.css"));
 });
 
