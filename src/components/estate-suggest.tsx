@@ -140,7 +140,11 @@ export function EstateSuggest({
                   onClick={() => pick(hit)}
                 >
                   <span className="font-medium">{hit.name}</span>
-                  <span className="text-xs text-muted">{addressHitLabel(hit) || t("hk")}</span>
+                  <span className="text-xs text-muted">
+                    {[addressHitLabel(hit) || t("hk"), hit.coverageCheck ? t("coverageCheck") : ""]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </span>
                 </button>
               </li>
             ))
