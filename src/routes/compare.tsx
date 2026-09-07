@@ -108,21 +108,29 @@ function ComparePage() {
                 {plans.map((plan) => (
                   <th
                     key={plan.id}
-                    className="min-w-[6.75rem] px-2 py-2 text-left align-bottom font-medium sm:min-w-48 sm:px-4 sm:py-4"
+                    className="compare-plan w-[6.75rem] min-w-[6.75rem] max-w-[6.75rem] px-2 py-2 text-left align-bottom font-medium sm:w-auto sm:min-w-48 sm:max-w-none sm:px-4 sm:py-4"
                   >
                     <div className="sm:hidden">
-                      <ProviderLogo id={plan.providerId} size="sm" />
-                      <p className="mt-1.5 text-[11px] leading-tight">{shortProviderName(plan.providerId, locale)}</p>
+                      <div className="flex items-center gap-1">
+                        <ProviderLogo id={plan.providerId} size="sm" />
+                        <p className="min-w-0 truncate text-[11px] leading-tight">
+                          {shortProviderName(plan.providerId, locale)}
+                        </p>
+                      </div>
                       <Link
                         to="/plans/$planId"
                         params={{ planId: plan.id }}
-                        className="mt-0.5 block text-xs leading-snug hover:underline"
+                        className="mt-1 block text-xs leading-snug hover:underline"
                       >
                         {planSpecToken(plan) || tx(plan.name)}
                       </Link>
-                      <p className="mt-1 font-display text-base font-semibold tabular-nums">{formatFee(plan.monthlyFee)}</p>
+                      <p className="mt-0.5 font-display text-base font-semibold tabular-nums leading-none">
+                        {formatFee(plan.monthlyFee)}
+                      </p>
                       {plan.freeMonths ? (
-                        <p className="mt-0.5 text-[11px] text-accent">{t("months", { n: plan.freeMonths })}</p>
+                        <p className="mt-0.5 text-[11px] leading-tight text-accent">
+                          {t("months", { n: plan.freeMonths })}
+                        </p>
                       ) : null}
                     </div>
                     <div className="hidden sm:block">
@@ -161,7 +169,7 @@ function ComparePage() {
                     <td
                       key={plans[i].id}
                       className={cn(
-                        "px-2 py-2 align-top sm:px-4 sm:py-3",
+                        "compare-plan w-[6.75rem] min-w-[6.75rem] max-w-[6.75rem] px-2 py-2 align-top break-words sm:w-auto sm:min-w-48 sm:max-w-none sm:px-4 sm:py-3",
                         row.highlight && "bg-surface font-semibold tabular-nums",
                         row.key === "fee" && "font-display text-base",
                       )}
@@ -177,8 +185,11 @@ function ComparePage() {
                     {t("rowPerks")}
                   </th>
                   {plans.map((plan) => (
-                    <td key={plan.id} className="px-2 py-2 align-top sm:px-4 sm:py-3">
-                      <ul className="space-y-1 text-xs text-muted sm:text-sm">
+                    <td
+                      key={plan.id}
+                      className="compare-plan w-[6.75rem] min-w-[6.75rem] max-w-[6.75rem] px-2 py-2 align-top break-words sm:w-auto sm:min-w-48 sm:max-w-none sm:px-4 sm:py-3"
+                    >
+                      <ul className="space-y-1 text-xs break-words text-muted sm:text-sm">
                         {planPerks(plan).map((perk) => (
                           <li key={perk}>{tx(perk)}</li>
                         ))}

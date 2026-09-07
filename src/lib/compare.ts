@@ -6,7 +6,7 @@ import {
   type Category,
   type Plan,
   type ProviderId,
-} from "@/lib/plans";
+} from "./plans.ts";
 
 export const EMPTY_COMPARE_MARKERS = new Set(["", "—", "-", "–", "−"]);
 

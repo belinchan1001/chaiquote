@@ -296,7 +296,7 @@ export const MESSAGES = {
     rowNotes: "注意事項",
     othersCompare: "其他人亦比較",
     dependsPlan: "視計劃",
-    compareCount: "比較月費 {n}／3",
+    compareCount: "比較 {n}／3",
     compareMax: "最多比較 3 個，除咗其中一個先再加。",
     hk: "香港",
     searchingAddr: "搜緊全港地址…",

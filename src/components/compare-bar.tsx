@@ -25,11 +25,11 @@ export function CompareBar() {
       />
       <div
         className={cn(
-          "compare-dock fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 px-3 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] backdrop-blur-sm transition-transform duration-200 ease-out",
+          "compare-dock fixed inset-x-0 bottom-0 z-40 overflow-hidden border-t border-border bg-card/95 px-3 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] backdrop-blur-sm transition-transform duration-200 ease-out",
           show ? "translate-y-0" : "pointer-events-none translate-y-full",
         )}
       >
-        <div className="mx-auto flex max-w-6xl items-center gap-2">
+        <div className="mx-auto flex w-full max-w-6xl items-center gap-2">
           <div className="min-w-0 flex-1 overflow-x-auto">
             <div className="flex w-max items-center gap-1.5">
               {compare.map((id) => {
