@@ -104,6 +104,7 @@
   .sheet-fold,
   .wa-panel,
   .compare-dock,
+  .compare-scroll,
   .fab-lift {
     transition: none !important;
   }
@@ -235,6 +236,27 @@
     }
     100% {
       transform: translateX(420%);
+    }
+  }
+
+  .compare-scroll {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .compare-label {
+    width: 3.75rem;
+    min-width: 3.75rem;
+    max-width: 3.75rem;
+    box-shadow: 2px 0 0 0 rgba(12, 34, 72, 0.08);
+  }
+
+  @media (min-width: 640px) {
+    .compare-label {
+      width: auto;
+      min-width: 7rem;
+      max-width: none;
+      box-shadow: none;
     }
   }
 }
