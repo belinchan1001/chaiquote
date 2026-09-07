@@ -468,6 +468,7 @@ test("filters non-document paths", () => {
   assert.equal(isDocumentPath("/api/thing"), false);
   assert.equal(isDocumentPath("/__grok/install/styles.css"), false);
   assert.equal(isDocumentPath("/logo.png"), false);
+  assert.equal(isDocumentPath("/sw.js"), false);
 });
 
 test("strips install params from the app link", () => {
@@ -554,6 +555,7 @@ test("nitro middleware and its bundled assets exist", () => {
   readFileSync(join(TEMPLATE_ROOT, "public/__grok/icon-180.png"));
   readFileSync(join(TEMPLATE_ROOT, "public/__grok/icon-192-maskable.png"));
   readFileSync(join(TEMPLATE_ROOT, "public/__grok/icon-512-maskable.png"));
+  readFileSync(join(TEMPLATE_ROOT, "public/sw.js"));
   readFileSync(join(TEMPLATE_ROOT, "public/icon-192.png"));
   readFileSync(join(TEMPLATE_ROOT, "public/icon-512.png"));
   readFileSync(join(TEMPLATE_ROOT, "public/__grok/install/styles.css"));
