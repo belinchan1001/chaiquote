@@ -113,10 +113,11 @@
       linear-gradient(var(--color-card), var(--color-card)),
       conic-gradient(
         from 135deg,
-        rgba(12, 48, 118, 0.95),
-        rgba(0, 110, 150, 0.95),
-        rgba(0, 150, 180, 1),
-        rgba(12, 48, 118, 0.95)
+        rgba(196, 230, 255, 0.72),
+        rgba(165, 243, 252, 0.92),
+        rgba(255, 255, 255, 1),
+        rgba(221, 214, 254, 0.95),
+        rgba(196, 230, 255, 0.72)
       );
   }
 
@@ -267,13 +268,13 @@
       linear-gradient(var(--color-card), var(--color-card)),
       conic-gradient(
         from var(--quote-pick-angle),
-        rgba(12, 48, 118, 0.95) 0deg,
-        rgba(12, 48, 118, 0.95) 292deg,
-        rgba(21, 87, 196, 1) 308deg,
-        rgba(0, 110, 150, 1) 324deg,
-        rgba(0, 150, 180, 1) 336deg,
-        rgba(15, 70, 150, 1) 348deg,
-        rgba(12, 48, 118, 0.95) 360deg
+        rgba(196, 230, 255, 0.72) 0deg,
+        rgba(196, 230, 255, 0.72) 292deg,
+        rgba(165, 243, 252, 0.92) 308deg,
+        rgba(255, 255, 255, 1) 324deg,
+        rgba(221, 214, 254, 0.95) 336deg,
+        rgba(186, 230, 253, 1) 348deg,
+        rgba(196, 230, 255, 0.72) 360deg
       );
     background-origin: padding-box, border-box;
     background-clip: padding-box, border-box;

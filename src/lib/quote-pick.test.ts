@@ -65,7 +65,19 @@ describe("齊Quote pick badge", () => {
     assert.match(css, /--quote-pick-angle:\s*360deg/);
     assert.match(css, /border:\s*3px solid transparent/);
     assert.match(css, /animation:\s*quote-pick-shine 4\.8s linear infinite/);
-    assert.match(css, /rgba\(12, 48, 118, 0\.95\)/);
+    assert.match(css, /rgba\(196, 230, 255, 0\.72\) 0deg/);
+    assert.match(css, /rgba\(196, 230, 255, 0\.72\) 292deg/);
+    assert.match(css, /rgba\(165, 243, 252, 0\.92\) 308deg/);
+    assert.match(css, /rgba\(255, 255, 255, 1\) 324deg/);
+    assert.match(css, /rgba\(221, 214, 254, 0\.95\) 336deg/);
+    assert.match(css, /rgba\(186, 230, 253, 1\) 348deg/);
+    assert.match(
+      css,
+      /prefers-reduced-motion:[\s\S]*\.plan-card-shine[\s\S]*rgba\(165, 243, 252, 0\.92\)[\s\S]*rgba\(255, 255, 255, 1\)[\s\S]*rgba\(221, 214, 254, 0\.95\)/,
+    );
+    assert.doesNotMatch(css, /rgba\(12, 48, 118/);
+    assert.doesNotMatch(css, /rgba\(0, 110, 150/);
+    assert.doesNotMatch(css, /rgba\(15, 70, 150/);
     assert.doesNotMatch(css, /border:\s*2px solid transparent/);
     assert.doesNotMatch(css, /quote-pick-shine 3\.2s/);
     assert.doesNotMatch(css, /rgba\(21, 87, 196, 0\.55\)/);
