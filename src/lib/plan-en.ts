@@ -94,6 +94,7 @@ const PHRASES: [string, string][] = [
   ["10GB 高速數據其後以 1Mbps 任用", "10GB high-speed data, then unlimited at 1Mbps"],
   ["首 10GB（42Mbps），其後以 128kbps 任用", "First 10GB (42Mbps), then unlimited at 128kbps"],
   ["首 14GB（42Mbps），其後以 2Mbps 任用", "First 14GB (42Mbps), then unlimited at 2Mbps"],
+  ["其後本地無限，限速不超過 1Mbps", "Thereafter local unlimited, speed not exceeding 1Mbps"],
   ["其後按公平使用政策；P2P 及 Thunder 下載限速至 128kbps", "Then fair-use policy; P2P and Thunder capped at 128kbps"],
   ["其後無限任用，惟降低網絡優先權", "Then unlimited at lower priority"],
   ["其後提供 5G 任用數據", "Then 5G unlimited at reduced priority"],
@@ -144,6 +145,7 @@ const PHRASES: [string, string][] = [
   ["首 3 個月免月費", "First 3 months free"],
   ["50GB 基數及額外 50GB 優惠，合共 100GB；18 至 29 歲適用", "50GB base plus extra 50GB offer, 100GB total; for ages 18–29"],
   ["100GB 基數及額外 100GB 優惠，合共 200GB；18 至 29 歲適用", "100GB base plus extra 100GB offer, 200GB total; for ages 18–29"],
+  ["學生或年青人專題，須符合資格", "Student or youth exclusive, must meet eligibility"],
   ["適用於 18 至 29 歲客戶。", "For ages 18–29."],
   ["適用於 18 至 29 歲", "For ages 18–29"],
   ["14 日冷靜期", "14-day cooling-off"],
@@ -168,6 +170,7 @@ const PHRASES: [string, string][] = [
   ["每月 1GB 中國內地數據", "1GB Mainland data/month"],
   ["每月 2GB 中國內地及澳門數據", "2GB Mainland & Macao data/month"],
   ["每月 2–4GB 中澳數據", "2–4GB Mainland & Macao data/month"],
+  ["合約期內每月 3GB 中國內地及澳門", "Monthly 3GB Mainland China & Macau during contract period"],
   ["每月 3GB 中國內地及澳門數據", "3GB Mainland & Macao data/month"],
   ["每月 3GB 中國內地數據", "3GB Mainland data/month"],
   ["每月 3GB 中澳數據", "3GB Mainland & Macao data/month"],
@@ -182,6 +185,7 @@ const PHRASES: [string, string][] = [
   ["本地無限分鐘", "Unlimited local minutes"],
   ["本地通話無限", "Unlimited local calls"],
   ["無限本地通話", "Unlimited local calls"],
+  ["本地 3000 分鐘；其後 $1／分鐘", "Local 3,000 minutes; $1/minute thereafter"],
   ["本地 3000 分鐘", "3,000 local minutes"],
   ["42Mbps 無限任用", "Unlimited at 42Mbps"],
   ["4.5G 42Mbps 無限任用（24 個月）", "4.5G unlimited at 42Mbps (24 months)"],
@@ -190,6 +194,7 @@ const PHRASES: [string, string][] = [
   ["4.5G 10GB（24 個月）", "4.5G 10GB (24 months)"],
   ["4.5G 10GB（30 個月）", "4.5G 10GB (30 months)"],
   ["4.5G 20GB（24 個月）", "4.5G 20GB (24 months)"],
+  ["5G 30GB 本地（含每月 3GB 中國內地及澳門）", "5G 30GB Local (incl. monthly 3GB Mainland China & Macau)"],
   ["5G 30GB 三地共用（24 個月）", "5G 30GB shared across 3 regions (24 months)"],
   ["5G 30GB 連手機券（36 個月）", "5G 30GB with handset coupon (36 months)"],
   ["5G 30GB 青年計劃（36 個月）", "5G 30GB youth plan (36 months)"],
@@ -306,6 +311,7 @@ const PHRASES: [string, string][] = [
 ];
 
 const BEST_FOR: [string, string][] = [
+  ["適合符合學生或年青人資格之用戶", "Suitable for users meeting student or youth eligibility"],
   ["適合 18 至 29 歲、需要 5G 30GB 之用戶", "For ages 18–29 who need 5G 30GB"],
   ["適合 18 至 29 歲、需要 5G 60GB 之用戶", "For ages 18–29 who need 5G 60GB"],
   ["適合 18 至 29 歲、需要 5G 100GB 之用戶", "For ages 18–29 who need 5G 100GB"],
