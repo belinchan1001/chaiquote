@@ -43,11 +43,23 @@ describe("齊Quote pick badge", () => {
 
     assert.match(card, /<article[\s\S]*plan\.quotePick && "plan-card-shine"/);
     assert.doesNotMatch(card, /formatFee\(plan\.monthlyFee\)[\s\S]{0,200}plan-card-shine/);
-    assert.match(css, /\.plan-card-shine::before/);
+    assert.match(css, /@property --quote-pick-angle/);
+    assert.match(css, /\.plan-card-shine\s*\{/);
+    assert.match(css, /conic-gradient\(/);
+    assert.match(css, /background-clip:\s*padding-box,\s*border-box/);
+    assert.match(css, /background-origin:\s*padding-box,\s*border-box/);
     assert.match(css, /@keyframes quote-pick-shine/);
+    assert.match(css, /--quote-pick-angle:\s*360deg/);
+    assert.doesNotMatch(css, /\.plan-card-shine::before/);
+    assert.doesNotMatch(css, /background-size:\s*240%/);
+    assert.doesNotMatch(css, /background-position:\s*130%/);
+    assert.doesNotMatch(
+      css,
+      /@keyframes quote-pick-shine\s*\{[^}]*(opacity|transform|filter|background-position)/,
+    );
     assert.match(
       css,
-      /prefers-reduced-motion:\s*reduce[\s\S]*\.plan-card-shine::before[\s\S]*animation:\s*none/,
+      /prefers-reduced-motion:\s*reduce[\s\S]*\.plan-card-shine[\s\S]*animation:\s*none/,
     );
   });
 });
