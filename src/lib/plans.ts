@@ -708,7 +708,7 @@ export const PLANS: Plan[] = [
     bestFor: "適合村屋、需要 Wi-Fi 7 之住戶",
   },
   {
-    id: "netvigator-ftth-1000-private-36m-98",
+    id: "netvigator-ftth-1000-private-36m",
     providerId: "netvigator",
     category: "broadband",
     name: "私人樓宇 1000M 光纖（36 個月＋家居電話）",
@@ -757,7 +757,7 @@ export const PLANS: Plan[] = [
     bestFor: "適合私人樓宇、需要 Wi-Fi 6 及家居電話之住戶",
   },
   {
-    id: "netvigator-ftth-1000-private-36m",
+    id: "netvigator-ftth-1000-exclusive-36m-186",
     providerId: "netvigator",
     category: "broadband",
     name: "獨家私人樓宇 1000M 光纖＋Wi-Fi 6 路由器＋手提電話服務",

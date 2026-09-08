@@ -309,10 +309,10 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     assert.deepEqual(
       PLANS.filter((p) => p.providerId === "netvigator" && p.category === "broadband").map((p) => p.id),
       [
-        "netvigator-ftth-1000-private-36m-98",
+        "netvigator-ftth-1000-private-36m",
         "netvigator-ftth-1000-private-36m-198",
         "netvigator-ftth-1000-private-24m",
-        "netvigator-ftth-1000-private-36m",
+        "netvigator-ftth-1000-exclusive-36m-186",
         "netvigator-ftth-2500-private-24m",
         "netvigator-ftth-1000-public-36m-98",
         "netvigator-ftth-1000-public-36m-108",
@@ -367,7 +367,7 @@ describe("Netvigator exclusive-private 1000M $186", () => {
 
   it("keeps the 24-month card and adds a 36-month twin at the same fee", () => {
     const plan24 = plan("netvigator-ftth-1000-private-24m");
-    const plan36 = plan("netvigator-ftth-1000-private-36m");
+    const plan36 = plan("netvigator-ftth-1000-exclusive-36m-186");
 
     for (const row of [plan24, plan36]) {
       assert.equal(row.providerId, "netvigator");
@@ -388,8 +388,10 @@ describe("Netvigator exclusive-private 1000M $186", () => {
 
     assert.equal(plan24.contractMonths, 24);
     assert.equal(plan36.contractMonths, 36);
+    assert.equal(plan24.perks[1], "家居固網電話");
+    assert.equal(plan36.perks[1], "家居固網電話");
 
-    const cheap36 = plan("netvigator-ftth-1000-private-36m-98");
+    const cheap36 = plan("netvigator-ftth-1000-private-36m");
     assert.equal(cheap36.name, "私人樓宇 1000M 光纖（36 個月＋家居電話）");
     assert.equal(cheap36.monthlyFee, 98);
     assert.equal(cheap36.contractMonths, 36);
@@ -400,6 +402,11 @@ describe("Netvigator exclusive-private 1000M $186", () => {
       PERKS[3],
       "可加 HK$10 選配 Linksys EA9350 Wi-Fi 6 路由器",
     ]);
+
+    const upgrade36 = plan("netvigator-ftth-1000-private-36m-198");
+    assert.equal(upgrade36.name, "私人樓宇 1000M 光纖（36 個月）");
+    assert.equal(upgrade36.monthlyFee, 198);
+    assert.equal(upgrade36.contractMonths, 36);
   });
 });
 
