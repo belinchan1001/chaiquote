@@ -10,6 +10,7 @@ import {
   visibleCompareFields,
   type CompareCopy,
 } from "./compare.ts";
+import { toEnglish } from "./plan-en.ts";
 import { getPlan, PLANS, type Category } from "./plans.ts";
 
 const copy: CompareCopy = {
@@ -83,6 +84,50 @@ describe("compare chips", () => {
     assert.equal(planSpecToken(mobile), "100GB");
     assert.equal(compareChipLabel(broadband, "zh"), "有線 200M $68");
     assert.equal(compareChipLabel(mobile, "en"), "CMHK 100GB $149");
+  });
+});
+
+describe("HKBN student/youth 5G 30GB", () => {
+  it("adds one $78 youth/student plan without changing hkbn-5g-30", () => {
+    const youth = plan("hkbn-5g-30-78-youth");
+    assert.equal(youth.providerId, "hkbn");
+    assert.equal(youth.category, "mobile");
+    assert.equal(youth.name, "5G 30GB 本地（含每月 3GB 中國內地及澳門）");
+    assert.equal(youth.monthlyFee, 78);
+    assert.equal(youth.freeMonths, 0);
+    assert.equal(youth.contractMonths, 24);
+    assert.equal(youth.dataGb, 30);
+    assert.equal(youth.highSpeedGb, 30);
+    assert.equal(youth.fupNote, "其後本地無限，限速不超過 1Mbps");
+    assert.equal(youth.voice, "本地 3000 分鐘；其後 $1／分鐘");
+    assert.equal(youth.roaming, "合約期內每月 3GB 中國內地及澳門");
+    assert.equal(youth.network, "5G");
+    assert.equal(youth.install, "不適用");
+    assert.equal(youth.housing, "all");
+    assert.deepEqual(youth.perks, ["學生或年青人專題，須符合資格"]);
+    assert.equal(youth.bestFor, "適合符合學生或年青人資格之用戶");
+    assert.equal(youth.hot, undefined);
+    assert.equal(youth.portInPerk, undefined);
+    assert.equal(youth.prepaid, undefined);
+    assert.doesNotMatch(JSON.stringify(youth), /MT5G|108/);
+
+    const existing = plan("hkbn-5g-30");
+    assert.equal(existing.monthlyFee, 98);
+    assert.equal(existing.freeMonths, 2);
+    assert.equal(existing.contractMonths, 28);
+    assert.equal(existing.name, "5G 30GB（28 個月）");
+    assert.equal(existing.hot, true);
+    assert.ok(existing.portInPerk);
+
+    const hkbnMobile = PLANS.filter((p) => p.category === "mobile" && p.providerId === "hkbn");
+    assert.equal(hkbnMobile.filter((p) => p.id === "hkbn-5g-30-78-youth").length, 1);
+
+    assert.equal(toEnglish(youth.name), "5G 30GB Local (incl. monthly 3GB Mainland China & Macau)");
+    assert.equal(toEnglish(youth.fupNote ?? ""), "Thereafter local unlimited, speed not exceeding 1Mbps");
+    assert.equal(toEnglish(youth.voice ?? ""), "Local 3,000 minutes; $1/minute thereafter");
+    assert.equal(toEnglish(youth.roaming ?? ""), "Monthly 3GB Mainland China & Macau during contract period");
+    assert.equal(toEnglish(youth.perks[0]), "Student or youth exclusive, must meet eligibility");
+    assert.equal(toEnglish(youth.bestFor), "Suitable for users meeting student or youth eligibility");
   });
 });
 
