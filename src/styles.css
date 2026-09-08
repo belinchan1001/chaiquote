@@ -50,6 +50,13 @@
   --ease-out-smooth: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Angle must live outside @layer so the border sweep can animate in all browsers. */
+@property --quote-pick-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
 @layer base {
   html {
     -webkit-font-smoothing: antialiased;
@@ -97,8 +104,20 @@
   .plan-list > *,
   .nav-progress-bar,
   .popover-in,
-  .plan-card-shine::before {
+  .plan-card-shine {
     animation: none !important;
+  }
+
+  .plan-card-shine {
+    background-image:
+      linear-gradient(var(--color-card), var(--color-card)),
+      conic-gradient(
+        from 135deg,
+        rgba(21, 87, 196, 0.3),
+        rgba(0, 168, 197, 0.22),
+        rgba(255, 255, 255, 0.45),
+        rgba(21, 87, 196, 0.3)
+      );
   }
 
   .soft-fold,
@@ -242,42 +261,31 @@
 
   .plan-card-shine {
     position: relative;
-  }
-
-  .plan-card-shine::before {
-    content: "";
-    pointer-events: none;
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      115deg,
-      transparent 18%,
-      rgba(255, 255, 255, 0.9) 46%,
-      rgba(0, 168, 197, 0.38) 50%,
-      rgba(21, 87, 196, 0.22) 54%,
-      transparent 82%
-    );
-    background-size: 240% 240%;
-    animation: quote-pick-shine 6s ease-in-out infinite;
-    mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    mask-composite: exclude;
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
+    /* 2px transparent border is the only place the holo conic can paint. */
+    border: 2px solid transparent;
+    background-image:
+      linear-gradient(var(--color-card), var(--color-card)),
+      conic-gradient(
+        from var(--quote-pick-angle),
+        rgba(21, 87, 196, 0.16) 0deg,
+        rgba(0, 168, 197, 0.1) 55deg,
+        rgba(255, 255, 255, 0.08) 110deg,
+        rgba(21, 87, 196, 0.14) 200deg,
+        rgba(255, 255, 255, 0.2) 292deg,
+        rgba(255, 255, 255, 0.96) 318deg,
+        rgba(186, 236, 255, 1) 332deg,
+        rgba(0, 168, 197, 0.92) 346deg,
+        rgba(21, 87, 196, 0.5) 356deg,
+        rgba(21, 87, 196, 0.16) 360deg
+      );
+    background-origin: padding-box, border-box;
+    background-clip: padding-box, border-box;
+    animation: quote-pick-shine 3.2s linear infinite;
   }
 
   @keyframes quote-pick-shine {
-    0% {
-      background-position: 130% 0;
-    }
-    100% {
-      background-position: -30% 100%;
+    to {
+      --quote-pick-angle: 360deg;
     }
   }
 
