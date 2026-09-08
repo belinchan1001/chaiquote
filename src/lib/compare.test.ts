@@ -529,6 +529,50 @@ describe("Netvigator exclusive-private 2500M $244", () => {
   });
 });
 
+describe("HKBN 2.5Gbps 12-month $218", () => {
+  it("charges first-time HK$680 install without changing other plans", () => {
+    const row = plan("hkbn-ftth-2500-12m-218");
+    assert.equal(row.providerId, "hkbn");
+    assert.equal(row.category, "broadband");
+    assert.equal(row.name, "2.5Gbps 高速上網連 Wi-Fi 7（12 個月）");
+    assert.equal(row.monthlyFee, 218);
+    assert.equal(row.freeMonths, 0);
+    assert.equal(row.contractMonths, 12);
+    assert.equal(row.speedMbps, 2500);
+    assert.equal(row.install, "首次需繳付 HK$680 安裝費");
+    assert.deepEqual(row.housing, ["public", "hos", "private"]);
+    assert.equal(row.network, "光纖入屋");
+    assert.deepEqual(row.perks, [
+      "送指定 TP-Link Archer BE230 Wi-Fi 7 路由器（12 個月）",
+      "SAFE 網絡安全防護及防毒軟件 6 個月",
+      "可選擇延遲服務生效日（最長 365 日）",
+    ]);
+    assert.equal(
+      row.limits,
+      "本計劃為自動續約。可選擇延遲服務生效日（最長 365 日）。適用於指定公屋、居屋及私人住宅。不適用於村屋。",
+    );
+    assert.equal(row.bestFor, "適合需要 2500M 光纖及 Wi-Fi 7 路由器之住戶");
+    const installEn = toEnglish(row.install);
+    assert.equal(installEn, "First payment: HK$680 installation fee");
+    assert.doesNotMatch(installEn, /waived|豁免/i);
+    assert.equal(toEnglish("豁免安裝費（原價 HK$680）"), "Installation waived (was HK$680)");
+
+    const waived = PLANS.filter((p) => p.install === "豁免安裝費（原價 HK$680）");
+    assert.ok(waived.length >= 1);
+    assert.equal(waived.some((p) => p.id === "hkbn-ftth-2500-12m-218"), false);
+    assert.equal(
+      PLANS.filter((p) => p.install === "首次需繳付 HK$680 安裝費").map((p) => p.id).join(),
+      "hkbn-ftth-2500-12m-218",
+    );
+    assert.equal(
+      PLANS.filter((p) => p.category === "broadband" && p.id !== "hkbn-ftth-2500-12m-218").every(
+        (p) => p.install !== "首次需繳付 HK$680 安裝費",
+      ),
+      true,
+    );
+  });
+});
+
 describe("CMHK mobile catalogue", () => {
   it("keeps only the four reference 5G monthly plans", () => {
     const ids = PLANS.filter((p) => p.category === "mobile" && p.providerId === "cmhk").map((p) => p.id);
