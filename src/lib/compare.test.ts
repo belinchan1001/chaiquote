@@ -312,6 +312,7 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
         "netvigator-ftth-1000-private-36m",
         "netvigator-ftth-1000-private-36m-198",
         "netvigator-ftth-1000-private-24m",
+        "netvigator-ftth-1000-exclusive-36m-186",
         "netvigator-ftth-2500-private-24m",
         "netvigator-ftth-1000-public-36m-98",
         "netvigator-ftth-1000-public-36m-108",
@@ -358,6 +359,61 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
       assert.doesNotMatch(JSON.stringify(p), /保證|最平/);
       assert.equal(p.perks.includes("可加購每月 HK$68 換購指定家電（須符合資格）"), false);
     }
+  });
+});
+
+describe("Netvigator exclusive-private 1000M $186", () => {
+  const NAME = "獨家私人樓宇 1000M 光纖＋Wi-Fi 6 路由器＋手提電話服務";
+  const PERKS = [
+    "送指定 Wi-Fi 6 路由器",
+    "家居固網電話",
+    "Now TV 體驗組合或國際新聞組合（智能電視版）；可加 HK$38 升級機頂盒",
+    "搬遷費津貼 HK$1,000",
+  ];
+  const LIMITS = "可選擇先安裝後啟動服務（最長 365 日）。實際覆蓋視乎個別樓宇而定。";
+
+  it("keeps the 24-month card and adds a 36-month twin at the same fee", () => {
+    const plan24 = plan("netvigator-ftth-1000-private-24m");
+    const plan36 = plan("netvigator-ftth-1000-exclusive-36m-186");
+
+    for (const row of [plan24, plan36]) {
+      assert.equal(row.providerId, "netvigator");
+      assert.equal(row.category, "broadband");
+      assert.equal(row.name, NAME);
+      assert.equal(row.monthlyFee, 186);
+      assert.equal(row.freeMonths, 0);
+      assert.equal(row.speedMbps, 1000);
+      assert.equal(row.install, "豁免安裝費");
+      assert.deepEqual(row.housing, ["private"]);
+      assert.equal(row.network, "光纖入屋");
+      assert.deepEqual(row.perks, PERKS);
+      assert.equal(row.limits, LIMITS);
+      assert.equal(row.bestFor, "適合私人樓宇、需要 Wi-Fi 6 及家居電話之住戶");
+      assert.equal(row.hot, undefined);
+      assert.equal(toEnglish(row.name), "Exclusive private 1000M fibre + Wi-Fi 6 router + mobile phone service");
+    }
+
+    assert.equal(plan24.contractMonths, 24);
+    assert.equal(plan36.contractMonths, 36);
+    assert.equal(plan24.perks[1], "家居固網電話");
+    assert.equal(plan36.perks[1], "家居固網電話");
+
+    const cheap36 = plan("netvigator-ftth-1000-private-36m");
+    assert.equal(cheap36.name, "私人樓宇 1000M 光纖（36 個月＋家居電話）");
+    assert.equal(cheap36.monthlyFee, 98);
+    assert.equal(cheap36.contractMonths, 36);
+    assert.equal(cheap36.hot, true);
+    assert.deepEqual(cheap36.perks, [
+      "家居固網電話",
+      PERKS[2],
+      PERKS[3],
+      "可加 HK$10 選配 Linksys EA9350 Wi-Fi 6 路由器",
+    ]);
+
+    const upgrade36 = plan("netvigator-ftth-1000-private-36m-198");
+    assert.equal(upgrade36.name, "私人樓宇 1000M 光纖（36 個月）");
+    assert.equal(upgrade36.monthlyFee, 198);
+    assert.equal(upgrade36.contractMonths, 36);
   });
 });
 
