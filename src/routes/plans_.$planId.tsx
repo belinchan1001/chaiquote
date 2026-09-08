@@ -3,6 +3,7 @@ import { Bookmark, GitCompareArrows } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { QuoteLink } from "@/components/quote-link";
 import { WhatsAppTip } from "@/components/whatsapp-tip";
+import { PlanBadges } from "@/components/plan-badges";
 import { ProviderMark } from "@/components/provider-mark";
 import { PlanCard } from "@/components/plan-card";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
@@ -80,6 +81,7 @@ function PlanDetailPage() {
       <div className="mt-6 max-w-3xl">
         <ProviderMark id={plan.providerId} />
         <h1 className="mt-4 text-title font-semibold">{tx(plan.name)}</h1>
+        <PlanBadges plan={plan} className="mt-3" />
         <p className="mt-2 text-muted">{tx(plan.bestFor)}</p>
         <div className="mt-6 flex items-end gap-3">
           <p className="font-display text-5xl font-semibold tabular-nums leading-none">

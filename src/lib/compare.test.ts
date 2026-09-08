@@ -106,7 +106,12 @@ describe("HKBN student/youth 5G 30GB", () => {
     assert.equal(youth.housing, "all");
     assert.deepEqual(youth.perks, ["學生或年青人專題，須符合資格"]);
     assert.equal(youth.bestFor, "適合符合學生或年青人資格之用戶");
-    assert.equal(youth.hot, undefined);
+    assert.equal(youth.hot, true);
+    assert.equal(youth.latestOffer, true);
+    assert.deepEqual(
+      PLANS.filter((p) => p.latestOffer).map((p) => p.id),
+      ["hkbn-5g-30-78-youth"],
+    );
     assert.equal(youth.portInPerk, undefined);
     assert.equal(youth.prepaid, undefined);
     assert.doesNotMatch(JSON.stringify(youth), /MT5G|108/);
