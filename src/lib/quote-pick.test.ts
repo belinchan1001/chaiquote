@@ -11,15 +11,24 @@ const here = dirname(fileURLToPath(import.meta.url));
 describe("齊Quote pick badge", () => {
   it("uses exact 齊Quote pick copy and never cheapest/guarantee wording", () => {
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    const badges = readFileSync(join(here, "../components/plan-badges.tsx"), "utf8");
     assert.match(messages, /quotePick: "齊Quote 推介"/);
     assert.match(messages, /quotePick: "齊Quote pick"/);
     assert.match(messages, /齊Quote 推介/);
     assert.match(messages, /齊Quote pick/);
     assert.doesNotMatch(messages, /齊[Qq]oute/);
     assert.doesNotMatch(messages, /quotePick: "[^"]*[Qq]oute/);
+    assert.match(badges, /👍 \{t\("quotePick"\)\}/);
+    assert.match(badges, /quotePickClass = "[^"]*bg-fg[^"]*text-white/);
+    assert.match(badges, /pillClass = "rounded-full bg-hot px-2 py-1 text-xs font-medium text-hot-foreground"/);
+    assert.match(badges, /plan\.quotePick \? <span className=\{quotePickClass\}>👍 \{t\("quotePick"\)\}/);
+    assert.match(badges, /plan\.latestOffer \? <span className=\{pillClass\}>\{t\("latestOffer"\)\}/);
+    assert.match(badges, /plan\.hot \? <span className=\{pillClass\}>\{t\("hot"\)\}/);
+    assert.doesNotMatch(badges, /最平|保證|最優惠/);
 
     for (const phrase of FORBIDDEN) {
       assert.equal(messages.includes(`quotePick: "${phrase}`), false, `forbidden: ${phrase}`);
+      assert.equal(badges.includes(phrase), false, `forbidden in badge: ${phrase}`);
     }
   });
 
@@ -54,6 +63,12 @@ describe("齊Quote pick badge", () => {
     assert.match(css, /background-origin:\s*padding-box,\s*border-box/);
     assert.match(css, /@keyframes quote-pick-shine/);
     assert.match(css, /--quote-pick-angle:\s*360deg/);
+    assert.match(css, /border:\s*3px solid transparent/);
+    assert.match(css, /animation:\s*quote-pick-shine 4\.8s linear infinite/);
+    assert.match(css, /rgba\(12, 48, 118, 0\.95\)/);
+    assert.doesNotMatch(css, /border:\s*2px solid transparent/);
+    assert.doesNotMatch(css, /quote-pick-shine 3\.2s/);
+    assert.doesNotMatch(css, /rgba\(21, 87, 196, 0\.55\)/);
     assert.doesNotMatch(css, /\.plan-card-shine::before/);
     assert.doesNotMatch(css, /background-size:\s*240%/);
     assert.doesNotMatch(css, /background-position:\s*130%/);
