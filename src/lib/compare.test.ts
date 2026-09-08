@@ -157,8 +157,148 @@ describe("Netvigator public 1000M $108", () => {
     const named = PLANS.filter((p) => p.perks.includes("包 Linksys EA9350 Wi-Fi 6 路由器"));
     assert.deepEqual(
       named.map((p) => p.id),
-      ["netvigator-ftth-1000-public-36m-108"],
+      ["netvigator-ftth-1000-public-36m-108", "netvigator-ftth-1000-public-36m-128"],
     );
+  });
+});
+
+describe("Netvigator public/HOS fibre $98 $128 $158", () => {
+  const MOVE = "搬遷費津貼 HK$1,000";
+  const NOWTV = "Now TV 體驗組合或國際新聞組合（智能電視版）；可加 HK$38 升級機頂盒";
+  const FTTH_LIMITS = "可選擇先安裝後啟動服務（最長 365 日）。實際覆蓋視乎個別樓宇而定。";
+
+  it("adds three public/HOS plans without changing $108 or private/village Netvigator plans", () => {
+    const plan98 = plan("netvigator-ftth-1000-public-36m-98");
+    assert.equal(plan98.providerId, "netvigator");
+    assert.equal(plan98.category, "broadband");
+    assert.equal(plan98.name, "公居屋 1000M 光纖（36 個月）");
+    assert.equal(plan98.monthlyFee, 98);
+    assert.equal(plan98.freeMonths, 0);
+    assert.equal(plan98.contractMonths, 36);
+    assert.equal(plan98.speedMbps, 1000);
+    assert.equal(plan98.install, "豁免安裝費");
+    assert.deepEqual(plan98.housing, ["public", "hos"]);
+    assert.equal(plan98.network, "光纖入屋");
+    assert.deepEqual(plan98.perks, [MOVE, "家居固網電話", NOWTV]);
+    assert.equal(plan98.limits, FTTH_LIMITS);
+    assert.equal(plan98.bestFor, "適合公屋或居屋、需要 1000M 光纖之住戶");
+    assert.equal(plan98.hot, undefined);
+    assert.equal(toEnglish(plan98.name), "Public/HOS 1000M fibre (36 months)");
+
+    const plan128 = plan("netvigator-ftth-1000-public-36m-128");
+    assert.equal(plan128.providerId, "netvigator");
+    assert.equal(plan128.category, "broadband");
+    assert.equal(plan128.name, "公居屋 1000M 光纖（36 個月＋Wi-Fi 6）");
+    assert.equal(plan128.monthlyFee, 128);
+    assert.equal(plan128.freeMonths, 0);
+    assert.equal(plan128.contractMonths, 36);
+    assert.equal(plan128.speedMbps, 1000);
+    assert.equal(plan128.install, "豁免安裝費");
+    assert.deepEqual(plan128.housing, ["public", "hos"]);
+    assert.equal(plan128.network, "光纖入屋");
+    assert.deepEqual(plan128.perks, [
+      "12 個月 Disney+",
+      "包 Linksys EA9350 Wi-Fi 6 路由器",
+      MOVE,
+      NOWTV,
+    ]);
+    assert.equal(plan128.limits, FTTH_LIMITS);
+    assert.equal(plan128.hot, undefined);
+    assert.equal(toEnglish(plan128.name), "Public/HOS 1000M fibre (36 months + Wi-Fi 6)");
+    assert.equal(toEnglish(plan128.perks[0]), "12 months Disney+");
+    assert.equal(toEnglish(plan128.perks[1]), "Includes a Linksys EA9350 Wi-Fi 6 router");
+
+    const plan158 = plan("netvigator-ftth-2500-public-36m-158");
+    assert.equal(plan158.providerId, "netvigator");
+    assert.equal(plan158.category, "broadband");
+    assert.equal(plan158.name, "公居屋 2500M 光纖（36 個月＋Wi-Fi 7）");
+    assert.equal(plan158.monthlyFee, 158);
+    assert.equal(plan158.freeMonths, 0);
+    assert.equal(plan158.contractMonths, 36);
+    assert.equal(plan158.speedMbps, 2500);
+    assert.equal(plan158.install, "豁免安裝費");
+    assert.deepEqual(plan158.housing, ["public", "hos"]);
+    assert.equal(plan158.network, "光纖入屋");
+    assert.deepEqual(plan158.perks, [
+      "12 個月 Disney+",
+      "包 Wi-Fi 7 路由器",
+      "家居固網電話",
+      MOVE,
+      NOWTV,
+    ]);
+    assert.equal(plan158.limits, FTTH_LIMITS);
+    assert.equal(plan158.hot, undefined);
+    assert.equal(toEnglish(plan158.name), "Public/HOS 2500M fibre (36 months + Wi-Fi 7)");
+    assert.equal(toEnglish(plan158.perks[1]), "Includes Wi-Fi 7 router");
+    assert.equal(toEnglish(plan158.perks[2]), "Home landline");
+
+    const plan108 = plan("netvigator-ftth-1000-public-36m-108");
+    assert.equal(plan108.name, "公居屋 1000M 光纖（36 個月＋路由器）");
+    assert.equal(plan108.monthlyFee, 108);
+    assert.equal(plan108.freeMonths, 0);
+    assert.equal(plan108.contractMonths, 36);
+    assert.equal(plan108.speedMbps, 1000);
+    assert.equal(plan108.install, "豁免安裝費");
+    assert.deepEqual(plan108.housing, ["public", "hos"]);
+    assert.equal(plan108.network, "光纖入屋");
+    assert.deepEqual(plan108.perks, [
+      "包 Linksys EA9350 Wi-Fi 6 路由器",
+      "送 Now TV 頻道",
+      "豁免搬遷費",
+      "可加購每月 HK$68 換購指定家電（須符合資格）",
+    ]);
+    assert.equal(plan108.hot, true);
+    assert.equal(plan108.limits, undefined);
+    assert.equal(plan108.bestFor, "適合公屋或居屋、需要 1000M 光纖之住戶");
+
+    assert.equal(getPlan("netvigator-ftth-2500-public-36m-156"), undefined);
+    assert.equal(getPlan("netvigator-ftth-2500-public-36m"), undefined);
+
+    assert.deepEqual(
+      PLANS.filter((p) => p.providerId === "netvigator" && p.category === "broadband").map((p) => p.id),
+      [
+        "netvigator-ftth-1000-private-36m",
+        "netvigator-ftth-1000-private-36m-198",
+        "netvigator-ftth-1000-private-24m",
+        "netvigator-ftth-2500-private-24m",
+        "netvigator-ftth-1000-public-36m-98",
+        "netvigator-ftth-1000-public-36m-108",
+        "netvigator-ftth-1000-public-36m-128",
+        "netvigator-ftth-2500-public-36m-158",
+        "netvigator-ftth-1000-private-36m-118",
+        "netvigator-ftth-2500-private-36m-176",
+        "netvigator-ftth-1000-village-36m",
+        "netvigator-ftth-2500-village-36m",
+        "netvigator-ftth-10000",
+      ],
+    );
+
+    const private118 = plan("netvigator-ftth-1000-private-36m-118");
+    assert.equal(private118.monthlyFee, 118);
+    assert.deepEqual(private118.perks, [
+      "包指定 Wi-Fi 路由器",
+      "送 Now TV 頻道",
+      "豁免搬遷費",
+      "可加購每月 HK$68 換購指定家電（須符合資格）",
+    ]);
+
+    const private176 = plan("netvigator-ftth-2500-private-36m-176");
+    assert.equal(private176.monthlyFee, 176);
+    assert.equal(private176.name, "私人樓宇 2500M 光纖（36 個月＋Wi-Fi 7）");
+    assert.deepEqual(private176.housing, ["private"]);
+
+    const village1000 = plan("netvigator-ftth-1000-village-36m");
+    assert.equal(village1000.monthlyFee, 268);
+    assert.deepEqual(village1000.housing, ["village"]);
+
+    const village2500 = plan("netvigator-ftth-2500-village-36m");
+    assert.equal(village2500.monthlyFee, 398);
+    assert.deepEqual(village2500.housing, ["village"]);
+
+    for (const p of [plan98, plan128, plan158]) {
+      assert.doesNotMatch(JSON.stringify(p), /保證|最平/);
+      assert.equal(p.perks.includes("可加購每月 HK$68 換購指定家電（須符合資格）"), false);
+    }
   });
 });
 
