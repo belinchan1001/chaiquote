@@ -335,9 +335,16 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     ]);
 
     const private176 = plan("netvigator-ftth-2500-private-36m-176");
-    assert.equal(private176.monthlyFee, 176);
+    assert.equal(private176.monthlyFee, 178);
     assert.equal(private176.name, "私人樓宇 2500M 光纖（36 個月＋Wi-Fi 7）");
     assert.deepEqual(private176.housing, ["private"]);
+    assert.deepEqual(private176.perks, [
+      "12 個月 Disney+",
+      "包 Wi-Fi 7 二合一路由器",
+      "送 Now TV 頻道",
+      "豁免搬遷費",
+      "可加購每月 HK$68 換購指定家電（須符合資格）",
+    ]);
 
     const village1000 = plan("netvigator-ftth-1000-village-36m");
     assert.equal(village1000.monthlyFee, 268);
