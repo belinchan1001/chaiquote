@@ -82,6 +82,7 @@ const LIMITS_NETVIGATOR_VILLAGE =
   "適用於指定村屋及唐樓地址。須另行繳付安裝費。實際覆蓋須核對門牌。網上行之公屋、居屋及私人樓宇計劃不適用於村屋或唐樓。";
 const LIMITS_HGC_VILLAGE =
   "適用於村屋地址。馬灣或若干指定村落未必享有額外特別優惠，詳情請向當值銷售員查詢。不適用於公屋、居屋及私人樓宇。實際覆蓋須核對門牌。";
+const LIMITS_ICABLE_FTTH_NO_VILLAGE = "適用於公屋、居屋及私人樓宇。不適用於村屋。";
 const LIMITS_HOME5G_SPEED =
   "實際速度介乎 100M 至 1000M，視乎訊號覆蓋、裝置數量及現場環境而定。";
 const LIMITS_CMHK_HOME5G =
@@ -977,6 +978,25 @@ export const PLANS: Plan[] = [
     perks: ["豁免搬遷費"],
     hot: true,
     bestFor: "適合需要入門光纖之住戶",
+  },
+  {
+    id: "icable-ftth-1000-48m-58",
+    providerId: "icable",
+    category: "broadband",
+    name: "1000M 光纖入屋（48 個月）",
+    monthlyFee: 58,
+    freeMonths: 0,
+    contractMonths: 48,
+    speedMbps: 1000,
+    install: "豁免安裝費",
+    housing: ["public", "hos", "private"],
+    network: "光纖入屋",
+    perks: ["豁免搬遷費"],
+    limits: LIMITS_ICABLE_FTTH_NO_VILLAGE,
+    hot: true,
+    latestOffer: true,
+    quotePick: true,
+    bestFor: "適合公屋、居屋或私人樓宇、需要 1000M 光纖之住戶",
   },
   {
     id: "icable-ftth-1000-private-36m",
