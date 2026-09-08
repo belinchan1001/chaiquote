@@ -28,7 +28,12 @@ export function PlanCard({ plan }: { plan: Plan }) {
   const { t, tx, categoryLabel } = useI18n();
 
   return (
-    <article className="flex flex-col rounded-xl bg-card p-5 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]">
+    <article
+      className={cn(
+        "flex flex-col rounded-xl bg-card p-5 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
+        plan.quotePick && "plan-card-shine",
+      )}
+    >
       <div className="flex items-start justify-between gap-3">
         <ProviderMark id={plan.providerId} />
         <div className="flex items-center gap-1">

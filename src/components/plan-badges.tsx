@@ -6,10 +6,11 @@ const pillClass = "rounded-full bg-hot px-2 py-1 text-xs font-medium text-hot-fo
 
 export function PlanBadges({ plan, className }: { plan: Plan; className?: string }) {
   const { t } = useI18n();
-  if (!plan.latestOffer && !plan.hot) return null;
+  if (!plan.quotePick && !plan.latestOffer && !plan.hot) return null;
 
   return (
     <div className={cn("flex flex-wrap items-center gap-1", className)}>
+      {plan.quotePick ? <span className={pillClass}>{t("quotePick")}</span> : null}
       {plan.latestOffer ? <span className={pillClass}>{t("latestOffer")}</span> : null}
       {plan.hot ? <span className={pillClass}>{t("hot")}</span> : null}
     </div>

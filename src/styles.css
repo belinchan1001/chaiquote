@@ -96,7 +96,8 @@
   .page-shell,
   .plan-list > *,
   .nav-progress-bar,
-  .popover-in {
+  .popover-in,
+  .plan-card-shine::before {
     animation: none !important;
   }
 
@@ -236,6 +237,47 @@
     }
     100% {
       transform: translateX(420%);
+    }
+  }
+
+  .plan-card-shine {
+    position: relative;
+  }
+
+  .plan-card-shine::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      115deg,
+      transparent 18%,
+      rgba(255, 255, 255, 0.9) 46%,
+      rgba(0, 168, 197, 0.38) 50%,
+      rgba(21, 87, 196, 0.22) 54%,
+      transparent 82%
+    );
+    background-size: 240% 240%;
+    animation: quote-pick-shine 6s ease-in-out infinite;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+  }
+
+  @keyframes quote-pick-shine {
+    0% {
+      background-position: 130% 0;
+    }
+    100% {
+      background-position: -30% 100%;
     }
   }
 
