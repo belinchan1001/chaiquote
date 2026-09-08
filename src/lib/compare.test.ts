@@ -111,11 +111,11 @@ describe("HKBN student/youth 5G 30GB", () => {
     assert.equal(youth.quotePick, true);
     assert.deepEqual(
       PLANS.filter((p) => p.latestOffer).map((p) => p.id),
-      ["hkbn-5g-30-78-youth"],
+      ["icable-ftth-1000-48m-58", "hkbn-5g-30-78-youth"],
     );
     assert.deepEqual(
       PLANS.filter((p) => p.quotePick).map((p) => p.id),
-      ["hkbn-5g-30-78-youth"],
+      ["icable-ftth-1000-48m-58", "hkbn-5g-30-78-youth"],
     );
     assert.equal(youth.portInPerk, undefined);
     assert.equal(youth.prepaid, undefined);
@@ -724,12 +724,6 @@ describe("HGC village broadband install waiver", () => {
     const netvigatorVillage = plan("netvigator-ftth-1000-village-36m");
     assert.equal(netvigatorVillage.install, "須另行繳付安裝費");
     assert.match(netvigatorVillage.limits ?? "", /實際覆蓋須核對門牌/);
-
-    assert.equal(PLANS.filter((p) => p.providerId === "icable" && p.monthlyFee === 58).length, 0);
-    assert.equal(
-      PLANS.some((p) => p.providerId === "icable" && /58/.test(p.id)),
-      false,
-    );
   });
 });
 
@@ -742,5 +736,85 @@ describe("CMHK mobile catalogue", () => {
       "cmhk-5g-youth-100-138",
       "cmhk-5g-youth-200-178",
     ]);
+  });
+});
+
+describe("iCable 1000M FTTH $58 48-month", () => {
+  it("adds one $58 plan without changing the two $88 1000M cards", () => {
+    const ids = PLANS.map((p) => p.id);
+    assert.equal(ids.filter((id) => id === "icable-ftth-1000-48m-58").length, 1);
+    assert.notEqual("icable-ftth-1000-48m-58", "icable-ftth-1000-public-48m");
+    assert.notEqual("icable-ftth-1000-48m-58", "icable-ftth-1000-private-36m");
+
+    const row = plan("icable-ftth-1000-48m-58");
+    assert.equal(row.providerId, "icable");
+    assert.equal(row.category, "broadband");
+    assert.equal(row.id, "icable-ftth-1000-48m-58");
+    assert.equal(row.name, "1000M 光纖入屋（48 個月）");
+    assert.equal(row.monthlyFee, 58);
+    assert.equal(row.freeMonths, 0);
+    assert.equal(row.contractMonths, 48);
+    assert.equal(row.speedMbps, 1000);
+    assert.equal(row.install, "豁免安裝費");
+    assert.ok(Array.isArray(row.housing) && !row.housing.includes("village"));
+    assert.deepEqual(row.housing, ["public", "hos", "private"]);
+    assert.equal(row.network, "光纖入屋");
+    assert.deepEqual(row.perks, ["豁免搬遷費"]);
+    assert.equal(row.perks.length, 1);
+    assert.doesNotMatch(row.perks.join(" "), /路由器|Now TV|電視/);
+    assert.equal(row.hot, true);
+    assert.equal(row.latestOffer, true);
+    assert.equal(row.quotePick, true);
+    assert.equal(row.bestFor, "適合公屋、居屋或私人樓宇、需要 1000M 光纖之住戶");
+    assert.doesNotMatch(row.bestFor, /村屋/);
+    assert.equal(row.limits, "適用於公屋、居屋及私人樓宇。不適用於村屋。");
+    assert.doesNotMatch(row.limits ?? "", /覆蓋視乎|指定地址|保證/);
+    assert.equal(row.portInPerk, undefined);
+    assert.equal(row.prepaid, undefined);
+
+    assert.equal(toEnglish(row.name), "1000M FTTH (48 months)");
+    assert.equal(toEnglish(row.perks[0]), "Relocation fee waived");
+    assert.equal(toEnglish(row.bestFor), "For public housing, HOS or private buildings that need 1000M fibre");
+    assert.equal(toEnglish(row.limits ?? ""), "Applies to public housing, HOS and private buildings. Not for village houses.");
+
+    const public48 = plan("icable-ftth-1000-public-48m");
+    assert.equal(public48.monthlyFee, 88);
+    assert.equal(public48.freeMonths, 0);
+    assert.equal(public48.contractMonths, 48);
+    assert.equal(public48.speedMbps, 1000);
+    assert.equal(public48.name, "公居屋 1000M 光纖（48 個月）");
+    assert.deepEqual(public48.housing, ["public", "hos"]);
+    assert.deepEqual(public48.perks, ["送 TP-Link EX141 路由器", "豁免搬遷費"]);
+    assert.equal(public48.hot, undefined);
+    assert.equal(public48.latestOffer, undefined);
+    assert.equal(public48.quotePick, undefined);
+    assert.equal(public48.bestFor, "適合公屋或居屋、需要 1000M 光纖之住戶");
+
+    const private36 = plan("icable-ftth-1000-private-36m");
+    assert.equal(private36.monthlyFee, 88);
+    assert.equal(private36.freeMonths, 0);
+    assert.equal(private36.contractMonths, 36);
+    assert.equal(private36.speedMbps, 1000);
+    assert.equal(private36.name, "私人樓宇 1000M 光纖（36 個月）");
+    assert.deepEqual(private36.housing, ["private"]);
+    assert.deepEqual(private36.perks, ["豁免搬遷費"]);
+    assert.equal(private36.hot, undefined);
+    assert.equal(private36.latestOffer, undefined);
+    assert.equal(private36.quotePick, undefined);
+    assert.equal(private36.bestFor, "適合私人樓宇、需要 1000M 光纖之住戶");
+
+    assert.deepEqual(
+      PLANS.filter((p) => p.providerId === "icable" && p.category === "broadband").map((p) => p.id),
+      [
+        "icable-ftth-200-36m",
+        "icable-ftth-1000-48m-58",
+        "icable-ftth-1000-private-36m",
+        "icable-ftth-1000-public-48m",
+        "icable-ftth-1000-public-36m",
+        "icable-ftth-2000-private-36m",
+        "icable-ftth-2000-public-36m",
+        "icable-ftth-2000-public-24m",
+      ],
+    );
   });
 });

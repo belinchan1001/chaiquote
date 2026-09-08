@@ -21,6 +21,8 @@ const EXACT: Record<string, string> = {
     "For selected village houses and tong lau. Installation fee extra. Coverage must be checked against the exact address. Netvigator public/HOS/private plans do not apply to village houses or tong lau.",
   "適用於村屋地址。馬灣或若干指定村落未必享有額外特別優惠，詳情請向當值銷售員查詢。不適用於公屋、居屋及私人樓宇。實際覆蓋須核對門牌。":
     "For village-house addresses. Ma Wan or certain villages may not have extra promotions; ask the on-duty sales adviser. Not for public housing, HOS or private buildings. Coverage must be checked against the exact address.",
+  "適用於公屋、居屋及私人樓宇。不適用於村屋。":
+    "Applies to public housing, HOS and private buildings. Not for village houses.",
   "實際速度介乎 100M 至 1000M，視乎訊號覆蓋、裝置數量及現場環境而定。":
     "Typical speed 100M–1000M, depending on coverage, devices and site conditions.",
   "實際速度介乎 100M 至 1000M，視乎訊號覆蓋、裝置數量及現場環境而定。本計劃為自動續約。P2P 及 Thunder 下載期間限速至 128kbps。":
@@ -250,6 +252,7 @@ const PHRASES: [string, string][] = [
   ["1000M 家居寬頻（24 個月）", "1000M home broadband (24 months)"],
   ["1000M 家居寬頻（36 個月）", "1000M home broadband (36 months)"],
   ["10000M 光纖入屋（24 個月）", "10000M FTTH (24 months)"],
+  ["1000M 光纖入屋（48 個月）", "1000M FTTH (48 months)"],
   ["1000M 光纖入屋（36 個月）", "1000M FTTH (36 months)"],
   ["2500M 光纖入屋（36 個月）", "2500M FTTH (36 months)"],
   ["200M 光纖（36 個月）", "200M fibre (36 months)"],
@@ -330,6 +333,7 @@ const BEST_FOR: [string, string][] = [
   ["適合中等 4.5G 數據用量之用戶", "For moderate 4.5G data use"],
   ["適合中等數據用量，以及使用即時通訊與串流應用之用戶", "For moderate data use plus messaging and streaming"],
   ["適合以即時通訊為主、較少串流之用戶", "For mostly messaging, little streaming"],
+  ["適合公屋、居屋或私人樓宇、需要 1000M 光纖之住戶", "For public housing, HOS or private buildings that need 1000M fibre"],
   ["適合公屋、居屋或私人住宅、需要 1000M 光纖之住戶", "For public housing, HOS or private homes that need 1000M fibre"],
   ["適合公屋、居屋或私人住宅之入門 1000M 住戶", "For entry-level 1000M in public housing, HOS or private homes"],
   ["適合公屋、居屋或私人住宅，需要 10000M 光纖之住戶", "For public housing, HOS or private homes that need 10000M fibre"],

@@ -23,7 +23,7 @@ describe("齊Quote pick badge", () => {
     }
   });
 
-  it("flags only hkbn-5g-30-78-youth and leaves its $78 terms unchanged", () => {
+  it("flags hkbn-5g-30-78-youth and icable-ftth-1000-48m-58 without changing youth $78 terms", () => {
     const youth = getPlan("hkbn-5g-30-78-youth");
     assert.ok(youth);
     assert.equal(youth.quotePick, true);
@@ -31,9 +31,13 @@ describe("齊Quote pick badge", () => {
     assert.equal(youth.contractMonths, 24);
     assert.equal(youth.freeMonths, 0);
     assert.equal(youth.dataGb, 30);
+    const icable = getPlan("icable-ftth-1000-48m-58");
+    assert.ok(icable);
+    assert.equal(icable.quotePick, true);
+    assert.equal(icable.monthlyFee, 58);
     assert.deepEqual(
       PLANS.filter((plan) => plan.quotePick).map((plan) => plan.id),
-      ["hkbn-5g-30-78-youth"],
+      ["icable-ftth-1000-48m-58", "hkbn-5g-30-78-youth"],
     );
   });
 
