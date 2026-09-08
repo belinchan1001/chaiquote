@@ -784,7 +784,7 @@ export const PLANS: Plan[] = [
     install: "豁免安裝費",
     housing: ["public", "hos"],
     network: "光纖入屋",
-    perks: ["包指定 Wi-Fi 路由器", "送 Now TV 頻道", PERK_NETVIGATOR_RELO, PERK_NETVIGATOR_APPLIANCE],
+    perks: ["包 Linksys EA9350 Wi-Fi 6 路由器", "送 Now TV 頻道", PERK_NETVIGATOR_RELO, PERK_NETVIGATOR_APPLIANCE],
     hot: true,
     bestFor: "適合公屋或居屋、需要 1000M 光纖之住戶",
   },

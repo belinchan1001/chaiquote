@@ -137,6 +137,7 @@ const PHRASES: [string, string][] = [
   ["須另行核對", "To be confirmed separately"],
   ["計劃包含指定路由器", "Designated router included"],
   ["包 Wi-Fi 7 二合一路由器", "Includes 2-in-1 Wi-Fi 7 router"],
+  ["包 Linksys EA9350 Wi-Fi 6 路由器", "Includes a Linksys EA9350 Wi-Fi 6 router"],
   ["包指定 Wi-Fi 路由器", "Includes designated Wi-Fi router"],
   ["租借 Wi-Fi 7 路由器", "Wi-Fi 7 router on loan"],
   ["可加購家庭副卡", "Optional extra family SIMs"],
