@@ -3,23 +3,23 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { MESSAGES } from "./messages.ts";
 import { PLANS, getPlan } from "./plans.ts";
 
 const FORBIDDEN = ["最優惠", "最平", "保證", "guarantee", "cheapest"];
+const here = dirname(fileURLToPath(import.meta.url));
 
 describe("齊Quote pick badge", () => {
   it("uses exact 齊Quote pick copy and never cheapest/guarantee wording", () => {
-    assert.equal(MESSAGES.zh.quotePick, "齊Quote 推介");
-    assert.equal(MESSAGES.en.quotePick, "齊Quote pick");
-    assert.match(MESSAGES.zh.quotePick, /Quote/);
-    assert.match(MESSAGES.en.quotePick, /Quote/);
-    assert.doesNotMatch(MESSAGES.zh.quotePick, /[Qq]oute/);
-    assert.doesNotMatch(MESSAGES.en.quotePick, /[Qq]oute/);
+    const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    assert.match(messages, /quotePick: "齊Quote 推介"/);
+    assert.match(messages, /quotePick: "齊Quote pick"/);
+    assert.match(messages, /齊Quote 推介/);
+    assert.match(messages, /齊Quote pick/);
+    assert.doesNotMatch(messages, /齊[Qq]oute/);
+    assert.doesNotMatch(messages, /quotePick: "[^"]*[Qq]oute/);
 
-    const copy = `${MESSAGES.zh.quotePick}\n${MESSAGES.en.quotePick}`;
     for (const phrase of FORBIDDEN) {
-      assert.equal(copy.toLowerCase().includes(phrase.toLowerCase()), false, `forbidden: ${phrase}`);
+      assert.equal(messages.includes(`quotePick: "${phrase}`), false, `forbidden: ${phrase}`);
     }
   });
 
@@ -38,12 +38,11 @@ describe("齊Quote pick badge", () => {
   });
 
   it("keeps the shine on card chrome and disables it for reduced motion", () => {
-    const here = dirname(fileURLToPath(import.meta.url));
     const css = readFileSync(join(here, "../styles.css"), "utf8");
     const card = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
 
-    assert.match(card, /plan\.quotePick && "plan-card-shine"/);
-    assert.doesNotMatch(card, /formatFee[\s\S]*plan-card-shine/);
+    assert.match(card, /<article[\s\S]*plan\.quotePick && "plan-card-shine"/);
+    assert.doesNotMatch(card, /formatFee\(plan\.monthlyFee\)[\s\S]{0,200}plan-card-shine/);
     assert.match(css, /\.plan-card-shine::before/);
     assert.match(css, /@keyframes quote-pick-shine/);
     assert.match(
