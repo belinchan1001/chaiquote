@@ -141,6 +141,27 @@ describe("HKBN student/youth 5G 30GB", () => {
   });
 });
 
+describe("Netvigator public 1000M $108", () => {
+  it("names the included Linksys EA9350 router without changing other plans", () => {
+    const plan = getPlan("netvigator-ftth-1000-public-36m-108");
+    assert.ok(plan);
+    assert.equal(plan.monthlyFee, 108);
+    assert.equal(plan.perks[0], "包 Linksys EA9350 Wi-Fi 6 路由器");
+    assert.equal(toEnglish(plan.perks[0]), "Includes a Linksys EA9350 Wi-Fi 6 router");
+
+    const sibling = getPlan("netvigator-ftth-1000-private-36m-118");
+    assert.ok(sibling);
+    assert.equal(sibling.perks[0], "包指定 Wi-Fi 路由器");
+    assert.equal(toEnglish(sibling.perks[0]), "Includes designated Wi-Fi router");
+
+    const named = PLANS.filter((p) => p.perks.includes("包 Linksys EA9350 Wi-Fi 6 路由器"));
+    assert.deepEqual(
+      named.map((p) => p.id),
+      ["netvigator-ftth-1000-public-36m-108"],
+    );
+  });
+});
+
 describe("CMHK mobile catalogue", () => {
   it("keeps only the four reference 5G monthly plans", () => {
     const ids = PLANS.filter((p) => p.category === "mobile" && p.providerId === "cmhk").map((p) => p.id);
