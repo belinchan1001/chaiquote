@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Bookmark, GitCompareArrows } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PlanBadges } from "@/components/plan-badges";
 import { ProviderMark } from "@/components/provider-mark";
 import { QuoteLink } from "@/components/quote-link";
 import { useDesk } from "@/lib/desk";
@@ -31,11 +32,7 @@ export function PlanCard({ plan }: { plan: Plan }) {
       <div className="flex items-start justify-between gap-3">
         <ProviderMark id={plan.providerId} />
         <div className="flex items-center gap-1">
-          {plan.hot ? (
-            <span className="rounded-full bg-hot px-2 py-1 text-xs font-medium text-hot-foreground">
-              {t("hot")}
-            </span>
-          ) : null}
+          <PlanBadges plan={plan} />
           <button
             type="button"
             aria-label={inSaved ? t("unsave") : t("save")}

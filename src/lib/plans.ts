@@ -59,6 +59,7 @@ export type Plan = {
   prepaid?: string;
   limits?: string;
   hot?: boolean;
+  latestOffer?: boolean;
   bestFor: string;
 };
 
@@ -1728,6 +1729,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     perks: ["學生或年青人專題，須符合資格"],
+    hot: true,
+    latestOffer: true,
     bestFor: "適合符合學生或年青人資格之用戶",
   },
   {
