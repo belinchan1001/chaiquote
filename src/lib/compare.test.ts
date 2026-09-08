@@ -363,7 +363,7 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
 });
 
 describe("Netvigator exclusive-private 1000M $186", () => {
-  const NAME = "獨家私人樓宇 1000M 光纖＋Wi-Fi 6 路由器＋手提電話服務";
+  const NAME = "獨家私人樓宇 1000M 光纖＋Wi-Fi 6 路由器＋家居電話";
   const PERKS = [
     "送指定 Wi-Fi 6 路由器",
     "家居固網電話",
@@ -390,7 +390,7 @@ describe("Netvigator exclusive-private 1000M $186", () => {
       assert.equal(row.limits, LIMITS);
       assert.equal(row.bestFor, "適合私人樓宇、需要 Wi-Fi 6 及家居電話之住戶");
       assert.equal(row.hot, undefined);
-      assert.equal(toEnglish(row.name), "Exclusive private 1000M fibre + Wi-Fi 6 router + mobile phone service");
+      assert.equal(toEnglish(row.name), "Exclusive private 1000M fibre + Wi-Fi 6 router + home phone");
     }
 
     assert.equal(plan24.contractMonths, 24);
