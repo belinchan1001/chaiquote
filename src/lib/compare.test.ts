@@ -314,6 +314,7 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
         "netvigator-ftth-1000-private-24m",
         "netvigator-ftth-1000-exclusive-36m-186",
         "netvigator-ftth-2500-private-24m",
+        "netvigator-ftth-2500-exclusive-36m-244",
         "netvigator-ftth-1000-public-36m-98",
         "netvigator-ftth-1000-public-36m-108",
         "netvigator-ftth-1000-public-36m-128",
@@ -414,6 +415,64 @@ describe("Netvigator exclusive-private 1000M $186", () => {
     assert.equal(upgrade36.name, "私人樓宇 1000M 光纖（36 個月）");
     assert.equal(upgrade36.monthlyFee, 198);
     assert.equal(upgrade36.contractMonths, 36);
+  });
+});
+
+describe("Netvigator exclusive-private 2500M $244", () => {
+  const NAME = "獨家私人樓宇 2500M 光纖＋Wi-Fi 7 路由器＋家居電話＋手提電話服務";
+  const PERKS = [
+    "送指定 Wi-Fi 7 路由器",
+    "家居固網電話",
+    "Now TV 體驗組合或國際新聞組合（智能電視版）；可加 HK$38 升級機頂盒",
+    "搬遷費津貼 HK$1,000",
+  ];
+  const LIMITS = "可選擇先安裝後啟動服務（最長 365 日）。實際覆蓋視乎個別樓宇而定。僅適用於指定獨家私人樓宇。";
+
+  it("keeps the 24-month card and adds a 36-month twin at the same fee", () => {
+    const plan24 = plan("netvigator-ftth-2500-private-24m");
+    const plan36 = plan("netvigator-ftth-2500-exclusive-36m-244");
+
+    for (const row of [plan24, plan36]) {
+      assert.equal(row.providerId, "netvigator");
+      assert.equal(row.category, "broadband");
+      assert.equal(row.name, NAME);
+      assert.equal(row.monthlyFee, 244);
+      assert.equal(row.freeMonths, 0);
+      assert.equal(row.speedMbps, 2500);
+      assert.equal(row.install, "豁免安裝費");
+      assert.deepEqual(row.housing, ["private"]);
+      assert.equal(row.network, "光纖入屋");
+      assert.deepEqual(row.perks, PERKS);
+      assert.equal(row.limits, LIMITS);
+      assert.equal(row.bestFor, "適合指定獨家私人樓宇、需要 2500M 光纖及家居電話之住戶");
+      assert.equal(row.hot, undefined);
+      assert.equal(
+        toEnglish(row.name),
+        "Exclusive private 2500M fibre + Wi-Fi 7 router + home phone + mobile phone service",
+      );
+    }
+
+    assert.equal(plan24.contractMonths, 24);
+    assert.equal(plan36.contractMonths, 36);
+    assert.equal(plan24.perks[1], "家居固網電話");
+    assert.equal(plan36.perks[1], "家居固網電話");
+    assert.equal(plan24.id, "netvigator-ftth-2500-private-24m");
+    assert.equal(plan36.id, "netvigator-ftth-2500-exclusive-36m-244");
+
+    assert.equal(getPlan("netvigator-ftth-2500-private-36m"), undefined);
+    assert.notEqual(plan36.id, "netvigator-ftth-2500-private-36m-176");
+
+    const disney36 = plan("netvigator-ftth-2500-private-36m-176");
+    assert.equal(disney36.monthlyFee, 178);
+    assert.equal(disney36.name, "私人樓宇 2500M 光纖（36 個月＋Wi-Fi 7）");
+    assert.equal(disney36.contractMonths, 36);
+    assert.deepEqual(disney36.perks, [
+      "12 個月 Disney+",
+      "包 Wi-Fi 7 二合一路由器",
+      "送 Now TV 頻道",
+      "豁免搬遷費",
+      "可加購每月 HK$68 換購指定家電（須符合資格）",
+    ]);
   });
 });
 
