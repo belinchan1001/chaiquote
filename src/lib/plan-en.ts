@@ -252,6 +252,7 @@ const PHRASES: [string, string][] = [
   ["1000M 光纖入屋（36 個月）", "1000M FTTH (36 months)"],
   ["2500M 光纖入屋（36 個月）", "2500M FTTH (36 months)"],
   ["200M 光纖（36 個月）", "200M fibre (36 months)"],
+  ["指定私人樓宇1000M光纖優惠", "Designated private-building 1000M fibre offer"],
   ["獨家私人樓宇 1000M 光纖＋Wi-Fi 6 路由器＋家居電話＋手提電話服務", "Exclusive private 1000M fibre + Wi-Fi 6 router + home phone + mobile phone service"],
   ["獨家私人樓宇 2500M 光纖＋Wi-Fi 7 路由器＋家居電話＋手提電話服務", "Exclusive private 2500M fibre + Wi-Fi 7 router + home phone + mobile phone service"],
   ["新居屋／簡約公屋 2000M（36 個月＋Wi-Fi 7）", "New HOS / Light Public Housing 2000M (36 months + Wi-Fi 7)"],
