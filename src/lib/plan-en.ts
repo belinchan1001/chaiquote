@@ -130,6 +130,7 @@ const PHRASES: [string, string][] = [
   ["無需室內拉線，即插即用", "No in-home cabling; plug and play"],
   ["無需室內拉線", "No in-home cabling"],
   ["須繳付安裝費 HK$680", "Installation HK$680"],
+  ["首次需繳付 HK$680 安裝費", "HK$680 installation fee required on first install"],
   ["首次安裝須繳付 HK$480", "First install HK$480"],
   ["須另行繳付安裝費", "Installation fee extra"],
   ["安裝費 HK$180", "Installation HK$180"],

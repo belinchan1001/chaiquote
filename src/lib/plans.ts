@@ -275,7 +275,7 @@ export const PLANS: Plan[] = [
     freeMonths: 0,
     contractMonths: 12,
     speedMbps: 2500,
-    install: "豁免安裝費（原價 HK$680）",
+    install: "首次需繳付 HK$680 安裝費",
     housing: ["public", "hos", "private"],
     network: "光纖入屋",
     perks: [
