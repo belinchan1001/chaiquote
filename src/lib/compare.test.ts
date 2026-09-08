@@ -151,14 +151,66 @@ describe("Netvigator public 1000M $108", () => {
 
     const sibling = getPlan("netvigator-ftth-1000-private-36m-118");
     assert.ok(sibling);
-    assert.equal(sibling.perks[0], "包指定 Wi-Fi 路由器");
-    assert.equal(toEnglish(sibling.perks[0]), "Includes designated Wi-Fi router");
+    assert.equal(sibling.monthlyFee, 108);
+    assert.equal(sibling.perks[0], "包 Linksys EA9350 Wi-Fi 6 路由器");
+    assert.equal(toEnglish(sibling.perks[0]), "Includes a Linksys EA9350 Wi-Fi 6 router");
 
     const named = PLANS.filter((p) => p.perks.includes("包 Linksys EA9350 Wi-Fi 6 路由器"));
     assert.deepEqual(
       named.map((p) => p.id),
-      ["netvigator-ftth-1000-public-36m-108", "netvigator-ftth-1000-public-36m-128"],
+      [
+        "netvigator-ftth-1000-public-36m-108",
+        "netvigator-ftth-1000-public-36m-128",
+        "netvigator-ftth-1000-private-36m-118",
+      ],
     );
+  });
+});
+
+describe("Netvigator private 1000M $108", () => {
+  it("drops the fee to 108 and names the Linksys router without changing other plans", () => {
+    const private118 = plan("netvigator-ftth-1000-private-36m-118");
+    assert.equal(private118.id, "netvigator-ftth-1000-private-36m-118");
+    assert.equal(private118.providerId, "netvigator");
+    assert.equal(private118.category, "broadband");
+    assert.equal(private118.name, "私人樓宇 1000M 光纖（36 個月＋路由器）");
+    assert.equal(private118.monthlyFee, 108);
+    assert.equal(private118.freeMonths, 0);
+    assert.equal(private118.contractMonths, 36);
+    assert.equal(private118.speedMbps, 1000);
+    assert.equal(private118.install, "豁免安裝費");
+    assert.deepEqual(private118.housing, ["private"]);
+    assert.equal(private118.network, "光纖入屋");
+    assert.deepEqual(private118.perks, [
+      "包 Linksys EA9350 Wi-Fi 6 路由器",
+      "送 Now TV 頻道",
+      "豁免搬遷費",
+      "可加購每月 HK$68 換購指定家電（須符合資格）",
+    ]);
+    assert.equal(private118.hot, undefined);
+    assert.equal(private118.limits, undefined);
+    assert.equal(private118.bestFor, "適合私人屋苑、需要 1000M 光纖之住戶");
+    assert.equal(toEnglish(private118.perks[0]), "Includes a Linksys EA9350 Wi-Fi 6 router");
+
+    const public108 = plan("netvigator-ftth-1000-public-36m-108");
+    assert.equal(public108.monthlyFee, 108);
+    assert.deepEqual(public108.housing, ["public", "hos"]);
+    assert.equal(public108.perks[0], "包 Linksys EA9350 Wi-Fi 6 路由器");
+    assert.equal(public108.hot, true);
+
+    const public98 = plan("netvigator-ftth-1000-public-36m-98");
+    assert.equal(public98.monthlyFee, 98);
+    assert.deepEqual(public98.housing, ["public", "hos"]);
+    assert.equal(public98.perks.includes("包 Linksys EA9350 Wi-Fi 6 路由器"), false);
+
+    const public128 = plan("netvigator-ftth-1000-public-36m-128");
+    assert.equal(public128.monthlyFee, 128);
+    assert.equal(public128.perks[1], "包 Linksys EA9350 Wi-Fi 6 路由器");
+
+    const public158 = plan("netvigator-ftth-2500-public-36m-158");
+    assert.equal(public158.monthlyFee, 158);
+    assert.equal(public158.speedMbps, 2500);
+    assert.equal(public158.perks[1], "包 Wi-Fi 7 路由器");
   });
 });
 
@@ -274,9 +326,9 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     );
 
     const private118 = plan("netvigator-ftth-1000-private-36m-118");
-    assert.equal(private118.monthlyFee, 118);
+    assert.equal(private118.monthlyFee, 108);
     assert.deepEqual(private118.perks, [
-      "包指定 Wi-Fi 路由器",
+      "包 Linksys EA9350 Wi-Fi 6 路由器",
       "送 Now TV 頻道",
       "豁免搬遷費",
       "可加購每月 HK$68 換購指定家電（須符合資格）",
