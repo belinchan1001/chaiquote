@@ -136,12 +136,15 @@ const RAW = `
 天富苑|天富,Tin Fu Court|元朗|hos|天水圍
 天盛苑|天盛,Tin Shing Court|元朗|hos|天水圍
 天愛苑|天愛,Tin Oi Court|元朗|hos|天水圍
+朗風苑|朗風|元朗|hos|屏山|覆蓋需查核
+匯熙苑|匯熙|元朗|hos|錦田|覆蓋需查核
 天晉|天晉,The Wings|西貢|private|將軍澳
 將軍澳中心|將軍澳中心,Park Central|西貢|private|將軍澳
 東港城|東港城,East Point City|西貢|private|將軍澳
 新都城|新都城,Metro City|西貢|private|將軍澳
-慧安園|慧安園,Well On Garden|西貢|hos|將軍澳
+慧安園|慧安園,Well On Garden|西貢|private|將軍澳
 廣明苑|廣明,廣明苑,Kwong Ming Court|西貢|hos|將軍澳
+影輝苑|影輝|西貢|hos|將軍澳|覆蓋需查核
 厚德邨|厚德,Hau Tak|西貢|public|將軍澳
 明德邨|明德,Ming Tak|西貢|public|將軍澳
 景林邨|景林,King Lam|西貢|public|將軍澳
@@ -223,6 +226,7 @@ const RAW = `
 淘大花園|淘大,Amoy Gardens|觀塘|private
 麗晶花園|麗晶,Richland Gardens|觀塘|private
 啟德1號|啟德1號|九龍城|private
+啟陽苑|啟陽|九龍城|hos|啟德|覆蓋需查核
 天水圍嘉湖山莊|嘉湖,嘉湖山莊,Kingswood Villas|元朗|private|天水圍
 俊宏軒|俊宏軒,Central Park Towers|元朗|private|天水圍
 慧景軒|慧景軒,Central Park|元朗|private|天水圍
@@ -251,6 +255,8 @@ YOHO Midtown|YOHO Midtown|元朗|private
 東涌逸東邨|逸東,Yat Tung|離島|public|東涌
 滿東邨|滿東,Mun Tung|離島|public|東涌
 裕東苑|裕東,Yu Tung Court|離島|hos|東涌
+裕雅苑|裕雅,Yu Nga Court|離島|hos|東涌
+裕豐苑|裕豐|離島|hos|東涌|覆蓋需查核
 東堤灣畔|東堤灣畔,Caribbean Coast|離島|private|東涌
 映灣園|映灣園,Seaview Crescent|離島|private|東涌
 藍天海岸|藍天海岸,Coastal Skyline|離島|private|東涌
@@ -285,12 +291,10 @@ YOHO Midtown|YOHO Midtown|元朗|private
 西沙路|西沙,Sai Sha|沙田|village
 沙田火炭|火炭,Fo Tan|沙田|private
 大圍美田|大圍,Tai Wai|沙田|private
-居屋麗港城|麗港居屋|觀塘|hos
-居屋寶達邨|寶達,Po Tat|觀塘|public
 寶達邨|寶達邨,Po Tat Estate|觀塘|public
 順利邨|順利,Shun Lee|觀塘|public
 順緻苑|順緻,Shun Chi Court|觀塘|hos
-居屋彩德邨|彩德,Choi Tak|觀塘|public
+彩德邨|彩德,Choi Tak|觀塘|public
 彩福邨|彩福,Choi Fook|觀塘|public
 啟田邨|啟田,Kai Tin|觀塘|public
 藍田邨|藍田,Lam Tin Estate|觀塘|public
@@ -302,7 +306,6 @@ YOHO Midtown|YOHO Midtown|元朗|private
 鯉魚門邨|鯉魚門,Lei Yue Mun Estate|觀塘|public
 居屋鯉安苑|鯉安苑,Lei On Court|觀塘|hos
 康山花園|康山,Kornhill Gardens|東區|private
-居屋逸東|逸東居屋|離島|hos
 天水圍天華|天華|元朗|public|天水圍
 馬灣|馬灣,Ma Wan|荃灣|village|馬灣
 井欄樹村|井欄樹,Tseng Lan Shue|西貢|village
