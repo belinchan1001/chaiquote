@@ -573,6 +573,166 @@ describe("HKBN 2.5Gbps 12-month $218", () => {
   });
 });
 
+describe("HGC village broadband install waiver", () => {
+  const WAIVED_IDS = [
+    "hgc-village-1g-phone-24m",
+    "hgc-village-1g-router-30m",
+    "hgc-village-2g-24m",
+    "hgc-village-2g-tv-30m",
+    "hgc-village-2g-wifi6-30m",
+    "hgc-village-2g-wifi7-30m",
+  ] as const;
+  const HGC_VILLAGE_LIMITS =
+    "適用於村屋地址。馬灣或若干指定村落未必享有額外特別優惠，詳情請向當值銷售員查詢。不適用於公屋、居屋及私人樓宇。實際覆蓋須核對門牌。";
+
+  it("waives install on six HGC village plans without sweeping any other install", () => {
+    const expected = [
+      {
+        id: "hgc-village-1g-phone-24m",
+        name: "村屋 1G 連電話（24 個月）",
+        monthlyFee: 319,
+        contractMonths: 24,
+        speedMbps: 1000,
+        perks: [
+          "家居／寬頻電話服務",
+          "24 個月 100 分鐘 hgc on air Wi-Fi",
+          "1GB 電郵儲存量",
+          "豁免搬遷費",
+        ],
+        bestFor: "適合村屋、需要 1G 光纖及電話之住戶",
+      },
+      {
+        id: "hgc-village-1g-router-30m",
+        name: "村屋 1G 連路由器＋電話（30 個月）",
+        monthlyFee: 329,
+        contractMonths: 30,
+        speedMbps: 1000,
+        perks: [
+          "送 TP-Link EX141 路由器",
+          "家居／寬頻電話服務",
+          "30 個月 100 分鐘 hgc on air Wi-Fi",
+          "1GB 電郵儲存量",
+          "豁免搬遷費",
+        ],
+        bestFor: "適合村屋、需要路由器之住戶",
+      },
+      {
+        id: "hgc-village-2g-24m",
+        name: "村屋 2G 純寬頻（24 個月）",
+        monthlyFee: 329,
+        contractMonths: 24,
+        speedMbps: 2000,
+        perks: ["24 個月 100 分鐘 hgc on air Wi-Fi", "1GB 電郵儲存量", "豁免搬遷費"],
+        bestFor: "適合村屋、需要 2G 光纖之住戶",
+      },
+      {
+        id: "hgc-village-2g-tv-30m",
+        name: "村屋 2G 連電視娛樂（30 個月）",
+        monthlyFee: 329,
+        contractMonths: 30,
+        speedMbps: 2000,
+        perks: [
+          "送 24 個月 myTV SUPER 組合（基本、TVB 外購節目、精選基本、跨屏幕同時睇）",
+          "30 個月 100 分鐘 hgc on air Wi-Fi",
+          "1GB 電郵儲存量",
+          "豁免搬遷費",
+        ],
+        bestFor: "適合村屋、需要影視娛樂之住戶",
+      },
+      {
+        id: "hgc-village-2g-wifi6-30m",
+        name: "村屋 2G 連 Wi-Fi 6＋電話（30 個月）",
+        monthlyFee: 349,
+        contractMonths: 30,
+        speedMbps: 2000,
+        perks: [
+          "送 TP-Link Wi-Fi 6 路由器",
+          "家居／寬頻電話服務",
+          "30 個月 100 分鐘 hgc on air Wi-Fi",
+          "1GB 電郵儲存量",
+          "豁免搬遷費",
+        ],
+        bestFor: "適合村屋、需要 Wi-Fi 6 之住戶",
+      },
+      {
+        id: "hgc-village-2g-wifi7-30m",
+        name: "村屋 2G 連 Wi-Fi 7＋電話（30 個月）",
+        monthlyFee: 359,
+        contractMonths: 30,
+        speedMbps: 2000,
+        perks: [
+          "送 TP-Link Wi-Fi 7 旗艦路由器",
+          "家居／寬頻電話服務",
+          "30 個月 100 分鐘 hgc on air Wi-Fi",
+          "1GB 電郵儲存量",
+          "豁免搬遷費",
+        ],
+        bestFor: "適合村屋、需要 Wi-Fi 7 之住戶",
+      },
+    ];
+
+    assert.equal(toEnglish("豁免安裝費"), "Installation waived");
+
+    for (const spec of expected) {
+      const row = plan(spec.id);
+      assert.equal(row.providerId, "hgc");
+      assert.equal(row.category, "broadband");
+      assert.equal(row.name, spec.name);
+      assert.equal(row.monthlyFee, spec.monthlyFee);
+      assert.equal(row.freeMonths, 0);
+      assert.equal(row.contractMonths, spec.contractMonths);
+      assert.equal(row.speedMbps, spec.speedMbps);
+      assert.equal(row.install, "豁免安裝費");
+      assert.equal(toEnglish(row.install), "Installation waived");
+      assert.deepEqual(row.housing, ["village"]);
+      assert.equal(row.network, "光纖入屋");
+      assert.equal(row.prepaid, "須預繳 HK$300");
+      assert.deepEqual(row.perks, spec.perks);
+      assert.equal(row.limits, HGC_VILLAGE_LIMITS);
+      assert.match(row.limits ?? "", /實際覆蓋須核對門牌/);
+      assert.doesNotMatch(row.limits ?? "", /實際覆蓋須另行核對/);
+      assert.equal(row.bestFor, spec.bestFor);
+    }
+
+    assert.deepEqual(
+      PLANS.filter((p) => p.install === "須另行核對").map((p) => p.id),
+      [],
+    );
+    assert.deepEqual(
+      PLANS.filter((p) => WAIVED_IDS.includes(p.id as (typeof WAIVED_IDS)[number])).map((p) => p.id),
+      [...WAIVED_IDS],
+    );
+
+    const limitsWithConfirm = PLANS.filter((p) => p.limits?.includes("實際覆蓋須另行核對"));
+    assert.ok(limitsWithConfirm.length >= 1);
+    assert.ok(limitsWithConfirm.every((p) => p.providerId === "hkbn"));
+    assert.ok(limitsWithConfirm.every((p) => !WAIVED_IDS.includes(p.id as (typeof WAIVED_IDS)[number])));
+
+    const student = plan("hgc-ftth-1000-student");
+    assert.equal(student.install, "安裝費 HK$180");
+    assert.equal(student.monthlyFee, 149);
+    assert.equal(student.name, "留學生 1000M（12 個月）");
+
+    const otherHgc = PLANS.filter((p) => p.providerId === "hgc" && !WAIVED_IDS.includes(p.id as (typeof WAIVED_IDS)[number]));
+    assert.ok(otherHgc.length >= 1);
+    assert.ok(otherHgc.every((p) => p.install !== "須另行核對"));
+
+    const hkbnVillage = plan("hkbn-village-200-27m");
+    assert.equal(hkbnVillage.install, "豁免安裝費（原價 HK$680）");
+    assert.match(hkbnVillage.limits ?? "", /實際覆蓋須另行核對/);
+
+    const netvigatorVillage = plan("netvigator-ftth-1000-village-36m");
+    assert.equal(netvigatorVillage.install, "須另行繳付安裝費");
+    assert.match(netvigatorVillage.limits ?? "", /實際覆蓋須核對門牌/);
+
+    assert.equal(PLANS.filter((p) => p.providerId === "icable" && p.monthlyFee === 58).length, 0);
+    assert.equal(
+      PLANS.some((p) => p.providerId === "icable" && /58/.test(p.id)),
+      false,
+    );
+  });
+});
+
 describe("CMHK mobile catalogue", () => {
   it("keeps only the four reference 5G monthly plans", () => {
     const ids = PLANS.filter((p) => p.category === "mobile" && p.providerId === "cmhk").map((p) => p.id);
