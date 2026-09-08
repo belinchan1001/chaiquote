@@ -10,7 +10,7 @@ import {
   visibleCompareFields,
   type CompareCopy,
 } from "./compare.ts";
-import { getPlan, type Category } from "./plans.ts";
+import { getPlan, PLANS, type Category } from "./plans.ts";
 
 const copy: CompareCopy = {
   dash: "—",
@@ -55,13 +55,13 @@ describe("visible compare fields", () => {
   });
 
   it("keeps data, voice and roaming for mobile plans", () => {
-    const plans = [plan("three-45g-44"), plan("cmhk-5g-100")];
+    const plans = [plan("three-45g-44"), plan("cmhk-5g-100-149")];
     const keys = visibleCompareFields(plans, copy).map((field) => field.key);
     assert.ok(keys.includes("data"));
     assert.ok(keys.includes("voice"));
     assert.ok(keys.includes("roam"));
     assert.equal(compareFieldValue(plans[0], "data", copy), "10GB");
-    assert.equal(compareFieldValue(plans[1], "voice", copy), "本地無限分鐘");
+    assert.equal(compareFieldValue(plans[1], "voice", copy), "本地通話無限");
   });
 
   it("keeps a mobile-only row when the set is mixed", () => {
@@ -76,12 +76,24 @@ describe("visible compare fields", () => {
 describe("compare chips", () => {
   it("uses a short provider + spec + fee label", () => {
     const broadband = plan("icable-ftth-200-36m");
-    const mobile = plan("cmhk-5g-100");
+    const mobile = plan("cmhk-5g-100-149");
     assert.equal(shortProviderName("icable", "zh"), "有線");
     assert.equal(shortProviderName("cmhk", "en"), "CMHK");
     assert.equal(planSpecToken(broadband), "200M");
     assert.equal(planSpecToken(mobile), "100GB");
     assert.equal(compareChipLabel(broadband, "zh"), "有線 200M $68");
     assert.equal(compareChipLabel(mobile, "en"), "CMHK 100GB $149");
+  });
+});
+
+describe("CMHK mobile catalogue", () => {
+  it("keeps only the four reference 5G monthly plans", () => {
+    const ids = PLANS.filter((p) => p.category === "mobile" && p.providerId === "cmhk").map((p) => p.id);
+    assert.deepEqual(ids, [
+      "cmhk-5g-local-30-98",
+      "cmhk-5g-100-149",
+      "cmhk-5g-youth-100-138",
+      "cmhk-5g-youth-200-178",
+    ]);
   });
 });
