@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState, startTransition } from "react";
+import { useEffect, useRef, useState, startTransition } from "react";
 import { PlanCard } from "@/components/plan-card";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
@@ -80,6 +80,9 @@ function PlansPage() {
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [estateDraft, setEstateDraft] = useState(search.estate ?? "");
   const [qDraft, setQDraft] = useState(search.q ?? "");
+  const [listEntering, setListEntering] = useState(true);
+  const replayKey = planListReplayKey(search);
+  const prevReplayKey = useRef(replayKey);
   const { t, providerName, categoryLabel, housingLabel } = useI18n();
   usePageTitle(`${t("filterPlans")} · ${SITE.name}`);
 
@@ -120,6 +123,26 @@ function PlansPage() {
     }, 400);
     return () => window.clearTimeout(timer);
   }, [qDraft]);
+
+  useEffect(() => {
+    if (prevReplayKey.current === replayKey) return;
+    prevReplayKey.current = replayKey;
+    setListEntering(false);
+    let inner = 0;
+    const outer = requestAnimationFrame(() => {
+      inner = requestAnimationFrame(() => setListEntering(true));
+    });
+    return () => {
+      cancelAnimationFrame(outer);
+      cancelAnimationFrame(inner);
+    };
+  }, [replayKey]);
+
+  useEffect(() => {
+    if (!listEntering) return;
+    const timer = window.setTimeout(() => setListEntering(false), 690);
+    return () => window.clearTimeout(timer);
+  }, [listEntering]);
 
   function patch(next: Partial<PlansSearch>) {
     startTransition(() => {
@@ -399,7 +422,13 @@ function PlansPage() {
         </div>
       ) : (
         <>
-          <div key={planListReplayKey(search)} className="plan-list mt-8 grid gap-4 md:grid-cols-2">
+          <div
+            className={
+              listEntering
+                ? "plan-list plan-list-enter mt-8 grid gap-4 md:grid-cols-2"
+                : "plan-list mt-8 grid gap-4 md:grid-cols-2"
+            }
+          >
             {shown.map((plan) => (
               <div key={plan.id} className="plan-list-item">
                 <PlanCard plan={plan} />

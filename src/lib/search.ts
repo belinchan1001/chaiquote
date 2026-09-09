@@ -79,22 +79,7 @@ export function compactSearch(search: PlansSearch): PlansSearch {
   };
 }
 
-/** Remount key for the plan result list so filter changes replay card fade-up. */
-export function planListReplayKey(search: PlansSearch) {
-  return [
-    search.cat,
-    search.housing ?? "",
-    search.speed ?? "",
-    search.provider ?? "",
-    search.generation ?? "",
-    search.maxFee ?? "",
-    search.minSpeed ?? "",
-    search.minData ?? "",
-    search.q ?? "",
-    search.estate ?? "",
-    search.saved ? "1" : "0",
-    search.sort ?? "fee",
-    search.gba ? "1" : "0",
-    search.portIn ? "1" : "0",
-  ].join("|");
+/** Identity for replaying card fade-up: estate, housing, speed, provider only. */
+export function planListReplayKey(search: Pick<PlansSearch, "estate" | "housing" | "speed" | "provider">) {
+  return [search.estate ?? "", search.housing ?? "", search.speed ?? "", search.provider ?? ""].join("|");
 }
