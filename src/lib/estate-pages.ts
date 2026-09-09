@@ -73,6 +73,7 @@ function slugFromEstate(estate: Estate): string {
 
 const SLUG_FALLBACK: Record<string, string> = {
   彩虹道邨: "choi-hung-road",
+  朗天苑: "long-tin-court",
   朗風苑: "long-fung-court",
   匯熙苑: "wui-hei-court",
   影輝苑: "ying-fai-court",
@@ -86,6 +87,7 @@ const SLUG_FALLBACK: Record<string, string> = {
   天水圍天華: "tin-hua-tin-shui-wai",
   荃灣新村: "tsuen-wan-san-tsuen",
   海壩南台: "hoi-pa-nam-toi",
+  綠悅: "the-greenery-ping-shan",
 };
 
 function requireEstate(name: string): Estate {

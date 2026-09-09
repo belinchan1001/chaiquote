@@ -120,6 +120,7 @@ const RAW = `
 富泰邨|富泰,Fu Tai|屯門|public
 欣田邨|欣田,Yan Tin|屯門|public
 兆康苑|兆康,Siu Hong Court|屯門|hos
+兆翠苑|兆翠,Siu Chui Court|屯門|hos
 天耀邨|天耀,Tin Yiu|元朗|public|天水圍
 天瑞邨|天瑞,Tin Shui|元朗|public|天水圍
 天慈邨|天慈,Tin Tsz|元朗|public|天水圍
@@ -136,8 +137,22 @@ const RAW = `
 天富苑|天富,Tin Fu Court|元朗|hos|天水圍
 天盛苑|天盛,Tin Shing Court|元朗|hos|天水圍
 天愛苑|天愛,Tin Oi Court|元朗|hos|天水圍
-朗風苑|朗風|元朗|hos|屏山|覆蓋需查核
-匯熙苑|匯熙|元朗|hos|錦田|覆蓋需查核
+天頌苑|天頌,Tin Chung Court|元朗|hos|天水圍
+天麗苑|天麗,Tin Lai Court|元朗|hos|天水圍
+天祐苑|天祐,Tin Yau Court|元朗|hos|天水圍
+鳳庭苑|鳳庭,Fung Ting Court|元朗|hos
+屏欣苑|屏欣,Ping Yan Court|元朗|hos|屏山
+宏富苑|宏富,Wang Fu Court|元朗|hos
+朗天苑|朗天,Long Tin Court|元朗|hos|屏山
+朗松閣|朗松,Long Chung House,朗天苑朗松閣|元朗|hos|屏山
+朗桃閣|朗桃,Long Tao House,朗天苑朗桃閣|元朗|hos|屏山
+朗杏閣|朗杏,Long Heng House,朗天苑朗杏閣|元朗|hos|屏山
+朗風苑|朗風,Long Fung Court|元朗|hos|屏山|覆蓋需查核
+匯熙苑|匯熙,Wui Hei Court|元朗|hos|錦田|覆蓋需查核
+御豪山莊|御豪山莊,The Sherwood|元朗|private|屏山
+御景園|御景園,The Parcville|元朗|private|屏山
+朗逸豪園|朗逸豪園,Park Villa Ping Shan|元朗|private|屏山
+綠悅|綠悅,The Greenery|元朗|private|屏山
 天晉|天晉,The Wings|西貢|private|將軍澳
 將軍澳中心|將軍澳中心,Park Central|西貢|private|將軍澳
 東港城|東港城,East Point City|西貢|private|將軍澳
@@ -153,6 +168,7 @@ const RAW = `
 坑口邨|坑口,Hang Hau|西貢|public|將軍澳
 健明邨|健明,Kin Ming|西貢|public|將軍澳
 善明邨|善明,Shin Ming|西貢|public|將軍澳
+彩明邨|彩明邨,Choi Ming Estate|西貢|public|將軍澳
 彩明苑|彩明,Choi Ming Court|西貢|hos|將軍澳
 彩楊閣|彩楊,Choi Yeung House,彩明苑彩楊閣|西貢|hos|將軍澳
 彩柳閣|彩柳,Choi Lau House,彩明苑彩柳閣|西貢|hos|將軍澳
@@ -174,6 +190,8 @@ const RAW = `
 美田邨|美田,Mei Tin|沙田|public
 圓洲角|圓洲角,Yuen Chau Kok|沙田|public
 馬鞍山中心|馬鞍山中心,Ma On Shan Centre|沙田|private|馬鞍山
+新港城|新港城,Sunshine City|沙田|private|馬鞍山
+聽濤雅苑|聽濤雅苑,Toscana|沙田|private|馬鞍山
 耀安邨|耀安,Yiu On|沙田|public|馬鞍山
 恆安邨|恆安,Heng On|沙田|public|馬鞍山
 錦英苑|錦英,Kam Ying Court|沙田|hos|馬鞍山
@@ -186,6 +204,7 @@ const RAW = `
 大元邨|大元,Tai Yuen|大埔|public
 運頭塘邨|運頭塘,Wan Tau Tong|大埔|public
 寶湖花園|寶湖,Treasure Garden|大埔|private
+帝欣苑|帝欣,The Beverly Hills|大埔|private
 粉嶺中心|粉嶺中心,Fanling Centre|北區|private
 華明邨|華明,Wah Ming|北區|public
 祥華邨|祥華,Cheung Wah|北區|public
@@ -206,6 +225,7 @@ const RAW = `
 置富花園|置富,Chi Fu Fa Yuen|南區|private
 貝沙灣|貝沙灣,Residence Bel-Air|南區|private
 深灣軒|深灣軒,Sham Wan Towers|南區|private
+海怡半島|海怡,South Horizons|南區|private
 黃埔花園|黃埔,Whampoa Garden|九龍城|private
 海逸豪園|海逸豪園,Laguna Verde|九龍城|private
 翔龍灣|翔龍灣,The Coronation|油尖旺|private
@@ -226,7 +246,10 @@ const RAW = `
 淘大花園|淘大,Amoy Gardens|觀塘|private
 麗晶花園|麗晶,Richland Gardens|觀塘|private
 啟德1號|啟德1號|九龍城|private
-啟陽苑|啟陽|九龍城|hos|啟德|覆蓋需查核
+啟悅苑|啟悅,Kai Yuet Court|九龍城|hos|啟德
+啟欣苑|啟欣,Kai Yan Court|九龍城|hos|啟德
+啟盈苑|啟盈,Kai Ying Court|九龍城|hos|啟德
+啟陽苑|啟陽,Kai Yeung Court|九龍城|hos|啟德|覆蓋需查核
 天水圍嘉湖山莊|嘉湖,嘉湖山莊,Kingswood Villas|元朗|private|天水圍
 俊宏軒|俊宏軒,Central Park Towers|元朗|private|天水圍
 慧景軒|慧景軒,Central Park|元朗|private|天水圍
@@ -305,6 +328,9 @@ YOHO Midtown|YOHO Midtown|元朗|private
 油麗邨|油麗,Yau Lai|觀塘|public
 鯉魚門邨|鯉魚門,Lei Yue Mun Estate|觀塘|public
 居屋鯉安苑|鯉安苑,Lei On Court|觀塘|hos
+安楹苑|安楹,On Ying Court|觀塘|hos
+安樺苑|安樺,On Wah Court|觀塘|hos
+安麗苑|安麗,On Lai Court|觀塘|hos
 康山花園|康山,Kornhill Gardens|東區|private
 天水圍天華|天華|元朗|public|天水圍
 馬灣|馬灣,Ma Wan|荃灣|village|馬灣
@@ -480,7 +506,10 @@ export function matchKnownEstate(name: string, address = ""): Estate | undefined
   for (const estate of ESTATES) {
     const needles = estateNeedles(estate);
     for (const needle of needles) {
-      if (!hay.includes(needle) && !nameCompact.includes(needle)) continue;
+      const inName = nameCompact.includes(needle);
+      if (!inName && !hay.includes(needle)) continue;
+      /** Village / area names in the street (屏山段) must not steal 朗天苑. */
+      if (!inName && !allowAddressOnlyNeedle(estate)) continue;
       const coveredByOther = present.some((longer) => {
         if (longer.length <= needle.length || !longer.includes(needle)) return false;
         return !needles.includes(longer);
@@ -489,10 +518,18 @@ export function matchKnownEstate(name: string, address = ""): Estate | undefined
       let score = needle.length * 10;
       if (compact(estate.name) === nameCompact) score += 50;
       if (needle === nameCompact) score += 30;
+      if (inName) score += 8;
       if (!best || score > best.score) best = { estate, score };
     }
   }
   return best?.estate;
+}
+
+/** Address-only hits: keep 邨／苑／私樓 parents, never village area names. */
+function allowAddressOnlyNeedle(estate: Estate): boolean {
+  if (estate.housing === "village") return false;
+  if (/[邨苑]$/.test(estate.name)) return true;
+  return estate.housing === "private";
 }
 
 export function estateLabel(estate: Estate) {
@@ -514,6 +551,16 @@ export type HousingGuess = {
   confidence: "high" | "medium" | "none";
 };
 
+function looksLikeNonVillageEstate(title: string): boolean {
+  return (
+    /[邨苑]$/.test(title) ||
+    /新邨|花園|廣場|中心|大廈|洋房|半島|豪庭|豪園|山莊|屋苑/.test(title) ||
+    /(軒|居|閣|樓)$/.test(title)
+  );
+}
+
+const VILLAGE_NEEDLES = ESTATES.filter((estate) => estate.housing === "village").flatMap(estateNeedles);
+
 export function guessHousing(name: string, address = ""): Housing | undefined {
   const known = matchKnownEstate(name, address);
   if (known) return known.housing;
@@ -522,9 +569,17 @@ export function guessHousing(name: string, address = ""): Housing | undefined {
   if (/公屋|屋邨/.test(text)) return "public";
   if (/居屋/.test(text)) return "hos";
   if (/村屋|丁屋/.test(text)) return "village";
-  if (/新邨|花園|廣場|中心|大廈|洋房|半島|豪庭|屋苑/.test(text)) return "private";
+  if (/新邨|花園|廣場|中心|大廈|洋房|半島|豪庭|豪園|山莊|屋苑/.test(text)) return "private";
   const title = name.replace(/[，,].*$/, "").trim();
+  if (/苑$/.test(title)) return "hos";
+  if (/(軒|居)$/.test(title)) return "private";
   if (/(新村|村|圍)$/.test(title) && !/邨/.test(title)) return "village";
+  if (!looksLikeNonVillageEstate(title)) {
+    const addr = compact(address);
+    if (addr && VILLAGE_NEEDLES.some((needle) => needle.length >= 2 && addr.includes(needle))) {
+      return "village";
+    }
+  }
   return undefined;
 }
 

@@ -502,9 +502,62 @@ describe("impractical address noise", () => {
   });
 
   it("keeps catalogue estates / blocks and does not over-drop 廟街", () => {
-    for (const name of ["東頭邨", "東頭村", "康東樓", "美東樓", "彩明苑", "彩楊閣", "廟街"]) {
+    for (const name of ["東頭邨", "東頭村", "康東樓", "美東樓", "彩明苑", "彩楊閣", "廟街", "朗天苑", "朗松閣"]) {
       assert.equal(isImpracticalPlace(name), false, name);
     }
     assert.equal(isImpracticalPlace("黃大仙廟"), true);
+  });
+});
+
+describe("朗天苑 and village-address contamination", () => {
+  it("classifies 朗天苑 as hos, not 屏山 village", () => {
+    assert.equal(estate("朗天苑")?.housing, "hos");
+    assert.equal(estate("朗天苑")?.district, "元朗");
+    assert.equal(estate("朗天苑")?.area, "屏山");
+    assert.equal(classifyAddress("朗天苑").housing, "hos");
+    assert.equal(classifyAddress("朗天苑").confidence, "high");
+    assert.equal(matchKnownEstate("朗天苑")?.name, "朗天苑");
+    assert.equal(matchKnownEstate("朗天苑", "青山公路－屏山段 130號")?.name, "朗天苑");
+    assert.equal(matchKnownEstate("朗天苑", "青山公路－屏山段 130號")?.housing, "hos");
+    assert.notEqual(matchKnownEstate("朗天苑", "青山公路－屏山段 130號")?.housing, "village");
+  });
+
+  it("links 朗松／桃／杏閣 under 朗天苑 as hos", () => {
+    for (const name of ["朗松閣", "朗桃閣", "朗杏閣"]) {
+      assert.equal(estate(name)?.housing, "hos", name);
+      assert.equal(classifyAddress(name).housing, "hos", name);
+      assert.equal(searchEstates(name)[0]?.housing, "hos", name);
+    }
+    const hits = searchEstates("朗天苑", 12);
+    assert.equal(hits[0]?.name, "朗天苑");
+    assert.equal(hits[0]?.housing, "hos");
+    const names = hits.map((item) => item.name);
+    assert.ok(names.includes("朗松閣"));
+    assert.ok(names.includes("朗桃閣"));
+    assert.ok(names.includes("朗杏閣"));
+    assert.equal(matchKnownEstate("朗松閣", "朗天苑")?.housing, "hos");
+  });
+
+  it("does not let 屏山／錦田 village addresses relabel 苑／山莊", () => {
+    assert.equal(classifyAddress("屏山").housing, "village");
+    assert.equal(estate("屏欣苑")?.housing, "hos");
+    assert.equal(matchKnownEstate("屏欣苑", "屏山屏廈路 65號")?.housing, "hos");
+    assert.equal(estate("匯熙苑")?.housing, "hos");
+    assert.equal(matchKnownEstate("匯熙苑", "錦田錦義路1號")?.housing, "hos");
+    assert.equal(estate("御豪山莊")?.housing, "private");
+    assert.equal(matchKnownEstate("御豪山莊", "青山公路－屏山段")?.housing, "private");
+    assert.equal(estate("綠悅")?.housing, "private");
+    assert.equal(classifyAddress("綠悅").housing, "private");
+    assert.equal(estate("帝欣苑")?.housing, "private");
+    assert.equal(classifyAddress("帝欣苑").housing, "private");
+    assert.equal(estate("海怡半島")?.housing, "private");
+  });
+
+  it("guesses unknown 苑 as hos and 山莊 as private", () => {
+    assert.equal(classifyAddress("未知示範苑").housing, "hos");
+    assert.equal(classifyAddress("未知示範苑").confidence, "medium");
+    assert.equal(classifyAddress("未知示範山莊").housing, "private");
+    assert.equal(classifyAddress("未知示範山莊").confidence, "medium");
+    assert.equal(classifyAddress("未知示範邨").housing, undefined);
   });
 });

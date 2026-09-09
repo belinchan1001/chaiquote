@@ -31,12 +31,12 @@ describe("plan list filter replay", () => {
       planListReplayKey({ ...base, estate: "太和邨", housing: "public" }),
       planListReplayKey({ ...base, estate: "太和邨", housing: "public" }),
     );
-    assert.equal(planListReplayKey({ ...base, cat: "mobile" }), idle);
-    assert.equal(planListReplayKey({ ...base, saved: true }), idle);
-    assert.equal(planListReplayKey({ ...base, sort: "speed" }), idle);
-    assert.equal(planListReplayKey({ ...base, q: "hkbn" }), idle);
-    assert.equal(planListReplayKey({ ...base, generation: "5g" }), idle);
-    assert.equal(planListReplayKey({ ...base, gba: true, portIn: true }), idle);
+    assert.equal(planListReplayKey({ ...base, cat: "mobile" } as PlansSearch), idle);
+    assert.equal(planListReplayKey({ ...base, saved: true } as PlansSearch), idle);
+    assert.equal(planListReplayKey({ ...base, sort: "speed" } as PlansSearch), idle);
+    assert.equal(planListReplayKey({ ...base, q: "hkbn" } as PlansSearch), idle);
+    assert.equal(planListReplayKey({ ...base, generation: "5g" } as PlansSearch), idle);
+    assert.equal(planListReplayKey({ ...base, gba: true, portIn: true } as PlansSearch), idle);
   });
 
   it("keeps the same key when only the visible page would change", () => {
