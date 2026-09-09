@@ -27,8 +27,8 @@ describe("WhatsApp pulse", () => {
 
     assert.match(css, /@keyframes wa-pulse-ring/);
     assert.match(css, /animation:\s*wa-pulse-ring 8s ease-out infinite/);
-    assert.match(css, /box-shadow:\s*0 0 0 6px rgba\(18, 140, 126/);
-    assert.match(css, /box-shadow:\s*0 0 0 0px rgba\(18, 140, 126, 0\)/);
+    assert.match(css, /box-shadow:\s*0px 0px 0px 6px rgb\(18 140 126 \/ 0\.4\)/);
+    assert.match(css, /box-shadow:\s*0px 0px 0px 0\.01px rgb\(18 140 126 \/ 0\)/);
     assert.match(css, /\.wa-pulse::after[\s\S]*pointer-events:\s*none/);
     assert.doesNotMatch(css, /\.wa-pulse[^{]*\{[^}]*scale\(/);
     assert.match(css, /\.wa-pulse:hover::after/);
