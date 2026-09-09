@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import type { PlansSearch } from "./plans.ts";
 import { planListReplayKey } from "./search.ts";
+import { isPlanListInView } from "./plan-list-fade.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const base: PlansSearch = { cat: "broadband" };
@@ -54,6 +55,9 @@ describe("plan list fade-up", () => {
     const css = readFileSync(join(here, "../styles.css"), "utf8");
     const page = readFileSync(join(here, "../routes/plans.tsx"), "utf8");
     const card = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
+    const fade = readFileSync(join(here, "plan-list-fade.ts"), "utf8");
+    const chips = readFileSync(join(here, "../components/filter-link.tsx"), "utf8");
+    const providers = readFileSync(join(here, "../components/provider-filter.tsx"), "utf8");
 
     assert.match(page, /planListReplayKey\(search\)/);
     assert.match(page, /plan-list-enter/);
@@ -71,6 +75,20 @@ describe("plan list fade-up", () => {
     assert.match(page, /prevReplayKey/);
     assert.match(page, /setListEntering\(false\)/);
     assert.match(page, /setListEntering\(true\)/);
+    assert.match(page, /bringPlanListIntoView\(list\)/);
+    assert.match(page, /watchPlanListInView\(list/);
+    assert.match(page, /isPlanListInView\(/);
+    assert.match(page, /resetScroll:\s*false/);
+    assert.match(page, /\[listEntering, setListEntering\] = useState\(false\)/);
+    assert.doesNotMatch(page, /addEventListener\(\s*["']scroll["']/);
+    assert.doesNotMatch(page, /requestAnimationFrame\(\(\) => setListEntering\(true\)\)/);
+    assert.match(chips, /resetScroll=\{false\}/);
+    assert.match(providers, /resetScroll=\{false\}/);
+    assert.match(fade, /scrollIntoView\(\{\s*behavior:\s*"auto"/);
+    assert.match(fade, /IntersectionObserver/);
+    assert.match(fade, /scrollend/);
+    assert.doesNotMatch(fade, /setListEntering/);
+    assert.doesNotMatch(fade, /behavior:\s*"smooth"/);
 
     assert.match(card, /<article[\s\S]*plan\.quotePick && "plan-card-shine"/);
     assert.match(card, /<QuoteLink plan=\{plan\}/);
@@ -84,6 +102,8 @@ describe("plan list fade-up", () => {
     );
     assert.match(css, /\.plan-list-enter > \*\s*\{[^}]*animation:\s*plan-card-in 240ms ease-out both/);
     assert.match(css, /\.plan-list > \*\s*\{[^}]*pointer-events:\s*auto/);
+    assert.match(css, /\.plan-list:not\(\.plan-list-enter\) > \*\s*\{[^}]*opacity:\s*0;[^}]*transform:\s*translateY\(12px\)/);
+    assert.match(css, /\.plan-list\s*\{[^}]*scroll-margin-top:\s*5rem/);
     assert.match(css, /\.plan-list-enter > \*\s*\{[^}]*animation-delay:\s*450ms/);
     assert.doesNotMatch(css, /\.plan-card-shine[^{]*\{[^}]*plan-card-in/);
     assert.doesNotMatch(css, /\.foil[^{]*\{[^}]*plan-card-in/);
@@ -96,9 +116,24 @@ describe("plan list fade-up", () => {
       css,
       /prefers-reduced-motion:\s*reduce[\s\S]*\.plan-list-enter > \*[\s\S]*animation:\s*none !important;[\s\S]*transform:\s*none !important/,
     );
+    assert.match(
+      css,
+      /prefers-reduced-motion:\s*reduce[\s\S]*\.plan-list > \*,\s*\n\s*\.plan-list-enter > \*\s*\{[\s\S]*opacity:\s*1 !important/,
+    );
     assert.match(css, /\.plan-card-shine\s*\{[\s\S]*animation:\s*quote-pick-shine 4\.8s linear infinite/);
     assert.doesNotMatch(css, /\.plan-list[^{]*\{[^}]*perspective/);
     assert.doesNotMatch(css, /\.plan-list[\s\S]{0,200}rotateX/);
     assert.doesNotMatch(page, /wa-pulse|whatsapp-pulse|tilt/);
+  });
+
+  it("does not treat a below-the-fold list as ready to fade", () => {
+    const vh = 700;
+    assert.equal(isPlanListInView({ top: 720, bottom: 1400 }, vh), false);
+    assert.equal(isPlanListInView({ top: 800, height: 500 }, vh), false);
+    assert.equal(isPlanListInView({ top: 680, bottom: 1200 }, vh), false);
+    assert.equal(isPlanListInView({ top: 80, bottom: 520 }, vh), true);
+    assert.equal(isPlanListInView({ top: 90, bottom: 480 }, vh), true);
+    assert.equal(isPlanListInView({ top: 620, bottom: 1100 }, vh), true);
+    assert.equal(isPlanListInView({ top: -400, bottom: 40 }, vh), false);
   });
 });

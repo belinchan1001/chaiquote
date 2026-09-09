@@ -132,6 +132,7 @@ function ProviderChip({
     <Link
       to="/plans"
       replace
+      resetScroll={false}
       preload={false}
       search={compactSearch({ ...search, cat: search.cat, provider })}
       aria-current={selected ? "page" : undefined}
