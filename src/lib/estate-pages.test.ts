@@ -1,0 +1,74 @@
+import { describe, it } from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { ESTATES } from "./estates.ts";
+import {
+  ESTATE_PAGE_NAMES,
+  ESTATE_PAGES,
+  estateHousingLabel,
+  estatePlans,
+  estateSeoTitle,
+  getEstatePage,
+  SKIPPED_ESTATE_REQUESTS,
+} from "./estate-pages.ts";
+import { SITEMAP_PAGES } from "./seo.ts";
+
+const here = dirname(fileURLToPath(import.meta.url));
+
+describe("estate SEO pages", () => {
+  it("only publishes estates that exist in the catalogue, with unique slugs", () => {
+    assert.equal(ESTATE_PAGE_NAMES.length, 30);
+    const slugs = new Set<string>();
+    for (const name of ESTATE_PAGE_NAMES) {
+      assert.ok(ESTATES.some((estate) => estate.name === name), name);
+    }
+    for (const page of ESTATE_PAGES) {
+      assert.equal(slugs.has(page.slug), false, page.slug);
+      slugs.add(page.slug);
+      assert.ok(page.slug.length > 2);
+      assert.match(page.slug, /^[a-z0-9-]+$/);
+    }
+    assert.equal(SKIPPED_ESTATE_REQUESTS.some((item) => item.query === "將軍澳廣場"), true);
+    assert.equal(SKIPPED_ESTATE_REQUESTS.some((item) => item.query === "荔景"), true);
+  });
+
+  it("keeps public estate pages free of private-only fibre plans", () => {
+    const tinYiu = getEstatePage("tin-yiu");
+    assert.ok(tinYiu);
+    assert.equal(tinYiu.estate.housing, "public");
+    const { broadband } = estatePlans(tinYiu.estate);
+    assert.ok(broadband.length > 0);
+    assert.ok(
+      broadband.every((plan) => plan.housing === "all" || plan.housing.includes("public")),
+    );
+    assert.ok(broadband.every((plan) => plan.housing === "all" || !plan.housing.every((h) => h === "private")));
+    assert.match(estateSeoTitle(tinYiu.estate), /天耀邨寬頻比較 2026｜公屋｜齊Quote/);
+  });
+
+  it("adds the directory and each estate page to the sitemap", () => {
+    assert.ok(SITEMAP_PAGES.some((page) => page.path === "/estates"));
+    for (const page of ESTATE_PAGES) {
+      assert.ok(
+        SITEMAP_PAGES.some((item) => item.path === `/estates/${page.slug}`),
+        page.slug,
+      );
+    }
+    assert.doesNotMatch(
+      SITEMAP_PAGES.map((page) => page.path).join("\n"),
+      /\/estates\/.*\?/,
+    );
+  });
+
+  it("does not change search, plan prices, or locked animation files", () => {
+    const search = readFileSync(join(here, "search.ts"), "utf8");
+    const card = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
+    const css = readFileSync(join(here, "../styles.css"), "utf8");
+    const widget = readFileSync(join(here, "../components/whatsapp-widget.tsx"), "utf8");
+    assert.match(search, /parsePlansSearch/);
+    assert.match(card, /to="\/plans\/\$planId"/);
+    assert.match(css, /plan-list-enter/);
+    assert.match(widget, /wa-pulse/);
+  });
+});

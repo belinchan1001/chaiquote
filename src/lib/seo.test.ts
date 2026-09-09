@@ -159,6 +159,7 @@ describe("renderRobotsTxt", () => {
   it("allows plan and about pages, blocks preview internals, and points at www sitemap", () => {
     const robots = renderRobotsTxt();
     assert.match(robots, /Allow: \/plans/);
+    assert.match(robots, /Allow: \/estates/);
     assert.match(robots, /Allow: \/about/);
     assert.match(robots, /Disallow: \/brand/);
     assert.match(robots, /Disallow: \/__grok\//);

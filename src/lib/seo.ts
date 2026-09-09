@@ -7,6 +7,7 @@
  * preview can emit its own sitemap without changing production defaults.
  */
 import { formatFee, PLANS, PROVIDER_MAP, type Category, type Housing, type Plan } from "./plans.ts";
+import { ESTATE_PAGES, estatePagePath } from "./estate-pages.ts";
 
 export const DEFAULT_SEO_ORIGIN = "https://www.chaiquote.hk";
 
@@ -107,12 +108,18 @@ export const STATIC_SITEMAP_PAGES: readonly SitemapPage[] = [
   { path: "/guides/fiber-vs-5g", changefreq: "monthly", priority: "0.6" },
   { path: "/guides/village", changefreq: "monthly", priority: "0.6" },
   { path: "/guides/village-onsite", changefreq: "monthly", priority: "0.6" },
+  { path: "/estates", changefreq: "weekly", priority: "0.8" },
   { path: "/about", changefreq: "monthly", priority: "0.5" },
   { path: "/privacy", changefreq: "monthly", priority: "0.4" },
 ];
 
 export const SITEMAP_PAGES: readonly SitemapPage[] = [
   ...STATIC_SITEMAP_PAGES,
+  ...ESTATE_PAGES.map((page) => ({
+    path: estatePagePath(page),
+    changefreq: "weekly" as const,
+    priority: "0.6",
+  })),
   ...PLANS.map((plan) => ({
     path: `/plans/${plan.id}`,
     changefreq: "weekly" as const,
@@ -221,6 +228,7 @@ export function renderRobotsTxt(origin: string = DEFAULT_SEO_ORIGIN): string {
     "User-agent: *",
     "Allow: /",
     "Allow: /plans",
+    "Allow: /estates",
     "Allow: /guides",
     "Allow: /about",
     "Disallow: /brand",

@@ -59,6 +59,11 @@ export function SiteFooter() {
                 {t("footerHome5g")}
               </Link>
             </li>
+            <li>
+              <Link to="/estates" className="hover:underline">
+                屋苑寬頻格價
+              </Link>
+            </li>
           </ul>
         </div>
         <div>

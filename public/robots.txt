@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Allow: /plans
+Allow: /estates
 Allow: /guides
 Allow: /about
 Disallow: /brand
