@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { QuoteLink } from "@/components/quote-link";
 import { WhatsAppTip } from "@/components/whatsapp-tip";
 import { PlanBadges } from "@/components/plan-badges";
+import { CertifiedStaffNote } from "@/components/certified-staff-note";
 import { ProviderMark } from "@/components/provider-mark";
 import { PlanCard } from "@/components/plan-card";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
@@ -14,6 +15,7 @@ import {
   formatInstall,
   formatPlanSpeed,
   getPlan,
+  isHktPlan,
   isNetvigatorVillage,
   PLANS,
 } from "@/lib/plans";
@@ -96,7 +98,8 @@ function PlanDetailPage() {
           </p>
         ) : null}
 
-        <div className="mt-6 flex flex-col gap-2 sm:flex-row">
+        {isHktPlan(plan) ? <CertifiedStaffNote className="mt-6" /> : null}
+        <div className={cn("flex flex-col gap-2 sm:flex-row", isHktPlan(plan) ? "mt-3" : "mt-6")}>
           <Button type="button" variant={compare.includes(plan.id) ? "accent" : "outline"} onClick={() => toggleCompare(plan.id)}>
             <GitCompareArrows />
             {compare.includes(plan.id) ? t("inCompare") : t("navCompare")}

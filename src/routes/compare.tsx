@@ -3,6 +3,7 @@ import { ChevronsLeftRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { QuoteLink } from "@/components/quote-link";
 import { WhatsAppTip } from "@/components/whatsapp-tip";
+import { CertifiedStaffNote } from "@/components/certified-staff-note";
 import { ProviderLogo, ProviderMark } from "@/components/provider-mark";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n, usePageTitle } from "@/lib/i18n";
@@ -12,7 +13,7 @@ import {
   shortProviderName,
   visibleCompareFields,
 } from "@/lib/compare";
-import { formatFee, getPlan, planPerks } from "@/lib/plans";
+import { formatFee, getPlan, isHktPlan, planPerks } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -88,6 +89,7 @@ function ComparePage() {
         </div>
       </div>
       <p className="mt-3 text-xs leading-relaxed text-muted">{t("referencePrice")}</p>
+      {plans.some(isHktPlan) ? <CertifiedStaffNote className="mt-2" /> : null}
       <WhatsAppTip className="mt-2" />
 
       {showSwipe ? (

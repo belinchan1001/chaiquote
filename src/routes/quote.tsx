@@ -4,6 +4,7 @@ import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { QuoteLink } from "@/components/quote-link";
 import { WhatsAppTip } from "@/components/whatsapp-tip";
+import { CertifiedStaffNote } from "@/components/certified-staff-note";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,7 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { sendLead } from "@/lib/lead";
-import { getPlan, type Category, type Housing } from "@/lib/plans";
+import { getPlan, isHktPlan, type Category, type Housing } from "@/lib/plans";
 import { CALL_WINDOWS, CATEGORY_OPTIONS, HOUSING_OPTIONS, SITE } from "@/lib/site";
 import { addressHitValue } from "@/lib/address-search";
 import { planLine } from "@/lib/whatsapp";
@@ -60,6 +61,7 @@ function QuotePage() {
     const ids = fromQuery.length ? fromQuery : compare;
     return ids.map(getPlan).filter((p): p is NonNullable<typeof p> => Boolean(p));
   }, [planParam, compare]);
+  const showHktNote = preselected.some(isHktPlan);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -167,6 +169,7 @@ function QuotePage() {
           >
             {t("waHeader")}
           </QuoteLink>
+          {showHktNote ? <CertifiedStaffNote /> : null}
           <WhatsAppTip />
           <Button asChild variant="ghost">
             <Link to="/plans" search={{ cat: category }}>
@@ -323,6 +326,7 @@ function QuotePage() {
             <QuoteLink plans={preselected} inquiry={{ estate, housing, district }}>
               {t("waHeader")}
             </QuoteLink>
+            {showHktNote ? <CertifiedStaffNote /> : null}
             <Button asChild variant="outline">
               <a href={`tel:+${SITE.whatsappE164}`}>
                 <Phone className="size-4" />

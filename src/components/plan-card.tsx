@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Bookmark, GitCompareArrows } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PlanBadges } from "@/components/plan-badges";
+import { CertifiedStaffNote } from "@/components/certified-staff-note";
 import { ProviderMark } from "@/components/provider-mark";
 import { QuoteLink } from "@/components/quote-link";
 import { useDesk } from "@/lib/desk";
@@ -14,6 +15,7 @@ import {
   formatFee,
   formatInstall,
   formatPrepaidShort,
+  isHktPlan,
   isNetvigatorVillage,
   planPerks,
   type Plan,
@@ -122,7 +124,8 @@ export function PlanCard({ plan }: { plan: Plan }) {
         {plan.portInPerk ? <li className="text-accent">{tx(plan.portInPerk)}</li> : null}
       </ul>
 
-      <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+      {isHktPlan(plan) ? <CertifiedStaffNote className="mt-5" /> : null}
+      <div className={cn("flex flex-col gap-2 sm:flex-row", isHktPlan(plan) ? "mt-2" : "mt-5")}>
         <Button
           type="button"
           variant={inCompare ? "accent" : "outline"}
