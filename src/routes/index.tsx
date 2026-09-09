@@ -33,11 +33,18 @@ function Home() {
   const villageFrom = minVillageBroadbandFee();
   const { t, updated } = useI18n();
   usePageTitle(HOME_SEO_TITLE);
-  const categories: { to: "/plans"; search: { cat: "broadband" | "home5g" | "mobile" | "business" }; src: string; label: MessageKey; text: MessageKey }[] = [
-    { to: "/plans", search: { cat: "broadband" }, src: "/images/cat-broadband.jpg", label: "catBroadband", text: "catFibreText" },
-    { to: "/plans", search: { cat: "home5g" }, src: "/images/cat-home5g.jpg", label: "catHome5g", text: "catHome5gText" },
-    { to: "/plans", search: { cat: "mobile" }, src: "/images/cat-mobile.jpg", label: "catMobile", text: "catMobileText" },
-    { to: "/plans", search: { cat: "business" }, src: "/images/cat-business.jpg", label: "catBusiness", text: "catBusinessText" },
+  const categories: {
+    to: "/guides/$slug";
+    slug: "fiber" | "home5g" | "mobile" | "business";
+    src: string;
+    label: MessageKey;
+    text: MessageKey;
+    planCat: "broadband" | "home5g" | "mobile" | "business";
+  }[] = [
+    { to: "/guides/$slug", slug: "fiber", src: "/images/cat-broadband.jpg", label: "catBroadband", text: "catFibreText", planCat: "broadband" },
+    { to: "/guides/$slug", slug: "home5g", src: "/images/cat-home5g.jpg", label: "catHome5g", text: "catHome5gText", planCat: "home5g" },
+    { to: "/guides/$slug", slug: "mobile", src: "/images/cat-mobile.jpg", label: "catMobile", text: "catMobileText", planCat: "mobile" },
+    { to: "/guides/$slug", slug: "business", src: "/images/cat-business.jpg", label: "catBusiness", text: "catBusinessText", planCat: "business" },
   ];
   const faqs: { q: MessageKey; a: MessageKey }[] = [
     { q: "faq1q", a: "faq1a" },
@@ -123,21 +130,30 @@ function Home() {
       <section className="mx-auto max-w-6xl px-4 py-12">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {categories.map((item) => (
-            <Link
+            <div
               key={item.label}
-              to={item.to}
-              search={item.search}
-              className="group overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border)] transition-[box-shadow,transform] duration-150 hover:shadow-[var(--shadow-border-hover)]"
+              className="overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border)]"
             >
-              <img src={item.src} alt={t(item.label)} loading="lazy" decoding="async" className="h-40 w-full object-cover outline outline-1 -outline-offset-1 outline-fg/10" />
-              <div className="p-5">
-                <p className="font-medium">
-                  {t(item.label)}
-                  <ArrowRight className="ml-1 inline size-4 opacity-0 transition-[opacity,transform] duration-150 group-hover:translate-x-0.5 group-hover:opacity-100" />
-                </p>
-                <p className="mt-1 text-sm text-muted">{t(item.text)}</p>
-              </div>
-            </Link>
+              <Link to={item.to} params={{ slug: item.slug }} className="group block">
+                <img src={item.src} alt={t(item.label)} loading="lazy" decoding="async" className="h-40 w-full object-cover outline outline-1 -outline-offset-1 outline-fg/10" />
+                <div className="p-5 pb-2">
+                  <p className="font-medium">
+                    {t(item.label)}
+                    <ArrowRight className="ml-1 inline size-4 opacity-0 transition-[opacity,transform] duration-150 group-hover:translate-x-0.5 group-hover:opacity-100" />
+                  </p>
+                  <p className="mt-1 text-sm text-muted">{t(item.text)}</p>
+                </div>
+              </Link>
+              <p className="px-5 pb-5 text-sm">
+                <Link
+                  to="/plans"
+                  search={{ cat: item.planCat }}
+                  className="text-accent underline-offset-4 hover:underline"
+                >
+                  {t("goCompare")}
+                </Link>
+              </p>
+            </div>
           ))}
         </div>
       </section>

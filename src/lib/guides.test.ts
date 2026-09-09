@@ -1,9 +1,13 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { GUIDES, getGuide } from "./guides.ts";
 import { SITEMAP_PAGES } from "./seo.ts";
 
 const FORBIDDEN = ["保證裝到", "全港最平", "官方", "唔保證裝到"];
+const here = dirname(fileURLToPath(import.meta.url));
 
 function guideText(slug: string) {
   const guide = getGuide(slug);
@@ -68,10 +72,54 @@ describe("village-onsite guide", () => {
   it("leaves the village overview body in place", () => {
     const village = getGuide("village");
     assert.ok(village);
-    assert.deepEqual(
-      village.body.map((section) => section.heading),
-      ["先問覆蓋，唔好淨睇月費", "5G 家居係常見方案"],
-    );
-    assert.deepEqual(village.related, ["village-onsite"]);
+    const headings = village.body.map((section) => section.heading);
+    assert.deepEqual(headings.slice(0, 2), ["先問覆蓋，唔好淨睇月費", "5G 家居係常見方案"]);
+    assert.ok(headings.includes("村屋光纖唔係公屋價"));
+    assert.ok(headings.includes("可能要現場"));
+    assert.ok(village.related?.includes("village-onsite"));
+  });
+
+  it("publishes the four category hubs and long articles with unique SEO titles", () => {
+    const slugs = [
+      "fiber",
+      "home5g",
+      "mobile",
+      "business",
+      "public-vs-hos",
+      "is-1000m-enough",
+      "switch-broadband",
+      "gba-mobile",
+      "shop-broadband",
+      "contract-fees",
+      "port-in",
+      "fiber-vs-5g",
+      "village",
+      "village-onsite",
+    ];
+    for (const slug of slugs) {
+      const guide = getGuide(slug);
+      assert.ok(guide, slug);
+      assert.match(guide.seoTitle, /齊Quote/);
+      assert.ok(guide.h1.length > 4);
+      assert.ok(guide.description.length >= 20);
+      assert.ok(SITEMAP_PAGES.some((page) => page.path === `/guides/${slug}`), slug);
+    }
+    assert.equal(getGuide("home5g-or-fiber"), undefined);
+    const fiberVs = getGuide("fiber-vs-5g");
+    assert.ok(fiberVs?.body.some((section) => section.heading === "適用情境"));
+    assert.ok(fiberVs?.body.some((section) => section.heading === "數據上限"));
+  });
+
+  it("does not change homepage search, prices, tour, or animation files", () => {
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+    const panel = readFileSync(join(here, "../components/search-panel.tsx"), "utf8");
+    const css = readFileSync(join(here, "../styles.css"), "utf8");
+    const tour = readFileSync(join(here, "../components/first-visit-tour.tsx"), "utf8");
+    assert.match(home, /slug: "fiber"/);
+    assert.match(home, /goCompare/);
+    assert.match(panel, /EstateSuggest/);
+    assert.match(css, /plan-list-enter/);
+    assert.match(css, /chip-press/);
+    assert.match(tour, /chaiquote-tour-done/);
   });
 });

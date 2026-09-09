@@ -1,4 +1,8 @@
+import type { Inquiry } from "./desk.ts";
+import { GUIDE_ARTICLES } from "./guide-articles.ts";
+
 export type GuideSection = { heading: string; paragraphs: string[] };
+export type GuideCategory = "fiber" | "home5g" | "mobile" | "business";
 
 export type GuideCta = {
   lead: string;
@@ -9,23 +13,38 @@ export type GuideCta = {
   waTextEn: string;
 };
 
+export type GuideLink = { href: string; label: string };
+
 export type Guide = {
   slug: string;
   minutes: number;
+  category: GuideCategory;
+  seoTitle: string;
+  h1: string;
+  description: string;
   title: string;
   excerpt: string;
   body: GuideSection[];
   titleEn: string;
   excerptEn: string;
+  h1En?: string;
+  descriptionEn?: string;
   bodyEn: GuideSection[];
   related?: string[];
+  plans?: GuideLink[];
+  estates?: GuideLink[];
+  inquiry?: Partial<Inquiry>;
   cta?: GuideCta;
 };
 
-export const GUIDES: Guide[] = [
+export const CORE_GUIDES: Guide[] = [
   {
     slug: "port-in",
     minutes: 4,
+    category: "mobile",
+    seoTitle: "攜號轉台點樣做｜齊Quote",
+    h1: "攜號轉台點樣做，先唔會斷線",
+    description: "留舊號碼轉去新電訊商，行政費、幾時生效、寬頻轉台有咩分別。實際以電訊商確認為準。",
     title: "攜號轉台點樣做，先唔會斷線",
     excerpt: "留舊號碼轉去新電訊商，行政費、幾時生效、寬頻轉台有咩分別。",
     titleEn: "How to port your number without losing service",
@@ -74,10 +93,20 @@ export const GUIDES: Guide[] = [
         ],
       },
     ],
+    related: ["mobile", "gba-mobile", "switch-broadband"],
+    plans: [{ href: "/plans?cat=mobile", label: "去手機格價" }],
+    estates: [
+      { href: "/estates", label: "屋苑目錄" },
+      { href: "/guides/mobile", label: "手機月費攻略" },
+    ],
   },
   {
     slug: "fiber-vs-5g",
-    minutes: 5,
+    minutes: 7,
+    category: "fiber",
+    seoTitle: "光纖同 5G 家居寬頻點揀｜齊Quote",
+    h1: "光纖同 5G 家居寬頻點揀",
+    description: "拉線穩唔穩、幾時裝到、有冇數據上限、村屋適唔適合。實際覆蓋同安裝以電訊商確認。",
     title: "光纖同 5G 家居寬頻點揀",
     excerpt: "拉線穩唔穩、幾時裝到、有冇數據上限、村屋適唔適合。",
     titleEn: "Fibre vs 5G home broadband",
@@ -103,6 +132,26 @@ export const GUIDES: Guide[] = [
           "可以拉光纖就優先光纖。拉唔到、要即日上網，先睇 5G 家居。預算夠可以兩條線：光纖主用、5G 後備。",
         ],
       },
+      {
+        heading: "適用情境",
+        paragraphs: [
+          "長住、要穩、要上傳：優先光纖。租樓、等安裝、未有光纖：先睇 5G 家居。村屋兩條路都可能要問，唔好假設一定有線。",
+          "要即日上網或者業主唔批准拉線，5G 家居先有機會；但繁忙時間同室內擺位都會影響，唔好當固定光纖。",
+        ],
+      },
+      {
+        heading: "數據上限",
+        paragraphs: [
+          "5G 家居好多時有高速 GB，用完會降速或降低優先權。光纖入屋通常按該計劃條款提供本地用量，細節以合約為準。",
+        ],
+      },
+      {
+        heading: "村屋／未有光纖",
+        paragraphs: [
+          "村屋光纖唔等於公屋價，亦唔等於一定拉到。現場環境、村路、入線都要電訊商確認。可以同 5G 家居一齊比較，需要就約視察。見 [村屋寬頻點算](/guides/village)、[實地視察同測 5G](/guides/village-onsite)。",
+          "實際覆蓋、安裝期同月費以電訊商確認為準。",
+        ],
+      },
     ],
     bodyEn: [
       {
@@ -126,10 +175,23 @@ export const GUIDES: Guide[] = [
         ],
       },
     ],
+    related: ["fiber", "home5g", "village"],
+    plans: [
+      { href: "/plans?cat=broadband", label: "去光纖格價" },
+      { href: "/plans?cat=home5g", label: "去 5G 家居格價" },
+    ],
+    estates: [
+      { href: "/estates", label: "屋苑目錄" },
+      { href: "/guides/village", label: "村屋點算" },
+    ],
   },
   {
     slug: "village",
-    minutes: 3,
+    minutes: 6,
+    category: "fiber",
+    seoTitle: "村屋／丁屋寬頻點算｜齊Quote",
+    h1: "村屋／丁屋寬頻點算",
+    description: "村屋光纖唔等於公屋價，可能要現場視察。覆蓋同安裝以電訊商確認為準。",
     title: "村屋／丁屋寬頻點算",
     excerpt: "覆蓋點查、5G 家居同光纖到村實際有咩分別。",
     titleEn: "Broadband for village houses",
@@ -147,6 +209,19 @@ export const GUIDES: Guide[] = [
           "未有光纖嘅村屋、唐樓，5G 家居插電就用。記住問清楚高速 GB 同繁忙時間表現。",
         ],
       },
+      {
+        heading: "村屋光纖唔係公屋價",
+        paragraphs: [
+          "公屋／居屋有時有指定批量計劃；村屋多數係另一批報價，月費、安裝費、完工期都可以唔同。齊Quote 分開列出參考，唔好用屋邨價去估丁屋。",
+        ],
+      },
+      {
+        heading: "可能要現場",
+        paragraphs: [
+          "拉線路經、井蓋、天台機位，網上相睇唔晒。需要就約 [實地視察同現場測 5G](/guides/village-onsite)，再決定主用光纖定 5G 家居。",
+          "實際覆蓋、安裝期同月費以電訊商確認為準，唔好假設一定有線。",
+        ],
+      },
     ],
     bodyEn: [
       {
@@ -162,17 +237,34 @@ export const GUIDES: Guide[] = [
         ],
       },
     ],
-    related: ["village-onsite"],
+    related: ["village-onsite", "fiber", "fiber-vs-5g"],
+    plans: [
+      { href: "/plans?cat=broadband&housing=village", label: "村屋光纖計劃" },
+      { href: "/plans?cat=home5g", label: "5G 家居格價" },
+    ],
+    estates: [
+      { href: "/estates", label: "屋苑目錄" },
+      { href: "/guides/village-onsite", label: "實地視察" },
+    ],
   },
   {
     slug: "village-onsite",
     minutes: 4,
+    category: "fiber",
+    seoTitle: "村屋寬頻實地視察同測 5G｜齊Quote",
+    h1: "村屋寬頻：實地視察同現場測 5G",
+    description: "村屋光纖好唔好裝、5G 家居夠唔夠穩，可約落場睇或測訊號。建議只供參考，以電訊商確認為準。",
     title: "村屋寬頻：實地視察同現場測 5G",
     excerpt: "村屋光纖好唔好裝、5G 家居夠唔夠穩——可約落場睇，或帶路由器去地址測訊號，再俾建議。",
     titleEn: "Village broadband: on-site fibre check and 5G signal test",
     excerptEn:
       "Not sure whether fibre is worth installing at a village house, or whether 5G home is stable enough? We can visit, or bring a router to test the signal, then advise.",
-    related: ["village"],
+    related: ["village", "fiber-vs-5g"],
+    plans: [{ href: "/plans?cat=broadband&housing=village", label: "村屋光纖計劃" }],
+    estates: [
+      { href: "/estates", label: "屋苑目錄" },
+      { href: "/guides/village", label: "村屋點算" },
+    ],
     cta: {
       lead: "僅供參考。想約視察或測 5G，用 WhatsApp 查核報價／約時間。",
       leadEn: "For reference only. To book a visit or 5G test, WhatsApp us to check the quote and arrange a time.",
@@ -258,6 +350,8 @@ export const GUIDES: Guide[] = [
   },
 ];
 
+export const GUIDES: Guide[] = [...CORE_GUIDES, ...GUIDE_ARTICLES];
+
 export function getGuide(slug: string) {
   return GUIDES.find((g) => g.slug === slug);
 }
@@ -266,7 +360,9 @@ export function guideCopy(guide: Guide, locale: "zh" | "en") {
   if (locale === "en") {
     return {
       title: guide.titleEn,
+      h1: guide.h1En ?? guide.titleEn,
       excerpt: guide.excerptEn,
+      description: guide.descriptionEn ?? guide.excerptEn,
       body: guide.bodyEn,
       ctaLead: guide.cta?.leadEn,
       ctaButton: guide.cta?.buttonEn,
@@ -275,7 +371,9 @@ export function guideCopy(guide: Guide, locale: "zh" | "en") {
   }
   return {
     title: guide.title,
+    h1: guide.h1,
     excerpt: guide.excerpt,
+    description: guide.description,
     body: guide.body,
     ctaLead: guide.cta?.lead,
     ctaButton: guide.cta?.button,

@@ -8,6 +8,7 @@
  */
 import { formatFee, PLANS, PROVIDER_MAP, type Category, type Housing, type Plan } from "./plans.ts";
 import { ESTATE_PAGES, estatePagePath } from "./estate-pages.ts";
+import { GUIDES } from "./guides.ts";
 
 export const DEFAULT_SEO_ORIGIN = "https://www.chaiquote.hk";
 
@@ -104,10 +105,6 @@ export const STATIC_SITEMAP_PAGES: readonly SitemapPage[] = [
   { path: "/plans?cat=business", changefreq: "weekly", priority: "0.7" },
   { path: "/quote", changefreq: "monthly", priority: "0.6" },
   { path: "/guides", changefreq: "monthly", priority: "0.7" },
-  { path: "/guides/port-in", changefreq: "monthly", priority: "0.6" },
-  { path: "/guides/fiber-vs-5g", changefreq: "monthly", priority: "0.6" },
-  { path: "/guides/village", changefreq: "monthly", priority: "0.6" },
-  { path: "/guides/village-onsite", changefreq: "monthly", priority: "0.6" },
   { path: "/estates", changefreq: "weekly", priority: "0.8" },
   { path: "/about", changefreq: "monthly", priority: "0.5" },
   { path: "/privacy", changefreq: "monthly", priority: "0.4" },
@@ -115,6 +112,11 @@ export const STATIC_SITEMAP_PAGES: readonly SitemapPage[] = [
 
 export const SITEMAP_PAGES: readonly SitemapPage[] = [
   ...STATIC_SITEMAP_PAGES,
+  ...GUIDES.map((guide) => ({
+    path: `/guides/${guide.slug}`,
+    changefreq: "monthly" as const,
+    priority: "0.6",
+  })),
   ...ESTATE_PAGES.map((page) => ({
     path: estatePagePath(page),
     changefreq: "weekly" as const,
