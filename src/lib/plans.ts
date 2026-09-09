@@ -2208,6 +2208,10 @@ export function matchesHousing(plan: Plan, housing?: Housing) {
   return plan.housing.includes(housing);
 }
 
+export function isNetvigatorVillage(plan: Plan) {
+  return plan.providerId === "netvigator" && plan.housing !== "all" && plan.housing.includes("village");
+}
+
 export function planGeneration(plan: Plan): Generation | undefined {
   if (plan.category !== "mobile") return undefined;
   return plan.network.startsWith("5G") ? "5g" : "4g";

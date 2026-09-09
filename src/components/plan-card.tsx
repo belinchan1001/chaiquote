@@ -14,6 +14,7 @@ import {
   formatFee,
   formatInstall,
   formatPrepaidShort,
+  isNetvigatorVillage,
   planPerks,
   type Plan,
 } from "@/lib/plans";
@@ -110,6 +111,9 @@ export function PlanCard({ plan }: { plan: Plan }) {
           </div>
         ) : null}
       </dl>
+      {isNetvigatorVillage(plan) ? (
+        <p className="mt-3 text-xs leading-relaxed text-muted">{t("villageFeeNote")}</p>
+      ) : null}
 
       <ul className="mt-4 space-y-1 text-sm text-muted">
         {planPerks(plan).slice(0, 4).map((perk) => (

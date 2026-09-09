@@ -14,6 +14,7 @@ import {
   formatInstall,
   formatPlanSpeed,
   getPlan,
+  isNetvigatorVillage,
   PLANS,
 } from "@/lib/plans";
 import { SITE } from "@/lib/site";
@@ -126,6 +127,9 @@ function PlanDetailPage() {
               <dt className="text-muted">{label}</dt>
               <dd className="font-medium sm:col-span-3">
                 {label === t("rowProvider") ? <ProviderMark id={plan.providerId} size="sm" /> : value}
+                {label === t("install") && isNetvigatorVillage(plan) ? (
+                  <p className="mt-1 text-xs font-normal leading-relaxed text-muted">{t("villageFeeNote")}</p>
+                ) : null}
               </dd>
             </div>
           ))}

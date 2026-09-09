@@ -11,7 +11,7 @@ import {
   type CompareCopy,
 } from "./compare.ts";
 import { toEnglish } from "./plan-en.ts";
-import { getPlan, PLANS, type Category } from "./plans.ts";
+import { getPlan, isNetvigatorVillage, PLANS, type Category } from "./plans.ts";
 
 const copy: CompareCopy = {
   dash: "—",
@@ -398,6 +398,14 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     assert.equal(village2500m24.contractMonths, 24);
     assert.deepEqual(village2500m24.housing, ["village"]);
     assert.ok(village2500m24.perks.includes("搬遷費津貼 HK$1,000"));
+
+    assert.equal(isNetvigatorVillage(village1000), true);
+    assert.equal(isNetvigatorVillage(village1000m24), true);
+    assert.equal(isNetvigatorVillage(village2500), true);
+    assert.equal(isNetvigatorVillage(village2500m24), true);
+    assert.equal(isNetvigatorVillage(plan("hkbn-village-200-27m")), false);
+    assert.equal(isNetvigatorVillage(plan("hgc-village-1g-phone-24m")), false);
+    assert.equal(isNetvigatorVillage(plan("netvigator-ftth-1000-private-36m")), false);
 
     for (const p of [plan98, plan128, plan158]) {
       assert.doesNotMatch(JSON.stringify(p), /保證|最平/);
