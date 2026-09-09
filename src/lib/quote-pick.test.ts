@@ -46,8 +46,42 @@ describe("齊Quote pick badge", () => {
     assert.equal(icable.monthlyFee, 58);
     assert.deepEqual(
       PLANS.filter((plan) => plan.quotePick).map((plan) => plan.id),
-      ["icable-ftth-1000-48m-58", "hkbn-5g-30-78-youth"],
+      [
+        "hkbn-ftth-1000-36m-98",
+        "hkbn-ftth-2500-24m-149",
+        "hkbn-ftth-10000-entertainment",
+        "hkbn-village-2000-24m",
+        "icable-ftth-1000-48m-58",
+        "hkbn-5g-30-78-youth",
+      ],
     );
+  });
+
+  it("flags four HKBN fibre quote picks and leaves the gaming 10000M combo unmarked", () => {
+    const picks = [
+      "hkbn-ftth-2500-24m-149",
+      "hkbn-ftth-10000-entertainment",
+      "hkbn-village-2000-24m",
+      "hkbn-ftth-1000-36m-98",
+    ] as const;
+    for (const id of picks) {
+      const plan = getPlan(id);
+      assert.ok(plan, `missing plan ${id}`);
+      assert.equal(plan.quotePick, true, id);
+    }
+
+    const entertainment = getPlan("hkbn-ftth-10000-entertainment");
+    assert.ok(entertainment);
+    assert.equal(entertainment.monthlyFee, 998);
+    assert.equal(entertainment.contractMonths, 24);
+    assert.match(entertainment.name, /娛樂組合/);
+    assert.doesNotMatch(entertainment.name, /遊戲路由器/);
+
+    const gaming = getPlan("hkbn-ftth-10000-ge800");
+    assert.ok(gaming);
+    assert.equal(gaming.quotePick, undefined);
+    assert.equal(gaming.monthlyFee, 998);
+    assert.match(gaming.name, /遊戲路由器/);
   });
 
   it("keeps the shine on card chrome and disables it for reduced motion", () => {

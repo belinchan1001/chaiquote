@@ -130,6 +130,7 @@ export const PLANS: Plan[] = [
     ],
     limits: LIMITS_HKBN_FTTH,
     hot: true,
+    quotePick: true,
     bestFor: "適合公屋、居屋或私人住宅，需要 1000M 光纖及路由器之住戶",
   },
   {
@@ -265,6 +266,7 @@ export const PLANS: Plan[] = [
     perks: ["送指定 TP-Link BE230 Wi-Fi 7 路由器", "家居電話服務"],
     limits: LIMITS_HKBN_FTTH,
     hot: true,
+    quotePick: true,
     bestFor: "適合需要 2500M 光纖及家居電話之住戶",
   },
   {
@@ -326,6 +328,7 @@ export const PLANS: Plan[] = [
       "Money-Back 雙重保證（速度保證、低時延保證）",
     ],
     limits: LIMITS_HKBN_10G,
+    quotePick: true,
     bestFor: "適合需要 10000M 光纖、Wi-Fi 7 及影視娛樂之住戶",
   },
   {
@@ -437,6 +440,7 @@ export const PLANS: Plan[] = [
     network: "光纖入屋",
     perks: ["可選擇延遲服務生效日（最長 365 日）"],
     limits: LIMITS_HKBN_VILLAGE_SELECT_24,
+    quotePick: true,
     bestFor: "適合特選村屋、需要 2000M 光纖之住戶",
   },
   {
