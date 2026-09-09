@@ -6,6 +6,7 @@ import { PlanBadges } from "@/components/plan-badges";
 import { ProviderMark } from "@/components/provider-mark";
 import { QuoteLink } from "@/components/quote-link";
 import { useDesk } from "@/lib/desk";
+import { registerFoilCard } from "@/lib/foil-scroll";
 import { useI18n } from "@/lib/i18n";
 import {
   averageFee,
@@ -17,19 +18,6 @@ import {
   type Plan,
 } from "@/lib/plans";
 import { cn } from "@/lib/utils";
-
-const FOIL_SWEEP_ENTER = "foil-sweep-enter";
-const FOIL_SWEEP_PLAY = "foil-sweep-play";
-
-function prefersReducedMotion() {
-  return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
-function replayFoilSweep(el: HTMLElement, className: string) {
-  el.classList.remove(FOIL_SWEEP_ENTER, FOIL_SWEEP_PLAY);
-  void el.offsetWidth;
-  el.classList.add(className);
-}
 
 export function PlanCard({ plan }: { plan: Plan }) {
   const shineRef = useRef<HTMLElement>(null);
@@ -45,42 +33,13 @@ export function PlanCard({ plan }: { plan: Plan }) {
   useEffect(() => {
     if (!plan.quotePick) return;
     const el = shineRef.current;
-    if (!el || prefersReducedMotion()) return;
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          replayFoilSweep(el, FOIL_SWEEP_ENTER);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.2 },
-    );
-    io.observe(el);
-
-    const onEnd = (event: AnimationEvent) => {
-      if (event.animationName !== "foil-sweep") return;
-      el.classList.remove(FOIL_SWEEP_ENTER, FOIL_SWEEP_PLAY);
-    };
-    el.addEventListener("animationend", onEnd);
-
-    return () => {
-      io.disconnect();
-      el.removeEventListener("animationend", onEnd);
-    };
+    if (!el) return;
+    return registerFoilCard(el);
   }, [plan.quotePick, plan.id]);
-
-  function onFoilPointerDown() {
-    if (!plan.quotePick) return;
-    const el = shineRef.current;
-    if (!el || prefersReducedMotion()) return;
-    replayFoilSweep(el, FOIL_SWEEP_PLAY);
-  }
 
   return (
     <article
       ref={shineRef}
-      onPointerDown={plan.quotePick ? onFoilPointerDown : undefined}
       className={cn(
         "flex flex-col rounded-xl bg-card p-5 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
         plan.quotePick && "plan-card-shine",
