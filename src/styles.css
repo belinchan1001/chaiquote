@@ -166,9 +166,13 @@
     overflow-anchor: none;
   }
   .plan-list > * {
+    min-width: 0;
     pointer-events: auto;
     animation: plan-card-in 240ms ease-out both;
     animation-delay: 450ms;
+  }
+  .plan-list-item > article {
+    height: 100%;
   }
   .plan-list > *:nth-child(1) {
     animation-delay: 0ms;

@@ -19,7 +19,7 @@ import {
   type SpeedMbps,
 } from "@/lib/plans";
 import { addressHitValue } from "@/lib/address-search";
-import { compactSearch, parsePlansSearch } from "@/lib/search";
+import { compactSearch, parsePlansSearch, planListReplayKey } from "@/lib/search";
 import {
   CATEGORY_OPTIONS,
   GENERATION_OPTIONS,
@@ -399,27 +399,11 @@ function PlansPage() {
         </div>
       ) : (
         <>
-          <div
-            key={[
-              search.cat,
-              search.housing ?? "",
-              search.speed ?? "",
-              search.provider ?? "",
-              search.generation ?? "",
-              search.maxFee ?? "",
-              search.minSpeed ?? "",
-              search.minData ?? "",
-              search.q ?? "",
-              search.estate ?? "",
-              search.saved ? "1" : "0",
-              search.sort ?? "fee",
-              search.gba ? "1" : "0",
-              search.portIn ? "1" : "0",
-            ].join("|")}
-            className="plan-list mt-8 grid gap-4 md:grid-cols-2"
-          >
+          <div key={planListReplayKey(search)} className="plan-list mt-8 grid gap-4 md:grid-cols-2">
             {shown.map((plan) => (
-              <PlanCard key={plan.id} plan={plan} />
+              <div key={plan.id} className="plan-list-item">
+                <PlanCard plan={plan} />
+              </div>
             ))}
           </div>
           {visible < rows.length ? (
