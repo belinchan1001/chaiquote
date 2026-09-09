@@ -1,7 +1,7 @@
 import type { Inquiry } from "./desk.ts";
 import { GUIDE_ARTICLES } from "./guide-articles.ts";
 
-export type GuideSection = { heading: string; paragraphs: string[] };
+export type GuideSection = { heading: string; paragraphs: string[]; table?: GuideTable };
 export type GuideCategory = "fiber" | "home5g" | "mobile" | "business";
 
 export type GuideCta = {
@@ -14,6 +14,16 @@ export type GuideCta = {
 };
 
 export type GuideLink = { href: string; label: string };
+
+export type GuideFaq = { q: string; a: string };
+
+export type GuideTableRow = { label: string; value: string; href: string };
+
+export type GuideTable = {
+  caption: string;
+  headers: [string, string];
+  rows: GuideTableRow[];
+};
 
 export type Guide = {
   slug: string;
@@ -35,6 +45,10 @@ export type Guide = {
   estates?: GuideLink[];
   inquiry?: Partial<Inquiry>;
   cta?: GuideCta;
+  faq?: GuideFaq[];
+  faqEn?: GuideFaq[];
+  published?: string;
+  modified?: string;
 };
 
 export const CORE_GUIDES: Guide[] = [
@@ -367,6 +381,7 @@ export function guideCopy(guide: Guide, locale: "zh" | "en") {
       ctaLead: guide.cta?.leadEn,
       ctaButton: guide.cta?.buttonEn,
       waText: guide.cta?.waTextEn,
+      faq: guide.faqEn ?? [],
     };
   }
   return {
@@ -378,5 +393,6 @@ export function guideCopy(guide: Guide, locale: "zh" | "en") {
     ctaLead: guide.cta?.lead,
     ctaButton: guide.cta?.button,
     waText: guide.cta?.waText,
+    faq: guide.faq ?? [],
   };
 }

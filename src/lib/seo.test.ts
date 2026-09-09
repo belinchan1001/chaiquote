@@ -5,6 +5,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { SITE } from "./site.ts";
 import { getPlan, PLANS } from "./plans.ts";
+import { getGuide } from "./guides.ts";
 import {
   canonicalRedirectLocation,
   canonicalUrl,
@@ -12,6 +13,7 @@ import {
   DEFAULT_SEO_ORIGIN,
   HOME_SEO_TITLE,
   isLegacyProductionHost,
+  guideJsonLd,
   planJsonLd,
   planSeoDescription,
   planSeoTitle,
@@ -192,5 +194,38 @@ describe("plan SEO copy", () => {
     assert.match(planSeoTitle(sample), /1000M 連 Wi-Fi 6/);
     assert.equal(planJsonLd(sample)["@type"], "Product");
     assert.equal(planJsonLd(sample).offers.price, 98);
+  });
+});
+
+describe("guide JSON-LD", () => {
+  it("emits Article, BreadcrumbList and FAQPage for the fibre hub", () => {
+    const fiber = getGuide("fiber");
+    assert.ok(fiber);
+    const ld = guideJsonLd(fiber);
+    assert.equal(ld["@context"], "https://schema.org");
+    const types = ld["@graph"].map((node) => node["@type"]);
+    assert.deepEqual(
+      types.filter((type) => type === "Article" || type === "BreadcrumbList" || type === "FAQPage").sort(),
+      ["Article", "BreadcrumbList", "FAQPage"].sort(),
+    );
+    const article = ld["@graph"].find((node) => node["@type"] === "Article");
+    assert.ok(article);
+    assert.equal(article.headline, fiber.h1);
+    assert.equal(article.inLanguage, "zh-HK");
+    assert.equal(article.url, "https://www.chaiquote.hk/guides/fiber");
+    assert.match(String(article.keywords), /香港光纖寬頻/);
+    const crumbs = ld["@graph"].find((node) => node["@type"] === "BreadcrumbList");
+    assert.ok(crumbs);
+    const items = crumbs.itemListElement as { position: number; item: string }[];
+    assert.equal(items[0]?.item, "https://www.chaiquote.hk/");
+    assert.equal(items[1]?.item, "https://www.chaiquote.hk/guides");
+    assert.equal(items[2]?.item, "https://www.chaiquote.hk/guides/fiber");
+    const faq = ld["@graph"].find((node) => node["@type"] === "FAQPage");
+    assert.ok(faq);
+    const questions = faq.mainEntity as { name: string; acceptedAnswer: { text: string } }[];
+    assert.equal(questions.length, 5);
+    assert.equal(questions.some((item) => item.acceptedAnswer.text.includes("[")), false);
+    assert.ok(SITEMAP_PAGES.some((page) => page.path === "/guides/fiber" && page.priority === "0.8"));
+    assert.ok(SITEMAP_PAGES.some((page) => page.path === "/guides/village" && page.priority === "0.6"));
   });
 });

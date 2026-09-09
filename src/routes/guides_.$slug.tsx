@@ -1,10 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
+import { JsonLd } from "@/components/json-ld";
 import { QuoteLink } from "@/components/quote-link";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
-import { getGuide, guideCopy } from "@/lib/guides";
+import { getGuide, guideCopy, type GuideTable } from "@/lib/guides";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import { canonicalUrl } from "@/lib/seo";
+import { canonicalUrl, guideJsonLd } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { whatsappHref } from "@/lib/whatsapp";
 
@@ -26,11 +27,18 @@ export const Route = createFileRoute("/guides_/$slug")({
         { property: "og:title", content: guide.seoTitle },
         { property: "og:description", content: guide.description },
         { property: "og:url", content: url },
+        { property: "og:type", content: "article" },
+        { property: "og:locale", content: "zh_HK" },
+        { property: "og:site_name", content: SITE.name },
       ],
       links: [{ rel: "canonical", href: url }],
     };
   },
 });
+
+function headingId(heading: string) {
+  return heading.replace(/\s+/g, "");
+}
 
 function GuideRichText({ text }: { text: string }) {
   const parts = text.split(/(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*)/g);
@@ -59,6 +67,38 @@ function GuideRichText({ text }: { text: string }) {
   );
 }
 
+function GuideTableView({ table }: { table: GuideTable }) {
+  return (
+    <div className="mt-4 overflow-x-auto">
+      <table className="w-full text-left text-sm">
+        <caption className="sr-only">{table.caption}</caption>
+        <thead>
+          <tr className="border-b border-border text-fg">
+            <th scope="col" className="py-2 pr-4 font-semibold">
+              {table.headers[0]}
+            </th>
+            <th scope="col" className="py-2 font-semibold">
+              {table.headers[1]}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {table.rows.map((row) => (
+            <tr key={row.label} className="border-b border-border">
+              <th scope="row" className="py-3 pr-4 font-medium text-fg">
+                <a href={row.href} className="text-accent underline-offset-4 hover:underline">
+                  {row.label}
+                </a>
+              </th>
+              <td className="py-3 text-muted">{row.value}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 function GuidePage() {
   const { guide } = Route.useLoaderData();
   const { t, locale } = useI18n();
@@ -72,24 +112,74 @@ function GuidePage() {
     { href: "/estates", label: "屋苑目錄" },
     { href: "/estates/tin-yiu", label: "天耀邨" },
   ];
+  const toc = [
+    ...copy.body.map((section) => ({ id: headingId(section.heading), label: section.heading })),
+    ...(copy.faq.length ? [{ id: "faq", label: t("faqHeading") }] : []),
+  ];
 
   return (
     <article className="mx-auto max-w-2xl px-4 py-10">
-      <Link to="/guides" className="text-sm text-muted hover:text-fg">
-        {t("allArticles")}
-      </Link>
+      <JsonLd data={guideJsonLd(guide)} />
+      <nav aria-label={t("crumbNav")} className="text-sm text-muted">
+        <ol className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+          <li>
+            <Link to="/" className="hover:text-fg">
+              {t("crumbHome")}
+            </Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li>
+            <Link to="/guides" className="hover:text-fg">
+              {t("navGuides")}
+            </Link>
+          </li>
+        </ol>
+      </nav>
       <p className="mt-6 text-xs text-subtle">{t("minutesRead", { n: guide.minutes })}</p>
       <h1 className="mt-2 text-title font-semibold">{copy.h1}</h1>
+      <p className="mt-3 text-base leading-relaxed text-muted">{copy.excerpt}</p>
+      {toc.length > 2 ? (
+        <nav aria-label={t("tocLabel")} className="mt-6 border border-border bg-surface px-4 py-3">
+          <p className="text-xs font-medium text-subtle">{t("tocLabel")}</p>
+          <ol className="mt-2 space-y-1 text-sm">
+            {toc.map((item) => (
+              <li key={item.id}>
+                <a href={`#${item.id}`} className="text-accent underline-offset-4 hover:underline">
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      ) : null}
       {copy.body.map((section) => (
-        <section key={section.heading} className="mt-8">
+        <section key={section.heading} id={headingId(section.heading)} className="mt-8 scroll-mt-24">
           <h2 className="text-lg font-semibold">{section.heading}</h2>
           {section.paragraphs.map((p) => (
             <p key={p} className="mt-3 text-base leading-relaxed text-muted">
               <GuideRichText text={p} />
             </p>
           ))}
+          {section.table ? <GuideTableView table={section.table} /> : null}
         </section>
       ))}
+      {copy.faq.length > 0 ? (
+        <section id="faq" className="mt-8 scroll-mt-24">
+          <h2 className="text-lg font-semibold">{t("faqHeading")}</h2>
+          <dl className="mt-3 space-y-5">
+            {copy.faq.map((item) => (
+              <div key={item.q}>
+                <dt>
+                  <h3 className="text-base font-semibold">{item.q}</h3>
+                </dt>
+                <dd className="mt-2 text-base leading-relaxed text-muted">
+                  <GuideRichText text={item.a} />
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ) : null}
       {related.length > 0 ? (
         <p className="mt-8 text-sm text-muted">
           {t("relatedGuides")}{" "}

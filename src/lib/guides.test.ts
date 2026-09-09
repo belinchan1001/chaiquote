@@ -23,8 +23,20 @@ function guideText(slug: string) {
     guide.cta?.buttonEn,
     guide.cta?.waText,
     guide.cta?.waTextEn,
-    ...guide.body.flatMap((section) => [section.heading, ...section.paragraphs]),
-    ...guide.bodyEn.flatMap((section) => [section.heading, ...section.paragraphs]),
+    ...guide.body.flatMap((section) => [
+      section.heading,
+      ...section.paragraphs,
+      section.table?.caption,
+      ...(section.table?.rows.flatMap((row) => [row.label, row.value]) ?? []),
+    ]),
+    ...guide.bodyEn.flatMap((section) => [
+      section.heading,
+      ...section.paragraphs,
+      section.table?.caption,
+      ...(section.table?.rows.flatMap((row) => [row.label, row.value]) ?? []),
+    ]),
+    ...(guide.faq?.flatMap((item) => [item.q, item.a]) ?? []),
+    ...(guide.faqEn?.flatMap((item) => [item.q, item.a]) ?? []),
   ];
   return chunks.filter(Boolean).join("\n");
 }
@@ -108,6 +120,33 @@ describe("village-onsite guide", () => {
     const fiberVs = getGuide("fiber-vs-5g");
     assert.ok(fiberVs?.body.some((section) => section.heading === "適用情境"));
     assert.ok(fiberVs?.body.some((section) => section.heading === "數據上限"));
+  });
+
+  it("gives the fibre hub a Hong Kong title, unique H1, FAQ and housing table", () => {
+    const fiber = getGuide("fiber");
+    assert.ok(fiber);
+    assert.match(fiber.seoTitle, /香港光纖寬頻/);
+    assert.match(fiber.seoTitle, /公屋居屋私樓村屋/);
+    assert.match(fiber.seoTitle, /齊Quote$/);
+    assert.match(fiber.h1, /香港光纖寬頻點揀/);
+    assert.notEqual(fiber.seoTitle, fiber.h1);
+    assert.ok(fiber.description.length >= 70, String(fiber.description.length));
+    assert.match(fiber.description, /1000M/);
+    assert.match(fiber.description, /以電訊商確認為準/);
+    assert.equal(fiber.faq?.length, 5);
+    assert.ok(fiber.faq?.every((item) => item.q.length > 6 && item.a.length > 20));
+    const housing = fiber.body.find((section) => section.table);
+    assert.equal(housing?.table?.rows.length, 4);
+    assert.deepEqual(
+      housing?.table?.rows.map((row) => row.label),
+      ["公屋", "居屋", "私樓", "村屋"],
+    );
+    assert.ok(fiber.related?.includes("contract-fees"));
+    assert.ok(fiber.related?.includes("home5g"));
+    const text = guideText("fiber");
+    for (const phrase of FORBIDDEN) {
+      assert.equal(text.includes(phrase), false, `forbidden phrase: ${phrase}`);
+    }
   });
 
   it("does not change homepage search, prices, tour, or animation files", () => {

@@ -6,21 +6,37 @@ const DISCLAIMER =
 export const GUIDE_ARTICLES: Guide[] = [
   {
     slug: "fiber",
-    minutes: 6,
+    minutes: 8,
     category: "fiber",
-    seoTitle: "光纖寬頻攻略｜公屋居屋私樓村屋比較｜齊Quote",
-    h1: "光纖寬頻攻略：先分樓類再睇月費",
+    seoTitle: "香港光纖寬頻攻略｜公屋居屋私樓村屋比較｜齊Quote",
+    h1: "香港光纖寬頻點揀：先分樓類再睇月費",
     description:
-      "同樣 1000M，公屋、居屋、私樓、村屋計劃通常不同。先睇樓類同參考價，安裝以電訊商確認。",
-    title: "光纖寬頻攻略：先分樓類再睇月費",
-    excerpt: "香港光纖唔係一張價表。先分公屋、居屋、私樓、村屋，再對參考月費。",
-    titleEn: "Fibre guide: housing type first, then the fee",
-    excerptEn: "Hong Kong fibre is not one price list. Sort public, HOS, private and village housing first.",
-    descriptionEn: "The same 1000M plan is often priced differently by housing type. Check the type, then confirm install with the carrier.",
-    h1En: "Fibre broadband: sort housing type before the monthly fee",
-    related: ["fiber-vs-5g", "village", "public-vs-hos", "is-1000m-enough", "switch-broadband"],
-    plans: [{ href: "/plans?cat=broadband", label: "去光纖格價" }],
+      "香港光纖寬頻唔係一張價表。同樣 1000M，公屋、居屋、私樓、村屋月費同計劃通常不同。先分樓類，再對 1000M／2500M 同轉台注意。覆蓋同安裝以電訊商確認為準。",
+    title: "香港光纖寬頻點揀：先分樓類再睇月費",
+    excerpt: "香港光纖唔係一張價表。先分公屋、居屋、私樓、村屋，再對參考月費同 1000M／2500M。",
+    titleEn: "Hong Kong fibre guide: housing type first, then the fee",
+    excerptEn:
+      "Hong Kong fibre is not one price list. Sort public, HOS, private and village housing first, then compare 1000M and 2500M.",
+    descriptionEn:
+      "Hong Kong fibre is not one price list. The same 1000M plan is often priced differently for public housing, HOS, private and village homes. Sort the type, then confirm install with the carrier.",
+    h1En: "Hong Kong fibre: sort housing type before the monthly fee",
+    published: "2026-09-09",
+    modified: "2026-09-10",
+    related: [
+      "fiber-vs-5g",
+      "village",
+      "public-vs-hos",
+      "is-1000m-enough",
+      "switch-broadband",
+      "contract-fees",
+      "home5g",
+    ],
+    plans: [
+      { href: "/plans?cat=broadband", label: "去光纖格價" },
+      { href: "/plans?cat=home5g", label: "去 5G 家居格價" },
+    ],
     estates: [
+      { href: "/estates", label: "屋苑目錄" },
       { href: "/estates/tin-yiu", label: "天耀邨" },
       { href: "/estates/taikoo-shing", label: "太古城" },
     ],
@@ -29,15 +45,41 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "香港光纖不是一張價表",
         paragraphs: [
           "同一句「1000M 光纖」，公屋、居屋、私樓、村屋見到嘅計劃同月費通常唔同。電訊商會按屋苑類型、批量合約、入線路經報價，所以齊Quote 先叫你揀樓類，而唔係丟一張全港劃一價。",
-          "網上記錄嘅月費係參考。覆蓋、完工期、豁免安裝費同路由器條款，申請時先由電訊商確認。",
+          "網上記錄嘅月費係參考。覆蓋、完工期、豁免安裝費同路由器條款，申請時先由電訊商確認。想一次過對實際計劃，可開 [光纖格價](/plans?cat=broadband)。",
         ],
       },
       {
         heading: "公屋、居屋、私樓、村屋點分",
         paragraphs: [
-          "公屋同埋居屋多數有指定批量價，選擇相對集中，記住用對應樓類去篩，唔好用私樓價去估公屋。想知分別可睇 [公屋同居屋有咩分別](/guides/public-vs-hos)。",
-          "私樓選擇通常多啲，合約期、路由器、家居電話組合都較密。村屋係另一批計劃，月費同安裝環境都可以同屋邨差好遠，詳情見 [村屋寬頻點算](/guides/village)。",
+          "公屋同埋居屋多數有指定批量價，選擇相對集中，記住用對應樓類去篩，唔好用私樓價去估公屋。想知分別可睇 [公屋同居屋有咩分別](/guides/public-vs-hos)。公屋例子：[天耀邨](/estates/tin-yiu)。",
+          "私樓選擇通常多啲，合約期、路由器、家居電話組合都較密，例如 [太古城](/estates/taikoo-shing)。村屋係另一批計劃，月費同安裝環境都可以同屋邨差好遠，詳情見 [村屋寬頻點算](/guides/village)。",
         ],
+        table: {
+          caption: "四類樓點分",
+          headers: ["樓類", "點揀"],
+          rows: [
+            {
+              label: "公屋",
+              value: "指定批量價，選擇集中。唔好用私樓價去估。",
+              href: "/guides/public-vs-hos",
+            },
+            {
+              label: "居屋",
+              value: "同樣有批量價，同公屋分開篩，每個屋苑合約可能唔同。",
+              href: "/guides/public-vs-hos",
+            },
+            {
+              label: "私樓",
+              value: "選擇較多，合約期、路由器、家居電話組合較密。",
+              href: "/estates/taikoo-shing",
+            },
+            {
+              label: "村屋",
+              value: "另一批計劃，月費同安裝環境都可以同屋邨差好遠。",
+              href: "/guides/village",
+            },
+          ],
+        },
       },
       {
         heading: "1000M 同 2500M+ 點揀",
@@ -48,14 +90,14 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "轉台要問清楚嘅四件事",
         paragraphs: [
-          "舊約完約日、新線安裝期、可唔可以豁免安裝費、路由器係送出、包用定合約後要還。寬頻唔能夠攜號過台，要新線裝好先停舊台，先唔會斷網。步驟見 [轉寬頻點樣減少斷網](/guides/switch-broadband)。",
+          "舊約完約日、新線安裝期、可唔可以豁免安裝費、路由器係送出、包用定合約後要還。寬頻唔能夠攜號過台，要新線裝好先停舊台，先唔會斷網。步驟見 [轉寬頻點樣減少斷網](/guides/switch-broadband)。月費以外仲有安裝費、預繳、合約，見 [月費以外](/guides/contract-fees)。",
           DISCLAIMER,
         ],
       },
       {
         heading: "下一步",
         paragraphs: [
-          "返首頁輸入屋苑，或者直接開 [光纖格價](/plans?cat=broadband)。想比較免拉線方案，可睇 [光纖同 5G 家居點揀](/guides/fiber-vs-5g)。屋苑例子：[天耀邨](/estates/tin-yiu)、[太古城](/estates/taikoo-shing)。",
+          "返首頁輸入屋苑，或者直接開 [光纖格價](/plans?cat=broadband)。想比較免拉線方案，可睇 [光纖同 5G 家居點揀](/guides/fiber-vs-5g) 或者 [5G 家居攻略](/guides/home5g)。屋苑例子：[天耀邨](/estates/tin-yiu)、[太古城](/estates/taikoo-shing)；全部屋苑見 [屋苑目錄](/estates)。",
         ],
       },
     ],
@@ -63,13 +105,104 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "Fibre is not one price list",
         paragraphs: [
-          "The same 1000M fibre offer is usually different for public housing, HOS, private and village homes. Carriers quote by estate type and install path.",
+          "The same 1000M fibre offer is usually different for public housing, HOS, private and village homes. Carriers quote by estate type and install path. Open the [fibre compare page](/plans?cat=broadband) for reference plans.",
           "Fees on this site are a reference. Coverage, install dates and router terms are confirmed by the carrier.",
         ],
       },
       {
+        heading: "Public, HOS, private, village",
+        paragraphs: [
+          "Public and HOS housing usually have bulk rates. Do not use a private-estate price to guess a public-estate fee. See [public vs HOS](/guides/public-vs-hos).",
+          "Village houses are a different set of plans. Details: [village broadband](/guides/village).",
+        ],
+        table: {
+          caption: "Housing types",
+          headers: ["Type", "How to choose"],
+          rows: [
+            {
+              label: "Public",
+              value: "Bulk rates, fewer choices. Do not use private-estate prices.",
+              href: "/guides/public-vs-hos",
+            },
+            {
+              label: "HOS",
+              value: "Also bulk-rated; filter separately from public housing.",
+              href: "/guides/public-vs-hos",
+            },
+            {
+              label: "Private",
+              value: "More plans, contracts and router bundles.",
+              href: "/estates/taikoo-shing",
+            },
+            {
+              label: "Village",
+              value: "Separate plans; install conditions can differ a lot.",
+              href: "/guides/village",
+            },
+          ],
+        },
+      },
+      {
+        heading: "1000M vs 2500M+",
+        paragraphs: [
+          "For browsing, calls and one or two 4K streams, 1000M is usually enough. A busy household or lots of uploads may want 2500M+. See [is 1000M enough](/guides/is-1000m-enough).",
+        ],
+      },
+      {
+        heading: "Four things to ask when you switch",
+        paragraphs: [
+          "Contract end date, install date, install-fee waiver, and whether the router is a gift or must be returned. Broadband cannot port a number. See [switching broadband](/guides/switch-broadband).",
+        ],
+      },
+      {
         heading: "Next step",
-        paragraphs: ["Open the fibre compare page or type your estate on the home page."],
+        paragraphs: [
+          "Open the fibre compare page or type your estate on the home page. To compare a wireless option, see [fibre vs 5G home](/guides/fiber-vs-5g).",
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "公屋同居屋光纖月費會唔會不同？",
+        a: "會。公屋同埋居屋多數有指定批量價，選擇相對集中，唔好用私樓價去估公屋。每個屋邨／屋苑合約都可能唔同，篩選時分開揀，申請時填齊屋苑名稱。詳見 [公屋同居屋有咩分別](/guides/public-vs-hos)。",
+      },
+      {
+        q: "一般家庭 1000M 光纖夠唔夠？",
+        a: "上網、開會、一兩路 4K，1000M 已經夠用。屋企人多、經常上傳大檔，先考慮 2500M 或以上。速度亦受樓內 Wi-Fi、路由器同牆身影響。可再睇 [1000M 夠唔夠](/guides/is-1000m-enough)。",
+      },
+      {
+        q: "村屋有冇光纖？",
+        a: "有指定計劃，但唔等於公屋價，亦唔等於一定拉到。現場環境、村路、入線都要電訊商確認。拉唔到可以一併比較 [5G 家居](/guides/home5g)。詳見 [村屋寬頻點算](/guides/village)。",
+      },
+      {
+        q: "轉寬頻會唔會斷網？",
+        a: "寬頻唔能夠攜號過台。要新線裝好先停舊台，先唔會斷網。問清楚舊約完約日、新線安裝期、豁免安裝費同路由器條款。步驟見 [轉寬頻點樣減少斷網](/guides/switch-broadband)。",
+      },
+      {
+        q: "點樣查核自己屋苑嘅光纖報價？",
+        a: "喺齊Quote 輸入屋苑，或者開 [光纖格價](/plans?cat=broadband) 揀樓類，再用 WhatsApp 查核。覆蓋、完工期同月費以電訊商確認為準。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Are public-housing and HOS fibre fees the same?",
+        a: "Usually not. They often have bulk rates and should be filtered separately. See [public vs HOS](/guides/public-vs-hos).",
+      },
+      {
+        q: "Is 1000M enough for a typical home?",
+        a: "For browsing, calls and one or two 4K streams, yes. A busier household may want 2500M+. See [is 1000M enough](/guides/is-1000m-enough).",
+      },
+      {
+        q: "Do village houses have fibre?",
+        a: "Some do, on separate plans. Coverage and install still need carrier confirmation. See [village broadband](/guides/village).",
+      },
+      {
+        q: "Will switching broadband cut the connection?",
+        a: "Broadband cannot port a number. Install the new line first, then stop the old one. See [switching broadband](/guides/switch-broadband).",
+      },
+      {
+        q: "How do I check a quote for my estate?",
+        a: "Enter the estate on ChaiQuote or open the [fibre compare page](/plans?cat=broadband), then confirm on WhatsApp. Fees and coverage are confirmed by the carrier.",
       },
     ],
   },

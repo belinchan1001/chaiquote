@@ -8,7 +8,8 @@
  */
 import { formatFee, PLANS, PROVIDER_MAP, type Category, type Housing, type Plan } from "./plans.ts";
 import { ESTATE_PAGES, estatePagePath } from "./estate-pages.ts";
-import { GUIDES } from "./guides.ts";
+import { GUIDES, type Guide } from "./guides.ts";
+import { SITE } from "./site.ts";
 
 export const DEFAULT_SEO_ORIGIN = "https://www.chaiquote.hk";
 
@@ -110,12 +111,15 @@ export const STATIC_SITEMAP_PAGES: readonly SitemapPage[] = [
   { path: "/privacy", changefreq: "monthly", priority: "0.4" },
 ];
 
+/** Category hub guides rank above one-off articles. */
+export const HUB_GUIDE_SLUGS = new Set(["fiber", "home5g", "mobile", "business"]);
+
 export const SITEMAP_PAGES: readonly SitemapPage[] = [
   ...STATIC_SITEMAP_PAGES,
   ...GUIDES.map((guide) => ({
     path: `/guides/${guide.slug}`,
     changefreq: "monthly" as const,
-    priority: "0.6",
+    priority: HUB_GUIDE_SLUGS.has(guide.slug) ? "0.8" : "0.6",
   })),
   ...ESTATE_PAGES.map((page) => ({
     path: estatePagePath(page),
@@ -209,6 +213,59 @@ export function planJsonLd(plan: Plan) {
       { "@type": "PropertyValue", name: "樓類", value: planHousingLabel(plan) },
     ],
   };
+}
+
+function plainText(value: string): string {
+  return value.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*\*([^*]+)\*\*/g, "$1");
+}
+
+export function guideJsonLd(guide: Guide) {
+  const url = canonicalUrl(`/guides/${guide.slug}`);
+  const graph: Record<string, unknown>[] = [
+    {
+      "@type": "Article",
+      "@id": `${url}#article`,
+      headline: guide.h1,
+      name: guide.seoTitle,
+      description: guide.description,
+      inLanguage: "zh-HK",
+      datePublished: guide.published ?? "2026-09-09",
+      dateModified: guide.modified ?? guide.published ?? "2026-09-09",
+      mainEntityOfPage: url,
+      url,
+      author: { "@type": "Organization", name: SITE.name, url: SITE.url },
+      publisher: {
+        "@type": "Organization",
+        name: SITE.name,
+        url: SITE.url,
+        logo: { "@type": "ImageObject", url: `${SITE.url}/icon-512.png` },
+      },
+      image: `${SITE.url}/og.jpg`,
+      ...(guide.slug === "fiber"
+        ? { keywords: "香港光纖寬頻,公屋寬頻,居屋寬頻,私樓光纖,村屋光纖,1000M" }
+        : {}),
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "首頁", item: canonicalUrl("/") },
+        { "@type": "ListItem", position: 2, name: "攻略", item: canonicalUrl("/guides") },
+        { "@type": "ListItem", position: 3, name: guide.h1, item: url },
+      ],
+    },
+  ];
+  if (guide.faq?.length) {
+    graph.push({
+      "@type": "FAQPage",
+      "@id": `${url}#faq`,
+      mainEntity: guide.faq.map((item) => ({
+        "@type": "Question",
+        name: item.q,
+        acceptedAnswer: { "@type": "Answer", text: plainText(item.a) },
+      })),
+    });
+  }
+  return { "@context": "https://schema.org", "@graph": graph };
 }
 
 function escapeXml(value: string): string {
