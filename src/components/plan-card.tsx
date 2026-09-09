@@ -6,7 +6,6 @@ import { PlanBadges } from "@/components/plan-badges";
 import { ProviderMark } from "@/components/provider-mark";
 import { QuoteLink } from "@/components/quote-link";
 import { useDesk } from "@/lib/desk";
-import { registerFoilCard } from "@/lib/foil-scroll";
 import { useI18n } from "@/lib/i18n";
 import {
   averageFee,
@@ -18,6 +17,17 @@ import {
   type Plan,
 } from "@/lib/plans";
 import { cn } from "@/lib/utils";
+
+function prefersReducedMotion() {
+  return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function playFoilSweep(el: HTMLElement) {
+  if (prefersReducedMotion()) return;
+  el.classList.remove("is-foil-sweep");
+  void el.offsetWidth;
+  el.classList.add("is-foil-sweep");
+}
 
 export function PlanCard({ plan }: { plan: Plan }) {
   const shineRef = useRef<HTMLElement>(null);
@@ -33,18 +43,44 @@ export function PlanCard({ plan }: { plan: Plan }) {
   useEffect(() => {
     if (!plan.quotePick) return;
     const el = shineRef.current;
-    if (!el) return;
-    return registerFoilCard(el);
+    if (!el || prefersReducedMotion()) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          playFoilSweep(el);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(el);
+
+    const onEnd = (event: AnimationEvent) => {
+      if (event.animationName !== "foil-sweep") return;
+      el.classList.remove("is-foil-sweep");
+    };
+    el.addEventListener("animationend", onEnd);
+
+    return () => {
+      io.disconnect();
+      el.removeEventListener("animationend", onEnd);
+    };
   }, [plan.quotePick, plan.id]);
 
   return (
     <article
       ref={shineRef}
+      onPointerDown={plan.quotePick ? () => {
+        const el = shineRef.current;
+        if (el) playFoilSweep(el);
+      } : undefined}
       className={cn(
         "flex flex-col rounded-xl bg-card p-5 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
         plan.quotePick && "plan-card-shine",
       )}
     >
+      {plan.quotePick ? <span className="foil" aria-hidden="true" /> : null}
       <div className="flex items-start justify-between gap-3">
         <ProviderMark id={plan.providerId} />
         <div className="flex items-center gap-1">

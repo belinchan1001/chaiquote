@@ -105,13 +105,9 @@
   .nav-progress-bar,
   .popover-in,
   .plan-card-shine,
-  .plan-card-shine::before {
+  .plan-card-shine::before,
+  .plan-card-shine > .foil {
     animation: none !important;
-  }
-
-  .plan-card-shine::before {
-    opacity: 0.1 !important;
-    background-position: 0 0, 28% 42% !important;
   }
 
   .plan-card-shine {
@@ -286,41 +282,40 @@
     background-origin: padding-box, border-box;
     background-clip: padding-box, border-box;
     animation: quote-pick-shine 4.8s linear infinite;
-    --foil-x: 28%;
-    --foil-y: 42%;
-    --foil-opacity: 0.12;
   }
 
-  /* Scroll-driven holofoil under opaque text. Inset keeps the 3px border clear. */
-  .plan-card-shine::before {
-    content: "";
+  /* One-shot holofoil under opaque text. Inset keeps the 3px border clear. */
+  .plan-card-shine > .foil {
     pointer-events: none;
     position: absolute;
     inset: 3px;
     z-index: 0;
     border-radius: inherit;
-    opacity: var(--foil-opacity);
+    opacity: 0.3;
     mix-blend-mode: overlay;
-    background-image:
-      linear-gradient(
-        128deg,
-        rgba(186, 230, 253, 0.28) 0%,
-        rgba(224, 242, 254, 0.12) 40%,
-        rgba(221, 214, 254, 0.22) 100%
-      ),
-      linear-gradient(
-        125deg,
-        transparent 0%,
-        transparent 32%,
-        rgba(186, 230, 253, 0.7) 44%,
-        rgba(255, 255, 255, 0.95) 50%,
-        rgba(251, 207, 232, 0.7) 56%,
-        rgba(221, 214, 254, 0.55) 62%,
-        transparent 74%,
-        transparent 100%
-      );
-    background-size: auto, 220% 220%;
-    background-position: 0 0, var(--foil-x) var(--foil-y);
+    background-image: linear-gradient(
+      125deg,
+      rgba(186, 230, 253, 0.55) 0%,
+      rgba(255, 255, 255, 0.85) 28%,
+      rgba(186, 230, 253, 0.45) 46%,
+      rgba(251, 207, 232, 0.55) 62%,
+      rgba(221, 214, 254, 0.5) 80%,
+      rgba(186, 230, 253, 0.4) 100%
+    );
+    background-size: 220% 220%;
+    background-position: 28% 42%;
+  }
+
+  .plan-card-shine.is-foil-sweep > .foil {
+    opacity: 0.42;
+    animation: foil-sweep 1.1s ease-out;
+  }
+
+  @media (hover: hover) {
+    .plan-card-shine:hover > .foil {
+      opacity: 0.42;
+      animation: foil-sweep 1.1s ease-out;
+    }
   }
 
   .plan-card-shine > * {
@@ -328,9 +323,25 @@
     z-index: 1;
   }
 
+  .plan-card-shine > .foil {
+    z-index: 0;
+  }
+
   @keyframes quote-pick-shine {
     to {
       --quote-pick-angle: 360deg;
+    }
+  }
+
+  @keyframes foil-sweep {
+    0% {
+      background-position: 0% 88%;
+    }
+    70% {
+      background-position: 92% 8%;
+    }
+    100% {
+      background-position: 28% 42%;
     }
   }
 

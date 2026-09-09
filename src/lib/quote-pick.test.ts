@@ -55,12 +55,14 @@ describe("齊Quote pick badge", () => {
     const card = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
 
     assert.match(card, /<article[\s\S]*plan\.quotePick && "plan-card-shine"/);
+    assert.match(card, /plan\.quotePick \? <span className="foil"/);
     assert.doesNotMatch(card, /is-featured/);
-    assert.doesNotMatch(card, /formatFee\(plan\.monthlyFee\)[\s\S]{0,200}plan-card-shine/);
-    assert.match(card, /registerFoilCard/);
-    assert.doesNotMatch(card, /foil-sweep-enter|foil-sweep-play/);
-    assert.doesNotMatch(card, /onPointerDown/);
+    assert.doesNotMatch(card, /formatFee\(plan\.monthlyFee\)[\s\S]{0,200}(plan-card-shine|className="foil")/);
+    assert.match(card, /onPointerDown/);
+    assert.match(card, /is-foil-sweep/);
+    assert.match(card, /IntersectionObserver/);
     assert.doesNotMatch(card, /addEventListener\(\s*["']scroll["']/);
+    assert.doesNotMatch(card, /registerFoilCard|foil-scroll/);
     assert.match(css, /@property --quote-pick-angle/);
     assert.match(css, /\.plan-card-shine\s*\{/);
     assert.match(css, /conic-gradient\(/);
@@ -102,10 +104,10 @@ describe("齊Quote pick badge", () => {
     );
 
     const foil =
-      [...css.matchAll(/\.plan-card-shine::before\s*\{([^}]+)\}/g)]
+      [...css.matchAll(/\.plan-card-shine > \.foil\s*\{([^}]+)\}/g)]
         .map((match) => match[1])
         .find((block) => /linear-gradient/.test(block)) ?? "";
-    assert.match(css, /\.plan-card-shine::before\s*\{/);
+    assert.match(css, /\.plan-card-shine > \.foil\s*\{/);
     assert.match(foil, /pointer-events:\s*none/);
     assert.match(foil, /inset:\s*3px/);
     assert.match(foil, /linear-gradient/);
@@ -115,15 +117,24 @@ describe("齊Quote pick badge", () => {
     assert.match(foil, /rgba\(221, 214, 254/);
     assert.match(foil, /rgba\(251, 207, 232/);
     assert.doesNotMatch(foil, /animation:/);
-    assert.match(foil, /opacity:\s*var\(--foil-opacity\)/);
-    assert.match(foil, /var\(--foil-x\)\s+var\(--foil-y\)/);
-    assert.doesNotMatch(css, /@keyframes foil-sweep/);
-    assert.doesNotMatch(css, /\.plan-card-shine:hover::before[\s\S]*animation:\s*foil-sweep/);
+    assert.match(foil, /opacity:\s*0\.3/);
+    assert.match(css, /\.plan-card-shine\.is-foil-sweep > \.foil[\s\S]*animation:\s*foil-sweep 1\.1s ease-out/);
+    assert.match(css, /\.plan-card-shine:hover > \.foil[\s\S]*animation:\s*foil-sweep 1\.1s ease-out/);
+    assert.match(css, /@keyframes foil-sweep/);
+    assert.doesNotMatch(css, /animation:\s*foil-sweep[^\n]*infinite/);
+    assert.doesNotMatch(
+      css,
+      /@keyframes foil-sweep\s*\{[^}]*(opacity|transform|filter)/,
+    );
+    const restOpacity = Number((foil.match(/opacity:\s*([0-9.]+)/) ?? [])[1]);
+    assert.ok(restOpacity > 0.18, `resting foil too faint: ${restOpacity}`);
+    assert.ok(restOpacity < 0.42, `resting foil too strong: ${restOpacity}`);
     assert.match(
       css,
-      /prefers-reduced-motion:\s*reduce[\s\S]*\.plan-card-shine::before[\s\S]*opacity:\s*0\.1/,
+      /prefers-reduced-motion:\s*reduce[\s\S]*\.plan-card-shine > \.foil[\s\S]*animation:\s*none/,
     );
     assert.match(css, /\.plan-card-shine > \*\s*\{[\s\S]*z-index:\s*1/);
+    assert.match(css, /\.plan-card-shine > \.foil\s*\{[\s\S]*z-index:\s*0/);
     assert.doesNotMatch(css, /\.is-featured/);
     assert.doesNotMatch(css, /\.plan-card-shine\s*\{[^}]*animation:[^;}]*opacity/);
   });
