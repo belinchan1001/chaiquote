@@ -11,9 +11,9 @@ import { compactSearch, parsePlansSearch } from "@/lib/search";
 import { canonicalUrl } from "@/lib/seo";
 import type { Housing } from "@/lib/plans";
 
-const TITLE = "熱門屋苑價格｜齊Quote";
+const TITLE = "香港屋苑寬頻比較｜齊Quote";
 const DESCRIPTION =
-  "熱門屋苑價格。可以直接選擇屋苑，找出最適合計劃。月費同計劃詳情見各屋苑頁或格價頁。實際覆蓋同安裝期以電訊商確認為準。";
+  "按地區瀏覽香港屋苑寬頻比較。每個屋苑可睇適用樓類計劃。實際覆蓋同安裝期以電訊商確認為準。";
 
 const HOUSING_FALLBACK: { id: Housing; label: string }[] = [
   { id: "public", label: "公屋" },
@@ -79,7 +79,7 @@ function EstatesIndexPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <h1 className="text-title font-semibold">熱門屋苑價格</h1>
+      <h1 className="text-title font-semibold">香港屋苑寬頻比較</h1>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
         可以直接選擇屋苑，找出最適合計劃。選完會用同首頁一樣嘅篩選，去格價頁睇啱呢類樓嘅計劃。
       </p>
@@ -133,14 +133,13 @@ function EstatesIndexPage() {
             <h2 className="text-lg font-semibold">{group.district}</h2>
             <p className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">
               {group.pages.map((page) => (
-                <Link
+                <a
                   key={page.slug}
-                  to="/estates/$slug"
-                  params={{ slug: page.slug }}
+                  href={`/estates/${page.slug}`}
                   className="inline-flex h-11 items-center text-accent underline-offset-4 hover:underline"
                 >
                   {page.estate.name}
-                </Link>
+                </a>
               ))}
             </p>
           </section>

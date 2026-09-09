@@ -19,18 +19,20 @@ import { SITEMAP_PAGES } from "./seo.ts";
 const here = dirname(fileURLToPath(import.meta.url));
 
 describe("estate SEO pages", () => {
-  it("only publishes estates that exist in the catalogue, with unique slugs", () => {
-    assert.equal(ESTATE_PAGE_NAMES.length, 30);
+  it("publishes every catalogue estate with a unique HTML slug", () => {
+    assert.equal(ESTATE_PAGES.length, ESTATES.length);
     const slugs = new Set<string>();
-    for (const name of ESTATE_PAGE_NAMES) {
-      assert.ok(ESTATES.some((estate) => estate.name === name), name);
-    }
+    const names = new Set<string>();
     for (const page of ESTATE_PAGES) {
       assert.equal(slugs.has(page.slug), false, page.slug);
       slugs.add(page.slug);
-      assert.ok(page.slug.length > 2);
+      names.add(page.estate.name);
+      assert.ok(page.slug.length > 2, page.estate.name);
       assert.match(page.slug, /^[a-z0-9-]+$/);
     }
+    assert.equal(names.size, ESTATES.length);
+    assert.equal(getEstatePage("tin-yiu")?.estate.name, "天耀邨");
+    assert.equal(getEstatePage("wah-fu")?.estate.name, "華富邨");
     assert.equal(SKIPPED_ESTATE_REQUESTS.some((item) => item.query === "將軍澳廣場"), true);
     assert.equal(SKIPPED_ESTATE_REQUESTS.some((item) => item.query === "荔景"), true);
   });
@@ -45,11 +47,13 @@ describe("estate SEO pages", () => {
       broadband.every((plan) => plan.housing === "all" || plan.housing.includes("public")),
     );
     assert.ok(broadband.every((plan) => plan.housing === "all" || !plan.housing.every((h) => h === "private")));
-    assert.match(estateSeoTitle(tinYiu.estate), /天耀邨寬頻比較 2026｜公屋｜齊Quote/);
+    assert.match(estateSeoTitle(tinYiu.estate), /天耀邨寬頻比較｜公屋｜齊Quote/);
   });
 
   it("adds the directory and each estate page to the sitemap", () => {
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/estates"));
+    const estateUrls = SITEMAP_PAGES.filter((page) => page.path.startsWith("/estates/"));
+    assert.equal(estateUrls.length, ESTATE_PAGES.length);
     for (const page of ESTATE_PAGES) {
       assert.ok(
         SITEMAP_PAGES.some((item) => item.path === `/estates/${page.slug}`),
@@ -83,15 +87,11 @@ describe("estate SEO pages", () => {
     assert.match(panel, /tin-yiu/);
     assert.match(panel, /全部屋苑/);
     assert.match(dir, /estate-dir-q/);
-    assert.match(dir, /熱門屋苑價格/);
-    assert.match(dir, /可以直接選擇屋苑/);
-    assert.match(dir, /EstateSuggest/);
-    assert.match(dir, /to: "\/plans"/);
-    assert.match(dir, /compactSearch/);
-    const wahFu = ESTATES.find((item) => item.name === "華富邨");
+    assert.match(dir, /香港屋苑寬頻比較/);
+    assert.match(dir, /href=\{\`\/estates\/\$\{page\.slug\}\`\}/);
+    const wahFu = getEstatePage("wah-fu");
     assert.ok(wahFu);
-    const target = estateSelectTarget(wahFu);
-    assert.equal(target.kind, "plans");
+    assert.deepEqual(estateSelectTarget(wahFu.estate), { kind: "page", slug: "wah-fu" });
     const tin = getEstatePage("tin-yiu");
     assert.ok(tin);
     assert.deepEqual(estateSelectTarget(tin.estate), { kind: "page", slug: "tin-yiu" });

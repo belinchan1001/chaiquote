@@ -2,7 +2,7 @@ import { ESTATES, type Estate } from "./estates.ts";
 import { filterPlans, type Housing, type Plan } from "./plans.ts";
 import { DISTRICTS } from "./site.ts";
 
-/** First-batch SEO estate pages. Names must exist in ESTATES. */
+/** First-batch SEO estate pages. Their slugs stay stable. */
 export const ESTATE_PAGE_NAMES = [
   "天耀邨",
   "天瑞邨",
@@ -59,13 +59,34 @@ export type EstatePage = {
 };
 
 function slugFromEstate(estate: Estate): string {
+  const fallback = SLUG_FALLBACK[estate.name];
+  if (fallback) return fallback;
   const english = estate.aliases.find((alias) => /[A-Za-z]/.test(alias) && alias.replace(/[^A-Za-z]/g, "").length >= 3);
   const raw = english ?? estate.name;
-  return raw
+  const slug = raw
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+  if (slug.length >= 3 && /[a-z]/.test(slug)) return slug;
+  return uniqueSlug("estate", new Set());
 }
+
+const SLUG_FALLBACK: Record<string, string> = {
+  彩虹道邨: "choi-hung-road",
+  朗風苑: "long-fung-court",
+  匯熙苑: "wui-hei-court",
+  影輝苑: "ying-fai-court",
+  海麗: "hoi-lai-mall",
+  啟德1號: "kai-tak-1",
+  啟陽苑: "kai-yeung-court",
+  荃灣廣場: "tsuen-wan-plaza",
+  長亨: "cheung-hang-block",
+  裕豐苑: "yu-fung-court",
+  坑口村: "hang-hau-village",
+  天水圍天華: "tin-hua-tin-shui-wai",
+  荃灣新村: "tsuen-wan-san-tsuen",
+  海壩南台: "hoi-pa-nam-toi",
+};
 
 function requireEstate(name: string): Estate {
   const estate = ESTATES.find((item) => item.name === name);
@@ -73,10 +94,34 @@ function requireEstate(name: string): Estate {
   return estate;
 }
 
-export const ESTATE_PAGES: readonly EstatePage[] = ESTATE_PAGE_NAMES.map((name) => {
-  const estate = requireEstate(name);
-  return { slug: slugFromEstate(estate), estate };
-});
+function uniqueSlug(base: string, used: Set<string>): string {
+  const seed = base || "estate";
+  if (!used.has(seed)) return seed;
+  let n = 2;
+  while (used.has(`${seed}-${n}`)) n += 1;
+  return `${seed}-${n}`;
+}
+
+function buildEstatePages(): EstatePage[] {
+  const used = new Set<string>();
+  const pages: EstatePage[] = [];
+  const firstBatch = new Set<string>(ESTATE_PAGE_NAMES);
+
+  function add(estate: Estate) {
+    const slug = uniqueSlug(slugFromEstate(estate), used);
+    used.add(slug);
+    pages.push({ slug, estate });
+  }
+
+  for (const name of ESTATE_PAGE_NAMES) add(requireEstate(name));
+  for (const estate of ESTATES) {
+    if (firstBatch.has(estate.name)) continue;
+    add(estate);
+  }
+  return pages;
+}
+
+export const ESTATE_PAGES: readonly EstatePage[] = buildEstatePages();
 
 const PAGE_BY_SLUG = new Map(ESTATE_PAGES.map((page) => [page.slug, page]));
 const PAGE_BY_NAME = new Map(ESTATE_PAGES.map((page) => [page.estate.name, page]));
@@ -98,7 +143,7 @@ export function estateHousingLabel(housing: Housing): string {
 }
 
 export function estateSeoTitle(estate: Estate): string {
-  return `${estate.name}寬頻比較 2026｜${estateHousingLabel(estate.housing)}｜齊Quote`;
+  return `${estate.name}寬頻比較｜${estateHousingLabel(estate.housing)}｜齊Quote`;
 }
 
 export function estateSeoDescription(estate: Estate): string {

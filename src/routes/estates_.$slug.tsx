@@ -65,13 +65,13 @@ function EstatePage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <Link to="/estates" className="text-sm text-muted hover:text-fg">
-        熱門屋苑價格
+        香港屋苑寬頻比較
       </Link>
       <p className="mt-6 text-xs font-medium tracking-wider text-muted">
         {estate.district}
         {estate.area ? ` · ${estate.area}` : ""} · {housing}
       </p>
-      <h1 className="mt-2 text-title font-semibold">{`${estate.name}寬頻比較`}</h1>
+      <h1 className="mt-2 text-title font-semibold">{`${estate.name}寬頻比較｜${housing}｜齊Quote`}</h1>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{estateIntro(estate)}</p>
       <div className="mt-6">
         <QuoteLink inquiry={inquiry}>{t("waQuote")}</QuoteLink>
