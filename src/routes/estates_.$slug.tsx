@@ -71,7 +71,7 @@ function EstatePage() {
         {estate.district}
         {estate.area ? ` · ${estate.area}` : ""} · {housing}
       </p>
-      <h1 className="mt-2 text-title font-semibold">{estate.name}寬頻比較</h1>
+      <h1 className="mt-2 text-title font-semibold">{`${estate.name}寬頻比較`}</h1>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{estateIntro(estate)}</p>
       <div className="mt-6">
         <QuoteLink inquiry={inquiry}>{t("waQuote")}</QuoteLink>
