@@ -150,25 +150,3 @@ export function relatedGuideSlug(estate: Estate): "village" | "fiber-vs-5g" {
 export function getEstatePageByName(name: string): EstatePage | undefined {
   return PAGE_BY_NAME.get(name);
 }
-
-export function estateSelectTarget(estate: Estate): { kind: "page"; slug: string } | { kind: "plans"; estate: string; housing: Housing } {
-  const page = PAGE_BY_NAME.get(estate.name);
-  if (page) return { kind: "page", slug: page.slug };
-  return { kind: "plans", estate: estate.name, housing: estate.housing };
-}
-
-export const HOT_ESTATE_NAMES = [
-  "天耀邨",
-  "天盛苑",
-  "天水圍嘉湖山莊",
-  "沙田第一城",
-  "瀝源邨",
-  "太古城",
-  "黃埔花園",
-  "美孚新邨",
-  "秀茂坪邨",
-  "朗屏邨",
-  "寶林邨",
-  "慈雲山邨",
-] as const;
-

@@ -9,10 +9,8 @@ import {
   ESTATE_PAGES,
   estateHousingLabel,
   estatePlans,
-  estateSelectTarget,
   estateSeoTitle,
   getEstatePage,
-  HOT_ESTATE_NAMES,
   SKIPPED_ESTATE_REQUESTS,
 } from "./estate-pages.ts";
 import { SITEMAP_PAGES } from "./seo.ts";
@@ -34,23 +32,6 @@ describe("estate SEO pages", () => {
     }
     assert.equal(SKIPPED_ESTATE_REQUESTS.some((item) => item.query === "將軍澳廣場"), true);
     assert.equal(SKIPPED_ESTATE_REQUESTS.some((item) => item.query === "荔景"), true);
-  });
-
-  it("sends published estates to their SEO page and others to /plans with housing", () => {
-    const published = getEstatePage("tin-yiu");
-    assert.ok(published);
-    assert.deepEqual(estateSelectTarget(published.estate), { kind: "page", slug: "tin-yiu" });
-    const wahFu = ESTATES.find((item) => item.name === "華富邨");
-    assert.ok(wahFu);
-    const target = estateSelectTarget(wahFu);
-    assert.equal(target.kind, "plans");
-    if (target.kind === "plans") {
-      assert.equal(target.housing, "public");
-      assert.equal(target.estate, "華富邨");
-    }
-    for (const name of HOT_ESTATE_NAMES) {
-      assert.ok(ESTATES.some((item) => item.name === name), name);
-    }
   });
 
   it("keeps public estate pages free of private-only fibre plans", () => {
@@ -89,19 +70,5 @@ describe("estate SEO pages", () => {
     assert.match(card, /to="\/plans\/\$planId"/);
     assert.match(css, /plan-list-enter/);
     assert.match(widget, /wa-pulse/);
-  });
-
-  it("keeps the homepage search-first without featured plan cards or the full filter panel", () => {
-    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
-    assert.match(home, /EstateNameSearch/);
-    assert.match(home, /HOT_ESTATE_NAMES/);
-    assert.doesNotMatch(home, /SearchPanel/);
-    assert.doesNotMatch(home, /FEATURED_IDS/);
-    assert.doesNotMatch(home, /PlanCard/);
-    const search = readFileSync(join(here, "../components/estate-name-search.tsx"), "utf8");
-    assert.match(search, /searchEstates\(q, 8\)/);
-    assert.match(search, /ESTATE_SEARCH_DELAY_MS = 180/);
-    assert.match(search, /ArrowDown/);
-    assert.match(search, /Escape/);
   });
 });

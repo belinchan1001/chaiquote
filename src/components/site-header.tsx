@@ -20,11 +20,14 @@ export function SiteHeader() {
   const compareCount = useDesk((s) => s.compare.length);
   const { t } = useI18n();
 
-  const links: { to: "/plans" | "/"; labelKey: MessageKey; search?: { cat: "broadband" | "home5g" | "mobile" | "business" } }[] = [
+  const links: { to: "/plans" | "/guides" | "/about" | "/estates"; labelKey: MessageKey; search?: { cat: "broadband" | "home5g" | "mobile" | "business" } }[] = [
     { to: "/plans", labelKey: "navFibre", search: { cat: "broadband" } },
     { to: "/plans", labelKey: "navHome5g", search: { cat: "home5g" } },
     { to: "/plans", labelKey: "navMobile", search: { cat: "mobile" } },
     { to: "/plans", labelKey: "navBusiness", search: { cat: "business" } },
+    { to: "/estates", labelKey: "navEstates" },
+    { to: "/guides", labelKey: "navGuides" },
+    { to: "/about", labelKey: "navAbout" },
   ];
 
   function isActive(link: (typeof links)[number]) {
@@ -52,13 +55,6 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="flex items-center gap-1 sm:gap-2">
-          <Link
-            to="/"
-            hash="estate-search"
-            className="flex h-11 items-center px-2 text-sm font-medium text-muted hover:text-fg"
-          >
-            搜屋苑
-          </Link>
           <LangToggle />
           <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
             <Link to="/compare">
@@ -95,9 +91,6 @@ export function SiteHeader() {
                 {t(link.labelKey)}
               </Link>
             ))}
-            <Link to="/" hash="estate-search" className="flex h-12 items-center text-base font-medium" onClick={() => setOpen(false)}>
-              搜屋苑
-            </Link>
             <Link to="/compare" className="flex h-12 items-center text-base font-medium" onClick={() => setOpen(false)}>
               {t("navCompare")}
               {compareCount ? `（${compareCount}）` : ""}
