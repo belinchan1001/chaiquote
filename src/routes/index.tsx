@@ -8,11 +8,13 @@ import { PLANS, formatFee, getPlan, minMonthlyFee, minVillageBroadbandFee } from
 import { SITE } from "@/lib/site";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import type { MessageKey } from "@/lib/messages";
+import { HOME_SEO_TITLE } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
 
 export const Route = createFileRoute("/")({
   component: Home,
   head: () => ({
-    meta: [{ title: `${SITE.name} · ${SITE.tagline}` }],
+    meta: [{ title: HOME_SEO_TITLE }],
   }),
 });
 
@@ -30,7 +32,7 @@ function Home() {
   const mobileFrom = minMonthlyFee("mobile");
   const villageFrom = minVillageBroadbandFee();
   const { t, updated } = useI18n();
-  usePageTitle(`${SITE.name} · ${t("tagline")}`);
+  usePageTitle(HOME_SEO_TITLE);
   const categories: { to: "/plans"; search: { cat: "broadband" | "home5g" | "mobile" | "business" }; src: string; label: MessageKey; text: MessageKey }[] = [
     { to: "/plans", search: { cat: "broadband" }, src: "/images/cat-broadband.jpg", label: "catBroadband", text: "catFibreText" },
     { to: "/plans", search: { cat: "home5g" }, src: "/images/cat-home5g.jpg", label: "catHome5g", text: "catHome5gText" },
@@ -48,6 +50,20 @@ function Home() {
 
   return (
     <div>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((item) => ({
+            "@type": "Question",
+            name: t(item.q),
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: t(item.a, { phone: SITE.phoneDisplay }),
+            },
+          })),
+        }}
+      />
       <section className="relative overflow-hidden">
         <img
           src="/images/hero-home.jpg"

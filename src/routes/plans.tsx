@@ -20,12 +20,12 @@ import {
 } from "@/lib/plans";
 import { addressHitValue } from "@/lib/address-search";
 import { compactSearch, parsePlansSearch, planListReplayKey } from "@/lib/search";
+import { CATEGORY_SEO, plansCategoryPath, canonicalUrl } from "@/lib/seo";
 import {
   CATEGORY_OPTIONS,
   GENERATION_OPTIONS,
   HOUSING_OPTIONS,
   SPEED_OPTIONS,
-  SITE,
 } from "@/lib/site";
 import type { MessageKey } from "@/lib/messages";
 
@@ -48,9 +48,21 @@ const HOUSING_KEYS: Record<Housing, MessageKey> = {
 export const Route = createFileRoute("/plans")({
   validateSearch: (search: Record<string, unknown>) => parsePlansSearch(search),
   component: PlansPage,
-  head: () => ({
-    meta: [{ title: `格價 · ${SITE.name}` }],
-  }),
+  head: ({ match }) => {
+    const cat = match.search.cat ?? "broadband";
+    const seo = CATEGORY_SEO[cat];
+    const url = canonicalUrl(plansCategoryPath(cat));
+    return {
+      meta: [
+        { title: seo.title },
+        { name: "description", content: seo.description },
+        { property: "og:title", content: seo.title },
+        { property: "og:description", content: seo.description },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
 });
 
 function catPatch(search: PlansSearch, cat: Category): PlansSearch {
@@ -84,7 +96,7 @@ function PlansPage() {
   const replayKey = planListReplayKey(search);
   const prevReplayKey = useRef(replayKey);
   const { t, providerName, categoryLabel, housingLabel } = useI18n();
-  usePageTitle(`${t("filterPlans")} · ${SITE.name}`);
+  usePageTitle(CATEGORY_SEO[search.cat].title);
 
   useEffect(() => {
     setVisible(PAGE_SIZE);

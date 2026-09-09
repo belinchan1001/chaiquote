@@ -4,12 +4,17 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { SITE } from "./site.ts";
+import { getPlan, PLANS } from "./plans.ts";
 import {
   canonicalRedirectLocation,
   canonicalUrl,
   canonicalUrlFromMatches,
   DEFAULT_SEO_ORIGIN,
+  HOME_SEO_TITLE,
   isLegacyProductionHost,
+  planJsonLd,
+  planSeoDescription,
+  planSeoTitle,
   renderRobotsTxt,
   renderSitemapXml,
   runtimeSeoOrigin,
@@ -66,6 +71,18 @@ describe("canonicalUrl", () => {
     assert.doesNotMatch(canonicalUrl("/privacy"), /\/$/);
     assert.doesNotMatch(canonicalUrl("/about"), /chaiquote\.vercel\.app/);
     assert.equal(canonicalUrlFromMatches([]), "https://www.chaiquote.hk/");
+    assert.equal(
+      canonicalUrlFromMatches([{ pathname: "/plans" }]),
+      "https://www.chaiquote.hk/plans?cat=broadband",
+    );
+    assert.equal(
+      canonicalUrlFromMatches([{ pathname: "/plans", search: { cat: "home5g", speed: 1000 } }]),
+      "https://www.chaiquote.hk/plans?cat=home5g",
+    );
+    assert.equal(
+      canonicalUrlFromMatches([{ pathname: "/plans/hkbn-ftth-1000-36m-98" }]),
+      "https://www.chaiquote.hk/plans/hkbn-ftth-1000-36m-98",
+    );
   });
 });
 
@@ -114,7 +131,17 @@ describe("renderSitemapXml", () => {
     }
     assert.doesNotMatch(xml, /chaiquote\.vercel\.app/);
     assert.doesNotMatch(xml, /https:\/\/chaiquote\.hk\//);
-    assert.ok(SITEMAP_PAGES.some((page) => page.path === "/privacy"));
+    assert.doesNotMatch(xml, /speed=/);
+    assert.doesNotMatch(xml, /provider=/);
+    assert.doesNotMatch(xml, /housing=/);
+    assert.ok(SITEMAP_PAGES.some((page) => page.path === "/plans?cat=broadband"));
+    assert.ok(SITEMAP_PAGES.every((page) => page.path !== "/plans"));
+    for (const plan of PLANS) {
+      assert.ok(
+        SITEMAP_PAGES.some((page) => page.path === `/plans/${plan.id}`),
+        `sitemap missing /plans/${plan.id}`,
+      );
+    }
   });
 
   it("can still render a vercel.app preview sitemap when asked", () => {
@@ -129,17 +156,40 @@ describe("renderSitemapXml", () => {
 });
 
 describe("renderRobotsTxt", () => {
-  it("allows all crawlers and points at the official www sitemap", () => {
+  it("allows plan and about pages, blocks preview internals, and points at www sitemap", () => {
     const robots = renderRobotsTxt();
-    assert.match(
-      robots,
-      /^User-agent: \*\nAllow: \/\n\nSitemap: https:\/\/www\.chaiquote\.hk\/sitemap\.xml\n$/,
-    );
+    assert.match(robots, /Allow: \/plans/);
+    assert.match(robots, /Allow: \/about/);
+    assert.match(robots, /Disallow: \/brand/);
+    assert.match(robots, /Disallow: \/__grok\//);
+    assert.match(robots, /Disallow: \/api\//);
+    assert.match(robots, /Sitemap: https:\/\/www\.chaiquote\.hk\/sitemap\.xml/);
     assert.doesNotMatch(robots, /vercel\.app/);
   });
 
   it("stays in sync with public/robots.txt", () => {
     const fromDisk = readFileSync(join(ROOT, "public/robots.txt"), "utf8");
     assert.equal(fromDisk, renderRobotsTxt());
+  });
+});
+
+describe("plan SEO copy", () => {
+  it("gives each plan a housing note and a 70–140 character description", () => {
+    assert.match(HOME_SEO_TITLE, /寬頻比較/);
+    for (const plan of PLANS) {
+      const title = planSeoTitle(plan);
+      const description = planSeoDescription(plan);
+      assert.match(title, /｜齊Quote$/);
+      assert.match(title, /月費 HK\$/);
+      assert.match(description, /公屋|居屋|私樓|村屋/);
+      assert.match(description, /以電訊商確認為準/);
+      assert.ok(description.length >= 70, `${plan.id} ${description.length} ${description}`);
+      assert.ok(description.length <= 110, `${plan.id} ${description.length} ${description}`);
+    }
+    const sample = getPlan("hkbn-ftth-1000-36m-98");
+    assert.ok(sample);
+    assert.match(planSeoTitle(sample), /1000M 連 Wi-Fi 6/);
+    assert.equal(planJsonLd(sample)["@type"], "Product");
+    assert.equal(planJsonLd(sample).offers.price, 98);
   });
 });

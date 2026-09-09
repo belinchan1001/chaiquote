@@ -6,6 +6,8 @@
  * Preview: set SEO_ORIGIN (e.g. https://chaiquote.vercel.app) so a Vercel
  * preview can emit its own sitemap without changing production defaults.
  */
+import { formatFee, PLANS, PROVIDER_MAP, type Category, type Housing, type Plan } from "./plans.ts";
+
 export const DEFAULT_SEO_ORIGIN = "https://www.chaiquote.hk";
 
 /** Production Vercel aliases only — never *.vercel.app preview hosts. */
@@ -34,12 +36,14 @@ export function canonicalUrl(pathname: string): string {
   return `${DEFAULT_SEO_ORIGIN}${path}`;
 }
 
-export function canonicalUrlFromMatches(matches: ReadonlyArray<{ pathname?: string }>): string {
-  const path =
-    [...matches]
-      .map((match) => match.pathname)
-      .filter((value): value is string => Boolean(value))
-      .at(-1) ?? "/";
+export function canonicalUrlFromMatches(
+  matches: ReadonlyArray<{ pathname?: string; search?: Record<string, unknown> }>,
+): string {
+  const last = [...matches].at(-1);
+  const path = last?.pathname ?? "/";
+  if (path === "/plans" || path === "/plans/") {
+    return canonicalUrl(plansCategoryPath(last?.search?.cat));
+  }
   return canonicalUrl(path);
 }
 
@@ -76,15 +80,28 @@ export type SitemapPage = {
   priority: string;
 };
 
-/** Indexable URLs. Keep in sync with the customer-facing routes we want crawled. */
-export const SITEMAP_PAGES: readonly SitemapPage[] = [
+const CATEGORY_PATHS: Record<Category, string> = {
+  broadband: "/plans?cat=broadband",
+  home5g: "/plans?cat=home5g",
+  mobile: "/plans?cat=mobile",
+  business: "/plans?cat=business",
+};
+
+export function plansCategoryPath(cat: unknown): string {
+  if (cat === "home5g" || cat === "mobile" || cat === "business" || cat === "broadband") {
+    return CATEGORY_PATHS[cat];
+  }
+  return CATEGORY_PATHS.broadband;
+}
+
+/** Static indexable URLs. Filter-parameter pages are not listed. */
+export const STATIC_SITEMAP_PAGES: readonly SitemapPage[] = [
   { path: "/", changefreq: "weekly", priority: "1.0" },
-  { path: "/plans", changefreq: "weekly", priority: "0.9" },
-  { path: "/plans?cat=broadband", changefreq: "weekly", priority: "0.8" },
+  { path: "/plans?cat=broadband", changefreq: "weekly", priority: "0.9" },
   { path: "/plans?cat=home5g", changefreq: "weekly", priority: "0.8" },
   { path: "/plans?cat=mobile", changefreq: "weekly", priority: "0.8" },
   { path: "/plans?cat=business", changefreq: "weekly", priority: "0.7" },
-  { path: "/quote", changefreq: "monthly", priority: "0.8" },
+  { path: "/quote", changefreq: "monthly", priority: "0.6" },
   { path: "/guides", changefreq: "monthly", priority: "0.7" },
   { path: "/guides/port-in", changefreq: "monthly", priority: "0.6" },
   { path: "/guides/fiber-vs-5g", changefreq: "monthly", priority: "0.6" },
@@ -94,8 +111,99 @@ export const SITEMAP_PAGES: readonly SitemapPage[] = [
   { path: "/privacy", changefreq: "monthly", priority: "0.4" },
 ];
 
+export const SITEMAP_PAGES: readonly SitemapPage[] = [
+  ...STATIC_SITEMAP_PAGES,
+  ...PLANS.map((plan) => ({
+    path: `/plans/${plan.id}`,
+    changefreq: "weekly" as const,
+    priority: "0.7",
+  })),
+];
+
+export const HOME_SEO_TITLE = "齊Quote｜香港寬頻比較：光纖、5G家居、手機月費";
+
+export const CATEGORY_SEO: Record<Category, { title: string; description: string }> = {
+  broadband: {
+    title: "光纖寬頻比較｜齊Quote",
+    description:
+      "比較香港光纖寬頻月費，涵蓋公屋、居屋、私樓及村屋計劃。實際月費、覆蓋及安裝安排以電訊商確認為準。",
+  },
+  home5g: {
+    title: "5G家居寬頻比較｜齊Quote",
+    description:
+      "比較香港 5G 家居寬頻月費，免拉線隨插即用。實際速度、覆蓋及安裝安排以電訊商確認為準。",
+  },
+  mobile: {
+    title: "手機月費比較｜齊Quote",
+    description:
+      "比較香港手機月費計劃，包括 5G、4.5G 及轉台優惠。實際月費及用量以電訊商確認為準。",
+  },
+  business: {
+    title: "商業寬頻比較｜齊Quote",
+    description:
+      "比較香港商業寬頻月費，適合店舖、寫字樓及工作室。實際月費、覆蓋及安裝安排以電訊商確認為準。",
+  },
+};
+
+const HOUSING_ZH: Record<Housing, string> = {
+  public: "公屋",
+  hos: "居屋",
+  private: "私樓",
+  village: "村屋",
+};
+
+export function planHousingLabel(plan: Plan): string {
+  if (plan.housing === "all") return "公屋、居屋、私樓及村屋";
+  return plan.housing.map((id) => HOUSING_ZH[id]).join("、");
+}
+
+export function planSpeedLabel(plan: Plan): string {
+  if (plan.category === "home5g") return "100M–1000M";
+  if (plan.speedMbps) return `${plan.speedMbps}M`;
+  return "";
+}
+
+export function planSeoTitle(plan: Plan): string {
+  const provider = PROVIDER_MAP[plan.providerId].name;
+  const speed = planSpeedLabel(plan);
+  const mid = speed ? `${provider} ${speed}` : provider;
+  return `${plan.name}｜${mid}｜月費 ${formatFee(plan.monthlyFee)}｜齊Quote`;
+}
+
+export function planSeoDescription(plan: Plan): string {
+  const provider = PROVIDER_MAP[plan.providerId].name;
+  const speed = planSpeedLabel(plan);
+  const speedBit = speed ? `網絡${speed}。` : "";
+  let text = `${plan.name}由${provider}提供，月費${formatFee(plan.monthlyFee)}，${plan.contractMonths}個月合約。適用樓類：${planHousingLabel(plan)}。${speedBit}實際月費、覆蓋及安裝安排以電訊商確認為準。`;
+  if (text.length < 70) {
+    text = text.replace("以電訊商確認為準。", "詳情請向銷售員查詢，以電訊商確認為準。");
+  }
+  return text;
+}
+
+export function planJsonLd(plan: Plan) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: plan.name,
+    brand: { "@type": "Brand", name: PROVIDER_MAP[plan.providerId].name },
+    description: planSeoDescription(plan),
+    offers: {
+      "@type": "Offer",
+      price: plan.monthlyFee,
+      priceCurrency: "HKD",
+      availability: "https://schema.org/InStock",
+      url: canonicalUrl(`/plans/${plan.id}`),
+    },
+    additionalProperty: [
+      { "@type": "PropertyValue", name: "合約期", value: `${plan.contractMonths}個月` },
+      { "@type": "PropertyValue", name: "樓類", value: planHousingLabel(plan) },
+    ],
+  };
+}
+
 function escapeXml(value: string): string {
-  return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+  return value.replaceAll("&", "&").replaceAll("<", "<").replaceAll(">", ">");
 }
 
 export function renderSitemapXml(origin: string = DEFAULT_SEO_ORIGIN): string {
@@ -108,7 +216,20 @@ export function renderSitemapXml(origin: string = DEFAULT_SEO_ORIGIN): string {
 }
 
 export function renderRobotsTxt(origin: string = DEFAULT_SEO_ORIGIN): string {
-  return `User-agent: *\nAllow: /\n\nSitemap: ${seoOrigin(origin)}/sitemap.xml\n`;
+  const host = seoOrigin(origin);
+  return [
+    "User-agent: *",
+    "Allow: /",
+    "Allow: /plans",
+    "Allow: /guides",
+    "Allow: /about",
+    "Disallow: /brand",
+    "Disallow: /__grok/",
+    "Disallow: /api/",
+    "",
+    `Sitemap: ${host}/sitemap.xml`,
+    "",
+  ].join("\n");
 }
 
 export const SITEMAP_CONTENT_TYPE = "application/xml; charset=utf-8";

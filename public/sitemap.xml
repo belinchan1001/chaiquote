@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://www.chaiquote.hk/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://www.chaiquote.hk/plans</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.chaiquote.hk/plans?cat=broadband</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans?cat=broadband</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://www.chaiquote.hk/plans?cat=home5g</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.chaiquote.hk/plans?cat=mobile</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.chaiquote.hk/plans?cat=business</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.chaiquote.hk/quote</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.chaiquote.hk/quote</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/guides</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.chaiquote.hk/guides/port-in</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/guides/fiber-vs-5g</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -14,4 +13,121 @@
   <url><loc>https://www.chaiquote.hk/guides/village-onsite</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/about</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://www.chaiquote.hk/privacy</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-1000-36m-98</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-1000-36m-108</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-1000-24m-109</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-1000-36m-128</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-1000-12m-168</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-1000-12m-2800</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-1000-12m-mytv</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-2500-24m-149</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-2500-12m-218</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-5000</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-10000-entertainment</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-10000-ge800</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-village-200-27m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-village-500-27m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-village-1000-27m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-village-2500-upgrade</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-village-2000-24m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-village-2000-be230</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-village-2500-24m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-ftth-1000-public-36m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-ftth-2000-hos-36m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-ftth-1000-public-39m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-ftth-2000-public-36m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-ftth-1000-private-39m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-ftth-2000-private-36m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-ftth-1000-student</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-village-1g-phone-24m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-village-1g-router-30m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-village-2g-24m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-village-2g-tv-30m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-village-2g-wifi6-30m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-village-2g-wifi7-30m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-1000-private-36m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-1000-private-36m-198</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-1000-specified-24m-198</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-1000-private-24m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-1000-exclusive-36m-186</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-2500-private-24m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-2500-exclusive-36m-244</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-1000-public-36m-98</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-1000-public-36m-108</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-1000-public-36m-128</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-2500-public-36m-158</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-1000-private-36m-118</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-1000-private-36m-128</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-2500-private-36m-176</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-1000-village-24m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-1000-village-36m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-2500-village-24m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-2500-village-36m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-ftth-10000</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/icable-ftth-200-36m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/icable-ftth-1000-48m-58</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/icable-ftth-1000-private-36m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/icable-ftth-1000-public-48m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/icable-ftth-1000-public-36m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/icable-ftth-2000-private-36m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/icable-ftth-2000-public-36m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/icable-ftth-2000-public-24m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/cmhk-ftth-1000</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/cmhk-ftth-2500</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/smartone-ftth-1000</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-home5g-a-118</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-home5g-b-158</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-home5g-c-190</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-home5g-w6</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-home5g-e-108</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-home5g-w7</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/smartone-home5g-w6</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/cmhk-home5g-350-48-88</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/cmhk-home5g-350-30-118</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/cmhk-home5g-w7</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/cmhk-home5g-500-48-118</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/cmhk-home5g-500-30-148</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/cmhk-home5g-500-24-178</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/csl-home5g-wifi6</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/csl-home5g</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-home5g</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-45g-44</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-5g-60-79</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-5g-100-105</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-5g-70-cga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-5g-200-145</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/cmhk-5g-local-30-98</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/cmhk-5g-100-149</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/cmhk-5g-youth-100-138</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/cmhk-5g-youth-200-178</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/csl-45g-78</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/csl-5g-30</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/smartone-45g-78</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/smartone-45g-98</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/smartone-5g-30-youth</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/smartone-45g-120</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/smartone-5g-60-youth</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/smartone-5g-30-iphone</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/smartone-5g-60</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-45g-10</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-5g-30</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-5g-30-78-youth</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-45g-20</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-5g-100</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-5g-100-148</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-5g-cga-70</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-5g-50-cga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-5g-30-cga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-5g-200</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/cmhk-biz-1000</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-biz-1000</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-biz-1000</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-biz-1000</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-biz-2500</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-biz-2500</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-biz-5000</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-biz-5000</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hgc-biz-10000</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-biz-10000</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/netvigator-biz-10000</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 </urlset>

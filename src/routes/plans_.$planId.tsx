@@ -21,6 +21,8 @@ import {
 } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { canonicalUrl, planJsonLd, planSeoDescription, planSeoTitle } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
 
 export const Route = createFileRoute("/plans_/$planId")({
   component: PlanDetailPage,
@@ -29,9 +31,23 @@ export const Route = createFileRoute("/plans_/$planId")({
     if (!plan) throw notFound();
     return { plan };
   },
-  head: ({ loaderData }) => ({
-    meta: [{ title: loaderData ? `${loaderData.plan.name} · ${SITE.name}` : SITE.name }],
-  }),
+  head: ({ loaderData }) => {
+    if (!loaderData) return { meta: [{ title: SITE.name }] };
+    const { plan } = loaderData;
+    const title = planSeoTitle(plan);
+    const description = planSeoDescription(plan);
+    const url = canonicalUrl(`/plans/${plan.id}`);
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
 });
 
 function PlanDetailPage() {
@@ -46,7 +62,7 @@ function PlanDetailPage() {
     (p) => p.category === plan.category && p.id !== plan.id && p.providerId !== plan.providerId,
   ).slice(0, 2);
   const { t, tx, categoryLabel, housingList } = useI18n();
-  usePageTitle(`${tx(plan.name)} · ${SITE.name}`);
+  usePageTitle(planSeoTitle(plan));
 
   const dash = t("dash");
   const rows: [string, string | undefined][] = [
@@ -77,6 +93,7 @@ function PlanDetailPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
+      <JsonLd data={planJsonLd(plan)} />
       <Link to="/plans" search={{ cat: plan.category }} className="text-sm text-muted hover:text-fg">
         {t("backTo", { cat: categoryLabel(plan.category) })}
       </Link>

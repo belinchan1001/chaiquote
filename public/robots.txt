@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
+Allow: /plans
+Allow: /guides
+Allow: /about
+Disallow: /brand
+Disallow: /__grok/
+Disallow: /api/
 
 Sitemap: https://www.chaiquote.hk/sitemap.xml
