@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, startTransition } from "react";
 import { PlanCard } from "@/components/plan-card";
-import { EstateSuggest } from "@/components/estate-suggest";
+import { EstateNameSearch } from "@/components/estate-name-search";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import { ProviderFilter } from "@/components/provider-filter";
 import { FilterLink } from "@/components/filter-link";
@@ -18,7 +18,6 @@ import {
   type PlansSearch,
   type SpeedMbps,
 } from "@/lib/plans";
-import { addressHitValue } from "@/lib/address-search";
 import { compactSearch, parsePlansSearch, planListReplayKey } from "@/lib/search";
 import { CATEGORY_SEO, plansCategoryPath, canonicalUrl } from "@/lib/seo";
 import {
@@ -250,22 +249,19 @@ function PlansPage() {
           <label htmlFor="plans-estate" className="text-xs font-medium tracking-wider text-muted">
             {t("estateLabel")}
           </label>
-          <EstateSuggest
+          <EstateNameSearch
             id="plans-estate"
             value={estateDraft}
             onChange={setEstateDraft}
-            onSelect={(item) => {
-              const housing =
-                search.cat === "mobile"
-                  ? search.housing
-                  : item.housing ?? resolvedHousing(item.name) ?? search.housing;
+            onPickPlans={(estate) => {
+              const housing = search.cat === "mobile" ? search.housing : estate.housing;
               setInquiry({
-                estate: addressHitValue(item),
+                estate: estate.name,
                 housing: housing ?? "",
-                district: item.district,
+                district: estate.district,
               });
               patch({
-                estate: addressHitValue(item),
+                estate: estate.name,
                 housing,
               });
             }}

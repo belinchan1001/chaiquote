@@ -1,4 +1,5 @@
 import { useEffect, useId, useState } from "react";
+import { useRouterState } from "@tanstack/react-router";
 import { MapPin, MessageCircle, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
@@ -19,9 +20,11 @@ export function FirstVisitTour() {
   const titleId = useId();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { t } = useI18n();
 
   useEffect(() => {
+    if (pathname === "/") return;
     try {
       if (localStorage.getItem(TOUR_KEY) === "1") return;
     } catch {
@@ -29,7 +32,7 @@ export function FirstVisitTour() {
     }
     const timer = window.setTimeout(() => setOpen(true), 400);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     if (!open) return;
