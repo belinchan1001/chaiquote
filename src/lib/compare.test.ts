@@ -416,7 +416,21 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     assert.equal(cslHome.contractMonths, 36);
     assert.equal(cslHome.freeMonths, 1);
     assert.ok(cslHome.perks.includes("豁免第一個月月費"));
-    assert.ok(cslHome.perks.includes("送指定 Wi-Fi 7 路由器"));
+    assert.ok(cslHome.perks.includes("包指定 Wi-Fi 7 路由器"));
+    assert.equal(cslHome.perks.includes("送指定 Wi-Fi 7 路由器"), false);
+
+    const cslHome6 = plan("csl-home5g-wifi6");
+    assert.equal(cslHome6.name, "5G 家居寬頻包 Wi-Fi 6 路由器");
+    assert.equal(cslHome6.monthlyFee, 108);
+    assert.equal(cslHome6.contractMonths, 36);
+    assert.equal(cslHome6.freeMonths, 1);
+    assert.ok(cslHome6.perks.includes("豁免第一個月月費"));
+    assert.ok(cslHome6.perks.includes("包指定 Wi-Fi 6 路由器"));
+    assert.equal(cslHome6.perks.includes("送指定 Wi-Fi 6 路由器"), false);
+
+    const cslHomePlans = PLANS.filter((p) => p.providerId === "csl" && p.category === "home5g");
+    assert.equal(cslHomePlans.length, 2);
+    assert.ok(cslHomePlans.every((p) => p.perks.every((perk) => !perk.includes("送") || !perk.includes("路由器"))));
     assert.equal(isHktPlan(plan("hkbn-ftth-1000-36m-98")), false);
     assert.equal(isHktPlan(plan("hgc-village-1g-phone-24m")), false);
     assert.ok(PLANS.filter((p) => p.providerId === "netvigator" || p.providerId === "csl").every(isHktPlan));
