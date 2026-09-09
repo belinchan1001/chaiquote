@@ -85,7 +85,9 @@ describe("estate SEO pages", () => {
     assert.match(dir, /estate-dir-q/);
     assert.match(dir, /熱門屋苑價格/);
     assert.match(dir, /可以直接選擇屋苑/);
-    assert.match(dir, /searchEstates/);
+    assert.match(dir, /EstateSuggest/);
+    assert.match(dir, /to: "\/plans"/);
+    assert.match(dir, /compactSearch/);
     const wahFu = ESTATES.find((item) => item.name === "華富邨");
     assert.ok(wahFu);
     const target = estateSelectTarget(wahFu);
