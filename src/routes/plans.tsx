@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState, startTransition } from "react";
+import { useEffect, useRef, useState, startTransition } from "react";
 import { PlanCard } from "@/components/plan-card";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
@@ -19,7 +19,7 @@ import {
   type SpeedMbps,
 } from "@/lib/plans";
 import { addressHitValue } from "@/lib/address-search";
-import { compactSearch, parsePlansSearch } from "@/lib/search";
+import { compactSearch, parsePlansSearch, planListReplayKey } from "@/lib/search";
 import {
   CATEGORY_OPTIONS,
   GENERATION_OPTIONS,
@@ -80,6 +80,9 @@ function PlansPage() {
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [estateDraft, setEstateDraft] = useState(search.estate ?? "");
   const [qDraft, setQDraft] = useState(search.q ?? "");
+  const [listEntering, setListEntering] = useState(true);
+  const replayKey = planListReplayKey(search);
+  const prevReplayKey = useRef(replayKey);
   const { t, providerName, categoryLabel, housingLabel } = useI18n();
   usePageTitle(`${t("filterPlans")} · ${SITE.name}`);
 
@@ -120,6 +123,20 @@ function PlansPage() {
     }, 400);
     return () => window.clearTimeout(timer);
   }, [qDraft]);
+
+  useEffect(() => {
+    if (prevReplayKey.current === replayKey) return;
+    prevReplayKey.current = replayKey;
+    setListEntering(false);
+    let inner = 0;
+    const outer = requestAnimationFrame(() => {
+      inner = requestAnimationFrame(() => setListEntering(true));
+    });
+    return () => {
+      cancelAnimationFrame(outer);
+      cancelAnimationFrame(inner);
+    };
+  }, [replayKey]);
 
   function patch(next: Partial<PlansSearch>) {
     startTransition(() => {
@@ -400,26 +417,16 @@ function PlansPage() {
       ) : (
         <>
           <div
-            key={[
-              search.cat,
-              search.housing ?? "",
-              search.speed ?? "",
-              search.provider ?? "",
-              search.generation ?? "",
-              search.maxFee ?? "",
-              search.minSpeed ?? "",
-              search.minData ?? "",
-              search.q ?? "",
-              search.estate ?? "",
-              search.saved ? "1" : "0",
-              search.sort ?? "fee",
-              search.gba ? "1" : "0",
-              search.portIn ? "1" : "0",
-            ].join("|")}
-            className="plan-list mt-8 grid gap-4 md:grid-cols-2"
+            className={
+              listEntering
+                ? "plan-list plan-list-enter mt-8 grid gap-4 md:grid-cols-2"
+                : "plan-list mt-8 grid gap-4 md:grid-cols-2"
+            }
           >
             {shown.map((plan) => (
-              <PlanCard key={plan.id} plan={plan} />
+              <div key={plan.id} className="plan-list-item">
+                <PlanCard plan={plan} />
+              </div>
             ))}
           </div>
           {visible < rows.length ? (

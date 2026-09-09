@@ -78,3 +78,8 @@ export function compactSearch(search: PlansSearch): PlansSearch {
     ...(search.sort && search.sort !== "fee" ? { sort: search.sort } : {}),
   };
 }
+
+/** Identity for replaying card fade-up: estate, housing, speed, provider only. */
+export function planListReplayKey(search: Pick<PlansSearch, "estate" | "housing" | "speed" | "provider">) {
+  return [search.estate ?? "", search.housing ?? "", search.speed ?? "", search.provider ?? ""].join("|");
+}

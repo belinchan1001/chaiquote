@@ -102,6 +102,7 @@
   .page-enter > *,
   .page-shell,
   .plan-list > *,
+  .plan-list-enter > *,
   .nav-progress-bar,
   .popover-in,
   .plan-card-shine,
@@ -166,38 +167,44 @@
     overflow-anchor: none;
   }
   .plan-list > * {
+    min-width: 0;
     pointer-events: auto;
+  }
+  .plan-list-item > article {
+    height: 100%;
+  }
+  .plan-list-enter > * {
     animation: plan-card-in 240ms ease-out both;
     animation-delay: 450ms;
   }
-  .plan-list > *:nth-child(1) {
+  .plan-list-enter > *:nth-child(1) {
     animation-delay: 0ms;
   }
-  .plan-list > *:nth-child(2) {
+  .plan-list-enter > *:nth-child(2) {
     animation-delay: 50ms;
   }
-  .plan-list > *:nth-child(3) {
+  .plan-list-enter > *:nth-child(3) {
     animation-delay: 100ms;
   }
-  .plan-list > *:nth-child(4) {
+  .plan-list-enter > *:nth-child(4) {
     animation-delay: 150ms;
   }
-  .plan-list > *:nth-child(5) {
+  .plan-list-enter > *:nth-child(5) {
     animation-delay: 200ms;
   }
-  .plan-list > *:nth-child(6) {
+  .plan-list-enter > *:nth-child(6) {
     animation-delay: 250ms;
   }
-  .plan-list > *:nth-child(7) {
+  .plan-list-enter > *:nth-child(7) {
     animation-delay: 300ms;
   }
-  .plan-list > *:nth-child(8) {
+  .plan-list-enter > *:nth-child(8) {
     animation-delay: 350ms;
   }
-  .plan-list > *:nth-child(9) {
+  .plan-list-enter > *:nth-child(9) {
     animation-delay: 400ms;
   }
-  .plan-list > *:nth-child(10) {
+  .plan-list-enter > *:nth-child(10) {
     animation-delay: 450ms;
   }
 
