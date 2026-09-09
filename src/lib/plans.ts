@@ -729,6 +729,7 @@ export const PLANS: Plan[] = [
     perks: ["家居固網電話", PERK_NETVIGATOR_NOWTV, PERK_NETVIGATOR_MOVE, "可加 HK$10 選配 Linksys EA9350 Wi-Fi 6 路由器"],
     limits: LIMITS_NETVIGATOR_FTTH,
     hot: true,
+    quotePick: true,
     bestFor: "適合私人樓宇、需要 1000M 光纖及家居電話之住戶",
   },
   {
@@ -841,6 +842,7 @@ export const PLANS: Plan[] = [
     network: "光纖入屋",
     perks: [PERK_NETVIGATOR_MOVE, "家居固網電話", PERK_NETVIGATOR_NOWTV],
     limits: LIMITS_NETVIGATOR_FTTH,
+    quotePick: true,
     bestFor: "適合公屋或居屋、需要 1000M 光纖之住戶",
   },
   {
@@ -889,6 +891,7 @@ export const PLANS: Plan[] = [
     network: "光纖入屋",
     perks: ["12 個月 Disney+", "包 Wi-Fi 7 路由器", "家居固網電話", PERK_NETVIGATOR_MOVE, PERK_NETVIGATOR_NOWTV],
     limits: LIMITS_NETVIGATOR_FTTH,
+    quotePick: true,
     bestFor: "適合公屋或居屋、需要 2500M 光纖之住戶",
   },
   {
@@ -919,6 +922,7 @@ export const PLANS: Plan[] = [
     housing: ["private"],
     network: "光纖入屋",
     perks: ["12 個月 Disney+", "包 Wi-Fi 7 二合一路由器", "送 Now TV 頻道", PERK_NETVIGATOR_RELO, PERK_NETVIGATOR_APPLIANCE],
+    quotePick: true,
     bestFor: "適合私人屋苑、需要 2500M 光纖之住戶",
   },
   {
