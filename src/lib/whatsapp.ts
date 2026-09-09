@@ -12,10 +12,18 @@ import type { Inquiry } from "@/lib/desk";
 import type { Locale } from "@/lib/messages";
 import { toEnglish } from "@/lib/plan-en";
 
+const BRAND_TAG = `【${SITE.name}】`;
+
+export function withBrandTag(text: string) {
+  const body = text.replace(/^\s+/, "");
+  if (body.startsWith(BRAND_TAG)) return body;
+  return `${BRAND_TAG}\n${body}`;
+}
+
 export function whatsappHref(text: string) {
   const params = new URLSearchParams({
     phone: SITE.whatsappE164,
-    text,
+    text: withBrandTag(text),
     type: "phone_number",
     app_absent: "0",
   });
