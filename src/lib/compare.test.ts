@@ -339,6 +339,7 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
         "netvigator-ftth-2500-private-36m-176",
         "netvigator-ftth-1000-village-24m",
         "netvigator-ftth-1000-village-36m",
+        "netvigator-ftth-2500-village-24m",
         "netvigator-ftth-2500-village-36m",
         "netvigator-ftth-10000",
       ],
@@ -383,8 +384,20 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     assert.ok(village1000m24.perks.includes("搬遷費津貼 HK$1,000"));
 
     const village2500 = plan("netvigator-ftth-2500-village-36m");
-    assert.equal(village2500.monthlyFee, 398);
+    assert.equal(village2500.monthlyFee, 376);
+    assert.equal(village2500.name, "村屋 2500M 光纖計劃（36 個月）");
+    assert.equal(village2500.install, "豁免安裝費");
+    assert.equal(village2500.contractMonths, 36);
     assert.deepEqual(village2500.housing, ["village"]);
+    assert.ok(village2500.perks.includes("搬遷費津貼 HK$1,000"));
+
+    const village2500m24 = plan("netvigator-ftth-2500-village-24m");
+    assert.equal(village2500m24.monthlyFee, 376);
+    assert.equal(village2500m24.name, "村屋 2500M 光纖計劃（24 個月）");
+    assert.equal(village2500m24.install, "豁免安裝費");
+    assert.equal(village2500m24.contractMonths, 24);
+    assert.deepEqual(village2500m24.housing, ["village"]);
+    assert.ok(village2500m24.perks.includes("搬遷費津貼 HK$1,000"));
 
     for (const p of [plan98, plan128, plan158]) {
       assert.doesNotMatch(JSON.stringify(p), /保證|最平/);

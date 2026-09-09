@@ -78,8 +78,6 @@ const LIMITS_NETVIGATOR_FTTH =
   "可選擇先安裝後啟動服務（最長 365 日）。實際覆蓋視乎個別樓宇而定。";
 const LIMITS_NETVIGATOR_10G =
   "家居 10000M 光纖入屋現時主要由香港寬頻及電訊盈科網上行提供，適用於公屋、居屋及私人住宅。首次安裝須繳付安裝費。實際覆蓋視乎個別樓宇基礎設施而定。";
-const LIMITS_NETVIGATOR_VILLAGE =
-  "適用於指定村屋及唐樓地址。須另行繳付安裝費。實際覆蓋須核對門牌。網上行之公屋、居屋及私人樓宇計劃不適用於村屋或唐樓。";
 const LIMITS_NETVIGATOR_VILLAGE_WAIVED =
   "適用於指定村屋及唐樓地址。豁免安裝費。實際覆蓋須核對門牌。網上行之公屋、居屋及私人樓宇計劃不適用於村屋或唐樓。";
 const LIMITS_HGC_VILLAGE =
@@ -976,20 +974,36 @@ export const PLANS: Plan[] = [
     bestFor: "適合村屋、需要 1000M 光纖及 36 個月合約之住戶",
   },
   {
+    id: "netvigator-ftth-2500-village-24m",
+    providerId: "netvigator",
+    category: "broadband",
+    name: "村屋 2500M 光纖計劃（24 個月）",
+    monthlyFee: 376,
+    freeMonths: 0,
+    contractMonths: 24,
+    speedMbps: 2500,
+    install: "豁免安裝費",
+    housing: ["village"],
+    network: "光纖入屋",
+    perks: ["送 Now TV 頻道", PERK_NETVIGATOR_MOVE, PERK_NETVIGATOR_APPLIANCE],
+    limits: LIMITS_NETVIGATOR_VILLAGE_WAIVED,
+    bestFor: "適合村屋、需要 2500M 光纖及 24 個月合約之住戶",
+  },
+  {
     id: "netvigator-ftth-2500-village-36m",
     providerId: "netvigator",
     category: "broadband",
-    name: "村屋／唐樓 2500M 光纖（36 個月）",
-    monthlyFee: 398,
+    name: "村屋 2500M 光纖計劃（36 個月）",
+    monthlyFee: 376,
     freeMonths: 0,
     contractMonths: 36,
     speedMbps: 2500,
-    install: "須另行繳付安裝費",
+    install: "豁免安裝費",
     housing: ["village"],
     network: "光纖入屋",
-    perks: ["送 Now TV 頻道", PERK_NETVIGATOR_APPLIANCE],
-    limits: LIMITS_NETVIGATOR_VILLAGE,
-    bestFor: "適合村屋或唐樓、需要 2500M 光纖之住戶",
+    perks: ["送 Now TV 頻道", PERK_NETVIGATOR_MOVE, PERK_NETVIGATOR_APPLIANCE],
+    limits: LIMITS_NETVIGATOR_VILLAGE_WAIVED,
+    bestFor: "適合村屋、需要 2500M 光纖及 36 個月合約之住戶",
   },
   {
     id: "netvigator-ftth-10000",
