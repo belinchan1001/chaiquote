@@ -19,6 +19,8 @@ const EXACT: Record<string, string> = {
     "Home 10000M FTTH is currently offered mainly by HKBN and HKT Netvigator for public housing, HOS and private homes. Installation fee applies on first install. Coverage depends on the building.",
   "適用於指定村屋及唐樓地址。須另行繳付安裝費。實際覆蓋須核對門牌。網上行之公屋、居屋及私人樓宇計劃不適用於村屋或唐樓。":
     "For selected village houses and tong lau. Installation fee extra. Coverage must be checked against the exact address. Netvigator public/HOS/private plans do not apply to village houses or tong lau.",
+  "適用於指定村屋及唐樓地址。豁免安裝費。實際覆蓋須核對門牌。網上行之公屋、居屋及私人樓宇計劃不適用於村屋或唐樓。":
+    "For selected village houses and tong lau. Installation waived. Coverage must be checked against the exact address. Netvigator public/HOS/private plans do not apply to village houses or tong lau.",
   "適用於村屋地址。馬灣或若干指定村落未必享有額外特別優惠，詳情請向當值銷售員查詢。不適用於公屋、居屋及私人樓宇。實際覆蓋須核對門牌。":
     "For village-house addresses. Ma Wan or certain villages may not have extra promotions; ask the on-duty sales adviser. Not for public housing, HOS or private buildings. Coverage must be checked against the exact address.",
   "適用於公屋、居屋及私人樓宇。不適用於村屋。":
@@ -284,6 +286,8 @@ const PHRASES: [string, string][] = [
   ["特選村屋 2000M 光纖（24 個月）", "Selected village 2000M fibre (24 months)"],
   ["特選村屋 2500M 光纖（24 個月）", "Selected village 2500M fibre (24 months)"],
   ["村屋／唐樓 1000M 光纖（36 個月）", "Village/tong lau 1000M fibre (36 months)"],
+  ["村屋 1000M 光纖計劃（24 個月）", "Village 1000M fibre plan (24 months)"],
+  ["村屋 1000M 光纖計劃（36 個月）", "Village 1000M fibre plan (36 months)"],
   ["村屋／唐樓 2500M 光纖（36 個月）", "Village/tong lau 2500M fibre (36 months)"],
   ["村屋 2500M 升級旗艦（27 個月＋Wi-Fi 7）", "Village 2500M flagship upgrade (27 months + Wi-Fi 7)"],
   ["村屋 2G 連 Wi-Fi 6＋電話（30 個月）", "Village 2G with Wi-Fi 6 + phone (30 months)"],

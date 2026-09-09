@@ -337,6 +337,7 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
         "netvigator-ftth-1000-private-36m-118",
         "netvigator-ftth-1000-private-36m-128",
         "netvigator-ftth-2500-private-36m-176",
+        "netvigator-ftth-1000-village-24m",
         "netvigator-ftth-1000-village-36m",
         "netvigator-ftth-2500-village-36m",
         "netvigator-ftth-10000",
@@ -366,8 +367,20 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     ]);
 
     const village1000 = plan("netvigator-ftth-1000-village-36m");
-    assert.equal(village1000.monthlyFee, 268);
+    assert.equal(village1000.monthlyFee, 278);
+    assert.equal(village1000.name, "村屋 1000M 光纖計劃（36 個月）");
+    assert.equal(village1000.install, "豁免安裝費");
+    assert.equal(village1000.contractMonths, 36);
     assert.deepEqual(village1000.housing, ["village"]);
+    assert.ok(village1000.perks.includes("搬遷費津貼 HK$1,000"));
+
+    const village1000m24 = plan("netvigator-ftth-1000-village-24m");
+    assert.equal(village1000m24.monthlyFee, 278);
+    assert.equal(village1000m24.name, "村屋 1000M 光纖計劃（24 個月）");
+    assert.equal(village1000m24.install, "豁免安裝費");
+    assert.equal(village1000m24.contractMonths, 24);
+    assert.deepEqual(village1000m24.housing, ["village"]);
+    assert.ok(village1000m24.perks.includes("搬遷費津貼 HK$1,000"));
 
     const village2500 = plan("netvigator-ftth-2500-village-36m");
     assert.equal(village2500.monthlyFee, 398);
@@ -805,7 +818,7 @@ describe("HGC village broadband install waiver", () => {
     assert.match(hkbnVillage.limits ?? "", /實際覆蓋須另行核對/);
 
     const netvigatorVillage = plan("netvigator-ftth-1000-village-36m");
-    assert.equal(netvigatorVillage.install, "須另行繳付安裝費");
+    assert.equal(netvigatorVillage.install, "豁免安裝費");
     assert.match(netvigatorVillage.limits ?? "", /實際覆蓋須核對門牌/);
   });
 });
