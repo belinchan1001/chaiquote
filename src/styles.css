@@ -223,6 +223,7 @@
 
   .wa-pulse {
     position: relative;
+    overflow: visible;
   }
   .wa-pulse::after {
     content: "";
@@ -230,7 +231,7 @@
     inset: 0;
     border-radius: inherit;
     pointer-events: none;
-    box-shadow: 0 0 0 0 rgba(18, 140, 126, 0);
+    box-shadow: 0 0 0 0px rgba(18, 140, 126, 0);
     animation: wa-pulse-ring 8s ease-out infinite;
   }
   .wa-pulse-header::after {
@@ -240,7 +241,7 @@
   .wa-pulse:active::after,
   .wa-pulse:focus-visible::after {
     animation: none;
-    box-shadow: none;
+    box-shadow: 0 0 0 0px rgba(18, 140, 126, 0);
   }
   @media (max-width: 639px) {
     .wa-pulse-header::after {
@@ -333,16 +334,16 @@
 
   @keyframes wa-pulse-ring {
     0% {
-      box-shadow: 0 0 0 0 rgba(18, 140, 126, 0);
+      box-shadow: 0 0 0 0px rgba(18, 140, 126, 0);
     }
-    4.5% {
-      box-shadow: 0 0 0 4px rgba(18, 140, 126, 0.2);
+    5% {
+      box-shadow: 0 0 0 6px rgba(18, 140, 126, 0.38);
     }
-    9% {
-      box-shadow: 0 0 0 4px rgba(18, 140, 126, 0);
+    10% {
+      box-shadow: 0 0 0 0px rgba(18, 140, 126, 0);
     }
     100% {
-      box-shadow: 0 0 0 0 rgba(18, 140, 126, 0);
+      box-shadow: 0 0 0 0px rgba(18, 140, 126, 0);
     }
   }
 
