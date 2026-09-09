@@ -412,6 +412,9 @@ describe("Netvigator private 1000M $128", () => {
     assert.equal(private128.quotePick, undefined);
     assert.equal(private128.hot, undefined);
     assert.equal(private128.latestOffer, undefined);
+    assert.equal(private128.perks.includes("送 Now TV 頻道"), false);
+    assert.equal(private128.perks.includes("豁免搬遷費"), false);
+    assert.equal(private128.perks.includes("可加購每月 HK$68 換購指定家電（須符合資格）"), false);
     assert.equal(toEnglish(private128.name), "Private 1000M fibre (36 months + Wi-Fi 6)");
     assert.equal(toEnglish(private128.perks[0]), "12 months Disney+");
     assert.equal(toEnglish(private128.perks[1]), "Includes a Linksys EA9350 Wi-Fi 6 router");
@@ -431,6 +434,10 @@ describe("Netvigator private 1000M $128", () => {
       NOWTV,
     ]);
     assert.equal(toEnglish(public128.name), "Public/HOS 1000M fibre (36 months + Wi-Fi 6)");
+    assert.deepEqual(private128.perks, public128.perks);
+    assert.equal(private128.install, public128.install);
+    assert.equal(private128.monthlyFee, public128.monthlyFee);
+    assert.equal(private128.contractMonths, public128.contractMonths);
 
     const private118 = plan("netvigator-ftth-1000-private-36m-118");
     assert.equal(private118.name, "私人樓宇 1000M 光纖（36 個月＋路由器）");
