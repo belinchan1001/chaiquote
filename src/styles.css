@@ -108,7 +108,8 @@
   .plan-card-shine,
   .plan-card-shine::before,
   .plan-card-shine > .foil,
-  .chip-press {
+  .chip-press,
+  .wa-pulse::after {
     animation: none !important;
     transform: none !important;
   }
@@ -220,6 +221,33 @@
     transition-timing-function: ease-out;
   }
 
+  .wa-pulse {
+    position: relative;
+  }
+  .wa-pulse::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: 0 0 0 0 rgba(18, 140, 126, 0);
+    animation: wa-pulse-ring 8s ease-out infinite;
+  }
+  .wa-pulse-header::after {
+    animation-delay: 4s;
+  }
+  .wa-pulse:hover::after,
+  .wa-pulse:active::after,
+  .wa-pulse:focus-visible::after {
+    animation: none;
+    box-shadow: none;
+  }
+  @media (max-width: 639px) {
+    .wa-pulse-header::after {
+      animation: none;
+    }
+  }
+
   .soft-fold {
     display: grid;
     grid-template-rows: 1fr;
@@ -300,6 +328,21 @@
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @keyframes wa-pulse-ring {
+    0% {
+      box-shadow: 0 0 0 0 rgba(18, 140, 126, 0);
+    }
+    4.5% {
+      box-shadow: 0 0 0 4px rgba(18, 140, 126, 0.2);
+    }
+    9% {
+      box-shadow: 0 0 0 4px rgba(18, 140, 126, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(18, 140, 126, 0);
     }
   }
 

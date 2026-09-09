@@ -183,7 +183,10 @@ export function WhatsAppWidget() {
         aria-expanded={open}
         aria-controls={panelId}
         aria-label={open ? t("waCloseFab") : t("waOpenNum", { phone: SITE.phoneDisplay })}
-        className="ml-auto flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)] transition-transform duration-150 ease-out active:scale-[0.96]"
+        className={cn(
+          "ml-auto flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)] transition-transform duration-150 ease-out active:scale-[0.96]",
+          !open && "wa-pulse wa-pulse-fab",
+        )}
         onClick={() => setOpen((v) => !v)}
       >
         <WhatsAppIcon className="size-7" />
@@ -205,7 +208,7 @@ export function DeferredWhatsApp() {
         href={`https://wa.me/${SITE.whatsappE164}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed right-4 bottom-6 z-50 flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)]"
+        className="wa-pulse wa-pulse-fab fixed right-4 bottom-6 z-50 flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)]"
         aria-label={t("waQuoteWithNumber", { phone: SITE.phoneDisplay })}
       >
         <WhatsAppIcon className="size-7" />

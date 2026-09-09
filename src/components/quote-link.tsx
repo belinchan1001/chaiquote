@@ -17,6 +17,7 @@ export function QuoteLink({
   className,
   children,
   showNumber = false,
+  pulse,
 }: {
   plan?: Plan;
   plans?: Plan[];
@@ -26,6 +27,7 @@ export function QuoteLink({
   className?: string;
   children?: ReactNode;
   showNumber?: boolean;
+  pulse?: "header";
 }) {
   const stored = useDesk((s) => s.inquiry);
   const selected = plans ?? (plan ? [plan] : []);
@@ -34,7 +36,12 @@ export function QuoteLink({
     ? t("waQuoteWithNumber", { phone: SITE.phoneDisplay })
     : t("waQuote");
   return (
-    <Button asChild variant={variant} size={size} className={cn("min-w-0", className)}>
+    <Button
+      asChild
+      variant={variant}
+      size={size}
+      className={cn("min-w-0", pulse === "header" && "wa-pulse wa-pulse-header", className)}
+    >
       <a
         href={whatsappHref(quoteMessage(selected, inquiry ?? stored, locale))}
         target="_blank"

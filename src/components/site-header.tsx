@@ -61,7 +61,9 @@ export function SiteHeader() {
               {compareCount ? ` ${compareCount}` : ""}
             </Link>
           </Button>
-          <QuoteLink size="sm">{t("waHeader")}</QuoteLink>
+          <QuoteLink size="sm" pulse="header">
+            {t("waHeader")}
+          </QuoteLink>
           <Button
             type="button"
             variant="outline"
