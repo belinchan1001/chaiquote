@@ -48,15 +48,15 @@ describe("scroll-driven 齊Quote foil", () => {
     const phoneEdge = foilOpacity(0, 0, true);
     const fourth = foilOpacity(1, FOIL_MAX_FULL, false);
     assert.equal(desktopCenter, FOIL_DESKTOP_PEAK);
-    assert.equal(phoneCenter, FOIL_TOUCH_PEAK);
+    assert.ok(Math.abs(phoneCenter - FOIL_TOUCH_PEAK) < 1e-9, `phone peak ${phoneCenter}`);
     assert.equal(phoneEdge, FOIL_TOUCH_FLOOR);
     assert.ok(phoneCenter > 0.26, `phone peak ${phoneCenter} must be painted, not the old overlay-faint 0.26`);
-    assert.ok(phoneCenter >= 0.34, `phone peak ${phoneCenter} must be obviously visible on a white card`);
+    assert.ok(phoneCenter >= 0.42, `phone peak ${phoneCenter} must be obviously visible on a white card`);
     assert.ok(phoneCenter < desktopCenter, "phone can stay a bit weaker than desktop");
-    assert.ok(phoneEdge >= 0.1, `phone floor ${phoneEdge} must still read as a sheen`);
+    assert.ok(phoneEdge >= 0.14, `phone floor ${phoneEdge} must still read as a sheen`);
     assert.ok(FOIL_TOUCH_PEAK > FOIL_DESKTOP_FLOOR);
     assert.ok(fourth < desktopCenter * 0.4);
-    assert.ok(foilOpacity(0, 0, false) < 0.12);
+    assert.ok(foilOpacity(0, 0, false) <= FOIL_DESKTOP_FLOOR);
     assert.equal(foilOpacity(0, 0, false), FOIL_DESKTOP_FLOOR);
   });
 
@@ -91,7 +91,7 @@ describe("scroll-driven 齊Quote foil", () => {
     assert.match(driver, /prefers-reduced-motion/);
     assert.match(driver, /pointer:\s*coarse/);
     assert.match(driver, /FOIL_MAX_FULL = 3/);
-    assert.match(driver, /FOIL_TOUCH_PEAK = 0\.36/);
+    assert.match(driver, /FOIL_TOUCH_PEAK = 0\.45/);
     assert.doesNotMatch(driver, /setInterval/);
     assert.doesNotMatch(driver, /is-foil-sweep/);
     assert.doesNotMatch(driver, /0\.26/);

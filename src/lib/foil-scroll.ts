@@ -1,8 +1,8 @@
 export const FOIL_MAX_FULL = 3;
-export const FOIL_DESKTOP_PEAK = 0.4;
-export const FOIL_TOUCH_PEAK = 0.36;
-export const FOIL_DESKTOP_FLOOR = 0.08;
-export const FOIL_TOUCH_FLOOR = 0.12;
+export const FOIL_DESKTOP_PEAK = 0.52;
+export const FOIL_TOUCH_PEAK = 0.45;
+export const FOIL_DESKTOP_FLOOR = 0.1;
+export const FOIL_TOUCH_FLOOR = 0.16;
 
 export type FoilRect = { top: number; height: number };
 
