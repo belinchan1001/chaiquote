@@ -107,7 +107,8 @@
   .popover-in,
   .plan-card-shine,
   .plan-card-shine::before,
-  .plan-card-shine > .foil {
+  .plan-card-shine > .foil,
+  .chip-press {
     animation: none !important;
     transform: none !important;
   }
@@ -137,20 +138,6 @@
   .compare-scroll,
   .fab-lift {
     transition: none !important;
-  }
-
-  .filter-chip {
-    transform: none !important;
-    background-image: none !important;
-    background-size: auto !important;
-    transition:
-      background-color 160ms ease-out,
-      color 160ms ease-out,
-      box-shadow 150ms ease-out !important;
-  }
-  .filter-chip-on,
-  .filter-chip:has(:checked) {
-    background-color: var(--color-primary) !important;
   }
 
   ::view-transition-old(root),
@@ -222,47 +209,15 @@
     animation-delay: 450ms;
   }
 
-  .filter-chip {
-    cursor: pointer;
+  .chip-press {
     -webkit-tap-highlight-color: transparent;
-    color: var(--color-muted);
-    background-color: var(--color-surface);
-    background-image: linear-gradient(var(--color-primary), var(--color-primary));
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-size: 0% 100%;
-    box-shadow: inset 0 0 0 0 transparent;
     transform: scale(1);
-    transition:
-      background-size 160ms ease-out,
-      background-color 160ms ease-out,
-      color 160ms ease-out,
-      box-shadow 150ms ease-out,
-      transform 120ms ease-out;
+    transition: transform 280ms cubic-bezier(0.22, 1.55, 0.36, 1);
   }
-  .filter-chip-on,
-  .filter-chip:has(:checked) {
-    background-size: 100% 100%;
-    color: var(--color-primary-foreground);
-  }
-  .filter-chip-provider-on {
-    box-shadow: inset 0 0 0 1.5px rgba(244, 248, 255, 0.92);
-  }
-  .filter-chip-check {
-    display: none;
-  }
-  .filter-chip-on > .filter-chip-check,
-  .filter-chip:has(:checked) > .filter-chip-check {
-    display: block;
-  }
-  .filter-chip:not(.cursor-not-allowed):active {
-    transform: scale(0.97);
-  }
-  @media (hover: hover) {
-    .filter-chip-off:hover,
-    .filter-chip:not(.filter-chip-on):not(:has(:checked)):hover {
-      background-color: var(--color-border);
-    }
+  .chip-press:active {
+    transform: scale(0.95);
+    transition-duration: 80ms;
+    transition-timing-function: ease-out;
   }
 
   .soft-fold {
