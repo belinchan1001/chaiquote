@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Link } from "@tanstack/react-router";
 import { ProviderLogo } from "@/components/provider-mark";
-import { chipClass } from "@/components/filter-link";
+import { chipClass, ChipCheck } from "@/components/filter-link";
 import { useI18n } from "@/lib/i18n";
 import {
   PROVIDERS,
@@ -99,6 +99,7 @@ function ProviderChip({
 }) {
   const inner = (
     <>
+      <ChipCheck />
       {logoId ? <ProviderLogo id={logoId} size="sm" /> : null}
       <span>{label}</span>
       {typeof count === "number" ? (
@@ -121,7 +122,7 @@ function ProviderChip({
         type="button"
         aria-pressed={selected}
         onClick={() => onChange(provider)}
-        className={cn(chipClass(selected), "gap-2 px-3")}
+        className={cn(chipClass(selected, { provider: Boolean(logoId) }), "gap-2 px-3")}
       >
         {inner}
       </button>
@@ -136,7 +137,7 @@ function ProviderChip({
       search={compactSearch({ ...search, cat: search.cat, provider })}
       aria-current={selected ? "page" : undefined}
       aria-label={ariaLabel ?? label}
-      className={cn(chipClass(selected), "gap-2 px-3")}
+      className={cn(chipClass(selected, { provider: Boolean(logoId) }), "gap-2 px-3")}
     >
       {inner}
     </Link>

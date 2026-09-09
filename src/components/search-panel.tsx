@@ -3,12 +3,12 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
+import { chipClass, ChipCheck } from "@/components/filter-link";
 import { compactSearch, parsePlansSearch } from "@/lib/search";
 import { useDesk } from "@/lib/desk";
 import { addressHitValue } from "@/lib/address-search";
 import { useI18n } from "@/lib/i18n";
 import type { Housing } from "@/lib/plans";
-import { cn } from "@/lib/utils";
 import type { MessageKey } from "@/lib/messages";
 
 function RadioChip({
@@ -27,11 +27,7 @@ function RadioChip({
   children: ReactNode;
 }) {
   return (
-    <label
-      className={cn(
-        "inline-flex h-11 min-w-11 cursor-pointer items-center justify-center rounded-full bg-surface px-4 text-sm font-medium transition-[background-color,color,transform] duration-150 ease-out has-[:checked]:bg-primary has-[:checked]:text-primary-foreground active:scale-[0.96]",
-      )}
-    >
+    <label className={chipClass()}>
       <input
         type="radio"
         name={name}
@@ -41,6 +37,7 @@ function RadioChip({
           ? { defaultChecked }
           : { checked, onChange: () => onChange?.(value) })}
       />
+      <ChipCheck />
       {children}
     </label>
   );
@@ -206,8 +203,9 @@ export function SearchPanel() {
               <RadioChip name="generation" value="5g">
                 {t("gen5")}
               </RadioChip>
-              <label className="inline-flex h-11 cursor-pointer items-center rounded-full bg-surface px-4 text-sm font-medium transition-[background-color,color,transform] duration-150 ease-out has-[:checked]:bg-primary has-[:checked]:text-primary-foreground active:scale-[0.96]">
+              <label className={chipClass()}>
                 <input type="checkbox" name="gba" value="1" className="sr-only" />
+                <ChipCheck />
                 {t("gba")}
               </label>
             </div>
@@ -249,7 +247,7 @@ export function SearchPanel() {
             key={item.label}
             to="/plans"
             search={item.search}
-            className="inline-flex h-11 items-center rounded-full bg-surface px-4 text-sm font-medium transition-[background-color,transform] duration-150 ease-out hover:bg-border active:scale-[0.96]"
+            className={chipClass(false)}
           >
             {item.label}
           </Link>
