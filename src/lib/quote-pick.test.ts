@@ -113,7 +113,11 @@ describe("齊Quote pick badge", () => {
     );
     assert.ok(foilAlphas.length > 0);
     assert.ok(
-      foilAlphas.every((alpha) => alpha <= 0.42),
+      foilAlphas.some((alpha) => alpha > 0.42),
+      `foil wash too faint: ${foilAlphas.join(", ")}`,
+    );
+    assert.ok(
+      foilAlphas.every((alpha) => alpha <= 0.72),
       `foil wash too strong: ${foilAlphas.join(", ")}`,
     );
     assert.match(css, /\.plan-card-shine > \*\s*\{[\s\S]*z-index:\s*1/);
