@@ -175,6 +175,7 @@ describe("Netvigator public 1000M $108", () => {
         "netvigator-ftth-1000-public-36m-108",
         "netvigator-ftth-1000-public-36m-128",
         "netvigator-ftth-1000-private-36m-118",
+        "netvigator-ftth-1000-private-36m-128",
       ],
     );
   });
@@ -334,6 +335,7 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
         "netvigator-ftth-1000-public-36m-128",
         "netvigator-ftth-2500-public-36m-158",
         "netvigator-ftth-1000-private-36m-118",
+        "netvigator-ftth-1000-private-36m-128",
         "netvigator-ftth-2500-private-36m-176",
         "netvigator-ftth-1000-village-36m",
         "netvigator-ftth-2500-village-36m",
@@ -343,6 +345,7 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
 
     const private118 = plan("netvigator-ftth-1000-private-36m-118");
     assert.equal(private118.monthlyFee, 108);
+    assert.equal(private118.name, "私人樓宇 1000M 光纖（36 個月＋路由器）");
     assert.deepEqual(private118.perks, [
       "包 Linksys EA9350 Wi-Fi 6 路由器",
       "送 Now TV 頻道",
@@ -374,6 +377,73 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
       assert.doesNotMatch(JSON.stringify(p), /保證|最平/);
       assert.equal(p.perks.includes("可加購每月 HK$68 換購指定家電（須符合資格）"), false);
     }
+  });
+});
+
+describe("Netvigator private 1000M $128", () => {
+  const MOVE = "搬遷費津貼 HK$1,000";
+  const NOWTV = "Now TV 體驗組合或國際新聞組合（智能電視版）；可加 HK$38 升級機頂盒";
+  const FTTH_LIMITS = "可選擇先安裝後啟動服務（最長 365 日）。實際覆蓋視乎個別樓宇而定。";
+
+  it("adds a private-only $128 twin and leaves the public $128 card unchanged", () => {
+    const private128 = plan("netvigator-ftth-1000-private-36m-128");
+    assert.equal(private128.id, "netvigator-ftth-1000-private-36m-128");
+    assert.equal(private128.providerId, "netvigator");
+    assert.equal(private128.category, "broadband");
+    assert.equal(private128.name, "私人樓宇 1000M 光纖（36 個月＋Wi-Fi 6）");
+    assert.equal(private128.monthlyFee, 128);
+    assert.equal(private128.freeMonths, 0);
+    assert.equal(private128.contractMonths, 36);
+    assert.equal(private128.speedMbps, 1000);
+    assert.equal(private128.install, "豁免安裝費");
+    assert.deepEqual(private128.housing, ["private"]);
+    assert.equal(private128.housing.includes("public"), false);
+    assert.equal(private128.housing.includes("hos"), false);
+    assert.equal(private128.network, "光纖入屋");
+    assert.deepEqual(private128.perks, [
+      "12 個月 Disney+",
+      "包 Linksys EA9350 Wi-Fi 6 路由器",
+      MOVE,
+      NOWTV,
+    ]);
+    assert.equal(private128.limits, FTTH_LIMITS);
+    assert.equal(private128.bestFor, "適合私人樓宇、需要 1000M 光纖之住戶");
+    assert.doesNotMatch(private128.bestFor, /公屋|居屋/);
+    assert.equal(private128.quotePick, undefined);
+    assert.equal(private128.hot, undefined);
+    assert.equal(private128.latestOffer, undefined);
+    assert.equal(private128.perks.includes("送 Now TV 頻道"), false);
+    assert.equal(private128.perks.includes("豁免搬遷費"), false);
+    assert.equal(private128.perks.includes("可加購每月 HK$68 換購指定家電（須符合資格）"), false);
+    assert.equal(toEnglish(private128.name), "Private 1000M fibre (36 months + Wi-Fi 6)");
+    assert.equal(toEnglish(private128.perks[0]), "12 months Disney+");
+    assert.equal(toEnglish(private128.perks[1]), "Includes a Linksys EA9350 Wi-Fi 6 router");
+
+    const public128 = plan("netvigator-ftth-1000-public-36m-128");
+    assert.equal(public128.name, "公居屋 1000M 光纖（36 個月＋Wi-Fi 6）");
+    assert.match(public128.name, /公居屋/);
+    assert.equal(public128.monthlyFee, 128);
+    assert.deepEqual(public128.housing, ["public", "hos"]);
+    assert.equal(public128.quotePick, undefined);
+    assert.equal(public128.hot, undefined);
+    assert.equal(public128.bestFor, "適合公屋或居屋、需要 1000M 光纖之住戶");
+    assert.deepEqual(public128.perks, [
+      "12 個月 Disney+",
+      "包 Linksys EA9350 Wi-Fi 6 路由器",
+      MOVE,
+      NOWTV,
+    ]);
+    assert.equal(toEnglish(public128.name), "Public/HOS 1000M fibre (36 months + Wi-Fi 6)");
+    assert.deepEqual(private128.perks, public128.perks);
+    assert.equal(private128.install, public128.install);
+    assert.equal(private128.monthlyFee, public128.monthlyFee);
+    assert.equal(private128.contractMonths, public128.contractMonths);
+
+    const private118 = plan("netvigator-ftth-1000-private-36m-118");
+    assert.equal(private118.name, "私人樓宇 1000M 光纖（36 個月＋路由器）");
+    assert.equal(private118.monthlyFee, 108);
+    assert.deepEqual(private118.housing, ["private"]);
+    assert.equal(private118.quotePick, undefined);
   });
 });
 

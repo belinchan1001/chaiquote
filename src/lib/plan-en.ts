@@ -275,6 +275,7 @@ const PHRASES: [string, string][] = [
   ["私人樓宇 1000M 光纖（24 個月＋Wi-Fi 6＋電話）", "Private 1000M fibre (24 months + Wi-Fi 6 + phone)"],
   ["私人樓宇 1000M 光纖（36 個月＋家居電話）", "Private 1000M fibre (36 months + home phone)"],
   ["私人樓宇 1000M 光纖（36 個月＋路由器）", "Private 1000M fibre (36 months + router)"],
+  ["私人樓宇 1000M 光纖（36 個月＋Wi-Fi 6）", "Private 1000M fibre (36 months + Wi-Fi 6)"],
   ["私人樓宇 1000M 光纖（36 個月）", "Private 1000M fibre (36 months)"],
   ["私人樓宇 2000M 光纖（36 個月）", "Private 2000M fibre (36 months)"],
   ["私人樓宇 2000M（36 個月）", "Private 2000M (36 months)"],

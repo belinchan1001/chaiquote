@@ -151,6 +151,7 @@ describe("齊Quote pick badge", () => {
       "netvigator-ftth-2500-exclusive-36m-244",
       "netvigator-ftth-1000-private-36m-198",
       "netvigator-ftth-1000-private-36m-118",
+      "netvigator-ftth-1000-private-36m-128",
     ] as const;
     for (const id of excluded) {
       const plan = getPlan(id);
@@ -162,6 +163,7 @@ describe("齊Quote pick badge", () => {
     assert.equal(getPlan("netvigator-ftth-1000-exclusive-36m-186")?.monthlyFee, 186);
     assert.equal(getPlan("netvigator-ftth-2500-exclusive-36m-244")?.monthlyFee, 244);
     assert.equal(getPlan("netvigator-ftth-1000-private-36m-118")?.monthlyFee, 108);
+    assert.equal(getPlan("netvigator-ftth-1000-private-36m-128")?.monthlyFee, 128);
     assert.deepEqual(
       PLANS.filter((plan) => plan.providerId === "netvigator" && plan.quotePick).map((plan) => plan.id),
       [
