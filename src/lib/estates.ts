@@ -33,6 +33,7 @@ const RAW = `
 西環邨|西環,Sai Wan Estate|中西區|public
 觀塘邨|觀塘,Kwun Tong Estate|觀塘|public
 秀茂坪邨|秀茂坪,Sau Mau Ping|觀塘|public
+秀茂坪南邨|秀茂坪南,Sau Mau Ping South|觀塘|public
 順天邨|順天,Shun Tin|觀塘|public
 順安邨|順安,Shun On|觀塘|public
 牛頭角上邨|牛頭角上,Upper Ngau Tau Kok|觀塘|public
@@ -86,15 +87,20 @@ const RAW = `
 南山邨|南山,Nam Shan|深水埗|public
 麗閣邨|麗閣,Lai Kok|深水埗|public
 海麗邨|海麗,Hoi Lai|深水埗|public
+海達邨|海達,Hoi Tat|深水埗|public
+富昌邨|富昌,Fu Cheong|深水埗|public
+元州邨|元州,Un Chau|深水埗|public
 紅磡邨|紅磡,Hung Hom Estate|九龍城|public
 何文田邨|何文田,Ho Man Tin Estate|九龍城|public
 愛民邨|愛民,Oi Man|九龍城|public
+家維邨|家維,Ka Wai|九龍城|public
 馬頭圍邨|馬頭圍,Ma Tau Wai|九龍城|public
 樂民新村|樂民,Lok Man|九龍城|public
 彩虹道邨|彩虹道|黃大仙|public
 大坑東邨|大坑東,Tai Hang Tung|深水埗|public
 大坑西邨|大坑西,Tai Hang Sai|深水埗|public
 梨木樹邨|梨木樹,Lei Muk Shue|荃灣|public
+麗瑤邨|麗瑤,Lai Yiu|葵青|public
 象山邨|象山,Cheung Shan|荃灣|public
 福來邨|福來,Fuk Loi|荃灣|public
 葵芳邨|葵芳,Kwai Fong|葵青|public
@@ -103,6 +109,7 @@ const RAW = `
 葵涌邨|葵涌,Kwai Chung Estate|葵青|public
 石籬邨|石籬,Shek Lei|葵青|public
 石蔭邨|石蔭,Shek Yam|葵青|public
+石蔭東邨|石蔭東,Shek Yam East|葵青|public
 安蔭邨|安蔭,On Yam|葵青|public
 長安邨|長安,Cheung On|葵青|public
 長康邨|長康,Cheung Hong|葵青|public
@@ -110,6 +117,7 @@ const RAW = `
 長亨邨|長亨,Cheung Hang|葵青|public
 青衣邨|青衣,Tsing Yi Estate|葵青|public
 長發邨|長發,Cheung Fat|葵青|public
+長宏邨|長宏,Cheung Wang|葵青|public
 安定邨|安定,On Ting|屯門|public
 友愛邨|友愛,Yau Oi|屯門|public
 山景邨|山景,Shan King|屯門|public
@@ -121,6 +129,7 @@ const RAW = `
 欣田邨|欣田,Yan Tin|屯門|public
 兆康苑|兆康,Siu Hong Court|屯門|hos
 兆翠苑|兆翠,Siu Chui Court|屯門|hos
+悅湖山莊|悅湖,Melody Garden|屯門|hos
 天耀邨|天耀,Tin Yiu|元朗|public|天水圍
 天瑞邨|天瑞,Tin Shui|元朗|public|天水圍
 天慈邨|天慈,Tin Tsz|元朗|public|天水圍
@@ -159,7 +168,13 @@ const RAW = `
 新都城|新都城,Metro City|西貢|private|將軍澳
 慧安園|慧安園,Well On Garden|西貢|private|將軍澳
 廣明苑|廣明,廣明苑,Kwong Ming Court|西貢|hos|將軍澳
-影輝苑|影輝|西貢|hos|將軍澳|覆蓋需查核
+影輝苑|影輝,Ying Fai Court|西貢|hos|將軍澳|覆蓋需查核
+英明苑|英明,Ying Ming Court|西貢|hos|將軍澳
+唐明苑|唐明,Tong Ming Court|西貢|hos|將軍澳
+尚德邨|尚德,Sheung Tak|西貢|public|將軍澳
+怡明邨|怡明,Yi Ming|西貢|public|將軍澳
+日出康城|康城,LOHAS Park,Lohas Park|西貢|private|將軍澳
+維景灣畔|維景灣畔,Ocean Shores|西貢|private|將軍澳
 厚德邨|厚德,Hau Tak|西貢|public|將軍澳
 明德邨|明德,Ming Tak|西貢|public|將軍澳
 景林邨|景林,King Lam|西貢|public|將軍澳
@@ -182,7 +197,15 @@ const RAW = `
 瀝源邨|瀝源,Lek Yuen|沙田|public
 禾輋邨|禾輋,Wo Che|沙田|public
 廣源邨|廣源,Kwong Yuen|沙田|public
+水泉澳邨|水泉澳,Shui Chuen O|沙田|public
 廣林苑|廣林,Kwong Lam Court|沙田|hos
+穗禾苑|穗禾,Sui Wo Court|沙田|hos
+豐盛苑|豐盛,Fung Shing Court|沙田|hos
+名城|名城,Festival City|沙田|private|大圍
+麗城花園|麗城,Belair Gardens|沙田|private
+御龍山|御龍山,The Palazzo ST|沙田|private
+銀禧花園|銀禧,Jubilee Garden|沙田|private
+駿景園|駿景,Royal Ascot|沙田|private
 顯徑邨|顯徑,Hin Keng|沙田|public
 秦石邨|秦石,Chun Shek|沙田|public
 新田圍邨|新田圍,Sun Tin Wai|沙田|public
@@ -192,6 +215,8 @@ const RAW = `
 馬鞍山中心|馬鞍山中心,Ma On Shan Centre|沙田|private|馬鞍山
 新港城|新港城,Sunshine City|沙田|private|馬鞍山
 聽濤雅苑|聽濤雅苑,Toscana|沙田|private|馬鞍山
+迎海|迎海,Double Cove|沙田|private|馬鞍山
+錦豐苑|錦豐,Kam Fung Court|沙田|hos|馬鞍山
 耀安邨|耀安,Yiu On|沙田|public|馬鞍山
 恆安邨|恆安,Heng On|沙田|public|馬鞍山
 錦英苑|錦英,Kam Ying Court|沙田|hos|馬鞍山
@@ -245,6 +270,12 @@ const RAW = `
 德福花園|德福,Telford Gardens|觀塘|private
 淘大花園|淘大,Amoy Gardens|觀塘|private
 麗晶花園|麗晶,Richland Gardens|觀塘|private
+宏緻苑|宏緻,Wang Chi Court|觀塘|hos|九龍灣
+富緻閣|富緻,Fu Chi House,宏緻苑富緻閣|觀塘|hos|九龍灣
+喜緻閣|喜緻,Hei Chi House,宏緻苑喜緻閣|觀塘|hos|九龍灣
+崇緻閣|崇緻,Sung Chi House,宏緻苑崇緻閣|觀塘|hos|九龍灣
+盛緻苑|盛緻,Shing Chi Court|觀塘|hos|九龍灣|覆蓋需查核
+景泰苑|景泰,King Tai Court|黃大仙|hos
 啟德1號|啟德1號|九龍城|private
 啟悅苑|啟悅,Kai Yuet Court|九龍城|hos|啟德
 啟欣苑|啟欣,Kai Yan Court|九龍城|hos|啟德
@@ -256,7 +287,10 @@ const RAW = `
 YOHO Town|YOHO,Yoho Town,元朗YOHO|元朗|private
 YOHO Midtown|YOHO Midtown|元朗|private
 加州花園|加州花園,Palm Springs|元朗|private
+加州豪園|加州豪園,Royal Palms|元朗|private
 錦繡花園|錦繡花園,Fairview Park|元朗|private
+爾巒|爾巒,The Reach|元朗|private
+峻巒|峻巒,Park Yoho|元朗|private
 新時代廣場|屯門市廣場,Tuen Mun Town Plaza|屯門|private
 瓏門|瓏門,The Palazzo TM|屯門|private
 愛琴灣|愛琴灣,Aegean Coast|屯門|private
@@ -267,6 +301,10 @@ YOHO Midtown|YOHO Midtown|元朗|private
 灣景花園|灣景花園,Belvedere Garden|荃灣|private
 海濱花園|海濱花園,Riviera Gardens|荃灣|private
 荃灣廣場|荃灣廣場|荃灣|private
+祈德尊新邨|祈德尊,Clague Garden Estate|荃灣|private
+海之戀|海之戀,The Pavilia Bay|荃灣|private
+柏傲灣|柏傲灣,The Pavilia|荃灣|private
+環宇海灣|環宇海灣,Ocean Pride|荃灣|private
 大窩口邨|大窩口,Tai Wo Hau|葵青|public
 葵翠邨|葵翠,Kwai Tsui|葵青|public
 葵聯邨|葵聯,Kwai Luen|葵青|public
@@ -277,9 +315,10 @@ YOHO Midtown|YOHO Midtown|元朗|private
 盈翠半島|盈翠,Nerine Cove|葵青|private
 東涌逸東邨|逸東,Yat Tung|離島|public|東涌
 滿東邨|滿東,Mun Tung|離島|public|東涌
+迎東邨|迎東,Ying Tung|離島|public|東涌
 裕東苑|裕東,Yu Tung Court|離島|hos|東涌
 裕雅苑|裕雅,Yu Nga Court|離島|hos|東涌
-裕豐苑|裕豐|離島|hos|東涌|覆蓋需查核
+裕豐苑|裕豐,Yu Fung Court|離島|hos|東涌|覆蓋需查核
 東堤灣畔|東堤灣畔,Caribbean Coast|離島|private|東涌
 映灣園|映灣園,Seaview Crescent|離島|private|東涌
 藍天海岸|藍天海岸,Coastal Skyline|離島|private|東涌
@@ -326,8 +365,12 @@ YOHO Midtown|YOHO Midtown|元朗|private
 平田邨|平田,Ping Tin|觀塘|public
 油塘邨|油塘,Yau Tong Estate|觀塘|public
 油麗邨|油麗,Yau Lai|觀塘|public
+高翔苑|高翔,Ko Cheung Court|觀塘|hos
+康華苑|康華,Hong Wah Court|觀塘|hos
 鯉魚門邨|鯉魚門,Lei Yue Mun Estate|觀塘|public
 居屋鯉安苑|鯉安苑,Lei On Court|觀塘|hos
+安達邨|安達,On Tat|觀塘|public
+安泰邨|安泰,On Tai|觀塘|public
 安楹苑|安楹,On Ying Court|觀塘|hos
 安樺苑|安樺,On Wah Court|觀塘|hos
 安麗苑|安麗,On Lai Court|觀塘|hos

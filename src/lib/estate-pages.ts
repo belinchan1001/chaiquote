@@ -88,6 +88,15 @@ const SLUG_FALLBACK: Record<string, string> = {
   荃灣新村: "tsuen-wan-san-tsuen",
   海壩南台: "hoi-pa-nam-toi",
   綠悅: "the-greenery-ping-shan",
+  宏緻苑: "wang-chi-court",
+  盛緻苑: "shing-chi-court",
+  日出康城: "lohas-park",
+  名城: "festival-city",
+  迎海: "double-cove",
+  爾巒: "the-reach",
+  峻巒: "park-yoho",
+  柏傲灣: "the-pavilia",
+  御龍山: "the-palazzo-sha-tin",
 };
 
 function requireEstate(name: string): Estate {

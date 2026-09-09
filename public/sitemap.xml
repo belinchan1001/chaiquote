@@ -68,6 +68,7 @@
   <url><loc>https://www.chaiquote.hk/estates/healthy-village</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/model-housing</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/sai-wan-estate</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/sau-mau-ping-south</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/shun-tin</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/shun-on</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/choi-ha</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
@@ -116,15 +117,20 @@
   <url><loc>https://www.chaiquote.hk/estates/nam-shan</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/lai-kok</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/hoi-lai</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/hoi-tat</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/fu-cheong</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/un-chau</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/hung-hom-estate</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/ho-man-tin-estate</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/oi-man</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/ka-wai</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/ma-tau-wai</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/lok-man</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/choi-hung-road</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/tai-hang-tung</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/tai-hang-sai</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/lei-muk-shue</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/lai-yiu</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/cheung-shan</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/fuk-loi</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/kwai-fong</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
@@ -132,6 +138,7 @@
   <url><loc>https://www.chaiquote.hk/estates/kwai-shing-west</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/shek-lei</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/shek-yam</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/shek-yam-east</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/on-yam</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/cheung-on</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/cheung-hong</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
@@ -139,6 +146,7 @@
   <url><loc>https://www.chaiquote.hk/estates/cheung-hang</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/tsing-yi-estate</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/cheung-fat</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/cheung-wang</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/on-ting</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/yau-oi</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/shan-king</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
@@ -148,6 +156,7 @@
   <url><loc>https://www.chaiquote.hk/estates/fu-tai</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/yan-tin</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/siu-chui-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/melody-garden</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/tin-yan</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/tin-yat</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/tin-chak</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
@@ -177,6 +186,12 @@
   <url><loc>https://www.chaiquote.hk/estates/well-on-garden</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/kwong-ming-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/ying-fai-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/ying-ming-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/tong-ming-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/sheung-tak</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/yi-ming</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/lohas-park</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/ocean-shores</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/hau-tak</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/ming-tak</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/king-lam</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
@@ -193,7 +208,15 @@
   <url><loc>https://www.chaiquote.hk/estates/choi-mui-house</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/shatin-centre</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/kwong-yuen</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/shui-chuen-o</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/kwong-lam-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/sui-wo-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/fung-shing-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/festival-city</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/belair-gardens</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/the-palazzo-sha-tin</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/jubilee-garden</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/royal-ascot</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/hin-keng</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/chun-shek</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/sun-tin-wai</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
@@ -203,6 +226,8 @@
   <url><loc>https://www.chaiquote.hk/estates/ma-on-shan-centre</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/sunshine-city</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/toscana</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/double-cove</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/kam-fung-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/yiu-on</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/heng-on</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/kam-ying-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
@@ -253,6 +278,12 @@
   <url><loc>https://www.chaiquote.hk/estates/telford-gardens</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/amoy-gardens</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/richland-gardens</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/wang-chi-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/fu-chi-house</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/hei-chi-house</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/sung-chi-house</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/shing-chi-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/king-tai-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/kai-tak-1</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/kai-yuet-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/kai-yan-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
@@ -263,7 +294,10 @@
   <url><loc>https://www.chaiquote.hk/estates/yoho</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/yoho-midtown</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/palm-springs</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/royal-palms</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/fairview-park</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/the-reach</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/park-yoho</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/tuen-mun-town-plaza</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/the-palazzo-tm</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/aegean-coast</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
@@ -274,6 +308,10 @@
   <url><loc>https://www.chaiquote.hk/estates/belvedere-garden</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/riviera-gardens</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/tsuen-wan-plaza</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/clague-garden-estate</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/the-pavilia-bay</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/the-pavilia</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/ocean-pride</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/tai-wo-hau</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/kwai-tsui</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/kwai-luen</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
@@ -284,6 +322,7 @@
   <url><loc>https://www.chaiquote.hk/estates/nerine-cove</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/yat-tung</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/mun-tung</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/ying-tung</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/yu-tung-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/yu-nga-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/yu-fung-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
@@ -333,8 +372,12 @@
   <url><loc>https://www.chaiquote.hk/estates/ping-tin</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/yau-tong-estate</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/yau-lai</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/ko-cheung-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/hong-wah-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/lei-yue-mun-estate</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/lei-on-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/on-tat</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/on-tai</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/on-ying-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/on-wah-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/on-lai-court</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>

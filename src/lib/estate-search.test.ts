@@ -561,3 +561,101 @@ describe("朗天苑 and village-address contamination", () => {
     assert.equal(classifyAddress("未知示範邨").housing, undefined);
   });
 });
+
+describe("housing type audit 2026", () => {
+  it("keeps 朗天苑 as hos and does not let 屏山 village steal it", () => {
+    assert.equal(estate("朗天苑")?.housing, "hos");
+    assert.equal(classifyAddress("朗天苑").housing, "hos");
+    assert.equal(matchKnownEstate("朗天苑", "青山公路－屏山段 130號")?.housing, "hos");
+    assert.equal(estate("屏山")?.housing, "village");
+  });
+
+  it("classifies 宏緻苑 as hos (綠置居) and links 緻閣 blocks", () => {
+    assert.equal(estate("宏緻苑")?.housing, "hos");
+    assert.equal(estate("宏緻苑")?.district, "觀塘");
+    assert.equal(classifyAddress("宏緻苑").housing, "hos");
+    for (const name of ["富緻閣", "喜緻閣", "崇緻閣"]) {
+      assert.equal(estate(name)?.housing, "hos", name);
+      assert.equal(classifyAddress(name).housing, "hos", name);
+    }
+    const hits = searchEstates("宏緻苑", 12).map((item) => item.name);
+    assert.equal(hits[0], "宏緻苑");
+    assert.ok(hits.includes("富緻閣"));
+  });
+
+  it("marks large private estates as 私樓, not 居屋／公屋", () => {
+    const privateEstates = [
+      "日出康城",
+      "名城",
+      "迎海",
+      "維景灣畔",
+      "海之戀",
+      "柏傲灣",
+      "環宇海灣",
+      "爾巒",
+      "峻巒",
+      "麗城花園",
+      "御龍山",
+      "加州豪園",
+      "銀禧花園",
+      "駿景園",
+      "祈德尊新邨",
+      "海怡半島",
+      "帝欣苑",
+      "聽濤雅苑",
+      "御豪山莊",
+      "綠悅",
+    ];
+    for (const name of privateEstates) {
+      assert.equal(estate(name)?.housing, "private", name);
+      assert.equal(classifyAddress(name).housing, "private", name);
+    }
+  });
+
+  it("keeps recent HOS / GSH courts as 居屋", () => {
+    const hosEstates = [
+      "朗天苑",
+      "啟盈苑",
+      "啟悅苑",
+      "啟欣苑",
+      "安楹苑",
+      "安樺苑",
+      "安麗苑",
+      "兆翠苑",
+      "穗禾苑",
+      "錦豐苑",
+      "英明苑",
+      "高翔苑",
+      "景泰苑",
+      "悅湖山莊",
+      "盛緻苑",
+    ];
+    for (const name of hosEstates) {
+      assert.equal(estate(name)?.housing, "hos", name);
+      assert.equal(classifyAddress(name).housing, "hos", name);
+    }
+  });
+
+  it("keeps large public estates as 公屋", () => {
+    const publicEstates = [
+      "尚德邨",
+      "水泉澳邨",
+      "安達邨",
+      "安泰邨",
+      "迎東邨",
+      "海達邨",
+      "怡明邨",
+      "秀茂坪南邨",
+      "長宏邨",
+      "石蔭東邨",
+      "富昌邨",
+      "元州邨",
+      "家維邨",
+      "麗瑤邨",
+    ];
+    for (const name of publicEstates) {
+      assert.equal(estate(name)?.housing, "public", name);
+      assert.equal(classifyAddress(name).housing, "public", name);
+    }
+  });
+});
