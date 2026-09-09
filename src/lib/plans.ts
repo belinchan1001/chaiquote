@@ -505,6 +505,7 @@ export const PLANS: Plan[] = [
     network: "光纖入屋",
     perks: ["送指定 Wi-Fi 7 路由器", "豁免搬遷費"],
     hot: true,
+    quotePick: true,
     bestFor: "適合新入伙居屋或簡約公屋住戶",
   },
   {
@@ -550,6 +551,7 @@ export const PLANS: Plan[] = [
     housing: ["private"],
     network: "光纖入屋",
     perks: ["送指定 TP-Link Wi-Fi 6 路由器", "家居電話服務", "豁免搬遷費"],
+    quotePick: true,
     bestFor: "適合私人屋苑轉台、需要 1000M 光纖之住戶",
   },
   {

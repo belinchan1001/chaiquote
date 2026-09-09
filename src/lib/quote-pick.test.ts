@@ -51,6 +51,8 @@ describe("齊Quote pick badge", () => {
         "hkbn-ftth-2500-24m-149",
         "hkbn-ftth-10000-entertainment",
         "hkbn-village-2000-24m",
+        "hgc-ftth-2000-hos-36m",
+        "hgc-ftth-1000-private-39m",
         "icable-ftth-1000-48m-58",
         "hkbn-5g-30-78-youth",
       ],
@@ -82,6 +84,34 @@ describe("齊Quote pick badge", () => {
     assert.equal(gaming.quotePick, undefined);
     assert.equal(gaming.monthlyFee, 998);
     assert.match(gaming.name, /遊戲路由器/);
+  });
+
+  it("flags two HGC fibre quote picks and leaves the same-fee public twins unmarked", () => {
+    const private89 = getPlan("hgc-ftth-1000-private-39m");
+    assert.ok(private89);
+    assert.equal(private89.quotePick, true);
+    assert.equal(private89.monthlyFee, 89);
+    assert.equal(private89.contractMonths, 39);
+    assert.match(private89.name, /私人樓宇 1000M/);
+
+    const hos75 = getPlan("hgc-ftth-2000-hos-36m");
+    assert.ok(hos75);
+    assert.equal(hos75.quotePick, true);
+    assert.equal(hos75.monthlyFee, 75);
+    assert.equal(hos75.contractMonths, 36);
+    assert.match(hos75.name, /新居屋／簡約公屋 2000M/);
+
+    const public89 = getPlan("hgc-ftth-1000-public-39m");
+    assert.ok(public89);
+    assert.equal(public89.quotePick, undefined);
+    assert.equal(public89.monthlyFee, 89);
+    assert.match(public89.name, /公居屋 1000M/);
+
+    const public75 = getPlan("hgc-ftth-1000-public-36m");
+    assert.ok(public75);
+    assert.equal(public75.quotePick, undefined);
+    assert.equal(public75.monthlyFee, 75);
+    assert.match(public75.name, /公居屋轉台 1000M/);
   });
 
   it("keeps the shine on card chrome and disables it for reduced motion", () => {
