@@ -15,7 +15,7 @@ import {
   formatFee,
   formatInstall,
   formatPrepaidShort,
-  isHktPlan,
+  hasCertifiedStaff,
   isNetvigatorVillage,
   planPerks,
   type Plan,
@@ -124,8 +124,8 @@ export function PlanCard({ plan }: { plan: Plan }) {
         {plan.portInPerk ? <li className="text-accent">{tx(plan.portInPerk)}</li> : null}
       </ul>
 
-      {isHktPlan(plan) ? <CertifiedStaffNote className="mt-5" /> : null}
-      <div className={cn("flex flex-col gap-2 sm:flex-row", isHktPlan(plan) ? "mt-2" : "mt-5")}>
+      {hasCertifiedStaff(plan) ? <CertifiedStaffNote plan={plan} className="mt-5" /> : null}
+      <div className={cn("flex flex-col gap-2 sm:flex-row", hasCertifiedStaff(plan) ? "mt-2" : "mt-5")}>
         <Button
           type="button"
           variant={inCompare ? "accent" : "outline"}

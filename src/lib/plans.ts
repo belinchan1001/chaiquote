@@ -2216,6 +2216,27 @@ export function isHktPlan(plan: Plan) {
   return plan.providerId === "netvigator" || plan.providerId === "csl";
 }
 
+export type CertifiedStaffNoteKey = "hktStaffNote" | "hkbnStaffNote";
+
+export function certifiedStaffNoteKey(plan: Plan): CertifiedStaffNoteKey | null {
+  if (plan.providerId === "netvigator" || plan.providerId === "csl") return "hktStaffNote";
+  if (plan.providerId === "hkbn") return "hkbnStaffNote";
+  return null;
+}
+
+export function certifiedStaffNoteKeys(plans: Plan[]): CertifiedStaffNoteKey[] {
+  const keys: CertifiedStaffNoteKey[] = [];
+  for (const plan of plans) {
+    const key = certifiedStaffNoteKey(plan);
+    if (key && !keys.includes(key)) keys.push(key);
+  }
+  return keys;
+}
+
+export function hasCertifiedStaff(plan: Plan) {
+  return certifiedStaffNoteKey(plan) !== null;
+}
+
 export function planGeneration(plan: Plan): Generation | undefined {
   if (plan.category !== "mobile") return undefined;
   return plan.network.startsWith("5G") ? "5g" : "4g";

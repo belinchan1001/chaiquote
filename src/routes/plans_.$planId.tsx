@@ -15,7 +15,7 @@ import {
   formatInstall,
   formatPlanSpeed,
   getPlan,
-  isHktPlan,
+  hasCertifiedStaff,
   isNetvigatorVillage,
   PLANS,
 } from "@/lib/plans";
@@ -98,8 +98,8 @@ function PlanDetailPage() {
           </p>
         ) : null}
 
-        {isHktPlan(plan) ? <CertifiedStaffNote className="mt-6" /> : null}
-        <div className={cn("flex flex-col gap-2 sm:flex-row", isHktPlan(plan) ? "mt-3" : "mt-6")}>
+        {hasCertifiedStaff(plan) ? <CertifiedStaffNote plan={plan} className="mt-6" /> : null}
+        <div className={cn("flex flex-col gap-2 sm:flex-row", hasCertifiedStaff(plan) ? "mt-3" : "mt-6")}>
           <Button type="button" variant={compare.includes(plan.id) ? "accent" : "outline"} onClick={() => toggleCompare(plan.id)}>
             <GitCompareArrows />
             {compare.includes(plan.id) ? t("inCompare") : t("navCompare")}

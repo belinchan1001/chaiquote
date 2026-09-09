@@ -11,7 +11,7 @@ import {
   type CompareCopy,
 } from "./compare.ts";
 import { toEnglish } from "./plan-en.ts";
-import { getPlan, isHktPlan, isNetvigatorVillage, PLANS, type Category } from "./plans.ts";
+import { certifiedStaffNoteKey, getPlan, hasCertifiedStaff, isHktPlan, isNetvigatorVillage, PLANS, type Category } from "./plans.ts";
 
 const copy: CompareCopy = {
   dash: "—",
@@ -414,6 +414,13 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     assert.equal(isHktPlan(plan("hgc-village-1g-phone-24m")), false);
     assert.ok(PLANS.filter((p) => p.providerId === "netvigator" || p.providerId === "csl").every(isHktPlan));
     assert.ok(PLANS.filter((p) => p.providerId !== "netvigator" && p.providerId !== "csl").every((p) => !isHktPlan(p)));
+
+    assert.equal(certifiedStaffNoteKey(village1000), "hktStaffNote");
+    assert.equal(certifiedStaffNoteKey(plan("csl-5g-30")), "hktStaffNote");
+    assert.equal(certifiedStaffNoteKey(plan("hkbn-ftth-1000-36m-98")), "hkbnStaffNote");
+    assert.equal(certifiedStaffNoteKey(plan("hgc-village-1g-phone-24m")), null);
+    assert.ok(PLANS.filter((p) => p.providerId === "hkbn").every(hasCertifiedStaff));
+    assert.ok(PLANS.filter((p) => p.providerId === "hgc").every((p) => !hasCertifiedStaff(p)));
 
     for (const p of [plan98, plan128, plan158]) {
       assert.doesNotMatch(JSON.stringify(p), /保證|最平/);

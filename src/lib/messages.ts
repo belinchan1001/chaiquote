@@ -98,6 +98,7 @@ export const MESSAGES = {
     speedNote: "實際速度視乎現場環境而定",
     villageFeeNote: "村屋計劃有可能會因地址覆蓋而有所調整，詳情請向銷售員查詢。",
     hktStaffNote: "網上行／CSL計劃均由正式認證員工回覆",
+    hkbnStaffNote: "香港寬頻HKBN計劃均由正式認證員工回覆",
     data: "高速數據",
     prepaid: "預繳",
     install: "安裝費",
@@ -425,6 +426,7 @@ export const MESSAGES = {
     villageFeeNote:
       "Village plans may be adjusted depending on address coverage. Please check with a sales adviser.",
     hktStaffNote: "Netvigator / CSL plans are answered by certified staff",
+    hkbnStaffNote: "HKBN plans are answered by certified staff",
     data: "High-speed data",
     prepaid: "Prepaid",
     install: "Installation",
