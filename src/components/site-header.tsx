@@ -20,11 +20,12 @@ export function SiteHeader() {
   const compareCount = useDesk((s) => s.compare.length);
   const { t } = useI18n();
 
-  const links: { to: "/plans" | "/guides" | "/about"; labelKey: MessageKey; search?: { cat: "broadband" | "home5g" | "mobile" | "business" } }[] = [
+  const links: { to: "/plans" | "/guides" | "/about" | "/estates"; labelKey: MessageKey; search?: { cat: "broadband" | "home5g" | "mobile" | "business" } }[] = [
     { to: "/plans", labelKey: "navFibre", search: { cat: "broadband" } },
     { to: "/plans", labelKey: "navHome5g", search: { cat: "home5g" } },
     { to: "/plans", labelKey: "navMobile", search: { cat: "mobile" } },
     { to: "/plans", labelKey: "navBusiness", search: { cat: "business" } },
+    { to: "/estates", labelKey: "navEstates" },
     { to: "/guides", labelKey: "navGuides" },
     { to: "/about", labelKey: "navAbout" },
   ];
