@@ -46,7 +46,130 @@ describe("齊Quote pick badge", () => {
     assert.equal(icable.monthlyFee, 58);
     assert.deepEqual(
       PLANS.filter((plan) => plan.quotePick).map((plan) => plan.id),
-      ["icable-ftth-1000-48m-58", "hkbn-5g-30-78-youth"],
+      [
+        "hkbn-ftth-1000-36m-98",
+        "hkbn-ftth-2500-24m-149",
+        "hkbn-ftth-10000-entertainment",
+        "hkbn-village-2000-24m",
+        "hgc-ftth-2000-hos-36m",
+        "hgc-ftth-1000-private-39m",
+        "netvigator-ftth-1000-private-36m",
+        "netvigator-ftth-1000-public-36m-98",
+        "netvigator-ftth-2500-public-36m-158",
+        "netvigator-ftth-2500-private-36m-176",
+        "icable-ftth-1000-48m-58",
+        "hkbn-5g-30-78-youth",
+      ],
+    );
+  });
+
+  it("flags four HKBN fibre quote picks and leaves the gaming 10000M combo unmarked", () => {
+    const picks = [
+      "hkbn-ftth-2500-24m-149",
+      "hkbn-ftth-10000-entertainment",
+      "hkbn-village-2000-24m",
+      "hkbn-ftth-1000-36m-98",
+    ] as const;
+    for (const id of picks) {
+      const plan = getPlan(id);
+      assert.ok(plan, `missing plan ${id}`);
+      assert.equal(plan.quotePick, true, id);
+    }
+
+    const entertainment = getPlan("hkbn-ftth-10000-entertainment");
+    assert.ok(entertainment);
+    assert.equal(entertainment.monthlyFee, 998);
+    assert.equal(entertainment.contractMonths, 24);
+    assert.match(entertainment.name, /娛樂組合/);
+    assert.doesNotMatch(entertainment.name, /遊戲路由器/);
+
+    const gaming = getPlan("hkbn-ftth-10000-ge800");
+    assert.ok(gaming);
+    assert.equal(gaming.quotePick, undefined);
+    assert.equal(gaming.monthlyFee, 998);
+    assert.match(gaming.name, /遊戲路由器/);
+  });
+
+  it("flags two HGC fibre quote picks and leaves the same-fee public twins unmarked", () => {
+    const private89 = getPlan("hgc-ftth-1000-private-39m");
+    assert.ok(private89);
+    assert.equal(private89.quotePick, true);
+    assert.equal(private89.monthlyFee, 89);
+    assert.equal(private89.contractMonths, 39);
+    assert.match(private89.name, /私人樓宇 1000M/);
+
+    const hos75 = getPlan("hgc-ftth-2000-hos-36m");
+    assert.ok(hos75);
+    assert.equal(hos75.quotePick, true);
+    assert.equal(hos75.monthlyFee, 75);
+    assert.equal(hos75.contractMonths, 36);
+    assert.match(hos75.name, /新居屋／簡約公屋 2000M/);
+
+    const public89 = getPlan("hgc-ftth-1000-public-39m");
+    assert.ok(public89);
+    assert.equal(public89.quotePick, undefined);
+    assert.equal(public89.monthlyFee, 89);
+    assert.match(public89.name, /公居屋 1000M/);
+
+    const public75 = getPlan("hgc-ftth-1000-public-36m");
+    assert.ok(public75);
+    assert.equal(public75.quotePick, undefined);
+    assert.equal(public75.monthlyFee, 75);
+    assert.match(public75.name, /公居屋轉台 1000M/);
+  });
+
+  it("flags four Netvigator fibre quote picks and leaves the excluded twins unmarked", () => {
+    const private2500 = getPlan("netvigator-ftth-2500-private-36m-176");
+    assert.ok(private2500);
+    assert.equal(private2500.quotePick, true);
+    assert.equal(private2500.monthlyFee, 178);
+    assert.equal(private2500.contractMonths, 36);
+    assert.match(private2500.name, /私人樓宇 2500M 光纖/);
+
+    const private1000 = getPlan("netvigator-ftth-1000-private-36m");
+    assert.ok(private1000);
+    assert.equal(private1000.quotePick, true);
+    assert.equal(private1000.monthlyFee, 98);
+    assert.match(private1000.name, /私人樓宇 1000M 光纖/);
+
+    const public2500 = getPlan("netvigator-ftth-2500-public-36m-158");
+    assert.ok(public2500);
+    assert.equal(public2500.quotePick, true);
+    assert.equal(public2500.monthlyFee, 158);
+    assert.match(public2500.name, /公居屋 2500M 光纖/);
+
+    const public1000 = getPlan("netvigator-ftth-1000-public-36m-98");
+    assert.ok(public1000);
+    assert.equal(public1000.quotePick, true);
+    assert.equal(public1000.monthlyFee, 98);
+    assert.match(public1000.name, /公居屋 1000M 光纖（36 個月）/);
+
+    const excluded = [
+      "netvigator-ftth-1000-public-36m-108",
+      "netvigator-ftth-1000-public-36m-128",
+      "netvigator-ftth-1000-exclusive-36m-186",
+      "netvigator-ftth-2500-exclusive-36m-244",
+      "netvigator-ftth-1000-private-36m-198",
+      "netvigator-ftth-1000-private-36m-118",
+    ] as const;
+    for (const id of excluded) {
+      const plan = getPlan(id);
+      assert.ok(plan, `missing plan ${id}`);
+      assert.equal(plan.quotePick, undefined, id);
+    }
+    assert.equal(getPlan("netvigator-ftth-1000-public-36m-108")?.monthlyFee, 108);
+    assert.equal(getPlan("netvigator-ftth-1000-public-36m-128")?.monthlyFee, 128);
+    assert.equal(getPlan("netvigator-ftth-1000-exclusive-36m-186")?.monthlyFee, 186);
+    assert.equal(getPlan("netvigator-ftth-2500-exclusive-36m-244")?.monthlyFee, 244);
+    assert.equal(getPlan("netvigator-ftth-1000-private-36m-118")?.monthlyFee, 108);
+    assert.deepEqual(
+      PLANS.filter((plan) => plan.providerId === "netvigator" && plan.quotePick).map((plan) => plan.id),
+      [
+        "netvigator-ftth-1000-private-36m",
+        "netvigator-ftth-1000-public-36m-98",
+        "netvigator-ftth-2500-public-36m-158",
+        "netvigator-ftth-2500-private-36m-176",
+      ],
     );
   });
 

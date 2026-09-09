@@ -115,7 +115,20 @@ describe("HKBN student/youth 5G 30GB", () => {
     );
     assert.deepEqual(
       PLANS.filter((p) => p.quotePick).map((p) => p.id),
-      ["icable-ftth-1000-48m-58", "hkbn-5g-30-78-youth"],
+      [
+        "hkbn-ftth-1000-36m-98",
+        "hkbn-ftth-2500-24m-149",
+        "hkbn-ftth-10000-entertainment",
+        "hkbn-village-2000-24m",
+        "hgc-ftth-2000-hos-36m",
+        "hgc-ftth-1000-private-39m",
+        "netvigator-ftth-1000-private-36m",
+        "netvigator-ftth-1000-public-36m-98",
+        "netvigator-ftth-2500-public-36m-158",
+        "netvigator-ftth-2500-private-36m-176",
+        "icable-ftth-1000-48m-58",
+        "hkbn-5g-30-78-youth",
+      ],
     );
     assert.equal(youth.portInPerk, undefined);
     assert.equal(youth.prepaid, undefined);

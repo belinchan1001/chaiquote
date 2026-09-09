@@ -130,6 +130,7 @@ export const PLANS: Plan[] = [
     ],
     limits: LIMITS_HKBN_FTTH,
     hot: true,
+    quotePick: true,
     bestFor: "適合公屋、居屋或私人住宅，需要 1000M 光纖及路由器之住戶",
   },
   {
@@ -265,6 +266,7 @@ export const PLANS: Plan[] = [
     perks: ["送指定 TP-Link BE230 Wi-Fi 7 路由器", "家居電話服務"],
     limits: LIMITS_HKBN_FTTH,
     hot: true,
+    quotePick: true,
     bestFor: "適合需要 2500M 光纖及家居電話之住戶",
   },
   {
@@ -326,6 +328,7 @@ export const PLANS: Plan[] = [
       "Money-Back 雙重保證（速度保證、低時延保證）",
     ],
     limits: LIMITS_HKBN_10G,
+    quotePick: true,
     bestFor: "適合需要 10000M 光纖、Wi-Fi 7 及影視娛樂之住戶",
   },
   {
@@ -437,6 +440,7 @@ export const PLANS: Plan[] = [
     network: "光纖入屋",
     perks: ["可選擇延遲服務生效日（最長 365 日）"],
     limits: LIMITS_HKBN_VILLAGE_SELECT_24,
+    quotePick: true,
     bestFor: "適合特選村屋、需要 2000M 光纖之住戶",
   },
   {
@@ -501,6 +505,7 @@ export const PLANS: Plan[] = [
     network: "光纖入屋",
     perks: ["送指定 Wi-Fi 7 路由器", "豁免搬遷費"],
     hot: true,
+    quotePick: true,
     bestFor: "適合新入伙居屋或簡約公屋住戶",
   },
   {
@@ -546,6 +551,7 @@ export const PLANS: Plan[] = [
     housing: ["private"],
     network: "光纖入屋",
     perks: ["送指定 TP-Link Wi-Fi 6 路由器", "家居電話服務", "豁免搬遷費"],
+    quotePick: true,
     bestFor: "適合私人屋苑轉台、需要 1000M 光纖之住戶",
   },
   {
@@ -723,6 +729,7 @@ export const PLANS: Plan[] = [
     perks: ["家居固網電話", PERK_NETVIGATOR_NOWTV, PERK_NETVIGATOR_MOVE, "可加 HK$10 選配 Linksys EA9350 Wi-Fi 6 路由器"],
     limits: LIMITS_NETVIGATOR_FTTH,
     hot: true,
+    quotePick: true,
     bestFor: "適合私人樓宇、需要 1000M 光纖及家居電話之住戶",
   },
   {
@@ -835,6 +842,7 @@ export const PLANS: Plan[] = [
     network: "光纖入屋",
     perks: [PERK_NETVIGATOR_MOVE, "家居固網電話", PERK_NETVIGATOR_NOWTV],
     limits: LIMITS_NETVIGATOR_FTTH,
+    quotePick: true,
     bestFor: "適合公屋或居屋、需要 1000M 光纖之住戶",
   },
   {
@@ -883,6 +891,7 @@ export const PLANS: Plan[] = [
     network: "光纖入屋",
     perks: ["12 個月 Disney+", "包 Wi-Fi 7 路由器", "家居固網電話", PERK_NETVIGATOR_MOVE, PERK_NETVIGATOR_NOWTV],
     limits: LIMITS_NETVIGATOR_FTTH,
+    quotePick: true,
     bestFor: "適合公屋或居屋、需要 2500M 光纖之住戶",
   },
   {
@@ -913,6 +922,7 @@ export const PLANS: Plan[] = [
     housing: ["private"],
     network: "光纖入屋",
     perks: ["12 個月 Disney+", "包 Wi-Fi 7 二合一路由器", "送 Now TV 頻道", PERK_NETVIGATOR_RELO, PERK_NETVIGATOR_APPLIANCE],
+    quotePick: true,
     bestFor: "適合私人屋苑、需要 2500M 光纖之住戶",
   },
   {
