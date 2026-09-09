@@ -410,6 +410,13 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     assert.equal(isHktPlan(village1000), true);
     assert.equal(isHktPlan(plan("csl-5g-30")), true);
     assert.equal(isHktPlan(plan("csl-home5g")), true);
+    const cslHome = plan("csl-home5g");
+    assert.equal(cslHome.name, "5G 家居寬頻包 Wi-Fi 6 路由器");
+    assert.equal(cslHome.monthlyFee, 108);
+    assert.equal(cslHome.contractMonths, 36);
+    assert.equal(cslHome.freeMonths, 1);
+    assert.ok(cslHome.perks.includes("豁免第一個月月費"));
+    assert.ok(cslHome.perks.includes("送指定 Wi-Fi 6 路由器"));
     assert.equal(isHktPlan(plan("hkbn-ftth-1000-36m-98")), false);
     assert.equal(isHktPlan(plan("hgc-village-1g-phone-24m")), false);
     assert.ok(PLANS.filter((p) => p.providerId === "netvigator" || p.providerId === "csl").every(isHktPlan));
