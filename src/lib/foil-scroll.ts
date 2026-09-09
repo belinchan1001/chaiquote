@@ -66,7 +66,7 @@ function tick() {
 
   const vh = window.innerHeight;
   const touch = coarsePointer();
-  const ranked = [...visible]
+  const ranked = [...registered]
     .map((el) => {
       const box = el.getBoundingClientRect();
       const rect = { top: box.top, height: box.height };
@@ -76,7 +76,7 @@ function tick() {
     .sort((a, b) => b.proximity - a.proximity);
 
   const active = new Set(ranked.map((item) => item.el));
-  for (const el of visible) {
+  for (const el of registered) {
     if (!active.has(el)) applyFoil(el, 0, 28, 42);
   }
 
