@@ -105,8 +105,14 @@
   .nav-progress-bar,
   .popover-in,
   .plan-card-shine,
-  .plan-card-shine::before {
+  .plan-card-shine::before,
+  .plan-card-shine > .foil {
     animation: none !important;
+  }
+
+  .plan-card-shine > .foil {
+    opacity: 0.1 !important;
+    background-position: 28% 42% !important;
   }
 
   .plan-card-shine {
@@ -281,43 +287,40 @@
     background-origin: padding-box, border-box;
     background-clip: padding-box, border-box;
     animation: quote-pick-shine 4.8s linear infinite;
+    --foil-x: 28%;
+    --foil-y: 42%;
+    --foil-opacity: 0.12;
   }
 
-  /* Visible static foil wash on the card face. Sits under opaque text. */
-  .plan-card-shine::before {
-    content: "";
+  /* Scroll-driven holofoil under opaque text. Inset keeps the 3px border clear. */
+  .plan-card-shine > .foil {
     pointer-events: none;
     position: absolute;
     inset: 3px;
     z-index: 0;
     border-radius: inherit;
-    background-image:
-      radial-gradient(rgba(165, 243, 252, 0.38) 0.55px, transparent 0.7px),
-      radial-gradient(rgba(221, 214, 254, 0.32) 0.45px, transparent 0.6px),
-      linear-gradient(
-        128deg,
-        rgba(186, 230, 253, 0.7) 0%,
-        rgba(224, 242, 254, 0.36) 14%,
-        rgba(165, 243, 252, 0.62) 28%,
-        rgba(255, 255, 255, 0.18) 42%,
-        rgba(221, 214, 254, 0.6) 56%,
-        rgba(186, 230, 253, 0.52) 72%,
-        rgba(237, 233, 254, 0.4) 86%,
-        rgba(165, 243, 252, 0.48) 100%
-      ),
-      linear-gradient(
-        210deg,
-        rgba(186, 230, 253, 0.32) 0%,
-        rgba(224, 242, 254, 0.2) 40%,
-        rgba(221, 214, 254, 0.3) 100%
-      );
-    background-size: 2.4px 2.4px, 3.2px 3.2px, auto, auto;
-    background-position: 0 0, 1.2px 1.6px, 0 0, 0 0;
+    opacity: var(--foil-opacity);
+    mix-blend-mode: overlay;
+    background-image: linear-gradient(
+      125deg,
+      rgba(186, 230, 253, 0.55) 0%,
+      rgba(255, 255, 255, 0.85) 28%,
+      rgba(186, 230, 253, 0.45) 46%,
+      rgba(251, 207, 232, 0.55) 62%,
+      rgba(221, 214, 254, 0.5) 80%,
+      rgba(186, 230, 253, 0.4) 100%
+    );
+    background-size: 220% 220%;
+    background-position: var(--foil-x) var(--foil-y);
   }
 
   .plan-card-shine > * {
     position: relative;
     z-index: 1;
+  }
+
+  .plan-card-shine > .foil {
+    z-index: 0;
   }
 
   @keyframes quote-pick-shine {

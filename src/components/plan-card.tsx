@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { Bookmark, GitCompareArrows } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,7 @@ import { PlanBadges } from "@/components/plan-badges";
 import { ProviderMark } from "@/components/provider-mark";
 import { QuoteLink } from "@/components/quote-link";
 import { useDesk } from "@/lib/desk";
+import { registerFoilCard } from "@/lib/foil-scroll";
 import { useI18n } from "@/lib/i18n";
 import {
   averageFee,
@@ -18,6 +20,7 @@ import {
 import { cn } from "@/lib/utils";
 
 export function PlanCard({ plan }: { plan: Plan }) {
+  const shineRef = useRef<HTMLElement>(null);
   const compare = useDesk((s) => s.compare);
   const saved = useDesk((s) => s.saved);
   const toggleCompare = useDesk((s) => s.toggleCompare);
@@ -27,13 +30,22 @@ export function PlanCard({ plan }: { plan: Plan }) {
   const avg = averageFee(plan);
   const { t, tx, categoryLabel } = useI18n();
 
+  useEffect(() => {
+    if (!plan.quotePick) return;
+    const el = shineRef.current;
+    if (!el) return;
+    return registerFoilCard(el);
+  }, [plan.quotePick, plan.id]);
+
   return (
     <article
+      ref={shineRef}
       className={cn(
         "flex flex-col rounded-xl bg-card p-5 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
         plan.quotePick && "plan-card-shine",
       )}
     >
+      {plan.quotePick ? <span className="foil" aria-hidden="true" /> : null}
       <div className="flex items-start justify-between gap-3">
         <ProviderMark id={plan.providerId} />
         <div className="flex items-center gap-1">
