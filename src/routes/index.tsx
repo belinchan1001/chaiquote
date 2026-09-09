@@ -10,7 +10,6 @@ import { useI18n, usePageTitle } from "@/lib/i18n";
 import type { MessageKey } from "@/lib/messages";
 import { HOME_SEO_TITLE } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
-import { getEstatePage } from "@/lib/estate-pages";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -24,15 +23,6 @@ const FEATURED_IDS = [
   "hgc-ftth-1000-public-36m",
   "cmhk-home5g-350-48-88",
   "three-45g-44",
-] as const;
-
-const HOME_ESTATE_SLUGS = [
-  "tin-yiu",
-  "kingswood-villas",
-  "city-one",
-  "taikoo-shing",
-  "mei-foo-sun-chuen",
-  "whampoa-garden",
 ] as const;
 
 function Home() {
@@ -149,41 +139,6 @@ function Home() {
               </div>
             </Link>
           ))}
-        </div>
-      </section>
-
-      <section className="border-t border-border bg-card">
-        <div className="mx-auto max-w-6xl px-4 py-10">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <h2 className="text-title font-semibold">{t("estatesDirTitle")}</h2>
-              <p className="mt-2 text-sm text-muted">{t("estatesDirLead")}</p>
-            </div>
-            <Button asChild variant="outline">
-              <Link to="/estates">
-                {t("estatesSeeAll")}
-                <ArrowRight className="size-4" />
-              </Link>
-            </Button>
-          </div>
-          <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {HOME_ESTATE_SLUGS.map((slug) => {
-              const page = getEstatePage(slug);
-              if (!page) return null;
-              return (
-                <li key={page.slug}>
-                  <Link
-                    to="/estates/$slug"
-                    params={{ slug: page.slug }}
-                    className="flex h-11 items-center justify-between gap-3 rounded-lg bg-surface px-3 text-sm"
-                  >
-                    <span className="font-medium">{page.estate.name}</span>
-                    <span className="text-xs text-muted">{page.estate.district}</span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
         </div>
       </section>
 

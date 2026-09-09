@@ -143,6 +143,28 @@ export function SearchPanel() {
             }}
           />
           <HousingGuessNote query={estate} applied={(housing || undefined) as Housing | undefined} />
+          <p className="text-sm text-muted">
+            熱門：
+            <Link to="/estates/$slug" params={{ slug: "tin-yiu" }} className="text-accent underline-offset-4 hover:underline">
+              天耀邨
+            </Link>
+            <span className="px-1.5 text-subtle">·</span>
+            <Link to="/estates/$slug" params={{ slug: "kingswood-villas" }} className="text-accent underline-offset-4 hover:underline">
+              嘉湖山莊
+            </Link>
+            <span className="px-1.5 text-subtle">·</span>
+            <Link to="/estates/$slug" params={{ slug: "city-one" }} className="text-accent underline-offset-4 hover:underline">
+              沙田第一城
+            </Link>
+            <span className="px-1.5 text-subtle">·</span>
+            <Link to="/estates/$slug" params={{ slug: "taikoo-shing" }} className="text-accent underline-offset-4 hover:underline">
+              太古城
+            </Link>
+            <span className="px-1.5 text-subtle">·</span>
+            <Link to="/estates" className="text-accent underline-offset-4 hover:underline">
+              全部屋苑
+            </Link>
+          </p>
         </div>
         <fieldset>
           <legend className="text-xs font-medium tracking-wider text-muted">{t("wantWhat")}</legend>

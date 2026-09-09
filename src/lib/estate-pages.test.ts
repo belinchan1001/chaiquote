@@ -71,4 +71,17 @@ describe("estate SEO pages", () => {
     assert.match(css, /plan-list-enter/);
     assert.match(widget, /wa-pulse/);
   });
+
+  it("keeps homepage estate entry as a text line, not a quote-product block", () => {
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+    const panel = readFileSync(join(here, "../components/search-panel.tsx"), "utf8");
+    const dir = readFileSync(join(here, "../routes/estates.tsx"), "utf8");
+    assert.doesNotMatch(home, /HOME_ESTATE_SLUGS/);
+    assert.doesNotMatch(home, /estatesDirTitle/);
+    assert.match(panel, /熱門：/);
+    assert.match(panel, /tin-yiu/);
+    assert.match(panel, /全部屋苑/);
+    assert.match(dir, /estate-dir-q/);
+    assert.doesNotMatch(dir, /filterPlans/);
+  });
 });

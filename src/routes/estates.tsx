@@ -1,11 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useI18n, usePageTitle } from "@/lib/i18n";
+import { useMemo, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { usePageTitle } from "@/lib/i18n";
 import { canonicalUrl } from "@/lib/seo";
-import { estateHousingLabel, estatePagesByDistrict } from "@/lib/estate-pages";
+import { estatePagesByDistrict } from "@/lib/estate-pages";
 
 const TITLE = "香港屋苑寬頻格價｜齊Quote";
 const DESCRIPTION =
-  "按地區瀏覽香港屋苑寬頻比較。每頁只列出適用該樓類的參考計劃。實際覆蓋同安裝期以電訊商確認為準。";
+  "按地區瀏覽香港屋苑頁。月費同計劃詳情見各屋苑頁或格價頁。實際覆蓋同安裝期以電訊商確認為準。";
 
 export const Route = createFileRoute("/estates")({
   component: EstatesIndexPage,
@@ -26,37 +28,63 @@ export const Route = createFileRoute("/estates")({
 
 function EstatesIndexPage() {
   const groups = estatePagesByDistrict();
-  const { t } = useI18n();
+  const [q, setQ] = useState("");
   usePageTitle(TITLE);
+  const filtered = useMemo(() => {
+    const needle = q.trim();
+    if (!needle) return groups;
+    return groups
+      .map((group) => ({
+        district: group.district,
+        pages: group.pages.filter(
+          (page) =>
+            page.estate.name.includes(needle) ||
+            page.estate.district.includes(needle) ||
+            (page.estate.area ?? "").includes(needle) ||
+            page.estate.aliases.some((alias) => alias.toLowerCase().includes(needle.toLowerCase())),
+        ),
+      }))
+      .filter((group) => group.pages.length > 0);
+  }, [groups, q]);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <p className="text-xs font-medium tracking-wider text-accent">{t("filterPlans")}</p>
-      <h1 className="mt-2 text-title font-semibold">香港屋苑寬頻格價</h1>
+      <h1 className="text-title font-semibold">香港屋苑寬頻格價</h1>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
-        按地區同樓類睇適用參考計劃。實際覆蓋同安裝期以電訊商確認為準。
+        按地區瀏覽屋苑名稱。月費同適用計劃喺各屋苑頁同格價頁。
       </p>
+      <div className="mt-6 max-w-md">
+        <label htmlFor="estate-dir-q" className="text-xs font-medium tracking-wider text-muted">
+          找屋苑
+        </label>
+        <Input
+          id="estate-dir-q"
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="輸入名稱或地區"
+          className="mt-2"
+        />
+      </div>
 
       <div className="mt-10 space-y-10">
-        {groups.map((group) => (
+        {filtered.map((group) => (
           <section key={group.district}>
             <h2 className="text-lg font-semibold">{group.district}</h2>
-            <ul className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            <p className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">
               {group.pages.map((page) => (
-                <li key={page.slug}>
-                  <Link
-                    to="/estates/$slug"
-                    params={{ slug: page.slug }}
-                    className="flex h-11 items-center justify-between gap-3 rounded-lg bg-card px-3 text-sm shadow-[var(--shadow-border)] hover:shadow-[var(--shadow-border-hover)]"
-                  >
-                    <span className="font-medium">{page.estate.name}</span>
-                    <span className="text-xs text-muted">{estateHousingLabel(page.estate.housing)}</span>
-                  </Link>
-                </li>
+                <Link
+                  key={page.slug}
+                  to="/estates/$slug"
+                  params={{ slug: page.slug }}
+                  className="inline-flex h-11 items-center text-accent underline-offset-4 hover:underline"
+                >
+                  {page.estate.name}
+                </Link>
               ))}
-            </ul>
+            </p>
           </section>
         ))}
+        {filtered.length === 0 ? <p className="text-sm text-muted">搵唔到呢個名稱，可改地區或返格價頁繼續睇計劃。</p> : null}
       </div>
     </div>
   );
