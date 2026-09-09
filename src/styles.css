@@ -292,24 +292,24 @@
     z-index: 0;
     border-radius: inherit;
     background-image:
-      radial-gradient(rgba(165, 243, 252, 0.28) 0.55px, transparent 0.7px),
-      radial-gradient(rgba(221, 214, 254, 0.22) 0.45px, transparent 0.6px),
+      radial-gradient(rgba(165, 243, 252, 0.38) 0.55px, transparent 0.7px),
+      radial-gradient(rgba(221, 214, 254, 0.32) 0.45px, transparent 0.6px),
       linear-gradient(
         128deg,
-        rgba(186, 230, 253, 0.58) 0%,
-        rgba(255, 255, 255, 0.28) 14%,
-        rgba(224, 242, 254, 0.48) 28%,
-        rgba(255, 255, 255, 0.64) 44%,
-        rgba(221, 214, 254, 0.52) 58%,
-        rgba(165, 243, 252, 0.42) 74%,
-        rgba(255, 255, 255, 0.24) 88%,
-        rgba(186, 230, 253, 0.4) 100%
+        rgba(186, 230, 253, 0.7) 0%,
+        rgba(224, 242, 254, 0.36) 14%,
+        rgba(165, 243, 252, 0.62) 28%,
+        rgba(255, 255, 255, 0.18) 42%,
+        rgba(221, 214, 254, 0.6) 56%,
+        rgba(186, 230, 253, 0.52) 72%,
+        rgba(237, 233, 254, 0.4) 86%,
+        rgba(165, 243, 252, 0.48) 100%
       ),
       linear-gradient(
         210deg,
-        rgba(224, 242, 254, 0.34) 0%,
-        transparent 40%,
-        rgba(221, 214, 254, 0.28) 100%
+        rgba(186, 230, 253, 0.32) 0%,
+        rgba(224, 242, 254, 0.2) 40%,
+        rgba(221, 214, 254, 0.3) 100%
       );
     background-size: 2.4px 2.4px, 3.2px 3.2px, auto, auto;
     background-position: 0 0, 1.2px 1.6px, 0 0, 0 0;
