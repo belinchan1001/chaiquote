@@ -4,7 +4,11 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import {
+  FOIL_DESKTOP_FLOOR,
+  FOIL_DESKTOP_PEAK,
   FOIL_MAX_FULL,
+  FOIL_TOUCH_FLOOR,
+  FOIL_TOUCH_PEAK,
   foilOpacity,
   foilPosition,
   foilProgress,
@@ -41,11 +45,19 @@ describe("scroll-driven 齊Quote foil", () => {
     assert.ok(edge < centered);
     const desktopCenter = foilOpacity(1, 0, false);
     const phoneCenter = foilOpacity(1, 0, true);
+    const phoneEdge = foilOpacity(0, 0, true);
     const fourth = foilOpacity(1, FOIL_MAX_FULL, false);
-    assert.ok(desktopCenter <= 0.4 && desktopCenter > 0.3);
-    assert.ok(phoneCenter < desktopCenter);
+    assert.equal(desktopCenter, FOIL_DESKTOP_PEAK);
+    assert.equal(phoneCenter, FOIL_TOUCH_PEAK);
+    assert.equal(phoneEdge, FOIL_TOUCH_FLOOR);
+    assert.ok(phoneCenter > 0.26, `phone peak ${phoneCenter} must be painted, not the old overlay-faint 0.26`);
+    assert.ok(phoneCenter >= 0.34, `phone peak ${phoneCenter} must be obviously visible on a white card`);
+    assert.ok(phoneCenter < desktopCenter, "phone can stay a bit weaker than desktop");
+    assert.ok(phoneEdge >= 0.1, `phone floor ${phoneEdge} must still read as a sheen`);
+    assert.ok(FOIL_TOUCH_PEAK > FOIL_DESKTOP_FLOOR);
     assert.ok(fourth < desktopCenter * 0.4);
     assert.ok(foilOpacity(0, 0, false) < 0.12);
+    assert.equal(foilOpacity(0, 0, false), FOIL_DESKTOP_FLOOR);
   });
 
   it("uses one shared rAF scroll driver and CSS variables, not hover or a one-shot sweep", () => {
@@ -61,10 +73,16 @@ describe("scroll-driven 齊Quote foil", () => {
     assert.doesNotMatch(card, /is-foil-sweep|playFoilSweep/);
     assert.doesNotMatch(card, /is-featured/);
 
-    assert.ok(
-      [...driver.matchAll(/addEventListener\(\s*["']scroll["']/g)].length <= 2,
-      "scroll listeners belong on the shared driver, not each card",
+    assert.equal(
+      [...driver.matchAll(/addEventListener\(\s*["']scroll["']/g)].length,
+      3,
+      "one shared driver: window, document, visualViewport",
     );
+    assert.match(driver, /window\.addEventListener\(\s*["']scroll["'][\s\S]*FOIL_SCROLL_OPTS/);
+    assert.match(driver, /document\.addEventListener\(\s*["']scroll["'][\s\S]*FOIL_SCROLL_OPTS/);
+    assert.match(driver, /visualViewport\?\.addEventListener\(\s*["']scroll["']/);
+    assert.match(driver, /capture:\s*true/);
+    assert.match(driver, /document\.removeEventListener\(\s*["']scroll["']/);
     assert.match(driver, /requestAnimationFrame/);
     assert.match(driver, /IntersectionObserver/);
     assert.match(driver, /--foil-opacity/);
@@ -73,11 +91,15 @@ describe("scroll-driven 齊Quote foil", () => {
     assert.match(driver, /prefers-reduced-motion/);
     assert.match(driver, /pointer:\s*coarse/);
     assert.match(driver, /FOIL_MAX_FULL = 3/);
+    assert.match(driver, /FOIL_TOUCH_PEAK = 0\.36/);
     assert.doesNotMatch(driver, /setInterval/);
     assert.doesNotMatch(driver, /is-foil-sweep/);
+    assert.doesNotMatch(driver, /0\.26/);
 
     assert.match(css, /opacity:\s*var\(--foil-opacity\)/);
     assert.match(css, /var\(--foil-x\)\s+var\(--foil-y\)/);
+    assert.match(css, /mix-blend-mode:\s*normal/);
+    assert.doesNotMatch(css, /mix-blend-mode:\s*overlay/);
     assert.doesNotMatch(css, /@keyframes foil-sweep/);
     assert.doesNotMatch(css, /\.plan-card-shine:hover[^\n]*\.foil[\s\S]*animation:\s*foil-sweep/);
     assert.match(

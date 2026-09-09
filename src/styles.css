@@ -292,7 +292,9 @@
     --foil-opacity: 0.12;
   }
 
-  /* Scroll-driven holofoil under opaque text. Inset keeps the 3px border clear. */
+  /* Scroll-driven holofoil under opaque text. Inset keeps the 3px border clear.
+     Paint the band with normal blend — overlay on a near-white card is invisible
+     in iOS Safari (peak 0.26 still reads as a flat white face). */
   .plan-card-shine > .foil {
     pointer-events: none;
     position: absolute;
@@ -300,15 +302,16 @@
     z-index: 0;
     border-radius: inherit;
     opacity: var(--foil-opacity);
-    mix-blend-mode: overlay;
+    mix-blend-mode: normal;
     background-image: linear-gradient(
       125deg,
-      rgba(186, 230, 253, 0.55) 0%,
-      rgba(255, 255, 255, 0.85) 28%,
-      rgba(186, 230, 253, 0.45) 46%,
-      rgba(251, 207, 232, 0.55) 62%,
-      rgba(221, 214, 254, 0.5) 80%,
-      rgba(186, 230, 253, 0.4) 100%
+      rgba(186, 230, 253, 0.28) 0%,
+      rgba(186, 230, 253, 0.75) 20%,
+      rgba(255, 255, 255, 1) 34%,
+      rgba(165, 243, 252, 0.7) 44%,
+      rgba(251, 207, 232, 0.82) 58%,
+      rgba(221, 214, 254, 0.7) 74%,
+      rgba(186, 230, 253, 0.3) 100%
     );
     background-size: 220% 220%;
     background-position: var(--foil-x) var(--foil-y);

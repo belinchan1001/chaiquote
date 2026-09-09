@@ -1,4 +1,8 @@
 export const FOIL_MAX_FULL = 3;
+export const FOIL_DESKTOP_PEAK = 0.4;
+export const FOIL_TOUCH_PEAK = 0.36;
+export const FOIL_DESKTOP_FLOOR = 0.08;
+export const FOIL_TOUCH_FLOOR = 0.12;
 
 export type FoilRect = { top: number; height: number };
 
@@ -31,8 +35,8 @@ export function foilPosition(progress: number) {
 }
 
 export function foilOpacity(proximity: number, rank: number, touch: boolean) {
-  const peak = touch ? 0.26 : 0.4;
-  const floor = touch ? 0.05 : 0.08;
+  const peak = touch ? FOIL_TOUCH_PEAK : FOIL_DESKTOP_PEAK;
+  const floor = touch ? FOIL_TOUCH_FLOOR : FOIL_DESKTOP_FLOOR;
   const cap = rank < FOIL_MAX_FULL ? 1 : 0.22;
   return floor + (peak - floor) * proximity * cap;
 }
@@ -41,6 +45,9 @@ const registered = new Set<HTMLElement>();
 let raf = 0;
 let listening = false;
 let io: IntersectionObserver | null = null;
+
+/** One shared finger-scroll listener: window + document + capture, still via rAF. */
+const FOIL_SCROLL_OPTS: AddEventListenerOptions = { passive: true, capture: true };
 
 function reducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -94,7 +101,8 @@ function ensureListening() {
   if (listening || typeof window === "undefined") return;
   listening = true;
   io = new IntersectionObserver(() => schedule(), { rootMargin: "10% 0px", threshold: 0 });
-  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("scroll", schedule, FOIL_SCROLL_OPTS);
+  document.addEventListener("scroll", schedule, FOIL_SCROLL_OPTS);
   window.addEventListener("resize", schedule, { passive: true });
   window.visualViewport?.addEventListener("scroll", schedule, { passive: true });
 }
@@ -104,7 +112,8 @@ function stopIfIdle() {
   listening = false;
   io?.disconnect();
   io = null;
-  window.removeEventListener("scroll", schedule);
+  window.removeEventListener("scroll", schedule, FOIL_SCROLL_OPTS);
+  document.removeEventListener("scroll", schedule, FOIL_SCROLL_OPTS);
   window.removeEventListener("resize", schedule);
   window.visualViewport?.removeEventListener("scroll", schedule);
   if (raf) cancelAnimationFrame(raf);

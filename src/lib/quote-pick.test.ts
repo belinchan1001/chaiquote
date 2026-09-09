@@ -110,7 +110,9 @@ describe("齊Quote pick badge", () => {
     assert.match(foil, /pointer-events:\s*none/);
     assert.match(foil, /inset:\s*3px/);
     assert.match(foil, /linear-gradient/);
-    assert.match(foil, /mix-blend-mode:\s*overlay/);
+    assert.match(foil, /mix-blend-mode:\s*normal/);
+    assert.doesNotMatch(foil, /mix-blend-mode:\s*overlay/);
+    assert.doesNotMatch(css, /mix-blend-mode:\s*overlay/);
     assert.match(foil, /rgba\(186, 230, 253/);
     assert.match(foil, /rgba\(255, 255, 255/);
     assert.match(foil, /rgba\(221, 214, 254/);
