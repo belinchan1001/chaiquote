@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { JsonLd } from "@/components/json-ld";
 import { QuoteLink } from "@/components/quote-link";
@@ -67,34 +68,23 @@ function GuideRichText({ text }: { text: string }) {
   );
 }
 
-function GuideTableView({ table }: { table: GuideTable }) {
+function GuideCompareCards({ table, seeDetail }: { table: GuideTable; seeDetail: string }) {
   return (
-    <div className="mt-4 overflow-x-auto">
-      <table className="w-full text-left text-sm">
-        <caption className="sr-only">{table.caption}</caption>
-        <thead>
-          <tr className="border-b border-border text-fg">
-            <th scope="col" className="py-2 pr-4 font-semibold">
-              {table.headers[0]}
-            </th>
-            <th scope="col" className="py-2 font-semibold">
-              {table.headers[1]}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {table.rows.map((row) => (
-            <tr key={row.label} className="border-b border-border">
-              <th scope="row" className="py-3 pr-4 font-medium text-fg">
-                <a href={row.href} className="text-accent underline-offset-4 hover:underline">
-                  {row.label}
-                </a>
-              </th>
-              <td className="py-3 text-muted">{row.value}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+      {table.rows.map((row) => (
+        <a
+          key={row.label}
+          href={row.href}
+          className="flex h-full min-h-11 flex-col rounded-xl bg-card p-4 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
+        >
+          <p className="font-semibold">{row.label}</p>
+          <p className="mt-1 flex-1 text-sm leading-relaxed text-muted">{row.value}</p>
+          <p className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-accent">
+            {seeDetail}
+            <ArrowRight className="size-4" />
+          </p>
+        </a>
+      ))}
     </div>
   );
 }
@@ -108,6 +98,7 @@ function GuidePage() {
     .map((slug) => getGuide(slug))
     .filter((item): item is NonNullable<typeof item> => Boolean(item));
   const plans = guide.plans ?? [];
+  const primaryPlan = plans[0];
   const estates = guide.estates ?? [
     { href: "/estates", label: "屋苑目錄" },
     { href: "/estates/tin-yiu", label: "天耀邨" },
@@ -116,6 +107,7 @@ function GuidePage() {
     ...copy.body.map((section) => ({ id: headingId(section.heading), label: section.heading })),
     ...(copy.faq.length ? [{ id: "faq", label: t("faqHeading") }] : []),
   ];
+  const firstTableHeading = copy.body.find((section) => section.table)?.heading;
 
   return (
     <article className="mx-auto max-w-2xl px-4 py-10">
@@ -139,13 +131,22 @@ function GuidePage() {
       <h1 className="mt-2 text-title font-semibold">{copy.h1}</h1>
       <p className="mt-3 text-base leading-relaxed text-muted">{copy.excerpt}</p>
       {toc.length > 2 ? (
-        <nav aria-label={t("tocLabel")} className="mt-6 border border-border bg-surface px-4 py-3">
-          <p className="text-xs font-medium text-subtle">{t("tocLabel")}</p>
-          <ol className="mt-2 space-y-1 text-sm">
-            {toc.map((item) => (
+        <nav
+          aria-label={t("tocLabel")}
+          className="mt-6 rounded-xl bg-card px-4 py-3 shadow-[var(--shadow-border)]"
+        >
+          <p className="text-xs font-medium tracking-wider text-subtle uppercase">{t("tocLabel")}</p>
+          <ol className="mt-1">
+            {toc.map((item, index) => (
               <li key={item.id}>
-                <a href={`#${item.id}`} className="text-accent underline-offset-4 hover:underline">
-                  {item.label}
+                <a
+                  href={`#${item.id}`}
+                  className="flex min-h-11 items-center gap-3 text-sm text-fg hover:text-accent"
+                >
+                  <span className="w-6 shrink-0 tabular-nums text-subtle">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span>{item.label}</span>
                 </a>
               </li>
             ))}
@@ -160,86 +161,109 @@ function GuidePage() {
               <GuideRichText text={p} />
             </p>
           ))}
-          {section.table ? <GuideTableView table={section.table} /> : null}
+          {section.table ? <GuideCompareCards table={section.table} seeDetail={t("seeDetail")} /> : null}
+          {section.heading === firstTableHeading && primaryPlan ? (
+            <Button asChild className="mt-5 w-full sm:w-auto">
+              <a href={primaryPlan.href}>
+                {primaryPlan.label}
+                <ArrowRight className="size-4" />
+              </a>
+            </Button>
+          ) : null}
         </section>
       ))}
       {copy.faq.length > 0 ? (
-        <section id="faq" className="mt-8 scroll-mt-24">
+        <section id="faq" className="mt-10 scroll-mt-24">
           <h2 className="text-lg font-semibold">{t("faqHeading")}</h2>
-          <dl className="mt-3 space-y-5">
+          <div className="mt-3 divide-y divide-border rounded-xl bg-card px-4 shadow-[var(--shadow-border)]">
             {copy.faq.map((item) => (
-              <div key={item.q}>
-                <dt>
-                  <h3 className="text-base font-semibold">{item.q}</h3>
-                </dt>
-                <dd className="mt-2 text-base leading-relaxed text-muted">
+              <details key={item.q} className="group py-3">
+                <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-left text-base font-medium">
+                  {item.q}
+                  <span className="text-subtle transition-transform duration-150 group-open:rotate-45">+</span>
+                </summary>
+                <p className="pb-3 text-sm leading-relaxed text-muted">
                   <GuideRichText text={item.a} />
-                </dd>
-              </div>
+                </p>
+              </details>
             ))}
-          </dl>
+          </div>
         </section>
       ) : null}
       {related.length > 0 ? (
-        <p className="mt-8 text-sm text-muted">
-          {t("relatedGuides")}{" "}
-          {related.map((item, index) => {
-            const relatedCopy = guideCopy(item, locale);
-            return (
-              <span key={item.slug}>
-                {index > 0 ? " · " : null}
-                <Link
-                  to="/guides/$slug"
-                  params={{ slug: item.slug }}
-                  className="text-accent underline"
-                >
-                  {relatedCopy.title}
-                </Link>
-              </span>
-            );
-          })}
-        </p>
+        <section className="mt-10">
+          <h2 className="text-lg font-semibold">{t("relatedHeading")}</h2>
+          <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+            {related.map((item) => {
+              const relatedCopy = guideCopy(item, locale);
+              return (
+                <li key={item.slug}>
+                  <Link
+                    to="/guides/$slug"
+                    params={{ slug: item.slug }}
+                    className="flex min-h-11 items-center justify-between gap-3 rounded-xl bg-card px-4 py-3 text-sm font-medium shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
+                  >
+                    <span>{relatedCopy.title}</span>
+                    <ArrowRight className="size-4 shrink-0 text-accent" />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
       ) : null}
 
-      <div className="mt-8 text-sm text-muted">
-        <p>
-          {plans.map((item, index) => (
-            <span key={item.href}>
-              {index > 0 ? " · " : null}
-              <a href={item.href} className="text-accent underline-offset-4 hover:underline">
-                {item.label}
-              </a>
-            </span>
-          ))}
+      <section className="mt-10 rounded-xl bg-card p-5 shadow-[var(--shadow-border)]">
+        <p className="font-semibold">{copy.ctaLead ?? t("guideCta")}</p>
+        <p className="mt-2 text-sm leading-relaxed text-muted">
+          實際覆蓋、安裝期同月費以電訊商確認為準，唔好假設一定有線。
         </p>
-        <p className="mt-3">
-          {estates.map((item, index) => (
-            <span key={item.href}>
-              {index > 0 ? " · " : null}
-              <a href={item.href} className="text-accent underline-offset-4 hover:underline">
-                {item.label}
+        <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+          {primaryPlan ? (
+            <Button asChild className="w-full sm:w-auto">
+              <a href={primaryPlan.href}>
+                {primaryPlan.label}
+                <ArrowRight className="size-4" />
               </a>
-            </span>
-          ))}
-        </p>
-        <p className="mt-3">實際覆蓋、安裝期同月費以電訊商確認為準，唔好假設一定有線。</p>
-      </div>
-
-      <div className="mt-12 bg-surface p-5">
-        <p className="font-medium">{copy.ctaLead ?? t("guideCta")}</p>
-        {copy.ctaButton && copy.waText ? (
-          <Button asChild variant="whatsapp" className="mt-4">
-            <a href={whatsappHref(copy.waText)} target="_blank" rel="noopener noreferrer">
-              <WhatsAppIcon />
-              <span className="truncate">{copy.ctaButton}</span>
+            </Button>
+          ) : null}
+          {copy.ctaButton && copy.waText ? (
+            <Button asChild variant="whatsapp" className="w-full sm:w-auto">
+              <a href={whatsappHref(copy.waText)} target="_blank" rel="noopener noreferrer">
+                <WhatsAppIcon />
+                <span className="truncate">{copy.ctaButton}</span>
+              </a>
+            </Button>
+          ) : (
+            <QuoteLink className="w-full sm:w-auto" inquiry={guide.inquiry}>
+              查核報價
+            </QuoteLink>
+          )}
+        </div>
+        {plans.length > 1 ? (
+          <p className="mt-4 text-sm text-muted">
+            {plans.slice(1).map((item, index) => (
+              <span key={item.href}>
+                {index > 0 ? " · " : null}
+                <a href={item.href} className="text-accent underline-offset-4 hover:underline">
+                  {item.label}
+                </a>
+              </span>
+            ))}
+          </p>
+        ) : null}
+        <div className="mt-4 flex flex-wrap gap-2">
+          {estates.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="inline-flex h-11 items-center rounded-full bg-surface px-4 text-sm text-fg hover:bg-border"
+            >
+              {item.label}
             </a>
-          </Button>
-        ) : (
-          <QuoteLink className="mt-4" inquiry={guide.inquiry}>
-            查核報價
-          </QuoteLink>
-        )}
-      </div>
+          ))}
+        </div>
+      </section>
     </article>
   );
 }

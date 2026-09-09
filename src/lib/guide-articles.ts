@@ -86,6 +86,22 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "一般家庭上網、開會、一兩路 4K，1000M 已經夠用。屋企人多、經常上傳大檔、或者想預留頻寬，先考慮 2500M 或以上。速度唔等於體驗：樓內 Wi-Fi、舊路由器、牆身先影響日常手感。可再睇 [1000M 夠唔夠](/guides/is-1000m-enough)。",
         ],
+        table: {
+          caption: "1000M 同 2500M+",
+          headers: ["速度", "適合"],
+          rows: [
+            {
+              label: "1000M",
+              value: "上網、開會、一兩路 4K。一般家庭夠用。",
+              href: "/guides/is-1000m-enough",
+            },
+            {
+              label: "2500M+",
+              value: "屋企人多、經常上傳大檔，或者想預留頻寬。",
+              href: "/guides/is-1000m-enough",
+            },
+          ],
+        },
       },
       {
         heading: "轉台要問清楚嘅四件事",
@@ -147,6 +163,22 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "For browsing, calls and one or two 4K streams, 1000M is usually enough. A busy household or lots of uploads may want 2500M+. See [is 1000M enough](/guides/is-1000m-enough).",
         ],
+        table: {
+          caption: "1000M vs 2500M+",
+          headers: ["Speed", "Best for"],
+          rows: [
+            {
+              label: "1000M",
+              value: "Browsing, calls, one or two 4K streams. Enough for most homes.",
+              href: "/guides/is-1000m-enough",
+            },
+            {
+              label: "2500M+",
+              value: "Busy household, lots of uploads, or spare bandwidth.",
+              href: "/guides/is-1000m-enough",
+            },
+          ],
+        },
       },
       {
         heading: "Four things to ask when you switch",
