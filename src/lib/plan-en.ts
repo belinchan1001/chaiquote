@@ -234,6 +234,7 @@ const PHRASES: [string, string][] = [
   ["5G 家居 Wi-Fi 7 真無限（30 個月）", "5G home Wi-Fi 7 truly unlimited (30 months)"],
   ["5G 家居 Wi-Fi 7 真無限（48 個月）", "5G home Wi-Fi 7 truly unlimited (48 months)"],
   ["5G 家居寬頻連路由器", "5G home broadband with router"],
+  ["5G 家居寬頻包 Wi-Fi 7 路由器", "5G home broadband with Wi-Fi 7 router"],
   ["5G 家居寬頻包 Wi-Fi 6 路由器", "5G home broadband with Wi-Fi 6 router"],
   ["5G 家居寬頻 Wi-Fi 6", "5G home broadband Wi-Fi 6"],
   ["5G 家居寬頻", "5G home broadband"],
