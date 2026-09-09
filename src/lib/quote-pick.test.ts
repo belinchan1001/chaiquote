@@ -56,13 +56,12 @@ describe("齊Quote pick badge", () => {
 
     assert.match(card, /<article[\s\S]*plan\.quotePick && "plan-card-shine"/);
     assert.match(card, /plan\.quotePick \? <span className="foil"/);
+    assert.match(card, /registerFoilCard/);
     assert.doesNotMatch(card, /is-featured/);
     assert.doesNotMatch(card, /formatFee\(plan\.monthlyFee\)[\s\S]{0,200}(plan-card-shine|className="foil")/);
-    assert.match(card, /onPointerDown/);
-    assert.match(card, /is-foil-sweep/);
-    assert.match(card, /IntersectionObserver/);
+    assert.doesNotMatch(card, /onPointerDown/);
+    assert.doesNotMatch(card, /is-foil-sweep|playFoilSweep/);
     assert.doesNotMatch(card, /addEventListener\(\s*["']scroll["']/);
-    assert.doesNotMatch(card, /registerFoilCard|foil-scroll/);
     assert.match(css, /@property --quote-pick-angle/);
     assert.match(css, /\.plan-card-shine\s*\{/);
     assert.match(css, /conic-gradient\(/);
@@ -117,18 +116,15 @@ describe("齊Quote pick badge", () => {
     assert.match(foil, /rgba\(221, 214, 254/);
     assert.match(foil, /rgba\(251, 207, 232/);
     assert.doesNotMatch(foil, /animation:/);
-    assert.match(foil, /opacity:\s*0\.3/);
-    assert.match(css, /\.plan-card-shine\.is-foil-sweep > \.foil[\s\S]*animation:\s*foil-sweep 1\.1s ease-out/);
-    assert.match(css, /\.plan-card-shine:hover > \.foil[\s\S]*animation:\s*foil-sweep 1\.1s ease-out/);
-    assert.match(css, /@keyframes foil-sweep/);
-    assert.doesNotMatch(css, /animation:\s*foil-sweep[^\n]*infinite/);
-    assert.doesNotMatch(
+    assert.match(foil, /opacity:\s*var\(--foil-opacity\)/);
+    assert.match(foil, /var\(--foil-x\)\s+var\(--foil-y\)/);
+    assert.doesNotMatch(css, /@keyframes foil-sweep/);
+    assert.doesNotMatch(css, /\.plan-card-shine:hover[^\n]*\.foil[\s\S]*animation:\s*foil-sweep/);
+    assert.doesNotMatch(css, /\.is-foil-sweep/);
+    assert.match(
       css,
-      /@keyframes foil-sweep\s*\{[^}]*(opacity|transform|filter)/,
+      /prefers-reduced-motion:\s*reduce[\s\S]*\.plan-card-shine > \.foil[\s\S]*opacity:\s*0\.1/,
     );
-    const restOpacity = Number((foil.match(/opacity:\s*([0-9.]+)/) ?? [])[1]);
-    assert.ok(restOpacity > 0.18, `resting foil too faint: ${restOpacity}`);
-    assert.ok(restOpacity < 0.42, `resting foil too strong: ${restOpacity}`);
     assert.match(
       css,
       /prefers-reduced-motion:\s*reduce[\s\S]*\.plan-card-shine > \.foil[\s\S]*animation:\s*none/,

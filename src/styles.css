@@ -110,6 +110,11 @@
     animation: none !important;
   }
 
+  .plan-card-shine > .foil {
+    opacity: 0.1 !important;
+    background-position: 28% 42% !important;
+  }
+
   .plan-card-shine {
     background-image:
       linear-gradient(var(--color-card), var(--color-card)),
@@ -282,16 +287,19 @@
     background-origin: padding-box, border-box;
     background-clip: padding-box, border-box;
     animation: quote-pick-shine 4.8s linear infinite;
+    --foil-x: 28%;
+    --foil-y: 42%;
+    --foil-opacity: 0.12;
   }
 
-  /* One-shot holofoil under opaque text. Inset keeps the 3px border clear. */
+  /* Scroll-driven holofoil under opaque text. Inset keeps the 3px border clear. */
   .plan-card-shine > .foil {
     pointer-events: none;
     position: absolute;
     inset: 3px;
     z-index: 0;
     border-radius: inherit;
-    opacity: 0.3;
+    opacity: var(--foil-opacity);
     mix-blend-mode: overlay;
     background-image: linear-gradient(
       125deg,
@@ -303,19 +311,7 @@
       rgba(186, 230, 253, 0.4) 100%
     );
     background-size: 220% 220%;
-    background-position: 28% 42%;
-  }
-
-  .plan-card-shine.is-foil-sweep > .foil {
-    opacity: 0.42;
-    animation: foil-sweep 1.1s ease-out;
-  }
-
-  @media (hover: hover) {
-    .plan-card-shine:hover > .foil {
-      opacity: 0.42;
-      animation: foil-sweep 1.1s ease-out;
-    }
+    background-position: var(--foil-x) var(--foil-y);
   }
 
   .plan-card-shine > * {
@@ -330,18 +326,6 @@
   @keyframes quote-pick-shine {
     to {
       --quote-pick-angle: 360deg;
-    }
-  }
-
-  @keyframes foil-sweep {
-    0% {
-      background-position: 0% 88%;
-    }
-    70% {
-      background-position: 92% 8%;
-    }
-    100% {
-      background-position: 28% 42%;
     }
   }
 
