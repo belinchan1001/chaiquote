@@ -150,3 +150,9 @@ export function relatedGuideSlug(estate: Estate): "village" | "fiber-vs-5g" {
 export function getEstatePageByName(name: string): EstatePage | undefined {
   return PAGE_BY_NAME.get(name);
 }
+
+export function estateSelectTarget(estate: Estate): { kind: "page"; slug: string } | { kind: "plans"; estate: string; housing: Housing } {
+  const page = PAGE_BY_NAME.get(estate.name);
+  if (page) return { kind: "page", slug: page.slug };
+  return { kind: "plans", estate: estate.name, housing: estate.housing };
+}

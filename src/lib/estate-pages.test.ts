@@ -9,6 +9,7 @@ import {
   ESTATE_PAGES,
   estateHousingLabel,
   estatePlans,
+  estateSelectTarget,
   estateSeoTitle,
   getEstatePage,
   SKIPPED_ESTATE_REQUESTS,
@@ -82,6 +83,15 @@ describe("estate SEO pages", () => {
     assert.match(panel, /tin-yiu/);
     assert.match(panel, /全部屋苑/);
     assert.match(dir, /estate-dir-q/);
-    assert.doesNotMatch(dir, /filterPlans/);
+    assert.match(dir, /熱門屋苑價格/);
+    assert.match(dir, /可以直接選擇屋苑/);
+    assert.match(dir, /searchEstates/);
+    const wahFu = ESTATES.find((item) => item.name === "華富邨");
+    assert.ok(wahFu);
+    const target = estateSelectTarget(wahFu);
+    assert.equal(target.kind, "plans");
+    const tin = getEstatePage("tin-yiu");
+    assert.ok(tin);
+    assert.deepEqual(estateSelectTarget(tin.estate), { kind: "page", slug: "tin-yiu" });
   });
 });

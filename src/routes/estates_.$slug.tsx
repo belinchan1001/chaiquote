@@ -65,7 +65,7 @@ function EstatePage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <Link to="/estates" className="text-sm text-muted hover:text-fg">
-        香港屋苑寬頻格價
+        熱門屋苑價格
       </Link>
       <p className="mt-6 text-xs font-medium tracking-wider text-muted">
         {estate.district}
