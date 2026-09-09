@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { EstateNameSearch } from "@/components/estate-name-search";
 import { JsonLd } from "@/components/json-ld";
-import { QuotePromo } from "@/components/quote-promo";
 import { getEstatePageByName, HOT_ESTATE_NAMES } from "@/lib/estate-pages";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { formatFee, minMonthlyFee } from "@/lib/plans";
@@ -48,49 +47,44 @@ function Home() {
         }}
       />
 
-      <section className="px-4 py-14 sm:py-20">
-        <div className="mx-auto max-w-3xl">
-          <h1 className="text-center font-display text-display font-semibold leading-none tracking-tight">
-            搵寬頻唔使四圍問
-          </h1>
-          <div className="mt-8">
-            <EstateNameSearch id="estate-search" size="lg" />
-          </div>
-          <p className="mt-3 text-center text-sm text-muted">
-            填屋苑就會判斷公屋、居屋、私樓定村屋，然後只睇啱你嗰類計劃
-          </p>
-          <p className="mt-6 text-center text-sm">
-            <Link to="/plans" search={{ cat: "broadband" }} className="text-accent underline-offset-4 hover:underline">
-              睇晒光纖
-            </Link>
-            <span className="px-2 text-subtle">·</span>
-            <Link to="/plans" search={{ cat: "home5g" }} className="text-accent underline-offset-4 hover:underline">
-              5G家居
-            </Link>
-            <span className="px-2 text-subtle">·</span>
-            <Link
-              to="/plans"
-              search={{ cat: "broadband", housing: "public" }}
-              className="text-accent underline-offset-4 hover:underline"
-            >
-              公屋計劃
-            </Link>
-            <span className="px-2 text-subtle">·</span>
-            <Link
-              to="/plans"
-              search={{ cat: "broadband", housing: "village" }}
-              className="text-accent underline-offset-4 hover:underline"
-            >
-              村屋計劃
-            </Link>
-          </p>
-          <p className="mt-4 text-center text-sm text-muted">
-            光纖 {formatFee(fiberFrom)} 起 · 5G家居 {formatFee(home5gFrom)} 起 · 手機 {formatFee(mobileFrom)} 起
-          </p>
+      <section className="mx-auto max-w-3xl px-4 py-14 sm:py-20">
+        <h1 className="text-center font-display text-display font-semibold leading-none tracking-tight">
+          搵寬頻唔使四圍問
+        </h1>
+        <div className="mt-8">
+          <EstateNameSearch id="estate-search" size="lg" />
         </div>
-        <div className="mx-auto mt-10 max-w-6xl">
-          <QuotePromo />
-        </div>
+        <p className="mt-3 text-center text-sm text-muted">
+          填屋苑就會判斷公屋、居屋、私樓定村屋，然後只睇啱你嗰類計劃
+        </p>
+        <p className="mt-6 text-center text-sm">
+          <Link to="/plans" search={{ cat: "broadband" }} className="text-accent underline-offset-4 hover:underline">
+            睇晒光纖
+          </Link>
+          <span className="px-2 text-subtle">·</span>
+          <Link to="/plans" search={{ cat: "home5g" }} className="text-accent underline-offset-4 hover:underline">
+            5G家居
+          </Link>
+          <span className="px-2 text-subtle">·</span>
+          <Link
+            to="/plans"
+            search={{ cat: "broadband", housing: "public" }}
+            className="text-accent underline-offset-4 hover:underline"
+          >
+            公屋計劃
+          </Link>
+          <span className="px-2 text-subtle">·</span>
+          <Link
+            to="/plans"
+            search={{ cat: "broadband", housing: "village" }}
+            className="text-accent underline-offset-4 hover:underline"
+          >
+            村屋計劃
+          </Link>
+        </p>
+        <p className="mt-4 text-center text-sm text-muted">
+          光纖 {formatFee(fiberFrom)} 起 · 5G家居 {formatFee(home5gFrom)} 起 · 手機 {formatFee(mobileFrom)} 起
+        </p>
       </section>
 
       <section className="border-t border-border bg-card">
