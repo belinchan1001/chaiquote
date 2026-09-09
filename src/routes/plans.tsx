@@ -138,12 +138,6 @@ function PlansPage() {
     };
   }, [replayKey]);
 
-  useEffect(() => {
-    if (!listEntering) return;
-    const timer = window.setTimeout(() => setListEntering(false), 690);
-    return () => window.clearTimeout(timer);
-  }, [listEntering]);
-
   function patch(next: Partial<PlansSearch>) {
     startTransition(() => {
       void navigate({

@@ -66,6 +66,10 @@ describe("plan list fade-up", () => {
     assert.doesNotMatch(page, /planListReplayKey\([^)]*visible/);
     assert.doesNotMatch(page, /planListReplayKey\([^)]*saved/);
     assert.doesNotMatch(page, /planListReplayKey\([^)]*compare/);
+    assert.doesNotMatch(page, /setTimeout\(\(\) => setListEntering\(false\)/);
+    assert.match(page, /prevReplayKey/);
+    assert.match(page, /setListEntering\(false\)/);
+    assert.match(page, /setListEntering\(true\)/);
 
     assert.match(card, /<article[\s\S]*plan\.quotePick && "plan-card-shine"/);
     assert.match(card, /<QuoteLink plan=\{plan\}/);
