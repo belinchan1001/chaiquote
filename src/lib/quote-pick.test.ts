@@ -81,7 +81,6 @@ describe("齊Quote pick badge", () => {
     assert.doesNotMatch(css, /border:\s*2px solid transparent/);
     assert.doesNotMatch(css, /quote-pick-shine 3\.2s/);
     assert.doesNotMatch(css, /rgba\(21, 87, 196, 0\.55\)/);
-    assert.doesNotMatch(css, /\.plan-card-shine::before/);
     assert.doesNotMatch(css, /background-size:\s*240%/);
     assert.doesNotMatch(css, /background-position:\s*130%/);
     assert.doesNotMatch(
@@ -92,5 +91,32 @@ describe("齊Quote pick badge", () => {
       css,
       /prefers-reduced-motion:\s*reduce[\s\S]*\.plan-card-shine[\s\S]*animation:\s*none/,
     );
+    assert.match(
+      css,
+      /prefers-reduced-motion:\s*reduce[\s\S]*\.plan-card-shine::before[\s\S]*animation:\s*none/,
+    );
+
+    const foil =
+      [...css.matchAll(/\.plan-card-shine::before\s*\{([^}]+)\}/g)]
+        .map((match) => match[1])
+        .find((block) => /linear-gradient/.test(block)) ?? "";
+    assert.match(css, /\.plan-card-shine::before\s*\{/);
+    assert.match(foil, /pointer-events:\s*none/);
+    assert.match(foil, /inset:\s*3px/);
+    assert.match(foil, /linear-gradient/);
+    assert.match(foil, /rgba\(186, 230, 253/);
+    assert.match(foil, /rgba\(255, 255, 255/);
+    assert.match(foil, /rgba\(221, 214, 254/);
+    assert.doesNotMatch(foil, /animation:/);
+    const foilAlphas = [...foil.matchAll(/rgba\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*([0-9.]+)\s*\)/g)].map(
+      (match) => Number(match[1]),
+    );
+    assert.ok(foilAlphas.length > 0);
+    assert.ok(
+      foilAlphas.every((alpha) => alpha <= 0.42),
+      `foil wash too strong: ${foilAlphas.join(", ")}`,
+    );
+    assert.match(css, /\.plan-card-shine > \*\s*\{[\s\S]*z-index:\s*1/);
+    assert.doesNotMatch(css, /\.plan-card-shine\s*\{[^}]*animation:[^;}]*opacity/);
   });
 });
