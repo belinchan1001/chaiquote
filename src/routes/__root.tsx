@@ -12,7 +12,7 @@ import { PwaServiceWorker } from "@/components/pwa-service-worker";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SITE } from "@/lib/site";
 import { PWA } from "@/lib/pwa";
-import { canonicalUrlFromMatches } from "@/lib/seo";
+import { canonicalUrlFromMatches } from "@/lib/canonical";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({

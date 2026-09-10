@@ -8,7 +8,7 @@ import { PLANS, formatFee, getPlan, cheapestPlan, cheapestVillageBroadbandPlan }
 import { SITE } from "@/lib/site";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import type { MessageKey } from "@/lib/messages";
-import { HOME_SEO_TITLE } from "@/lib/seo";
+import { HOME_SEO_TITLE } from "@/lib/canonical";
 import { JsonLd } from "@/components/json-ld";
 
 export const Route = createFileRoute("/")({

@@ -6,7 +6,8 @@ import { QuoteLink } from "@/components/quote-link";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { getGuide, guideCopy, type GuideTable } from "@/lib/guides";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import { canonicalUrl, guideJsonLd } from "@/lib/seo";
+import { canonicalUrl } from "@/lib/canonical";
+import { guideJsonLd } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { whatsappHref } from "@/lib/whatsapp";
 

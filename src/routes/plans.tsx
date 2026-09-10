@@ -20,7 +20,7 @@ import {
 } from "@/lib/plans";
 import { addressHitValue } from "@/lib/address-search";
 import { compactSearch, parsePlansSearch, planListReplayKey } from "@/lib/search";
-import { CATEGORY_SEO, plansCategoryPath, canonicalUrl } from "@/lib/seo";
+import { CATEGORY_SEO, plansCategoryPath, canonicalUrl } from "@/lib/canonical";
 import {
   CATEGORY_OPTIONS,
   GENERATION_OPTIONS,

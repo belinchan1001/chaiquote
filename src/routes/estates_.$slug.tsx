@@ -15,7 +15,7 @@ import {
   relatedGuideSlug,
 } from "@/lib/estate-pages";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import { canonicalUrl } from "@/lib/seo";
+import { canonicalUrl } from "@/lib/canonical";
 
 export const Route = createFileRoute("/estates_/$slug")({
   loader: ({ params }) => {

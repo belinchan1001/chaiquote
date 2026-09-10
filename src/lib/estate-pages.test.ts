@@ -99,6 +99,8 @@ describe("estate SEO pages", () => {
     assert.match(dir, /ESTATES\.length/);
     assert.match(dir, /rounded-xl bg-card/);
     assert.match(dir, /estatesIndexCount/);
+    assert.match(dir, /estate-dir-district/);
+    assert.match(dir, /PREVIEW_PER_DISTRICT/);
     const wahFu = getEstatePage("wah-fu");
     assert.ok(wahFu);
     assert.deepEqual(estateSelectTarget(wahFu.estate), { kind: "page", slug: "wah-fu" });

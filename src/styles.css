@@ -161,6 +161,11 @@
 }
 
 @layer components {
+  .estate-dir-card {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 72px;
+  }
+
   .page-enter > *,
   .page-shell {
     animation: rise-in 280ms var(--ease-out-smooth) both;

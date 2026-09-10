@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { startTransition, useMemo, useState, type FormEvent } from "react";
+import { startTransition, useDeferredValue, useMemo, useState, type FormEvent } from "react";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import { JsonLd } from "@/components/json-ld";
@@ -12,7 +12,7 @@ import { estateHousingLabel, estatePagesByDistrict, ESTATE_PAGES } from "@/lib/e
 import { isNewIntakeEstate, NEW_INTAKE_NAMES, newIntakeGroups } from "@/lib/estate-new-intake";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { compactSearch, parsePlansSearch } from "@/lib/search";
-import { canonicalUrl } from "@/lib/seo";
+import { canonicalUrl } from "@/lib/canonical";
 import type { Housing } from "@/lib/plans";
 import { cn } from "@/lib/utils";
 
@@ -36,6 +36,7 @@ const HOUSING_COUNTS: Record<Housing, number> = {
 const DISTRICT_GROUPS = estatePagesByDistrict();
 const NEW_INTAKE_GROUPS = newIntakeGroups(ESTATE_PAGES);
 const NEW_INTAKE_COUNT = NEW_INTAKE_NAMES.size;
+const PREVIEW_PER_DISTRICT = 8;
 
 export const Route = createFileRoute("/estates")({
   component: EstatesIndexPage,
@@ -70,9 +71,10 @@ function EstatesIndexPage() {
   const districtGroups = newIntakeFilter ? NEW_INTAKE_GROUPS : groups;
   const districtValid = districtGroups.some((group) => group.district === districtFilter);
   const activeDistrict = districtValid ? districtFilter : "";
+  const deferredEstate = useDeferredValue(estate);
 
   const visible = useMemo(() => {
-    const q = compact(estate);
+    const q = compact(deferredEstate);
     const source = newIntakeFilter ? NEW_INTAKE_GROUPS : groups;
     return source
       .filter((group) => !activeDistrict || group.district === activeDistrict)
@@ -86,8 +88,10 @@ function EstatesIndexPage() {
         }),
       }))
       .filter((group) => group.pages.length > 0);
-  }, [activeDistrict, estate, groups, housingFilter, newIntakeFilter]);
+  }, [activeDistrict, deferredEstate, groups, housingFilter, newIntakeFilter]);
 
+  const searching = compact(deferredEstate).length >= 1;
+  const previewing = !activeDistrict && !searching;
   const visibleCount = visible.reduce((sum, group) => sum + group.pages.length, 0);
 
   function openPlans(next: { estate?: string; housing?: string; district?: string }) {
@@ -263,6 +267,7 @@ function EstatesIndexPage() {
         {housingFilter ? ` · ${housingLabel(housingFilter)}` : ""}
         {activeDistrict ? ` · ${activeDistrict}` : ""}
       </p>
+      {previewing ? <p className="mt-1 text-xs text-subtle">{t("estatesPreviewNote")}</p> : null}
 
       <div className="mt-6 space-y-10">
         {visible.length === 0 ? (
@@ -277,11 +282,11 @@ function EstatesIndexPage() {
                 <span className="ml-2 text-sm font-normal tabular-nums text-muted">{group.pages.length}</span>
               </h2>
               <ul className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4">
-                {group.pages.map((page) => (
+                {(previewing ? group.pages.slice(0, PREVIEW_PER_DISTRICT) : group.pages).map((page) => (
                   <li key={page.slug}>
                     <a
                       href={`/estates/${page.slug}`}
-                      className="flex h-full min-h-11 flex-col justify-center rounded-xl bg-card px-2.5 py-2 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
+                      className="estate-dir-card flex h-full min-h-11 flex-col justify-center rounded-xl bg-card px-2.5 py-2 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
                     >
                       <p className="text-sm font-medium leading-snug">{page.estate.name}</p>
                       <p className="mt-0.5 text-xs text-muted">
@@ -292,6 +297,15 @@ function EstatesIndexPage() {
                   </li>
                 ))}
               </ul>
+              {previewing && group.pages.length > PREVIEW_PER_DISTRICT ? (
+                <button
+                  type="button"
+                  onClick={() => setDistrictFilter(group.district)}
+                  className="mt-2 inline-flex h-11 items-center text-sm font-medium text-accent underline-offset-4 hover:underline"
+                >
+                  {t("estatesShowDistrict", { district: group.district, n: group.pages.length })}
+                </button>
+              ) : null}
             </section>
           ))
         )}

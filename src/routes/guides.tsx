@@ -4,7 +4,7 @@ import { JsonLd } from "@/components/json-ld";
 import { GUIDE_CATEGORY_META } from "@/lib/guide-articles";
 import { GUIDES, getGuide, guideCopy } from "@/lib/guides";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import { canonicalUrl } from "@/lib/seo";
+import { canonicalUrl } from "@/lib/canonical";
 
 const TITLE = "寬頻同手機攻略｜齊Quote";
 const DESCRIPTION = "點揀光纖、5G家居、手機同商業寬頻。粵語攻略，連去格價頁同屋苑頁。實際覆蓋以電訊商確認。";

@@ -21,7 +21,8 @@ import {
 } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
-import { canonicalUrl, planJsonLd, planSeoDescription, planSeoTitle } from "@/lib/seo";
+import { canonicalUrl } from "@/lib/canonical";
+import { planJsonLd, planSeoDescription, planSeoTitle } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 
 export const Route = createFileRoute("/plans_/$planId")({
