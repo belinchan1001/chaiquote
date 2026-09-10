@@ -228,4 +228,26 @@ describe("guide JSON-LD", () => {
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/guides/fiber" && page.priority === "0.8"));
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/guides/village" && page.priority === "0.6"));
   });
+
+  it("emits FAQPage and keywords for 5G home, mobile and business hubs", () => {
+    const expected = {
+      home5g: /香港5G家居/,
+      mobile: /香港手機月費/,
+      business: /香港商業寬頻/,
+    };
+    for (const [slug, keyword] of Object.entries(expected)) {
+      const guide = getGuide(slug);
+      assert.ok(guide, slug);
+      const ld = guideJsonLd(guide);
+      const article = ld["@graph"].find((node) => node["@type"] === "Article");
+      assert.ok(article, slug);
+      assert.match(String(article.keywords), keyword);
+      const faq = ld["@graph"].find((node) => node["@type"] === "FAQPage");
+      assert.ok(faq, slug);
+      const questions = faq.mainEntity as { acceptedAnswer: { text: string } }[];
+      assert.equal(questions.length, 5, slug);
+      assert.equal(questions.some((item) => item.acceptedAnswer.text.includes("[")), false, slug);
+      assert.ok(SITEMAP_PAGES.some((page) => page.path === `/guides/${slug}` && page.priority === "0.8"), slug);
+    }
+  });
 });

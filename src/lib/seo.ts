@@ -114,6 +114,13 @@ export const STATIC_SITEMAP_PAGES: readonly SitemapPage[] = [
 /** Category hub guides rank above one-off articles. */
 export const HUB_GUIDE_SLUGS = new Set(["fiber", "home5g", "mobile", "business"]);
 
+export const GUIDE_ARTICLE_KEYWORDS: Record<string, string> = {
+  fiber: "香港光纖寬頻,公屋寬頻,居屋寬頻,私樓光纖,村屋光纖,1000M",
+  home5g: "香港5G家居,5G家居寬頻,免拉線寬頻,村屋5G",
+  mobile: "香港手機月費,攜號轉台,大灣區數據,5G月費",
+  business: "香港商業寬頻,店舖寬頻,寫字樓寬頻,固定IP",
+};
+
 export const SITEMAP_PAGES: readonly SitemapPage[] = [
   ...STATIC_SITEMAP_PAGES,
   ...GUIDES.map((guide) => ({
@@ -241,8 +248,8 @@ export function guideJsonLd(guide: Guide) {
         logo: { "@type": "ImageObject", url: `${SITE.url}/icon-512.png` },
       },
       image: `${SITE.url}/og.jpg`,
-      ...(guide.slug === "fiber"
-        ? { keywords: "香港光纖寬頻,公屋寬頻,居屋寬頻,私樓光纖,村屋光纖,1000M" }
+      ...(GUIDE_ARTICLE_KEYWORDS[guide.slug]
+        ? { keywords: GUIDE_ARTICLE_KEYWORDS[guide.slug] }
         : {}),
     },
     {

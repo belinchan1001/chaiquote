@@ -149,6 +149,51 @@ describe("village-onsite guide", () => {
     }
   });
 
+  it("gives 5G home, mobile and business hubs FAQ, tables and unique SEO titles", () => {
+    const hubs = [
+      {
+        slug: "home5g",
+        title: /香港5G家居/,
+        h1: /香港 5G 家居點揀/,
+        desc: /免拉線/,
+      },
+      {
+        slug: "mobile",
+        title: /香港手機月費/,
+        h1: /香港手機月費點揀/,
+        desc: /攜號轉台|大灣區/,
+      },
+      {
+        slug: "business",
+        title: /香港商業寬頻/,
+        h1: /香港商業寬頻點揀/,
+        desc: /店舖/,
+      },
+    ] as const;
+    for (const hub of hubs) {
+      const guide = getGuide(hub.slug);
+      assert.ok(guide, hub.slug);
+      assert.match(guide.seoTitle, hub.title);
+      assert.match(guide.seoTitle, /齊Quote$/);
+      assert.match(guide.h1, hub.h1);
+      assert.notEqual(guide.seoTitle, guide.h1);
+      assert.ok(guide.description.length >= 70, `${hub.slug} ${guide.description.length}`);
+      assert.match(guide.description, hub.desc);
+      assert.match(guide.description, /以電訊商確認為準/);
+      assert.equal(guide.faq?.length, 5, hub.slug);
+      assert.ok(guide.faq?.every((item) => item.q.length > 6 && item.a.length > 20));
+      assert.ok(guide.body.filter((section) => section.table).length >= 1, hub.slug);
+      assert.ok(guide.body.length >= 5, hub.slug);
+      const text = guideText(hub.slug);
+      for (const phrase of FORBIDDEN) {
+        assert.equal(text.includes(phrase), false, `${hub.slug} forbidden: ${phrase}`);
+      }
+    }
+    assert.ok(getGuide("home5g")?.related?.includes("fiber-vs-5g"));
+    assert.ok(getGuide("mobile")?.related?.includes("port-in"));
+    assert.ok(getGuide("business")?.related?.includes("shop-broadband"));
+  });
+
   it("does not change homepage search, prices, tour, or animation files", () => {
     const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
     const panel = readFileSync(join(here, "../components/search-panel.tsx"), "utf8");

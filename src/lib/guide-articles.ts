@@ -240,69 +240,244 @@ export const GUIDE_ARTICLES: Guide[] = [
   },
   {
     slug: "home5g",
-    minutes: 5,
+    minutes: 8,
     category: "home5g",
-    seoTitle: "5G家居寬頻攻略｜唔拉線適唔適合｜齊Quote",
-    h1: "5G 家居：免拉線，速度視現場",
-    description: "5G家居用流動網絡開家用 Wi-Fi，安裝快但穩定度視訊號，部分計劃有數據上限。",
-    title: "5G 家居：免拉線，速度視現場",
+    seoTitle: "香港5G家居寬頻攻略｜免拉線適唔適合｜齊Quote",
+    h1: "香港 5G 家居點揀：免拉線，速度視現場",
+    description:
+      "香港 5G 家居用流動網絡開家用 Wi-Fi，免拉線、隨插即用。啱未有光纖、租樓、村屋；唔好當固定光纖替代。數據上限、訊號同月費以電訊商確認為準。",
+    title: "香港 5G 家居點揀：免拉線，速度視現場",
     excerpt: "插電路由器就用。啱未有光纖、租樓、趕時間；唔好當固定光纖替代。",
-    titleEn: "5G home: no cabling, speed depends on the site",
+    titleEn: "Hong Kong 5G home: no cabling, speed depends on the site",
     excerptEn: "Plug in a router. Useful when fibre is not ready. Not a guaranteed fixed line.",
-    descriptionEn: "5G home uses mobile network for Wi-Fi. Install is fast, but stability depends on the signal and some plans have a data cap.",
-    h1En: "5G home: no cabling, speed depends on the site",
-    related: ["fiber-vs-5g", "village"],
-    plans: [{ href: "/plans?cat=home5g", label: "去 5G 家居格價" }],
+    descriptionEn:
+      "Hong Kong 5G home uses a mobile network for Wi-Fi. Fast to install, but speed depends on the signal and some plans have a data cap. Confirm with the carrier.",
+    h1En: "Hong Kong 5G home: no cabling, speed depends on the site",
+    published: "2026-09-09",
+    modified: "2026-09-10",
+    related: ["fiber-vs-5g", "village", "village-onsite", "fiber", "is-1000m-enough"],
+    plans: [
+      { href: "/plans?cat=home5g", label: "去 5G 家居格價" },
+      { href: "/plans?cat=broadband", label: "去光纖格價" },
+    ],
     estates: [
       { href: "/estates", label: "屋苑目錄" },
       { href: "/guides/village", label: "村屋點算" },
     ],
     body: [
       {
+        heading: "5G 家居唔係光纖",
+        paragraphs: [
+          "5G 家居用流動網絡開家用 Wi-Fi：插電、擺好路由器，就開到熱點。唔使穿牆拉線，安裝通常快過等師傅。速度同穩定度跟現場訊號、室內擺位、附近用量走，而唔係跟一條固定光纖。",
+          "報價時仍然要填屋苑或者街道。訊號同可唔可以申請，都視現場，唔好假設全港每個地址都一樣。想兩邊對，見 [光纖同 5G 家居點揀](/guides/fiber-vs-5g)。",
+        ],
+      },
+      {
         heading: "適合邊種情況",
         paragraphs: [
-          "5G 家居用流動網絡開家用 Wi-Fi，免拉線、隨插即用，安裝通常快過等師傅穿牆。適合未有光纖、租樓、趕住上網，或者等光纖期間嘅後備。",
-          "報價時仍然要填屋苑或者街道，因為訊號同可唔可以申請，都視現場。唔好假設全港每個地址都一樣。",
+          "未有光纖、租樓、趕住上網，或者等光纖期間當後備，5G 家居先有機會。村屋／丁屋如果入線困難，亦常見一齊比較。長住、要穩定上傳、長開鏡頭開會，仍然優先問光纖——如果現場裝到。",
+        ],
+        table: {
+          caption: "邊種情況先睇 5G 家居",
+          headers: ["情況", "點揀"],
+          rows: [
+            {
+              label: "租樓／趕時間",
+              value: "插電就用，唔使等穿牆。業主唔批准拉線時常見選擇。",
+              href: "/guides/fiber-vs-5g",
+            },
+            {
+              label: "未有光纖／等安裝",
+              value: "可以當過渡。有光纖之後，多數人會轉返固定線。",
+              href: "/guides/fiber",
+            },
+            {
+              label: "村屋／丁屋",
+              value: "入線視現場。光纖同 5G 家居一齊問，需要就約視察。",
+              href: "/guides/village",
+            },
+            {
+              label: "長住要穩",
+              value: "優先問光纖。5G 家居適合後備，唔好當固定線替代。",
+              href: "/guides/fiber",
+            },
+          ],
+        },
+      },
+      {
+        heading: "數據上限同速度",
+        paragraphs: [
+          "部分計劃有高速數據上限，用完會降速或者降低優先權。繁忙時間、附近用戶多、室內擺位差，體感都會變。廣告上嘅「最高速度」唔等於你屋企每個鐘都係嗰個數。",
+          "比較時一齊睇：月費、合約、高速 GB、包定租路由器、冷靜期。詳情見 [月費以外](/guides/contract-fees)。",
         ],
       },
       {
-        heading: "唔適合當「一定固定高速」",
+        heading: "同光纖點揀",
         paragraphs: [
-          "繁忙時間、附近用戶多、室內擺位差，速度同穩定度都會變。部分計劃有高速數據上限，用完會降速或降低優先權。若你要穩定上傳、長開鏡頭開會，優先仍然係光纖（如果裝到）。",
-          "想兩邊對，見 [光纖同 5G 家居點揀](/guides/fiber-vs-5g)。村屋或者未有光纖，可一併睇 [村屋寬頻點算](/guides/village)。",
+          "可以拉光纖就優先光纖。拉唔到、要即日上網，先睇 5G 家居。預算夠可以兩條線：光纖主用、5G 後備。村屋兩邊都可能要問，見 [村屋寬頻點算](/guides/village)、[實地視察同測 5G](/guides/village-onsite)。",
         ],
+        table: {
+          caption: "光纖 vs 5G 家居",
+          headers: ["方案", "重點"],
+          rows: [
+            {
+              label: "光纖",
+              value: "固定線、延遲低。要穿牆同預約師傅，舊樓或業主唔同意可能裝唔到。",
+              href: "/guides/fiber",
+            },
+            {
+              label: "5G 家居",
+              value: "免拉線、安裝快。速度視訊號，部分計劃有高速數據上限。",
+              href: "/guides/fiber-vs-5g",
+            },
+          ],
+        },
       },
       {
-        heading: "點比較先唔會估錯",
+        heading: "下一步",
         paragraphs: [
-          "喺齊Quote 將 5G 家居同光纖一齊睇：月費、合約、數據上限、包定租路由器。填好地址再查核報價。",
+          "開 [5G 家居格價](/plans?cat=home5g)，填地址再 WhatsApp 查核。可以拉線就一併睇 [光纖格價](/plans?cat=broadband)。",
           DISCLAIMER,
         ],
       },
     ],
     bodyEn: [
       {
+        heading: "5G home is not fibre",
+        paragraphs: [
+          "5G home is a plug-in router on the mobile network. Install is usually faster than waiting for a technician, but speed follows the local signal.",
+        ],
+      },
+      {
         heading: "When it fits",
         paragraphs: [
-          "5G home is plug-and-play. It suits rentals, sites without fibre, and as a stopgap. Speed still depends on the local signal.",
+          "Useful for rentals, sites without fibre, and as a stopgap. Village houses often compare both. For a long stay with stable uploads, ask about fibre first.",
         ],
+        table: {
+          caption: "When to look at 5G home",
+          headers: ["Situation", "How to choose"],
+          rows: [
+            {
+              label: "Rental / in a hurry",
+              value: "Plug in. Common when the landlord will not allow cabling.",
+              href: "/guides/fiber-vs-5g",
+            },
+            {
+              label: "No fibre yet",
+              value: "A stopgap. Many people switch to a fixed line later.",
+              href: "/guides/fiber",
+            },
+            {
+              label: "Village house",
+              value: "Coverage is site-by-site. Compare fibre and 5G home together.",
+              href: "/guides/village",
+            },
+            {
+              label: "Long stay, need stability",
+              value: "Ask for fibre first. Treat 5G home as backup.",
+              href: "/guides/fiber",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Data caps and speed",
+        paragraphs: [
+          "Some plans cap high-speed data, then slow down or deprioritise. Peak hours and indoor placement also change the feel.",
+        ],
+      },
+      {
+        heading: "Fibre or 5G home",
+        paragraphs: [
+          "If fibre can be installed, pick fibre. If not, or you need internet today, look at 5G home. See [fibre vs 5G home](/guides/fiber-vs-5g).",
+        ],
+        table: {
+          caption: "Fibre vs 5G home",
+          headers: ["Option", "Notes"],
+          rows: [
+            {
+              label: "Fibre",
+              value: "Fixed line, low latency. Needs a technician and building access.",
+              href: "/guides/fiber",
+            },
+            {
+              label: "5G home",
+              value: "No cabling. Speed depends on signal; some plans have a data cap.",
+              href: "/guides/fiber-vs-5g",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Next step",
+        paragraphs: [
+          "Open the [5G home compare page](/plans?cat=home5g) and confirm on WhatsApp. Coverage and fees are confirmed by the carrier.",
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "5G 家居同光纖有咩分別？",
+        a: "光纖係固定線，延遲低，要穿牆同預約師傅。5G 家居用流動網絡，插電就用，速度視現場訊號。可以拉光纖就優先光纖。詳見 [光纖同 5G 家居點揀](/guides/fiber-vs-5g)。",
+      },
+      {
+        q: "5G 家居有冇數據上限？",
+        a: "部分計劃有高速 GB，用完會降速或降低優先權。比較時一齊睇月費、合約同路由器係包定租。實際條款以電訊商確認為準。",
+      },
+      {
+        q: "村屋可唔可以申請 5G 家居？",
+        a: "好多時可以問，但訊號同可唔可以申請都視現場，唔好假設條村一定得。光纖同 5G 家居一齊比較，需要就約視察。見 [村屋寬頻點算](/guides/village)。",
+      },
+      {
+        q: "5G 家居速度穩唔穩？",
+        a: "繁忙時間、附近用戶多、室內擺位差，速度同穩定度都會變。長開鏡頭開會或者大量上傳，優先仍然係光纖（如果裝到）。",
+      },
+      {
+        q: "點樣查核 5G 家居報價？",
+        a: "喺齊Quote 填地址，開 [5G 家居格價](/plans?cat=home5g)，再用 WhatsApp 查核。覆蓋、數據上限同月費以電訊商確認為準。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "How is 5G home different from fibre?",
+        a: "Fibre is a fixed line. 5G home is wireless. If fibre can be installed, pick fibre. See [fibre vs 5G home](/guides/fiber-vs-5g).",
+      },
+      {
+        q: "Does 5G home have a data cap?",
+        a: "Some plans cap high-speed data, then slow down. Confirm the contract with the carrier.",
+      },
+      {
+        q: "Can a village house apply?",
+        a: "Often you can ask, but signal is site-by-site. See [village broadband](/guides/village).",
+      },
+      {
+        q: "Is the speed stable?",
+        a: "Peak hours and indoor placement change it. For stable uploads, ask about fibre first.",
+      },
+      {
+        q: "How do I check a quote?",
+        a: "Open the [5G home compare page](/plans?cat=home5g) and confirm on WhatsApp.",
       },
     ],
   },
   {
     slug: "mobile",
-    minutes: 5,
+    minutes: 8,
     category: "mobile",
-    seoTitle: "手機月費攻略｜4G 5G 大灣區點揀｜齊Quote",
-    h1: "手機月費：先分本地、5G、大灣區",
-    description: "比較本地數據、5G、大灣區同轉台注意。實際計劃入手機格價頁。",
-    title: "手機月費：先分本地、5G、大灣區",
+    seoTitle: "香港手機月費攻略｜4G 5G 大灣區轉台｜齊Quote",
+    h1: "香港手機月費點揀：先分本地、5G、大灣區",
+    description:
+      "香港手機月費唔好一睇標價。先分本地數據、4G／5G，再決定大灣區同轉台。攜號轉台唔好提早取消舊約。實際月費、數據、轉台優惠同生效日以電訊商確認為準。",
+    title: "香港手機月費點揀：先分本地、5G、大灣區",
     excerpt: "本地夠用先加漫遊或者大灣區。轉台見攜號轉台攻略。",
-    titleEn: "Mobile plans: local, 5G, then Greater Bay Area",
+    titleEn: "Hong Kong mobile plans: local, 5G, then Greater Bay Area",
     excerptEn: "Cover local data first, then roaming or GBA. See the port-in guide to switch numbers.",
-    descriptionEn: "Compare local data, 5G, Greater Bay Area usage and port-in notes. Real plans are on the mobile compare page.",
-    h1En: "Mobile plans: local, 5G, then Greater Bay Area",
-    related: ["port-in", "gba-mobile"],
+    descriptionEn:
+      "Compare local data, 4G/5G, Greater Bay Area usage and port-in notes. Real plans are on the mobile compare page. The carrier confirms fees and activation.",
+    h1En: "Hong Kong mobile plans: local data first, then 5G and GBA",
+    published: "2026-09-09",
+    modified: "2026-09-10",
+    related: ["port-in", "gba-mobile", "contract-fees", "fiber-vs-5g"],
     plans: [{ href: "/plans?cat=mobile", label: "去手機格價" }],
     estates: [
       { href: "/estates", label: "屋苑目錄" },
@@ -313,38 +488,204 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "先睇本地夠唔夠",
         paragraphs: [
           "揀手機月費，第一步係本地數據同網絡世代（4G／5G），而唔係先加一堆漫遊。日常通勤、短片、地圖，多數人用本地用量就處理到。用量好大、成日出外，先考慮更高本地 GB 或者 5G 優先。",
-          "大灣區、內地數據係額外一層：邊度用、點計額度、會唔會另收費，要睇條款，唔好當「無限中國」。詳情見 [大灣區手機計劃要注意咩](/guides/gba-mobile)。",
+          "實際計劃見 [手機格價](/plans?cat=mobile)。月費以外仲有行政費、預繳、合約，見 [月費以外](/guides/contract-fees)。",
         ],
+      },
+      {
+        heading: "4G 同 5G 點分",
+        paragraphs: [
+          "5G 喺覆蓋得到嘅地方，下載同低延遲通常好過 4G，但月費同手機都要支援。覆蓋唔到 5G 嘅地方，張卡會跌返 4G。唔好只睇「5G」兩個字，要問實際覆蓋同本地 GB。",
+        ],
+        table: {
+          caption: "4G 同 5G",
+          headers: ["網絡", "點揀"],
+          rows: [
+            {
+              label: "4G／4.5G",
+              value: "日常短片、地圖、通訊夠用。月費通常較入門。",
+              href: "/plans?cat=mobile",
+            },
+            {
+              label: "5G",
+              value: "覆蓋得到先有體感分別。用量大、要低延遲先值得加。",
+              href: "/plans?cat=mobile",
+            },
+          ],
+        },
+      },
+      {
+        heading: "大灣區同漫遊",
+        paragraphs: [
+          "大灣區、內地數據係額外一層：邊度用、點計額度、會唔會另收費，要睇條款，唔好當「無限中國」。本地 GB 同跨境 GB 好多時分開計。詳情見 [大灣區手機計劃要注意咩](/guides/gba-mobile)。",
+        ],
+        table: {
+          caption: "本地、大灣區、轉台",
+          headers: ["項目", "重點"],
+          rows: [
+            {
+              label: "本地數據",
+              value: "日常用量嘅底。先夠本地，先加跨境。",
+              href: "/plans?cat=mobile",
+            },
+            {
+              label: "大灣區",
+              value: "指定區域同額度，用完可能降速或另收費。",
+              href: "/guides/gba-mobile",
+            },
+            {
+              label: "攜號轉台",
+              value: "留舊號碼轉去新台。唔好提早自己取消舊約。",
+              href: "/guides/port-in",
+            },
+          ],
+        },
       },
       {
         heading: "轉台",
         paragraphs: [
-          "想留舊號碼，用攜號轉台，而唔好自己提早取消舊約。流程、生效同行政費見 [攜號轉台點樣做](/guides/port-in)。",
-          "實際月費、數據同轉台優惠以電訊商確認為準。下一步：[手機格價](/plans?cat=mobile)。",
+          "想留舊號碼，用攜號轉台，而唔好自己提早取消舊約。新 SIM 未生效前，舊卡仍然用得。流程、生效同行政費見 [攜號轉台點樣做](/guides/port-in)。",
+          "寬頻轉台同手機唔同：寬頻唔能夠攜號過台，見 [轉寬頻點樣減少斷網](/guides/switch-broadband)。",
+        ],
+      },
+      {
+        heading: "下一步",
+        paragraphs: [
+          "開 [手機格價](/plans?cat=mobile)，用 WhatsApp 查核報價。實際月費、數據同轉台優惠以電訊商確認為準。",
         ],
       },
     ],
     bodyEn: [
       {
         heading: "Local data first",
-        paragraphs: ["Cover local 4G/5G usage first, then add Greater Bay Area or roaming if you need it."],
+        paragraphs: [
+          "Cover local 4G/5G usage first, then add Greater Bay Area or roaming if you need it.",
+        ],
+      },
+      {
+        heading: "4G vs 5G",
+        paragraphs: [
+          "5G is faster where coverage exists. The phone must support it. Outside 5G areas the SIM falls back to 4G.",
+        ],
+        table: {
+          caption: "4G and 5G",
+          headers: ["Network", "How to choose"],
+          rows: [
+            {
+              label: "4G / 4.5G",
+              value: "Enough for clips, maps and chat. Usually the cheaper start.",
+              href: "/plans?cat=mobile",
+            },
+            {
+              label: "5G",
+              value: "Worth it for heavy use and lower latency, where coverage exists.",
+              href: "/plans?cat=mobile",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Greater Bay Area and roaming",
+        paragraphs: [
+          "Local and GBA quotas are often separate. Do not treat it as unlimited China data. See [GBA mobile](/guides/gba-mobile).",
+        ],
+        table: {
+          caption: "Local, GBA, port-in",
+          headers: ["Item", "Notes"],
+          rows: [
+            {
+              label: "Local data",
+              value: "The base. Cover local use before adding cross-border data.",
+              href: "/plans?cat=mobile",
+            },
+            {
+              label: "Greater Bay Area",
+              value: "A defined zone and quota. Extra fees may apply after the cap.",
+              href: "/guides/gba-mobile",
+            },
+            {
+              label: "Port-in",
+              value: "Keep your number. Do not cancel the old contract early.",
+              href: "/guides/port-in",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Switching",
+        paragraphs: [
+          "Use number porting to keep your number. See [port-in](/guides/port-in).",
+        ],
+      },
+      {
+        heading: "Next step",
+        paragraphs: [
+          "Open the [mobile compare page](/plans?cat=mobile) and confirm on WhatsApp.",
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "揀手機月費要先睇咩？",
+        a: "先睇本地數據同 4G／5G，夠用先加漫遊或者大灣區。實際計劃見 [手機格價](/plans?cat=mobile)。",
+      },
+      {
+        q: "4G 同 5G 差喺邊？",
+        a: "5G 喺覆蓋得到嘅地方下載同低延遲通常好過 4G，但手機同月費都要支援。覆蓋唔到會跌返 4G。",
+      },
+      {
+        q: "大灣區數據係咪無限用內地？",
+        a: "唔係。通常有指定區域同額度，本地同跨境好多時分開計。用完可能降速或另收費。見 [大灣區手機計劃](/guides/gba-mobile)。",
+      },
+      {
+        q: "攜號轉台會唔會斷線？",
+        a: "新 SIM 未生效前，舊卡仍然用得。唔好提早自己取消舊約。流程見 [攜號轉台點樣做](/guides/port-in)。",
+      },
+      {
+        q: "點樣比較手機報價？",
+        a: "開 [手機格價](/plans?cat=mobile)，再用 WhatsApp 查核。月費、數據同轉台優惠以電訊商確認為準。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "What should I check first on a mobile plan?",
+        a: "Local data and 4G/5G first, then GBA or roaming. See the [mobile compare page](/plans?cat=mobile).",
+      },
+      {
+        q: "What is the difference between 4G and 5G?",
+        a: "5G is faster where coverage exists. Outside those areas the SIM falls back to 4G.",
+      },
+      {
+        q: "Is Greater Bay Area data unlimited in the mainland?",
+        a: "No. It is a defined zone and quota. See [GBA mobile](/guides/gba-mobile).",
+      },
+      {
+        q: "Will porting my number cut service?",
+        a: "Keep the old SIM until the new one is active. See [port-in](/guides/port-in).",
+      },
+      {
+        q: "How do I compare quotes?",
+        a: "Open the [mobile compare page](/plans?cat=mobile) and confirm on WhatsApp.",
       },
     ],
   },
   {
     slug: "business",
-    minutes: 5,
+    minutes: 8,
     category: "business",
-    seoTitle: "商業寬頻攻略｜店舖寫字樓 1000M起｜齊Quote",
-    h1: "商業寬頻：店舖同寫字樓唔好用家居計劃",
-    description: "工商地址、固定IP、安裝同支援同家居不同。1000M起，報價以商用地址為準。",
-    title: "商業寬頻：店舖同寫字樓唔好用家居計劃",
+    seoTitle: "香港商業寬頻攻略｜店舖寫字樓點申請｜齊Quote",
+    h1: "香港商業寬頻點揀：店舖同寫字樓唔好用家居計劃",
+    description:
+      "香港店舖、寫字樓、工作室要用商業寬頻，唔好用家居公屋價去舖頭申請。固定 IP、安裝窗口、商業登記都要問清楚。月費、覆蓋同安裝期以電訊商確認為準。",
+    title: "香港商業寬頻點揀：店舖同寫字樓唔好用家居計劃",
     excerpt: "舖址、商業登記、固定 IP 同支援時間都同家居唔同。",
-    titleEn: "Business broadband: do not use a home plan for a shop",
+    titleEn: "Hong Kong business broadband: do not use a home plan for a shop",
     excerptEn: "Shop and office lines need a business address, and often a static IP.",
-    descriptionEn: "Business fibre differs on address, static IP, install and support. From 1000M; quote against the commercial address.",
-    h1En: "Business broadband: shops and offices should not use home plans",
-    related: ["shop-broadband", "contract-fees"],
+    descriptionEn:
+      "Hong Kong shops and offices need business fibre. Address, static IP, install window and support differ from home plans. Confirm against the commercial address.",
+    h1En: "Hong Kong business broadband: shops and offices should not use home plans",
+    published: "2026-09-09",
+    modified: "2026-09-10",
+    related: ["shop-broadband", "contract-fees", "fiber", "switch-broadband"],
     plans: [{ href: "/plans?cat=business", label: "去商業寬頻格價" }],
     estates: [
       { href: "/estates", label: "屋苑目錄" },
@@ -355,21 +696,195 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "點解唔能直接用家居價",
         paragraphs: [
-          "家居公屋／居屋計劃通常綁住宅地址，店舖、寫字樓、工作室要用商業寬頻。登記、合約、支援時間同安裝窗口都唔同，強行用家居價去舖頭，申請多數會被拒絕或者後期要改約。",
+          "家居公屋／居屋計劃通常綁住宅地址。店舖、寫字樓、工作室要用商業寬頻。登記、合約、支援時間同安裝窗口都唔同，強行用家居價去舖頭，申請多數會被拒絕或者後期要改約。",
+          "正確入口係 [商業寬頻格價](/plans?cat=business)，而唔係套用住宅篩選。",
         ],
+      },
+      {
+        heading: "店舖、寫字樓、工作室",
+        paragraphs: [
+          "營業地址先決定入線同管理處批文。住宅地下改舖、工廈、商場舖，手續都可以唔同。報價一定要寫營業地址，而唔係老闆屋企。清單見 [店舖申請商業寬頻要準備咩](/guides/shop-broadband)。",
+        ],
+        table: {
+          caption: "商用地址點分",
+          headers: ["類型", "要問"],
+          rows: [
+            {
+              label: "店舖／商場舖",
+              value: "管理處批文、安裝窗口、非辦公時間可能另計。",
+              href: "/guides/shop-broadband",
+            },
+            {
+              label: "寫字樓",
+              value: "大廈電訊房、固定 IP、辦公時間支援較常見。",
+              href: "/guides/shop-broadband",
+            },
+            {
+              label: "工作室／工廈",
+              value: "入線同用途限制視大廈。先查覆蓋再補文件。",
+              href: "/guides/shop-broadband",
+            },
+          ],
+        },
+      },
+      {
+        heading: "固定 IP、安裝、支援",
+        paragraphs: [
+          "收銀機、VPN、鏡頭、郵件伺服器可能需要固定 IP，家居動態 IP 未必夠。1000M 起跳係常見起步，實際上傳同穩定度先對到日常營運。",
+          "問安裝窗口同故障支援時間。商用地址好多時要配合商場或大廈管理。月費以外見 [安裝費、預繳、合約](/guides/contract-fees)。",
+        ],
+        table: {
+          caption: "簽約前要問",
+          headers: ["項目", "點問"],
+          rows: [
+            {
+              label: "固定 IP",
+              value: "收銀、VPN、鏡頭需唔需要。家居動態 IP 未必夠。",
+              href: "/guides/shop-broadband",
+            },
+            {
+              label: "安裝窗口",
+              value: "可唔可以配合非辦公時間，大廈／商場點批。",
+              href: "/guides/shop-broadband",
+            },
+            {
+              label: "合約同終止",
+              value: "合約期、提早終止、搬舖可唔可以跟約。",
+              href: "/guides/contract-fees",
+            },
+          ],
+        },
       },
       {
         heading: "報價前準備",
         paragraphs: [
-          "準備工商地址、商業登記或舖租資料，問清楚需唔需要固定 IP、安裝期、故障支援時間。1000M 起跳係常見起步，實際上傳同穩定度先對到收銀、雲端同監控。清單見 [店舖申請商業寬頻要準備咩](/guides/shop-broadband)。",
-          DISCLAIMER + " WhatsApp 查核報價可預填「商業寬頻」。下一步：[商業寬頻格價](/plans?cat=business)。",
+          "準備工商地址、商業登記或舖租資料，問清楚需唔需要固定 IP、安裝期、故障支援時間。未齊件可以先查覆蓋，簽約前通常要補齊。",
+        ],
+      },
+      {
+        heading: "下一步",
+        paragraphs: [
+          "開 [商業寬頻格價](/plans?cat=business)。WhatsApp 查核報價可預填「商業寬頻」。",
+          DISCLAIMER,
         ],
       },
     ],
     bodyEn: [
       {
         heading: "Do not use a home plan",
-        paragraphs: ["Shops and offices need a business address and contract. Home public-housing rates usually cannot be used."],
+        paragraphs: [
+          "Shops and offices need a business address and contract. Home public-housing rates usually cannot be used.",
+        ],
+      },
+      {
+        heading: "Shops, offices, studios",
+        paragraphs: [
+          "Quote against the trading address. See the [shop checklist](/guides/shop-broadband).",
+        ],
+        table: {
+          caption: "Business addresses",
+          headers: ["Type", "Ask about"],
+          rows: [
+            {
+              label: "Shop",
+              value: "Building access and install windows, especially in malls.",
+              href: "/guides/shop-broadband",
+            },
+            {
+              label: "Office",
+              value: "Telecom room, static IP, support during office hours.",
+              href: "/guides/shop-broadband",
+            },
+            {
+              label: "Studio / industrial",
+              value: "Use limits vary by building. Check coverage first.",
+              href: "/guides/shop-broadband",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Static IP, install, support",
+        paragraphs: [
+          "Tills, VPN and cameras may need a static IP. Ask about install windows and fault support.",
+        ],
+        table: {
+          caption: "Ask before you sign",
+          headers: ["Item", "What to ask"],
+          rows: [
+            {
+              label: "Static IP",
+              value: "Needed for tills, VPN or cameras. Home dynamic IPs may not do.",
+              href: "/guides/shop-broadband",
+            },
+            {
+              label: "Install window",
+              value: "Can they work outside office hours? Who approves access?",
+              href: "/guides/shop-broadband",
+            },
+            {
+              label: "Contract",
+              value: "Term, early termination, and whether you can move the line.",
+              href: "/guides/contract-fees",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Before you quote",
+        paragraphs: [
+          "Have the business address and registration or lease ready. Coverage can be checked first; documents are usually needed to sign.",
+        ],
+      },
+      {
+        heading: "Next step",
+        paragraphs: [
+          "Open the [business compare page](/plans?cat=business). WhatsApp can be pre-filled with “商業寬頻”.",
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "舖頭可唔可以用家居寬頻計劃？",
+        a: "多數唔得。家居公屋／居屋價綁住宅用途，舖頭要用商業寬頻。詳見 [店舖申請清單](/guides/shop-broadband)。",
+      },
+      {
+        q: "商業寬頻要唔要固定 IP？",
+        a: "收銀機、VPN、鏡頭、郵件伺服器可能需要。家居動態 IP 未必夠。報價時一齊問。",
+      },
+      {
+        q: "申請前要準備咩？",
+        a: "工商地址、商業登記或舖租、負責人身分證明係常見清單。實際視供應商。見 [店舖申請清單](/guides/shop-broadband)。",
+      },
+      {
+        q: "店舖 1000M 夠唔夠？",
+        a: "1000M 起跳係常見起步。實際上傳、穩定度、固定 IP 先對到收銀同雲端。以現場同電訊商確認為準。",
+      },
+      {
+        q: "點樣查核商業寬頻報價？",
+        a: "開 [商業寬頻格價](/plans?cat=business)，WhatsApp 可預填「商業寬頻」。覆蓋、安裝期同月費以電訊商確認為準。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Can a shop use a home broadband plan?",
+        a: "Usually no. Home rates are tied to residential use. See the [shop checklist](/guides/shop-broadband).",
+      },
+      {
+        q: "Do I need a static IP?",
+        a: "Tills, VPN and cameras often do. Ask when you quote.",
+      },
+      {
+        q: "What should I prepare?",
+        a: "Business address, registration or lease, and ID are common. See the [shop checklist](/guides/shop-broadband).",
+      },
+      {
+        q: "Is 1000M enough for a shop?",
+        a: "It is a common starting speed. Upload, stability and static IP matter more. Confirm with the carrier.",
+      },
+      {
+        q: "How do I check a business quote?",
+        a: "Open the [business compare page](/plans?cat=business) and confirm on WhatsApp.",
       },
     ],
   },
