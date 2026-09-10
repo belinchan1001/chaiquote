@@ -685,11 +685,24 @@ describe("housing type audit 2026", () => {
       "比華利山花園",
       "滌濤山",
       "翠擁華庭",
+      "樂融軒",
+      "爵悅庭",
+      "朗屏8號",
+      "怡安閣",
+      "雅麗居",
+      "荷李活華庭",
+      "文禮閣",
+      "栢蕙苑",
+      "衛理苑",
     ];
     for (const name of privateEstates) {
       assert.equal(estate(name)?.housing, "private", name);
       assert.equal(classifyAddress(name).housing, "private", name);
     }
+    assert.equal(classifyAddress("Harmony Place").housing, "private");
+    assert.equal(classifyAddress("Chelsea Court").housing, "private");
+    assert.equal(classifyAddress("The Spectra").housing, "private");
+    assert.equal(classifyAddress("The Floridian").housing, "private");
   });
 
   it("keeps recent HOS / GSH courts as 居屋", () => {
@@ -710,11 +723,28 @@ describe("housing type audit 2026", () => {
       "悅湖山莊",
       "盛緻苑",
       "翠嶺峰",
+      "愛蝶灣",
+      "置樂花園",
+      "海翠花園",
+      "大埔廣場",
+      "新興花園",
+      "富雅花園",
+      "宏德居",
+      "雲疊花園",
+      "綠怡雅苑",
     ];
     for (const name of hosEstates) {
       assert.equal(estate(name)?.housing, "hos", name);
       assert.equal(classifyAddress(name).housing, "hos", name);
     }
+    assert.equal(matchKnownEstate("愛蝶灣")?.housing, "hos");
+    assert.notEqual(matchKnownEstate("愛蝶灣")?.housing, "private");
+    assert.equal(classifyAddress("Aldrich Garden").housing, "hos");
+    assert.equal(classifyAddress("Chi Lok Fa Yuen").housing, "hos");
+    assert.equal(classifyAddress("Pierhead Garden").housing, "hos");
+    assert.equal(classifyAddress("Tai Po Plaza").housing, "hos");
+    assert.equal(classifyAddress("Walton Estate").housing, "hos");
+    assert.equal(classifyAddress("Carado Garden").housing, "hos");
   });
 
   it("keeps large public estates as 公屋", () => {

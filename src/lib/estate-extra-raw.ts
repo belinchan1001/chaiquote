@@ -204,7 +204,7 @@ export const EXTRA_RAW = `
 荃威花園|Allway Gardens|荃灣|private
 荃灣花園|Tsuen Wan Garden|荃灣|private
 萬景峯|Vision City|荃灣|private
-爵悅庭|The Dynasty|荃灣|private
+爵悅庭|Chelsea Court|荃灣|private
 翠豐臺|The Cliveden|荃灣|private
 樂悠居|The Parklane Tsuen Wan|荃灣|private
 蝴蝶邨|蝴蝶,Butterfly Estate|屯門|public
@@ -226,7 +226,7 @@ export const EXTRA_RAW = `
 興貴苑|興貴,Hing Kwai Court|屯門|hos
 富健花園|Venice Gardens|屯門|private
 龍門居|Lung Mun Oasis|屯門|private
-海翠花園|Pierhead Garden|屯門|private
+海翠花園|海翠,Pierhead Garden|屯門|hos
 豐景園|Botania Villa|屯門|private
 華都花園|Waldorf Garden|屯門|private
 新屯門中心|Sun Tuen Mun Centre|屯門|private
@@ -273,7 +273,7 @@ export const EXTRA_RAW = `
 德雅苑|德雅,Tak Nga Court|大埔|hos
 頌雅苑|頌雅,Chung Nga Court|大埔|hos
 頌耘苑|頌耘,Chung Wan Court|大埔|hos
-新興花園|Sun Hing Garden|大埔|private
+新興花園|新興,Sun Hing Garden|大埔|hos
 昌運中心|Fortune Plaza Tai Po|大埔|private
 太湖花園|Tai Po Lake Garden|大埔|private
 新峰花園|Classical Gardens|大埔|private
@@ -458,7 +458,8 @@ export const EXTRA_RAW = `
 山頂道|The Peak Residences|中西區|private
 何文田山畔|Homantin Hillside|九龍城|private
 何文田君頤峰|King's Park Villa|九龍城|private
-何文田雅苑|Yee On Court Homantin,怡安閣,Yee On Court|九龍城|private
+怡安閣|怡安閣,Yee On Court,何文田雅苑|九龍城|private
+雅麗居|The Astrid|九龍城|private
 紅磡灣中心|Hung Hom Bay Centre|九龍城|private
 九龍城賈炳達道|Carpenter Road Residences|九龍城|private
 啟德天鑾|The Henley II|九龍城|private
@@ -502,9 +503,9 @@ export const EXTRA_RAW = `
 康達閣|Hong Tat Court Block|東區|public
 康智閣|Hong Chi Court Block|東區|public
 海嵐閣|Hoi Nam Court|油尖旺|public
-愛蝶灣|The Floridian|東區|hos
+愛蝶灣|愛蝶,Aldrich Garden|東區|hos
 富欣花園|Cheerful Garden|東區|hos
-宏德居|Wang Tak Residence|東區|hos
+宏德居|宏德,Walton Estate,Wang Tak Residence|東區|hos
 啟翔苑|Kai Cheung Court|黃大仙|hos
 鳳鑽苑|Fung Chun Court|黃大仙|hos
 鳳禮苑|Fung Lai Court|黃大仙|hos
@@ -529,10 +530,10 @@ export const EXTRA_RAW = `
 彩禾苑|Choi Wo Court|沙田|hos
 錦駿苑|Kam Chun Court|沙田|hos
 錦柏苑|錦柏,Kam Pak Court|沙田|hos|馬鞍山
-雲疊花園|Pictorial Garden Fo Tan|沙田|hos
+雲疊花園|雲疊,Carado Garden|沙田|hos
 富嘉花園|Grandway Garden|沙田|hos
 海福花園|Holford Gardens|沙田|hos
-綠怡雅苑|Greenya Court|沙田|hos
+綠怡雅苑|綠怡,Greenhill Villa,Greenya Court|沙田|hos
 昭明苑|Chiu Ming Court|西貢|hos
 富康花園|Beverly Garden TKO|西貢|hos
 富寧花園|Fu Ning Garden|西貢|hos
@@ -550,7 +551,7 @@ export const EXTRA_RAW = `
 樂嶺軒|Lok Ling Hin|北區|hos
 澤豐花園|Affluence Garden|屯門|hos
 樂翹都匯|Lok Kiu Hub,Eminence Terrace,樂翹軒|元朗|hos
-置樂花園|Chi Lok Fa Yuen|屯門|private
+置樂花園|置樂,Chi Lok Fa Yuen|屯門|hos
 碧瑤灣|Baguio Villa|南區|private
 天匯|39 Conduit Road|中西區|private
 曉盧|Highcliff|灣仔|private
@@ -630,10 +631,10 @@ YOHO West|YOHO West|元朗|private
 賽西湖大廈|Braemar Hill Mansions|東區|private
 雍景臺|Robinson Heights|中西區|private
 聯邦花園|Union Garden Midlevels|中西區|private
-新威園|Sai Wan Terrace|東區|private
+新威園|Sai Wan Terrace,The Floridian|東區|private
 栢蕙苑|Westlands Court|東區|private
 杏花園|Heng Fa Villa|東區|private
-樂融軒|Lok Yung Hin|東區|hos
+樂融軒|Harmony Place|東區|private
 峻峰花園|King Court Shau Kei Wan|東區|private
 皓日|The Holborn|觀塘|private
 泰峯|The Quayside|觀塘|private
@@ -650,7 +651,7 @@ KOKO Hills|KOKO Hills|觀塘|private
 天賦海灣|Providence Bay|大埔|private
 海日灣|St Martin Tai Po|大埔|private
 海鑽|The Graces Providence|大埔|private
-大埔廣場|Tai Po Plaza Residences|大埔|private
+大埔廣場|大埔廣場,Tai Po Plaza|大埔|hos
 粉嶺龍躍頭|Lung Yeuk Tau|北區|village
 粉嶺坪輋|Ping Che|北區|village
 上水古洞|Kwu Tung|北區|village
@@ -746,6 +747,9 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 樂嶺都匯|Lok Ling Hub Fanling,Lok Ling Terrace|北區|public
 朗日峰|Flora,Long Yat Peak|元朗|private|十八鄉||大棠路111號
 朗天峰|Hava,Long Tin Peak|元朗|private|十八鄉||十八鄉路39號
+朗屏8號|The Spectra,朗屏站上蓋|元朗|private|朗屏||朗屏路8號
+荷李活華庭|Hollywood Terrace|中西區|private|||荷李活道123號
+富雅花園|富雅,Elegance Garden Tai Po|大埔|hos
 日出康城第12期|LOHAS Park Phase 12,LP12,康城第12期|西貢|private|將軍澳
 古雋邨|古雋,Kwu Chun Estate|北區|public|古洞
 世運道簡約公屋|世運道項目,Olympic Avenue LPH,宋皇臺站簡約公屋,宋皇臺簡約公屋,啟德世運道簡約公屋,世運道簡約公屋啟德站|九龍城|public|啟德
