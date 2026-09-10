@@ -136,6 +136,7 @@ describe("estate SEO pages", () => {
       "hkbn-ftth-2500-24m-149-intake",
       "hkbn-ftth-2500-36m-149-intake",
       "hkbn-ftth-2x1000-36m-75-intake",
+      "hgc-ftth-2000-hos-36m",
     ] as const;
     for (const id of ids) {
       const plan = getPlan(id);
@@ -165,6 +166,10 @@ describe("estate SEO pages", () => {
     assert.equal(estateUnlocksPlan("朗天苑朗杏閣", HKBN_INTAKE_OFFER_ESTATES), true);
     const longHeng = filterPlans({ cat: "broadband", housing: "hos", estate: "朗杏閣" }).map((plan) => plan.id);
     for (const id of ids) assert.equal(longHeng.includes(id), true, id);
+    const lph = filterPlans({ cat: "broadband", housing: "public", estate: "簡約公屋恆光街項目" }).map((plan) => plan.id);
+    assert.equal(lph.includes("hgc-ftth-2000-hos-36m"), true);
+    const gsh = filterPlans({ cat: "broadband", housing: "hos", estate: "綠置居" }).map((plan) => plan.id);
+    assert.equal(gsh.includes("hgc-ftth-2000-hos-36m"), true);
     const shing = estatePlans(ESTATES.find((item) => item.name === "盛緻苑")!);
     assert.ok(ids.every((id) => shing.broadband.some((plan) => plan.id === id)));
     const tin = estatePlans(ESTATES.find((item) => item.name === "天耀邨")!);

@@ -639,7 +639,9 @@ export const PLANS: Plan[] = [
     perks: ["送指定 Wi-Fi 7 路由器", "豁免搬遷費"],
     hot: true,
     quotePick: true,
-    bestFor: "適合新入伙居屋或簡約公屋住戶",
+    newIntakeOffer: true,
+    onlyEstates: [...HKBN_INTAKE_OFFER_ESTATES],
+    bestFor: "適合指定新入伙居屋或簡約公屋住戶",
   },
   {
     id: "hgc-ftth-1000-public-39m",

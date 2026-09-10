@@ -41,7 +41,7 @@ export const NEW_INTAKE: { name: string; group: string }[] = [
 
 export const NEW_INTAKE_NAMES = new Set(NEW_INTAKE.map((item) => item.name));
 
-/** HKBN fibre offers for public / HOS new-move-in estates (blocks inherit the parent). */
+/** HKBN / HGC fibre offers for public / HOS new-move-in estates (blocks inherit the parent). */
 export const HKBN_INTAKE_OFFER_ESTATES = [
   "盛緻苑",
   "樂嶺都匯",
@@ -67,6 +67,7 @@ export const HKBN_INTAKE_OFFER_ESTATES = [
   "鴻鵠臺",
   "啟盈苑",
   "朗天苑",
+  "綠置居",
 ] as const;
 
 const NEW_INTAKE_PARENTS = ESTATES.filter((estate) => NEW_INTAKE_NAMES.has(estate.name));
