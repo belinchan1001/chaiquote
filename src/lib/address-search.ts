@@ -2,6 +2,7 @@ import {
   allowGovHitForQuery,
   classifyAddress,
   compact,
+  estateStreet,
   guessHousing,
   isImpracticalPlace,
   matchKnownEstate,
@@ -50,7 +51,7 @@ function fromLocal(estate: Estate): AddressHit {
   return {
     key: `local:${estate.name}`,
     name: estate.name,
-    address: "",
+    address: estateStreet(estate),
     district: estate.area ?? estate.district,
     housing: estate.housing,
     source: "local",
@@ -136,7 +137,7 @@ export function addressHitLabel(hit: AddressHit) {
           : hit.housing === "private"
             ? "私人樓"
             : "";
-  const bits = [hit.district, hit.address || type].filter(Boolean);
+  const bits = [hit.district, hit.address, type].filter(Boolean);
   return bits.join(" · ");
 }
 

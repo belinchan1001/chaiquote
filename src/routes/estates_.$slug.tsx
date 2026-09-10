@@ -68,6 +68,7 @@ function EstatePage() {
         香港屋苑寬頻比較
       </Link>
       <p className="mt-6 text-xs font-medium tracking-wider text-muted">
+        {estate.street ? `${estate.street} · ` : ""}
         {estate.district}
         {estate.area ? ` · ${estate.area}` : ""} · {housing}
       </p>

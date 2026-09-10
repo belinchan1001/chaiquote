@@ -7,6 +7,7 @@ import { ESTATES, matchKnownEstate, searchEstates } from "./estates.ts";
 import { filterPlans, getPlan } from "./plans.ts";
 import {
   ESTATE_PAGES,
+  estateIntro,
   estatePlans,
   estateSelectTarget,
   estateSeoTitle,
@@ -120,6 +121,13 @@ describe("estate SEO pages", () => {
     }
     assert.equal(matchKnownEstate("朗天峰")?.name, "朗天峰");
     assert.equal(matchKnownEstate("朗天苑")?.name, "朗天苑");
+    assert.match(estateIntro(ESTATES.find((item) => item.name === "朗天苑")!), /青山公路－屏山段130號/);
+    assert.equal(getEstatePage("long-tin-court")?.estate.housing, "hos");
+    assert.equal(getEstatePage("long-tin-peak")?.estate.housing, "private");
+    assert.equal(getEstatePage("vista-paradiso")?.estate.name, "聽濤雅苑");
+    assert.equal(getEstatePage("monte-vista")?.estate.name, "翠擁華庭");
+    assert.equal(getEstatePage("the-beverly-hills")?.estate.name, "比華利山花園");
+    assert.equal(getEstatePage("symphony-bay")?.estate.housing, "private");
     assert.equal(searchEstates("柴灣常安街簡約公屋")[0]?.name, "柴灣常安街簡約公屋");
     assert.equal(searchEstates("日出康城第12期")[0]?.name, "日出康城第12期");
     assert.equal(ESTATES.find((item) => item.name === "東頭村")?.district, "元朗");

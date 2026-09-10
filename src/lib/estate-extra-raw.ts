@@ -277,7 +277,7 @@ export const EXTRA_RAW = `
 昌運中心|Fortune Plaza Tai Po|大埔|private
 太湖花園|Tai Po Lake Garden|大埔|private
 新峰花園|Classical Gardens|大埔|private
-滌濤山|The Beverly Hills|大埔|private
+滌濤山|Constellation Cove|大埔|private|||紅林路1號
 林海山莊|Conway Mansion|大埔|private
 倚龍山莊|Villa Castell|大埔|private
 大埔舊墟|Tai Po Old Market|大埔|village
@@ -311,7 +311,7 @@ export const EXTRA_RAW = `
 錦鞍苑|錦鞍,Kam On Court|沙田|hos
 錦禧苑|錦禧,Kam Hay Court|沙田|hos
 錦泰苑|錦泰,Kam Tai Court|沙田|hos
-翠擁華庭|Vista Paradiso|沙田|private
+翠擁華庭|Monte Vista|沙田|private|馬鞍山||沙安街9號
 曉峯灣畔|Double Cove|沙田|private
 觀瀾雅軒|Villa Oceania|沙田|private
 天宇海|Oceanaire|沙田|private
@@ -389,7 +389,7 @@ export const EXTRA_RAW = `
 大埔墟|Tai Po Market Residences|大埔|private
 新達廣場|Uptown Plaza Residences|大埔|private
 海寶花園|Treasure Garden|大埔|private
-比華利山花園|Beverly Hills Tai Po|大埔|private
+比華利山花園|比華利山別墅,The Beverly Hills,Beverly Hills Tai Po|大埔|private|||三門仔路23號
 半山名邸|The Paragon Tai Po|大埔|private
 翠林花園|Greenfield Garden|葵青|private
 葵芳閣|Kwai Fong Terrace|葵青|private
@@ -458,7 +458,7 @@ export const EXTRA_RAW = `
 山頂道|The Peak Residences|中西區|private
 何文田山畔|Homantin Hillside|九龍城|private
 何文田君頤峰|King's Park Villa|九龍城|private
-何文田雅苑|Yee On Court Homantin|九龍城|private
+何文田雅苑|Yee On Court Homantin,怡安閣,Yee On Court|九龍城|private
 紅磡灣中心|Hung Hom Bay Centre|九龍城|private
 九龍城賈炳達道|Carpenter Road Residences|九龍城|private
 啟德天鑾|The Henley II|九龍城|private
@@ -744,10 +744,21 @@ One Central Place|中環 One Central Place|中西區|private
 Spring Garden|Spring Garden Wan Chai|灣仔|private
 The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 樂嶺都匯|Lok Ling Hub Fanling,Lok Ling Terrace|北區|public
-朗日峰|Long Yat Peak|元朗|private
-朗天峰|Long Tin Peak|元朗|private
+朗日峰|Flora,Long Yat Peak|元朗|private|十八鄉||大棠路111號
+朗天峰|Hava,Long Tin Peak|元朗|private|十八鄉||十八鄉路39號
 日出康城第12期|LOHAS Park Phase 12,LP12,康城第12期|西貢|private|將軍澳
 古雋邨|古雋,Kwu Chun Estate|北區|public|古洞
 世運道簡約公屋|世運道項目,Olympic Avenue LPH,宋皇臺站簡約公屋,宋皇臺簡約公屋,啟德世運道簡約公屋,世運道簡約公屋啟德站|九龍城|public|啟德
 柴灣常安街簡約公屋|常安街簡約公屋,Sheung On Street LPH,柴灣常安街|東區|public
+南灣花園|South Bay Garden,南灣苑|南區|private|赤柱||南灣坊33號
+高爾夫御苑|高爾夫．御苑,Eden Manor|北區|private|古洞||青山公路－古洞段88號
+高爾夫景園|Golf Parkview|北區|private|古洞||青山公路－古洞段83號
+天鑽|The Regent|大埔|private|||山塘路8號
+嵐山|Mont Vert|大埔|private|鳳園||鳳園路9號
+淺月灣|Casa Marina|大埔|private|||露輝路28號
+帝琴灣|Symphony Bay,凱弦居,凱琴居|大埔|private|西貢北||西沙路530號
+聚豪天下|Grand Palisades|大埔|private|||山賢路8號
+肇輝臺|Kadoorie Avenue|九龍城|private
+海傲灣|One East Coast|觀塘|private|油塘||鯉魚門徑1號
+朗譽|The Aperture|觀塘|private|油塘
 `.trim();

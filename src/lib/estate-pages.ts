@@ -107,6 +107,21 @@ const SLUG_FALLBACK: Record<string, string> = {
   朗日峰: "long-yat-peak",
   朗天峰: "long-tin-peak",
   古雋邨: "kwu-chun",
+  天鑽: "the-regent",
+  嵐山: "mont-vert",
+  高爾夫御苑: "eden-manor",
+  高爾夫景園: "golf-parkview",
+  南灣花園: "south-bay-garden",
+  聽濤雅苑: "vista-paradiso",
+  翠擁華庭: "monte-vista",
+  帝欣苑: "parc-versailles",
+  滌濤山: "constellation-cove",
+  御豪山莊: "park-royale",
+  帝琴灣: "symphony-bay",
+  淺月灣: "casa-marina",
+  聚豪天下: "grand-palisades",
+  海傲灣: "one-east-coast",
+  比華利山花園: "the-beverly-hills",
   裕興苑: "yu-hing-court",
   柏傲莊III: "pavilia-farm-iii",
   "101 Kings Road": "101-kings-road",
@@ -178,13 +193,15 @@ export function estateSeoTitle(estate: Estate): string {
 
 export function estateSeoDescription(estate: Estate): string {
   const place = estate.area ? `${estate.district}${estate.area}` : estate.district;
-  return `${estate.name}位於${place}，樓類為${estateHousingLabel(estate.housing)}。以下只列出適用該樓類的參考計劃。實際覆蓋同安裝期以電訊商確認為準。`;
+  const street = estate.street ? `${estate.street}，` : "";
+  return `${estate.name}位於${street}${place}，樓類為${estateHousingLabel(estate.housing)}。以下只列出適用該樓類的參考計劃。實際覆蓋同安裝期以電訊商確認為準。`;
 }
 
 export function estateIntro(estate: Estate): string {
   const place = estate.area ? `${estate.district}（${estate.area}）` : estate.district;
+  const street = estate.street ? `${estate.street}，` : "";
   const check = estate.coverageCheck ? "此地址覆蓋需另行查核。" : "";
-  return `${estate.name}位於${place}，樓類為${estateHousingLabel(estate.housing)}。${check}實際覆蓋同安裝期以電訊商確認為準。`.replace(/\s+/g, " ");
+  return `${estate.name}位於${street}${place}，樓類為${estateHousingLabel(estate.housing)}。${check}實際覆蓋同安裝期以電訊商確認為準。`.replace(/\s+/g, " ");
 }
 
 export function estatePlans(estate: Estate): { broadband: Plan[]; home5g: Plan[] } {

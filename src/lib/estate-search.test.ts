@@ -8,6 +8,7 @@ import {
   classifyAddress,
   ESTATES,
   estateLabel,
+  estateStreet,
   isCatalogueParent,
   isImpracticalPlace,
   isRelatedBlock,
@@ -515,12 +516,17 @@ describe("朗天苑 and village-address contamination", () => {
     assert.equal(estate("朗天苑")?.housing, "hos");
     assert.equal(estate("朗天苑")?.district, "元朗");
     assert.equal(estate("朗天苑")?.area, "屏山");
+    assert.equal(estate("朗天苑")?.street, "青山公路－屏山段130號");
+    assert.equal(estateStreet(estate("朗天苑")!), "青山公路－屏山段130號");
     assert.equal(classifyAddress("朗天苑").housing, "hos");
     assert.equal(classifyAddress("朗天苑").confidence, "high");
     assert.equal(matchKnownEstate("朗天苑")?.name, "朗天苑");
     assert.equal(matchKnownEstate("朗天苑", "青山公路－屏山段 130號")?.name, "朗天苑");
     assert.equal(matchKnownEstate("朗天苑", "青山公路－屏山段 130號")?.housing, "hos");
     assert.notEqual(matchKnownEstate("朗天苑", "青山公路－屏山段 130號")?.housing, "village");
+    assert.equal(matchKnownEstate("青山公路－屏山段130號")?.name, "朗天苑");
+    assert.equal(matchKnownEstate("青山公路－屏山段130號")?.housing, "hos");
+    assert.equal(classifyAddress("青山公路－屏山段130號").housing, "hos");
   });
 
   it("links 朗松／桃／杏閣 under 朗天苑 as hos", () => {
@@ -546,6 +552,8 @@ describe("朗天苑 and village-address contamination", () => {
     assert.equal(estate("匯熙苑")?.housing, "hos");
     assert.equal(matchKnownEstate("匯熙苑", "錦田錦義路1號")?.housing, "hos");
     assert.equal(estate("御豪山莊")?.housing, "private");
+    assert.equal(estate("御豪山莊")?.street, "公園北路38號");
+    assert.equal(matchKnownEstate("Park Royale")?.name, "御豪山莊");
     assert.equal(matchKnownEstate("御豪山莊", "青山公路－屏山段")?.housing, "private");
     assert.equal(estate("綠悅")?.housing, "private");
     assert.equal(classifyAddress("綠悅").housing, "private");
@@ -569,6 +577,63 @@ describe("housing type audit 2026", () => {
     assert.equal(classifyAddress("朗天苑").housing, "hos");
     assert.equal(matchKnownEstate("朗天苑", "青山公路－屏山段 130號")?.housing, "hos");
     assert.equal(estate("屏山")?.housing, "village");
+  });
+
+  it("keeps 朗天峰／朗日峰 as 私樓 and does not mix them with 朗天苑", () => {
+    assert.equal(estate("朗天峰")?.housing, "private");
+    assert.equal(estate("朗天峰")?.street, "十八鄉路39號");
+    assert.equal(classifyAddress("朗天峰").housing, "private");
+    assert.equal(matchKnownEstate("朗天峰")?.name, "朗天峰");
+    assert.equal(matchKnownEstate("Hava")?.name, "朗天峰");
+    assert.equal(matchKnownEstate("十八鄉路39號")?.name, "朗天峰");
+    assert.equal(matchKnownEstate("十八鄉路39號")?.housing, "private");
+    assert.equal(estate("朗日峰")?.housing, "private");
+    assert.equal(estate("朗日峰")?.street, "大棠路111號");
+    assert.equal(classifyAddress("朗日峰").housing, "private");
+    assert.equal(matchKnownEstate("Flora")?.name, "朗日峰");
+    assert.equal(matchKnownEstate("大棠路111號")?.name, "朗日峰");
+    assert.notEqual(matchKnownEstate("朗天峰")?.name, "朗天苑");
+    assert.notEqual(searchEstates("朗天峰")[0]?.name, "朗天苑");
+    assert.equal(searchEstates("朗天峰")[0]?.housing, "private");
+    assert.equal(searchEstates("朗天苑")[0]?.housing, "hos");
+  });
+
+  it("does not steal English names across nearby private estates", () => {
+    assert.equal(matchKnownEstate("The Beverly Hills")?.name, "比華利山花園");
+    assert.equal(matchKnownEstate("比華利山別墅")?.name, "比華利山花園");
+    assert.equal(matchKnownEstate("三門仔路23號")?.name, "比華利山花園");
+    assert.equal(matchKnownEstate("Constellation Cove")?.name, "滌濤山");
+    assert.equal(matchKnownEstate("紅林路1號")?.name, "滌濤山");
+    assert.equal(matchKnownEstate("Alto Residences")?.name, "藍塘傲");
+    assert.equal(matchKnownEstate("One East Coast")?.name, "海傲灣");
+    assert.equal(matchKnownEstate("鯉魚門徑1號")?.name, "海傲灣");
+    assert.equal(estate("海傲灣")?.housing, "private");
+    assert.equal(estate("帝琴灣")?.housing, "private");
+    assert.equal(estate("帝琴灣")?.district, "大埔");
+    assert.equal(matchKnownEstate("Symphony Bay")?.name, "帝琴灣");
+    assert.equal(matchKnownEstate("西沙路530號")?.name, "帝琴灣");
+    assert.equal(matchKnownEstate("Casa Marina")?.name, "淺月灣");
+    assert.equal(estate("天鑽")?.street, "山塘路8號");
+    assert.equal(matchKnownEstate("山塘路8號")?.name, "天鑽");
+    assert.equal(estate("天鑽")?.coverageCheck, undefined);
+  });
+
+  it("classifies 苑-named private courts as 私樓, not 居屋", () => {
+    assert.equal(estate("南灣花園")?.housing, "private");
+    assert.equal(estate("南灣花園")?.street, "南灣坊33號");
+    assert.equal(classifyAddress("南灣苑").housing, "private");
+    assert.equal(matchKnownEstate("南灣苑")?.name, "南灣花園");
+    assert.equal(estate("高爾夫御苑")?.housing, "private");
+    assert.equal(classifyAddress("高爾夫御苑").housing, "private");
+    assert.equal(matchKnownEstate("Eden Manor")?.name, "高爾夫御苑");
+    assert.equal(estate("帝欣苑")?.housing, "private");
+    assert.equal(estate("帝欣苑")?.street, "梅樹坑路8號");
+    assert.equal(matchKnownEstate("Parc Versailles")?.name, "帝欣苑");
+    assert.equal(estate("聽濤雅苑")?.housing, "private");
+    assert.equal(matchKnownEstate("Vista Paradiso")?.name, "聽濤雅苑");
+    assert.equal(matchKnownEstate("Monte Vista")?.name, "翠擁華庭");
+    assert.notEqual(matchKnownEstate("Vista Paradiso")?.name, "翠擁華庭");
+    assert.equal(classifyAddress("未知示範峰").housing, "private");
   });
 
   it("classifies 宏緻苑 as hos (綠置居) and links 緻閣 blocks", () => {
@@ -606,6 +671,20 @@ describe("housing type audit 2026", () => {
       "聽濤雅苑",
       "御豪山莊",
       "綠悅",
+      "朗天峰",
+      "朗日峰",
+      "南灣花園",
+      "高爾夫御苑",
+      "天鑽",
+      "嵐山",
+      "海傲灣",
+      "朗譽",
+      "帝琴灣",
+      "淺月灣",
+      "聚豪天下",
+      "比華利山花園",
+      "滌濤山",
+      "翠擁華庭",
     ];
     for (const name of privateEstates) {
       assert.equal(estate(name)?.housing, "private", name);
@@ -630,6 +709,7 @@ describe("housing type audit 2026", () => {
       "景泰苑",
       "悅湖山莊",
       "盛緻苑",
+      "翠嶺峰",
     ];
     for (const name of hosEstates) {
       assert.equal(estate(name)?.housing, "hos", name);

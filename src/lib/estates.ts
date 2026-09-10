@@ -10,6 +10,8 @@ export type Estate = {
   area?: string;
   /** Rebuilding / demolished / coverage unknown — UI may only say 覆蓋需查核. */
   coverageCheck?: boolean;
+  /** Street / door plate, used for display and address matching. */
+  street?: string;
 };
 
 const HOUSING_VALUES: Housing[] = ["public", "hos", "private", "village"];
@@ -154,14 +156,14 @@ const RAW = `
 鳳庭苑|鳳庭,Fung Ting Court|元朗|hos
 屏欣苑|屏欣,Ping Yan Court|元朗|hos|屏山
 宏富苑|宏富,Wang Fu Court|元朗|hos
-朗天苑|朗天,Long Tin Court|元朗|hos|屏山
-朗松閣|朗松,Long Chung House,朗天苑朗松閣|元朗|hos|屏山
-朗桃閣|朗桃,Long Tao House,朗天苑朗桃閣|元朗|hos|屏山
-朗杏閣|朗杏,Long Heng House,朗天苑朗杏閣|元朗|hos|屏山
-朗風苑|朗風,Long Fung Court|元朗|hos|屏山|覆蓋需查核
-匯熙苑|匯熙,Wui Hei Court|元朗|hos|錦田|覆蓋需查核
-御豪山莊|御豪山莊,The Sherwood|元朗|private|屏山
-御景園|御景園,The Parcville|元朗|private|屏山
+朗天苑|朗天,Long Tin Court|元朗|hos|屏山||青山公路－屏山段130號
+朗松閣|朗松,Long Chung House,朗天苑朗松閣,朗天苑A座|元朗|hos|屏山||青山公路－屏山段130號
+朗桃閣|朗桃,Long Tao House,朗天苑朗桃閣,朗天苑B座|元朗|hos|屏山||青山公路－屏山段130號
+朗杏閣|朗杏,Long Heng House,朗天苑朗杏閣,朗天苑C座|元朗|hos|屏山||青山公路－屏山段130號
+朗風苑|朗風,Long Fung Court|元朗|hos|屏山|覆蓋需查核|朗風街18號
+匯熙苑|匯熙,Wui Hei Court|元朗|hos|錦田|覆蓋需查核|錦義路1號
+御豪山莊|Park Royale|元朗|private|朗屏||公園北路38號
+御景園|御景園|元朗|private|屏山
 朗逸豪園|朗逸豪園,Park Villa Ping Shan|元朗|private|屏山
 綠悅|綠悅,The Greenery|元朗|private|屏山
 天晉|天晉,The Wings|西貢|private|將軍澳
@@ -170,7 +172,7 @@ const RAW = `
 新都城|新都城,Metro City|西貢|private|將軍澳
 慧安園|慧安園,Well On Garden|西貢|private|將軍澳
 廣明苑|廣明,廣明苑,Kwong Ming Court|西貢|hos|將軍澳
-影輝苑|影輝,Ying Fai Court|西貢|hos|將軍澳|覆蓋需查核
+影輝苑|影輝,Ying Fai Court|西貢|hos|將軍澳|覆蓋需查核|影業路16號
 英明苑|英明,Ying Ming Court|西貢|hos|將軍澳
 唐明苑|唐明,Tong Ming Court|西貢|hos|將軍澳
 尚德邨|尚德,Sheung Tak|西貢|public|將軍澳
@@ -216,7 +218,7 @@ const RAW = `
 圓洲角|圓洲角,Yuen Chau Kok|沙田|public
 馬鞍山中心|馬鞍山中心,Ma On Shan Centre|沙田|private|馬鞍山
 新港城|新港城,Sunshine City|沙田|private|馬鞍山
-聽濤雅苑|聽濤雅苑,Toscana|沙田|private|馬鞍山
+聽濤雅苑|Vista Paradiso|沙田|private|馬鞍山||恆明街2號
 迎海|迎海,Double Cove|沙田|private|馬鞍山
 錦豐苑|錦豐,Kam Fung Court|沙田|hos|馬鞍山
 耀安邨|耀安,Yiu On|沙田|public|馬鞍山
@@ -231,7 +233,7 @@ const RAW = `
 大元邨|大元,Tai Yuen|大埔|public
 運頭塘邨|運頭塘,Wan Tau Tong|大埔|public
 寶湖花園|寶湖,Treasure Garden|大埔|private
-帝欣苑|帝欣,The Beverly Hills|大埔|private
+帝欣苑|帝欣,Parc Versailles|大埔|private|||梅樹坑路8號
 粉嶺中心|粉嶺中心,Fanling Centre|北區|private
 華明邨|華明,Wah Ming|北區|public
 祥華邨|祥華,Cheung Wah|北區|public
@@ -396,7 +398,7 @@ export const ESTATES: Estate[] = `${RAW}\n${EXTRA_RAW}`
   .map((line) => line.trim())
   .filter(Boolean)
   .flatMap((line): Estate[] => {
-    const [name, aliasStr, district, housing, area, flag] = line.split("|");
+    const [name, aliasStr, district, housing, area, flag, street] = line.split("|");
     if (!name || !district || !housing || !isKnownHousing(housing)) return [];
     return [
       {
@@ -409,6 +411,7 @@ export const ESTATES: Estate[] = `${RAW}\n${EXTRA_RAW}`
         housing,
         area: area || undefined,
         coverageCheck: flag === "check" || flag === "覆蓋需查核" || undefined,
+        street: street?.trim() || undefined,
       },
     ];
   })
@@ -453,7 +456,8 @@ export function isNonEstatePlace(query: string): boolean {
 }
 
 function estateNeedles(estate: Estate): string[] {
-  return [...new Set([estate.name, ...estate.aliases].map(compact).filter((n) => n.length >= 2))];
+  const extra = estate.street ? [estate.street] : [];
+  return [...new Set([estate.name, ...estate.aliases, ...extra].map(compact).filter((n) => n.length >= 2))];
 }
 
 /** Estate / 苑 parents only — never village (村) or short aliases like「東頭」. */
@@ -532,8 +536,11 @@ function scoreAgainstQuery(estate: Estate, q: string): number {
   const name = compact(estate.name);
   const aliases = estate.aliases.map(compact);
   const extras = [estate.area ?? "", estate.district].map(compact);
+  const street = compact(estate.street ?? "");
   if (name === q) return 1000 + name.length;
   if (aliases.includes(q)) return 900 + q.length;
+  if (street && street.length >= 8 && street === q) return 950 + street.length;
+  if (street && street.length >= 8 && q.includes(street) && /號/.test(q)) return 880;
   if (name.startsWith(q)) return 700 + name.length;
   const aliasPrefix = aliases.filter((alias) => alias.startsWith(q));
   if (aliasPrefix.length) return 600 + Math.max(...aliasPrefix.map((alias) => alias.length));
@@ -646,6 +653,10 @@ function allowAddressOnlyNeedle(estate: Estate): boolean {
   return estate.housing === "private";
 }
 
+export function estateStreet(estate: Estate) {
+  return estate.street?.trim() || "";
+}
+
 export function estateLabel(estate: Estate) {
   const place = estate.area ?? estate.district;
   const type =
@@ -686,6 +697,7 @@ export function guessHousing(name: string, address = ""): Housing | undefined {
   if (/新邨|花園|廣場|中心|大廈|洋房|半島|豪庭|豪園|山莊|屋苑/.test(text)) return "private";
   const title = name.replace(/[，,].*$/, "").trim();
   if (/苑$/.test(title)) return "hos";
+  if (/峰$/.test(title)) return "private";
   if (/(軒|居)$/.test(title)) return "private";
   if (/(新村|村|圍)$/.test(title) && !/邨/.test(title)) return "village";
   if (!looksLikeNonVillageEstate(title)) {
