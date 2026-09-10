@@ -278,17 +278,16 @@ function EstatesIndexPage() {
                 {group.district}
                 <span className="ml-2 text-sm font-normal tabular-nums text-muted">{group.pages.length}</span>
               </h2>
-              <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <ul className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4">
                 {group.pages.map((page) => (
                   <li key={page.slug}>
                     <a
                       href={`/estates/${page.slug}`}
-                      className="flex h-full min-h-11 flex-col rounded-xl bg-card p-4 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
+                      className="flex h-full min-h-11 flex-col justify-center rounded-xl bg-card px-2.5 py-2 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
                     >
-                      <p className="font-semibold">{page.estate.name}</p>
-                      <p className="mt-1 text-sm text-muted">
+                      <p className="text-sm font-medium leading-snug">{page.estate.name}</p>
+                      <p className="mt-0.5 text-xs text-muted">
                         {estateHousingLabel(page.estate.housing)}
-                        {page.estate.area ? ` · ${page.estate.area}` : ""}
                       </p>
                     </a>
                   </li>
