@@ -89,6 +89,9 @@ describe("estate SEO pages", () => {
     assert.match(dir, /estate-dir-q/);
     assert.match(dir, /香港屋苑寬頻比較/);
     assert.match(dir, /href=\{\`\/estates\/\$\{page\.slug\}\`\}/);
+    assert.match(dir, /ESTATES\.length/);
+    assert.match(dir, /rounded-xl bg-card/);
+    assert.match(dir, /estatesIndexCount/);
     const wahFu = getEstatePage("wah-fu");
     assert.ok(wahFu);
     assert.deepEqual(estateSelectTarget(wahFu.estate), { kind: "page", slug: "wah-fu" });

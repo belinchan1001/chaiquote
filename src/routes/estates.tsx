@@ -1,19 +1,22 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { startTransition, useState, type FormEvent } from "react";
+import { startTransition, useMemo, useState, type FormEvent } from "react";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
+import { JsonLd } from "@/components/json-ld";
 import { Button } from "@/components/ui/button";
 import { addressHitValue } from "@/lib/address-search";
 import { useDesk } from "@/lib/desk";
-import { estatePagesByDistrict } from "@/lib/estate-pages";
+import { compact, ESTATES } from "@/lib/estates";
+import { estateHousingLabel, estatePagesByDistrict } from "@/lib/estate-pages";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { compactSearch, parsePlansSearch } from "@/lib/search";
 import { canonicalUrl } from "@/lib/seo";
 import type { Housing } from "@/lib/plans";
+import { cn } from "@/lib/utils";
+import type { MessageKey } from "@/lib/messages";
 
 const TITLE = "香港屋苑寬頻比較｜齊Quote";
-const DESCRIPTION =
-  "按地區瀏覽香港屋苑寬頻比較。每個屋苑可睇適用樓類計劃。實際覆蓋同安裝期以電訊商確認為準。";
+const DESCRIPTION = `按地區瀏覽香港${ESTATES.length}個屋苑寬頻比較，資料庫同首頁搜尋一樣。每個屋苑可睇適用樓類計劃。實際覆蓋同安裝期以電訊商確認為準。`;
 
 const HOUSING_FALLBACK: { id: Housing; label: string }[] = [
   { id: "public", label: "公屋" },
@@ -21,6 +24,23 @@ const HOUSING_FALLBACK: { id: Housing; label: string }[] = [
   { id: "private", label: "私樓" },
   { id: "village", label: "村屋" },
 ];
+
+const HOUSING_FILTERS: { id: Housing | ""; label: MessageKey }[] = [
+  { id: "", label: "any" },
+  { id: "public", label: "housingPublic" },
+  { id: "hos", label: "housingHos" },
+  { id: "private", label: "housingPrivate" },
+  { id: "village", label: "housingVillage" },
+];
+
+const HOUSING_COUNTS: Record<Housing, number> = {
+  public: ESTATES.filter((item) => item.housing === "public").length,
+  hos: ESTATES.filter((item) => item.housing === "hos").length,
+  private: ESTATES.filter((item) => item.housing === "private").length,
+  village: ESTATES.filter((item) => item.housing === "village").length,
+};
+
+const DISTRICT_GROUPS = estatePagesByDistrict();
 
 export const Route = createFileRoute("/estates")({
   component: EstatesIndexPage,
@@ -40,14 +60,35 @@ export const Route = createFileRoute("/estates")({
 });
 
 function EstatesIndexPage() {
-  const groups = estatePagesByDistrict();
+  const groups = DISTRICT_GROUPS;
   const [estate, setEstate] = useState("");
   const [housing, setHousing] = useState("");
   const [district, setDistrict] = useState("");
+  const [districtFilter, setDistrictFilter] = useState("");
+  const [housingFilter, setHousingFilter] = useState<Housing | "">("");
   const navigate = useNavigate();
   const setInquiry = useDesk((s) => s.setInquiry);
   const { t } = useI18n();
   usePageTitle(TITLE);
+  const url = canonicalUrl("/estates");
+
+  const visible = useMemo(() => {
+    const q = compact(estate);
+    return groups
+      .filter((group) => !districtFilter || group.district === districtFilter)
+      .map((group) => ({
+        district: group.district,
+        pages: group.pages.filter((page) => {
+          if (housingFilter && page.estate.housing !== housingFilter) return false;
+          if (q.length < 1) return true;
+          if (compact(page.estate.name).includes(q)) return true;
+          return page.estate.aliases.some((alias) => compact(alias).includes(q));
+        }),
+      }))
+      .filter((group) => group.pages.length > 0);
+  }, [districtFilter, estate, groups, housingFilter]);
+
+  const visibleCount = visible.reduce((sum, group) => sum + group.pages.length, 0);
 
   function openPlans(next: { estate?: string; housing?: string; district?: string }) {
     const estateValue = (next.estate ?? estate).trim();
@@ -79,11 +120,64 @@ function EstatesIndexPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <h1 className="text-title font-semibold">香港屋苑寬頻比較</h1>
-      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
-        可以直接選擇屋苑，找出最適合計劃。選完會用同首頁一樣嘅篩選，去格價頁睇啱呢類樓嘅計劃。
-      </p>
-      <form className="mt-6 max-w-xl space-y-3" onSubmit={onSubmit}>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: TITLE,
+          description: DESCRIPTION,
+          url,
+          inLanguage: "zh-HK",
+          numberOfItems: ESTATES.length,
+        }}
+      />
+      <nav aria-label={t("crumbNav")} className="text-sm text-muted">
+        <ol className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+          <li>
+            <Link to="/" className="hover:text-fg">
+              {t("crumbHome")}
+            </Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li>{t("navEstates")}</li>
+        </ol>
+      </nav>
+      <h1 className="mt-6 text-title font-semibold">香港屋苑寬頻比較</h1>
+      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{t("estatesDirLead")}</p>
+      <p className="mt-2 text-sm font-medium">{t("estatesIndexCount", { n: ESTATES.length })}</p>
+
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-5">
+        <button
+          type="button"
+          onClick={() => {
+            setDistrictFilter("");
+            setHousingFilter("");
+          }}
+          className={cn(
+            "rounded-xl bg-card p-4 text-left shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
+            !districtFilter && !housingFilter && "ring-2 ring-primary",
+          )}
+        >
+          <p className="text-xs font-medium tracking-wider text-muted">{t("navEstates")}</p>
+          <p className="mt-1 font-display text-lg font-semibold tabular-nums">{ESTATES.length}</p>
+        </button>
+        {HOUSING_FALLBACK.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => setHousingFilter(item.id)}
+            className={cn(
+              "rounded-xl bg-card p-4 text-left shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
+              housingFilter === item.id && "ring-2 ring-primary",
+            )}
+          >
+            <p className="text-xs font-medium tracking-wider text-muted">{item.label}</p>
+            <p className="mt-1 font-display text-lg font-semibold tabular-nums">{HOUSING_COUNTS[item.id]}</p>
+          </button>
+        ))}
+      </div>
+
+      <form className="mt-6 max-w-xl space-y-3 rounded-xl bg-card p-4 shadow-[var(--shadow-border)] sm:p-5" onSubmit={onSubmit}>
         <div className="space-y-2">
           <label htmlFor="estate-dir-q" className="text-xs font-medium tracking-wider text-muted">
             {t("estateLabel")}
@@ -127,23 +221,82 @@ function EstatesIndexPage() {
         </p>
       </form>
 
-      <div className="mt-10 space-y-10">
+      <div className="mt-8 flex gap-2 overflow-x-auto pb-1">
+        <button
+          type="button"
+          onClick={() => setDistrictFilter("")}
+          className={cn(
+            "inline-flex h-11 shrink-0 items-center rounded-full px-4 text-sm font-medium",
+            districtFilter === "" ? "bg-primary text-primary-foreground" : "bg-surface",
+          )}
+        >
+          {t("allDistricts")}
+        </button>
         {groups.map((group) => (
-          <section key={group.district}>
-            <h2 className="text-lg font-semibold">{group.district}</h2>
-            <p className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">
-              {group.pages.map((page) => (
-                <a
-                  key={page.slug}
-                  href={`/estates/${page.slug}`}
-                  className="inline-flex h-11 items-center text-accent underline-offset-4 hover:underline"
-                >
-                  {page.estate.name}
-                </a>
-              ))}
-            </p>
-          </section>
+          <button
+            key={group.district}
+            type="button"
+            onClick={() => setDistrictFilter(group.district)}
+            className={cn(
+              "inline-flex h-11 shrink-0 items-center rounded-full px-4 text-sm font-medium",
+              districtFilter === group.district ? "bg-primary text-primary-foreground" : "bg-surface",
+            )}
+          >
+            {group.district}
+            <span className="ml-1.5 tabular-nums text-xs opacity-70">{group.pages.length}</span>
+          </button>
         ))}
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-2">
+        {HOUSING_FILTERS.map((item) => (
+          <button
+            key={item.id || "any"}
+            type="button"
+            onClick={() => setHousingFilter(item.id)}
+            className={cn(
+              "inline-flex h-11 items-center rounded-full px-4 text-sm font-medium",
+              housingFilter === item.id ? "bg-primary text-primary-foreground" : "bg-surface",
+            )}
+          >
+            {t(item.label)}
+          </button>
+        ))}
+      </div>
+
+      <p className="mt-5 text-sm text-muted">{t("estatesShowing", { n: visibleCount })}</p>
+
+      <div className="mt-6 space-y-10">
+        {visible.length === 0 ? (
+          <p className="rounded-xl bg-card p-5 text-sm text-muted shadow-[var(--shadow-border)]">
+            {t("estatesEmptyFilter")}
+          </p>
+        ) : (
+          visible.map((group) => (
+            <section key={group.district} id={`district-${group.district}`}>
+              <h2 className="text-lg font-semibold">
+                {group.district}
+                <span className="ml-2 text-sm font-normal tabular-nums text-muted">{group.pages.length}</span>
+              </h2>
+              <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {group.pages.map((page) => (
+                  <li key={page.slug}>
+                    <a
+                      href={`/estates/${page.slug}`}
+                      className="flex h-full min-h-11 flex-col rounded-xl bg-card p-4 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
+                    >
+                      <p className="font-semibold">{page.estate.name}</p>
+                      <p className="mt-1 text-sm text-muted">
+                        {estateHousingLabel(page.estate.housing)}
+                        {page.estate.area ? ` · ${page.estate.area}` : ""}
+                      </p>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        )}
       </div>
     </div>
   );
