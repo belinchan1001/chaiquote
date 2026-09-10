@@ -206,4 +206,19 @@ describe("village-onsite guide", () => {
     assert.match(css, /chip-press/);
     assert.match(tour, /chaiquote-tour-done/);
   });
+
+  it("renders the guides index as category cards on the existing /guides route", () => {
+    const page = readFileSync(join(here, "../routes/guides.tsx"), "utf8");
+    const meta = readFileSync(join(here, "./guide-articles.ts"), "utf8");
+    assert.match(page, /createFileRoute\("\/guides"\)/);
+    assert.match(page, /GUIDE_CATEGORY_META/);
+    assert.match(page, /rounded-xl bg-card/);
+    assert.match(page, /cat\.image/);
+    assert.match(page, /seeDetail/);
+    assert.match(page, /goCompare/);
+    assert.match(page, /readGuide/);
+    assert.match(page, /CollectionPage/);
+    assert.match(meta, /cat-broadband\.jpg/);
+    assert.doesNotMatch(page, /createFileRoute\("\/guides\//);
+  });
 });

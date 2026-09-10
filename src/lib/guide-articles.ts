@@ -1207,8 +1207,36 @@ export const GUIDE_ARTICLES: Guide[] = [
 ];
 
 export const GUIDE_CATEGORY_META = [
-  { id: "fiber" as const, label: "光纖寬頻", labelEn: "Fibre", slug: "fiber" },
-  { id: "home5g" as const, label: "5G 家居", labelEn: "5G home", slug: "home5g" },
-  { id: "mobile" as const, label: "手機月費", labelEn: "Mobile", slug: "mobile" },
-  { id: "business" as const, label: "商業寬頻", labelEn: "Business", slug: "business" },
+  {
+    id: "fiber" as const,
+    label: "光纖寬頻",
+    labelEn: "Fibre",
+    slug: "fiber",
+    image: "/images/cat-broadband.jpg",
+    planCat: "broadband" as const,
+  },
+  {
+    id: "home5g" as const,
+    label: "5G 家居",
+    labelEn: "5G home",
+    slug: "home5g",
+    image: "/images/cat-home5g.jpg",
+    planCat: "home5g" as const,
+  },
+  {
+    id: "mobile" as const,
+    label: "手機月費",
+    labelEn: "Mobile",
+    slug: "mobile",
+    image: "/images/cat-mobile.jpg",
+    planCat: "mobile" as const,
+  },
+  {
+    id: "business" as const,
+    label: "商業寬頻",
+    labelEn: "Business",
+    slug: "business",
+    image: "/images/cat-business.jpg",
+    planCat: "business" as const,
+  },
 ];
