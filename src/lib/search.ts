@@ -57,6 +57,7 @@ export function parsePlansSearch(search: Record<string, unknown>): PlansSearch {
     gba: gba ? true : undefined,
     q: typeof search.q === "string" && search.q.length ? search.q : undefined,
     estate: typeof search.estate === "string" && search.estate.length ? search.estate : undefined,
+    intake: asFlag(search.intake) ? true : undefined,
   };
 }
 
@@ -75,11 +76,12 @@ export function compactSearch(search: PlansSearch): PlansSearch {
     ...(search.saved ? { saved: true } : {}),
     ...(search.q ? { q: search.q } : {}),
     ...(search.estate ? { estate: search.estate } : {}),
+    ...(search.intake ? { intake: true } : {}),
     ...(search.sort && search.sort !== "fee" ? { sort: search.sort } : {}),
   };
 }
 
-/** Identity for replaying card fade-up: estate, housing, speed, provider only. */
-export function planListReplayKey(search: Pick<PlansSearch, "estate" | "housing" | "speed" | "provider">) {
-  return [search.estate ?? "", search.housing ?? "", search.speed ?? "", search.provider ?? ""].join("|");
+/** Identity for replaying card fade-up: estate, housing, speed, provider, intake. */
+export function planListReplayKey(search: PlansSearch) {
+  return [search.estate ?? "", search.housing ?? "", search.speed ?? "", search.provider ?? "", search.intake ? "1" : ""].join("|");
 }

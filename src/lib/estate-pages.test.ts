@@ -148,6 +148,13 @@ describe("estate SEO pages", () => {
     }
     const hidden = filterPlans({ cat: "broadband" }).map((plan) => plan.id);
     for (const id of ids) assert.equal(hidden.includes(id), false, id);
+    const intake = filterPlans({ cat: "broadband", intake: true }).map((plan) => plan.id);
+    for (const id of ids) assert.equal(intake.includes(id), true, id);
+    assert.equal(intake.includes("hkbn-ftth-1000-24m-199-mobile"), false);
+    const tinYiuIntake = filterPlans({ cat: "broadband", housing: "public", estate: "天耀邨", intake: true }).map(
+      (plan) => plan.id,
+    );
+    for (const id of ids) assert.equal(tinYiuIntake.includes(id), false, id);
     const tinYiu = filterPlans({ cat: "broadband", housing: "public", estate: "天耀邨" }).map((plan) => plan.id);
     for (const id of ids) assert.equal(tinYiu.includes(id), false, id);
     const unlocked = filterPlans({ cat: "broadband", housing: "hos", estate: "盛緻苑" }).map((plan) => plan.id);

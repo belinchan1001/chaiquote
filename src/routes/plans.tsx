@@ -76,6 +76,7 @@ function catPatch(search: PlansSearch, cat: Category): PlansSearch {
     gba: undefined,
     portIn: undefined,
     housing: cat === "mobile" ? undefined : search.housing,
+    intake: cat === "broadband" ? search.intake : undefined,
   };
 }
 
@@ -179,6 +180,13 @@ function PlansPage() {
   if (search.housing) {
     active.push({ key: "housing", label: housingLabel(search.housing), search: { ...search, housing: undefined } });
   }
+  if (search.intake) {
+    active.push({
+      key: "intake",
+      label: t("estatesNewIntakeTag"),
+      search: { ...search, intake: undefined },
+    });
+  }
   if (search.speed) {
     active.push({ key: "speed", label: `${search.speed}M`, search: { ...search, speed: undefined } });
   }
@@ -243,6 +251,10 @@ function PlansPage() {
           </Link>
           {t("villageNoteEnd")}
         </p>
+      ) : null}
+
+      {search.intake && search.cat === "broadband" ? (
+        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("plansIntakeNote")}</p>
       ) : null}
 
       <div className="mt-6 space-y-4 rounded-xl bg-card p-4 shadow-[var(--shadow-border)] sm:p-5">
@@ -318,6 +330,14 @@ function PlansPage() {
                   {t(HOUSING_KEYS[option.id])}
                 </FilterLink>
               ))}
+              {search.cat === "broadband" ? (
+                <FilterLink
+                  selected={!!search.intake}
+                  search={{ ...search, intake: search.intake ? undefined : true }}
+                >
+                  {t("estatesNewIntakeTag")}
+                </FilterLink>
+              ) : null}
             </div>
           </fieldset>
         ) : null}

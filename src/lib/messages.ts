@@ -131,6 +131,7 @@ export const MESSAGES = {
     villageNote:
       "村屋光纖主要由香港寬頻、HGC 及網上行提供；一般公屋／居屋／私樓計劃唔適用。實際覆蓋須核對門牌。尚未有光纖可睇",
     villageNoteLink: "5G 家居寬頻",
+    plansIntakeNote: "呢啲係指定新入伙屋苑先睇到嘅光纖計劃。實際覆蓋同安裝期以電訊商確認為準。",
     searchKeyword: "計劃關鍵字",
     moreFilters: "更多篩選",
     providers: "網絡供應商",
@@ -485,6 +486,7 @@ export const MESSAGES = {
     villageNote:
       "Village fibre is mainly from HKBN, HGC and Netvigator. Public/HOS/private plans usually do not apply. Coverage must be checked. If there is no fibre, see",
     villageNoteLink: "5G home broadband",
+    plansIntakeNote: "These fibre plans show for selected new-move-in estates. Coverage is confirmed when you apply.",
     searchKeyword: "Keyword",
     moreFilters: "More filters",
     providers: "Provider",

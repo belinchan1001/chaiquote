@@ -18,7 +18,7 @@ function delayForNthChild(css: string, n: number) {
 }
 
 describe("plan list filter replay", () => {
-  it("changes the replay key only for estate, housing, speed, provider, and auto-filter", () => {
+  it("changes the replay key only for estate, housing, speed, provider, intake, and auto-filter", () => {
     const idle = planListReplayKey(base);
     assert.notEqual(planListReplayKey({ ...base, estate: "太和邨" }), idle);
     assert.notEqual(planListReplayKey({ ...base, housing: "public" }), idle);
@@ -27,16 +27,17 @@ describe("plan list filter replay", () => {
     assert.notEqual(planListReplayKey({ ...base, housing: "village" }), idle);
     assert.notEqual(planListReplayKey({ ...base, speed: 1000 }), idle);
     assert.notEqual(planListReplayKey({ ...base, provider: "hkbn" }), idle);
+    assert.notEqual(planListReplayKey({ ...base, intake: true }), idle);
     assert.equal(
       planListReplayKey({ ...base, estate: "太和邨", housing: "public" }),
       planListReplayKey({ ...base, estate: "太和邨", housing: "public" }),
     );
-    assert.equal(planListReplayKey({ ...base, cat: "mobile" } as PlansSearch), idle);
-    assert.equal(planListReplayKey({ ...base, saved: true } as PlansSearch), idle);
-    assert.equal(planListReplayKey({ ...base, sort: "speed" } as PlansSearch), idle);
-    assert.equal(planListReplayKey({ ...base, q: "hkbn" } as PlansSearch), idle);
-    assert.equal(planListReplayKey({ ...base, generation: "5g" } as PlansSearch), idle);
-    assert.equal(planListReplayKey({ ...base, gba: true, portIn: true } as PlansSearch), idle);
+    assert.equal(planListReplayKey({ ...base, cat: "mobile" }), idle);
+    assert.equal(planListReplayKey({ ...base, saved: true }), idle);
+    assert.equal(planListReplayKey({ ...base, sort: "speed" }), idle);
+    assert.equal(planListReplayKey({ ...base, q: "hkbn" }), idle);
+    assert.equal(planListReplayKey({ ...base, generation: "5g" }), idle);
+    assert.equal(planListReplayKey({ ...base, gba: true, portIn: true }), idle);
   });
 
   it("keeps the same key when only the visible page would change", () => {

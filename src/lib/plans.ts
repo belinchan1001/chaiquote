@@ -2727,6 +2727,7 @@ export type PlansSearch = {
   estate?: string;
   sort?: "fee" | "avg" | "speed" | "data";
   saved?: boolean;
+  intake?: boolean;
 };
 
 export function averageFee(plan: Plan) {
@@ -2782,7 +2783,15 @@ export function hasGba(plan: Plan) {
 export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
   let rows = PLANS.filter((plan) => {
     if (plan.category !== search.cat) return false;
-    if (plan.onlyEstates?.length && !estateUnlocksPlan(search.estate, plan.onlyEstates)) return false;
+    if (plan.onlyEstates?.length) {
+      const unlocked = estateUnlocksPlan(search.estate, plan.onlyEstates);
+      if (search.intake) {
+        if (search.estate && !unlocked) return false;
+      } else if (!unlocked) {
+        return false;
+      }
+    }
+    if (search.intake && !plan.newIntakeOffer) return false;
     if (!matchesHousing(plan, search.housing)) return false;
     if (search.maxFee && plan.monthlyFee > search.maxFee) return false;
     if (search.speed && plan.speedMbps !== search.speed) return false;
