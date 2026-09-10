@@ -1,4 +1,5 @@
 import type { Housing } from "@/lib/plans";
+import { EXTRA_RAW } from "./estate-extra-raw.ts";
 import { toTraditional } from "./zh-s2t.ts";
 
 export type Estate = {
@@ -390,7 +391,8 @@ YOHO Midtown|YOHO Midtown|元朗|private
 大坳門|大坳門,Tai Au Mun|西貢|village
 `.trim();
 
-export const ESTATES: Estate[] = RAW.split("\n")
+export const ESTATES: Estate[] = `${RAW}\n${EXTRA_RAW}`
+  .split("\n")
   .map((line) => line.trim())
   .filter(Boolean)
   .flatMap((line): Estate[] => {
