@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { startTransition, useDeferredValue, useMemo, useState, type FormEvent } from "react";
+import { startTransition, useMemo, useState, type FormEvent } from "react";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import { JsonLd } from "@/components/json-ld";
@@ -36,7 +36,6 @@ const HOUSING_COUNTS: Record<Housing, number> = {
 const DISTRICT_GROUPS = estatePagesByDistrict();
 const NEW_INTAKE_GROUPS = newIntakeGroups(ESTATE_PAGES);
 const NEW_INTAKE_COUNT = NEW_INTAKE_NAMES.size;
-const PREVIEW_PER_DISTRICT = 8;
 
 export const Route = createFileRoute("/estates")({
   component: EstatesIndexPage,
@@ -71,10 +70,9 @@ function EstatesIndexPage() {
   const districtGroups = newIntakeFilter ? NEW_INTAKE_GROUPS : groups;
   const districtValid = districtGroups.some((group) => group.district === districtFilter);
   const activeDistrict = districtValid ? districtFilter : "";
-  const deferredEstate = useDeferredValue(estate);
 
   const visible = useMemo(() => {
-    const q = compact(deferredEstate);
+    const q = compact(estate);
     const source = newIntakeFilter ? NEW_INTAKE_GROUPS : groups;
     return source
       .filter((group) => !activeDistrict || group.district === activeDistrict)
@@ -88,10 +86,8 @@ function EstatesIndexPage() {
         }),
       }))
       .filter((group) => group.pages.length > 0);
-  }, [activeDistrict, deferredEstate, groups, housingFilter, newIntakeFilter]);
+  }, [activeDistrict, estate, groups, housingFilter, newIntakeFilter]);
 
-  const searching = compact(deferredEstate).length >= 1;
-  const previewing = !activeDistrict && !searching;
   const visibleCount = visible.reduce((sum, group) => sum + group.pages.length, 0);
 
   function openPlans(next: { estate?: string; housing?: string; district?: string }) {
@@ -267,7 +263,6 @@ function EstatesIndexPage() {
         {housingFilter ? ` · ${housingLabel(housingFilter)}` : ""}
         {activeDistrict ? ` · ${activeDistrict}` : ""}
       </p>
-      {previewing ? <p className="mt-1 text-xs text-subtle">{t("estatesPreviewNote")}</p> : null}
 
       <div className="mt-6 space-y-10">
         {visible.length === 0 ? (
@@ -276,13 +271,13 @@ function EstatesIndexPage() {
           </p>
         ) : (
           visible.map((group) => (
-            <section key={group.district} id={`district-${group.district}`}>
+            <section key={group.district} id={`district-${group.district}`} className="estate-dir-group">
               <h2 className="text-lg font-semibold">
                 {group.district}
                 <span className="ml-2 text-sm font-normal tabular-nums text-muted">{group.pages.length}</span>
               </h2>
               <ul className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4">
-                {(previewing ? group.pages.slice(0, PREVIEW_PER_DISTRICT) : group.pages).map((page) => (
+                {group.pages.map((page) => (
                   <li key={page.slug}>
                     <a
                       href={`/estates/${page.slug}`}
@@ -297,15 +292,6 @@ function EstatesIndexPage() {
                   </li>
                 ))}
               </ul>
-              {previewing && group.pages.length > PREVIEW_PER_DISTRICT ? (
-                <button
-                  type="button"
-                  onClick={() => setDistrictFilter(group.district)}
-                  className="mt-2 inline-flex h-11 items-center text-sm font-medium text-accent underline-offset-4 hover:underline"
-                >
-                  {t("estatesShowDistrict", { district: group.district, n: group.pages.length })}
-                </button>
-              ) : null}
             </section>
           ))
         )}

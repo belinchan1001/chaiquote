@@ -161,6 +161,11 @@
 }
 
 @layer components {
+  .estate-dir-group {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 320px;
+  }
+
   .estate-dir-card {
     content-visibility: auto;
     contain-intrinsic-size: auto 72px;
