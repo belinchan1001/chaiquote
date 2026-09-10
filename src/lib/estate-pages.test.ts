@@ -102,7 +102,7 @@ describe("estate SEO pages", () => {
   it("lists 香港最新入伙屋苑 in the same catalogue as address search", () => {
     assert.match(readFileSync(join(here, "../routes/estates.tsx"), "utf8"), /香港最新入伙屋苑|estatesNewIntake/);
     assert.equal(NEW_INTAKE_NAMES.size, NEW_INTAKE.length);
-    assert.equal(newIntakeGroups().reduce((n, group) => n + group.pages.length, 0), NEW_INTAKE.length);
+    assert.equal(newIntakeGroups(ESTATE_PAGES).reduce((n, group) => n + group.pages.length, 0), NEW_INTAKE.length);
     for (const item of NEW_INTAKE) {
       const row = ESTATES.find((estate) => estate.name === item.name);
       assert.ok(row, item.name);

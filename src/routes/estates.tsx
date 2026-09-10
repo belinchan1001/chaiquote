@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { addressHitValue } from "@/lib/address-search";
 import { useDesk } from "@/lib/desk";
 import { compact, ESTATES } from "@/lib/estates";
-import { estateHousingLabel, estatePagesByDistrict } from "@/lib/estate-pages";
+import { estateHousingLabel, estatePagesByDistrict, ESTATE_PAGES } from "@/lib/estate-pages";
 import { isNewIntakeEstate, NEW_INTAKE_NAMES, newIntakeGroups } from "@/lib/estate-new-intake";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { compactSearch, parsePlansSearch } from "@/lib/search";
@@ -42,7 +42,7 @@ const HOUSING_COUNTS: Record<Housing, number> = {
 };
 
 const DISTRICT_GROUPS = estatePagesByDistrict();
-const NEW_INTAKE_GROUPS = newIntakeGroups();
+const NEW_INTAKE_GROUPS = newIntakeGroups(ESTATE_PAGES);
 const NEW_INTAKE_COUNT = NEW_INTAKE_NAMES.size;
 
 export const Route = createFileRoute("/estates")({

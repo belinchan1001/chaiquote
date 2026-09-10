@@ -10,6 +10,7 @@ import {
   type HousingGuess,
 } from "@/lib/estates";
 import type { Housing } from "@/lib/plans";
+import { isNewIntakeEstate } from "./estate-new-intake.ts";
 import { toTraditional } from "@/lib/zh-s2t";
 
 export { classifyAddress, isImpracticalPlace, matchKnownEstate };
@@ -29,6 +30,7 @@ export type AddressHit = {
   housing?: Housing;
   source: "local" | "gov";
   coverageCheck?: boolean;
+  newIntake?: boolean;
 };
 
 type GovRow = {
@@ -53,6 +55,7 @@ function fromLocal(estate: Estate): AddressHit {
     housing: estate.housing,
     source: "local",
     coverageCheck: estate.coverageCheck,
+    newIntake: isNewIntakeEstate(estate.name) || undefined,
   };
 }
 
@@ -76,6 +79,7 @@ function fromGov(row: GovRow): AddressHit | null {
     housing: known?.housing ?? guessHousing(name, address),
     source: "gov",
     coverageCheck: known?.coverageCheck,
+    newIntake: isNewIntakeEstate(known?.name ?? name) || undefined,
   };
 }
 

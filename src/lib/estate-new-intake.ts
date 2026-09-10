@@ -1,5 +1,3 @@
-import { ESTATE_PAGES, type EstatePage } from "./estate-pages.ts";
-
 /** Newest move-in estates, grouped to match the 屋苑比較頁 category. */
 export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "雋東邨", group: "東涌" },
@@ -46,11 +44,14 @@ export function isNewIntakeEstate(name: string): boolean {
   return NEW_INTAKE_NAMES.has(name);
 }
 
-export function newIntakeGroups(): { district: string; pages: EstatePage[] }[] {
-  const byGroup = new Map<string, EstatePage[]>();
+export function newIntakeGroups<T extends { estate: { name: string } }>(
+  pages: readonly T[],
+): { district: string; pages: T[] }[] {
+  const byName = new Map(pages.map((page) => [page.estate.name, page]));
+  const byGroup = new Map<string, T[]>();
   const order: string[] = [];
   for (const item of NEW_INTAKE) {
-    const page = ESTATE_PAGES.find((row) => row.estate.name === item.name);
+    const page = byName.get(item.name);
     if (!page) continue;
     if (!byGroup.has(item.group)) {
       order.push(item.group);

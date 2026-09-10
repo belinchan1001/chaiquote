@@ -164,7 +164,14 @@ export function EstateSuggest({
                   onMouseEnter={() => setActive(i)}
                   onClick={() => pick(hit)}
                 >
-                  <span className="font-medium">{highlightName(hit.name, value)}</span>
+                  <span className="flex flex-wrap items-center gap-1.5">
+                    <span className="font-medium">{highlightName(hit.name, value)}</span>
+                    {hit.newIntake ? (
+                      <span className="inline-flex h-5 shrink-0 items-center rounded-full bg-accent/15 px-1.5 text-[10px] font-medium text-accent">
+                        {t("estatesNewIntakeTag")}
+                      </span>
+                    ) : null}
+                  </span>
                   <span className="text-xs text-muted">
                     {[addressHitLabel(hit) || t("hk"), hit.coverageCheck ? t("coverageCheck") : ""]
                       .filter(Boolean)
