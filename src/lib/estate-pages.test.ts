@@ -3,17 +3,16 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { ESTATES } from "./estates.ts";
+import { ESTATES, matchKnownEstate, searchEstates } from "./estates.ts";
 import {
-  ESTATE_PAGE_NAMES,
   ESTATE_PAGES,
-  estateHousingLabel,
   estatePlans,
   estateSelectTarget,
   estateSeoTitle,
   getEstatePage,
   SKIPPED_ESTATE_REQUESTS,
 } from "./estate-pages.ts";
+import { NEW_INTAKE, NEW_INTAKE_NAMES, newIntakeGroups } from "./estate-new-intake.ts";
 import { SITEMAP_PAGES } from "./seo.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -98,5 +97,21 @@ describe("estate SEO pages", () => {
     const tin = getEstatePage("tin-yiu");
     assert.ok(tin);
     assert.deepEqual(estateSelectTarget(tin.estate), { kind: "page", slug: "tin-yiu" });
+  });
+
+  it("lists 香港最新入伙屋苑 in the same catalogue as address search", () => {
+    assert.match(readFileSync(join(here, "../routes/estates.tsx"), "utf8"), /香港最新入伙屋苑|estatesNewIntake/);
+    assert.equal(NEW_INTAKE_NAMES.size, NEW_INTAKE.length);
+    assert.equal(newIntakeGroups().reduce((n, group) => n + group.pages.length, 0), NEW_INTAKE.length);
+    for (const item of NEW_INTAKE) {
+      const row = ESTATES.find((estate) => estate.name === item.name);
+      assert.ok(row, item.name);
+      assert.equal(searchEstates(item.name, 8)[0]?.name, item.name, item.name);
+      assert.equal(matchKnownEstate(item.name)?.name, item.name, item.name);
+    }
+    assert.equal(matchKnownEstate("朗天峰")?.name, "朗天峰");
+    assert.equal(matchKnownEstate("朗天苑")?.name, "朗天苑");
+    assert.equal(searchEstates("柴灣常安街簡約公屋")[0]?.name, "柴灣常安街簡約公屋");
+    assert.equal(searchEstates("日出康城第12期")[0]?.name, "日出康城第12期");
   });
 });

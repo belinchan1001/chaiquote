@@ -8,6 +8,7 @@ import { addressHitValue } from "@/lib/address-search";
 import { useDesk } from "@/lib/desk";
 import { compact, ESTATES } from "@/lib/estates";
 import { estateHousingLabel, estatePagesByDistrict } from "@/lib/estate-pages";
+import { isNewIntakeEstate, NEW_INTAKE_NAMES, newIntakeGroups } from "@/lib/estate-new-intake";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { compactSearch, parsePlansSearch } from "@/lib/search";
 import { canonicalUrl } from "@/lib/seo";
@@ -41,6 +42,8 @@ const HOUSING_COUNTS: Record<Housing, number> = {
 };
 
 const DISTRICT_GROUPS = estatePagesByDistrict();
+const NEW_INTAKE_GROUPS = newIntakeGroups();
+const NEW_INTAKE_COUNT = NEW_INTAKE_NAMES.size;
 
 export const Route = createFileRoute("/estates")({
   component: EstatesIndexPage,
@@ -66,6 +69,7 @@ function EstatesIndexPage() {
   const [district, setDistrict] = useState("");
   const [districtFilter, setDistrictFilter] = useState("");
   const [housingFilter, setHousingFilter] = useState<Housing | "">("");
+  const [newIntakeFilter, setNewIntakeFilter] = useState(false);
   const navigate = useNavigate();
   const setInquiry = useDesk((s) => s.setInquiry);
   const { t } = useI18n();
@@ -74,7 +78,8 @@ function EstatesIndexPage() {
 
   const visible = useMemo(() => {
     const q = compact(estate);
-    return groups
+    const source = newIntakeFilter ? NEW_INTAKE_GROUPS : groups;
+    return source
       .filter((group) => !districtFilter || group.district === districtFilter)
       .map((group) => ({
         district: group.district,
@@ -86,7 +91,7 @@ function EstatesIndexPage() {
         }),
       }))
       .filter((group) => group.pages.length > 0);
-  }, [districtFilter, estate, groups, housingFilter]);
+  }, [districtFilter, estate, groups, housingFilter, newIntakeFilter]);
 
   const visibleCount = visible.reduce((sum, group) => sum + group.pages.length, 0);
 
@@ -146,29 +151,48 @@ function EstatesIndexPage() {
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{t("estatesDirLead")}</p>
       <p className="mt-2 text-sm font-medium">{t("estatesIndexCount", { n: ESTATES.length })}</p>
 
-      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-5">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         <button
           type="button"
           onClick={() => {
             setDistrictFilter("");
             setHousingFilter("");
+            setNewIntakeFilter(false);
           }}
           className={cn(
             "rounded-xl bg-card p-4 text-left shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
-            !districtFilter && !housingFilter && "ring-2 ring-primary",
+            !districtFilter && !housingFilter && !newIntakeFilter && "ring-2 ring-primary",
           )}
         >
           <p className="text-xs font-medium tracking-wider text-muted">{t("navEstates")}</p>
           <p className="mt-1 font-display text-lg font-semibold tabular-nums">{ESTATES.length}</p>
         </button>
+        <button
+          type="button"
+          onClick={() => {
+            setDistrictFilter("");
+            setHousingFilter("");
+            setNewIntakeFilter(true);
+          }}
+          className={cn(
+            "rounded-xl bg-card p-4 text-left shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
+            newIntakeFilter && "ring-2 ring-accent",
+          )}
+        >
+          <p className="text-xs font-medium tracking-wider text-accent">{t("estatesNewIntake")}</p>
+          <p className="mt-1 font-display text-lg font-semibold tabular-nums">{NEW_INTAKE_COUNT}</p>
+        </button>
         {HOUSING_FALLBACK.map((item) => (
           <button
             key={item.id}
             type="button"
-            onClick={() => setHousingFilter(item.id)}
+            onClick={() => {
+              setNewIntakeFilter(false);
+              setHousingFilter(item.id);
+            }}
             className={cn(
               "rounded-xl bg-card p-4 text-left shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
-              housingFilter === item.id && "ring-2 ring-primary",
+              !newIntakeFilter && housingFilter === item.id && "ring-2 ring-primary",
             )}
           >
             <p className="text-xs font-medium tracking-wider text-muted">{item.label}</p>
@@ -230,9 +254,9 @@ function EstatesIndexPage() {
             districtFilter === "" ? "bg-primary text-primary-foreground" : "bg-surface",
           )}
         >
-          {t("allDistricts")}
+          {newIntakeFilter ? t("estatesNewIntake") : t("allDistricts")}
         </button>
-        {groups.map((group) => (
+        {(newIntakeFilter ? NEW_INTAKE_GROUPS : groups).map((group) => (
           <button
             key={group.district}
             type="button"
@@ -249,6 +273,19 @@ function EstatesIndexPage() {
       </div>
 
       <div className="mt-3 flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={() => {
+            setNewIntakeFilter((on) => !on);
+            setDistrictFilter("");
+          }}
+          className={cn(
+            "inline-flex h-11 items-center rounded-full px-4 text-sm font-medium",
+            newIntakeFilter ? "bg-accent text-white" : "bg-surface",
+          )}
+        >
+          {t("estatesNewIntake")}
+        </button>
         {HOUSING_FILTERS.map((item) => (
           <button
             key={item.id || "any"}
@@ -288,6 +325,7 @@ function EstatesIndexPage() {
                       <p className="text-sm font-medium leading-snug">{page.estate.name}</p>
                       <p className="mt-0.5 text-xs text-muted">
                         {estateHousingLabel(page.estate.housing)}
+                        {isNewIntakeEstate(page.estate.name) ? " · 新入伙" : ""}
                       </p>
                     </a>
                   </li>

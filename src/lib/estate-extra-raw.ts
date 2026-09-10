@@ -352,8 +352,8 @@ export const EXTRA_RAW = `
 墨爾文|Montara|西貢|private|將軍澳
 銀線灣豪園|Silverstrand Garden|西貢|private
 富東邨|富東,Fu Tung Estate|離島|public
-翔東邨|翔東,Cheung Tung Estate|離島|public
-雋東邨|雋東,Chun Tung Estate|離島|public
+翔東邨|翔東,Cheung Tung Estate|離島|public|東涌
+雋東邨|雋東,Chun Tung Estate|離島|public|東涌
 長貴邨|長貴,Cheung Kwai Estate|離島|public
 銀灣邨|銀灣,Ngan Wan Estate|離島|public
 金坪邨|金坪,Kam Peng Estate|離島|public
@@ -528,7 +528,7 @@ export const EXTRA_RAW = `
 旭禾苑|Yuk Wo Court|沙田|hos
 彩禾苑|Choi Wo Court|沙田|hos
 錦駿苑|Kam Chun Court|沙田|hos
-錦柏苑|Kam Pak Court|沙田|hos
+錦柏苑|錦柏,Kam Pak Court|沙田|hos|馬鞍山
 雲疊花園|Pictorial Garden Fo Tan|沙田|hos
 富嘉花園|Grandway Garden|沙田|hos
 海福花園|Holford Gardens|沙田|hos
@@ -549,7 +549,7 @@ export const EXTRA_RAW = `
 榮輝中心|Wing Fai Centre|北區|hos
 樂嶺軒|Lok Ling Hin|北區|hos
 澤豐花園|Affluence Garden|屯門|hos
-樂翹都匯|Lok Kiu Hub|元朗|hos
+樂翹都匯|Lok Kiu Hub,Eminence Terrace,樂翹軒|元朗|hos
 置樂花園|Chi Lok Fa Yuen|屯門|private
 碧瑤灣|Baguio Villa|南區|private
 天匯|39 Conduit Road|中西區|private
@@ -623,7 +623,7 @@ YOHO West|YOHO West|元朗|private
 盈暉臺|Ying Fai Terrace|深水埗|private
 曉盈|High Park Cheung Sha Wan|深水埗|private
 柏傲山|The Pavilia Hill|灣仔|private
-柏傲莊|The Pavilia Tai Wai|沙田|private
+柏傲莊|The Pavilia Tai Wai,The Pavilia Farm|沙田|private|大圍
 利奧坊綠岸|The Pavilia Green|油尖旺|private
 利奧坊曦岸|The Pavilia Sunrise|油尖旺|private
 晉環|The Southside Southland|南區|private
@@ -729,4 +729,25 @@ KOKO Hills|KOKO Hills|觀塘|private
 嘉輝花園|Ka Fai Garden|中西區|private
 地利根德閣|Tregunter Towers|中西區|private
 慧景臺|Wisdom Court Midlevels|中西區|private
+裕興苑|裕興,Yu Hing Court|離島|hos|東涌
+恆光街項目|恆光街簡約公屋,Hang Kwong Street LPH,馬鞍山恆光街|沙田|public|馬鞍山
+青福里項目|青福里簡約公屋,Tsing Fuk Lane LPH,屯門青福里|屯門|public
+欣寶路項目|欣寶路簡約公屋,Yan Po Road LPH,屯門欣寶路|屯門|public
+鴻鵠臺|鴻鵠,Hung Woo Terrace|觀塘|public
+柏傲莊III|The Pavilia Farm III,Pavilia Farm 3,柏傲莊 III|沙田|private|大圍
+101 Kings Road|英皇道101號|東區|private
+Belgravia Place I|Belgravia Place,Belgravia Place 1|深水埗|private
+Blue Coast I & II|Blue Coast,Blue Coast I,Blue Coast II|南區|private|黃竹坑
+Finnie|Finnie Quarry Bay|東區|private|鰂魚涌
+Miami Quay II|Miami Quay,Miami Quay 2|九龍城|private|啟德
+One Central Place|中環 One Central Place|中西區|private
+Spring Garden|Spring Garden Wan Chai|灣仔|private
+The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
+樂嶺都匯|Lok Ling Hub Fanling,Lok Ling Terrace|北區|public
+朗日峰|Long Yat Peak|元朗|private
+朗天峰|Long Tin Peak|元朗|private
+日出康城第12期|LOHAS Park Phase 12,LP12,康城第12期|西貢|private|將軍澳
+古雋邨|古雋,Kwu Chun Estate|北區|public|古洞
+世運道簡約公屋|世運道項目,Olympic Avenue LPH|九龍城|public|啟德
+柴灣常安街簡約公屋|常安街簡約公屋,Sheung On Street LPH,柴灣常安街|東區|public
 `.trim();
