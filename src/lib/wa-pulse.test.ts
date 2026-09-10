@@ -20,6 +20,9 @@ describe("WhatsApp pulse", () => {
     assert.match(quote, /pulse\?: "header"/);
     assert.match(quote, /pulse === "header" && "wa-pulse wa-pulse-header"/);
     assert.match(header, /pulse="header"/);
+    assert.match(header, /waHeaderShort/);
+    assert.match(header, /max-sm:h-11 max-sm:w-11/);
+    assert.match(header, /max-sm:w-20/);
     assert.match(widget, /wa-pulse wa-pulse-fab/);
     assert.doesNotMatch(card, /wa-pulse/);
     assert.doesNotMatch(page, /wa-pulse|whatsapp-pulse|tilt/);

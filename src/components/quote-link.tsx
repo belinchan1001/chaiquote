@@ -46,9 +46,10 @@ export function QuoteLink({
         href={whatsappHref(quoteMessage(selected, inquiry ?? stored, locale))}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label={label}
       >
         <WhatsAppIcon />
-        <span className="truncate">{children ?? label}</span>
+        {children ?? <span className="truncate">{label}</span>}
       </a>
     </Button>
   );

@@ -37,8 +37,8 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-card/95 backdrop-blur-sm">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
-        <Logo />
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-3 sm:gap-4 sm:px-4">
+        <Logo className="shrink-0" />
         <nav className="hidden items-center gap-1 lg:flex">
           {links.map((link) => (
             <Link
@@ -54,22 +54,24 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-1 sm:gap-2">
-          <LangToggle />
+        <div className="flex min-w-0 shrink items-center gap-1 sm:gap-2">
+          <LangToggle className="max-sm:w-20" />
           <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
             <Link to="/compare">
               {t("navCompare")}
               {compareCount ? ` ${compareCount}` : ""}
             </Link>
           </Button>
-          <QuoteLink size="sm" pulse="header">
-            {t("waHeader")}
+          <QuoteLink size="sm" pulse="header" className="max-sm:h-11 max-sm:w-11 max-sm:px-0 sm:px-3">
+            <span className="sr-only sm:hidden">{t("waHeaderShort")}</span>
+            <span className="hidden sm:inline lg:hidden">{t("waHeaderShort")}</span>
+            <span className="hidden lg:inline">{t("waHeader")}</span>
           </QuoteLink>
           <Button
             type="button"
             variant="outline"
             size="icon"
-            className="lg:hidden"
+            className="lg:hidden shrink-0"
             aria-label={open ? t("menuClose") : t("menuOpen")}
             onClick={() => setOpen((v) => !v)}
           >
