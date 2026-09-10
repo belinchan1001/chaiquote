@@ -56,7 +56,7 @@ describe("visible compare fields", () => {
   });
 
   it("keeps data, voice and roaming for mobile plans", () => {
-    const plans = [plan("three-45g-44"), plan("cmhk-5g-100-149")];
+    const plans = [plan("three-45g-44"), plan("cmhk-5g-ultimate-100-149")];
     const keys = visibleCompareFields(plans, copy).map((field) => field.key);
     assert.ok(keys.includes("data"));
     assert.ok(keys.includes("voice"));
@@ -77,7 +77,7 @@ describe("visible compare fields", () => {
 describe("compare chips", () => {
   it("uses a short provider + spec + fee label", () => {
     const broadband = plan("icable-ftth-200-36m");
-    const mobile = plan("cmhk-5g-100-149");
+    const mobile = plan("cmhk-5g-ultimate-100-149");
     assert.equal(shortProviderName("icable", "zh"), "有線");
     assert.equal(shortProviderName("cmhk", "en"), "CMHK");
     assert.equal(planSpecToken(broadband), "200M");
@@ -882,14 +882,43 @@ describe("HGC village broadband install waiver", () => {
 });
 
 describe("CMHK mobile catalogue", () => {
-  it("keeps only the four reference 5G monthly plans", () => {
+  it("lists the twenty reference monthly plans", () => {
     const ids = PLANS.filter((p) => p.category === "mobile" && p.providerId === "cmhk").map((p) => p.id);
     assert.deepEqual(ids, [
-      "cmhk-5g-local-30-98",
-      "cmhk-5g-100-149",
-      "cmhk-5g-youth-100-138",
-      "cmhk-5g-youth-200-178",
+      "cmhk-slash-5g-30-98",
+      "cmhk-slash-5g-10-78",
+      "cmhk-5g-trial-20-98",
+      "cmhk-5g-trial-10-3hk-68",
+      "cmhk-42m-10-5-98",
+      "cmhk-42m-3gb-38",
+      "cmhk-21m-3-3-38",
+      "cmhk-elder-care-6gb-38",
+      "cmhk-elder-5g-10-78",
+      "cmhk-elder-5g-30-98",
+      "cmhk-elder-5g-10-hkcn-99",
+      "cmhk-slash-5g-50-138",
+      "cmhk-slash-5g-100-178",
+      "cmhk-5g-ultimate-50-129-24m",
+      "cmhk-5g-ultimate-50-129-36m",
+      "cmhk-5g-ultimate-100-149",
+      "cmhk-5g-ultimate-200-199",
+      "cmhk-5g-2places-20-youth-139",
+      "cmhk-5g-2places-50-179",
+      "cmhk-5g-gba-15-cny-198",
     ]);
+    const slash30 = plan("cmhk-slash-5g-30-98");
+    assert.equal(slash30.monthlyFee, 98);
+    assert.equal(slash30.dataGb, 30);
+    assert.equal(slash30.portInPerk, "攜號轉台本地數據 60GB");
+    const ultimate36 = plan("cmhk-5g-ultimate-50-129-36m");
+    assert.equal(ultimate36.freeMonths, 6);
+    assert.equal(ultimate36.contractMonths, 36);
+    const threeHk = plan("cmhk-5g-trial-10-3hk-68");
+    assert.equal(threeHk.monthlyFee, 68);
+    assert.match(threeHk.limits ?? "", /3香港轉台/);
+    const cny = plan("cmhk-5g-gba-15-cny-198");
+    assert.equal(cny.dataGb, 35);
+    assert.match(cny.roaming ?? "", /大灣區/);
   });
 });
 
