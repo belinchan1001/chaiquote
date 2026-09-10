@@ -162,6 +162,39 @@ describe("HKBN student/youth 5G 30GB", () => {
   });
 });
 
+describe("HKBN 1000M four-in-one $199", () => {
+  it("keeps fibre+OTT+5G combo public with quote pick, latest offer and screenshot terms", () => {
+    const row = plan("hkbn-ftth-1000-24m-199-mobile");
+    assert.equal(row.providerId, "hkbn");
+    assert.equal(row.category, "broadband");
+    assert.equal(row.name, "1000M 四合一（Wi-Fi 7、OTT 及 5G 30GB｜24 個月）");
+    assert.equal(row.monthlyFee, 199);
+    assert.equal(row.freeMonths, 0);
+    assert.equal(row.contractMonths, 24);
+    assert.equal(row.speedMbps, 1000);
+    assert.equal(row.dataGb, undefined);
+    assert.equal(row.install, "豁免安裝費（原價 HK$680）");
+    assert.deepEqual(row.housing, ["public", "hos", "private"]);
+    assert.equal(row.voice, "本地 3,000 分鐘");
+    assert.equal(row.roaming, "中國內地及澳門 4GB；通話 10 分鐘");
+    assert.equal(row.prepaid, "須預繳 HK$200，第 1 至第 4 個月每月從預繳費用中扣減月費 HK$50");
+    assert.deepEqual(row.perks, [
+      "送 TP-Link Archer BE220 Wi-Fi 7 路由器（價值每月 HK$39；24 個月，合約後無須歸還）",
+      "三選一：Disney+ 標準計劃 24 個月、Netflix 標準計劃 24 個月或 HBO Max 標準計劃 24 個月",
+      "24 個月 5G 流動通訊 30GB 本地數據，送任用 15 款熱門串流及社交數據（原價每月 HK$98）",
+      "可選擇延遲服務生效日（最長 365 日）",
+    ]);
+    assert.equal(row.quotePick, true);
+    assert.equal(row.latestOffer, true);
+    assert.equal(row.newIntakeOffer, undefined);
+    assert.equal(row.onlyEstates, undefined);
+    assert.equal(row.hot, undefined);
+    assert.match(row.limits ?? "", /自動續約/);
+    assert.equal(toEnglish(row.name), "1000M four-in-one (Wi-Fi 7, OTT and 5G 30GB | 24 months)");
+    assert.equal(toEnglish(row.roaming ?? ""), "4GB Mainland & Macao data; 10 call minutes");
+  });
+});
+
 describe("Netvigator public 1000M $108", () => {
   it("names the included Linksys EA9350 router without changing other plans", () => {
     const plan = getPlan("netvigator-ftth-1000-public-36m-108");
