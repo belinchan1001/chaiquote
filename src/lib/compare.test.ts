@@ -141,9 +141,12 @@ describe("HKBN student/youth 5G 30GB", () => {
     assert.equal(existing.name, "5G 30GB（28 個月）");
     assert.equal(existing.hot, true);
     assert.ok(existing.portInPerk);
+    assert.equal(existing.voice, "本地 3,000 分鐘");
 
     const hkbnMobile = PLANS.filter((p) => p.category === "mobile" && p.providerId === "hkbn");
     assert.equal(hkbnMobile.filter((p) => p.id === "hkbn-5g-30-78-youth").length, 1);
+    assert.ok(hkbnMobile.length >= 10);
+    assert.ok(hkbnMobile.every((p) => /3,?000/.test(p.voice ?? "")));
 
     assert.equal(toEnglish(youth.name), "5G 30GB Local (incl. monthly 3GB Mainland China & Macau)");
     assert.equal(toEnglish(youth.fupNote ?? ""), "Thereafter local unlimited, speed not exceeding 1Mbps");
