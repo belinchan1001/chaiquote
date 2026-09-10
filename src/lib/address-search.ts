@@ -10,6 +10,7 @@ import {
   type HousingGuess,
 } from "@/lib/estates";
 import type { Housing } from "@/lib/plans";
+import { toTraditional } from "@/lib/zh-s2t";
 
 export { classifyAddress, isImpracticalPlace, matchKnownEstate };
 export type { HousingGuess };
@@ -88,7 +89,7 @@ export async function searchAddresses(query: string, signal?: AbortSignal): Prom
   const seen = new Set(local.map((hit) => compact(hit.name)));
 
   try {
-    const res = await fetch(`${GOV_SEARCH}?q=${encodeURIComponent(q)}`, { signal });
+    const res = await fetch(`${GOV_SEARCH}?q=${encodeURIComponent(toTraditional(q))}`, { signal });
     if (!res.ok) return local;
     const rows = (await res.json()) as GovRow[];
     if (!Array.isArray(rows)) return local;

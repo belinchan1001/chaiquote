@@ -16,6 +16,7 @@ import {
   relatedBlocks,
   searchEstates,
 } from "./estates.ts";
+import { toTraditional } from "./zh-s2t.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
 
@@ -657,5 +658,59 @@ describe("housing type audit 2026", () => {
       assert.equal(estate(name)?.housing, "public", name);
       assert.equal(classifyAddress(name).housing, "public", name);
     }
+  });
+});
+
+describe("search query tails, simplified, english", () => {
+  it("converts simplified place names to traditional", () => {
+    assert.equal(toTraditional("东头邨"), "東頭邨");
+    assert.equal(toTraditional("东头村"), "東頭村");
+    assert.equal(toTraditional("黄埔花园"), "黃埔花園");
+    assert.equal(toTraditional("华富邨"), "華富邨");
+    assert.equal(toTraditional("東頭邨"), "東頭邨");
+  });
+
+  it("finds estates when the query has 座／期／樓 tails", () => {
+    assert.equal(names("太古城3座")[0], "太古城");
+    assert.equal(names("太古城 9座")[0], "太古城");
+    assert.equal(names("荃灣中心A座")[0], "荃灣中心");
+    assert.equal(names("嘉湖山莊1期")[0], "天水圍嘉湖山莊");
+    assert.equal(names("黃埔花園3期")[0], "黃埔花園");
+    assert.equal(names("天耀邨耀豐樓")[0], "天耀邨");
+    assert.equal(names("華富邨華安樓")[0], "華富邨");
+  });
+
+  it("finds estates from simplified and English full names", () => {
+    assert.equal(names("东头邨")[0], "東頭邨");
+    assert.equal(searchEstates("东头邨")[0]?.housing, "public");
+    assert.equal(names("东头村")[0], "東頭村");
+    assert.equal(searchEstates("东头村")[0]?.housing, "village");
+    assert.ok(!names("东头村").includes("東頭邨"));
+    assert.equal(names("黄埔花园")[0], "黃埔花園");
+    assert.equal(names("Tin Yiu Estate")[0], "天耀邨");
+    assert.equal(names("mei foo")[0], "美孚新邨");
+  });
+
+  it("still keeps 東頭村／東頭邨 anti-cross after tail matching", () => {
+    assert.deepEqual(
+      searchEstates("東頭村", 24).map((item) => item.name),
+      ["東頭村"],
+    );
+    const estateHits = searchEstates("東頭邨", 24);
+    assert.equal(estateHits[0]?.name, "東頭邨");
+    assert.ok(estateHits.some((hit) => hit.name === "康東樓"));
+    assert.ok(!estateHits.some((hit) => hit.name === "東頭村"));
+    assert.equal(names("東頭村道")[0], "東頭村");
+    assert.ok(!names("東頭村道").includes("東頭邨"));
+  });
+
+  it("classifies unique prefixes and longer addresses", () => {
+    assert.equal(classifyAddress("太古").housing, "private");
+    assert.equal(classifyAddress("太古城3座").housing, "private");
+    assert.equal(classifyAddress("东头村").housing, "village");
+    assert.equal(classifyAddress("东头邨").housing, "public");
+    assert.equal(classifyAddress("Tin Yiu Estate").housing, "public");
+    assert.equal(classifyAddress("東").housing, undefined);
+    assert.equal(classifyAddress("東").confidence, "none");
   });
 });

@@ -1,4 +1,5 @@
 import type { Housing } from "@/lib/plans";
+import { toTraditional } from "./zh-s2t.ts";
 
 export type Estate = {
   name: string;
@@ -412,7 +413,10 @@ export const ESTATES: Estate[] = RAW.split("\n")
   .filter((item, index, list) => list.findIndex((x) => x.name === item.name) === index);
 
 export function compact(value: string) {
-  return value.replace(/\s+/g, "").toLowerCase();
+  return toTraditional(value)
+    .replace(/[\s\-'’_.]/g, "")
+    .replace(/[０-９]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xff10 + 48))
+    .toLowerCase();
 }
 
 const NON_ESTATE_RAW = `
@@ -492,28 +496,90 @@ function longestHit(candidates: string[], query: string): string | undefined {
   return candidates.filter((item) => item.includes(query) || item.startsWith(query)).sort((a, b) => b.length - a.length)[0];
 }
 
-export function searchEstates(query: string, limit = 8): Estate[] {
+/** Block / phase / English estate tails. Never strip 邨／村／苑. */
+const BLOCK_TAIL =
+  /(?:第?(?:\d+|[a-z])[座期室號棟樓層]|[a-z]\d*座|(?:phase|block|tower|estate|court|houses?|gardens?|villas?)\d*)$/;
+
+function searchKeys(query: string): string[] {
   const q = compact(query);
   if (!q) return [];
-  const scored = ESTATES.map((estate) => {
-    const name = compact(estate.name);
-    const aliases = estate.aliases.map(compact);
-    const extras = [estate.area ?? "", estate.district].map(compact);
-    let score = 0;
-    if (name === q) score = 1000 + name.length;
-    else if (aliases.includes(q)) score = 900 + q.length;
-    else if (name.startsWith(q)) score = 700 + name.length;
-    else if (aliases.some((alias) => alias.startsWith(q))) {
-      score = 600 + (longestHit(aliases, q)?.length ?? 0);
-    } else if (name.includes(q)) score = 400 + name.length;
-    else if (aliases.some((alias) => alias.includes(q))) {
-      score = 300 + (longestHit(aliases, q)?.length ?? 0);
-    } else if (extras.some((extra) => extra === q)) score = 150;
-    else if (extras.some((extra) => extra.startsWith(q) || extra.includes(q))) score = 100;
-    return { estate, score };
-  }).filter((row) => row.score > 0);
-  scored.sort((a, b) => b.score - a.score || a.estate.name.localeCompare(b.estate.name, "zh-Hant"));
-  const ranked = scored.map((row) => row.estate);
+  const keys = [q];
+  let stripped = q.replace(/[，,、.。/\\]/g, "");
+  if (stripped.length >= 2 && stripped !== q) keys.push(stripped);
+  let prev = "";
+  while (stripped.length >= 2 && stripped !== prev) {
+    prev = stripped;
+    const next = stripped.replace(BLOCK_TAIL, "");
+    if (next === stripped || next.length < 2) break;
+    stripped = next;
+    keys.push(stripped);
+  }
+  if (/[道路街]$/.test(stripped) && stripped.length >= 4) {
+    const roadless = stripped.replace(/[道路街]$/, "");
+    if (roadless.length >= 2) keys.push(roadless);
+  }
+  return [...new Set(keys)];
+}
+
+function canContainAlias(alias: string) {
+  return alias.length >= 4 || (alias.length >= 3 && /[邨苑村樓閣園莊城灣庭居]$/.test(alias));
+}
+
+function scoreAgainstQuery(estate: Estate, q: string): number {
+  if (!q) return 0;
+  const name = compact(estate.name);
+  const aliases = estate.aliases.map(compact);
+  const extras = [estate.area ?? "", estate.district].map(compact);
+  if (name === q) return 1000 + name.length;
+  if (aliases.includes(q)) return 900 + q.length;
+  if (name.startsWith(q)) return 700 + name.length;
+  const aliasPrefix = aliases.filter((alias) => alias.startsWith(q));
+  if (aliasPrefix.length) return 600 + Math.max(...aliasPrefix.map((alias) => alias.length));
+  if (q.startsWith(name) && name.length >= 3) return 820 + name.length;
+  const aliasHead = aliases.filter((alias) => q.startsWith(alias) && canContainAlias(alias));
+  if (aliasHead.length) return 780 + Math.max(...aliasHead.map((alias) => alias.length));
+  if (name.includes(q)) return 400 + name.length;
+  const aliasIncl = aliases.filter((alias) => alias.includes(q));
+  if (aliasIncl.length) return 300 + (longestHit(aliasIncl, q)?.length ?? 0);
+  if (extras.some((extra) => extra === q)) return 150;
+  if (extras.some((extra) => extra.startsWith(q) || extra.includes(q))) return 100;
+  return 0;
+}
+
+function scoreEstate(estate: Estate, keys: string[]): number {
+  let best = 0;
+  for (const q of keys) {
+    const s = scoreAgainstQuery(estate, q);
+    if (s > best) best = s;
+  }
+  return best;
+}
+
+function rankEstates(query: string): { estate: Estate; score: number }[] {
+  const keys = searchKeys(query);
+  if (!keys.length) return [];
+  return ESTATES.map((estate) => ({ estate, score: scoreEstate(estate, keys) }))
+    .filter((row) => row.score > 0)
+    .sort((a, b) => b.score - a.score || a.estate.name.localeCompare(b.estate.name, "zh-Hant"));
+}
+
+function uniqueRankedEstate(query: string): Estate | undefined {
+  const ranked = rankEstates(query);
+  const top = ranked[0];
+  if (!top || top.score < 600) return undefined;
+  const ambiguous = ranked.some(
+    (row) =>
+      row.estate.name !== top.estate.name &&
+      row.score >= top.score - 80 &&
+      !isRelatedBlock(row.estate, top.estate) &&
+      !isRelatedBlock(top.estate, row.estate),
+  );
+  if (ambiguous) return undefined;
+  return top.estate;
+}
+
+export function searchEstates(query: string, limit = 8): Estate[] {
+  const ranked = rankEstates(query).map((row) => row.estate);
   const out: Estate[] = [];
   const seen = new Set<string>();
 
@@ -543,29 +609,32 @@ export function matchKnownEstate(name: string, address = ""): Estate | undefined
   const present = [...ALL_ESTATE_NEEDLES, ...NON_ESTATE_NEEDLES].filter(
     (needle) => hay.includes(needle) || nameCompact.includes(needle),
   );
-  if (!present.length) return undefined;
 
   let best: { estate: Estate; score: number } | undefined;
-  for (const estate of ESTATES) {
-    const needles = estateNeedles(estate);
-    for (const needle of needles) {
-      const inName = nameCompact.includes(needle);
-      if (!inName && !hay.includes(needle)) continue;
-      /** Village / area names in the street (屏山段) must not steal 朗天苑. */
-      if (!inName && !allowAddressOnlyNeedle(estate)) continue;
-      const coveredByOther = present.some((longer) => {
-        if (longer.length <= needle.length || !longer.includes(needle)) return false;
-        return !needles.includes(longer);
-      });
-      if (coveredByOther) continue;
-      let score = needle.length * 10;
-      if (compact(estate.name) === nameCompact) score += 50;
-      if (needle === nameCompact) score += 30;
-      if (inName) score += 8;
-      if (!best || score > best.score) best = { estate, score };
+  if (present.length) {
+    for (const estate of ESTATES) {
+      const needles = estateNeedles(estate);
+      for (const needle of needles) {
+        const inName = nameCompact.includes(needle);
+        if (!inName && !hay.includes(needle)) continue;
+        /** Village / area names in the street (屏山段) must not steal 朗天苑. */
+        if (!inName && !allowAddressOnlyNeedle(estate)) continue;
+        const coveredByOther = present.some((longer) => {
+          if (longer.length <= needle.length || !longer.includes(needle)) return false;
+          return !needles.includes(longer);
+        });
+        if (coveredByOther) continue;
+        let score = needle.length * 10;
+        if (compact(estate.name) === nameCompact) score += 50;
+        if (needle === nameCompact) score += 30;
+        if (inName) score += 8;
+        if (!best || score > best.score) best = { estate, score };
+      }
     }
   }
-  return best?.estate;
+  if (best) return best.estate;
+  if (isNonEstatePlace(name) || isNonEstatePlace(hay)) return undefined;
+  return uniqueRankedEstate(name);
 }
 
 /** Address-only hits: keep 邨／苑／私樓 parents, never village area names. */

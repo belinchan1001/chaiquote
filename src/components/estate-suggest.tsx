@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { Input } from "@/components/ui/input";
 import {
   addressHitLabel,
@@ -10,6 +10,30 @@ import {
 } from "@/lib/address-search";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+
+function highlightName(name: string, query: string): ReactNode {
+  const raw = query.trim();
+  if (raw.length < 1) return name;
+  let hit = name.indexOf(raw);
+  let len = raw.length;
+  if (hit < 0) {
+    for (let n = Math.min(name.length, raw.length); n >= 2; n--) {
+      if (raw.includes(name.slice(0, n))) {
+        hit = 0;
+        len = n;
+        break;
+      }
+    }
+  }
+  if (hit < 0) return name;
+  return (
+    <>
+      {name.slice(0, hit)}
+      <span className="text-primary">{name.slice(hit, hit + len)}</span>
+      {name.slice(hit + len)}
+    </>
+  );
+}
 
 export function EstateSuggest({
   id,
@@ -59,7 +83,7 @@ export function EstateSuggest({
           if (error instanceof DOMException && error.name === "AbortError") return;
           setLoading(false);
         });
-    }, 280);
+    }, 180);
     return () => {
       window.clearTimeout(timer);
       ac.abort();
@@ -140,7 +164,7 @@ export function EstateSuggest({
                   onMouseEnter={() => setActive(i)}
                   onClick={() => pick(hit)}
                 >
-                  <span className="font-medium">{hit.name}</span>
+                  <span className="font-medium">{highlightName(hit.name, value)}</span>
                   <span className="text-xs text-muted">
                     {[addressHitLabel(hit) || t("hk"), hit.coverageCheck ? t("coverageCheck") : ""]
                       .filter(Boolean)
