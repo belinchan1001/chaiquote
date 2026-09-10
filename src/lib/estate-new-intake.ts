@@ -1,5 +1,5 @@
 /** Newest move-in estates, grouped to match the 屋苑比較頁 category. */
-import { compact, ESTATES, isRelatedBlock, matchKnownEstate } from "./estates.ts";
+import { compact, ESTATES, isRelatedBlock, matchKnownEstate, relatedBlocks } from "./estates.ts";
 export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "雋東邨", group: "東涌" },
   { name: "翔東邨", group: "東涌" },
@@ -41,7 +41,7 @@ export const NEW_INTAKE: { name: string; group: string }[] = [
 
 export const NEW_INTAKE_NAMES = new Set(NEW_INTAKE.map((item) => item.name));
 
-/** HKBN fibre offers unlocked only when the searched estate is in this list. */
+/** HKBN fibre offers for public / HOS new-move-in estates (blocks inherit the parent). */
 export const HKBN_INTAKE_OFFER_ESTATES = [
   "盛緻苑",
   "樂嶺都匯",
@@ -63,10 +63,21 @@ export const HKBN_INTAKE_OFFER_ESTATES = [
   "恆光街項目",
   "青福里項目",
   "欣寶路項目",
+  "雋東邨",
+  "鴻鵠臺",
+  "啟盈苑",
+  "朗天苑",
 ] as const;
 
+const NEW_INTAKE_PARENTS = ESTATES.filter((estate) => NEW_INTAKE_NAMES.has(estate.name));
+const NEW_INTAKE_BLOCK_NAMES = new Set<string>();
+for (const parent of NEW_INTAKE_PARENTS) {
+  NEW_INTAKE_BLOCK_NAMES.add(parent.name);
+  for (const child of relatedBlocks(parent)) NEW_INTAKE_BLOCK_NAMES.add(child.name);
+}
+
 export function isNewIntakeEstate(name: string): boolean {
-  return NEW_INTAKE_NAMES.has(name);
+  return NEW_INTAKE_BLOCK_NAMES.has(name);
 }
 
 export function newIntakeGroups<T extends { estate: { name: string } }>(
@@ -87,29 +98,39 @@ export function newIntakeGroups<T extends { estate: { name: string } }>(
   return order.map((district) => ({ district, pages: byGroup.get(district) ?? [] }));
 }
 
-const INTAKE_PARENTS = ESTATES.filter((estate) =>
-  (HKBN_INTAKE_OFFER_ESTATES as readonly string[]).includes(estate.name),
-);
+function isAllowedEstate(estateName: string, allowed: Set<string>): boolean {
+  if (allowed.has(estateName)) return true;
+  const child = ESTATES.find((item) => item.name === estateName);
+  if (!child) return false;
+  for (const parentName of allowed) {
+    const parent = ESTATES.find((item) => item.name === parentName);
+    if (parent && isRelatedBlock(child, parent)) return true;
+  }
+  return false;
+}
 
-/** Hidden fibre offers stay hidden until the query matches a listed new-move-in estate. */
+/** Hidden fibre offers stay hidden until the query matches a listed new-move-in estate or its 座／樓／閣. */
 export function estateUnlocksPlan(estateQuery: string | undefined, onlyEstates: readonly string[]): boolean {
   if (!onlyEstates.length) return true;
   const raw = estateQuery?.trim();
   if (!raw) return false;
   const allowed = new Set(onlyEstates);
   const known = matchKnownEstate(raw);
-  if (known && allowed.has(known.name)) return true;
-  if (known) {
-    for (const parent of INTAKE_PARENTS) {
-      if (!allowed.has(parent.name)) continue;
-      if (isRelatedBlock(known, parent)) return true;
-    }
-  }
+  if (known && isAllowedEstate(known.name, allowed)) return true;
   const q = compact(raw);
   if (q.length < 3) return false;
-  return onlyEstates.some((name) => {
+  if (onlyEstates.some((name) => {
     const n = compact(name);
     return q === n || q.startsWith(n) || n.startsWith(q);
-  });
+  })) {
+    return true;
+  }
+  for (const parentName of onlyEstates) {
+    for (const child of relatedBlocks(parentName)) {
+      const n = compact(child.name);
+      if (q === n || q.startsWith(n) || n.startsWith(q)) return true;
+      if (child.aliases.some((alias) => compact(alias) === q || q.startsWith(compact(alias)))) return true;
+    }
+  }
+  return false;
 }
-

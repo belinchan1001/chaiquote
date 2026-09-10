@@ -5,7 +5,6 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ESTATES, matchKnownEstate, searchEstates } from "./estates.ts";
 import { filterPlans, getPlan } from "./plans.ts";
-import { HKBN_INTAKE_OFFER_ESTATES, estateUnlocksPlan } from "./estate-new-intake.ts";
 import {
   ESTATE_PAGES,
   estatePlans,
@@ -14,7 +13,14 @@ import {
   getEstatePage,
   SKIPPED_ESTATE_REQUESTS,
 } from "./estate-pages.ts";
-import { NEW_INTAKE, NEW_INTAKE_NAMES, newIntakeGroups } from "./estate-new-intake.ts";
+import {
+  HKBN_INTAKE_OFFER_ESTATES,
+  NEW_INTAKE,
+  NEW_INTAKE_NAMES,
+  estateUnlocksPlan,
+  isNewIntakeEstate,
+  newIntakeGroups,
+} from "./estate-new-intake.ts";
 import { SITEMAP_PAGES } from "./seo.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -142,6 +148,16 @@ describe("estate SEO pages", () => {
     assert.equal(estateUnlocksPlan("宋皇臺站簡約公屋", HKBN_INTAKE_OFFER_ESTATES), true);
     assert.equal(estateUnlocksPlan("天耀邨", HKBN_INTAKE_OFFER_ESTATES), false);
     assert.equal(estateUnlocksPlan(undefined, HKBN_INTAKE_OFFER_ESTATES), false);
+    assert.equal(isNewIntakeEstate("朗天苑"), true);
+    assert.equal(isNewIntakeEstate("朗杏閣"), true);
+    assert.equal(isNewIntakeEstate("朗松閣"), true);
+    assert.equal(isNewIntakeEstate("朗桃閣"), true);
+    assert.equal(isNewIntakeEstate("天耀邨"), false);
+    assert.equal(estateUnlocksPlan("朗天苑", HKBN_INTAKE_OFFER_ESTATES), true);
+    assert.equal(estateUnlocksPlan("朗杏閣", HKBN_INTAKE_OFFER_ESTATES), true);
+    assert.equal(estateUnlocksPlan("朗天苑朗杏閣", HKBN_INTAKE_OFFER_ESTATES), true);
+    const longHeng = filterPlans({ cat: "broadband", housing: "hos", estate: "朗杏閣" }).map((plan) => plan.id);
+    for (const id of ids) assert.equal(longHeng.includes(id), true, id);
     const shing = estatePlans(ESTATES.find((item) => item.name === "盛緻苑")!);
     assert.ok(ids.every((id) => shing.broadband.some((plan) => plan.id === id)));
     const tin = estatePlans(ESTATES.find((item) => item.name === "天耀邨")!);
