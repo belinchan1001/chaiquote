@@ -4,7 +4,7 @@ import { PlanCard } from "@/components/plan-card";
 import { SearchPanel } from "@/components/search-panel";
 import { Button } from "@/components/ui/button";
 import { ESTATES } from "@/lib/estates";
-import { PLANS, formatFee, getPlan, minMonthlyFee, minVillageBroadbandFee } from "@/lib/plans";
+import { PLANS, formatFee, getPlan, cheapestPlan, cheapestVillageBroadbandPlan } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import type { MessageKey } from "@/lib/messages";
@@ -27,10 +27,14 @@ const FEATURED_IDS = [
 
 function Home() {
   const featured = FEATURED_IDS.map(getPlan).filter((p): p is NonNullable<typeof p> => Boolean(p));
-  const fiberFrom = minMonthlyFee("broadband");
-  const home5gFrom = minMonthlyFee("home5g");
-  const mobileFrom = minMonthlyFee("mobile");
-  const villageFrom = minVillageBroadbandFee();
+  const bestPicks = (
+    [
+      ["catBroadband", cheapestPlan("broadband")],
+      ["catHome5g", cheapestPlan("home5g")],
+      ["catMobile", cheapestPlan("mobile")],
+      ["villageFibre", cheapestVillageBroadbandPlan()],
+    ] as const
+  ).flatMap(([label, plan]) => (plan ? [{ label, plan }] : []));
   const { t, updated } = useI18n();
   usePageTitle(HOME_SEO_TITLE);
   const categories: {
@@ -112,18 +116,31 @@ function Home() {
       </section>
 
       <section className="border-b border-border bg-card">
-        <div className="mx-auto grid max-w-6xl gap-4 px-4 py-6 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            { label: t("catBroadband"), value: t("fromFee", { fee: formatFee(fiberFrom) }) },
-            { label: t("catHome5g"), value: t("fromFee", { fee: formatFee(home5gFrom) }) },
-            { label: t("catMobile"), value: t("fromFee", { fee: formatFee(mobileFrom) }) },
-            { label: t("villageFibre"), value: t("fromFee", { fee: formatFee(villageFrom) }) },
-          ].map((item) => (
-            <div key={item.label}>
-              <p className="text-xs font-medium tracking-wider text-muted">{item.label}</p>
-              <p className="mt-1 font-display text-lg font-semibold tabular-nums">{item.value}</p>
-            </div>
-          ))}
+        <div className="mx-auto max-w-6xl px-4 py-6">
+          <div>
+            <h2 className="font-semibold">{t("bestPicksTitle")}</h2>
+            <p className="mt-1 text-xs text-muted">{t("bestPicksLead")}</p>
+          </div>
+          <ul className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            {bestPicks.map((item) => (
+              <li key={item.label}>
+                <Link
+                  to="/plans/$planId"
+                  params={{ planId: item.plan.id }}
+                  className="group flex h-full min-h-11 flex-col justify-center rounded-xl bg-bg px-4 py-3 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
+                >
+                  <p className="text-xs font-medium tracking-wider text-muted">{t(item.label)}</p>
+                  <p className="mt-1 font-display text-lg font-semibold tabular-nums">
+                    {t("fromFee", { fee: formatFee(item.plan.monthlyFee) })}
+                  </p>
+                  <p className="mt-2 text-xs font-medium text-accent">
+                    {t("bestPicksCta")}
+                    <ArrowRight className="ml-1 inline size-3.5 transition-transform duration-150 group-hover:translate-x-0.5" />
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

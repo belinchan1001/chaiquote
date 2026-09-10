@@ -11,7 +11,7 @@ import {
   type CompareCopy,
 } from "./compare.ts";
 import { toEnglish } from "./plan-en.ts";
-import { certifiedStaffNoteKey, getPlan, hasCertifiedStaff, isHktPlan, isNetvigatorVillage, PLANS, type Category } from "./plans.ts";
+import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, getPlan, hasCertifiedStaff, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, type Category } from "./plans.ts";
 
 const copy: CompareCopy = {
   dash: "—",
@@ -969,6 +969,37 @@ describe("iCable 1000M FTTH $58 48-month", () => {
         "icable-ftth-2000-public-36m",
         "icable-ftth-2000-public-24m",
       ],
+    );
+  });
+});
+
+describe("cheapest plan auto-picks", () => {
+  it("returns the lowest monthly fee per service type", () => {
+    const fiber = cheapestPlan("broadband");
+    const home5g = cheapestPlan("home5g");
+    const mobile = cheapestPlan("mobile");
+    const village = cheapestVillageBroadbandPlan();
+    assert.ok(fiber);
+    assert.ok(home5g);
+    assert.ok(mobile);
+    assert.ok(village);
+    assert.equal(fiber.monthlyFee, minMonthlyFee("broadband"));
+    assert.equal(home5g.monthlyFee, minMonthlyFee("home5g"));
+    assert.equal(mobile.monthlyFee, minMonthlyFee("mobile"));
+    assert.equal(village.monthlyFee, minVillageBroadbandFee());
+    assert.equal(
+      fiber.housing === "all" ? false : fiber.housing.every((item) => item === "village"),
+      false,
+    );
+    assert.ok(village.housing === "all" || village.housing.includes("village"));
+    assert.equal(
+      fiber.monthlyFee,
+      Math.min(
+        ...PLANS.filter(
+          (p) =>
+            p.category === "broadband" && (p.housing === "all" || p.housing.some((h) => h !== "village")),
+        ).map((p) => p.monthlyFee),
+      ),
     );
   });
 });

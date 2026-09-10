@@ -207,6 +207,20 @@ describe("village-onsite guide", () => {
     assert.match(tour, /chaiquote-tour-done/);
   });
 
+  it("homepage cheapest picks link to plan cards without naming providers", () => {
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+    const messages = readFileSync(join(here, "./messages.ts"), "utf8");
+    assert.match(messages, /bestPicksTitle: "齊Quote 最抵推介"/);
+    assert.match(home, /bestPicksTitle/);
+    assert.match(home, /cheapestPlan\("broadband"\)/);
+    assert.match(home, /cheapestVillageBroadbandPlan/);
+    assert.match(home, /to="\/plans\/\$planId"/);
+    assert.match(home, /bestPicksCta/);
+    assert.doesNotMatch(home, /ProviderMark|providerName|PROVIDER_MAP/);
+    assert.doesNotMatch(messages, /bestPicksTitle: "[^"]*最平/);
+    assert.doesNotMatch(messages, /保證裝到|唔保證裝到|有得裝/);
+  });
+
   it("collapses extra homepage search chips on mobile without new routes", () => {
     const panel = readFileSync(join(here, "../components/search-panel.tsx"), "utf8");
     assert.match(panel, /EstateSuggest/);

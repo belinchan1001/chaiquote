@@ -2308,16 +2308,45 @@ export function formatFee(value: number) {
 }
 
 export function minMonthlyFee(category: Category) {
-  const fees = PLANS.filter((p) => p.category === category).map((p) => p.monthlyFee);
-  return fees.length ? Math.min(...fees) : 0;
+  return cheapestPlan(category)?.monthlyFee ?? 0;
 }
 
 export function minVillageBroadbandFee() {
-  const fees = PLANS.filter((p) => {
-    if (p.category !== "broadband") return false;
-    return p.housing === "all" || p.housing.includes("village");
-  }).map((p) => p.monthlyFee);
-  return fees.length ? Math.min(...fees) : 0;
+  return cheapestVillageBroadbandPlan()?.monthlyFee ?? 0;
+}
+
+function isVillageCapable(plan: Plan) {
+  return plan.housing === "all" || plan.housing.includes("village");
+}
+
+function isVillageOnly(plan: Plan) {
+  return plan.housing !== "all" && plan.housing.every((item) => item === "village");
+}
+
+function pickCheapest(rows: Plan[]): Plan | undefined {
+  if (!rows.length) return undefined;
+  return [...rows].sort((a, b) => {
+    if (a.monthlyFee !== b.monthlyFee) return a.monthlyFee - b.monthlyFee;
+    if (!!a.quotePick !== !!b.quotePick) return a.quotePick ? -1 : 1;
+    const avg = averageFee(a) - averageFee(b);
+    if (avg) return avg;
+    return a.id.localeCompare(b.id);
+  })[0];
+}
+
+/** Lowest monthly-fee plan in a category. Fibre slot skips village-only rows. */
+export function cheapestPlan(category: Category): Plan | undefined {
+  return pickCheapest(
+    PLANS.filter((plan) => {
+      if (plan.category !== category) return false;
+      if (category === "broadband" && isVillageOnly(plan)) return false;
+      return true;
+    }),
+  );
+}
+
+export function cheapestVillageBroadbandPlan(): Plan | undefined {
+  return pickCheapest(PLANS.filter((plan) => plan.category === "broadband" && isVillageCapable(plan)));
 }
 
 export function formatMonthly(value: number) {
