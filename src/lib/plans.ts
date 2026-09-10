@@ -1,3 +1,5 @@
+import { HKBN_INTAKE_OFFER_ESTATES, estateUnlocksPlan } from "./estate-new-intake.ts";
+
 export type Category = "broadband" | "mobile" | "home5g" | "business";
 export type Housing = "public" | "hos" | "private" | "village";
 export type Generation = "4g" | "5g";
@@ -61,6 +63,8 @@ export type Plan = {
   hot?: boolean;
   latestOffer?: boolean;
   quotePick?: boolean;
+  newIntakeOffer?: boolean;
+  onlyEstates?: string[];
   bestFor: string;
 };
 
@@ -108,6 +112,14 @@ const PREPAID_HGC_300 = "須預繳 HK$300";
 const PREPAID_HKBN_200 = "須預繳 HK$200，第 1 至第 4 個月每月從預繳費用中扣減月費 HK$50";
 const PERK_HKBN_365 = "可選擇延遲服務生效日（最長 365 日）";
 const PERK_HKBN_SAFE = "SAFE 網絡安全防護及防毒軟件 6 個月";
+const LIMITS_HKBN_INTAKE =
+  "僅適用於指定新入伙屋苑。本計劃為自動續約。可選擇延遲服務生效日（最長 365 日）。豁免安裝費。實際覆蓋同安裝期以電訊商確認為準。";
+const PERK_HKBN_INTAKE_OTT_6 =
+  "六選一：Disney+ 標準計劃 12 個月、Netflix 標準計劃 12 個月、HBO Max 標準計劃 12 個月、myTV GOLD 12 個月、愛奇藝黃金計劃 36 個月或 weTV 月費計劃 36 個月";
+const PERK_HKBN_INTAKE_OTT_4_12 =
+  "四選一：Disney+ 標準計劃 12 個月、Netflix 標準計劃 12 個月、HBO Max 標準計劃 12 個月或 myTV GOLD 12 個月";
+const PERK_HKBN_INTAKE_OTT_4_24 =
+  "四選一：Disney+ 標準計劃 24 個月、Netflix 標準計劃 24 個月、HBO Max 標準計劃 24 個月或 myTV GOLD 24 個月";
 const VOICE_CMHK_UNLIMITED = "本地通話無限";
 const VOICE_CMHK_3000 = "本地 3,000 分鐘";
 const FUP_CMHK_1M = "其後限速無限上網（最高 1Mbps）";
@@ -381,6 +393,102 @@ export const PLANS: Plan[] = [
     ],
     limits: LIMITS_HKBN_10G,
     bestFor: "適合需要 10000M 光纖及電競路由器之住戶",
+  },
+  {
+    id: "hkbn-ftth-1000-36m-99-intake",
+    providerId: "hkbn",
+    category: "broadband",
+    name: "1000M 新入伙特選（36 個月＋OTT）",
+    monthlyFee: 99,
+    freeMonths: 0,
+    contractMonths: 36,
+    speedMbps: 1000,
+    install: "豁免安裝費",
+    housing: ["public", "hos"],
+    network: "光纖入屋",
+    perks: [
+      "送 TP-Link Archer AX23 Wi-Fi 6 路由器",
+      "首 36 個月額外免費 1000M 副線",
+      PERK_HKBN_INTAKE_OTT_6,
+      PERK_HKBN_365,
+    ],
+    limits: LIMITS_HKBN_INTAKE,
+    quotePick: true,
+    newIntakeOffer: true,
+    onlyEstates: [...HKBN_INTAKE_OFFER_ESTATES],
+    bestFor: "適合指定新入伙屋苑、需要 1000M 光纖及影視會籍之住戶",
+  },
+  {
+    id: "hkbn-ftth-2500-24m-149-intake",
+    providerId: "hkbn",
+    category: "broadband",
+    name: "2500M 新入伙特選（24 個月＋OTT）",
+    monthlyFee: 149,
+    freeMonths: 0,
+    contractMonths: 24,
+    speedMbps: 2500,
+    install: "豁免安裝費",
+    housing: ["public", "hos"],
+    network: "光纖入屋",
+    perks: [
+      "送 TP-Link Archer BE230 Wi-Fi 7 路由器",
+      "24 個月家居電話服務及 0030 IDD 每月 30 分鐘",
+      PERK_HKBN_INTAKE_OTT_4_12,
+      PERK_HKBN_365,
+    ],
+    limits: LIMITS_HKBN_INTAKE,
+    quotePick: true,
+    newIntakeOffer: true,
+    onlyEstates: [...HKBN_INTAKE_OFFER_ESTATES],
+    bestFor: "適合指定新入伙屋苑、需要 2500M 光纖、家居電話及影視會籍之住戶",
+  },
+  {
+    id: "hkbn-ftth-2500-36m-149-intake",
+    providerId: "hkbn",
+    category: "broadband",
+    name: "2500M 新入伙特選（36 個月＋OTT）",
+    monthlyFee: 149,
+    freeMonths: 0,
+    contractMonths: 36,
+    speedMbps: 2500,
+    install: "豁免安裝費",
+    housing: ["public", "hos"],
+    network: "光纖入屋",
+    perks: [
+      "送 TP-Link Archer BE230 Wi-Fi 7 路由器",
+      "36 個月家居電話服務及 0030 IDD 每月 30 分鐘",
+      PERK_HKBN_INTAKE_OTT_4_24,
+      PERK_HKBN_365,
+    ],
+    limits: LIMITS_HKBN_INTAKE,
+    quotePick: true,
+    newIntakeOffer: true,
+    onlyEstates: [...HKBN_INTAKE_OFFER_ESTATES],
+    bestFor: "適合指定新入伙屋苑、接受 36 個月合約及影視會籍之住戶",
+  },
+  {
+    id: "hkbn-ftth-2x1000-36m-75-intake",
+    providerId: "hkbn",
+    category: "broadband",
+    name: "2×1000M 新入伙特選（36 個月）",
+    monthlyFee: 75,
+    freeMonths: 0,
+    contractMonths: 36,
+    speedMbps: 1000,
+    install: "豁免安裝費",
+    housing: ["public", "hos"],
+    network: "光纖入屋",
+    perks: [
+      "免費升級至 2×1000M 光纖",
+      "送指定 Wi-Fi 6 路由器",
+      "12 個月 myTV SUPER 智能電視版",
+      PERK_HKBN_365,
+    ],
+    limits: LIMITS_HKBN_INTAKE,
+    quotePick: true,
+    newIntakeOffer: true,
+    onlyEstates: [...HKBN_INTAKE_OFFER_ESTATES],
+    bestFor: "適合指定新入伙屋苑、需要雙線 1000M 光纖之住戶",
   },
   {
     id: "hkbn-village-200-27m",
@@ -2644,6 +2752,7 @@ export function hasGba(plan: Plan) {
 export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
   let rows = PLANS.filter((plan) => {
     if (plan.category !== search.cat) return false;
+    if (plan.onlyEstates?.length && !estateUnlocksPlan(search.estate, plan.onlyEstates)) return false;
     if (!matchesHousing(plan, search.housing)) return false;
     if (search.maxFee && plan.monthlyFee > search.maxFee) return false;
     if (search.speed && plan.speedMbps !== search.speed) return false;
@@ -2720,6 +2829,7 @@ export function cheapestPlan(category: Category): Plan | undefined {
   return pickCheapest(
     PLANS.filter((plan) => {
       if (plan.category !== category) return false;
+      if (plan.onlyEstates?.length) return false;
       if (category === "broadband" && isVillageOnly(plan)) return false;
       return true;
     }),
@@ -2727,7 +2837,7 @@ export function cheapestPlan(category: Category): Plan | undefined {
 }
 
 export function cheapestVillageBroadbandPlan(): Plan | undefined {
-  return pickCheapest(PLANS.filter((plan) => plan.category === "broadband" && isVillageCapable(plan)));
+  return pickCheapest(PLANS.filter((plan) => plan.category === "broadband" && isVillageCapable(plan) && !plan.onlyEstates?.length));
 }
 
 export function formatMonthly(value: number) {

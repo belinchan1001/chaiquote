@@ -748,6 +748,6 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 朗天峰|Long Tin Peak|元朗|private
 日出康城第12期|LOHAS Park Phase 12,LP12,康城第12期|西貢|private|將軍澳
 古雋邨|古雋,Kwu Chun Estate|北區|public|古洞
-世運道簡約公屋|世運道項目,Olympic Avenue LPH|九龍城|public|啟德
+世運道簡約公屋|世運道項目,Olympic Avenue LPH,宋皇臺站簡約公屋,宋皇臺簡約公屋,啟德世運道簡約公屋,世運道簡約公屋啟德站|九龍城|public|啟德
 柴灣常安街簡約公屋|常安街簡約公屋,Sheung On Street LPH,柴灣常安街|東區|public
 `.trim();

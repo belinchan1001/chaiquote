@@ -119,6 +119,10 @@ describe("HKBN student/youth 5G 30GB", () => {
         "hkbn-ftth-1000-36m-98",
         "hkbn-ftth-2500-24m-149",
         "hkbn-ftth-10000-entertainment",
+        "hkbn-ftth-1000-36m-99-intake",
+        "hkbn-ftth-2500-24m-149-intake",
+        "hkbn-ftth-2500-36m-149-intake",
+        "hkbn-ftth-2x1000-36m-75-intake",
         "hkbn-village-2000-24m",
         "hgc-ftth-2000-hos-36m",
         "hgc-ftth-1000-private-39m",
@@ -1050,7 +1054,9 @@ describe("cheapest plan auto-picks", () => {
       Math.min(
         ...PLANS.filter(
           (p) =>
-            p.category === "broadband" && (p.housing === "all" || p.housing.some((h) => h !== "village")),
+            p.category === "broadband" &&
+            !p.onlyEstates?.length &&
+            (p.housing === "all" || p.housing.some((h) => h !== "village")),
         ).map((p) => p.monthlyFee),
       ),
     );

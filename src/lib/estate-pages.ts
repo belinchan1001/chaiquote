@@ -189,8 +189,8 @@ export function estateIntro(estate: Estate): string {
 
 export function estatePlans(estate: Estate): { broadband: Plan[]; home5g: Plan[] } {
   return {
-    broadband: filterPlans({ cat: "broadband", housing: estate.housing }),
-    home5g: filterPlans({ cat: "home5g", housing: estate.housing }),
+    broadband: filterPlans({ cat: "broadband", housing: estate.housing, estate: estate.name }),
+    home5g: filterPlans({ cat: "home5g", housing: estate.housing, estate: estate.name }),
   };
 }
 

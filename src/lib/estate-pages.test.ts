@@ -4,6 +4,8 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ESTATES, matchKnownEstate, searchEstates } from "./estates.ts";
+import { filterPlans, getPlan } from "./plans.ts";
+import { HKBN_INTAKE_OFFER_ESTATES, estateUnlocksPlan } from "./estate-new-intake.ts";
 import {
   ESTATE_PAGES,
   estatePlans,
@@ -113,5 +115,36 @@ describe("estate SEO pages", () => {
     assert.equal(matchKnownEstate("朗天苑")?.name, "朗天苑");
     assert.equal(searchEstates("柴灣常安街簡約公屋")[0]?.name, "柴灣常安街簡約公屋");
     assert.equal(searchEstates("日出康城第12期")[0]?.name, "日出康城第12期");
+  });
+
+  it("hides HKBN new-move-in fibre until a listed estate is searched", () => {
+    const ids = [
+      "hkbn-ftth-1000-36m-99-intake",
+      "hkbn-ftth-2500-24m-149-intake",
+      "hkbn-ftth-2500-36m-149-intake",
+      "hkbn-ftth-2x1000-36m-75-intake",
+    ] as const;
+    for (const id of ids) {
+      const plan = getPlan(id);
+      assert.ok(plan, id);
+      assert.equal(plan.newIntakeOffer, true, id);
+      assert.equal(plan.quotePick, true, id);
+      assert.equal(plan.install, "豁免安裝費", id);
+      assert.ok(plan.onlyEstates?.includes("盛緻苑"), id);
+    }
+    const hidden = filterPlans({ cat: "broadband" }).map((plan) => plan.id);
+    for (const id of ids) assert.equal(hidden.includes(id), false, id);
+    const tinYiu = filterPlans({ cat: "broadband", housing: "public", estate: "天耀邨" }).map((plan) => plan.id);
+    for (const id of ids) assert.equal(tinYiu.includes(id), false, id);
+    const unlocked = filterPlans({ cat: "broadband", housing: "hos", estate: "盛緻苑" }).map((plan) => plan.id);
+    for (const id of ids) assert.equal(unlocked.includes(id), true, id);
+    assert.equal(estateUnlocksPlan("盛緻苑", HKBN_INTAKE_OFFER_ESTATES), true);
+    assert.equal(estateUnlocksPlan("宋皇臺站簡約公屋", HKBN_INTAKE_OFFER_ESTATES), true);
+    assert.equal(estateUnlocksPlan("天耀邨", HKBN_INTAKE_OFFER_ESTATES), false);
+    assert.equal(estateUnlocksPlan(undefined, HKBN_INTAKE_OFFER_ESTATES), false);
+    const shing = estatePlans(ESTATES.find((item) => item.name === "盛緻苑")!);
+    assert.ok(ids.every((id) => shing.broadband.some((plan) => plan.id === id)));
+    const tin = estatePlans(ESTATES.find((item) => item.name === "天耀邨")!);
+    assert.ok(ids.every((id) => !tin.broadband.some((plan) => plan.id === id)));
   });
 });

@@ -24,6 +24,8 @@ describe("齊Quote pick badge", () => {
     assert.match(badges, /plan\.quotePick \? <span className=\{quotePickClass\}>👍 \{t\("quotePick"\)\}/);
     assert.match(badges, /plan\.latestOffer \? <span className=\{pillClass\}>\{t\("latestOffer"\)\}/);
     assert.match(badges, /plan\.hot \? <span className=\{pillClass\}>\{t\("hot"\)\}/);
+    assert.match(badges, /intakeClass = "[^"]*bg-intake[^"]*text-intake-foreground"/);
+    assert.match(messages, /newIntakeOffer: "新入伙優惠"/);
     assert.doesNotMatch(badges, /最平|保證|最優惠/);
 
     for (const phrase of FORBIDDEN) {
@@ -50,6 +52,10 @@ describe("齊Quote pick badge", () => {
         "hkbn-ftth-1000-36m-98",
         "hkbn-ftth-2500-24m-149",
         "hkbn-ftth-10000-entertainment",
+        "hkbn-ftth-1000-36m-99-intake",
+        "hkbn-ftth-2500-24m-149-intake",
+        "hkbn-ftth-2500-36m-149-intake",
+        "hkbn-ftth-2x1000-36m-75-intake",
         "hkbn-village-2000-24m",
         "hgc-ftth-2000-hos-36m",
         "hgc-ftth-1000-private-39m",

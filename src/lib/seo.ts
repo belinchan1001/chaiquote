@@ -133,7 +133,7 @@ export const SITEMAP_PAGES: readonly SitemapPage[] = [
     changefreq: "weekly" as const,
     priority: "0.6",
   })),
-  ...PLANS.map((plan) => ({
+  ...PLANS.filter((plan) => !plan.onlyEstates?.length).map((plan) => ({
     path: `/plans/${plan.id}`,
     changefreq: "weekly" as const,
     priority: "0.7",

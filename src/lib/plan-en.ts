@@ -7,6 +7,8 @@ const EXACT: Record<string, string> = {
     "This plan auto-renews. Home 5000M FTTH is currently offered mainly by HKBN for selected public housing, HOS and private homes. Not available for village houses.",
   "本計劃為自動續約。可選擇延遲服務生效日（最長 365 日）。適用於指定公屋、居屋及私人住宅。不適用於村屋。":
     "This plan auto-renews. Service start can be deferred up to 365 days. For selected public housing, HOS and private homes. Not available for village houses.",
+  "僅適用於指定新入伙屋苑。本計劃為自動續約。可選擇延遲服務生效日（最長 365 日）。豁免安裝費。實際覆蓋同安裝期以電訊商確認為準。":
+    "Selected new-move-in estates only. This plan auto-renews. Service start can be deferred up to 365 days. Installation waived. Coverage and install dates are confirmed by the carrier.",
   "僅適用於指定村屋地址。本計劃為 27 個月合約。可選擇延遲服務生效日（最長 365 日）。香港寬頻之公屋、居屋及私人樓宇計劃不適用於村屋地址。實際覆蓋須另行核對。":
     "Village-house addresses only. 27-month contract. Service start can be deferred up to 365 days. HKBN public/HOS/private plans do not apply to village houses. Coverage must be confirmed separately.",
   "僅適用於指定村屋地址。本計劃為 24 個月合約。可選擇延遲服務生效日（最長 365 日）。實際覆蓋須另行核對。":
@@ -61,6 +63,18 @@ const PHRASES: [string, string][] = [
   ["送指定 TP-Link BE230 Wi-Fi 7 路由器", "Includes designated TP-Link BE230 Wi-Fi 7 router"],
   ["送指定 TP-Link Wi-Fi 6 路由器", "Includes designated TP-Link Wi-Fi 6 router"],
   ["送 TP-Link Archer AX23 Wi-Fi 6 路由器", "Includes TP-Link Archer AX23 Wi-Fi 6 router"],
+  ["首 36 個月額外免費 1000M 副線", "Extra 1000M secondary line free for the first 36 months"],
+  ["六選一：Disney+ 標準計劃 12 個月、Netflix 標準計劃 12 個月、HBO Max 標準計劃 12 個月、myTV GOLD 12 個月、愛奇藝黃金計劃 36 個月或 weTV 月費計劃 36 個月", "Pick one: 12 months Disney+ Standard, 12 months Netflix Standard, 12 months HBO Max Standard, 12 months myTV GOLD, 36 months iQIYI Gold, or 36 months weTV"],
+  ["四選一：Disney+ 標準計劃 12 個月、Netflix 標準計劃 12 個月、HBO Max 標準計劃 12 個月或 myTV GOLD 12 個月", "Pick one: 12 months Disney+ Standard, 12 months Netflix Standard, 12 months HBO Max Standard, or 12 months myTV GOLD"],
+  ["四選一：Disney+ 標準計劃 24 個月、Netflix 標準計劃 24 個月、HBO Max 標準計劃 24 個月或 myTV GOLD 24 個月", "Pick one: 24 months Disney+ Standard, 24 months Netflix Standard, 24 months HBO Max Standard, or 24 months myTV GOLD"],
+  ["24 個月家居電話服務及 0030 IDD 每月 30 分鐘", "24 months home phone and 30 minutes 0030 IDD per month"],
+  ["36 個月家居電話服務及 0030 IDD 每月 30 分鐘", "36 months home phone and 30 minutes 0030 IDD per month"],
+  ["免費升級至 2×1000M 光纖", "Free upgrade to 2×1000M fibre"],
+  ["12 個月 myTV SUPER 智能電視版", "12 months myTV SUPER smart TV"],
+  ["1000M 新入伙特選（36 個月＋OTT）", "1000M new-move-in offer (36 months + OTT)"],
+  ["2500M 新入伙特選（24 個月＋OTT）", "2500M new-move-in offer (24 months + OTT)"],
+  ["2500M 新入伙特選（36 個月＋OTT）", "2500M new-move-in offer (36 months + OTT)"],
+  ["2×1000M 新入伙特選（36 個月）", "2×1000M new-move-in offer (36 months)"],
   ["送 TP-Link BE230 Wi-Fi 7 路由器", "Includes TP-Link BE230 Wi-Fi 7 router"],
   ["送 TP-Link Wi-Fi 7 旗艦路由器", "Includes TP-Link Wi-Fi 7 flagship router"],
   ["送 TP-Link Wi-Fi 6 路由器", "Includes TP-Link Wi-Fi 6 router"],
@@ -486,6 +500,10 @@ const BEST_FOR: [string, string][] = [
   ["適合公屋、居屋或私人住宅之入門 1000M 住戶", "For entry-level 1000M in public housing, HOS or private homes"],
   ["適合公屋、居屋或私人住宅，需要 10000M 光纖之住戶", "For public housing, HOS or private homes that need 10000M fibre"],
   ["適合公屋、居屋或私人住宅，需要 1000M 光纖及路由器之住戶", "For public housing, HOS or private homes that need 1000M fibre and a router"],
+  ["適合指定新入伙屋苑、需要 1000M 光纖及影視會籍之住戶", "For selected new-move-in estates that need 1000M fibre and a streaming membership"],
+  ["適合指定新入伙屋苑、需要 2500M 光纖、家居電話及影視會籍之住戶", "For selected new-move-in estates that need 2500M fibre, a home phone and a streaming membership"],
+  ["適合指定新入伙屋苑、接受 36 個月合約及影視會籍之住戶", "For selected new-move-in estates on a 36-month contract with a streaming membership"],
+  ["適合指定新入伙屋苑、需要雙線 1000M 光纖之住戶", "For selected new-move-in estates that need dual 1000M fibre"],
   ["適合公屋、居屋或私人住宅，需要 5000M 光纖及家居電話之住戶", "For public housing, HOS or private homes that need 5000M fibre and a home phone"],
   ["適合公屋或居屋、接受 36 個月合約之住戶", "For public or HOS homes on a 36-month contract"],
   ["適合公屋或居屋、接受較短合約之住戶", "For public or HOS homes on a shorter contract"],

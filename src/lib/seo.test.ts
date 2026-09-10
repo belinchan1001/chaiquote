@@ -138,7 +138,7 @@ describe("renderSitemapXml", () => {
     assert.doesNotMatch(xml, /housing=/);
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/plans?cat=broadband"));
     assert.ok(SITEMAP_PAGES.every((page) => page.path !== "/plans"));
-    for (const plan of PLANS) {
+    for (const plan of PLANS.filter((item) => !item.onlyEstates?.length)) {
       assert.ok(
         SITEMAP_PAGES.some((page) => page.path === `/plans/${plan.id}`),
         `sitemap missing /plans/${plan.id}`,

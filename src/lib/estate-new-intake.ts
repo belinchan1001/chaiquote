@@ -1,4 +1,5 @@
 /** Newest move-in estates, grouped to match the 屋苑比較頁 category. */
+import { compact, ESTATES, isRelatedBlock, matchKnownEstate } from "./estates.ts";
 export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "雋東邨", group: "東涌" },
   { name: "翔東邨", group: "東涌" },
@@ -40,6 +41,30 @@ export const NEW_INTAKE: { name: string; group: string }[] = [
 
 export const NEW_INTAKE_NAMES = new Set(NEW_INTAKE.map((item) => item.name));
 
+/** HKBN fibre offers unlocked only when the searched estate is in this list. */
+export const HKBN_INTAKE_OFFER_ESTATES = [
+  "盛緻苑",
+  "樂嶺都匯",
+  "樂翹都匯",
+  "安麗苑",
+  "安樺苑",
+  "宏緻苑",
+  "滿田邨",
+  "古雋邨",
+  "鳳凰嶺邨",
+  "曉茵邨",
+  "世運道簡約公屋",
+  "柴灣常安街簡約公屋",
+  "彩石邨",
+  "安楹苑",
+  "翔東邨",
+  "裕興苑",
+  "錦柏苑",
+  "恆光街項目",
+  "青福里項目",
+  "欣寶路項目",
+] as const;
+
 export function isNewIntakeEstate(name: string): boolean {
   return NEW_INTAKE_NAMES.has(name);
 }
@@ -61,3 +86,30 @@ export function newIntakeGroups<T extends { estate: { name: string } }>(
   }
   return order.map((district) => ({ district, pages: byGroup.get(district) ?? [] }));
 }
+
+const INTAKE_PARENTS = ESTATES.filter((estate) =>
+  (HKBN_INTAKE_OFFER_ESTATES as readonly string[]).includes(estate.name),
+);
+
+/** Hidden fibre offers stay hidden until the query matches a listed new-move-in estate. */
+export function estateUnlocksPlan(estateQuery: string | undefined, onlyEstates: readonly string[]): boolean {
+  if (!onlyEstates.length) return true;
+  const raw = estateQuery?.trim();
+  if (!raw) return false;
+  const allowed = new Set(onlyEstates);
+  const known = matchKnownEstate(raw);
+  if (known && allowed.has(known.name)) return true;
+  if (known) {
+    for (const parent of INTAKE_PARENTS) {
+      if (!allowed.has(parent.name)) continue;
+      if (isRelatedBlock(known, parent)) return true;
+    }
+  }
+  const q = compact(raw);
+  if (q.length < 3) return false;
+  return onlyEstates.some((name) => {
+    const n = compact(name);
+    return q === n || q.startsWith(n) || n.startsWith(q);
+  });
+}
+
