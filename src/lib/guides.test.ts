@@ -207,6 +207,17 @@ describe("village-onsite guide", () => {
     assert.match(tour, /chaiquote-tour-done/);
   });
 
+  it("collapses extra homepage search chips on mobile without new routes", () => {
+    const panel = readFileSync(join(here, "../components/search-panel.tsx"), "utf8");
+    assert.match(panel, /EstateSuggest/);
+    assert.match(panel, /addressHitValue/);
+    assert.match(panel, /parsePlansSearch/);
+    assert.match(panel, /moreFilters/);
+    assert.match(panel, /peer\/more/);
+    assert.match(panel, /熱門：/);
+    assert.doesNotMatch(panel, /createFileRoute/);
+  });
+
   it("renders the guides index as category cards on the existing /guides route", () => {
     const page = readFileSync(join(here, "../routes/guides.tsx"), "utf8");
     const meta = readFileSync(join(here, "./guide-articles.ts"), "utf8");

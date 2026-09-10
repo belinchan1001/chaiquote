@@ -81,17 +81,17 @@ function Home() {
         />
         <div className="absolute inset-0 bg-primary/55" />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/50 to-primary/25" />
-        <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-12 lg:grid-cols-2 lg:py-16">
+        <div className="relative mx-auto grid max-w-6xl gap-6 px-4 py-8 lg:grid-cols-2 lg:gap-10 lg:py-16">
           <div className="page-enter text-primary-foreground">
             <p className="text-xs font-medium tracking-widest text-primary-foreground/75">
               {t("hkUpdated", { date: updated })}
             </p>
-            <h1 className="mt-3 font-display text-display font-semibold leading-none tracking-tight">
+            <h1 className="mt-2 font-display text-display font-semibold leading-none tracking-tight sm:mt-3">
               {t("heroTitle1")}
               <br />
               {t("heroTitle2")}
             </h1>
-            <p className="mt-5 max-w-lg text-lead text-primary-foreground/80">{t("heroLead")}</p>
+            <p className="mt-3 max-w-lg text-sm text-primary-foreground/80 sm:mt-5 sm:text-lead">{t("heroLead")}</p>
             <div className="mt-8 hidden gap-6 text-sm text-primary-foreground/75 sm:flex">
               <p className="flex items-baseline gap-1.5">
                 <span className="font-display text-lg font-semibold tabular-nums text-primary-foreground">8</span>
