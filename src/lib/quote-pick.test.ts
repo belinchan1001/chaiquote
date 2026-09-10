@@ -50,6 +50,7 @@ describe("齊Quote pick badge", () => {
       PLANS.filter((plan) => plan.quotePick).map((plan) => plan.id),
       [
         "hkbn-ftth-1000-36m-98",
+        "hkbn-ftth-1000-24m-199-mobile",
         "hkbn-ftth-2500-24m-149",
         "hkbn-ftth-10000-entertainment",
         "hkbn-ftth-1000-36m-99-intake",

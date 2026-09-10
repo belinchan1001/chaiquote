@@ -120,6 +120,8 @@ const PERK_HKBN_INTAKE_OTT_4_12 =
   "四選一：Disney+ 標準計劃 12 個月、Netflix 標準計劃 12 個月、HBO Max 標準計劃 12 個月或 myTV GOLD 12 個月";
 const PERK_HKBN_INTAKE_OTT_4_24 =
   "四選一：Disney+ 標準計劃 24 個月、Netflix 標準計劃 24 個月、HBO Max 標準計劃 24 個月或 myTV GOLD 24 個月";
+const PERK_HKBN_OTT_3_24 =
+  "三選一：Disney+ 標準計劃 24 個月、Netflix 標準計劃 24 個月或 HBO Max 標準計劃 24 個月";
 const VOICE_CMHK_UNLIMITED = "本地通話無限";
 const VOICE_CMHK_3000 = "本地 3,000 分鐘";
 const FUP_CMHK_1M = "其後限速無限上網（最高 1Mbps）";
@@ -207,6 +209,32 @@ export const PLANS: Plan[] = [
     ],
     limits: LIMITS_HKBN_FTTH,
     bestFor: "適合租住單位、接受 24 個月合約之住戶",
+  },
+  {
+    id: "hkbn-ftth-1000-24m-199-mobile",
+    providerId: "hkbn",
+    category: "broadband",
+    name: "1000M 連 Wi-Fi 7、OTT 及 5G 30GB（24 個月）",
+    monthlyFee: 199,
+    freeMonths: 0,
+    contractMonths: 24,
+    speedMbps: 1000,
+    install: "豁免安裝費（原價 HK$680）",
+    housing: ["public", "hos", "private"],
+    network: "光纖入屋",
+    voice: VOICE_CMHK_3000,
+    roaming: "中澳 4GB；中澳通話 10 分鐘",
+    prepaid: PREPAID_HKBN_200,
+    perks: [
+      "送 TP-Link Archer BE220 Wi-Fi 7 路由器（24 個月，合約後無須歸還）",
+      PERK_HKBN_OTT_3_24,
+      "24 個月 5G 流動通訊 30GB 本地數據，送任用 15 款熱門串流及社交數據（原價每月 HK$98）",
+      PERK_HKBN_365,
+    ],
+    limits: LIMITS_HKBN_FTTH,
+    quotePick: true,
+    latestOffer: true,
+    bestFor: "適合公屋、居屋或私人住宅，需要 1000M 光纖、Wi-Fi 7、影視會籍及手機數據之住戶",
   },
   {
     id: "hkbn-ftth-1000-36m-128",

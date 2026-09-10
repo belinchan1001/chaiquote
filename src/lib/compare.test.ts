@@ -111,12 +111,13 @@ describe("HKBN student/youth 5G 30GB", () => {
     assert.equal(youth.quotePick, true);
     assert.deepEqual(
       PLANS.filter((p) => p.latestOffer).map((p) => p.id),
-      ["icable-ftth-1000-48m-58", "hkbn-5g-30-78-youth"],
+      ["hkbn-ftth-1000-24m-199-mobile", "icable-ftth-1000-48m-58", "hkbn-5g-30-78-youth"],
     );
     assert.deepEqual(
       PLANS.filter((p) => p.quotePick).map((p) => p.id),
       [
         "hkbn-ftth-1000-36m-98",
+        "hkbn-ftth-1000-24m-199-mobile",
         "hkbn-ftth-2500-24m-149",
         "hkbn-ftth-10000-entertainment",
         "hkbn-ftth-1000-36m-99-intake",
