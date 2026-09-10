@@ -121,6 +121,12 @@ describe("estate SEO pages", () => {
     assert.equal(matchKnownEstate("朗天苑")?.name, "朗天苑");
     assert.equal(searchEstates("柴灣常安街簡約公屋")[0]?.name, "柴灣常安街簡約公屋");
     assert.equal(searchEstates("日出康城第12期")[0]?.name, "日出康城第12期");
+    assert.equal(ESTATES.find((item) => item.name === "東頭村")?.district, "元朗");
+    assert.equal(ESTATES.find((item) => item.name === "東頭村")?.housing, "village");
+    assert.equal(ESTATES.find((item) => item.name === "東頭邨")?.district, "黃大仙");
+    assert.equal(ESTATES.find((item) => item.name === "東頭邨")?.housing, "public");
+    assert.equal(searchEstates("東頭村")[0]?.district, "元朗");
+    assert.equal(searchEstates("東頭邨")[0]?.district, "黃大仙");
   });
 
   it("hides HKBN new-move-in fibre until a listed estate is searched", () => {

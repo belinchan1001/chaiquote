@@ -77,7 +77,7 @@ const RAW = `
 安東樓|安東,On Tung House,東頭邨安東樓|黃大仙|public
 茂東樓|茂東,Mau Tung House,東頭邨茂東樓|黃大仙|public
 盛東樓|盛東,Shing Tung House,東頭邨盛東樓|黃大仙|public
-東頭村|東頭村,Tung Tau Village|黃大仙|village
+東頭村|東頭村,Tung Tau Village,Tung Tau Tsuen,元朗東頭村,十八鄉東頭村|元朗|village|十八鄉
 樂富邨|樂富,Lok Fu|黃大仙|public
 彩雲邨|彩雲,Choi Wan|黃大仙|public
 橫頭磡邨|橫頭磡,Wang Tau Hom|黃大仙|public
