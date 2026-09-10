@@ -100,6 +100,18 @@ export function PlanCard({ plan }: { plan: Plan }) {
             <dd className="font-medium">{plan.highSpeedGb ?? plan.dataGb}GB</dd>
           </div>
         ) : null}
+        {plan.voice ? (
+          <div>
+            <dt className="text-xs text-subtle">{t("rowVoice")}</dt>
+            <dd className="font-medium leading-snug">{tx(plan.voice)}</dd>
+          </div>
+        ) : null}
+        {plan.category === "mobile" && plan.fupNote ? (
+          <div className="col-span-2">
+            <dt className="text-xs text-subtle">{t("rowAfterUsage")}</dt>
+            <dd className="font-medium">{tx(plan.fupNote)}</dd>
+          </div>
+        ) : null}
         {plan.prepaid ? (
           <div>
             <dt className="text-xs text-subtle">{t("prepaid")}</dt>
