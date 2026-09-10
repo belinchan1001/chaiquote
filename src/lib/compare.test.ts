@@ -910,6 +910,9 @@ describe("CMHK mobile catalogue", () => {
     assert.equal(slash30.monthlyFee, 98);
     assert.equal(slash30.dataGb, 30);
     assert.equal(slash30.portInPerk, "攜號轉台本地數據 60GB");
+    const fortyTwo = plan("cmhk-42m-10-5-98");
+    assert.equal(fortyTwo.monthlyFee, 98);
+    assert.equal(fortyTwo.dataGb, 30);
     const ultimate36 = plan("cmhk-5g-ultimate-50-129-36m");
     assert.equal(ultimate36.freeMonths, 6);
     assert.equal(ultimate36.contractMonths, 36);

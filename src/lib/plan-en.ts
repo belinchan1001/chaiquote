@@ -114,7 +114,7 @@ const PHRASES: [string, string][] = [
   ["攜號轉台本地數據 60GB", "Port-in local data 60GB"],
   ["須由 3香港攜號轉台", "Must port in from 3HK"],
   ["20GB 加額外 10GB，合共 30GB", "20GB plus extra 10GB, 30GB total"],
-  ["10GB 加額外 5GB", "10GB plus extra 5GB"],
+  ["10GB 加額外數據，合共約 30GB", "10GB plus extra data, about 30GB total"],
   ["3GB 加額外 3GB，合共 6GB", "3GB plus extra 3GB, 6GB total"],
   ["50GB 基數及額外 50GB，合共 100GB", "50GB base plus extra 50GB, 100GB total"],
   ["100GB 基數及額外 100GB，合共 200GB", "100GB base plus extra 100GB, 200GB total"],
