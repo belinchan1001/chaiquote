@@ -16,13 +16,13 @@ export const AI_MONTHLY_BUDGET_USD = Math.round((AI_MONTHLY_BUDGET_HKD / HKD_PER
 export const AI_MODEL = "grok-4-fast";
 export const AI_INPUT_USD_PER_MILLION = 0.2;
 export const AI_OUTPUT_USD_PER_MILLION = 0.5;
-export const AI_MAX_OUTPUT_TOKENS = 350;
+export const AI_MAX_OUTPUT_TOKENS = 500;
 export const AI_MAX_MESSAGE_CHARS = 300;
 export const AI_MAX_PLANS = 5;
 export const AI_MAX_TURNS_PER_SESSION = 12;
 
 const FEE_TALK =
-  /HK\s*\$|港幣|月費|平均月費|回贈|行政費|安裝費|保證|最平|最抵|最低|cheapest|guarantee|best price|\$\s*\d/i;
+  /HK\s*\$|\$\s*\d|港幣\s*\d|平均月費|月費\s*(只需|低至|只要|HK|\$)|保證|最平|最抵|最低|cheapest|guarantee|best price/i;
 
 const CATEGORY_HINTS: { cat: Category; re: RegExp }[] = [
   { cat: "mobile", re: /手機|流動|sim|上台|轉台|攜號|5g\s*plan|數據卡/i },
@@ -221,11 +221,140 @@ export function parseAiJson(raw: string): AiModelJson {
   }
 }
 
-export function pickAllowedPlanIds(wanted: string[] | undefined, allowed: AiCatalogPlan[]) {
+export function pickAllowedPlanIds(
+  wanted: string[] | undefined,
+  allowed: AiCatalogPlan[],
+  fillIfEmpty = true,
+) {
   const allow = new Set(allowed.map((plan) => plan.id));
   const picked = (wanted ?? []).filter((id) => allow.has(id)).slice(0, 3);
   if (picked.length) return picked;
+  if (!fillIfEmpty) return [];
   return allowed.slice(0, 3).map((plan) => plan.id);
+}
+
+export function isQuestionIntent(message: string) {
+  return /有冇|係咪|點樣|點做|分別|包唔包|如何|什麼|甚麼|why|how |what |does |can |is chaiquote/i.test(
+    message,
+  );
+}
+
+export function isFilterIntent(message: string) {
+  return Boolean(
+    detectSpeed(message) ||
+      detectProvider(message) ||
+      matchKnownEstate(message) ||
+      /幫我揀|我想睇|有咩計劃|篩選|1000m|2500m|5000m|光纖|手機|5g 家居|村屋/i.test(message),
+  );
+}
+
+export type KnowledgeHit = {
+  id: string;
+  zh: string;
+  en: string;
+  attach: boolean;
+};
+
+export const QUESTION_CHIPS = [
+  { id: "village", zh: "村屋有冇光纖？", en: "Can village houses get fibre?" },
+  { id: "port", zh: "攜號轉台點做？", en: "How do I port my number?" },
+  { id: "housing", zh: "公屋同居屋有分別？", en: "Public housing vs HOS?" },
+] as const;
+
+const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
+  {
+    id: "official",
+    re: /官網|官方|係咪電訊|chaiquote.*(carrier|official)|independent/i,
+    zh: "齊Quote 唔係電訊商官網，係獨立比較網站。覆蓋、安裝期同實際條款以電訊商確認為準。要核實可以 WhatsApp 查核報價。",
+    en: "ChaiQuote is not a carrier website. It is an independent comparison site. Coverage, install dates and terms are confirmed by the carrier. Use WhatsApp to check a quote.",
+    attach: false,
+  },
+  {
+    id: "public-hos",
+    re: /公屋|居屋|價錢會唔會唔同|public housing|hos/i,
+    zh: "公屋同居屋好多時有指定供應商同批量價，每個屋邨／屋苑都可能唔同。篩選時可以分開揀樓類，問價時填齊屋苑名稱。",
+    en: "Public housing and HOS often have designated carriers and bulk rates, and each estate can differ. Filter by housing type and give the estate name when you check a quote.",
+    attach: true,
+  },
+  {
+    id: "village",
+    re: /村屋|丁屋|village house/i,
+    zh: "村屋光纖現時主要由香港寬頻、HGC 及網上行提供指定計劃；公屋、居屋及私人樓計劃一般不適用。尚未有光纖可一併比較 5G 家居。實際覆蓋須核對門牌。",
+    en: "Village fibre is mainly from HKBN, HGC and Netvigator on designated plans. Public, HOS and private plans usually do not apply. If there is no fibre yet, compare 5G home. Coverage must be checked against the address.",
+    attach: true,
+  },
+  {
+    id: "business",
+    re: /商業|舖頭|寫字樓|工商|business broadband/i,
+    zh: "商業寬頻多可加購固定 IP 及辦公時間技術支援，安裝以工商地址為準，適合店舖、寫字樓及工作室。家居計劃一般唔適用。",
+    en: "Business fibre often adds a fixed IP and office-hour support. Install is for a commercial address — shop, office or studio. Home plans usually do not apply.",
+    attach: true,
+  },
+  {
+    id: "gba",
+    re: /大灣區|中澳|內地數據|澳門數據|greater bay/i,
+    zh: "手機計劃可篩「大灣區數據」，即包含內地及／或澳門用量，或三地共享數據池。實際地區同用量以電訊商條款為準。",
+    en: "Mobile plans can be filtered for Greater Bay Area data — Mainland and/or Macao, or a shared pool. Regions and quota are confirmed in the carrier terms.",
+    attach: true,
+  },
+  {
+    id: "quote",
+    re: /點樣查核|點查核|點報價|how (do i )?check/i,
+    zh: "最快用右下角 WhatsApp 查核報價。篩過地址之後，訊息會帶你嘅申請地址。冇 WhatsApp 可以撳「留低電話」。",
+    en: "The fastest way is the green WhatsApp button. If you already filtered an address, it is included. No WhatsApp? Use leave-a-number.",
+    attach: false,
+  },
+  {
+    id: "port-in",
+    re: /攜號|轉台|port-?in|keep (my )?number/i,
+    zh: "手機攜號：向新台申請，新 SIM 未生效前舊卡仍然用得，一般 1 至 2 個工作天。唔好提早取消舊約。寬頻唔能夠攜號，要新台上門安裝，新線測好先取消舊台。",
+    en: "Mobile port-in: apply with the new carrier first. The old SIM works until the new one is active, usually 1–2 working days. Do not cancel early. Broadband cannot port a number — install the new line, test it, then cancel the old one.",
+    attach: true,
+  },
+  {
+    id: "fiber-5g",
+    re: /光纖.*5g|5g.*光纖|唔使拉線|fiber vs|fibre vs/i,
+    zh: "光纖入屋較穩，適合長住。5G 家居唔使拉線、插電就用，速度視乎現場訊號。村屋未有光纖時，5G 家居係常見後備。實際覆蓋要查核。",
+    en: "Fibre is steadier for a long stay. 5G home needs no cabling and depends on the site signal. It is a common fallback when village fibre is not in yet. Coverage must be checked.",
+    attach: true,
+  },
+  {
+    id: "contract",
+    re: /合約|約滿|提早終止|搬遷|early.terminat|contract/i,
+    zh: "合約期、免月費、提早終止同搬遷要以電訊商合約為準。未約滿就轉台，舊台可能收提早終止費。搬家先問清有冇包搬遷。",
+    en: "Contract length, free months, early termination and relocation follow the carrier contract. Switching before it ends may incur a fee. Ask about relocation before you move.",
+    attach: false,
+  },
+];
+
+export function matchKnowledge(message: string): KnowledgeHit | undefined {
+  const hit = KNOWLEDGE.find((row) => row.re.test(message));
+  if (!hit) return undefined;
+  return { id: hit.id, zh: hit.zh, en: hit.en, attach: hit.attach };
+}
+
+export function knowledgeBriefs() {
+  return KNOWLEDGE.map((row) => ({ id: row.id, zh: row.zh, en: row.en }));
+}
+
+export function composeFallback(input: {
+  message: string;
+  locale: "zh" | "en";
+  plans: AiCatalogPlan[];
+}) {
+  const hit = matchKnowledge(input.message);
+  const planIds = input.plans.slice(0, 3).map((plan) => plan.id);
+  if (hit) {
+    return {
+      reply: input.locale === "en" ? hit.en : hit.zh,
+      planIds: hit.attach ? planIds : [],
+    };
+  }
+  const filtering = isFilterIntent(input.message);
+  return {
+    reply: fallbackReply(filtering && planIds.length > 0, input.locale),
+    planIds: filtering ? planIds : [],
+  };
 }
 
 export function fallbackReply(hasPlans: boolean, locale: "zh" | "en") {

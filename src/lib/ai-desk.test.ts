@@ -5,7 +5,9 @@ import {
   containsFeeTalk,
   detectCategory,
   detectSpeed,
+  composeFallback,
   fallbackReply,
+  matchKnowledge,
   parseAiJson,
   pickAllowedPlanIds,
   retrievePlansForAsk,
@@ -58,7 +60,29 @@ describe("AI desk safety", () => {
     assert.ok(found.plans.some((plan) => plan.id.includes("village") || plan.housing === "village" || plan.housing === "all"));
     const blob = JSON.stringify(found.plans);
     assert.doesNotMatch(blob, /monthlyFee|averageFee|"rebate"/);
+    assert.equal(containsFeeTalk("最終條款以電訊商確認為準"), false);
     assert.equal(tokensToUsd(1_000_000, 0), 0.2);
     assert.equal(tokensToUsd(0, 1_000_000), 0.5);
+  });
+
+  it("answers general questions without dumping random plan cards", () => {
+    const official = matchKnowledge("齊Quote係咪電訊商官網");
+    assert.equal(official?.id, "official");
+    assert.equal(official?.attach, false);
+    assert.match(official?.zh ?? "", /獨立比較/);
+    const village = composeFallback({
+      message: "村屋有冇光纖？",
+      locale: "zh",
+      plans: [{ id: "hkbn-village-1000-27m", name: "村屋", provider: "香港寬頻", category: "broadband", network: "光纖", contractMonths: 27, housing: ["village"], perks: [] }],
+    });
+    assert.match(village.reply, /村屋光纖/);
+    assert.deepEqual(village.planIds, ["hkbn-village-1000-27m"]);
+    const faq = composeFallback({
+      message: "齊Quote係咪官網",
+      locale: "zh",
+      plans: [{ id: "hkbn-village-1000-27m", name: "村屋", provider: "香港寬頻", category: "broadband", network: "光纖", contractMonths: 27, housing: ["village"], perks: [] }],
+    });
+    assert.equal(faq.planIds.length, 0);
+    assert.doesNotMatch(faq.reply, /最平|保證|HK\$/);
   });
 });

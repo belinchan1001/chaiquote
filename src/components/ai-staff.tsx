@@ -4,7 +4,7 @@ import { Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { askAiDesk } from "@/lib/ai-ask";
-import { fallbackReply, retrievePlansForAsk } from "@/lib/ai-desk";
+import { fallbackReply, QUESTION_CHIPS, retrievePlansForAsk } from "@/lib/ai-desk";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
 import { getPlan } from "@/lib/plans";
@@ -202,6 +202,16 @@ export function AiStaffPanel() {
             <p className="bg-card px-3 py-2 text-sm text-muted shadow-[var(--shadow-border)]">{t("aiThinking")}</p>
           ) : null}
           <div className="flex flex-wrap gap-2">
+            {QUESTION_CHIPS.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className="h-11 rounded-full bg-card px-3 text-sm font-medium shadow-[var(--shadow-border)]"
+                onClick={() => void sendToAi(locale === "en" ? item.en : item.zh)}
+              >
+                {locale === "en" ? item.en : item.zh}
+              </button>
+            ))}
             {QUICK_REPLIES.map((item) => (
               <button
                 key={item.id}

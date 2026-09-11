@@ -5,7 +5,10 @@ import {
   AI_MAX_TURNS_PER_SESSION,
   AI_MODEL,
   AI_MONTHLY_BUDGET_USD,
+  composeFallback,
   fallbackReply,
+  knowledgeBriefs,
+  matchKnowledge,
   monthKey,
   parseAiJson,
   pickAllowedPlanIds,
@@ -86,8 +89,8 @@ async function completeJson(message: string, plans: AiCatalogPlan[], locale: "zh
 
   const system =
     locale === "en"
-      ? "You are ChaiQuote, an independent Hong Kong telecom comparison helper. Reply in JSON only: {\"reply\":\"...\",\"planIds\":[\"id\"]}. Pick at most 3 ids from the provided catalogue. Never mention prices, monthly fees, averages, rebates, admin fees, install fees, HK$, or words like cheapest/guarantee/lowest. Tell the user fees are on the cards and the carrier confirms terms. Do not invent plans."
-      : "你係齊Quote，獨立香港電訊比較幫手。只回 JSON：{\"reply\":\"...\",\"planIds\":[\"id\"]}。planIds 最多 3 個，必須來自提供嘅目錄。不准提及價錢、月費、平均月費、回贈、行政費、安裝費、HK$、最平、保證、最低。叫用戶睇下面卡片，實際以電訊商確認為準。唔好發明計劃。用廣東話短句。";
+      ? "You are the ChaiQuote AI specialist. Two jobs: (1) filter this site’s reference plans (2) answer general questions from the knowledge notes (fibre, 5G home, mobile, village houses, port-in, what ChaiQuote is). JSON only: {\"reply\":\"...\",\"planIds\":[\"id\"]}. Use planIds only when recommending or filtering plans; empty array for general FAQ. Never quote dollar amounts, HK$, averages, cheapest or guarantee. Fees stay on the cards; the carrier confirms terms. Do not invent plans or coverage."
+      : "你係齊Quote AI 專員。兩件事：1）幫訪客篩選站內參考計劃 2）用提供嘅知識答一般問題（光纖、5G家居、手機、村屋、攜號轉台、本站係咪官網）。只回 JSON：{\"reply\":\"...\",\"planIds\":[\"id\"]}。只有篩選／推介計劃先填 planIds，一般問題可以空陣列。不准報具體價錢、HK$、平均月費、最平、保證。價錢喺卡片，實際以電訊商確認為準。唔好發明計劃或覆蓋。用廣東話短句。";
 
   const res = await fetch("https://api.x.ai/v1/chat/completions", {
     method: "POST",
@@ -106,6 +109,7 @@ async function completeJson(message: string, plans: AiCatalogPlan[], locale: "zh
           role: "user",
           content: JSON.stringify({
             question: message,
+            knowledge: matchKnowledge(message) ?? knowledgeBriefs(),
             catalogue: catalogForModel(plans),
           }),
         },
@@ -171,10 +175,11 @@ export const askAiDesk = createServerFn({ method: "POST" })
       };
     }
     if (!process.env.XAI_API_KEY?.trim()) {
+      const composed = composeFallback({ message, locale, plans: retrieved.plans });
       return {
         ok: true,
-        reply: fallbackReply(planIds.length > 0, locale),
-        planIds,
+        reply: composed.reply,
+        planIds: composed.planIds,
         budgetLeftHkd: Math.max(0, Math.round(usdToHkd(AI_MONTHLY_BUDGET_USD - slot.usd))),
         usedModel: false,
       };
@@ -195,8 +200,9 @@ export const askAiDesk = createServerFn({ method: "POST" })
     }
 
     const parsed = parseAiJson(completion.text);
-    const chosen = pickAllowedPlanIds(parsed.planIds, retrieved.plans);
-    const reply = sanitizeAiReply(parsed.reply ?? fallbackReply(chosen.length > 0, locale), locale);
+    const composed = composeFallback({ message, locale, plans: retrieved.plans });
+    const chosen = pickAllowedPlanIds(parsed.planIds, retrieved.plans, composed.planIds.length > 0);
+    const reply = sanitizeAiReply(parsed.reply ?? composed.reply, locale);
     return {
       ok: true,
       reply,
