@@ -74,22 +74,21 @@ describe("trust/compliance copy", () => {
     const [zhHkt, enHkt] = quoted(messages, "hktStaffNote");
     const [zhHkbn, enHkbn] = quoted(messages, "hkbnStaffNote");
 
-    assert.equal(
-      zhHkt,
-      "網上行／CSL 計劃由本站核對過員工身份嘅該電訊商同事，經指定 WhatsApp 回覆。身份核對唔等於電訊商官方授權；我哋唔係電訊商官方客服。",
-    );
-    assert.equal(
-      zhHkbn,
-      "香港寬頻計劃由本站核對過員工身份嘅該電訊商同事，經指定 WhatsApp 回覆。身份核對唔等於電訊商官方授權；我哋唔係電訊商官方客服。",
-    );
+    assert.equal(zhHkt, "網上行／CSL 計劃經本站核對身份嘅電訊商同事，用指定 WhatsApp 回覆。唔係官方客服。");
+    assert.equal(zhHkbn, "香港寬頻計劃經本站核對身份嘅電訊商同事，用指定 WhatsApp 回覆。唔係官方客服。");
     assert.equal(
       enHkt,
-      "Netvigator / CSL plans are answered via the designated WhatsApp by carrier colleagues whose staff identity was checked by this site. An identity check is not carrier official authorization; we are not the carrier’s official customer service.",
+      "Netvigator / CSL plans are answered via the designated WhatsApp by carrier colleagues whose identity was checked by this site. Not official customer service.",
     );
     assert.equal(
       enHkbn,
-      "HKBN plans are answered via the designated WhatsApp by carrier colleagues whose staff identity was checked by this site. An identity check is not carrier official authorization; we are not the carrier’s official customer service.",
+      "HKBN plans are answered via the designated WhatsApp by carrier colleagues whose identity was checked by this site. Not official customer service.",
     );
+
+    for (const text of [zhHkt, zhHkbn]) {
+      assert.equal(text.includes("身份核對唔等於"), false, "longer authorization half remains");
+      assert.equal(text.includes("官方授權"), false, "longer authorization half remains");
+    }
 
     for (const text of [zhHkt, zhHkbn, enHkt, enHkbn]) {
       assert.equal(text.includes("正式認證員工"), false, "old certified-staff claim remains");
