@@ -8,14 +8,12 @@ import { PLANS, formatFee, getPlan, cheapestPlan, cheapestVillageBroadbandPlan }
 import { SITE } from "@/lib/site";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import type { MessageKey } from "@/lib/messages";
-import { HOME_SEO_TITLE } from "@/lib/canonical";
+import { HOME_SEO, canonicalUrl, shareHead } from "@/lib/canonical";
 import { JsonLd } from "@/components/json-ld";
 
 export const Route = createFileRoute("/")({
   component: Home,
-  head: () => ({
-    meta: [{ title: HOME_SEO_TITLE }],
-  }),
+  head: () => shareHead(HOME_SEO, canonicalUrl("/")),
 });
 
 const FEATURED_IDS = [
@@ -36,7 +34,7 @@ function Home() {
     ] as const
   ).flatMap(([label, plan]) => (plan ? [{ label, plan }] : []));
   const { t, updated } = useI18n();
-  usePageTitle(HOME_SEO_TITLE);
+  usePageTitle(HOME_SEO.title);
   const categories: {
     to: "/guides/$slug";
     slug: "fiber" | "home5g" | "mobile" | "business";

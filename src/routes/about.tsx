@@ -3,17 +3,18 @@ import { Button } from "@/components/ui/button";
 import { QuoteLink } from "@/components/quote-link";
 import { ProviderMark } from "@/components/provider-mark";
 import { useI18n, usePageTitle } from "@/lib/i18n";
+import { ABOUT_SEO, canonicalUrl, shareHead } from "@/lib/canonical";
 import { PLANS, PROVIDERS } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 
 export const Route = createFileRoute("/about")({
   component: AboutPage,
-  head: () => ({ meta: [{ title: `關於我們 · ${SITE.name}` }] }),
+  head: () => shareHead(ABOUT_SEO, canonicalUrl("/about")),
 });
 
 function AboutPage() {
   const { t, updated } = useI18n();
-  usePageTitle(`${t("aboutTitle")} · ${SITE.name}`);
+  usePageTitle(ABOUT_SEO.title);
   return (
     <div className="mx-auto max-w-2xl px-4 py-10">
       <h1 className="text-title font-semibold">{t("aboutTitle")}</h1>

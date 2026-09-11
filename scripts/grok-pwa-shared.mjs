@@ -417,16 +417,48 @@ export function titleFromDocument(html) {
   return match ? unescapeHtml(match[1]).trim() : "";
 }
 
+/** Contents of `<meta property|name="key">`, last match wins (child routes override). */
+export function metaContents(html, key) {
+  const out = [];
+  const source = String(html ?? "");
+  const re = /<meta\b[^>]*>/gi;
+  let match;
+  while ((match = re.exec(source))) {
+    const attrs = {};
+    for (const attr of match[0].matchAll(/\b(property|name|content)\s*=\s*["']([^"']*)["']/gi)) {
+      attrs[attr[1].toLowerCase()] = attr[2];
+    }
+    const ident = String(attrs.property || attrs.name || "").toLowerCase();
+    if (ident === key.toLowerCase() && attrs.content != null) {
+      const value = unescapeHtml(attrs.content).trim();
+      if (value) out.push(value);
+    }
+  }
+  return out;
+}
+
+export function descriptionFromDocument(html) {
+  // `name=description` is the page SEO source of truth (not stripped). Prefer
+  // it over a stale og:description the platform is about to replace.
+  const meta = metaContents(html, "description");
+  if (meta.length) return meta[meta.length - 1];
+  const og = metaContents(html, "og:description");
+  if (og.length) return og[og.length - 1];
+  return "";
+}
+
 export function resolveOgTitle(
   site = {},
   appName = DEFAULT_APP_NAME,
   host = "",
   documentTitle = "",
 ) {
-  const fromSite = String(site.title ?? "").trim();
-  if (fromSite) return fromSite;
+  // Page `<title>` wins so share previews can be per-route. site.json is the
+  // PWA / fallback name (齊Quote), not the Open Graph title for every URL.
   const fromDoc = String(documentTitle ?? "").trim();
   if (fromDoc) return fromDoc;
+  const fromSite = String(site.title ?? "").trim();
+  if (fromSite) return fromSite;
   const fromHost = appNameFromHost(host);
   if (fromHost && fromHost !== DEFAULT_APP_NAME) return fromHost;
   const fromArg = String(appName ?? "").trim();
@@ -458,6 +490,8 @@ export function grokOgHeadTags({
   appName = DEFAULT_APP_NAME,
   site = {},
   documentTitle = "",
+  documentDescription = "",
+  documentUrl = "",
   cwd = process.cwd(),
 } = {}) {
   const title = resolveOgTitle(site, appName, host, documentTitle);
@@ -465,10 +499,16 @@ export function grokOgHeadTags({
   const tags = [
     `<meta name="twitter:card" content="summary_large_image">`,
     `<meta property="og:title" content="${escapeHtml(title)}">`,
+    `<meta name="twitter:title" content="${escapeHtml(title)}">`,
   ];
-  const description = String(site.description ?? "").trim();
+  const description = String(documentDescription || site.description || "").trim();
   if (description) {
     tags.push(`<meta property="og:description" content="${escapeHtml(description)}">`);
+    tags.push(`<meta name="twitter:description" content="${escapeHtml(description)}">`);
+  }
+  const url = String(documentUrl ?? "").trim();
+  if (url) {
+    tags.push(`<meta property="og:url" content="${escapeHtml(url)}">`);
   }
   if (String(site.type ?? "").toLowerCase() === "x:game") {
     tags.push(`<meta property="og:type" content="x:game">`);
@@ -546,12 +586,11 @@ export function injectGrokPwaHead(html, ctx = {}) {
   if (typeof html !== "string") return html;
   const { site, projectId, creator, creatorId, host, cwd } = normalizeHeadContext(ctx);
   const documentTitle = titleFromDocument(html);
-  const appName = resolveOgTitle(
-    site,
-    ctx.appName ?? DEFAULT_APP_NAME,
-    host,
-    documentTitle,
-  );
+  const documentDescription = descriptionFromDocument(html);
+  const urls = metaContents(html, "og:url");
+  const documentUrl = urls.length ? urls[urls.length - 1] : "";
+  // PWA chrome keeps the site/app name. Share tags use the document title.
+  const appName = resolveOgTitle(site, ctx.appName ?? DEFAULT_APP_NAME, host);
   let next = stripShareMetaTags(html);
 
   const missing = grokPwaHeadTags(appName)
@@ -564,7 +603,15 @@ export function injectGrokPwaHead(html, ctx = {}) {
 
   next = insertAfterHeadOpen(
     next,
-    grokOgHeadTags({ host, appName, site, documentTitle, cwd }).join(""),
+    grokOgHeadTags({
+      host,
+      appName,
+      site,
+      documentTitle,
+      documentDescription,
+      documentUrl,
+      cwd,
+    }).join(""),
   );
 
   if (!next.includes("/grok-app-builder/extensions.js")) {

@@ -113,11 +113,37 @@ test("platform chrome overwrites share-card metas and always sets og:title", () 
   const out = isolatedHead(html, { appName: "Wild Race" });
   assert.match(out, /name="twitter:card" content="summary_large_image"/);
   assert.match(out, /property="og:title" content="Hello World"/);
+  assert.match(out, /name="twitter:title" content="Hello World"/);
   assert.doesNotMatch(out, /content="Old"/);
   assert.doesNotMatch(out, /content="summary"/);
   assert.equal(out.split('name="twitter:card"').length - 1, 1);
   assert.equal(out.split('property="og:title"').length - 1, 1);
   assert.doesNotMatch(out, /property="og:image"/);
+});
+
+test("document title and description win over site.json for share tags", () => {
+  const title = "齊Quote｜香港寬頻同手機月費比較";
+  const description =
+    "一次過比較香港光纖、5G 家居、商業同手機計劃。所列月費僅供參考，實際以電訊商確認為準。";
+  const html = `<html><head><title>${title}</title><meta name="description" content="${description}"><meta property="og:title" content="齊Quote"><meta property="og:description" content="old"><meta property="og:url" content="https://www.chaiquote.hk/"></head></html>`;
+  const out = isolatedHead(html, {
+    host: "www.chaiquote.hk",
+    site: { title: "齊Quote", card: "custom", image: "/og.jpg" },
+  });
+  assert.match(out, /property="og:title" content="齊Quote｜香港寬頻同手機月費比較"/);
+  assert.match(
+    out,
+    /property="og:description" content="一次過比較香港光纖、5G 家居、商業同手機計劃。所列月費僅供參考，實際以電訊商確認為準。"/,
+  );
+  assert.match(out, /name="twitter:title" content="齊Quote｜香港寬頻同手機月費比較"/);
+  assert.match(
+    out,
+    /name="twitter:description" content="一次過比較香港光纖、5G 家居、商業同手機計劃。所列月費僅供參考，實際以電訊商確認為準。"/,
+  );
+  assert.match(out, /property="og:url" content="https:\/\/www\.chaiquote\.hk\/"/);
+  assert.match(out, /name="apple-mobile-web-app-title" content="齊Quote"/);
+  assert.doesNotMatch(out, /property="og:title" content="齊Quote"/);
+  assert.doesNotMatch(out, /content="old"/);
 });
 
 test("does not duplicate twitter:card or og:title", () => {

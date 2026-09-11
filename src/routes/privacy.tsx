@@ -3,12 +3,13 @@ import { Button } from "@/components/ui/button";
 import { QuoteLink } from "@/components/quote-link";
 import { WhatsAppTip } from "@/components/whatsapp-tip";
 import { useI18n, usePageTitle } from "@/lib/i18n";
+import { PRIVACY_SEO, canonicalUrl, shareHead } from "@/lib/canonical";
 import { SITE } from "@/lib/site";
 import type { MessageKey } from "@/lib/messages";
 
 export const Route = createFileRoute("/privacy")({
   component: PrivacyPage,
-  head: () => ({ meta: [{ title: `私隱政策 · ${SITE.name}` }] }),
+  head: () => shareHead(PRIVACY_SEO, canonicalUrl("/privacy")),
 });
 
 const SECTIONS: { title: MessageKey; body: MessageKey }[] = [
@@ -25,7 +26,7 @@ const SECTIONS: { title: MessageKey; body: MessageKey }[] = [
 
 function PrivacyPage() {
   const { t, updated } = useI18n();
-  usePageTitle(`${t("privacyTitle")} · ${SITE.name}`);
+  usePageTitle(PRIVACY_SEO.title);
   const vars = { phone: SITE.phoneDisplay, date: updated, name: SITE.name };
 
   return (

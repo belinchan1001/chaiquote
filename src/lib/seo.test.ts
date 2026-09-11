@@ -7,12 +7,18 @@ import { SITE } from "./site.ts";
 import { getPlan, PLANS } from "./plans.ts";
 import { getGuide } from "./guides.ts";
 import {
+  ABOUT_SEO,
   canonicalRedirectLocation,
   canonicalUrl,
   canonicalUrlFromMatches,
+  CATEGORY_SEO,
   DEFAULT_SEO_ORIGIN,
+  GUIDES_SEO,
+  HOME_SEO,
   HOME_SEO_TITLE,
   isLegacyProductionHost,
+  LOCKED_PAGE_SEO,
+  PRIVACY_SEO,
   guideJsonLd,
   planJsonLd,
   planSeoDescription,
@@ -21,6 +27,7 @@ import {
   renderSitemapXml,
   runtimeSeoOrigin,
   seoOrigin,
+  shareHead,
   SITEMAP_PAGES,
 } from "./seo.ts";
 
@@ -176,9 +183,109 @@ describe("renderRobotsTxt", () => {
   });
 });
 
+describe("locked page share titles and descriptions", () => {
+  const CLAIM_WORDS = ["最抵", "最低", "最平"] as const;
+  const LOCKED = {
+    "/": {
+      title: "齊Quote｜香港寬頻同手機月費比較",
+      description:
+        "一次過比較香港光纖、5G 家居、商業同手機計劃。所列月費僅供參考，實際以電訊商確認為準。",
+    },
+    "/plans?cat=broadband": {
+      title: "齊Quote｜光纖寬頻比較",
+      description: "比較香港家居光纖參考月費同優惠。實際價格、覆蓋同安裝以電訊商確認為準。",
+    },
+    "/plans?cat=home5g": {
+      title: "齊Quote｜5G 家居寬頻比較",
+      description: "比較香港 5G 家居寬頻參考月費。所列月費僅供參考，實際以電訊商確認為準。",
+    },
+    "/plans?cat=mobile": {
+      title: "齊Quote｜手機月費比較",
+      description: "比較香港手機月費參考計劃。所列月費僅供參考，實際以電訊商確認為準。",
+    },
+    "/plans?cat=business": {
+      title: "齊Quote｜商業寬頻比較",
+      description: "比較香港商業寬頻參考月費。實際價格同條款以電訊商確認為準。",
+    },
+    "/about": {
+      title: "齊Quote｜關於我們",
+      description: "齊Quote 係獨立電訊比較平台，並沒有向電訊商收取佣金或廣告費。所列月費僅供參考。",
+    },
+    "/privacy": {
+      title: "齊Quote｜私隱政策",
+      description: "了解齊Quote 點樣收集同使用查核報價所需資料，以及你嘅查閱同改正權。",
+    },
+    "/guides": {
+      title: "齊Quote｜寬頻同手機攻略",
+      description: "點揀光纖、5G 家居同手機計劃。內容僅供參考，實際以電訊商確認為準。",
+    },
+  } as const;
+
+  it("keeps the exact zh-HK copy for all eight surfaces", () => {
+    assert.equal(HOME_SEO_TITLE, HOME_SEO.title);
+    assert.equal(HOME_SEO.title, LOCKED["/"].title);
+    assert.equal(HOME_SEO.description, LOCKED["/"].description);
+    assert.equal(CATEGORY_SEO.broadband.title, LOCKED["/plans?cat=broadband"].title);
+    assert.equal(CATEGORY_SEO.broadband.description, LOCKED["/plans?cat=broadband"].description);
+    assert.equal(CATEGORY_SEO.home5g.title, LOCKED["/plans?cat=home5g"].title);
+    assert.equal(CATEGORY_SEO.home5g.description, LOCKED["/plans?cat=home5g"].description);
+    assert.equal(CATEGORY_SEO.mobile.title, LOCKED["/plans?cat=mobile"].title);
+    assert.equal(CATEGORY_SEO.mobile.description, LOCKED["/plans?cat=mobile"].description);
+    assert.equal(CATEGORY_SEO.business.title, LOCKED["/plans?cat=business"].title);
+    assert.equal(CATEGORY_SEO.business.description, LOCKED["/plans?cat=business"].description);
+    assert.equal(ABOUT_SEO.title, LOCKED["/about"].title);
+    assert.equal(ABOUT_SEO.description, LOCKED["/about"].description);
+    assert.equal(PRIVACY_SEO.title, LOCKED["/privacy"].title);
+    assert.equal(PRIVACY_SEO.description, LOCKED["/privacy"].description);
+    assert.equal(GUIDES_SEO.title, LOCKED["/guides"].title);
+    assert.equal(GUIDES_SEO.description, LOCKED["/guides"].description);
+    assert.equal(LOCKED_PAGE_SEO.length, 8);
+    for (const page of LOCKED_PAGE_SEO) {
+      const expected = LOCKED[page.path];
+      assert.equal(page.title, expected.title, page.path);
+      assert.equal(page.description, expected.description, page.path);
+      assert.match(page.title, /^齊Quote｜/);
+      assert.notEqual(page.title, "齊Quote");
+      assert.notEqual(page.title, `${SITE.name} · ${SITE.tagline}`);
+      for (const word of CLAIM_WORDS) {
+        assert.equal(page.title.includes(word), false, `${page.path} title has ${word}`);
+        assert.equal(page.description.includes(word), false, `${page.path} description has ${word}`);
+      }
+    }
+  });
+
+  it("emits title, description, og:title, og:description, and twitter tags", () => {
+    const head = shareHead(HOME_SEO, "https://www.chaiquote.hk/");
+    const values = (key: string, field: "name" | "property") =>
+      head.meta.filter((tag) => "name" in tag || "property" in tag).filter((tag) => {
+        if (field === "name") return "name" in tag && tag.name === key;
+        return "property" in tag && tag.property === key;
+      });
+    assert.equal(head.meta.find((tag) => "title" in tag)?.title, HOME_SEO.title);
+    assert.equal(values("description", "name")[0]?.content, HOME_SEO.description);
+    assert.equal(values("og:title", "property")[0]?.content, HOME_SEO.title);
+    assert.equal(values("og:description", "property")[0]?.content, HOME_SEO.description);
+    assert.equal(values("twitter:title", "name")[0]?.content, HOME_SEO.title);
+    assert.equal(values("twitter:description", "name")[0]?.content, HOME_SEO.description);
+    assert.equal(values("og:url", "property")[0]?.content, "https://www.chaiquote.hk/");
+    assert.deepEqual(head.links, [{ rel: "canonical", href: "https://www.chaiquote.hk/" }]);
+  });
+
+  it("wires the eight surfaces through shareHead so copy cannot drift in routes", () => {
+    const src = (file: string) => readFileSync(join(ROOT, "src/routes", file), "utf8");
+    assert.match(src("index.tsx"), /shareHead\(HOME_SEO/);
+    assert.match(src("plans.tsx"), /shareHead\(CATEGORY_SEO\[cat\]/);
+    assert.match(src("about.tsx"), /shareHead\(ABOUT_SEO/);
+    assert.match(src("privacy.tsx"), /shareHead\(PRIVACY_SEO/);
+    assert.match(src("guides.tsx"), /shareHead\(GUIDES_SEO/);
+    assert.doesNotMatch(src("index.tsx"), /HOME_SEO_TITLE/);
+    assert.doesNotMatch(src("about.tsx"), /關於我們 ·/);
+    assert.doesNotMatch(src("privacy.tsx"), /私隱政策 ·/);
+  });
+});
+
 describe("plan SEO copy", () => {
   it("gives each plan a housing note and a 70–140 character description", () => {
-    assert.match(HOME_SEO_TITLE, /寬頻比較/);
     for (const plan of PLANS) {
       const title = planSeoTitle(plan);
       const description = planSeoDescription(plan);

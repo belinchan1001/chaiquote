@@ -81,27 +81,84 @@ export function plansCategoryPath(cat: unknown): string {
   return CATEGORY_PATHS.broadband;
 }
 
-export const HOME_SEO_TITLE = "齊Quote｜香港寬頻比較：光纖、5G家居、手機月費";
+/** Locked zh-HK share/SEO copy. Do not paraphrase; never add 最抵／最低／最平. */
+export type SeoCopy = {
+  title: string;
+  description: string;
+};
 
-export const CATEGORY_SEO: Record<Category, { title: string; description: string }> = {
+export const HOME_SEO = {
+  title: "齊Quote｜香港寬頻同手機月費比較",
+  description:
+    "一次過比較香港光纖、5G 家居、商業同手機計劃。所列月費僅供參考，實際以電訊商確認為準。",
+} as const satisfies SeoCopy;
+
+export const HOME_SEO_TITLE = HOME_SEO.title;
+
+export const ABOUT_SEO = {
+  title: "齊Quote｜關於我們",
+  description: "齊Quote 係獨立電訊比較平台，並沒有向電訊商收取佣金或廣告費。所列月費僅供參考。",
+} as const satisfies SeoCopy;
+
+export const PRIVACY_SEO = {
+  title: "齊Quote｜私隱政策",
+  description: "了解齊Quote 點樣收集同使用查核報價所需資料，以及你嘅查閱同改正權。",
+} as const satisfies SeoCopy;
+
+export const GUIDES_SEO = {
+  title: "齊Quote｜寬頻同手機攻略",
+  description: "點揀光纖、5G 家居同手機計劃。內容僅供參考，實際以電訊商確認為準。",
+} as const satisfies SeoCopy;
+
+export const CATEGORY_SEO: Record<Category, SeoCopy> = {
   broadband: {
-    title: "光纖寬頻比較｜齊Quote",
-    description:
-      "比較香港光纖寬頻月費，涵蓋公屋、居屋、私樓及村屋計劃。實際月費、覆蓋及安裝安排以電訊商確認為準。",
+    title: "齊Quote｜光纖寬頻比較",
+    description: "比較香港家居光纖參考月費同優惠。實際價格、覆蓋同安裝以電訊商確認為準。",
   },
   home5g: {
-    title: "5G家居寬頻比較｜齊Quote",
-    description:
-      "比較香港 5G 家居寬頻月費，免拉線隨插即用。實際速度、覆蓋及安裝安排以電訊商確認為準。",
+    title: "齊Quote｜5G 家居寬頻比較",
+    description: "比較香港 5G 家居寬頻參考月費。所列月費僅供參考，實際以電訊商確認為準。",
   },
   mobile: {
-    title: "手機月費比較｜齊Quote",
-    description:
-      "比較香港手機月費計劃，包括 5G、4.5G 及轉台優惠。實際月費及用量以電訊商確認為準。",
+    title: "齊Quote｜手機月費比較",
+    description: "比較香港手機月費參考計劃。所列月費僅供參考，實際以電訊商確認為準。",
   },
   business: {
-    title: "商業寬頻比較｜齊Quote",
-    description:
-      "比較香港商業寬頻月費，適合店舖、寫字樓及工作室。實際月費、覆蓋及安裝安排以電訊商確認為準。",
+    title: "齊Quote｜商業寬頻比較",
+    description: "比較香港商業寬頻參考月費。實際價格同條款以電訊商確認為準。",
   },
 };
+
+/** The eight public surfaces whose share titles/descriptions are locked. */
+export const LOCKED_PAGE_SEO = [
+  { path: "/", ...HOME_SEO },
+  { path: "/plans?cat=broadband", ...CATEGORY_SEO.broadband },
+  { path: "/plans?cat=home5g", ...CATEGORY_SEO.home5g },
+  { path: "/plans?cat=mobile", ...CATEGORY_SEO.mobile },
+  { path: "/plans?cat=business", ...CATEGORY_SEO.business },
+  { path: "/about", ...ABOUT_SEO },
+  { path: "/privacy", ...PRIVACY_SEO },
+  { path: "/guides", ...GUIDES_SEO },
+] as const;
+
+type ShareMeta =
+  | { title: string }
+  | { name: string; content: string }
+  | { property: string; content: string };
+
+/** Title, description, Open Graph, and Twitter tags for a locked SEO surface. */
+export function shareHead(seo: SeoCopy, url?: string): {
+  meta: ShareMeta[];
+  links?: { rel: string; href: string }[];
+} {
+  const meta: ShareMeta[] = [
+    { title: seo.title },
+    { name: "description", content: seo.description },
+    { property: "og:title", content: seo.title },
+    { property: "og:description", content: seo.description },
+    { name: "twitter:title", content: seo.title },
+    { name: "twitter:description", content: seo.description },
+  ];
+  if (url) meta.push({ property: "og:url", content: url });
+  return url ? { meta, links: [{ rel: "canonical", href: url }] } : { meta };
+}

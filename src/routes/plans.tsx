@@ -21,7 +21,7 @@ import {
 import { addressHitValue } from "@/lib/address-search";
 import { isHkbnFlashEstate, isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
 import { compactSearch, parsePlansSearch, planListReplayKey } from "@/lib/search";
-import { CATEGORY_SEO, plansCategoryPath, canonicalUrl } from "@/lib/canonical";
+import { CATEGORY_SEO, plansCategoryPath, canonicalUrl, shareHead } from "@/lib/canonical";
 import { bringPlanListIntoView, isPlanListInView, watchPlanListInView } from "@/lib/plan-list-fade";
 import {
   CATEGORY_OPTIONS,
@@ -52,18 +52,7 @@ export const Route = createFileRoute("/plans")({
   component: PlansPage,
   head: ({ match }) => {
     const cat = match.search.cat ?? "broadband";
-    const seo = CATEGORY_SEO[cat];
-    const url = canonicalUrl(plansCategoryPath(cat));
-    return {
-      meta: [
-        { title: seo.title },
-        { name: "description", content: seo.description },
-        { property: "og:title", content: seo.title },
-        { property: "og:description", content: seo.description },
-        { property: "og:url", content: url },
-      ],
-      links: [{ rel: "canonical", href: url }],
-    };
+    return shareHead(CATEGORY_SEO[cat], canonicalUrl(plansCategoryPath(cat)));
   },
 });
 

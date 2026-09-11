@@ -63,6 +63,8 @@ export declare function customOgAssetPath(cwd?: string): string;
 export declare function resolveOgCardAsset(site?: OgSite, cwd?: string): string;
 export declare function ogServiceUrl(): string;
 export declare function titleFromDocument(html: string): string;
+export declare function metaContents(html: string, key: string): string[];
+export declare function descriptionFromDocument(html: string): string;
 export declare function resolveOgTitle(
   site?: OgSite,
   appName?: string,
@@ -75,6 +77,8 @@ export declare function grokOgHeadTags(ctx?: {
   appName?: string;
   site?: OgSite;
   documentTitle?: string;
+  documentDescription?: string;
+  documentUrl?: string;
   cwd?: string;
 }): string[];
 export declare function stripShareMetaTags(html: string): string;
