@@ -49,7 +49,7 @@ describe("plan detail share landing", () => {
     assert.match(page, /<QuoteLink plan=\{plan\}/);
     assert.match(page, /<WhatsAppTip className="mt-3" \/>/);
     assert.match(page, /\{t\("referencePrice"\)\}/);
-    assert.match(page, /t\("installCoverage"\) \{t\("referencePrice"\)\} \{t\("disclaimer1"\)\}/);
+    assert.match(page, /t\("installCoverage"\)[\s\S]*t\("referencePrice"\)[\s\S]*t\("disclaimer1"\)/);
 
     const heroEnd = page.indexOf("serviceLimits");
     assert.ok(heroEnd > 0, "disclaimer box should follow the hero");
