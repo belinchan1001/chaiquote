@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-"""Rasterize 齊Quote PWA icons.
+"""Rasterize 齊Quote PWA icons and site favicons.
 
 Maskable + any-purpose assets draw a *bold* quote mark that fills ~78% of
 the canvas (not the sparse 32×32 lockup, whose 20×16 bbox looked like a
 tiny glyph on a blue field). Background is solid #1557C4.
+
+Favicons reuse the same mark: rounded-tile PNG at 32/48/96, plus a
+multi-size ICO (16/32/48) at the site root for crawlers such as Google.
 """
 
 from __future__ import annotations
@@ -28,7 +31,7 @@ PILL_W = 0.60
 SAMPLES = 2
 
 
-def write_png(path: Path, width: int, height: int, pixels: bytearray) -> None:
+def png_bytes(width: int, height: int, pixels: bytearray) -> bytes:
     def chunk(tag: bytes, data: bytes) -> bytes:
         return (
             struct.pack(">I", len(data))
@@ -42,12 +45,64 @@ def write_png(path: Path, width: int, height: int, pixels: bytearray) -> None:
     for y in range(height):
         raw.append(0)
         raw.extend(pixels[y * stride : (y + 1) * stride])
-    path.write_bytes(
+    return (
         b"\x89PNG\r\n\x1a\n"
         + chunk(b"IHDR", struct.pack(">IIBBBBB", width, height, 8, 6, 0, 0, 0))
         + chunk(b"IDAT", zlib.compress(bytes(raw), 9))
         + chunk(b"IEND", b"")
     )
+
+
+def write_png(path: Path, width: int, height: int, pixels: bytearray) -> None:
+    path.write_bytes(png_bytes(width, height, pixels))
+
+
+def ico_bmp32(size: int, pixels: bytearray) -> bytes:
+    """Classic 32-bit ICO image (BITMAPINFOHEADER + BGRA XOR + AND mask)."""
+    xor = bytearray()
+    for y in range(size - 1, -1, -1):
+        row = y * size * 4
+        for x in range(size):
+            i = row + x * 4
+            xor.extend((pixels[i + 2], pixels[i + 1], pixels[i], pixels[i + 3]))
+    row_bytes = ((size + 31) // 32) * 4
+    and_mask = bytearray()
+    for y in range(size - 1, -1, -1):
+        row = bytearray(row_bytes)
+        base = y * size * 4
+        for x in range(size):
+            if pixels[base + x * 4 + 3] < 128:
+                row[x // 8] |= 0x80 >> (x % 8)
+        and_mask.extend(row)
+    header = struct.pack(
+        "<IiiHHIIiiII",
+        40,
+        size,
+        size * 2,
+        1,
+        32,
+        0,
+        len(xor) + len(and_mask),
+        0,
+        0,
+        0,
+        0,
+    )
+    return header + bytes(xor) + bytes(and_mask)
+
+
+def write_ico(path: Path, images: list[tuple[int, bytearray]]) -> None:
+    count = len(images)
+    offset = 6 + 16 * count
+    entries = bytearray()
+    payloads: list[bytes] = []
+    for size, pixels in images:
+        payload = ico_bmp32(size, pixels)
+        payloads.append(payload)
+        dim = 0 if size >= 256 else size
+        entries.extend(struct.pack("<BBBBHHII", dim, dim, 0, 0, 1, 32, len(payload), offset))
+        offset += len(payload)
+    path.write_bytes(struct.pack("<HHH", 0, 1, count) + bytes(entries) + b"".join(payloads))
 
 
 def rounded_rect(px: float, py: float, x: float, y: float, w: float, h: float, r: float) -> bool:
@@ -164,21 +219,27 @@ def mark_extent(pixels: bytearray, size: int) -> tuple[float, float, float]:
     return span_w, span_h, coverage
 
 
-def emit(path: Path, size: int, *, rounded_tile: bool) -> None:
-    pixels = render(size, rounded_tile=rounded_tile)
+def assert_mark(label: str, pixels: bytearray, size: int) -> tuple[float, float, float]:
     span_w, span_h, coverage = mark_extent(pixels, size)
     if span_w < 0.70 or span_h < 0.70:
         raise SystemExit(
-            f"{path.name}: mark span {span_w:.0%}×{span_h:.0%} is still sparse "
+            f"{label}: mark span {span_w:.0%}×{span_h:.0%} is still sparse "
             f"(need ≥70% of canvas on both axes)"
         )
     if coverage < 0.40:
-        raise SystemExit(f"{path.name}: inner coverage {coverage:.1%} is too low")
+        raise SystemExit(f"{label}: inner coverage {coverage:.1%} is too low")
+    return span_w, span_h, coverage
+
+
+def emit(path: Path, size: int, *, rounded_tile: bool) -> bytearray:
+    pixels = render(size, rounded_tile=rounded_tile)
+    span_w, span_h, coverage = assert_mark(path.name, pixels, size)
     write_png(path, size, size, pixels)
     print(
         f"wrote {path} span={span_w:.0%}×{span_h:.0%} "
         f"coverage={coverage:.1%} bytes={path.stat().st_size}"
     )
+    return pixels
 
 
 def main() -> None:
@@ -191,7 +252,15 @@ def main() -> None:
     emit(OUT / "icon-512.png", 512, rounded_tile=True)
     emit(OUT / "apple-touch-icon.png", 180, rounded_tile=False)
     emit(GROK / "icon-180.png", 180, rounded_tile=False)
-    emit(OUT / "favicon-32.png", 32, rounded_tile=True)
+    favicon_32 = emit(OUT / "favicon-32.png", 32, rounded_tile=True)
+    favicon_48 = emit(OUT / "favicon-48.png", 48, rounded_tile=True)
+    emit(OUT / "favicon-96.png", 96, rounded_tile=True)
+    # Root ICO for crawlers that request /favicon.ico (Google wants a 48px square).
+    favicon_16 = render(16, rounded_tile=True)
+    assert_mark("favicon.ico 16", favicon_16, 16)
+    ico_path = OUT / "favicon.ico"
+    write_ico(ico_path, [(16, favicon_16), (32, favicon_32), (48, favicon_48)])
+    print(f"wrote {ico_path} sizes=16,32,48 bytes={ico_path.stat().st_size}")
 
 
 if __name__ == "__main__":
