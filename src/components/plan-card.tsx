@@ -6,6 +6,7 @@ import { PlanBadges } from "@/components/plan-badges";
 import { CertifiedStaffNote } from "@/components/certified-staff-note";
 import { LogoMark } from "@/components/logo";
 import { ProviderMark } from "@/components/provider-mark";
+import { PlanShareButton } from "@/components/plan-share-button";
 import { QuoteLink } from "@/components/quote-link";
 import { useDesk } from "@/lib/desk";
 import { registerFoilCard } from "@/lib/foil-scroll";
@@ -55,12 +56,13 @@ export function PlanCard({ plan }: { plan: Plan }) {
         <ProviderMark id={plan.providerId} />
         <div className="flex items-center gap-1">
           <PlanBadges plan={plan} />
+          <PlanShareButton plan={plan} />
           <button
             type="button"
             aria-label={inSaved ? t("unsave") : t("save")}
             aria-pressed={inSaved}
             onClick={() => toggleSaved(plan.id)}
-            className="relative flex size-11 items-center justify-center text-muted transition-[color] duration-150 hover:text-fg"
+            className="relative flex size-11 shrink-0 items-center justify-center text-muted transition-[color] duration-150 hover:text-fg"
           >
             <Bookmark className={cn("size-4", inSaved && "fill-fg text-fg")} />
           </button>
