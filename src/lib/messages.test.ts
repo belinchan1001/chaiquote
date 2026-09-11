@@ -76,7 +76,7 @@ describe("trust/compliance copy", () => {
 
     assert.equal(
       zhHkt,
-      "網上行／CSL 計劃經本站核對身份嘅電訊商同事，用指定 WhatsApp 回覆。回覆嘅係該電訊商指定授權銷售同事；本站不是官方客服。",
+      "網上行／CSL 計劃經本站核對身份的香港電訊HKT同事，用指定 WhatsApp 回覆。回覆嘅係該香港電訊HKT指定授權銷售同事；本站不是官方客服。",
     );
     assert.equal(
       zhHkbn,
@@ -84,7 +84,7 @@ describe("trust/compliance copy", () => {
     );
     assert.equal(
       enHkt,
-      "Netvigator / CSL plans are answered via the designated WhatsApp by carrier colleagues whose identity was checked by this site. Replies come from that carrier’s designated authorized sales colleagues; this site is not official customer service.",
+      "Netvigator / CSL plans are answered via designated WhatsApp by HKT colleagues whose identity was checked by this site. Replies are from that HKT designated authorized sales colleague; this site is not official customer service.",
     );
     assert.equal(
       enHkbn,
@@ -92,6 +92,7 @@ describe("trust/compliance copy", () => {
     );
 
     for (const text of [zhHkt, zhHkbn, enHkt, enHkbn]) {
+      assert.equal(text.includes("正式認證"), false, "old certified claim remains");
       assert.equal(text.includes("正式認證員工"), false, "old certified-staff claim remains");
       assert.equal(text.includes("官方認證"), false, "official-certification claim remains");
       assert.equal(text.includes("官方客服熱線"), false, "hotline wording remains");
