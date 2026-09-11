@@ -298,7 +298,7 @@ describe("plan SEO copy", () => {
     }
     const sample = getPlan("hkbn-ftth-1000-36m-98");
     assert.ok(sample);
-    assert.match(planSeoTitle(sample), /1000M 連 BE220 Wi-Fi 7/);
+    assert.match(planSeoTitle(sample), /1000M 連 Wi-Fi 7 路由器（BE220・36 個月）/);
     assert.equal(planJsonLd(sample)["@type"], "Product");
     assert.equal(planJsonLd(sample).offers.price, 98);
   });

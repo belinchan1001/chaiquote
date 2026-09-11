@@ -203,7 +203,7 @@ describe("HKBN 1000M four-in-one $199", () => {
 describe("HKBN AX23 stockout → Archer BE220 Wi-Fi 7", () => {
   it("swaps only the former AX23 / 指定 Wi-Fi 6 gifts and disambiguates the $98 name from BE230", () => {
     const wifi98 = plan("hkbn-ftth-1000-36m-98");
-    assert.equal(wifi98.name, "1000M 連 BE220 Wi-Fi 7 路由器（36 個月）");
+    assert.equal(wifi98.name, "1000M 連 Wi-Fi 7 路由器（BE220・36 個月）");
     assert.equal(wifi98.monthlyFee, 98);
     assert.equal(wifi98.contractMonths, 36);
     assert.deepEqual(wifi98.perks, [
@@ -211,7 +211,7 @@ describe("HKBN AX23 stockout → Archer BE220 Wi-Fi 7", () => {
       "首 36 個月額外免費 1000M 副線",
       "可選擇延遲服務生效日（最長 365 日）",
     ]);
-    assert.equal(toEnglish(wifi98.name), "1000M with BE220 Wi-Fi 7 router (36 months)");
+    assert.equal(toEnglish(wifi98.name), "1000M with Wi-Fi 7 router (BE220, 36 months)");
     assert.equal(toEnglish(wifi98.perks[0]), "Includes TP-Link Archer BE220 Wi-Fi 7 router");
 
     const be230 = plan("hkbn-ftth-1000-36m-108");

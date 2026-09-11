@@ -171,7 +171,7 @@ export const PLANS: Plan[] = [
     id: "hkbn-ftth-1000-36m-98",
     providerId: "hkbn",
     category: "broadband",
-    name: "1000M 連 BE220 Wi-Fi 7 路由器（36 個月）",
+    name: "1000M 連 Wi-Fi 7 路由器（BE220・36 個月）",
     monthlyFee: 98,
     freeMonths: 0,
     contractMonths: 36,

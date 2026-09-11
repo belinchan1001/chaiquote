@@ -509,7 +509,7 @@ const PHRASES: [string, string][] = [
   ["連遊戲路由器及娛樂組合", "with gaming router and entertainment bundle"],
   ["連 Wi-Fi 7 及娛樂組合", "with Wi-Fi 7 and entertainment bundle"],
   ["連 Mesh Wi-Fi 7", "with Mesh Wi-Fi 7"],
-  ["連 BE220 Wi-Fi 7 路由器", "with BE220 Wi-Fi 7 router"],
+  ["1000M 連 Wi-Fi 7 路由器（BE220・36 個月）", "1000M with Wi-Fi 7 router (BE220, 36 months)"],
   ["連 Wi-Fi 6 路由器", "with Wi-Fi 6 router"],
   ["連 Wi-Fi 7 路由器", "with Wi-Fi 7 router"],
   ["2500M 光纖連家居電話（24 個月＋Wi-Fi 7）", "2500M fibre with home phone (24 months + Wi-Fi 7)"],
