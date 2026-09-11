@@ -3,11 +3,13 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { getPlan } from "./plans.ts";
+import { formatFee, getPlan } from "./plans.ts";
 import { SITE } from "./site.ts";
 import {
   PLAN_SHARE_SENTENCE,
+  planShareBody,
   planShareClipboardText,
+  planShareFactsLine,
   planSharePayload,
   planShareUrl,
   shareOrCopyPlan,
@@ -23,34 +25,63 @@ function samplePlan() {
   return plan;
 }
 
+function assertNoClaimWords(...chunks: string[]) {
+  for (const chunk of chunks) {
+    for (const word of CLAIM_WORDS) {
+      assert.equal(chunk.includes(word), false, `share copy still claims ${word}: ${chunk}`);
+    }
+    assert.doesNotMatch(chunk, /保證/);
+  }
+}
+
+function assertShareFacts(plan: ReturnType<typeof samplePlan>, body: string) {
+  const fee = formatFee(plan.monthlyFee);
+  const url = `https://www.chaiquote.hk/plans/${plan.id}`;
+  assert.match(body, new RegExp(plan.name.replace(/[()]/g, "\\$&")));
+  assert.match(body, /月費/);
+  assert.match(body, new RegExp(fee.replace("$", "\\$")));
+  assert.match(body, /僅供參考/);
+  assert.match(body, /實際以電訊商確認為準/);
+  assert.match(body, new RegExp(`https://www\\.chaiquote\\.hk/plans/${plan.id}`));
+  assert.equal(body, `${plan.name}｜月費 ${fee}\n${PLAN_SHARE_SENTENCE}\n${url}`);
+}
+
 describe("plan share payload", () => {
-  it("shares the canonical plan detail URL with locked 僅供參考 copy", () => {
+  it("puts plan name, monthly fee, 僅供參考, and canonical URL in the share body", () => {
     const plan = samplePlan();
     const payload = planSharePayload(plan);
     const clipboard = planShareClipboardText(plan);
+    const facts = planShareFactsLine(plan);
+    const body = planShareBody(plan);
 
     assert.equal(planShareUrl(plan.id), `https://www.chaiquote.hk/plans/${plan.id}`);
     assert.equal(payload.url, `https://www.chaiquote.hk/plans/${plan.id}`);
     assert.equal(payload.url.startsWith(SITE.url), true);
     assert.doesNotMatch(payload.url, /[?&]cat=/);
     assert.doesNotMatch(payload.url, /\/plans\?/);
-    assert.equal(payload.text, PLAN_SHARE_SENTENCE);
-    assert.equal(payload.title, `${plan.name}｜${SITE.name}`);
-    assert.match(payload.text, /僅供參考/);
-    assert.match(clipboard, /僅供參考/);
-    assert.equal(clipboard, `${payload.url}\n${PLAN_SHARE_SENTENCE}`);
-    assert.match(clipboard, new RegExp(`https://www\\.chaiquote\\.hk/plans/${plan.id}`));
 
-    for (const word of CLAIM_WORDS) {
-      assert.equal(payload.text.includes(word), false, `share text still claims ${word}`);
-      assert.equal(payload.title.includes(word), false, `share title still claims ${word}`);
-      assert.equal(clipboard.includes(word), false, `clipboard still claims ${word}`);
-    }
-    assert.doesNotMatch(payload.text, /保證/);
-    assert.doesNotMatch(clipboard, /保證/);
+    assert.equal(facts, `${plan.name}｜月費 ${formatFee(plan.monthlyFee)}`);
+    assert.equal(payload.title, `${plan.name}｜${SITE.name}`);
+    assert.equal(payload.text, body);
+    assert.equal(clipboard, body);
+    assert.notEqual(payload.text, PLAN_SHARE_SENTENCE);
+    assertShareFacts(plan, payload.text);
+    assertShareFacts(plan, clipboard);
+
+    assertNoClaimWords(payload.text, payload.title, clipboard, PLAN_SHARE_SENTENCE);
   });
 
-  it("does not put a fee or official-price claim in the share sentence", () => {
+  it("formats the fee with formatFee, including fractional monthly fees", () => {
+    const stub = { id: "stub-plan", name: "測試計劃", monthlyFee: 98.5 };
+    assert.equal(formatFee(stub.monthlyFee), "HK$98.5");
+    assert.equal(planShareFactsLine(stub), "測試計劃｜月費 HK$98.5");
+    assert.equal(
+      planShareBody(stub),
+      `測試計劃｜月費 HK$98.5\n${PLAN_SHARE_SENTENCE}\nhttps://www.chaiquote.hk/plans/stub-plan`,
+    );
+  });
+
+  it("keeps the locked 僅供參考 sentence without a fee or official-price claim", () => {
     assert.equal(PLAN_SHARE_SENTENCE, "呢個計劃月費僅供參考，實際以電訊商確認為準。");
     assert.doesNotMatch(PLAN_SHARE_SENTENCE, /\$|HK\$|保證價|官方/);
     assert.doesNotMatch(PLAN_SHARE_SENTENCE, /最抵|最低|最平/);
@@ -58,7 +89,7 @@ describe("plan share payload", () => {
 });
 
 describe("share or copy fallback", () => {
-  it("prefers navigator.share with title/text/url", async () => {
+  it("prefers navigator.share with title/text/url including plan facts", async () => {
     const plan = samplePlan();
     const shared: unknown[] = [];
     const result = await shareOrCopyPlan(plan, {
@@ -71,9 +102,12 @@ describe("share or copy fallback", () => {
     });
     assert.equal(result, "shared");
     assert.deepEqual(shared, [planSharePayload(plan)]);
+    const payload = shared[0] as ReturnType<typeof planSharePayload>;
+    assertShareFacts(plan, payload.text);
+    assert.equal(payload.url, `https://www.chaiquote.hk/plans/${plan.id}`);
   });
 
-  it("copies URL + 僅供參考 when Web Share is unavailable", async () => {
+  it("copies name, fee, 僅供參考, and URL when Web Share is unavailable", async () => {
     const plan = samplePlan();
     const copied: string[] = [];
     const result = await shareOrCopyPlan(plan, {
@@ -84,8 +118,7 @@ describe("share or copy fallback", () => {
     assert.equal(result, "copied");
     assert.equal(copied.length, 1);
     assert.equal(copied[0], planShareClipboardText(plan));
-    assert.match(copied[0], /僅供參考/);
-    assert.match(copied[0], /https:\/\/www\.chaiquote\.hk\/plans\/hkbn-ftth-1000-36m-98/);
+    assertShareFacts(plan, copied[0]);
   });
 
   it("copies after a share failure, but not after AbortError", async () => {
@@ -101,6 +134,7 @@ describe("share or copy fallback", () => {
     });
     assert.equal(failed, "copied");
     assert.equal(copied[0], planShareClipboardText(plan));
+    assertShareFacts(plan, copied[0]);
 
     const abort = new Error("cancel");
     abort.name = "AbortError";
@@ -128,7 +162,7 @@ describe("share or copy fallback", () => {
       },
     });
     assert.equal(result, "copied");
-    assert.match(copied[0], /僅供參考/);
+    assertShareFacts(plan, copied[0]);
   });
 });
 
@@ -137,6 +171,7 @@ describe("plan card share control", () => {
     const card = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
     const button = readFileSync(join(here, "../components/plan-share-button.tsx"), "utf8");
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    const share = readFileSync(join(here, "plan-share.ts"), "utf8");
 
     assert.equal([...card.matchAll(/<PlanShareButton plan=\{plan\} \/>/g)].length, 1);
     assert.match(card, /<PlanBadges plan=\{plan\} \/>\s*<PlanShareButton plan=\{plan\} \/>\s*<button/);
@@ -153,6 +188,10 @@ describe("plan card share control", () => {
     assert.match(button, /shareOrCopyPlan\(plan\)/);
     assert.match(button, /aria-live="polite"/);
     assert.match(button, /size-11/);
+
+    assert.match(share, /from "\.\/plans\.ts"/);
+    assert.match(share, /formatFee\(plan\.monthlyFee\)/);
+    assert.doesNotMatch(share, /最抵|最低|最平|保證價/);
 
     assert.equal([...messages.matchAll(/share: "分享"/g)].length, 1);
     assert.match(messages, /shareCopied: "已複製連結"/);
