@@ -111,7 +111,7 @@ describe("HKBN student/youth 5G 30GB", () => {
     assert.equal(youth.quotePick, true);
     assert.deepEqual(
       PLANS.filter((p) => p.latestOffer).map((p) => p.id),
-      ["hkbn-ftth-1000-24m-199-mobile", "icable-ftth-1000-48m-58", "cmhk-5g-limited-50-129", "hkbn-5g-30-78-youth"],
+      ["hkbn-ftth-1000-24m-199-mobile", "icable-ftth-1000-48m-58", "cmhk-5g-limited-50-129", "cmhk-5g-limited-100-149", "hkbn-5g-30-78-youth"],
     );
     assert.deepEqual(
       PLANS.filter((p) => p.quotePick).map((p) => p.id),
@@ -137,6 +137,7 @@ describe("HKBN student/youth 5G 30GB", () => {
         "hkbn-ftth-2500-36m-148-flash",
         "hkbn-ftth-1000-36m-63-flash",
         "cmhk-5g-limited-50-129",
+        "cmhk-5g-limited-100-149",
         "hkbn-5g-30-78-youth",
       ],
     );
@@ -1017,6 +1018,7 @@ describe("CMHK mobile catalogue", () => {
       "cmhk-5g-ultimate-50-129-24m",
       "cmhk-5g-ultimate-50-129-36m",
       "cmhk-5g-limited-50-129",
+      "cmhk-5g-limited-100-149",
       "cmhk-5g-ultimate-100-149",
       "cmhk-5g-ultimate-200-199",
       "cmhk-5g-2places-20-youth-139",
@@ -1057,6 +1059,18 @@ describe("CMHK mobile catalogue", () => {
     assert.match(limited.roaming ?? "", /9GB/);
     assert.ok(limited.perks.includes("送 HK$400 月費回贈"));
     assert.equal(limited.portInPerk, "轉台可豁免每月行政費 HK$18");
+    const limited100 = plan("cmhk-5g-limited-100-149");
+    assert.equal(limited100.monthlyFee, 149);
+    assert.equal(limited100.freeMonths, 6);
+    assert.equal(limited100.contractMonths, 36);
+    assert.equal(limited100.rebate, 400);
+    assert.equal(limited100.dataGb, 100);
+    assert.equal(limited100.quotePick, true);
+    assert.equal(limited100.latestOffer, true);
+    assert.equal(averageFee(limited100), 113.1);
+    assert.match(limited100.roaming ?? "", /10GB/);
+    assert.ok(limited100.perks.includes("送 HK$400 月費回贈"));
+    assert.equal(limited100.portInPerk, "轉台可豁免每月行政費 HK$18");
     const threeHk = plan("cmhk-5g-trial-10-3hk-68");
     assert.equal(threeHk.monthlyFee, 68);
     assert.match(threeHk.limits ?? "", /3香港轉台/);
