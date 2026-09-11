@@ -13,6 +13,8 @@ const EXACT: Record<string, string> = {
     "Selected estates only. Installation fee applies. Coverage and install dates are confirmed by the carrier.",
   "僅適用於指定屋苑。本計劃為自動續約。可選擇延遲服務生效日（最長 365 日）。實際覆蓋同安裝期以電訊商確認為準。":
     "Selected estates only. This plan auto-renews. Service start can be deferred up to 365 days. Coverage and install dates are confirmed by the carrier.",
+  "僅適用於指定屋苑。本計劃為自動續約。免 3 個月月費。實際覆蓋同安裝期以電訊商確認為準。":
+    "Selected estates only. This plan auto-renews. Three months free. Coverage and install dates are confirmed by the carrier.",
   "僅適用於指定村屋地址。本計劃為 27 個月合約。可選擇延遲服務生效日（最長 365 日）。香港寬頻之公屋、居屋及私人樓宇計劃不適用於村屋地址。實際覆蓋須另行核對。":
     "Village-house addresses only. 27-month contract. Service start can be deferred up to 365 days. HKBN public/HOS/private plans do not apply to village houses. Coverage must be confirmed separately.",
   "僅適用於指定村屋地址。本計劃為 24 個月合約。可選擇延遲服務生效日（最長 365 日）。實際覆蓋須另行核對。":
@@ -418,11 +420,14 @@ const PHRASES: [string, string][] = [
   ["1000M 基本月費計劃（12 個月）", "1000M basic monthly plan (12 months)"],
   ["1000M 家居寬頻（24 個月）", "1000M home broadband (24 months)"],
   ["1000M 家居寬頻計劃（24 個月）", "1000M home broadband plan (24 months)"],
+  ["1000M 家居寬頻計劃（36 個月）", "1000M home broadband plan (36 months)"],
+  ["免 3 個月月費", "3 months free"],
   ["2500M GigaFast 寬頻（36 個月）", "2500M GigaFast broadband (36 months)"],
   ["指定屋苑專享", "Selected estates only"],
   ["送 HK$1,000 惠康超級市場及 Market Place 現金券（$50 × 20）", "HK$1,000 Wellcome and Market Place cash coupons ($50 × 20)"],
   ["適合指定屋苑、月費 $0 之 1000M 住戶", "For selected estates wanting 1000M at $0 monthly"],
   ["適合指定屋苑、需要 2500M 光纖及路由器之住戶", "For selected estates needing 2500M fibre and a router"],
+  ["適合指定屋苑、需要 1000M 光纖及免 3 個月月費之住戶", "For selected estates wanting 1000M fibre with 3 months free"],
   ["1000M 家居寬頻（36 個月）", "1000M home broadband (36 months)"],
   ["10000M 光纖入屋（24 個月）", "10000M FTTH (24 months)"],
   ["1000M 光纖入屋（48 個月）", "1000M FTTH (48 months)"],

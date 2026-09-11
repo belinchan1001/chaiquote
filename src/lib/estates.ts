@@ -315,7 +315,7 @@ YOHO Midtown|YOHO Midtown|元朗|private
 長亨|長亨邨|葵青|public
 青衣城|青衣城,Maritime Square|葵青|private
 灝景灣|灝景灣,Villa Esplanada|葵青|private
-藍澄灣|藍澄灣,Tierra Verde|葵青|private
+藍澄灣|藍澄灣,Tierra Verde,Rambler Crest|葵青|private
 盈翠半島|盈翠,Nerine Cove|葵青|private
 東涌逸東邨|逸東,Yat Tung|離島|public|東涌
 滿東邨|滿東,Mun Tung|離島|public|東涌

@@ -197,7 +197,7 @@ export const EXTRA_RAW = `
 青榕苑|青榕,Ching Yung Court|葵青|hos
 青泰苑|青泰,Ching Tai Court|葵青|hos
 偉景花園|Wonderland Villas|葵青|private
-翠怡花園|Tivoli Garden|葵青|private
+翠怡花園|Tivoli Garden,Greenery Plaza|葵青|private
 海欣花園|Hoi Shing Garden|葵青|private
 浩景臺|Hong Jing Terrace|葵青|private
 曉峯園|Villa Esplanada|葵青|private
@@ -777,4 +777,8 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 仁愛居|Yan Oi House,洪水橋仁愛居|元朗|public|洪水橋||洪安里8號
 樂翹樓|Eminence Tower,樂翹樓1座|元朗|public|洪水橋
 啟福居|Kai Fook Kui,沐安街過渡性房屋,啟德啟福居|九龍城|public|啟德||沐安街
+逸瓏園|The Mediterranean Sai Kung,逸瓏園西貢|西貢|private
+樂嘉中心|Roca Centre|荃灣|private
+逸意居|The Floridian Hung Hom,土瓜灣逸意居|九龍城|private|土瓜灣
+彩頤居|Cheerful Court,彩頤|黃大仙|hos
 `.trim();

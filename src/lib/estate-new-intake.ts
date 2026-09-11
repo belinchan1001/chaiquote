@@ -93,6 +93,21 @@ export const HKBN_FLASH_OFFER_ESTATES = [
   "啟福居",
 ] as const;
 
+/** HKBN flash fibre for listed LPR estates (public / HOS / private). */
+export const HKBN_LPR_FLASH_ESTATES = [
+  "安泰邨",
+  "榮昌邨",
+  "美盈苑",
+  "宏富苑",
+  "藍澄灣",
+  "逸瓏園",
+  "翠怡花園",
+  "樂嘉中心",
+  "逸意居",
+  "帝景灣",
+  "彩頤居",
+] as const;
+
 const NEW_INTAKE_PARENTS = ESTATES.filter((estate) => NEW_INTAKE_NAMES.has(estate.name));
 const NEW_INTAKE_BLOCK_NAMES = new Set<string>();
 
@@ -138,7 +153,10 @@ export function isNetvigatorOnlyEstate(query?: string): boolean {
 }
 
 export function isHkbnFlashEstate(query?: string): boolean {
-  return estateUnlocksPlan(query, HKBN_FLASH_OFFER_ESTATES);
+  return (
+    estateUnlocksPlan(query, HKBN_FLASH_OFFER_ESTATES) ||
+    estateUnlocksPlan(query, HKBN_LPR_FLASH_ESTATES)
+  );
 }
 
 export function newIntakeGroups<T extends { estate: { name: string } }>(

@@ -1,4 +1,4 @@
-import { HKBN_FLASH_OFFER_ESTATES, HKBN_INTAKE_OFFER_ESTATES, estateUnlocksPlan, isNetvigatorOnlyEstate } from "./estate-new-intake.ts";
+import { HKBN_FLASH_OFFER_ESTATES, HKBN_INTAKE_OFFER_ESTATES, HKBN_LPR_FLASH_ESTATES, estateUnlocksPlan, isNetvigatorOnlyEstate } from "./estate-new-intake.ts";
 
 export type Category = "broadband" | "mobile" | "home5g" | "business";
 export type Housing = "public" | "hos" | "private" | "village";
@@ -91,6 +91,8 @@ const LIMITS_ICABLE_FTTH_NO_VILLAGE = "適用於公屋、居屋及私人樓宇�
 const LIMITS_HKBN_FLASH = "僅適用於指定屋苑。須繳付安裝費。實際覆蓋同安裝期以電訊商確認為準。";
 const LIMITS_HKBN_FLASH_2500 =
   "僅適用於指定屋苑。本計劃為自動續約。可選擇延遲服務生效日（最長 365 日）。實際覆蓋同安裝期以電訊商確認為準。";
+const LIMITS_HKBN_FLASH_63 =
+  "僅適用於指定屋苑。本計劃為自動續約。免 3 個月月費。實際覆蓋同安裝期以電訊商確認為準。";
 const LIMITS_HOME5G_SPEED =
   "實際速度介乎 100M 至 1000M，視乎訊號覆蓋、裝置數量及現場環境而定。";
 const LIMITS_CMHK_HOME5G =
@@ -1372,7 +1374,7 @@ export const PLANS: Plan[] = [
     contractMonths: 36,
     speedMbps: 2500,
     install: "豁免安裝費",
-    housing: ["public", "hos"],
+    housing: ["public", "hos", "private"],
     network: "光纖入屋",
     prepaid: PREPAID_HKBN_200,
     perks: [
@@ -1383,8 +1385,28 @@ export const PLANS: Plan[] = [
     limits: LIMITS_HKBN_FLASH_2500,
     quotePick: true,
     flashOffer: true,
-    onlyEstates: [...HKBN_FLASH_OFFER_ESTATES],
+    onlyEstates: [...HKBN_FLASH_OFFER_ESTATES, ...HKBN_LPR_FLASH_ESTATES],
     bestFor: "適合指定屋苑、需要 2500M 光纖及路由器之住戶",
+  },
+  {
+    id: "hkbn-ftth-1000-36m-63-flash",
+    providerId: "hkbn",
+    category: "broadband",
+    name: "1000M 家居寬頻計劃（36 個月）",
+    monthlyFee: 63,
+    freeMonths: 0,
+    contractMonths: 36,
+    speedMbps: 1000,
+    install: "豁免安裝費",
+    housing: ["public", "hos", "private"],
+    network: "光纖入屋",
+    prepaid: PREPAID_HKBN_200,
+    perks: ["免 3 個月月費", PERK_HKBN_SAFE],
+    limits: LIMITS_HKBN_FLASH_63,
+    quotePick: true,
+    flashOffer: true,
+    onlyEstates: [...HKBN_LPR_FLASH_ESTATES],
+    bestFor: "適合指定屋苑、需要 1000M 光纖及免 3 個月月費之住戶",
   },
   {
     id: "smartone-ftth-1000",

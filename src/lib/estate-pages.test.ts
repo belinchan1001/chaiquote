@@ -17,6 +17,7 @@ import {
 import {
   HKBN_FLASH_OFFER_ESTATES,
   HKBN_INTAKE_OFFER_ESTATES,
+  HKBN_LPR_FLASH_ESTATES,
   NEW_INTAKE,
   NEW_INTAKE_NAMES,
   estateUnlocksPlan,
@@ -269,5 +270,62 @@ describe("estate SEO pages", () => {
     assert.ok(ids.every((id) => cheung.broadband.some((plan) => plan.id === id)));
     const pakTinPage = estatePlans(ESTATES.find((item) => item.name === "白田邨")!);
     assert.ok(ids.every((id) => !pakTinPage.broadband.some((plan) => plan.id === id)));
+  });
+
+  it("hides HKBN LPR flash fibre until a listed estate is searched", () => {
+    const sixtyThree = getPlan("hkbn-ftth-1000-36m-63-flash")!;
+    const giga = getPlan("hkbn-ftth-2500-36m-148-flash")!;
+    const zero = getPlan("hkbn-ftth-1000-24m-0-flash")!;
+    assert.equal(sixtyThree.providerId, "hkbn");
+    assert.equal(sixtyThree.flashOffer, true);
+    assert.equal(sixtyThree.quotePick, true);
+    assert.equal(sixtyThree.newIntakeOffer, undefined);
+    assert.equal(sixtyThree.monthlyFee, 63);
+    assert.equal(sixtyThree.contractMonths, 36);
+    assert.equal(sixtyThree.speedMbps, 1000);
+    assert.equal(sixtyThree.install, "豁免安裝費");
+    assert.ok(sixtyThree.perks.includes("免 3 個月月費"));
+    assert.match(sixtyThree.prepaid ?? "", /HK\$200/);
+    assert.deepEqual(sixtyThree.housing, ["public", "hos", "private"]);
+    assert.ok(sixtyThree.onlyEstates?.includes("安泰邨"));
+    assert.equal(sixtyThree.onlyEstates?.includes("長沙灣邨"), false);
+    assert.ok(giga.onlyEstates?.includes("安泰邨"));
+    assert.ok(giga.onlyEstates?.includes("長沙灣邨"));
+    assert.ok(giga.housing.includes("private"));
+    const hidden = filterPlans({ cat: "broadband" }).map((plan) => plan.id);
+    assert.equal(hidden.includes("hkbn-ftth-1000-36m-63-flash"), false);
+    const intake = filterPlans({ cat: "broadband", intake: true }).map((plan) => plan.id);
+    assert.equal(intake.includes("hkbn-ftth-1000-36m-63-flash"), false);
+    const cheungShaWan = filterPlans({ cat: "broadband", housing: "public", estate: "長沙灣邨" }).map((plan) => plan.id);
+    assert.equal(cheungShaWan.includes("hkbn-ftth-1000-36m-63-flash"), false);
+    assert.equal(cheungShaWan.includes("hkbn-ftth-2500-36m-148-flash"), true);
+    assert.equal(cheungShaWan.includes(zero.id), true);
+    for (const name of HKBN_LPR_FLASH_ESTATES) {
+      assert.equal(estateUnlocksPlan(name, HKBN_LPR_FLASH_ESTATES), true, name);
+      assert.equal(matchKnownEstate(name)?.name, name, name);
+    }
+    const onTai = filterPlans({ cat: "broadband", housing: "public", estate: "安泰邨" }).map((plan) => plan.id);
+    assert.equal(onTai.includes("hkbn-ftth-1000-36m-63-flash"), true);
+    assert.equal(onTai.includes("hkbn-ftth-2500-36m-148-flash"), true);
+    assert.equal(onTai.includes(zero.id), false);
+    const rambler = filterPlans({ cat: "broadband", housing: "private", estate: "藍澄灣" }).map((plan) => plan.id);
+    assert.equal(rambler.includes("hkbn-ftth-1000-36m-63-flash"), true);
+    assert.equal(rambler.includes("hkbn-ftth-2500-36m-148-flash"), true);
+    const greenery = filterPlans({ cat: "broadband", housing: "private", estate: "翠怡花園" }).map((plan) => plan.id);
+    assert.equal(greenery.includes("hkbn-ftth-1000-36m-63-flash"), true);
+    const floridian = filterPlans({ cat: "broadband", housing: "private", estate: "逸意居" }).map((plan) => plan.id);
+    assert.equal(floridian.includes("hkbn-ftth-1000-36m-63-flash"), true);
+    const cheerful = filterPlans({ cat: "broadband", housing: "hos", estate: "彩頤居" }).map((plan) => plan.id);
+    assert.equal(cheerful.includes("hkbn-ftth-1000-36m-63-flash"), true);
+    assert.equal(searchEstates("逸瓏園", 8)[0]?.name, "逸瓏園");
+    assert.equal(searchEstates("樂嘉中心", 8)[0]?.name, "樂嘉中心");
+    assert.equal(searchEstates("彩頤居", 8)[0]?.name, "彩頤居");
+    const onTaiPage = estatePlans(ESTATES.find((item) => item.name === "安泰邨")!);
+    assert.ok(onTaiPage.broadband.some((plan) => plan.id === "hkbn-ftth-1000-36m-63-flash"));
+    assert.ok(onTaiPage.broadband.some((plan) => plan.id === "hkbn-ftth-2500-36m-148-flash"));
+    assert.equal(
+      onTaiPage.broadband.some((plan) => plan.id === "hkbn-ftth-1000-24m-0-flash"),
+      false,
+    );
   });
 });
