@@ -24,6 +24,7 @@ export function FilterLink({
     <Link
       to="/plans"
       replace
+      resetScroll={false}
       viewTransition={false}
       preload="intent"
       search={compactSearch(search)}

@@ -127,6 +127,11 @@
     transform: none !important;
   }
 
+  .plan-list > *,
+  .plan-list-enter > * {
+    opacity: 1 !important;
+  }
+
   .plan-card-shine > .foil {
     opacity: 0.1 !important;
     background-position: 28% 42% !important;
@@ -190,10 +195,15 @@
 
   .plan-list {
     overflow-anchor: none;
+    scroll-margin-top: 5rem;
   }
   .plan-list > * {
     min-width: 0;
     pointer-events: auto;
+  }
+  .plan-list:not(.plan-list-enter) > * {
+    opacity: 0;
+    transform: translateY(12px);
   }
   .plan-list-item > article {
     height: 100%;

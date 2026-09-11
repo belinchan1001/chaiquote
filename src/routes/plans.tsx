@@ -21,6 +21,7 @@ import {
 import { addressHitValue } from "@/lib/address-search";
 import { compactSearch, parsePlansSearch, planListReplayKey } from "@/lib/search";
 import { CATEGORY_SEO, plansCategoryPath, canonicalUrl } from "@/lib/canonical";
+import { bringPlanListIntoView, isPlanListInView, watchPlanListInView } from "@/lib/plan-list-fade";
 import {
   CATEGORY_OPTIONS,
   GENERATION_OPTIONS,
@@ -93,7 +94,8 @@ function PlansPage() {
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [estateDraft, setEstateDraft] = useState(search.estate ?? "");
   const [qDraft, setQDraft] = useState(search.q ?? "");
-  const [listEntering, setListEntering] = useState(true);
+  const [listEntering, setListEntering] = useState(false);
+  const listRef = useRef<HTMLDivElement>(null);
   const replayKey = planListReplayKey(search);
   const prevReplayKey = useRef(replayKey);
   const { t, providerName, categoryLabel, housingLabel } = useI18n();
@@ -138,22 +140,58 @@ function PlansPage() {
   }, [qDraft]);
 
   useEffect(() => {
-    if (prevReplayKey.current === replayKey) return;
+    const replay = prevReplayKey.current !== replayKey;
     prevReplayKey.current = replayKey;
-    setListEntering(false);
+    if (replay) setListEntering(false);
+    if (rows.length === 0) return;
+
+    let cancelled = false;
     let inner = 0;
-    const outer = requestAnimationFrame(() => {
-      inner = requestAnimationFrame(() => setListEntering(true));
-    });
-    return () => {
-      cancelAnimationFrame(outer);
-      cancelAnimationFrame(inner);
+    let stopWatch = () => {};
+    const reduced =
+      typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const arm = () => {
+      if (cancelled) return;
+      const list = listRef.current;
+      if (!list) return;
+      if (replay) bringPlanListIntoView(list);
+      if (reduced) {
+        setListEntering(true);
+        return;
+      }
+      if (isPlanListInView(list.getBoundingClientRect(), window.innerHeight)) {
+        setListEntering(true);
+        return;
+      }
+      stopWatch = watchPlanListInView(list, () => {
+        if (!cancelled) setListEntering(true);
+      });
     };
-  }, [replayKey]);
+
+    if (replay) {
+      const outer = requestAnimationFrame(() => {
+        inner = requestAnimationFrame(arm);
+      });
+      return () => {
+        cancelled = true;
+        cancelAnimationFrame(outer);
+        cancelAnimationFrame(inner);
+        stopWatch();
+      };
+    }
+
+    arm();
+    return () => {
+      cancelled = true;
+      stopWatch();
+    };
+  }, [replayKey, rows.length]);
 
   function patch(next: Partial<PlansSearch>) {
     startTransition(() => {
       void navigate({
+        resetScroll: false,
         search: (prev) => {
           const merged = { ...prev, ...next };
           if (
@@ -236,6 +274,7 @@ function PlansPage() {
           <Link
             to="/plans"
             search={resetSearch}
+            resetScroll={false}
             className="inline-flex h-11 items-center px-3 text-sm text-muted underline-offset-4 hover:underline"
           >
             {t("clearAll")}
@@ -246,7 +285,12 @@ function PlansPage() {
       {search.housing === "village" && search.cat === "broadband" ? (
         <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
           {t("villageNote")}{" "}
-          <Link to="/plans" search={{ cat: "home5g", housing: "village" }} className="text-accent underline">
+          <Link
+            to="/plans"
+            search={{ cat: "home5g", housing: "village" }}
+            resetScroll={false}
+            className="text-accent underline"
+          >
             {t("villageNoteLink")}
           </Link>
           {t("villageNoteEnd")}
@@ -422,6 +466,7 @@ function PlansPage() {
             <Link
               to="/plans"
               search={compactSearch({ ...search, saved: search.saved ? undefined : true })}
+              resetScroll={false}
               className={
                 search.saved
                   ? "inline-flex h-11 flex-1 items-center justify-center rounded-md bg-accent px-4 text-sm font-medium text-accent-foreground"
@@ -441,6 +486,7 @@ function PlansPage() {
           <Link
             to="/plans"
             search={resetSearch}
+            resetScroll={false}
             className="mt-6 inline-flex h-11 items-center rounded-md border border-border px-4 text-sm font-medium"
           >
             {t("resetFilter")}
@@ -449,6 +495,7 @@ function PlansPage() {
       ) : (
         <>
           <div
+            ref={listRef}
             className={
               listEntering
                 ? "plan-list plan-list-enter mt-8 grid gap-4 md:grid-cols-2"
