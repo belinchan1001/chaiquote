@@ -995,6 +995,14 @@ describe("HGC village broadband install waiver", () => {
     assert.equal(hkbnVillage.install, "豁免安裝費（原價 HK$680）");
     assert.match(hkbnVillage.limits ?? "", /實際覆蓋須另行核對/);
 
+    const village2500Upgrade = plan("hkbn-village-2500-upgrade");
+    assert.equal(village2500Upgrade.monthlyFee, 378);
+    assert.equal(village2500Upgrade.freeMonths, 3);
+    assert.equal(village2500Upgrade.contractMonths, 27);
+    assert.equal(averageFee(village2500Upgrade), 336);
+    assert.ok(village2500Upgrade.perks.some((perk) => perk.includes("只繳 24 個月")));
+    assert.ok(village2500Upgrade.perks.some((perk) => perk.includes("HK$1,104")));
+
     const netvigatorVillage = plan("netvigator-ftth-1000-village-36m");
     assert.equal(netvigatorVillage.install, "豁免安裝費");
     assert.match(netvigatorVillage.limits ?? "", /實際覆蓋須核對門牌/);

@@ -590,7 +590,7 @@ export const PLANS: Plan[] = [
     providerId: "hkbn",
     category: "broadband",
     name: "村屋 2500M 升級旗艦（27 個月＋Wi-Fi 7）",
-    monthlyFee: 424,
+    monthlyFee: 378,
     freeMonths: 3,
     contractMonths: 27,
     speedMbps: 2500,
@@ -598,7 +598,8 @@ export const PLANS: Plan[] = [
     housing: ["village"],
     network: "光纖入屋",
     perks: [
-      "原 1000M 計劃加購每月 HK$46（24 個月），合約期內自動升級至 2500M",
+      "第 13 至第 15 個月免費",
+      "加購每月 HK$46（只繳 24 個月，合共 HK$1,104），合約期內自動升級至 2500M",
       "送 TP-Link BE230 Wi-Fi 7 路由器（合約後無須歸還）",
       "可選擇延遲服務生效日（最長 365 日）",
     ],
