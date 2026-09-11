@@ -23,7 +23,8 @@ describe("WhatsApp pulse", () => {
     assert.match(header, /waHeaderShort/);
     assert.match(header, /max-sm:h-11 max-sm:w-11/);
     assert.match(header, /max-sm:w-20/);
-    assert.match(widget, /wa-pulse wa-pulse-fab/);
+    assert.match(widget, /void sendToAi\(locale === "en" \? item\.textEn : item\.text\)/);
+    assert.match(widget, /retrievePlansForAsk/);
     assert.doesNotMatch(card, /wa-pulse/);
     assert.doesNotMatch(page, /wa-pulse|whatsapp-pulse|tilt/);
     assert.doesNotMatch(quote, /whatsappHref\([^)]*pulse/);

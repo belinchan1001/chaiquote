@@ -4,6 +4,7 @@ import {
   AI_MONTHLY_BUDGET_HKD,
   containsFeeTalk,
   detectCategory,
+  detectSpeed,
   fallbackReply,
   parseAiJson,
   pickAllowedPlanIds,
@@ -48,6 +49,8 @@ describe("AI desk safety", () => {
 
   it("retrieves village fibre without putting fees in the catalogue payload", () => {
     assert.equal(detectCategory("村屋 1000M 光纖"), "broadband");
+    assert.equal(detectSpeed("村屋 1000M 光纖"), 1000);
+    assert.equal(detectSpeed("1000M／2500M／5000M／10000M"), undefined);
     const found = retrievePlansForAsk({ message: "村屋 1000M 光纖" });
     assert.equal(found.category, "broadband");
     assert.ok(found.plans.length >= 1);

@@ -132,10 +132,9 @@ export function detectCategory(message: string): Category {
 }
 
 export function detectSpeed(message: string) {
-  for (const row of SPEED_HINTS) {
-    if (row.re.test(message)) return row.speed;
-  }
-  return undefined;
+  const hits = SPEED_HINTS.filter((row) => row.re.test(message));
+  if (hits.length !== 1) return undefined;
+  return hits[0].speed;
 }
 
 export function detectProvider(message: string): ProviderId | undefined {

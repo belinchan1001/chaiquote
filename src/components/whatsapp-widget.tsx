@@ -6,6 +6,7 @@ import { WhatsAppTip } from "@/components/whatsapp-tip";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { askAiDesk } from "@/lib/ai-ask";
+import { fallbackReply, retrievePlansForAsk } from "@/lib/ai-desk";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
 import { getPlan } from "@/lib/plans";
@@ -95,6 +96,13 @@ export function WhatsAppWidget() {
     setBubbles((prev) => [...prev, { id: mineId, from: "me", text: trimmed }]);
     setDraft("");
     setBusy(true);
+    const local = retrievePlansForAsk({
+      message: trimmed,
+      estate: inquiry.estate,
+      housing: inquiry.housing,
+    });
+    const localIds = local.plans.slice(0, 3).map((plan) => plan.id);
+    const localReply = fallbackReply(localIds.length > 0, locale);
     try {
       const result = await askAiDesk({
         data: {
@@ -110,20 +118,20 @@ export function WhatsAppWidget() {
           ? t("aiBudget")
           : result.ok === false && result.reason === "rate"
             ? t("aiRate")
-            : result.reply;
+            : result.reply || localReply;
       setBubbles((prev) => [
         ...prev,
         {
           id: `${mineId}-ai`,
           from: "biz",
           text: reply,
-          planIds: result.planIds,
+          planIds: result.planIds?.length ? result.planIds : localIds,
         },
       ]);
     } catch {
       setBubbles((prev) => [
         ...prev,
-        { id: `${mineId}-ai`, from: "biz", text: t("aiFeeNote") },
+        { id: `${mineId}-ai`, from: "biz", text: localReply, planIds: localIds },
       ]);
     } finally {
       setBusy(false);
@@ -227,7 +235,7 @@ export function WhatsAppWidget() {
                   key={item.id}
                   type="button"
                   className="h-11 rounded-full bg-card px-3 text-sm font-medium shadow-[var(--shadow-border)]"
-                  onClick={() => sendToWhatsApp(locale === "en" ? item.textEn : item.text)}
+                  onClick={() => void sendToAi(locale === "en" ? item.textEn : item.text)}
                 >
                   {t(QUICK_LABEL[item.id])}
                 </button>

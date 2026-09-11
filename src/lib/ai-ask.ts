@@ -195,12 +195,12 @@ export const askAiDesk = createServerFn({ method: "POST" })
     }
 
     const parsed = parseAiJson(completion.text);
-    const planIds = pickAllowedPlanIds(parsed.planIds, retrieved.plans);
-    const reply = sanitizeAiReply(parsed.reply ?? fallbackReply(planIds.length > 0, locale), locale);
+    const chosen = pickAllowedPlanIds(parsed.planIds, retrieved.plans);
+    const reply = sanitizeAiReply(parsed.reply ?? fallbackReply(chosen.length > 0, locale), locale);
     return {
       ok: true,
       reply,
-      planIds,
+      planIds: chosen,
       budgetLeftHkd: Math.max(0, Math.round(usdToHkd(AI_MONTHLY_BUDGET_USD - slot.usd))),
       usedModel: Boolean(completion.text),
     };
