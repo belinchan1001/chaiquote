@@ -1089,7 +1089,7 @@ describe("CMHK 1000M FTTH $88 36-month", () => {
     assert.equal(row.category, "broadband");
     assert.equal(row.name, "1000M 光纖入屋（36 個月）");
     assert.equal(row.monthlyFee, 88);
-    assert.equal(row.freeMonths, 2);
+    assert.equal(row.freeMonths, 0);
     assert.equal(row.contractMonths, 36);
     assert.equal(row.speedMbps, 1000);
     assert.equal(row.install, "豁免安裝費");
