@@ -1,4 +1,4 @@
-import { HKBN_INTAKE_OFFER_ESTATES, estateUnlocksPlan } from "./estate-new-intake.ts";
+import { HKBN_INTAKE_OFFER_ESTATES, estateUnlocksPlan, isNetvigatorOnlyEstate } from "./estate-new-intake.ts";
 
 export type Category = "broadband" | "mobile" | "home5g" | "business";
 export type Housing = "public" | "hos" | "private" | "village";
@@ -2783,6 +2783,13 @@ export function hasGba(plan: Plan) {
 export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
   let rows = PLANS.filter((plan) => {
     if (plan.category !== search.cat) return false;
+    if (
+      (search.cat === "broadband" || search.cat === "business") &&
+      isNetvigatorOnlyEstate(search.estate) &&
+      plan.providerId !== "netvigator"
+    ) {
+      return false;
+    }
     if (plan.onlyEstates?.length) {
       const unlocked = estateUnlocksPlan(search.estate, plan.onlyEstates);
       if (search.intake) {

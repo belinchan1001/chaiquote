@@ -19,6 +19,7 @@ import {
   NEW_INTAKE,
   NEW_INTAKE_NAMES,
   estateUnlocksPlan,
+  isNetvigatorOnlyEstate,
   isNewIntakeEstate,
   newIntakeGroups,
 } from "./estate-new-intake.ts";
@@ -142,6 +143,21 @@ describe("estate SEO pages", () => {
     assert.equal(isNewIntakeEstate("上然第6座"), true);
     assert.equal(isNewIntakeEstate("上然第7座"), true);
     assert.equal(estateUnlocksPlan("上然", HKBN_INTAKE_OFFER_ESTATES), false);
+    assert.equal(isNetvigatorOnlyEstate("上然"), true);
+    assert.equal(isNetvigatorOnlyEstate("上然第2座"), true);
+    assert.equal(isNetvigatorOnlyEstate("上然第7座"), true);
+    assert.equal(isNetvigatorOnlyEstate("天耀邨"), false);
+    const leMontFibre = filterPlans({ cat: "broadband", housing: "private", estate: "上然" });
+    assert.ok(leMontFibre.length > 0);
+    assert.ok(leMontFibre.every((plan) => plan.providerId === "netvigator"));
+    const leMontTower = filterPlans({ cat: "broadband", housing: "private", estate: "上然第6座" });
+    assert.ok(leMontTower.length > 0);
+    assert.ok(leMontTower.every((plan) => plan.providerId === "netvigator"));
+    const leMontHome = filterPlans({ cat: "home5g", housing: "private", estate: "上然" });
+    assert.ok(leMontHome.length > 0);
+    assert.ok(leMontHome.some((plan) => plan.providerId !== "netvigator"));
+    const openFibre = filterPlans({ cat: "broadband", housing: "private", estate: "太古城" });
+    assert.ok(openFibre.some((plan) => plan.providerId === "hkbn"));
     assert.equal(ESTATES.find((item) => item.name === "東頭村")?.district, "元朗");
     assert.equal(ESTATES.find((item) => item.name === "東頭村")?.housing, "village");
     assert.equal(ESTATES.find((item) => item.name === "東頭邨")?.district, "黃大仙");

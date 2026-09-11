@@ -71,6 +71,9 @@ export const HKBN_INTAKE_OFFER_ESTATES = [
   "綠置居",
 ] as const;
 
+/** Fibre coverage currently Netvigator-only; blocks inherit the parent. */
+export const NETVIGATOR_ONLY_ESTATES = ["上然"] as const;
+
 const NEW_INTAKE_PARENTS = ESTATES.filter((estate) => NEW_INTAKE_NAMES.has(estate.name));
 const NEW_INTAKE_BLOCK_NAMES = new Set<string>();
 
@@ -98,6 +101,21 @@ for (const parent of NEW_INTAKE_PARENTS) {
 
 export function isNewIntakeEstate(name: string): boolean {
   return NEW_INTAKE_BLOCK_NAMES.has(name);
+}
+
+const NETVIGATOR_ONLY_NAMES = new Set<string>();
+for (const name of NETVIGATOR_ONLY_ESTATES) {
+  NETVIGATOR_ONLY_NAMES.add(name);
+  const parent = ESTATES.find((item) => item.name === name);
+  if (parent) for (const child of intakeBlocksOf(parent)) NETVIGATOR_ONLY_NAMES.add(child.name);
+}
+
+/** True when the address is 上然 or one of its 座. */
+export function isNetvigatorOnlyEstate(query?: string): boolean {
+  if (!query?.trim()) return false;
+  const known = matchKnownEstate(query);
+  if (known) return NETVIGATOR_ONLY_NAMES.has(known.name);
+  return NETVIGATOR_ONLY_NAMES.has(query.trim());
 }
 
 export function newIntakeGroups<T extends { estate: { name: string } }>(

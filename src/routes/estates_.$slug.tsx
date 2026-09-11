@@ -16,6 +16,7 @@ import {
 } from "@/lib/estate-pages";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { canonicalUrl } from "@/lib/canonical";
+import { isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
 
 export const Route = createFileRoute("/estates_/$slug")({
   loader: ({ params }) => {
@@ -68,12 +69,14 @@ function EstatePage() {
         香港屋苑寬頻比較
       </Link>
       <p className="mt-6 text-xs font-medium tracking-wider text-muted">
-        {estate.street ? `${estate.street} · ` : ""}
         {estate.district}
         {estate.area ? ` · ${estate.area}` : ""} · {housing}
       </p>
       <h1 className="mt-2 text-title font-semibold">{`${estate.name}寬頻比較｜${housing}｜齊Quote`}</h1>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{estateIntro(estate)}</p>
+      {isNetvigatorOnlyEstate(estate.name) ? (
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{t("plansNetvigatorOnlyNote")}</p>
+      ) : null}
       <div className="mt-6">
         <QuoteLink inquiry={inquiry}>{t("waQuote")}</QuoteLink>
       </div>
