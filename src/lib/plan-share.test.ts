@@ -6,6 +6,7 @@ import { dirname, join } from "node:path";
 import { formatFee, getPlan } from "./plans.ts";
 import { SITE } from "./site.ts";
 import {
+  PLAN_SHARE_DISCLAIMER,
   PLAN_SHARE_SENTENCE,
   planShareBody,
   planShareClipboardText,
@@ -37,12 +38,14 @@ function assertNoClaimWords(...chunks: string[]) {
 function assertShareFacts(plan: ReturnType<typeof samplePlan>, body: string) {
   const fee = formatFee(plan.monthlyFee);
   const url = `https://www.chaiquote.hk/plans/${plan.id}`;
-  assert.match(body, new RegExp(plan.name.replace(/[()]/g, "\\$&")));
-  assert.match(body, /月費/);
-  assert.match(body, new RegExp(fee.replace("$", "\\$")));
-  assert.match(body, /僅供參考/);
-  assert.match(body, /實際以電訊商確認為準/);
-  assert.match(body, new RegExp(`https://www\\.chaiquote\\.hk/plans/${plan.id}`));
+  assert.equal(fee.startsWith("HK$"), true);
+  assert.equal(body.includes(plan.name), true);
+  assert.equal(body.includes(fee), true);
+  assert.match(body, /HK\$/);
+  assert.equal(body.includes(PLAN_SHARE_DISCLAIMER), true);
+  assert.equal(body.includes("僅供參考"), true);
+  assert.equal(body.includes("實際以電訊商確認為準"), true);
+  assert.equal(body.includes(url), true);
   assert.equal(body, `${plan.name}｜月費 ${fee}\n${PLAN_SHARE_SENTENCE}\n${url}`);
 }
 
@@ -63,7 +66,7 @@ describe("plan share payload", () => {
     assert.equal(facts, `${plan.name}｜月費 ${formatFee(plan.monthlyFee)}`);
     assert.equal(payload.title, `${plan.name}｜${SITE.name}`);
     assert.equal(payload.text, body);
-    assert.equal(clipboard, body);
+    assert.equal(clipboard, payload.text);
     assert.notEqual(payload.text, PLAN_SHARE_SENTENCE);
     assertShareFacts(plan, payload.text);
     assertShareFacts(plan, clipboard);
@@ -83,6 +86,8 @@ describe("plan share payload", () => {
 
   it("keeps the locked 僅供參考 sentence without a fee or official-price claim", () => {
     assert.equal(PLAN_SHARE_SENTENCE, "呢個計劃月費僅供參考，實際以電訊商確認為準。");
+    assert.equal(PLAN_SHARE_SENTENCE.includes(PLAN_SHARE_DISCLAIMER), true);
+    assert.equal(PLAN_SHARE_DISCLAIMER, "僅供參考，實際以電訊商確認為準");
     assert.doesNotMatch(PLAN_SHARE_SENTENCE, /\$|HK\$|保證價|官方/);
     assert.doesNotMatch(PLAN_SHARE_SENTENCE, /最抵|最低|最平/);
   });
@@ -104,6 +109,7 @@ describe("share or copy fallback", () => {
     assert.deepEqual(shared, [planSharePayload(plan)]);
     const payload = shared[0] as ReturnType<typeof planSharePayload>;
     assertShareFacts(plan, payload.text);
+    assert.equal(payload.text, planShareClipboardText(plan));
     assert.equal(payload.url, `https://www.chaiquote.hk/plans/${plan.id}`);
   });
 
@@ -118,6 +124,7 @@ describe("share or copy fallback", () => {
     assert.equal(result, "copied");
     assert.equal(copied.length, 1);
     assert.equal(copied[0], planShareClipboardText(plan));
+    assert.equal(copied[0], planSharePayload(plan).text);
     assertShareFacts(plan, copied[0]);
   });
 

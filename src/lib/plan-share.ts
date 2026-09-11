@@ -2,8 +2,9 @@ import { canonicalUrl } from "./canonical.ts";
 import { formatFee, type Plan } from "./plans.ts";
 import { SITE } from "./site.ts";
 
-/** Locked zh-HK share sentence. Do not paraphrase; must keep 僅供參考. */
+/** Locked zh-HK share sentence. Do not paraphrase; must keep 僅供參考＋實際以電訊商確認為準. */
 export const PLAN_SHARE_SENTENCE = "呢個計劃月費僅供參考，實際以電訊商確認為準。";
+export const PLAN_SHARE_DISCLAIMER = "僅供參考，實際以電訊商確認為準";
 
 export type PlanSharePlan = Pick<Plan, "id" | "name" | "monthlyFee">;
 
@@ -44,7 +45,7 @@ export function planSharePayload(plan: PlanSharePlan): PlanSharePayload {
 }
 
 export function planShareClipboardText(plan: PlanSharePlan): string {
-  return planShareBody(plan);
+  return planSharePayload(plan).text;
 }
 
 export function isShareAbortError(error: unknown): boolean {
