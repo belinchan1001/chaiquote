@@ -34,6 +34,24 @@ test("root head emits a per-route canonical, not a hardcoded homepage", () => {
   assert.doesNotMatch(root, /href:\s*`\$\{SITE\.url\}\/`/);
 });
 
+test("root head ships a site-root ICO plus 48/96 PNG favicons for Google Search", () => {
+  const root = readFileSync(join(ROOT, "src/routes/__root.tsx"), "utf8");
+  const ico = root.indexOf('href: "/favicon.ico"');
+  const svg = root.indexOf('href: "/favicon.svg"');
+  const png32 = root.indexOf('href: "/favicon-32.png"');
+  const png48 = root.indexOf('href: "/favicon-48.png"');
+  const png96 = root.indexOf('href: "/favicon-96.png"');
+  assert.ok(ico !== -1, "favicon.ico link");
+  assert.ok(svg !== -1, "SVG favicon kept");
+  assert.ok(png32 !== -1, "32px PNG favicon kept");
+  assert.ok(png48 !== -1, "48px PNG favicon");
+  assert.ok(png96 !== -1, "96px PNG favicon");
+  assert.ok(ico < svg && svg < png32 && png32 < png48 && png48 < png96);
+  assert.match(root, /href:\s*"\/icon-192\.png"/);
+  assert.match(root, /href:\s*"\/icon-512\.png"/);
+  assert.match(root, /href:\s*"\/apple-touch-icon\.png"/);
+});
+
 test("Nitro has dedicated sitemap and robots routes plus early middleware", () => {
   const sitemap = readFileSync(join(ROOT, "server/routes/sitemap.xml.ts"), "utf8");
   const robots = readFileSync(join(ROOT, "server/routes/robots.txt.ts"), "utf8");

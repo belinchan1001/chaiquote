@@ -234,6 +234,8 @@ describe("any-purpose and apple-touch icons", () => {
       ["public/icon-512.png", 512],
       ["public/apple-touch-icon.png", 180],
       ["public/__grok/icon-180.png", 180],
+      ["public/favicon-48.png", 48],
+      ["public/favicon-96.png", 96],
     ] as const) {
       const bytes = readFileSync(join(ROOT, file));
       const { width, height, pixels } = readPngRgba(bytes);
@@ -242,6 +244,25 @@ describe("any-purpose and apple-touch icons", () => {
       const coverage = innerMarkCoverage(pixels, width);
       assert.ok(coverage > 0.55, `${file} mark coverage ${coverage} is still too small`);
     }
+  });
+});
+
+describe("site-root favicon.ico", () => {
+  it("is a multi-size ICO with 16, 32, and 48 px images", () => {
+    const bytes = readFileSync(join(ROOT, "public/favicon.ico"));
+    assert.ok(bytes.length > 200, "favicon.ico should not be empty");
+    assert.equal(bytes.readUInt16LE(0), 0);
+    assert.equal(bytes.readUInt16LE(2), 1);
+    const count = bytes.readUInt16LE(4);
+    assert.ok(count >= 2, `expected at least 16 and 32, got ${count} images`);
+    const sizes = new Set<number>();
+    for (let i = 0; i < count; i += 1) {
+      const width = bytes[6 + i * 16] || 256;
+      sizes.add(width);
+    }
+    assert.ok(sizes.has(16), "16px ICO image");
+    assert.ok(sizes.has(32), "32px ICO image");
+    assert.ok(sizes.has(48), "48px ICO image");
   });
 });
 
