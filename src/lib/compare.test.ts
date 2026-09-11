@@ -111,7 +111,7 @@ describe("HKBN student/youth 5G 30GB", () => {
     assert.equal(youth.quotePick, true);
     assert.deepEqual(
       PLANS.filter((p) => p.latestOffer).map((p) => p.id),
-      ["hkbn-ftth-1000-24m-199-mobile", "icable-ftth-1000-48m-58", "cmhk-5g-limited-50-129", "cmhk-5g-limited-100-149", "hkbn-5g-30-78-youth"],
+      ["hkbn-ftth-1000-24m-199-mobile", "icable-ftth-1000-48m-58", "cmhk-5g-limited-50-129", "cmhk-5g-limited-100-149", "cmhk-5g-limited-60-98-youth", "hkbn-5g-30-78-youth"],
     );
     assert.deepEqual(
       PLANS.filter((p) => p.quotePick).map((p) => p.id),
@@ -138,6 +138,7 @@ describe("HKBN student/youth 5G 30GB", () => {
         "hkbn-ftth-1000-36m-63-flash",
         "cmhk-5g-limited-50-129",
         "cmhk-5g-limited-100-149",
+        "cmhk-5g-limited-60-98-youth",
         "hkbn-5g-30-78-youth",
       ],
     );
@@ -1019,6 +1020,7 @@ describe("CMHK mobile catalogue", () => {
       "cmhk-5g-ultimate-50-129-36m",
       "cmhk-5g-limited-50-129",
       "cmhk-5g-limited-100-149",
+      "cmhk-5g-limited-60-98-youth",
       "cmhk-5g-ultimate-100-149",
       "cmhk-5g-ultimate-200-199",
       "cmhk-5g-2places-20-youth-139",
@@ -1071,6 +1073,19 @@ describe("CMHK mobile catalogue", () => {
     assert.match(limited100.roaming ?? "", /10GB/);
     assert.ok(limited100.perks.includes("送 HK$400 月費回贈"));
     assert.equal(limited100.portInPerk, "轉台可豁免每月行政費 HK$18");
+    const limitedYouth = plan("cmhk-5g-limited-60-98-youth");
+    assert.equal(limitedYouth.monthlyFee, 98);
+    assert.equal(limitedYouth.freeMonths, 0);
+    assert.equal(limitedYouth.contractMonths, 24);
+    assert.equal(limitedYouth.rebate, 500);
+    assert.equal(limitedYouth.dataGb, 60);
+    assert.equal(limitedYouth.quotePick, true);
+    assert.equal(limitedYouth.latestOffer, true);
+    assert.equal(averageFee(limitedYouth), 77.2);
+    assert.match(limitedYouth.roaming ?? "", /3GB/);
+    assert.match(limitedYouth.limits ?? "", /18 至 29 歲/);
+    assert.ok(limitedYouth.perks.includes("送 HK$500 月費回贈"));
+    assert.equal(limitedYouth.portInPerk, "轉台可豁免每月行政費 HK$18");
     const threeHk = plan("cmhk-5g-trial-10-3hk-68");
     assert.equal(threeHk.monthlyFee, 68);
     assert.match(threeHk.limits ?? "", /3香港轉台/);
