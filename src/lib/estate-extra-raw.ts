@@ -765,4 +765,11 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 肇輝臺|Kadoorie Avenue|九龍城|private
 海傲灣|One East Coast|觀塘|private|油塘||鯉魚門徑1號
 朗譽|The Aperture|觀塘|private|油塘
+上然|Le Mont,大埔上然,上然第1期,上然第2期,上然第3期|大埔|private|大埔墟||馬窩路19號
+上然第1座|Le Mont Tower 1,上然1座,上然一座|大埔|private|大埔墟||馬窩路19號
+上然第2座|Le Mont Tower 2,上然2座,上然二座|大埔|private|大埔墟||馬窩路19號
+上然第3座|Le Mont Tower 3,上然3座,上然三座|大埔|private|大埔墟||馬窩路19號
+上然第5座|Le Mont Tower 5,上然5座,上然五座|大埔|private|大埔墟||馬窩路19號
+上然第6座|Le Mont Tower 6,上然6座,上然六座|大埔|private|大埔墟||馬窩路19號
+上然第7座|Le Mont Tower 7,上然7座,上然七座|大埔|private|大埔墟||馬窩路19號
 `.trim();

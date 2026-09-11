@@ -1,5 +1,5 @@
 /** Newest move-in estates, grouped to match the 屋苑比較頁 category. */
-import { compact, ESTATES, isRelatedBlock, matchKnownEstate, relatedBlocks } from "./estates.ts";
+import { compact, ESTATES, isRelatedBlock, matchKnownEstate, relatedBlocks, type Estate } from "./estates.ts";
 export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "雋東邨", group: "東涌" },
   { name: "翔東邨", group: "東涌" },
@@ -37,6 +37,7 @@ export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "宏緻苑", group: "其他地區" },
   { name: "彩石邨", group: "其他地區" },
   { name: "安楹苑", group: "其他地區" },
+  { name: "上然", group: "大埔" },
 ];
 
 export const NEW_INTAKE_NAMES = new Set(NEW_INTAKE.map((item) => item.name));
@@ -72,9 +73,27 @@ export const HKBN_INTAKE_OFFER_ESTATES = [
 
 const NEW_INTAKE_PARENTS = ESTATES.filter((estate) => NEW_INTAKE_NAMES.has(estate.name));
 const NEW_INTAKE_BLOCK_NAMES = new Set<string>();
+
+function intakeBlocksOf(parent: Estate): Estate[] {
+  const related = relatedBlocks(parent);
+  const parentKey = compact(parent.name);
+  if (parentKey.length < 2) return related;
+  const extra = ESTATES.filter((child) => {
+    if (child.name === parent.name) return false;
+    if (related.some((item) => item.name === child.name)) return false;
+    return [child.name, ...child.aliases].some((raw) => {
+      const needle = compact(raw);
+      if (!needle.startsWith(parentKey) || needle === parentKey) return false;
+      const rest = needle.slice(parentKey.length);
+      return rest.length >= 1 && /[座樓閣期]|tower|block|phase/.test(rest);
+    });
+  });
+  return extra.length ? [...related, ...extra] : related;
+}
+
 for (const parent of NEW_INTAKE_PARENTS) {
   NEW_INTAKE_BLOCK_NAMES.add(parent.name);
-  for (const child of relatedBlocks(parent)) NEW_INTAKE_BLOCK_NAMES.add(child.name);
+  for (const child of intakeBlocksOf(parent)) NEW_INTAKE_BLOCK_NAMES.add(child.name);
 }
 
 export function isNewIntakeEstate(name: string): boolean {

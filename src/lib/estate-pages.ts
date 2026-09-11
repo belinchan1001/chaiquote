@@ -126,6 +126,7 @@ const SLUG_FALLBACK: Record<string, string> = {
   聚豪天下: "grand-palisades",
   海傲灣: "one-east-coast",
   比華利山花園: "the-beverly-hills",
+  上然: "le-mont",
   裕興苑: "yu-hing-court",
   柏傲莊III: "pavilia-farm-iii",
   "101 Kings Road": "101-kings-road",

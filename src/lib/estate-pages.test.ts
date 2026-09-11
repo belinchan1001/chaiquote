@@ -130,6 +130,18 @@ describe("estate SEO pages", () => {
     assert.equal(getEstatePage("symphony-bay")?.estate.housing, "private");
     assert.equal(searchEstates("柴灣常安街簡約公屋")[0]?.name, "柴灣常安街簡約公屋");
     assert.equal(searchEstates("日出康城第12期")[0]?.name, "日出康城第12期");
+    assert.equal(ESTATES.find((item) => item.name === "上然")?.district, "大埔");
+    assert.equal(ESTATES.find((item) => item.name === "上然")?.housing, "private");
+    assert.equal(searchEstates("上然", 8)[0]?.name, "上然");
+    assert.equal(matchKnownEstate("上然")?.name, "上然");
+    assert.equal(matchKnownEstate("上然第2座")?.name, "上然第2座");
+    assert.equal(isNewIntakeEstate("上然"), true);
+    assert.equal(isNewIntakeEstate("上然第1座"), true);
+    assert.equal(isNewIntakeEstate("上然第3座"), true);
+    assert.equal(isNewIntakeEstate("上然第5座"), true);
+    assert.equal(isNewIntakeEstate("上然第6座"), true);
+    assert.equal(isNewIntakeEstate("上然第7座"), true);
+    assert.equal(estateUnlocksPlan("上然", HKBN_INTAKE_OFFER_ESTATES), false);
     assert.equal(ESTATES.find((item) => item.name === "東頭村")?.district, "元朗");
     assert.equal(ESTATES.find((item) => item.name === "東頭村")?.housing, "village");
     assert.equal(ESTATES.find((item) => item.name === "東頭邨")?.district, "黃大仙");
