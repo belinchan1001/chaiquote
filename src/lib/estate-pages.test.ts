@@ -18,6 +18,7 @@ import {
   HKBN_FLASH_OFFER_ESTATES,
   HKBN_INTAKE_OFFER_ESTATES,
   HKBN_LPR_FLASH_ESTATES,
+  NETVIGATOR_INTAKE_OFFER_ESTATES,
   NEW_INTAKE,
   NEW_INTAKE_NAMES,
   estateUnlocksPlan,
@@ -219,6 +220,56 @@ describe("estate SEO pages", () => {
     assert.ok(ids.every((id) => shing.broadband.some((plan) => plan.id === id)));
     const tin = estatePlans(ESTATES.find((item) => item.name === "天耀邨")!);
     assert.ok(ids.every((id) => !tin.broadband.some((plan) => plan.id === id)));
+  });
+
+  it("hides Netvigator new-move-in fibre until a listed estate is searched", () => {
+    const id = "netvigator-ftth-1000-36m-78-intake";
+    const plan = getPlan(id)!;
+    assert.equal(plan.providerId, "netvigator");
+    assert.equal(plan.newIntakeOffer, true);
+    assert.equal(plan.quotePick, true);
+    assert.equal(plan.monthlyFee, 78);
+    assert.equal(plan.contractMonths, 36);
+    assert.equal(plan.speedMbps, 1000);
+    assert.equal(plan.install, "豁免安裝費");
+    assert.match(plan.perks.join(" "), /MX4050/);
+    assert.match(plan.perks.join(" "), /Now TV/);
+    assert.ok(plan.onlyEstates?.includes("盛緻苑"));
+    assert.ok(plan.onlyEstates?.includes("欣寶路項目"));
+    assert.equal(plan.onlyEstates?.includes("朗天苑"), false);
+    assert.equal(plan.onlyEstates?.includes("安麗苑"), false);
+    const hidden = filterPlans({ cat: "broadband" }).map((row) => row.id);
+    assert.equal(hidden.includes(id), false);
+    const intake = filterPlans({ cat: "broadband", intake: true }).map((row) => row.id);
+    assert.equal(intake.includes(id), true);
+    const tinYiu = filterPlans({ cat: "broadband", housing: "public", estate: "天耀邨" }).map((row) => row.id);
+    assert.equal(tinYiu.includes(id), false);
+    const longTin = filterPlans({ cat: "broadband", housing: "hos", estate: "朗天苑" }).map((row) => row.id);
+    assert.equal(longTin.includes(id), false);
+    const onLai = filterPlans({ cat: "broadband", housing: "hos", estate: "安麗苑" }).map((row) => row.id);
+    assert.equal(onLai.includes(id), false);
+    for (const name of NETVIGATOR_INTAKE_OFFER_ESTATES) {
+      assert.equal(estateUnlocksPlan(name, NETVIGATOR_INTAKE_OFFER_ESTATES), true, name);
+    }
+    const shing = filterPlans({ cat: "broadband", housing: "hos", estate: "盛緻苑" }).map((row) => row.id);
+    assert.equal(shing.includes(id), true);
+    const lokLing = filterPlans({ cat: "broadband", housing: "public", estate: "樂嶺都匯" }).map((row) => row.id);
+    assert.equal(lokLing.includes(id), true);
+    const yanPo = filterPlans({ cat: "broadband", housing: "public", estate: "簡約公屋欣寶路項目" }).map((row) => row.id);
+    assert.equal(yanPo.includes(id), true);
+    const olympic = filterPlans({ cat: "broadband", housing: "public", estate: "世運道簡約公屋啟德站" }).map(
+      (row) => row.id,
+    );
+    assert.equal(olympic.includes(id), true);
+    const gsh = filterPlans({ cat: "broadband", housing: "hos", estate: "綠置居" }).map((row) => row.id);
+    assert.equal(gsh.includes(id), true);
+    const shingPage = estatePlans(ESTATES.find((item) => item.name === "盛緻苑")!);
+    assert.ok(shingPage.broadband.some((row) => row.id === id));
+    const longTinPage = estatePlans(ESTATES.find((item) => item.name === "朗天苑")!);
+    assert.equal(
+      longTinPage.broadband.some((row) => row.id === id),
+      false,
+    );
   });
 
   it("hides HKBN flash fibre until a listed estate is searched, excluding 白田邨", () => {

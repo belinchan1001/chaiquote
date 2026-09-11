@@ -1,4 +1,4 @@
-import { HKBN_FLASH_OFFER_ESTATES, HKBN_INTAKE_OFFER_ESTATES, HKBN_LPR_FLASH_ESTATES, estateUnlocksPlan, isNetvigatorOnlyEstate } from "./estate-new-intake.ts";
+import { HKBN_FLASH_OFFER_ESTATES, HKBN_INTAKE_OFFER_ESTATES, HKBN_LPR_FLASH_ESTATES, NETVIGATOR_INTAKE_OFFER_ESTATES, estateUnlocksPlan, isNetvigatorOnlyEstate } from "./estate-new-intake.ts";
 
 export type Category = "broadband" | "mobile" | "home5g" | "business";
 export type Housing = "public" | "hos" | "private" | "village";
@@ -81,6 +81,8 @@ const LIMITS_HKBN_VILLAGE_SELECT_24 =
   "僅適用於指定村屋地址。本計劃為 24 個月合約。可選擇延遲服務生效日（最長 365 日）。實際覆蓋須另行核對。";
 const LIMITS_NETVIGATOR_FTTH =
   "可選擇先安裝後啟動服務（最長 365 日）。實際覆蓋視乎個別樓宇而定。";
+const LIMITS_NETVIGATOR_INTAKE =
+  "僅適用於指定新入伙屋苑。可選擇先安裝後啟動服務（最長 365 日）。實際覆蓋同安裝期以電訊商確認為準。";
 const LIMITS_NETVIGATOR_10G =
   "家居 10000M 光纖入屋現時主要由香港寬頻及電訊盈科網上行提供，適用於公屋、居屋及私人住宅。首次安裝須繳付安裝費。實際覆蓋視乎個別樓宇基礎設施而定。";
 const LIMITS_NETVIGATOR_VILLAGE_WAIVED =
@@ -1013,6 +1015,29 @@ export const PLANS: Plan[] = [
     limits: LIMITS_NETVIGATOR_FTTH,
     quotePick: true,
     bestFor: "適合公屋或居屋、需要 1000M 光纖之住戶",
+  },
+  {
+    id: "netvigator-ftth-1000-36m-78-intake",
+    providerId: "netvigator",
+    category: "broadband",
+    name: "1000M 新入伙特選（36 個月）",
+    monthlyFee: 78,
+    freeMonths: 0,
+    contractMonths: 36,
+    speedMbps: 1000,
+    install: "豁免安裝費",
+    housing: ["public", "hos"],
+    network: "光纖入屋",
+    perks: [
+      "包 Linksys MX4050 Wi-Fi 6 路由器",
+      PERK_NETVIGATOR_NOWTV,
+      "可選擇先安裝後啟動服務（最長 365 日）",
+    ],
+    limits: LIMITS_NETVIGATOR_INTAKE,
+    quotePick: true,
+    newIntakeOffer: true,
+    onlyEstates: [...NETVIGATOR_INTAKE_OFFER_ESTATES],
+    bestFor: "適合指定新入伙屋苑、需要 1000M 光纖及 Wi-Fi 6 路由器之住戶",
   },
   {
     id: "netvigator-ftth-1000-public-36m-108",

@@ -64,6 +64,7 @@ describe("齊Quote pick badge", () => {
         "hgc-ftth-1000-private-39m",
         "netvigator-ftth-1000-private-36m",
         "netvigator-ftth-1000-public-36m-98",
+        "netvigator-ftth-1000-36m-78-intake",
         "netvigator-ftth-2500-public-36m-158",
         "netvigator-ftth-2500-private-36m-176",
         "icable-ftth-1000-48m-58",
@@ -181,6 +182,7 @@ describe("齊Quote pick badge", () => {
       [
         "netvigator-ftth-1000-private-36m",
         "netvigator-ftth-1000-public-36m-98",
+        "netvigator-ftth-1000-36m-78-intake",
         "netvigator-ftth-2500-public-36m-158",
         "netvigator-ftth-2500-private-36m-176",
       ],

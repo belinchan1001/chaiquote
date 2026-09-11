@@ -71,6 +71,23 @@ export const HKBN_INTAKE_OFFER_ESTATES = [
   "綠置居",
 ] as const;
 
+/** Netvigator fibre for a subset of new-move-in estates (blocks inherit the parent). */
+export const NETVIGATOR_INTAKE_OFFER_ESTATES = [
+  "盛緻苑",
+  "樂嶺都匯",
+  "宏緻苑",
+  "滿田邨",
+  "鳳凰嶺邨",
+  "曉茵邨",
+  "世運道簡約公屋",
+  "柴灣常安街簡約公屋",
+  "綠置居",
+  "彩石邨",
+  "裕興苑",
+  "錦柏苑",
+  "欣寶路項目",
+] as const;
+
 /** Fibre coverage currently Netvigator-only; blocks inherit the parent. */
 export const NETVIGATOR_ONLY_ESTATES = ["上然"] as const;
 

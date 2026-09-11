@@ -9,6 +9,8 @@ const EXACT: Record<string, string> = {
     "This plan auto-renews. Service start can be deferred up to 365 days. For selected public housing, HOS and private homes. Not available for village houses.",
   "僅適用於指定新入伙屋苑。本計劃為自動續約。可選擇延遲服務生效日（最長 365 日）。豁免安裝費。實際覆蓋同安裝期以電訊商確認為準。":
     "Selected new-move-in estates only. This plan auto-renews. Service start can be deferred up to 365 days. Installation waived. Coverage and install dates are confirmed by the carrier.",
+  "僅適用於指定新入伙屋苑。可選擇先安裝後啟動服務（最長 365 日）。實際覆蓋同安裝期以電訊商確認為準。":
+    "Selected new-move-in estates only. Install first, activate later (up to 365 days). Coverage and install dates are confirmed by the carrier.",
   "僅適用於指定屋苑。須繳付安裝費。實際覆蓋同安裝期以電訊商確認為準。":
     "Selected estates only. Installation fee applies. Coverage and install dates are confirmed by the carrier.",
   "僅適用於指定屋苑。本計劃為自動續約。可選擇延遲服務生效日（最長 365 日）。實際覆蓋同安裝期以電訊商確認為準。":
@@ -306,6 +308,10 @@ const PHRASES: [string, string][] = [
   ["計劃包含指定路由器", "Designated router included"],
   ["包 Wi-Fi 7 二合一路由器", "Includes 2-in-1 Wi-Fi 7 router"],
   ["包 Linksys EA9350 Wi-Fi 6 路由器", "Includes a Linksys EA9350 Wi-Fi 6 router"],
+  ["包 Linksys MX4050 Wi-Fi 6 路由器", "Includes a Linksys MX4050 Wi-Fi 6 router"],
+  ["可選擇先安裝後啟動服務（最長 365 日）", "Install first, activate later (up to 365 days)"],
+  ["1000M 新入伙特選（36 個月）", "1000M new-move-in offer (36 months)"],
+  ["適合指定新入伙屋苑、需要 1000M 光纖及 Wi-Fi 6 路由器之住戶", "For selected new-move-in estates needing 1000M fibre and a Wi-Fi 6 router"],
   ["包 Wi-Fi 7 路由器", "Includes Wi-Fi 7 router"],
   ["包指定 Wi-Fi 路由器", "Includes designated Wi-Fi router"],
   ["租借 Wi-Fi 7 路由器", "Wi-Fi 7 router on loan"],
