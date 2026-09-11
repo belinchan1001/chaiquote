@@ -4,31 +4,16 @@ import { JsonLd } from "@/components/json-ld";
 import { GUIDE_CATEGORY_META } from "@/lib/guide-articles";
 import { GUIDES, getGuide, guideCopy } from "@/lib/guides";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import { canonicalUrl } from "@/lib/canonical";
-
-const TITLE = "寬頻同手機攻略｜齊Quote";
-const DESCRIPTION = "點揀光纖、5G家居、手機同商業寬頻。粵語攻略，連去格價頁同屋苑頁。實際覆蓋以電訊商確認。";
+import { GUIDES_SEO, canonicalUrl, shareHead } from "@/lib/canonical";
 
 export const Route = createFileRoute("/guides")({
   component: GuidesPage,
-  head: () => {
-    const url = canonicalUrl("/guides");
-    return {
-      meta: [
-        { title: TITLE },
-        { name: "description", content: DESCRIPTION },
-        { property: "og:title", content: TITLE },
-        { property: "og:description", content: DESCRIPTION },
-        { property: "og:url", content: url },
-      ],
-      links: [{ rel: "canonical", href: url }],
-    };
-  },
+  head: () => shareHead(GUIDES_SEO, canonicalUrl("/guides")),
 });
 
 function GuidesPage() {
   const { t, locale } = useI18n();
-  usePageTitle(TITLE);
+  usePageTitle(GUIDES_SEO.title);
   const url = canonicalUrl("/guides");
 
   return (
@@ -37,8 +22,8 @@ function GuidesPage() {
         data={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: TITLE,
-          description: DESCRIPTION,
+          name: GUIDES_SEO.title,
+          description: GUIDES_SEO.description,
           url,
           inLanguage: "zh-HK",
           hasPart: GUIDE_CATEGORY_META.map((cat) => ({

@@ -3,9 +3,14 @@ import { ESTATE_PAGES, estatePagePath } from "./estate-pages.ts";
 import { GUIDES, type Guide } from "./guides.ts";
 import { SITE } from "./site.ts";
 import {
+  ABOUT_SEO,
   CATEGORY_SEO,
   DEFAULT_SEO_ORIGIN,
+  GUIDES_SEO,
+  HOME_SEO,
   HOME_SEO_TITLE,
+  LOCKED_PAGE_SEO,
+  PRIVACY_SEO,
   canonicalUrl,
   canonicalUrlFromMatches,
   canonicalRedirectLocation,
@@ -14,14 +19,20 @@ import {
   requestHostname,
   runtimeSeoOrigin,
   seoOrigin,
+  shareHead,
   LEGACY_PRODUCTION_HOSTS,
 } from "./canonical.ts";
 
 export {
+  ABOUT_SEO,
   CATEGORY_SEO,
   DEFAULT_SEO_ORIGIN,
+  GUIDES_SEO,
+  HOME_SEO,
   HOME_SEO_TITLE,
   LEGACY_PRODUCTION_HOSTS,
+  LOCKED_PAGE_SEO,
+  PRIVACY_SEO,
   canonicalUrl,
   canonicalUrlFromMatches,
   canonicalRedirectLocation,
@@ -30,6 +41,7 @@ export {
   requestHostname,
   runtimeSeoOrigin,
   seoOrigin,
+  shareHead,
 };
 
 export type SitemapChangefreq = "weekly" | "monthly";
