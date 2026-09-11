@@ -119,6 +119,8 @@ const FUP_THREE_128K = "其後 128kbps 無限任用";
 const FUP_THREE_1M = "其後 1Mbps 無限任用";
 const FUP_THREE_STOP = "用完即停，不設其後限速數據";
 const PERK_THREE_CGA = "中國內地、香港、澳門三地共用";
+const PERK_THREE_ADMIN = "每月行政費 HK$28";
+const PERK_THREE_ADMIN_PORT = "轉台可豁免每月行政費 HK$28";
 const PERK_SMARTONE_PORT = "攜號轉台本地數據雙倍";
 const PERK_HKBN_PORT = "攜號轉台適用";
 const PREPAID_HGC_300 = "須預繳 HK$300";
@@ -1750,7 +1752,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "4.5G",
-    perks: ["首 10GB 數據全速", "2GB 大灣區數據"],
+    perks: ["首 10GB 數據全速", "2GB 大灣區數據", PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合以即時通訊為主、較少串流之用戶",
   },
   {
@@ -1769,7 +1772,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: ["22GB 5G 本地數據", "2GB 大灣區數據"],
+    perks: ["22GB 5G 本地數據", "2GB 大灣區數據", PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合輕用量、不需要其後限速數據之用戶",
   },
   {
@@ -1788,7 +1792,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: ["4GB 內地及澳門數據", PERK_THREE_SOCIAL],
+    perks: ["4GB 內地及澳門數據", PERK_THREE_SOCIAL, PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     hot: true,
     bestFor: "適合中等數據用量，以及使用即時通訊與串流應用之用戶",
   },
@@ -1805,7 +1810,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "4.5G",
-    perks: ["本地數據全速無限任用", "10GB 內地及澳門數據"],
+    perks: ["本地數據全速無限任用", "10GB 內地及澳門數據", PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     hot: true,
     bestFor: "適合本地串流用量高、需要全速無限數據之用戶",
   },
@@ -1825,7 +1831,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: [PERK_THREE_CGA],
+    perks: [PERK_THREE_CGA, PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合間中往返中港澳之用戶",
   },
   {
@@ -1844,7 +1851,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: [PERK_THREE_CGA],
+    perks: [PERK_THREE_CGA, PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合經常往返中港澳之用戶",
   },
   {
@@ -1863,7 +1871,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: [PERK_THREE_CGA],
+    perks: [PERK_THREE_CGA, PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合較高三地數據用量之用戶",
   },
   {
@@ -1882,7 +1891,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: ["6GB 內地及澳門數據", PERK_THREE_CN_NUM],
+    perks: ["6GB 內地及澳門數據", PERK_THREE_CN_NUM, PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     hot: true,
     bestFor: "適合高本地數據用量，以及需要內地副號之用戶",
   },
@@ -1902,7 +1912,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: ["10GB 亞太區共用數據"],
+    perks: ["10GB 亞太區共用數據", PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合間中前往亞太地區之用戶",
   },
   {
@@ -1920,7 +1931,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: [PERK_THREE_CGA, "內地通話 3,000 分鐘"],
+    perks: [PERK_THREE_CGA, "內地通話 3,000 分鐘", PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合高三地數據用量，以及需要內地通話之用戶",
   },
   {
@@ -1939,7 +1951,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: ["10GB 全球共用數據"],
+    perks: ["10GB 全球共用數據", PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合間中外遊、需要全球數據之用戶",
   },
   {
@@ -1958,7 +1971,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: ["20GB 亞太區共用數據"],
+    perks: ["20GB 亞太區共用數據", PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合較常前往亞太地區之用戶",
   },
   {
@@ -1977,7 +1991,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: ["30GB 亞太區共用數據"],
+    perks: ["30GB 亞太區共用數據", PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合高亞太數據用量之用戶",
   },
   {
@@ -1996,7 +2011,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: [PERK_THREE_CGA, "內地通話 100 分鐘"],
+    perks: [PERK_THREE_CGA, "內地通話 100 分鐘", PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合高三地數據用量，以及需要內地通話之用戶",
   },
   {
@@ -2015,7 +2031,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: ["60GB 亞太區共用數據"],
+    perks: ["60GB 亞太區共用數據", PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合極高亞太數據用量之用戶",
   },
   {
@@ -2034,7 +2051,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: ["20GB 全球共用數據"],
+    perks: ["20GB 全球共用數據", PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合較常外遊、需要全球數據之用戶",
   },
   {
@@ -2053,7 +2071,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: ["2 張 SIM 卡共享 126GB", "3GB 大灣區數據"],
+    perks: ["2 張 SIM 卡共享 126GB", "3GB 大灣區數據", PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合兩人共用本地數據之家庭",
   },
   {
@@ -2072,7 +2091,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: ["30GB 全球共用數據"],
+    perks: ["30GB 全球共用數據", PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合高全球數據用量之用戶",
   },
   {
@@ -2089,7 +2109,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: ["5 張 SIM 卡共享 150GB", "10GB 大灣區數據"],
+    perks: ["5 張 SIM 卡共享 150GB", "10GB 大灣區數據", PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合多人共用本地數據之家庭",
   },
   {
@@ -2107,7 +2128,8 @@ export const PLANS: Plan[] = [
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: ["50GB 全球共用數據"],
+    perks: ["50GB 全球共用數據", PERK_THREE_ADMIN],
+    portInPerk: PERK_THREE_ADMIN_PORT,
     bestFor: "適合極高全球數據用量之用戶",
   },
   {

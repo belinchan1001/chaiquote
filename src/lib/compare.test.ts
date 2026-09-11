@@ -1159,6 +1159,11 @@ describe("3HK mobile catalogue", () => {
     const global50 = plan("three-5g-global-50-348");
     assert.equal(global50.voice, undefined);
     assert.equal(global50.dataGb, 50);
+    const mobiles = PLANS.filter((row) => row.providerId === "three" && row.category === "mobile");
+    assert.equal(mobiles.length, 20);
+    assert.ok(mobiles.every((row) => row.perks.includes("每月行政費 HK$28")));
+    assert.ok(mobiles.every((row) => row.portInPerk === "轉台可豁免每月行政費 HK$28"));
+    assert.equal(getPlan("three-home5g-a-118")?.portInPerk, undefined);
   });
 });
 

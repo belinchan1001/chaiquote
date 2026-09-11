@@ -152,6 +152,8 @@ const PHRASES: [string, string][] = [
   ["轉台首兩月額外 15GB 大灣區數據；轉台可豁免每月行政費 HK$18", "Port-in extra 15GB GBA data in the first two months; port-in can waive HK$18 admin/month"],
   ["轉台或學生上台可豁免每月行政費 HK$18", "Port-in or student sign-up can waive HK$18 admin/month"],
   ["轉台可豁免每月行政費 HK$18", "Port-in can waive HK$18 admin/month"],
+  ["轉台可豁免每月行政費 HK$28", "Port-in can waive HK$28 admin/month"],
+  ["每月行政費 HK$28", "HK$28 admin/month"],
   ["豁免每月行政費 HK$18", "HK$18 admin/month waived"],
   ["每月行政費 HK$18，限時可豁免（至 2026/09/30）", "HK$18 admin/month, waiver available until 30 Sep 2026"],
   ["攜號轉台本地數據 60GB", "Port-in local data 60GB"],
