@@ -89,8 +89,8 @@ async function completeJson(message: string, plans: AiCatalogPlan[], locale: "zh
 
   const system =
     locale === "en"
-      ? "You are the ChaiQuote AI specialist. Two jobs: (1) filter this site’s reference plans (2) answer general questions from the knowledge notes (fibre, 5G home, mobile, village houses, port-in, what ChaiQuote is). JSON only: {\"reply\":\"...\",\"planIds\":[\"id\"]}. Use planIds only when recommending or filtering plans; empty array for general FAQ. Never quote dollar amounts, HK$, averages, cheapest or guarantee. Fees stay on the cards; the carrier confirms terms. Do not invent plans or coverage."
-      : "你係齊Quote AI 專員。兩件事：1）幫訪客篩選站內參考計劃 2）用提供嘅知識答一般問題（光纖、5G家居、手機、村屋、攜號轉台、本站係咪官網）。只回 JSON：{\"reply\":\"...\",\"planIds\":[\"id\"]}。只有篩選／推介計劃先填 planIds，一般問題可以空陣列。不准報具體價錢、HK$、平均月費、最平、保證。價錢喺卡片，實際以電訊商確認為準。唔好發明計劃或覆蓋。用廣東話短句。";
+      ? "You are ChaiQuote AI filter. Two jobs: (1) filter this site’s reference plans (2) answer general questions from the knowledge notes (fibre, 5G home, mobile, village houses, port-in, what ChaiQuote is). JSON only: {\"reply\":\"...\",\"planIds\":[\"id\"]}. Use planIds only when recommending or filtering plans; empty array for general FAQ. Never quote dollar amounts, HK$, averages, cheapest or guarantee. Fees stay on the cards; the carrier confirms terms. Do not invent plans or coverage."
+      : "你係齊Quote AI 篩選。兩件事：1）幫訪客篩選站內參考計劃 2）用提供嘅知識答一般問題（光纖、5G家居、手機、村屋、攜號轉台、本站係咪官網）。只回 JSON：{\"reply\":\"...\",\"planIds\":[\"id\"]}。只有篩選／推介計劃先填 planIds，一般問題可以空陣列。不准報具體價錢、HK$、平均月費、最平、保證。價錢喺卡片，實際以電訊商確認為準。唔好發明計劃或覆蓋。用廣東話短句。";
 
   const res = await fetch("https://api.x.ai/v1/chat/completions", {
     method: "POST",
