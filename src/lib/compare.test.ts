@@ -111,7 +111,7 @@ describe("HKBN student/youth 5G 30GB", () => {
     assert.equal(youth.quotePick, true);
     assert.deepEqual(
       PLANS.filter((p) => p.latestOffer).map((p) => p.id),
-      ["hkbn-ftth-1000-24m-199-mobile", "icable-ftth-1000-48m-58", "cmhk-5g-limited-50-129", "cmhk-5g-limited-100-149", "cmhk-5g-limited-60-98-youth", "hkbn-5g-30-78-youth"],
+      ["hkbn-ftth-1000-24m-199-mobile", "icable-ftth-1000-48m-58", "cmhk-5g-limited-50-129", "cmhk-5g-limited-100-149", "cmhk-5g-limited-60-98-youth", "cmhk-5g-limited-4places-50-149", "cmhk-5g-limited-4places-50-209", "hkbn-5g-30-78-youth"],
     );
     assert.deepEqual(
       PLANS.filter((p) => p.quotePick).map((p) => p.id),
@@ -139,6 +139,8 @@ describe("HKBN student/youth 5G 30GB", () => {
         "cmhk-5g-limited-50-129",
         "cmhk-5g-limited-100-149",
         "cmhk-5g-limited-60-98-youth",
+        "cmhk-5g-limited-4places-50-149",
+        "cmhk-5g-limited-4places-50-209",
         "hkbn-5g-30-78-youth",
       ],
     );
@@ -1021,6 +1023,8 @@ describe("CMHK mobile catalogue", () => {
       "cmhk-5g-limited-50-129",
       "cmhk-5g-limited-100-149",
       "cmhk-5g-limited-60-98-youth",
+      "cmhk-5g-limited-4places-50-149",
+      "cmhk-5g-limited-4places-50-209",
       "cmhk-5g-ultimate-100-149",
       "cmhk-5g-ultimate-200-199",
       "cmhk-5g-2places-20-youth-139",
@@ -1086,6 +1090,33 @@ describe("CMHK mobile catalogue", () => {
     assert.match(limitedYouth.limits ?? "", /18 至 29 歲/);
     assert.ok(limitedYouth.perks.includes("送 HK$500 月費回贈"));
     assert.equal(limitedYouth.portInPerk, "轉台可豁免每月行政費 HK$18");
+    assert.equal(limited.voice, "本地無限通話");
+    assert.equal(limited100.voice, "本地無限通話");
+    assert.equal(limitedYouth.voice, "本地無限通話");
+    const fourPlaces24 = plan("cmhk-5g-limited-4places-50-149");
+    assert.equal(fourPlaces24.monthlyFee, 149);
+    assert.equal(fourPlaces24.freeMonths, 0);
+    assert.equal(fourPlaces24.contractMonths, 24);
+    assert.equal(fourPlaces24.dataGb, 50);
+    assert.equal(fourPlaces24.quotePick, true);
+    assert.equal(fourPlaces24.latestOffer, true);
+    assert.equal(fourPlaces24.voice, "本地無限通話");
+    assert.match(fourPlaces24.roaming ?? "", /中港澳台/);
+    assert.ok(fourPlaces24.perks.includes("送一卡兩號"));
+    assert.equal(fourPlaces24.portInPerk, "轉台可豁免每月行政費 HK$18");
+    const fourPlaces36 = plan("cmhk-5g-limited-4places-50-209");
+    assert.equal(fourPlaces36.monthlyFee, 209);
+    assert.equal(fourPlaces36.freeMonths, 6);
+    assert.equal(fourPlaces36.contractMonths, 36);
+    assert.equal(fourPlaces36.dataGb, 50);
+    assert.equal(fourPlaces36.quotePick, true);
+    assert.equal(fourPlaces36.latestOffer, true);
+    assert.equal(averageFee(fourPlaces36), 174.2);
+    assert.equal(fourPlaces36.voice, "本地無限通話");
+    assert.match(fourPlaces36.roaming ?? "", /中港澳台/);
+    assert.ok(fourPlaces36.perks.includes("送一卡兩號"));
+    assert.ok(fourPlaces36.perks.includes("免 6 個月月費"));
+    assert.equal(fourPlaces36.portInPerk, "轉台可豁免每月行政費 HK$18");
     const threeHk = plan("cmhk-5g-trial-10-3hk-68");
     assert.equal(threeHk.monthlyFee, 68);
     assert.match(threeHk.limits ?? "", /3香港轉台/);
