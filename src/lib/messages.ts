@@ -45,8 +45,8 @@ export const MESSAGES = {
     statEstatesUnit: "個屋苑",
     fromFee: "{fee} 起",
     villageFibre: "村屋光纖",
-    bestPicksTitle: "齊Quote 最抵推介",
-    bestPicksLead: "每個服務類型自動揀月費最低嘅參考計劃。實際覆蓋同安裝期以電訊商確認為準。",
+    bestPicksTitle: "齊Quote 精選計劃",
+    bestPicksLead: "每個服務類型，由本站現有參考計劃入面揀月費較低嘅一條；唔代表全港最平，實際以電訊商確認為準。",
     bestPicksCta: "睇計劃",
     catFibreText: "1000M 至 10000M，公屋／居屋／私樓／村屋",
     catHome5gText: "免拉線，速度視現場",
@@ -191,6 +191,8 @@ export const MESSAGES = {
     aboutIndependent: "獨立聲明",
     aboutIndependentText:
       "本平台並非任何單一電訊營運商之附屬機構，所有資料均以提供中立參考為核心原則。資料更新：{date}。現時收錄 {providers} 間供應商、{plans} 個參考計劃。",
+    noCommission:
+      "本網站並沒有向任何電訊商收取佣金或廣告費。所列月費僅供參考，實際以電訊商確認為準。",
     aboutProviders: "現時覆蓋之供應商",
     aboutBrand: "品牌指引",
     aboutDisclaimer: "免責聲明",
@@ -399,8 +401,9 @@ export const MESSAGES = {
     statEstatesUnit: "estates",
     fromFee: "From {fee}",
     villageFibre: "Village fibre",
-    bestPicksTitle: "ChaiQuote best-value picks",
-    bestPicksLead: "Lowest monthly fee in each category, taken from the live plan list. Coverage is confirmed when you apply.",
+    bestPicksTitle: "ChaiQuote featured reference plans",
+    bestPicksLead:
+      "Each category picks a lower monthly fee from the site’s current reference plans. This is not a claim that these are Hong Kong’s lowest. The carrier confirms the final terms.",
     bestPicksCta: "See plan",
     catFibreText: "1000M to 10000M for public housing, HOS, private and village homes",
     catHome5gText: "No cabling. Speed depends on the site",
@@ -547,6 +550,8 @@ export const MESSAGES = {
     aboutIndependent: "Independence",
     aboutIndependentText:
       "We are not part of any one carrier. Information is for neutral reference. Updated {date}. Currently {providers} providers and {plans} reference plans.",
+    noCommission:
+      "We do not receive commission or advertising fees from any carrier. Fees are for reference only; the carrier confirms the final terms.",
     aboutProviders: "Providers listed",
     aboutBrand: "Brand guidelines",
     aboutDisclaimer: "Disclaimer",

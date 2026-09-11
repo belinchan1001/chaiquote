@@ -210,7 +210,7 @@ describe("village-onsite guide", () => {
   it("homepage cheapest picks link to plan cards without naming providers", () => {
     const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
     const messages = readFileSync(join(here, "./messages.ts"), "utf8");
-    assert.match(messages, /bestPicksTitle: "齊Quote 最抵推介"/);
+    assert.match(messages, /bestPicksTitle: "齊Quote 精選計劃"/);
     assert.match(home, /bestPicksTitle/);
     assert.match(home, /cheapestPlan\("broadband"\)/);
     assert.match(home, /cheapestVillageBroadbandPlan/);
