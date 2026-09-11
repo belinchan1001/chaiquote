@@ -19,7 +19,7 @@ import {
   type SpeedMbps,
 } from "@/lib/plans";
 import { addressHitValue } from "@/lib/address-search";
-import { isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
+import { isCmhkFlashEstate, isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
 import { compactSearch, parsePlansSearch, planListReplayKey } from "@/lib/search";
 import { CATEGORY_SEO, plansCategoryPath, canonicalUrl } from "@/lib/canonical";
 import { bringPlanListIntoView, isPlanListInView, watchPlanListInView } from "@/lib/plan-list-fade";
@@ -304,6 +304,10 @@ function PlansPage() {
 
       {isNetvigatorOnlyEstate(search.estate) && (search.cat === "broadband" || search.cat === "home5g") ? (
         <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("plansNetvigatorOnlyNote")}</p>
+      ) : null}
+
+      {isCmhkFlashEstate(search.estate) && search.cat === "broadband" ? (
+        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("plansFlashNote")}</p>
       ) : null}
 
       <div className="mt-6 space-y-4 rounded-xl bg-card p-4 shadow-[var(--shadow-border)] sm:p-5">

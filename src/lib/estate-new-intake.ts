@@ -74,6 +74,25 @@ export const HKBN_INTAKE_OFFER_ESTATES = [
 /** Fibre coverage currently Netvigator-only; blocks inherit the parent. */
 export const NETVIGATOR_ONLY_ESTATES = ["上然"] as const;
 
+/** CMHK flash fibre for listed estates only. 白田邨 is excluded. */
+export const CMHK_FLASH_OFFER_ESTATES = [
+  "寶庭居",
+  "賢庭居",
+  "仁愛居",
+  "樂翹樓",
+  "錦暉苑",
+  "長沙灣邨",
+  "康東邨",
+  "連翠邨",
+  "洪福邨",
+  "滿東邨",
+  "銀灣邨",
+  "常樂邨",
+  "東匯邨",
+  "寶田邨",
+  "啟福居",
+] as const;
+
 const NEW_INTAKE_PARENTS = ESTATES.filter((estate) => NEW_INTAKE_NAMES.has(estate.name));
 const NEW_INTAKE_BLOCK_NAMES = new Set<string>();
 
@@ -116,6 +135,10 @@ export function isNetvigatorOnlyEstate(query?: string): boolean {
   const known = matchKnownEstate(query);
   if (known) return NETVIGATOR_ONLY_NAMES.has(known.name);
   return NETVIGATOR_ONLY_NAMES.has(query.trim());
+}
+
+export function isCmhkFlashEstate(query?: string): boolean {
+  return estateUnlocksPlan(query, CMHK_FLASH_OFFER_ESTATES);
 }
 
 export function newIntakeGroups<T extends { estate: { name: string } }>(

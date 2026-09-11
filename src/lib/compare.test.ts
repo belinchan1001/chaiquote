@@ -132,6 +132,8 @@ describe("HKBN student/youth 5G 30GB", () => {
         "netvigator-ftth-2500-public-36m-158",
         "netvigator-ftth-2500-private-36m-176",
         "icable-ftth-1000-48m-58",
+        "cmhk-ftth-1000-24m-0-flash",
+        "cmhk-ftth-2500-36m-148-flash",
         "hkbn-5g-30-78-youth",
       ],
     );

@@ -772,4 +772,9 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 上然第5座|Le Mont Tower 5,上然5座,上然五座|大埔|private|大埔墟||馬窩路19號
 上然第6座|Le Mont Tower 6,上然6座,上然六座|大埔|private|大埔墟||馬窩路19號
 上然第7座|Le Mont Tower 7,上然7座,上然七座|大埔|private|大埔墟||馬窩路19號
+寶庭居|Po Ting Terraced Home,寶琳北路過渡性房屋|西貢|public|將軍澳||寶琳北路11號
+賢庭居|Yin Ting Terraced Home,唐賢街過渡性房屋|西貢|public|將軍澳||唐賢街18號
+仁愛居|Yan Oi House,洪水橋仁愛居|元朗|public|洪水橋||洪安里8號
+樂翹樓|Eminence Tower,樂翹樓1座|元朗|public|洪水橋
+啟福居|Kai Fook Kui,沐安街過渡性房屋,啟德啟福居|九龍城|public|啟德||沐安街
 `.trim();
