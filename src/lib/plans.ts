@@ -1314,7 +1314,7 @@ export const PLANS: Plan[] = [
     providerId: "cmhk",
     category: "broadband",
     name: "1000M 光纖入屋（36 個月）",
-    monthlyFee: 78,
+    monthlyFee: 98,
     freeMonths: 3,
     contractMonths: 36,
     speedMbps: 1000,

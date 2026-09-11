@@ -1064,6 +1064,21 @@ describe("iCable 1000M FTTH $58 48-month", () => {
   });
 });
 
+describe("CMHK 1000M FTTH $98 36-month", () => {
+  it("charges HK$98 with three free months and waived install", () => {
+    const row = plan("cmhk-ftth-1000");
+    assert.equal(row.providerId, "cmhk");
+    assert.equal(row.category, "broadband");
+    assert.equal(row.name, "1000M 光纖入屋（36 個月）");
+    assert.equal(row.monthlyFee, 98);
+    assert.equal(row.freeMonths, 3);
+    assert.equal(row.contractMonths, 36);
+    assert.equal(row.speedMbps, 1000);
+    assert.equal(row.install, "豁免安裝費");
+    assert.deepEqual(row.housing, ["public", "hos", "private"]);
+  });
+});
+
 describe("cheapest plan auto-picks", () => {
   it("returns the lowest monthly fee per service type", () => {
     const fiber = cheapestPlan("broadband");
