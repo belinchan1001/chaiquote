@@ -4,6 +4,7 @@ import { Bookmark, GitCompareArrows } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PlanBadges } from "@/components/plan-badges";
 import { CertifiedStaffNote } from "@/components/certified-staff-note";
+import { LogoMark } from "@/components/logo";
 import { ProviderMark } from "@/components/provider-mark";
 import { QuoteLink } from "@/components/quote-link";
 import { useDesk } from "@/lib/desk";
@@ -20,6 +21,7 @@ import {
   planPerks,
   type Plan,
 } from "@/lib/plans";
+import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export function PlanCard({ plan }: { plan: Plan }) {
@@ -31,7 +33,7 @@ export function PlanCard({ plan }: { plan: Plan }) {
   const inCompare = compare.includes(plan.id);
   const inSaved = saved.includes(plan.id);
   const avg = averageFee(plan);
-  const { t, tx, categoryLabel } = useI18n();
+  const { t, tx, categoryLabel, locale } = useI18n();
 
   useEffect(() => {
     if (!plan.quotePick) return;
@@ -44,7 +46,7 @@ export function PlanCard({ plan }: { plan: Plan }) {
     <article
       ref={shineRef}
       className={cn(
-        "flex flex-col rounded-xl bg-card p-5 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
+        "relative flex flex-col rounded-xl bg-card p-5 pb-10 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
         plan.quotePick && "plan-card-shine",
       )}
     >
@@ -152,6 +154,13 @@ export function PlanCard({ plan }: { plan: Plan }) {
         </QuoteLink>
       </div>
       <p className="mt-3 text-[11px] leading-relaxed text-subtle">{t("referencePrice")}</p>
+      <span
+        aria-hidden="true"
+        className="pointer-events-none !absolute right-5 bottom-3 z-[1] inline-flex items-center gap-1 font-display text-[11px] font-medium tracking-tight text-subtle/50 select-none"
+      >
+        <LogoMark className="size-3.5" />
+        <span>{locale === "en" ? "ChaiQuote" : SITE.name}</span>
+      </span>
     </article>
   );
 }
