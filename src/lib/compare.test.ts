@@ -1079,6 +1079,22 @@ describe("CMHK 1000M FTTH $98 36-month", () => {
   });
 });
 
+describe("CMHK 1000M FTTH $88 36-month", () => {
+  it("replaces the old 2500M card with 1000M at HK$88", () => {
+    const row = plan("cmhk-ftth-2500");
+    assert.equal(row.providerId, "cmhk");
+    assert.equal(row.category, "broadband");
+    assert.equal(row.name, "1000M 光纖入屋（36 個月）");
+    assert.equal(row.monthlyFee, 88);
+    assert.equal(row.freeMonths, 2);
+    assert.equal(row.contractMonths, 36);
+    assert.equal(row.speedMbps, 1000);
+    assert.equal(row.install, "豁免安裝費");
+    assert.deepEqual(row.housing, ["public", "hos", "private"]);
+    assert.notEqual(plan("cmhk-ftth-1000").monthlyFee, 88);
+  });
+});
+
 describe("cheapest plan auto-picks", () => {
   it("returns the lowest monthly fee per service type", () => {
     const fiber = cheapestPlan("broadband");
