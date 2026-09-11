@@ -56,7 +56,7 @@ describe("visible compare fields", () => {
   });
 
   it("keeps data, voice and roaming for mobile plans", () => {
-    const plans = [plan("three-45g-44"), plan("cmhk-5g-ultimate-100-149")];
+    const plans = [plan("three-45g-10-58"), plan("cmhk-5g-ultimate-100-149")];
     const keys = visibleCompareFields(plans, copy).map((field) => field.key);
     assert.ok(keys.includes("data"));
     assert.ok(keys.includes("voice"));
@@ -66,11 +66,11 @@ describe("visible compare fields", () => {
   });
 
   it("keeps a mobile-only row when the set is mixed", () => {
-    const plans = [plan("icable-ftth-200-36m"), plan("three-45g-44")];
+    const plans = [plan("icable-ftth-200-36m"), plan("three-45g-10-58")];
     const keys = visibleCompareFields(plans, copy).map((field) => field.key);
     assert.ok(keys.includes("voice"));
     assert.equal(compareFieldValue(plans[0], "voice", copy), "—");
-    assert.equal(compareFieldValue(plans[1], "voice", copy), "本地 3000 分鐘");
+    assert.equal(compareFieldValue(plans[1], "voice", copy), "本地 3,000 分鐘");
   });
 });
 
@@ -1097,6 +1097,68 @@ describe("CMHK 1000M FTTH $88 36-month", () => {
     assert.equal(row.install, "豁免安裝費");
     assert.deepEqual(row.housing, ["public", "hos", "private"]);
     assert.notEqual(plan("cmhk-ftth-1000").monthlyFee, 88);
+  });
+});
+
+describe("3HK mobile catalogue", () => {
+  it("replaces the previous five cards with the twenty screenshot plans", () => {
+    for (const id of ["three-45g-44", "three-5g-60-79", "three-5g-100-105", "three-5g-70-cga", "three-5g-200-145"]) {
+      assert.equal(getPlan(id), undefined, id);
+    }
+    const ids = PLANS.filter((row) => row.providerId === "three" && row.category === "mobile").map((row) => row.id);
+    assert.deepEqual(ids, [
+      "three-45g-10-58",
+      "three-5g-22-78",
+      "three-5g-33-98",
+      "three-45g-unl-116",
+      "three-5g-cga-10-116",
+      "three-5g-cga-20-128",
+      "three-5g-cga-30-138",
+      "three-5g-105-148",
+      "three-5g-apac-10-158",
+      "three-5g-cga-50-171",
+      "three-5g-global-10-198",
+      "three-5g-apac-20-208",
+      "three-5g-apac-30-238",
+      "three-5g-cga-70-257",
+      "three-5g-apac-60-268",
+      "three-5g-global-20-268",
+      "three-5g-family-126-268",
+      "three-5g-global-30-318",
+      "three-5g-family-150-319",
+      "three-5g-global-50-348",
+    ]);
+    const starter = plan("three-45g-10-58");
+    assert.equal(starter.monthlyFee, 58);
+    assert.equal(starter.contractMonths, 36);
+    assert.equal(starter.dataGb, 10);
+    assert.equal(starter.network, "4.5G");
+    assert.equal(starter.voice, "本地 3,000 分鐘");
+    assert.match(starter.roaming ?? "", /大灣區 2GB/);
+    assert.match(starter.fupNote ?? "", /128kbps/);
+    const stop = plan("three-5g-22-78");
+    assert.equal(stop.monthlyFee, 78);
+    assert.match(stop.fupNote ?? "", /用完即停/);
+    const popular = plan("three-5g-33-98");
+    assert.equal(popular.hot, true);
+    assert.equal(popular.contractMonths, 28);
+    assert.ok(popular.perks.some((perk) => perk.includes("15 個應用程式")));
+    const unl = plan("three-45g-unl-116");
+    assert.equal(unl.dataGb, undefined);
+    assert.equal(unl.hot, true);
+    assert.ok(unl.perks.includes("本地數據全速無限任用"));
+    const cga50 = plan("three-5g-cga-50-171");
+    assert.equal(cga50.voice, undefined);
+    assert.ok(cga50.perks.includes("內地通話 3,000 分鐘"));
+    const planD = plan("three-5g-105-148");
+    assert.ok(planD.perks.includes("內地副號"));
+    const family = plan("three-5g-family-150-319");
+    assert.equal(family.contractMonths, 30);
+    assert.equal(family.fupNote, undefined);
+    assert.ok(family.perks.includes("5 張 SIM 卡共享 150GB"));
+    const global50 = plan("three-5g-global-50-348");
+    assert.equal(global50.voice, undefined);
+    assert.equal(global50.dataGb, 50);
   });
 });
 

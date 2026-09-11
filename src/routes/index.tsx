@@ -22,7 +22,7 @@ const FEATURED_IDS = [
   "hkbn-ftth-1000-36m-98",
   "hgc-ftth-1000-public-36m",
   "cmhk-home5g-350-48-88",
-  "three-45g-44",
+  "three-45g-10-58",
 ] as const;
 
 function Home() {
