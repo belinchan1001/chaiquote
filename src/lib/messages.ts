@@ -114,10 +114,8 @@ export const MESSAGES = {
     speed: "網絡速度",
     speedNote: "實際速度視乎現場環境而定",
     villageFeeNote: "村屋計劃有可能會因地址覆蓋而有所調整，詳情請向銷售員查詢。",
-    hktStaffNote:
-      "網上行／CSL 計劃由本站核對過員工身份嘅該電訊商同事回覆。身份核對唔等於電訊商官方授權；我哋唔係電訊商官方客服。",
-    hkbnStaffNote:
-      "香港寬頻計劃由本站核對過員工身份嘅該電訊商同事回覆。身份核對唔等於電訊商官方授權；我哋唔係電訊商官方客服。",
+    hktStaffNote: "網上行／CSL 計劃經本站核對身份嘅電訊商同事，用指定 WhatsApp 回覆。唔係官方客服。",
+    hkbnStaffNote: "香港寬頻計劃經本站核對身份嘅電訊商同事，用指定 WhatsApp 回覆。唔係官方客服。",
     data: "高速數據",
     prepaid: "預繳",
     install: "安裝費",
@@ -475,9 +473,9 @@ export const MESSAGES = {
     villageFeeNote:
       "Village plans may be adjusted depending on address coverage. Please check with a sales adviser.",
     hktStaffNote:
-      "Netvigator / CSL plans are answered by carrier colleagues whose staff identity was checked by this site. An identity check is not carrier official authorization; we are not the carrier’s official customer service.",
+      "Netvigator / CSL plans are answered via the designated WhatsApp by carrier colleagues whose identity was checked by this site. Not official customer service.",
     hkbnStaffNote:
-      "HKBN plans are answered by carrier colleagues whose staff identity was checked by this site. An identity check is not carrier official authorization; we are not the carrier’s official customer service.",
+      "HKBN plans are answered via the designated WhatsApp by carrier colleagues whose identity was checked by this site. Not official customer service.",
     data: "High-speed data",
     prepaid: "Prepaid",
     install: "Installation",
