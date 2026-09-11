@@ -47,6 +47,7 @@ export type Plan = {
   monthlyFee: number;
   freeMonths: number;
   contractMonths: number;
+  rebate?: number;
   speedMbps?: number;
   dataGb?: number;
   highSpeedGb?: number;
@@ -157,10 +158,12 @@ const LIMITS_CMHK_3HK =
 const LIMITS_CMHK_TRIAL = "優惠代碼互斥；部分至 2026/09/30。實際月費、數據用量及轉台條款以電訊商確認為準。";
 const LIMITS_CMHK_LOW = "限時計劃至 2026/09/30。實際月費、數據用量及轉台條款以電訊商確認為準。";
 const LIMITS_CMHK_ULTIMATE36 = "轉台免 6 個月月費至 2026/09/30。實際月費、數據用量及轉台條款以電訊商確認為準。";
+const LIMITS_CMHK_LIMITED = "限時計劃。實際月費、數據用量及轉台條款以電訊商確認為準。";
 const PERK_CMHK_ADMIN_PORT = "轉台可豁免每月行政費 HK$18";
 const PERK_CMHK_ADMIN_STUDENT = "轉台或學生上台可豁免每月行政費 HK$18";
 const PERK_CMHK_ADMIN_WAIVED = "豁免每月行政費 HK$18";
 const PERK_CMHK_ADMIN_LIMITED = "每月行政費 HK$18，限時可豁免（至 2026/09/30）";
+const PERK_CMHK_ADMIN = "每月行政費 HK$18";
 const PERK_CMHK_SOCIAL = "送任用社交及娛樂數據組合（原價 HK$38／月）";
 
 export const PLANS: Plan[] = [
@@ -2451,6 +2454,30 @@ export const PLANS: Plan[] = [
     bestFor: "適合接受較長合約、轉台想免多個月月費",
   },
   {
+    id: "cmhk-5g-limited-50-129",
+    providerId: "cmhk",
+    category: "mobile",
+    name: "5G 限定 50GB（36 個月）",
+    monthlyFee: 129,
+    freeMonths: 6,
+    contractMonths: 36,
+    rebate: 400,
+    dataGb: 50,
+    highSpeedGb: 50,
+    fupNote: FUP_CMHK_1M,
+    voice: VOICE_CMHK_UNLIMITED,
+    roaming: "全中國及澳門 9GB",
+    install: "不適用",
+    housing: "all",
+    network: "5G",
+    perks: ["免 6 個月月費", "送 HK$400 月費回贈", "全中國及澳門數據 9GB", PERK_CMHK_ADMIN],
+    portInPerk: PERK_CMHK_ADMIN_PORT,
+    limits: LIMITS_CMHK_LIMITED,
+    quotePick: true,
+    latestOffer: true,
+    bestFor: "適合需要 50GB 本地數據及中澳漫遊之用戶",
+  },
+  {
     id: "cmhk-5g-ultimate-100-149",
     providerId: "cmhk",
     category: "mobile",
@@ -3118,8 +3145,9 @@ export type PlansSearch = {
 };
 
 export function averageFee(plan: Plan) {
-  if (!plan.freeMonths) return plan.monthlyFee;
-  return Math.round(((plan.monthlyFee * (plan.contractMonths - plan.freeMonths)) / plan.contractMonths) * 10) / 10;
+  const rebate = plan.rebate ?? 0;
+  if (!plan.freeMonths && !rebate) return plan.monthlyFee;
+  return Math.round(((plan.monthlyFee * (plan.contractMonths - plan.freeMonths) - rebate) / plan.contractMonths) * 10) / 10;
 }
 
 export function matchesHousing(plan: Plan, housing?: Housing) {

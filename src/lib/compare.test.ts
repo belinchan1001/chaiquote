@@ -11,7 +11,7 @@ import {
   type CompareCopy,
 } from "./compare.ts";
 import { toEnglish } from "./plan-en.ts";
-import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, getPlan, hasCertifiedStaff, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, type Category } from "./plans.ts";
+import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, getPlan, hasCertifiedStaff, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, averageFee, type Category } from "./plans.ts";
 
 const copy: CompareCopy = {
   dash: "—",
@@ -111,7 +111,7 @@ describe("HKBN student/youth 5G 30GB", () => {
     assert.equal(youth.quotePick, true);
     assert.deepEqual(
       PLANS.filter((p) => p.latestOffer).map((p) => p.id),
-      ["hkbn-ftth-1000-24m-199-mobile", "icable-ftth-1000-48m-58", "hkbn-5g-30-78-youth"],
+      ["hkbn-ftth-1000-24m-199-mobile", "icable-ftth-1000-48m-58", "cmhk-5g-limited-50-129", "hkbn-5g-30-78-youth"],
     );
     assert.deepEqual(
       PLANS.filter((p) => p.quotePick).map((p) => p.id),
@@ -136,6 +136,7 @@ describe("HKBN student/youth 5G 30GB", () => {
         "hkbn-ftth-1000-24m-0-flash",
         "hkbn-ftth-2500-36m-148-flash",
         "hkbn-ftth-1000-36m-63-flash",
+        "cmhk-5g-limited-50-129",
         "hkbn-5g-30-78-youth",
       ],
     );
@@ -946,6 +947,7 @@ describe("CMHK mobile catalogue", () => {
       "cmhk-slash-5g-100-178",
       "cmhk-5g-ultimate-50-129-24m",
       "cmhk-5g-ultimate-50-129-36m",
+      "cmhk-5g-limited-50-129",
       "cmhk-5g-ultimate-100-149",
       "cmhk-5g-ultimate-200-199",
       "cmhk-5g-2places-20-youth-139",
@@ -974,6 +976,18 @@ describe("CMHK mobile catalogue", () => {
     const ultimate36 = plan("cmhk-5g-ultimate-50-129-36m");
     assert.equal(ultimate36.freeMonths, 6);
     assert.equal(ultimate36.contractMonths, 36);
+    const limited = plan("cmhk-5g-limited-50-129");
+    assert.equal(limited.monthlyFee, 129);
+    assert.equal(limited.freeMonths, 6);
+    assert.equal(limited.contractMonths, 36);
+    assert.equal(limited.rebate, 400);
+    assert.equal(limited.dataGb, 50);
+    assert.equal(limited.quotePick, true);
+    assert.equal(limited.latestOffer, true);
+    assert.equal(averageFee(limited), 96.4);
+    assert.match(limited.roaming ?? "", /9GB/);
+    assert.ok(limited.perks.includes("送 HK$400 月費回贈"));
+    assert.equal(limited.portInPerk, "轉台可豁免每月行政費 HK$18");
     const threeHk = plan("cmhk-5g-trial-10-3hk-68");
     assert.equal(threeHk.monthlyFee, 68);
     assert.match(threeHk.limits ?? "", /3香港轉台/);
