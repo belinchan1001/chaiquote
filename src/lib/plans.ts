@@ -171,7 +171,7 @@ export const PLANS: Plan[] = [
     id: "hkbn-ftth-1000-36m-98",
     providerId: "hkbn",
     category: "broadband",
-    name: "1000M 連 Wi-Fi 6 路由器（36 個月）",
+    name: "1000M 連 Wi-Fi 7 路由器（BE220・36 個月）",
     monthlyFee: 98,
     freeMonths: 0,
     contractMonths: 36,
@@ -181,7 +181,7 @@ export const PLANS: Plan[] = [
     network: "光纖入屋",
     prepaid: PREPAID_HKBN_200,
     perks: [
-      "送 TP-Link Archer AX23 Wi-Fi 6 路由器",
+      "送 TP-Link Archer BE220 Wi-Fi 7 路由器",
       "首 36 個月額外免費 1000M 副線",
       PERK_HKBN_365,
     ],
@@ -284,7 +284,7 @@ export const PLANS: Plan[] = [
     housing: ["public", "hos", "private"],
     network: "光纖入屋",
     perks: [
-      "四選一：TP-Link Archer AX23 路由器、愛奇藝黃金會員 12 個月、JOOX VIP 12 個月或 WeTV 12 個月",
+      "四選一：TP-Link Archer BE220 路由器、愛奇藝黃金會員 12 個月、JOOX VIP 12 個月或 WeTV 12 個月",
       "SAFE 防毒軟件 6 個月",
       "可選擇延遲服務生效日（最長 365 日）",
     ],
@@ -305,7 +305,7 @@ export const PLANS: Plan[] = [
     network: "光纖入屋",
     perks: [
       "一次過支付 HK$2,800（平均每月約 HK$233.3）",
-      "四選一：Disney+ 標準版 12 個月、Netflix 標準版 12 個月、愛奇藝鑽石會員 12 個月或 TP-Link Archer AX23 路由器",
+      "四選一：Disney+ 標準版 12 個月、Netflix 標準版 12 個月、愛奇藝鑽石會員 12 個月或 TP-Link Archer BE220 路由器",
       PERK_HKBN_SAFE,
       PERK_HKBN_365,
     ],
@@ -453,7 +453,7 @@ export const PLANS: Plan[] = [
     housing: ["public", "hos"],
     network: "光纖入屋",
     perks: [
-      "送 TP-Link Archer AX23 Wi-Fi 6 路由器",
+      "送 TP-Link Archer BE220 Wi-Fi 7 路由器",
       "首 36 個月額外免費 1000M 副線",
       PERK_HKBN_INTAKE_OTT_6,
       PERK_HKBN_365,
@@ -526,7 +526,7 @@ export const PLANS: Plan[] = [
     network: "光纖入屋",
     perks: [
       "免費升級至 2×1000M 光纖",
-      "送指定 Wi-Fi 6 路由器",
+      "送 TP-Link Archer BE220 Wi-Fi 7 路由器",
       "12 個月 myTV SUPER 智能電視版",
       PERK_HKBN_365,
     ],

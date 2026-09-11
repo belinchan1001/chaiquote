@@ -43,10 +43,10 @@ const EXACT: Record<string, string> = {
     "Unlimited data for 15 apps (Facebook, Instagram, WhatsApp, LINE, WeChat, Signal, Zoom, YouTube, Netflix, Apple TV, myTV SUPER, Disney+, hmvod, Douyin and Teams; downloads excluded)",
   "Now TV 體驗組合或國際新聞組合（智能電視版）；可加 HK$38 升級機頂盒":
     "Now TV trial pack or international news pack (smart TV); add HK$38 for a set-top box",
-  "四選一：Disney+ 標準版 12 個月、Netflix 標準版 12 個月、愛奇藝鑽石會員 12 個月或 TP-Link Archer AX23 路由器":
-    "Pick one: 12 months Disney+ Standard, 12 months Netflix Standard, 12 months iQIYI Diamond, or a TP-Link Archer AX23 router",
-  "四選一：TP-Link Archer AX23 路由器、愛奇藝黃金會員 12 個月、JOOX VIP 12 個月或 WeTV 12 個月":
-    "Pick one: TP-Link Archer AX23 router, 12 months iQIYI Gold, 12 months JOOX VIP, or 12 months WeTV",
+  "四選一：Disney+ 標準版 12 個月、Netflix 標準版 12 個月、愛奇藝鑽石會員 12 個月或 TP-Link Archer BE220 路由器":
+    "Pick one: 12 months Disney+ Standard, 12 months Netflix Standard, 12 months iQIYI Diamond, or a TP-Link Archer BE220 router",
+  "四選一：TP-Link Archer BE220 路由器、愛奇藝黃金會員 12 個月、JOOX VIP 12 個月或 WeTV 12 個月":
+    "Pick one: TP-Link Archer BE220 router, 12 months iQIYI Gold, 12 months JOOX VIP, or 12 months WeTV",
   "送 24 個月 myTV SUPER 組合（基本、TVB 外購節目、精選基本、跨屏幕同時睇）":
     "Includes 24 months myTV SUPER (basic, TVB acquired titles, selected basic, multi-screen)",
   "原 1000M 計劃加購每月 HK$46（24 個月），合約期內自動升級至 2500M":
@@ -71,6 +71,7 @@ const PHRASES: [string, string][] = [
   ["送指定 TP-Link BE230 Wi-Fi 7 路由器", "Includes designated TP-Link BE230 Wi-Fi 7 router"],
   ["送指定 TP-Link Wi-Fi 6 路由器", "Includes designated TP-Link Wi-Fi 6 router"],
   ["送 TP-Link Archer BE220 Wi-Fi 7 路由器（價值每月 HK$39；24 個月，合約後無須歸還）", "Includes TP-Link Archer BE220 Wi-Fi 7 router (HK$39/month value; 24 months, keep after contract)"],
+  ["送 TP-Link Archer BE220 Wi-Fi 7 路由器", "Includes TP-Link Archer BE220 Wi-Fi 7 router"],
   ["三選一：Disney+ 標準計劃 24 個月、Netflix 標準計劃 24 個月或 HBO Max 標準計劃 24 個月", "Pick one: 24 months Disney+ Standard, 24 months Netflix Standard, or 24 months HBO Max Standard"],
   ["24 個月 5G 流動通訊 30GB 本地數據，送任用 15 款熱門串流及社交數據（原價每月 HK$98）", "24 months 5G mobile 30GB local data plus unlimited data for 15 streaming and social apps (HK$98/month value)"],
   ["1000M 四合一（Wi-Fi 7、OTT 及 5G 30GB｜24 個月）", "1000M four-in-one (Wi-Fi 7, OTT and 5G 30GB | 24 months)"],
@@ -508,6 +509,7 @@ const PHRASES: [string, string][] = [
   ["連遊戲路由器及娛樂組合", "with gaming router and entertainment bundle"],
   ["連 Wi-Fi 7 及娛樂組合", "with Wi-Fi 7 and entertainment bundle"],
   ["連 Mesh Wi-Fi 7", "with Mesh Wi-Fi 7"],
+  ["1000M 連 Wi-Fi 7 路由器（BE220・36 個月）", "1000M with Wi-Fi 7 router (BE220, 36 months)"],
   ["連 Wi-Fi 6 路由器", "with Wi-Fi 6 router"],
   ["連 Wi-Fi 7 路由器", "with Wi-Fi 7 router"],
   ["2500M 光纖連家居電話（24 個月＋Wi-Fi 7）", "2500M fibre with home phone (24 months + Wi-Fi 7)"],

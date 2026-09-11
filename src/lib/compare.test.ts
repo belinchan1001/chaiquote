@@ -200,6 +200,75 @@ describe("HKBN 1000M four-in-one $199", () => {
   });
 });
 
+describe("HKBN AX23 stockout → Archer BE220 Wi-Fi 7", () => {
+  it("swaps only the former AX23 / 指定 Wi-Fi 6 gifts and disambiguates the $98 name from BE230", () => {
+    const wifi98 = plan("hkbn-ftth-1000-36m-98");
+    assert.equal(wifi98.name, "1000M 連 Wi-Fi 7 路由器（BE220・36 個月）");
+    assert.equal(wifi98.monthlyFee, 98);
+    assert.equal(wifi98.contractMonths, 36);
+    assert.deepEqual(wifi98.perks, [
+      "送 TP-Link Archer BE220 Wi-Fi 7 路由器",
+      "首 36 個月額外免費 1000M 副線",
+      "可選擇延遲服務生效日（最長 365 日）",
+    ]);
+    assert.equal(toEnglish(wifi98.name), "1000M with Wi-Fi 7 router (BE220, 36 months)");
+    assert.equal(toEnglish(wifi98.perks[0]), "Includes TP-Link Archer BE220 Wi-Fi 7 router");
+
+    const be230 = plan("hkbn-ftth-1000-36m-108");
+    assert.equal(be230.name, "1000M 連 Wi-Fi 7 路由器（36 個月）");
+    assert.notEqual(wifi98.name, be230.name);
+    assert.equal(be230.monthlyFee, 108);
+    assert.deepEqual(be230.perks, ["送 TP-Link Archer BE230 Wi-Fi 7 路由器（36 個月）", "可選擇延遲服務生效日（最長 365 日）"]);
+
+    const intake99 = plan("hkbn-ftth-1000-36m-99-intake");
+    assert.equal(intake99.name, "1000M 新入伙特選（36 個月＋OTT）");
+    assert.equal(intake99.monthlyFee, 99);
+    assert.equal(intake99.perks[0], "送 TP-Link Archer BE220 Wi-Fi 7 路由器");
+
+    const pick168 = plan("hkbn-ftth-1000-12m-168");
+    assert.equal(pick168.monthlyFee, 168);
+    assert.equal(
+      pick168.perks[0],
+      "四選一：TP-Link Archer BE220 路由器、愛奇藝黃金會員 12 個月、JOOX VIP 12 個月或 WeTV 12 個月",
+    );
+    assert.equal(
+      toEnglish(pick168.perks[0]),
+      "Pick one: TP-Link Archer BE220 router, 12 months iQIYI Gold, 12 months JOOX VIP, or 12 months WeTV",
+    );
+
+    const pick2800 = plan("hkbn-ftth-1000-12m-2800");
+    assert.equal(pick2800.monthlyFee, 233);
+    assert.equal(
+      pick2800.perks[1],
+      "四選一：Disney+ 標準版 12 個月、Netflix 標準版 12 個月、愛奇藝鑽石會員 12 個月或 TP-Link Archer BE220 路由器",
+    );
+    assert.equal(
+      toEnglish(pick2800.perks[1]),
+      "Pick one: 12 months Disney+ Standard, 12 months Netflix Standard, 12 months iQIYI Diamond, or a TP-Link Archer BE220 router",
+    );
+
+    const dual = plan("hkbn-ftth-2x1000-36m-75-intake");
+    assert.equal(dual.monthlyFee, 75);
+    assert.equal(dual.perks[1], "送 TP-Link Archer BE220 Wi-Fi 7 路由器");
+    assert.equal(dual.perks.includes("送指定 Wi-Fi 6 路由器"), false);
+
+    const mesh = plan("hkbn-ftth-1000-36m-128");
+    assert.equal(mesh.perks[0], "送 TP-Link Deco BE25 兩件裝 Wi-Fi 7 路由器（36 個月）");
+    const gaming = plan("hkbn-ftth-10000-ge800");
+    assert.ok(gaming.perks[0].includes("GE800"));
+
+    const ax23 = PLANS.filter((p) => JSON.stringify(p).includes("AX23"));
+    assert.deepEqual(ax23.map((p) => p.id), []);
+    const leftoverWifi6 = PLANS.filter(
+      (p) =>
+        p.providerId === "hkbn" &&
+        p.category === "broadband" &&
+        (p.perks.includes("送指定 Wi-Fi 6 路由器") || p.perks.some((perk) => perk.includes("AX23"))),
+    );
+    assert.deepEqual(leftoverWifi6.map((p) => p.id), []);
+  });
+});
+
 describe("Netvigator public 1000M $108", () => {
   it("names the included Linksys EA9350 router without changing other plans", () => {
     const plan = getPlan("netvigator-ftth-1000-public-36m-108");
