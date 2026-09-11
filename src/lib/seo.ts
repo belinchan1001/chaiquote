@@ -75,6 +75,9 @@ export const GUIDE_ARTICLE_KEYWORDS: Record<string, string> = {
   home5g: "香港5G家居,5G家居寬頻,免拉線寬頻,村屋5G",
   mobile: "香港手機月費,攜號轉台,大灣區數據,5G月費",
   business: "香港商業寬頻,店舖寬頻,寫字樓寬頻,固定IP",
+  "public-hos-fees": "公屋寬頻月費,居屋1000M,公屋光纖參考月費",
+  "estate-filter": "屋苑篩,齊Quote屋苑,寬頻覆蓋查核",
+  "switch-broadband": "轉寬頻,轉台寬頻,先裝後停",
 };
 
 export const SITEMAP_PAGES: readonly SitemapPage[] = [

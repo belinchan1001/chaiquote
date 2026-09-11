@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { GUIDES, getGuide } from "./guides.ts";
+import { getPlan } from "./plans.ts";
 import { SITEMAP_PAGES } from "./seo.ts";
 
 const FORBIDDEN = ["保證裝到", "全港最平", "官方", "唔保證裝到"];
@@ -98,6 +99,8 @@ describe("village-onsite guide", () => {
       "mobile",
       "business",
       "public-vs-hos",
+      "public-hos-fees",
+      "estate-filter",
       "is-1000m-enough",
       "switch-broadband",
       "gba-mobile",
@@ -245,5 +248,105 @@ describe("village-onsite guide", () => {
     assert.match(page, /CollectionPage/);
     assert.match(meta, /cat-broadband\.jpg/);
     assert.doesNotMatch(page, /createFileRoute\("\/guides\//);
+  });
+});
+
+const RANKING_FORBIDDEN = ["最抵", "最低", "最平", "必選", "齊Quote 推介", "市價", "平均"];
+
+describe("locked SEO guides", () => {
+  it("registers public-hos-fees and estate-filter on the fibre hub and sitemap", () => {
+    for (const slug of ["public-hos-fees", "estate-filter"] as const) {
+      assert.equal(getGuide(slug)?.slug, slug);
+      assert.ok(GUIDES.some((guide) => guide.slug === slug));
+      assert.ok(SITEMAP_PAGES.some((page) => page.path === `/guides/${slug}`));
+    }
+    assert.ok(getGuide("fiber")?.related?.includes("public-hos-fees"));
+    assert.ok(getGuide("fiber")?.related?.includes("estate-filter"));
+    assert.ok(getGuide("switch-broadband")?.related?.includes("public-hos-fees"));
+    assert.ok(getGuide("switch-broadband")?.related?.includes("estate-filter"));
+  });
+
+  it("locks public-hos-fees listed fees to real plan cards and the 私樓 note", () => {
+    const guide = getGuide("public-hos-fees");
+    assert.ok(guide);
+    assert.equal(guide.h1, "公屋／居屋 1000M 常見參考月費幾多？");
+    const tableSection = guide.body.find((section) => section.table);
+    assert.ok(tableSection?.table);
+    assert.equal(tableSection.table.caption, "站內列出｜僅供參考");
+    const expected = [
+      { id: "icable-ftth-1000-48m-58", fee: 58, months: 48 },
+      { id: "hgc-ftth-1000-public-36m", fee: 75, months: 36 },
+      { id: "cmhk-ftth-2500", fee: 88, months: 36 },
+      { id: "hgc-ftth-1000-public-39m", fee: 89, months: 39 },
+      { id: "icable-ftth-1000-public-36m", fee: 93, months: 36 },
+      { id: "hkbn-ftth-1000-36m-98", fee: 98, months: 36 },
+      { id: "netvigator-ftth-1000-public-36m-98", fee: 98, months: 36 },
+    ];
+    assert.equal(tableSection.table.rows.length, expected.length);
+    for (const [index, row] of tableSection.table.rows.entries()) {
+      const want = expected[index];
+      assert.equal(row.href, `/plans/${want.id}`);
+      const plan = getPlan(want.id);
+      assert.ok(plan, want.id);
+      assert.equal(plan.monthlyFee, want.fee);
+      assert.equal(plan.contractMonths, want.months);
+      assert.match(row.value, new RegExp(String(want.fee)));
+    }
+    const headings = guide.body.map((section) => section.heading);
+    const noteIndex = headings.indexOf("點理解呢批例子");
+    assert.ok(noteIndex > headings.indexOf("唔係劃一價"));
+    assert.equal(guide.body[noteIndex]?.paragraphs[0], "部分例子亦適用私樓；適用樓類以計劃卡為準");
+    const text = guideText("public-hos-fees");
+    assert.match(text, /站內列出/);
+    assert.match(text, /僅供參考/);
+    assert.match(text, /唔係保證價/);
+    assert.match(text, /樓類篩/);
+    assert.match(text, /唔係排名/);
+    for (const phrase of [...FORBIDDEN, ...RANKING_FORBIDDEN]) {
+      assert.equal(text.includes(phrase), false, `forbidden phrase: ${phrase}`);
+    }
+  });
+
+  it("locks estate-filter to 參考適用 and carrier-confirmed coverage", () => {
+    const guide = getGuide("estate-filter");
+    assert.ok(guide);
+    assert.equal(guide.h1, "齊Quote 點用屋苑篩？");
+    const text = guideText("estate-filter");
+    assert.match(text, /參考適用/);
+    assert.match(text, /覆蓋以電訊商確認/);
+    assert.match(guide.body.find((section) => section.table)?.table?.caption ?? "", /三步/);
+    assert.ok(guide.body.some((section) => section.table?.rows.some((row) => row.label === "輸入")));
+    assert.ok(guide.body.some((section) => section.table?.rows.some((row) => row.label === "睇卡")));
+    assert.ok(guide.body.some((section) => section.paragraphs.some((p) => p.includes("/guides/village"))));
+    assert.match(text, /入伙限定|快閃/);
+    assert.match(text, /以電訊商確認為準/);
+    for (const phrase of [...FORBIDDEN, ...RANKING_FORBIDDEN]) {
+      assert.equal(text.includes(phrase), false, `forbidden phrase: ${phrase}`);
+    }
+  });
+
+  it("strengthens switch-broadband with 五件事, 先裝後停, and a matching EN body", () => {
+    const guide = getGuide("switch-broadband");
+    assert.ok(guide);
+    const five = guide.body.find((section) => section.heading === "轉台五件事");
+    assert.ok(five?.table);
+    assert.deepEqual(
+      five.table.rows.map((row) => row.label),
+      ["完約日", "新線安裝期", "安裝費／預繳", "路由器送定還", "舊台幾時停"],
+    );
+    const text = guideText("switch-broadband");
+    assert.match(text, /先裝後停/);
+    assert.match(text, /寬頻.*唔能夠攜號|唔能夠攜號/);
+    assert.match(text, /\/guides\/contract-fees/);
+    assert.ok(guide.faq?.some((item) => /斷網/.test(item.q)));
+    assert.ok(guide.faq?.some((item) => /證件/.test(item.q)));
+    assert.ok(guide.faq?.some((item) => /攜號/.test(item.q) && /唔可以/.test(item.a)));
+    assert.ok(guide.bodyEn.length >= guide.body.length);
+    assert.ok(guide.bodyEn.some((section) => section.table?.rows.length === 5));
+    assert.match(guide.bodyEn.flatMap((section) => section.paragraphs).join(""), /install first, then stop/i);
+    assert.doesNotMatch(text, /避約方法|點樣避約/);
+    for (const phrase of [...FORBIDDEN, ...RANKING_FORBIDDEN]) {
+      assert.equal(text.includes(phrase), false, `forbidden phrase: ${phrase}`);
+    }
   });
 });

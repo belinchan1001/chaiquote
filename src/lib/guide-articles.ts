@@ -26,6 +26,8 @@ export const GUIDE_ARTICLES: Guide[] = [
       "fiber-vs-5g",
       "village",
       "public-vs-hos",
+      "public-hos-fees",
+      "estate-filter",
       "is-1000m-enough",
       "switch-broadband",
       "contract-fees",
@@ -51,7 +53,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "公屋、居屋、私樓、村屋點分",
         paragraphs: [
-          "公屋同埋居屋多數有指定批量價，選擇相對集中，記住用對應樓類去篩，唔好用私樓價去估公屋。想知分別可睇 [公屋同居屋有咩分別](/guides/public-vs-hos)。公屋例子：[天耀邨](/estates/tin-yiu)。",
+          "公屋同埋居屋多數有指定批量價，選擇相對集中，記住用對應樓類去篩，唔好用私樓價去估公屋。想知分別可睇 [公屋同居屋有咩分別](/guides/public-vs-hos)。站內列出嘅 1000M 例子見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)。公屋例子：[天耀邨](/estates/tin-yiu)。",
           "私樓選擇通常多啲，合約期、路由器、家居電話組合都較密，例如 [太古城](/estates/taikoo-shing)。村屋係另一批計劃，月費同安裝環境都可以同屋邨差好遠，詳情見 [村屋寬頻點算](/guides/village)。",
         ],
         table: {
@@ -113,7 +115,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "下一步",
         paragraphs: [
-          "返首頁輸入屋苑，或者直接開 [光纖格價](/plans?cat=broadband)。想比較免拉線方案，可睇 [光纖同 5G 家居點揀](/guides/fiber-vs-5g) 或者 [5G 家居攻略](/guides/home5g)。屋苑例子：[天耀邨](/estates/tin-yiu)、[太古城](/estates/taikoo-shing)；全部屋苑見 [屋苑目錄](/estates)。",
+          "返首頁輸入屋苑，或者直接開 [光纖格價](/plans?cat=broadband)。屋苑篩點用見 [齊Quote 點用屋苑篩](/guides/estate-filter)。想比較免拉線方案，可睇 [光纖同 5G 家居點揀](/guides/fiber-vs-5g) 或者 [5G 家居攻略](/guides/home5g)。屋苑例子：[天耀邨](/estates/tin-yiu)、[太古城](/estates/taikoo-shing)；全部屋苑見 [屋苑目錄](/estates)。",
         ],
       },
     ],
@@ -128,7 +130,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "Public, HOS, private, village",
         paragraphs: [
-          "Public and HOS housing usually have bulk rates. Do not use a private-estate price to guess a public-estate fee. See [public vs HOS](/guides/public-vs-hos).",
+          "Public and HOS housing usually have bulk rates. Do not use a private-estate price to guess a public-estate fee. See [public vs HOS](/guides/public-vs-hos). Listed 1000M examples: [public / HOS 1000M reference fees](/guides/public-hos-fees).",
           "Village houses are a different set of plans. Details: [village broadband](/guides/village).",
         ],
         table: {
@@ -189,7 +191,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "Next step",
         paragraphs: [
-          "Open the fibre compare page or type your estate on the home page. To compare a wireless option, see [fibre vs 5G home](/guides/fiber-vs-5g).",
+          "Open the fibre compare page or type your estate on the home page. How to use the estate filter: [estate filter](/guides/estate-filter). To compare a wireless option, see [fibre vs 5G home](/guides/fiber-vs-5g).",
         ],
       },
     ],
@@ -212,7 +214,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         q: "點樣查核自己屋苑嘅光纖報價？",
-        a: "喺齊Quote 輸入屋苑，或者開 [光纖格價](/plans?cat=broadband) 揀樓類，再用 WhatsApp 查核。覆蓋、完工期同月費以電訊商確認為準。",
+        a: "喺齊Quote 輸入屋苑，或者開 [光纖格價](/plans?cat=broadband) 揀樓類，再用 WhatsApp 查核。屋苑篩步驟見 [齊Quote 點用屋苑篩](/guides/estate-filter)。覆蓋、完工期同月費以電訊商確認為準。",
       },
     ],
     faqEn: [
@@ -234,7 +236,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         q: "How do I check a quote for my estate?",
-        a: "Enter the estate on ChaiQuote or open the [fibre compare page](/plans?cat=broadband), then confirm on WhatsApp. Fees and coverage are confirmed by the carrier.",
+        a: "Enter the estate on ChaiQuote or open the [fibre compare page](/plans?cat=broadband), then confirm on WhatsApp. See [how to use the estate filter](/guides/estate-filter). Fees and coverage are confirmed by the carrier.",
       },
     ],
   },
@@ -902,7 +904,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     excerptEn: "Usually yes. Carriers often file separate bulk plans.",
     descriptionEn: "Public housing and HOS broadband are usually quoted separately. Pick the right housing type; coverage is confirmed by the carrier.",
     h1En: "Do public housing and HOS broadband fees differ?",
-    related: ["fiber", "is-1000m-enough"],
+    related: ["fiber", "is-1000m-enough", "public-hos-fees", "estate-filter"],
     plans: [
       { href: "/plans?cat=broadband&housing=public", label: "公屋光纖計劃" },
       { href: "/plans?cat=broadband&housing=hos", label: "居屋光纖計劃" },
@@ -929,14 +931,14 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "1000M 點樣睇，但唔好虛構覆蓋",
         paragraphs: [
-          "用齊Quote 篩 [公屋光纖](/plans?cat=broadband&housing=public) 同 [居屋光纖](/plans?cat=broadband&housing=hos)，你會見到同一速度之下，供應商、合約、路由器同月費可以唔同。呢個係計劃邏輯，唔係話某一個邨已經確認裝到。",
+          "用齊Quote 篩 [公屋光纖](/plans?cat=broadband&housing=public) 同 [居屋光纖](/plans?cat=broadband&housing=hos)，你會見到同一速度之下，供應商、合約、路由器同月費可以唔同。呢個係計劃邏輯，唔係話某一個邨已經確認裝到。站內列出嘅 1000M 例子見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)。",
           "想對實樓，開屋苑頁，例如 [天耀邨](/estates/tin-yiu)、[天瑞邨](/estates/tin-shui)。呢啲頁只列出適用該樓類嘅參考計劃，仍然要查核報價。",
         ],
       },
       {
         heading: "點用齊Quote 揀樓類",
         paragraphs: [
-          "首頁搜尋框輸入屋苑，系統會判斷公屋、居屋、私樓定村屋，再帶你去格價頁。你亦可以喺格價頁手動揀樓類。揀錯樓類，見到嘅月費就會唔啱你。",
+          "首頁搜尋框輸入屋苑，系統會判斷公屋、居屋、私樓定村屋，再帶你去格價頁。步驟見 [齊Quote 點用屋苑篩](/guides/estate-filter)。你亦可以喺格價頁手動揀樓類。揀錯樓類，見到嘅月費就會唔啱你。",
           DISCLAIMER,
         ],
       },
@@ -947,6 +949,327 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "Public housing and HOS often have separate fibre SKUs. Filter by housing type; do not reuse a private-building price.",
         ],
+      },
+    ],
+  },
+  {
+    slug: "public-hos-fees",
+    minutes: 6,
+    category: "fiber",
+    seoTitle: "公屋居屋 1000M 參考月費｜齊Quote",
+    h1: "公屋／居屋 1000M 常見參考月費幾多？",
+    description:
+      "公屋／居屋 1000M 唔係劃一價。下列係站內列出例子，僅供參考，唔係保證價。先用樓類篩，覆蓋同月費以電訊商確認為準。",
+    title: "公屋／居屋 1000M 常見參考月費幾多？",
+    excerpt: "唔係劃一價。下列係站內列出例子，僅供參考，唔代表你屋苑一定有。",
+    titleEn: "Public / HOS 1000M: listed reference monthly fees",
+    excerptEn: "Not one flat price. The examples below are listed on this site, for reference only — not a guarantee for your estate.",
+    descriptionEn:
+      "Public and HOS 1000M fibre is not one flat price. Examples below are listed on this site for reference only, not a guaranteed fee. Filter by housing type; coverage and fees are confirmed by the carrier.",
+    h1En: "What are common listed 1000M fees for public / HOS housing?",
+    published: "2026-09-11",
+    related: ["public-vs-hos", "estate-filter", "fiber", "switch-broadband", "is-1000m-enough"],
+    plans: [
+      { href: "/plans?cat=broadband&housing=public", label: "公屋光纖計劃" },
+      { href: "/plans?cat=broadband&housing=hos", label: "居屋光纖計劃" },
+    ],
+    estates: [
+      { href: "/estates/tin-yiu", label: "天耀邨" },
+      { href: "/estates", label: "屋苑目錄" },
+      { href: "/guides/public-vs-hos", label: "公屋 vs 居屋" },
+    ],
+    body: [
+      {
+        heading: "唔係劃一價",
+        paragraphs: [
+          "公屋／居屋 1000M **唔係**全港劃一價。下列係**站內列出**例子，僅供參考。",
+        ],
+        table: {
+          caption: "站內列出｜僅供參考",
+          headers: ["計劃例子", "參考月費／合約"],
+          rows: [
+            {
+              label: "有線 1000M（48 個月）",
+              value: "HK$58／48 個月",
+              href: "/plans/icable-ftth-1000-48m-58",
+            },
+            {
+              label: "HGC 轉台 1000M",
+              value: "HK$75／36 個月",
+              href: "/plans/hgc-ftth-1000-public-36m",
+            },
+            {
+              label: "CMHK 1000M",
+              value: "HK$88／36 個月",
+              href: "/plans/cmhk-ftth-2500",
+            },
+            {
+              label: "HGC＋路由電話 1000M",
+              value: "HK$89／39 個月",
+              href: "/plans/hgc-ftth-1000-public-39m",
+            },
+            {
+              label: "有線 1000M（36 個月）",
+              value: "HK$93／36 個月",
+              href: "/plans/icable-ftth-1000-public-36m",
+            },
+            {
+              label: "HKBN BE220 1000M",
+              value: "HK$98／36 個月",
+              href: "/plans/hkbn-ftth-1000-36m-98",
+            },
+            {
+              label: "網上行 1000M",
+              value: "HK$98／36 個月",
+              href: "/plans/netvigator-ftth-1000-public-36m-98",
+            },
+          ],
+        },
+      },
+      {
+        heading: "點理解呢批例子",
+        paragraphs: [
+          "部分例子亦適用私樓；適用樓類以計劃卡為準",
+          "呢張表**唔係排名**，亦唔保證你屋苑有其中一條。公屋同居屋好多時分開報價，分別見 [公屋同居屋有咩分別](/guides/public-vs-hos)。",
+          "點查：先用樓類篩（公屋／居屋），再睇計劃卡上嘅月費、合約同適用樓類，最後用 WhatsApp 查核。覆蓋同月費以電訊商確認為準。",
+        ],
+      },
+      {
+        heading: "下一步",
+        paragraphs: [
+          "去 [公屋光纖格價](/plans?cat=broadband&housing=public) 或 [居屋光纖格價](/plans?cat=broadband&housing=hos)，配合樓類篩再對卡。想知點用屋苑名，見 [齊Quote 點用屋苑篩](/guides/estate-filter)。",
+          DISCLAIMER,
+        ],
+      },
+    ],
+    bodyEn: [
+      {
+        heading: "Not one flat price",
+        paragraphs: [
+          "Public / HOS 1000M is **not** a single Hong Kong-wide fee. The rows below are **listed on this site**, for reference only.",
+        ],
+        table: {
+          caption: "Listed on this site | for reference only",
+          headers: ["Example plan", "Reference fee / contract"],
+          rows: [
+            {
+              label: "i-Cable 1000M (48 months)",
+              value: "HK$58 / 48 months",
+              href: "/plans/icable-ftth-1000-48m-58",
+            },
+            {
+              label: "HGC switch 1000M",
+              value: "HK$75 / 36 months",
+              href: "/plans/hgc-ftth-1000-public-36m",
+            },
+            {
+              label: "CMHK 1000M",
+              value: "HK$88 / 36 months",
+              href: "/plans/cmhk-ftth-2500",
+            },
+            {
+              label: "HGC + router + phone 1000M",
+              value: "HK$89 / 39 months",
+              href: "/plans/hgc-ftth-1000-public-39m",
+            },
+            {
+              label: "i-Cable 1000M (36 months)",
+              value: "HK$93 / 36 months",
+              href: "/plans/icable-ftth-1000-public-36m",
+            },
+            {
+              label: "HKBN BE220 1000M",
+              value: "HK$98 / 36 months",
+              href: "/plans/hkbn-ftth-1000-36m-98",
+            },
+            {
+              label: "Netvigator 1000M",
+              value: "HK$98 / 36 months",
+              href: "/plans/netvigator-ftth-1000-public-36m-98",
+            },
+          ],
+        },
+      },
+      {
+        heading: "How to read these examples",
+        paragraphs: [
+          "Some examples also apply to private estates; check the housing type on the plan card.",
+          "This table is **not a ranking**, and it does not guarantee any of these plans at your estate. Public housing and HOS are often quoted separately; see [public vs HOS](/guides/public-vs-hos).",
+          "How to check: filter by housing type (public / HOS), read the fee, contract and housing tags on the plan card, then confirm on WhatsApp. Coverage and fees are confirmed by the carrier.",
+        ],
+      },
+      {
+        heading: "Next step",
+        paragraphs: [
+          "Open [public fibre plans](/plans?cat=broadband&housing=public) or [HOS fibre plans](/plans?cat=broadband&housing=hos) and keep the housing filter on. How to search by estate name: [estate filter](/guides/estate-filter).",
+          DISCLAIMER,
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "公屋同居屋價會唔會一樣？",
+        a: "唔一定。好多時分開批量計劃，篩選時分開揀。分別見 [公屋同居屋有咩分別](/guides/public-vs-hos)。頁上例子只係站內列出、僅供參考。",
+      },
+      {
+        q: "點查覆蓋／自己屋苑？",
+        a: "先用樓類篩，再睇計劃卡，最後用 WhatsApp 查核。輸入屋苑名見 [齊Quote 點用屋苑篩](/guides/estate-filter)。覆蓋以電訊商確認為準。",
+      },
+      {
+        q: "係咪保證價？",
+        a: "唔係保證價。站內列出只供參考，實際月費、合約同覆蓋一律以電訊商確認為準。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Are public-housing and HOS fees the same?",
+        a: "Not necessarily. They often have separate bulk plans and should be filtered separately. See [public vs HOS](/guides/public-vs-hos). The examples on this page are listed on the site, for reference only.",
+      },
+      {
+        q: "How do I check coverage for my estate?",
+        a: "Filter by housing type, read the plan card, then confirm on WhatsApp. How to type an estate name: [estate filter](/guides/estate-filter). Coverage is confirmed by the carrier.",
+      },
+      {
+        q: "Is this a guaranteed price?",
+        a: "No. Listed fees are for reference only. Actual fees, contracts and coverage are confirmed by the carrier.",
+      },
+    ],
+  },
+  {
+    slug: "estate-filter",
+    minutes: 5,
+    category: "fiber",
+    seoTitle: "屋苑篩點用：對樓類同參考計劃｜齊Quote",
+    h1: "齊Quote 點用屋苑篩？",
+    description:
+      "輸入屋苑，對樓類同參考適用計劃。名唔全或者入伙限定唔等於全港都有。覆蓋以電訊商確認為準。",
+    title: "齊Quote 點用屋苑篩？",
+    excerpt: "輸入屋苑，對樓類同參考適用計劃。覆蓋以電訊商確認，篩完唔等於已經裝到。",
+    titleEn: "How to use the ChaiQuote estate filter",
+    excerptEn: "Type an estate to match housing type and reference-applicable plans. Coverage is confirmed by the carrier.",
+    descriptionEn:
+      "Type an estate name to match housing type and reference-applicable plans. Incomplete names or intake-only offers are not city-wide. Coverage is confirmed by the carrier.",
+    h1En: "How do I use the ChaiQuote estate filter?",
+    published: "2026-09-11",
+    related: ["fiber", "village", "public-hos-fees", "public-vs-hos", "switch-broadband"],
+    plans: [
+      { href: "/", label: "返首頁搜屋苑" },
+      { href: "/plans?cat=broadband", label: "去光纖格價" },
+    ],
+    estates: [
+      { href: "/estates", label: "屋苑目錄" },
+      { href: "/guides/village", label: "村屋點算" },
+    ],
+    body: [
+      {
+        heading: "屋苑篩做咩",
+        paragraphs: [
+          "喺首頁搜尋框輸入屋苑名，系統會對樓類，再列出**參考適用**計劃。**覆蓋以電訊商確認**，篩完唔等於已經裝到。",
+        ],
+      },
+      {
+        heading: "三步用屋苑篩",
+        paragraphs: ["跟住三步：輸入 → 睇卡 → 分享或 WhatsApp。"],
+        table: {
+          caption: "三步用屋苑篩",
+          headers: ["步驟", "做咩"],
+          rows: [
+            {
+              label: "輸入",
+              value: "入屋苑名，對樓類。",
+              href: "/",
+            },
+            {
+              label: "睇卡",
+              value: "月費、合約、路由器。",
+              href: "/plans?cat=broadband",
+            },
+            {
+              label: "分享或 WhatsApp",
+              value: "查核報價，確認覆蓋。",
+              href: "/estates",
+            },
+          ],
+        },
+      },
+      {
+        heading: "使用注意",
+        paragraphs: [
+          "名唔全、錯字或者嘈音，結果可能唔準；可以改少少字再試，或者去 [屋苑目錄](/estates) 搵。",
+          "入伙限定、快閃計劃只適用指定屋苑，**唔等於全港**都有同一價。",
+          "村屋係另一套，見 [村屋寬頻點算](/guides/village)。",
+          DISCLAIMER,
+        ],
+      },
+    ],
+    bodyEn: [
+      {
+        heading: "What the estate filter does",
+        paragraphs: [
+          "Type an estate name in the home search box. The site matches the housing type and lists **reference-applicable** plans. **Coverage is confirmed by the carrier**; a filter match is not an install confirmation.",
+        ],
+      },
+      {
+        heading: "Three steps",
+        paragraphs: ["Type → read the card → share or WhatsApp."],
+        table: {
+          caption: "Three steps for the estate filter",
+          headers: ["Step", "What you do"],
+          rows: [
+            {
+              label: "Type",
+              value: "Enter the estate name to match housing type.",
+              href: "/",
+            },
+            {
+              label: "Read the card",
+              value: "Monthly fee, contract, router.",
+              href: "/plans?cat=broadband",
+            },
+            {
+              label: "Share or WhatsApp",
+              value: "Check the quote and confirm coverage.",
+              href: "/estates",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Notes",
+        paragraphs: [
+          "Incomplete names, typos or noisy results can miss. Try a shorter name, or browse the [estate directory](/estates).",
+          "Intake-only and flash offers apply to named estates. They are **not** the same fee across Hong Kong.",
+          "Village houses are a separate set of plans; see [village broadband](/guides/village).",
+          DISCLAIMER,
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "屋苑名唔齊點算？",
+        a: "試改少少字、用屋邨／屋苑簡稱，或者去 [屋苑目錄](/estates) 搵。仍然對唔到，用 WhatsApp 報完整名稱同座數。",
+      },
+      {
+        q: "篩完係咪等於裝到？",
+        a: "唔係。篩完只係對到**參考適用**計劃，**覆蓋以電訊商確認**，唔等於已經裝到。",
+      },
+      {
+        q: "村屋點處理？",
+        a: "村屋唔好用公屋價去估。另見 [村屋寬頻點算](/guides/village)，需要可以約 [實地視察](/guides/village-onsite)。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "What if the estate name is incomplete?",
+        a: "Try a shorter name or an estate abbreviation, or browse the [estate directory](/estates). If it still misses, WhatsApp the full name and block.",
+      },
+      {
+        q: "Does a filter match mean it can be installed?",
+        a: "No. A match only shows **reference-applicable** plans. **Coverage is confirmed by the carrier** — it is not an install confirmation.",
+      },
+      {
+        q: "How should village houses be handled?",
+        a: "Do not reuse a public-housing fee for a village house. See [village broadband](/guides/village); book an [on-site check](/guides/village-onsite) if needed.",
       },
     ],
   },
@@ -1005,14 +1328,17 @@ export const GUIDE_ARTICLES: Guide[] = [
     category: "fiber",
     seoTitle: "轉寬頻點樣減少斷網｜齊Quote",
     h1: "轉台寬頻：舊約、安裝期、點樣銜接",
-    description: "轉寬頻先查舊約完約日同新線安裝期，避免空窗。唔好自行違法解約。實際安排以電訊商確認。",
+    description: "轉寬頻先查舊約完約日同新線安裝期，避免空窗。寬頻唔能夠攜號，要先裝後停。唔好自行違法解約。實際安排以電訊商確認。",
     title: "轉台寬頻：舊約、安裝期、點樣銜接",
-    excerpt: "先查完約日，再約新線。重疊幾日通常好過斷網。手機轉台見攜號文。",
+    excerpt: "先查完約日，再約新線。寬頻唔能夠攜號，要先裝後停。手機轉台見攜號文。",
     titleEn: "Switching fibre with less downtime",
-    excerptEn: "Check the old contract end date, then book the new install. Overlap beats a gap.",
-    descriptionEn: "Check the old contract and the new install date before you switch. Do not break a contract unlawfully. The carrier confirms the schedule.",
+    excerptEn: "Check the old contract end date, then book the new install. Broadband cannot port a number — install first, then stop the old line.",
+    descriptionEn:
+      "Check the old contract and the new install date before you switch. Broadband cannot port a number; install the new line first, then stop the old one. Do not break a contract unlawfully. The carrier confirms the schedule.",
     h1En: "Switching broadband: old contract, install date, handover",
-    related: ["port-in", "contract-fees", "fiber"],
+    published: "2026-09-09",
+    modified: "2026-09-11",
+    related: ["port-in", "contract-fees", "fiber", "public-hos-fees", "estate-filter"],
     plans: [{ href: "/plans?cat=broadband", label: "去光纖格價" }],
     estates: [
       { href: "/estates/tin-yiu", label: "天耀邨" },
@@ -1023,14 +1349,51 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "先查舊約完約日",
         paragraphs: [
           "轉寬頻唔係攜號。新供應商要上門拉線或者換機，舊合約亦可能未完。第一步係睇清楚完約日、提早終止費、有冇搬遷或者轉台條款，而唔係先取消舊台。",
-          "本頁唔教你點樣避過合約或者虛報資料。提早終止要按你同電訊商簽嘅合約處理。",
+          "寬頻**唔能夠攜號**；做法係**先裝後停**（新線測好先停舊台）。本頁唔教你點樣避過合約或者虛報資料。提早終止要按你同電訊商簽嘅合約處理。",
         ],
+      },
+      {
+        heading: "轉台五件事",
+        paragraphs: [
+          "簽約或者約安裝之前，用下面五件事對一次。月費以外仲有安裝費、預繳、合約，見 [月費以外的費用](/guides/contract-fees)。",
+        ],
+        table: {
+          caption: "轉台五件事",
+          headers: ["事項", "點睇"],
+          rows: [
+            {
+              label: "完約日",
+              value: "舊約幾時完、有冇提早終止費。",
+              href: "/guides/contract-fees",
+            },
+            {
+              label: "新線安裝期",
+              value: "幾時上門、要唔要管理處批准。",
+              href: "/guides/village-onsite",
+            },
+            {
+              label: "安裝費／預繳",
+              value: "豁免定要繳、有冇預繳。",
+              href: "/guides/contract-fees",
+            },
+            {
+              label: "路由器送定還",
+              value: "送出、包用，定合約後要還。",
+              href: "/guides/contract-fees",
+            },
+            {
+              label: "舊台幾時停",
+              value: "先裝後停：新線測好先停舊。",
+              href: "/guides/port-in",
+            },
+          ],
+        },
       },
       {
         heading: "新線安裝期",
         paragraphs: [
           "問新台：幾時可以上門、要唔要管理處批准、舊樓／村屋會唔會加日。村屋有時要現場先確定路經，見 [村屋實地視察](/guides/village-onsite)。",
-          "安裝當日先測到上網，先算新線可用。未測好就切舊台，屋企會無網。",
+          "安裝當日先測到上網，先算新線可用。未測好就切舊台，屋企會無網。記住**先裝後停**。",
         ],
       },
       {
@@ -1050,8 +1413,97 @@ export const GUIDE_ARTICLES: Guide[] = [
     ],
     bodyEn: [
       {
-        heading: "Do not cancel first",
-        paragraphs: ["Book and test the new line before you stop the old one. This page does not advise breaking a contract."],
+        heading: "Check the old contract end date first",
+        paragraphs: [
+          "Switching broadband is not number porting. The new carrier has to install a line or swap equipment, and the old contract may still be running. Start with the end date, early-termination fee, and any move or switch terms — do not cancel the old plan first.",
+          "Broadband **cannot port a number**. The sequence is **install first, then stop** (test the new line before you stop the old one). This page does not advise breaking a contract or misstating facts. Early termination follows the contract you signed.",
+        ],
+      },
+      {
+        heading: "Five things to check when you switch",
+        paragraphs: [
+          "Go through these five items before you sign or book an install. Costs beyond the monthly fee are in [install, prepay, contract](/guides/contract-fees).",
+        ],
+        table: {
+          caption: "Five things when you switch",
+          headers: ["Item", "What to check"],
+          rows: [
+            {
+              label: "Contract end date",
+              value: "When the old contract ends, and any early-termination fee.",
+              href: "/guides/contract-fees",
+            },
+            {
+              label: "New-line install date",
+              value: "When a technician can come, and whether management approval is needed.",
+              href: "/guides/village-onsite",
+            },
+            {
+              label: "Install fee / prepay",
+              value: "Waived or payable, and any prepayment.",
+              href: "/guides/contract-fees",
+            },
+            {
+              label: "Router: gift or return",
+              value: "Gifted, included, or must be returned after the contract.",
+              href: "/guides/contract-fees",
+            },
+            {
+              label: "When to stop the old plan",
+              value: "Install first, then stop: test the new line before you cancel.",
+              href: "/guides/port-in",
+            },
+          ],
+        },
+      },
+      {
+        heading: "New-line install window",
+        paragraphs: [
+          "Ask the new carrier when they can visit, whether the building office must approve, and whether an older block or village house adds days. Village houses sometimes need a site visit first; see [village on-site check](/guides/village-onsite).",
+          "The new line counts as ready only after it is tested on install day. Cutting the old plan before that leaves the home offline. Remember: **install first, then stop**.",
+        ],
+      },
+      {
+        heading: "A few days of overlap beats a gap",
+        paragraphs: [
+          "The usual approach is a short overlap around the new install, then stop the old plan once the new line is stable. If the dates cannot meet, have a backup such as 5G home or a phone hotspot — those are stopgaps and depend on the site.",
+        ],
+      },
+      {
+        heading: "Install-fee waiver, prepay, router",
+        paragraphs: [
+          "Switch offers often waive the install fee or the first month. Also ask about prepay, contract length, and whether the router is included or must be returned. Count year-one cost, not just the sticker fee. Details: [beyond the monthly fee](/guides/contract-fees).",
+          "Keeping a mobile number is a different flow; see [number porting](/guides/port-in). For fibre, open [fibre compare](/plans?cat=broadband) and confirm the quote on WhatsApp.",
+          DISCLAIMER,
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "轉寬頻會唔會斷網？",
+        a: "新線未測好就停舊台，屋企會無網。寬頻唔能夠攜號，要**先裝後停**：新線裝好、測到上網，先取消舊台。實際安裝期以電訊商確認為準。",
+      },
+      {
+        q: "申請要唔要證件？",
+        a: "通常要身分證明同安裝地址；有時會問舊台月結單或者管理處資料。實際清單以電訊商申請要求為準，本頁唔會寫死每一間嘅文件。",
+      },
+      {
+        q: "寬頻可唔可以攜號？",
+        a: "唔可以。寬頻唔能夠攜號過台，要上門裝新線。留手機號碼先至係攜號，見 [攜號轉台](/guides/port-in)。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Will switching broadband cut the connection?",
+        a: "Stopping the old plan before the new line is tested leaves the home offline. Broadband cannot port a number. **Install first, then stop**: test the new line, then cancel the old one. The carrier confirms the install date.",
+      },
+      {
+        q: "Do I need ID documents?",
+        a: "Applications usually need ID and the install address. Some carriers also ask for a recent bill or building-office details. The exact list is confirmed by the carrier.",
+      },
+      {
+        q: "Can broadband port a number?",
+        a: "No. Broadband cannot port a number; a technician installs a new line. Keeping a mobile number is a different flow; see [number porting](/guides/port-in).",
       },
     ],
   },
