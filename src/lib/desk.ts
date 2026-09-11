@@ -64,6 +64,7 @@ type DeskState = {
   inquiry: Inquiry;
   hydrated: boolean;
   notice: string | null;
+  aiOpen: boolean;
   hydrate: () => void;
   toggleCompare: (id: string) => void;
   removeCompare: (id: string) => void;
@@ -72,6 +73,9 @@ type DeskState = {
   setInquiry: (next: Partial<Inquiry>) => void;
   addQuote: (quote: Omit<QuoteRequest, "id" | "createdAt">) => QuoteRequest;
   clearNotice: () => void;
+  openAi: () => void;
+  closeAi: () => void;
+  toggleAi: () => void;
 };
 
 export const useDesk = create<DeskState>((set, get) => ({
@@ -81,6 +85,7 @@ export const useDesk = create<DeskState>((set, get) => ({
   inquiry: EMPTY_INQUIRY,
   hydrated: false,
   notice: null,
+  aiOpen: false,
   hydrate: () => {
     if (get().hydrated || typeof window === "undefined") return;
     try {
@@ -148,6 +153,9 @@ export const useDesk = create<DeskState>((set, get) => ({
     return quote;
   },
   clearNotice: () => set({ notice: null }),
+  openAi: () => set({ aiOpen: true }),
+  closeAi: () => set({ aiOpen: false }),
+  toggleAi: () => set((s) => ({ aiOpen: !s.aiOpen })),
 }));
 
 export function useHydrateDesk() {

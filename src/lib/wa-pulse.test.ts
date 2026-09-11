@@ -12,6 +12,7 @@ describe("WhatsApp pulse", () => {
     const quote = readFileSync(join(here, "../components/quote-link.tsx"), "utf8");
     const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
     const widget = readFileSync(join(here, "../components/whatsapp-widget.tsx"), "utf8");
+    const staff = readFileSync(join(here, "../components/ai-staff.tsx"), "utf8");
     const card = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
     const page = readFileSync(join(here, "../routes/plans.tsx"), "utf8");
     const filters = readFileSync(join(here, "../components/filter-link.tsx"), "utf8");
@@ -19,12 +20,15 @@ describe("WhatsApp pulse", () => {
 
     assert.match(quote, /pulse\?: "header"/);
     assert.match(quote, /pulse === "header" && "wa-pulse wa-pulse-header"/);
-    assert.match(header, /pulse="header"/);
-    assert.match(header, /waHeaderShort/);
+    assert.doesNotMatch(header, /pulse="header"/);
+    assert.match(header, /aiStaff/);
     assert.match(header, /max-sm:h-11 max-sm:w-11/);
     assert.match(header, /max-sm:w-20/);
-    assert.match(widget, /void sendToAi\(locale === "en" \? item\.textEn : item\.text\)/);
-    assert.match(widget, /retrievePlansForAsk/);
+    assert.match(widget, /wa-pulse wa-pulse-fab/);
+    assert.match(widget, /WhatsApp/);
+    assert.doesNotMatch(widget, /sendToAi|retrievePlansForAsk|askAiDesk/);
+    assert.match(staff, /sendToAi/);
+    assert.match(staff, /aiStaff/);
     assert.doesNotMatch(card, /wa-pulse/);
     assert.doesNotMatch(page, /wa-pulse|whatsapp-pulse|tilt/);
     assert.doesNotMatch(quote, /whatsappHref\([^)]*pulse/);

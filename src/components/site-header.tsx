@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, X } from "lucide-react";
+import { Menu, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
-import { QuoteLink } from "@/components/quote-link";
 import { LangToggle } from "@/components/lang-toggle";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
@@ -18,6 +17,8 @@ export function SiteHeader() {
   const currentCat = new URL(href, "https://quote.local").searchParams.get("cat");
   useHydrateDesk();
   const compareCount = useDesk((s) => s.compare.length);
+  const aiOpen = useDesk((s) => s.aiOpen);
+  const toggleAi = useDesk((s) => s.toggleAi);
   const { t } = useI18n();
 
   const links: { to: "/plans" | "/guides" | "/about" | "/estates"; labelKey: MessageKey; search?: { cat: "broadband" | "home5g" | "mobile" | "business" } }[] = [
@@ -62,11 +63,22 @@ export function SiteHeader() {
               {compareCount ? ` ${compareCount}` : ""}
             </Link>
           </Button>
-          <QuoteLink size="sm" pulse="header" className="max-sm:h-11 max-sm:w-11 max-sm:px-0 sm:px-3">
-            <span className="sr-only sm:hidden">{t("waHeaderShort")}</span>
-            <span className="hidden sm:inline lg:hidden">{t("waHeaderShort")}</span>
-            <span className="hidden lg:inline">{t("waHeader")}</span>
-          </QuoteLink>
+          <Button
+            type="button"
+            size="sm"
+            aria-expanded={aiOpen}
+            aria-label={t("aiStaff")}
+            className="max-sm:h-11 max-sm:w-11 max-sm:px-0 sm:px-3"
+            onClick={() => {
+              setOpen(false);
+              toggleAi();
+            }}
+          >
+            <Sparkles />
+            <span className="sr-only sm:hidden">{t("aiStaffShort")}</span>
+            <span className="hidden sm:inline lg:hidden">{t("aiStaffShort")}</span>
+            <span className="hidden lg:inline">{t("aiStaff")}</span>
+          </Button>
           <Button
             type="button"
             variant="outline"
@@ -97,6 +109,16 @@ export function SiteHeader() {
               {t("navCompare")}
               {compareCount ? `（${compareCount}）` : ""}
             </Link>
+            <button
+              type="button"
+              className="flex h-12 items-center text-base font-medium"
+              onClick={() => {
+                setOpen(false);
+                toggleAi();
+              }}
+            >
+              {t("aiStaff")}
+            </button>
             <a
               href={`https://wa.me/${SITE.whatsappE164}`}
               target="_blank"

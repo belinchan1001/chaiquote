@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { CompareBar } from "@/components/compare-bar";
 import { NavProgress } from "@/components/nav-progress";
 import { DeferredWhatsApp } from "@/components/whatsapp-widget";
+import { AiStaffPanel } from "@/components/ai-staff";
 import { FirstVisitTour } from "@/components/first-visit-tour";
 import { PwaInstallTip } from "@/components/pwa-install-tip";
 import { PwaServiceWorker } from "@/components/pwa-service-worker";
@@ -108,6 +109,7 @@ function RootLayout() {
             <CompareBar />
             <PwaInstallTip />
             <DeferredWhatsApp />
+            <AiStaffPanel />
             <FirstVisitTour />
           </AuthProvider>
         </I18nProvider>
