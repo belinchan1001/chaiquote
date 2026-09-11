@@ -12,13 +12,17 @@ describe("plan card corner brand", () => {
     const css = readFileSync(join(here, "../styles.css"), "utf8");
 
     assert.match(card, /import \{ LogoMark \} from "@\/components\/logo"/);
-    assert.match(card, /<LogoMark className="size-3\.5"/);
+    assert.match(card, /<LogoMark className="size-5"/);
+    assert.doesNotMatch(card, /<LogoMark className="size-3\.5"/);
     assert.match(card, /<span>\{SITE\.name\}<\/span>/);
     assert.match(card, /pointer-events-none/);
     assert.match(card, /aria-hidden="true"/);
     assert.match(card, /<article[\s\S]*"relative /);
     assert.match(card, /!absolute right-5 bottom-3/);
-    assert.match(card, /pb-10/);
+    assert.match(card, /text-\[13px\]/);
+    assert.match(card, /text-subtle\/50/);
+    assert.match(card, /pb-12/);
+    assert.doesNotMatch(card, /pb-10/);
     assert.doesNotMatch(card, /<LogoMark[\s\S]{0,80}<Link/);
     assert.doesNotMatch(card, /aria-label=\{SITE\.name\}/);
 
@@ -33,7 +37,7 @@ describe("plan card corner brand", () => {
       /formatFee\(plan\.monthlyFee\)[\s\S]{0,200}(plan-card-shine|className="foil"|LogoMark)/,
     );
     assert.match(card, /<PlanBadges plan=\{plan\} \/>[\s\S]*<QuoteLink plan=\{plan\}[\s\S]*<LogoMark/);
-    assert.match(card, /\{t\("referencePrice"\)\}<\/p>\s*<span[\s\S]*<LogoMark className="size-3\.5"/);
+    assert.match(card, /\{t\("referencePrice"\)\}<\/p>\s*<span[\s\S]*<LogoMark className="size-5"/);
     assert.doesNotMatch(card, /<QuoteLink[^>]*>[\s\S]{0,80}<LogoMark/);
     assert.doesNotMatch(card, /<PlanBadges[^>]*>[\s\S]{0,80}<LogoMark/);
 

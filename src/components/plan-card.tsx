@@ -46,7 +46,7 @@ export function PlanCard({ plan }: { plan: Plan }) {
     <article
       ref={shineRef}
       className={cn(
-        "relative flex flex-col rounded-xl bg-card p-5 pb-10 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
+        "relative flex flex-col rounded-xl bg-card p-5 pb-12 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
         plan.quotePick && "plan-card-shine",
       )}
     >
@@ -156,9 +156,9 @@ export function PlanCard({ plan }: { plan: Plan }) {
       <p className="mt-3 text-[11px] leading-relaxed text-subtle">{t("referencePrice")}</p>
       <span
         aria-hidden="true"
-        className="pointer-events-none !absolute right-5 bottom-3 z-[1] inline-flex items-center gap-1 font-display text-[11px] font-medium tracking-tight text-subtle/50 select-none"
+        className="pointer-events-none !absolute right-5 bottom-3 z-[1] inline-flex items-center gap-1 font-display text-[13px] font-medium tracking-tight text-subtle/50 select-none"
       >
-        <LogoMark className="size-3.5" />
+        <LogoMark className="size-5" />
         <span>{SITE.name}</span>
       </span>
     </article>
