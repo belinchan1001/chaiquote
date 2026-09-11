@@ -19,7 +19,7 @@ import {
   type SpeedMbps,
 } from "@/lib/plans";
 import { addressHitValue } from "@/lib/address-search";
-import { isCmhkFlashEstate, isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
+import { isHkbnFlashEstate, isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
 import { compactSearch, parsePlansSearch, planListReplayKey } from "@/lib/search";
 import { CATEGORY_SEO, plansCategoryPath, canonicalUrl } from "@/lib/canonical";
 import { bringPlanListIntoView, isPlanListInView, watchPlanListInView } from "@/lib/plan-list-fade";
@@ -306,7 +306,7 @@ function PlansPage() {
         <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("plansNetvigatorOnlyNote")}</p>
       ) : null}
 
-      {isCmhkFlashEstate(search.estate) && search.cat === "broadband" ? (
+      {isHkbnFlashEstate(search.estate) && search.cat === "broadband" ? (
         <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("plansFlashNote")}</p>
       ) : null}
 
