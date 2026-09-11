@@ -33,7 +33,7 @@ export function PlanCard({ plan }: { plan: Plan }) {
   const inCompare = compare.includes(plan.id);
   const inSaved = saved.includes(plan.id);
   const avg = averageFee(plan);
-  const { t, tx, categoryLabel, locale } = useI18n();
+  const { t, tx, categoryLabel } = useI18n();
 
   useEffect(() => {
     if (!plan.quotePick) return;
@@ -159,7 +159,7 @@ export function PlanCard({ plan }: { plan: Plan }) {
         className="pointer-events-none !absolute right-5 bottom-3 z-[1] inline-flex items-center gap-1 font-display text-[11px] font-medium tracking-tight text-subtle/50 select-none"
       >
         <LogoMark className="size-3.5" />
-        <span>{locale === "en" ? "ChaiQuote" : SITE.name}</span>
+        <span>{SITE.name}</span>
       </span>
     </article>
   );
