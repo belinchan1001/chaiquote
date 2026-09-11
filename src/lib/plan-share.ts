@@ -1,9 +1,12 @@
 import { canonicalUrl } from "./canonical.ts";
-import type { Plan } from "./plans.ts";
+import { formatFee, type Plan } from "./plans.ts";
 import { SITE } from "./site.ts";
 
-/** Locked zh-HK share sentence. Do not paraphrase; must keep 僅供參考. */
+/** Locked zh-HK share sentence. Do not paraphrase; must keep 僅供參考＋實際以電訊商確認為準. */
 export const PLAN_SHARE_SENTENCE = "呢個計劃月費僅供參考，實際以電訊商確認為準。";
+export const PLAN_SHARE_DISCLAIMER = "僅供參考，實際以電訊商確認為準";
+
+export type PlanSharePlan = Pick<Plan, "id" | "name" | "monthlyFee">;
 
 export type PlanSharePayload = {
   title: string;
@@ -23,17 +26,26 @@ export function planShareUrl(planId: string): string {
   return canonicalUrl(`/plans/${planId}`);
 }
 
-export function planSharePayload(plan: Pick<Plan, "id" | "name">): PlanSharePayload {
+/** Plan facts that must live in the message body, not only the OG card. */
+export function planShareFactsLine(plan: Pick<Plan, "name" | "monthlyFee">): string {
+  return `${plan.name}｜月費 ${formatFee(plan.monthlyFee)}`;
+}
+
+export function planShareBody(plan: PlanSharePlan): string {
+  return `${planShareFactsLine(plan)}\n${PLAN_SHARE_SENTENCE}\n${planShareUrl(plan.id)}`;
+}
+
+export function planSharePayload(plan: PlanSharePlan): PlanSharePayload {
+  const url = planShareUrl(plan.id);
   return {
     title: `${plan.name}｜${SITE.name}`,
-    text: PLAN_SHARE_SENTENCE,
-    url: planShareUrl(plan.id),
+    text: planShareBody(plan),
+    url,
   };
 }
 
-export function planShareClipboardText(plan: Pick<Plan, "id" | "name">): string {
-  const { url, text } = planSharePayload(plan);
-  return `${url}\n${text}`;
+export function planShareClipboardText(plan: PlanSharePlan): string {
+  return planSharePayload(plan).text;
 }
 
 export function isShareAbortError(error: unknown): boolean {
@@ -56,7 +68,7 @@ export function defaultShareHost(): PlanShareHost {
 }
 
 export async function shareOrCopyPlan(
-  plan: Pick<Plan, "id" | "name">,
+  plan: PlanSharePlan,
   host: PlanShareHost = defaultShareHost(),
 ): Promise<PlanShareResult> {
   const payload = planSharePayload(plan);

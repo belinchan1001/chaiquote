@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Check, Share2 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
-import { shareOrCopyPlan } from "@/lib/plan-share";
-import type { Plan } from "@/lib/plans";
+import { shareOrCopyPlan, type PlanSharePlan } from "@/lib/plan-share";
 
 type Cue = "idle" | "copied" | "failed";
 
-export function PlanShareButton({ plan }: { plan: Pick<Plan, "id" | "name"> }) {
+export function PlanShareButton({ plan }: { plan: PlanSharePlan }) {
   const { t } = useI18n();
   const [cue, setCue] = useState<Cue>("idle");
   const timer = useRef(0);
