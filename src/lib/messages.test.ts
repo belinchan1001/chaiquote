@@ -74,25 +74,27 @@ describe("trust/compliance copy", () => {
     const [zhHkt, enHkt] = quoted(messages, "hktStaffNote");
     const [zhHkbn, enHkbn] = quoted(messages, "hkbnStaffNote");
 
-    assert.equal(zhHkt, "網上行／CSL 計劃經本站核對身份嘅電訊商同事，用指定 WhatsApp 回覆。唔係官方客服。");
-    assert.equal(zhHkbn, "香港寬頻計劃經本站核對身份嘅電訊商同事，用指定 WhatsApp 回覆。唔係官方客服。");
+    assert.equal(
+      zhHkt,
+      "網上行／CSL 計劃經本站核對身份嘅電訊商同事，用指定 WhatsApp 回覆。回覆嘅係該電訊商指定授權銷售同事；本站唔係官方客服熱線。",
+    );
+    assert.equal(
+      zhHkbn,
+      "香港寬頻計劃經本站核對身份嘅電訊商同事，用指定 WhatsApp 回覆。回覆嘅係該電訊商指定授權銷售同事；本站唔係官方客服熱線。",
+    );
     assert.equal(
       enHkt,
-      "Netvigator / CSL plans are answered via the designated WhatsApp by carrier colleagues whose identity was checked by this site. Not official customer service.",
+      "Netvigator / CSL plans are answered via the designated WhatsApp by carrier colleagues whose identity was checked by this site. Replies come from that carrier’s designated authorized sales colleagues; this site is not an official customer service hotline.",
     );
     assert.equal(
       enHkbn,
-      "HKBN plans are answered via the designated WhatsApp by carrier colleagues whose identity was checked by this site. Not official customer service.",
+      "HKBN plans are answered via the designated WhatsApp by carrier colleagues whose identity was checked by this site. Replies come from that carrier’s designated authorized sales colleagues; this site is not an official customer service hotline.",
     );
-
-    for (const text of [zhHkt, zhHkbn]) {
-      assert.equal(text.includes("身份核對唔等於"), false, "longer authorization half remains");
-      assert.equal(text.includes("官方授權"), false, "longer authorization half remains");
-    }
 
     for (const text of [zhHkt, zhHkbn, enHkt, enHkbn]) {
       assert.equal(text.includes("正式認證員工"), false, "old certified-staff claim remains");
-      assert.doesNotMatch(text, /certified|officially certified/i);
+      assert.equal(text.includes("官方認證"), false, "official-certification claim remains");
+      assert.doesNotMatch(text, /certified|officially certified|official certification/i);
     }
 
     assert.match(note, /from "lucide-react"/);
