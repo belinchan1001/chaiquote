@@ -251,7 +251,7 @@ export const CORE_GUIDES: Guide[] = [
         ],
       },
     ],
-    related: ["village-onsite", "fiber", "fiber-vs-5g"],
+    related: ["village-onsite", "fiber", "fiber-vs-5g", "estate-filter"],
     plans: [
       { href: "/plans?cat=broadband&housing=village", label: "村屋光纖計劃" },
       { href: "/plans?cat=home5g", label: "5G 家居格價" },
