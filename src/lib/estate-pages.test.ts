@@ -132,6 +132,13 @@ describe("estate SEO pages", () => {
     assert.equal(getEstatePage("monte-vista")?.estate.name, "翠擁華庭");
     assert.equal(getEstatePage("the-beverly-hills")?.estate.name, "比華利山花園");
     assert.equal(getEstatePage("symphony-bay")?.estate.housing, "private");
+    assert.equal(getEstatePage("pierhead-garden")?.estate.housing, "private");
+    assert.equal(getEstatePage("pierhead-garden")?.estate.name, "海翠花園");
+    assert.equal(getEstatePage("villa-athena")?.estate.name, "雅典居");
+    assert.equal(getEstatePage("ocean-view")?.estate.name, "海典灣");
+    assert.equal(getEstatePage("mountain-shore")?.estate.name, "曉峯灣畔");
+    assert.equal(getEstatePage("double-cove")?.estate.name, "迎海");
+    assert.equal(getEstatePage("bayshore-towers")?.estate.name, "海柏花園");
     assert.equal(searchEstates("柴灣常安街簡約公屋")[0]?.name, "柴灣常安街簡約公屋");
     assert.equal(searchEstates("日出康城第12期")[0]?.name, "日出康城第12期");
     assert.equal(ESTATES.find((item) => item.name === "上然")?.district, "大埔");

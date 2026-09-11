@@ -226,7 +226,8 @@ export const EXTRA_RAW = `
 興貴苑|興貴,Hing Kwai Court|屯門|hos
 富健花園|Venice Gardens|屯門|private
 龍門居|Lung Mun Oasis|屯門|private
-海翠花園|海翠,Pierhead Garden|屯門|hos
+海翠花園|海翠,Pierhead Garden|屯門|private|||湖翠路168-236號
+啟豐園|Richland Garden Tuen Mun,Kai Fung Garden|屯門|private|||湖翠路138號
 豐景園|Botania Villa|屯門|private
 華都花園|Waldorf Garden|屯門|private
 新屯門中心|Sun Tuen Mun Centre|屯門|private
@@ -312,14 +313,15 @@ export const EXTRA_RAW = `
 錦禧苑|錦禧,Kam Hay Court|沙田|hos
 錦泰苑|錦泰,Kam Tai Court|沙田|hos
 翠擁華庭|Monte Vista|沙田|private|馬鞍山||沙安街9號
-曉峯灣畔|Double Cove|沙田|private
+曉峯灣畔|曉峰灣畔,Mountain Shore|沙田|private|馬鞍山||沃泰街8號
 觀瀾雅軒|Villa Oceania|沙田|private
 天宇海|Oceanaire|沙田|private
 嵐岸|Sausalito|沙田|private
-海典灣|Villa Athena|沙田|private
+海典灣|Ocean View|沙田|private|馬鞍山||保泰街1號
+雅典居|Villa Athena|沙田|private|馬鞍山||西沙路600號
 福安花園|Fok On Garden|沙田|private
 富輝花園|Fu Fai Garden|沙田|private
-海柏花園|Baycrest|沙田|private
+海柏花園|海栢花園,Bayshore Towers,Baycrest|沙田|private|馬鞍山||西沙路608號
 雅濤居|Villa Concerto|沙田|private
 泓碧|St. Moritz|沙田|private
 雲海|The Mediterranean MOS|沙田|private
