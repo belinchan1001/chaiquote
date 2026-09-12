@@ -250,6 +250,10 @@ describe("AI desk safety", () => {
 
     assert.match(widget, /QUICK_REPLIES\.map/);
     assert.match(widget, /wa-pulse wa-pulse-fab/);
+    assert.match(widget, /toggleWa/);
+    const store = readFileSync(join(here, "desk.ts"), "utf8");
+    assert.match(store, /openAi: \(\) => set\(\{ aiOpen: true, waOpen: false \}\)/);
+    assert.match(store, /openWa: \(\) => set\(\{ waOpen: true, aiOpen: false \}\)/);
   });
 
   it("surfaces locked AI filter entries on home, plans, and the mobile header", () => {

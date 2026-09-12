@@ -29,6 +29,11 @@ describe("WhatsApp pulse", () => {
     assert.match(widget, /wa-pulse wa-pulse-fab/);
     assert.match(widget, /WhatsApp/);
     assert.doesNotMatch(widget, /sendToAi|retrievePlansForAsk|askAiDesk/);
+    assert.match(widget, /toggleWa/);
+    assert.match(widget, /s\.waOpen/);
+    const desk = readFileSync(join(here, "./desk.ts"), "utf8");
+    assert.match(desk, /openAi: \(\) => set\(\{ aiOpen: true, waOpen: false \}\)/);
+    assert.match(desk, /openWa: \(\) => set\(\{ waOpen: true, aiOpen: false \}\)/);
     assert.match(staff, /sendToAi/);
     assert.match(staff, /aiStaff/);
     assert.doesNotMatch(card, /wa-pulse/);

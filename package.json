@@ -16,7 +16,7 @@
     "preview:stop": "node scripts/preview.mjs stop",
     "typecheck": "tsc --noEmit",
     "check:auth": "node scripts/check-auth-invariant.mjs",
-    "test": "node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --test src/lib/app-data/app-data.test.ts src/lib/auth/gate-identity.test.ts src/lib/auth/sign-in-gate.test.ts src/lib/seo.test.ts src/lib/pwa.test.ts src/lib/estate-search.test.ts src/lib/guides.test.ts src/lib/guide-media.test.ts src/lib/compare.test.ts src/lib/quote-pick.test.ts src/lib/foil-scroll.test.ts src/lib/plan-list.test.ts src/lib/messages.test.ts src/lib/plan-card.test.ts src/lib/plan-share.test.ts src/lib/plan-detail.test.ts src/lib/home-perf.test.ts src/lib/ai-desk.test.ts src/lib/offer-link.test.ts src/lib/motion-polish.test.ts",
+    "test": "node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --test src/lib/app-data/app-data.test.ts src/lib/auth/gate-identity.test.ts src/lib/auth/sign-in-gate.test.ts src/lib/seo.test.ts src/lib/pwa.test.ts src/lib/estate-search.test.ts src/lib/guides.test.ts src/lib/guide-media.test.ts src/lib/compare.test.ts src/lib/quote-pick.test.ts src/lib/foil-scroll.test.ts src/lib/plan-list.test.ts src/lib/messages.test.ts src/lib/plan-card.test.ts src/lib/plan-share.test.ts src/lib/plan-detail.test.ts src/lib/home-perf.test.ts src/lib/ai-desk.test.ts src/lib/offer-link.test.ts src/lib/motion-polish.test.ts src/lib/wa-pulse.test.ts",
     "lint": "eslint .",
     "format": "prettier --write ."
   },

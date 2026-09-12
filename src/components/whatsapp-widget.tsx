@@ -23,13 +23,15 @@ const QUICK_LABEL: Record<(typeof QUICK_REPLIES)[number]["id"], MessageKey> = {
 
 export function WhatsAppWidget() {
   const panelId = useId();
-  const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState("");
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const endRef = useRef<HTMLDivElement>(null);
   useHydrateDesk();
   const compare = useDesk((s) => s.compare);
   const inquiry = useDesk((s) => s.inquiry);
+  const open = useDesk((s) => s.waOpen);
+  const toggleWa = useDesk((s) => s.toggleWa);
+  const closeWa = useDesk((s) => s.closeWa);
   const plans = compare.map(getPlan).filter((p): p is NonNullable<typeof p> => Boolean(p));
   const lifted = compare.length > 0;
   const { t, locale } = useI18n();
@@ -52,11 +54,11 @@ export function WhatsAppWidget() {
   useEffect(() => {
     if (!open) return;
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") closeWa();
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, closeWa]);
 
   function send(text: string) {
     const trimmed = text.trim();
@@ -109,7 +111,7 @@ export function WhatsAppWidget() {
               type="button"
               aria-label={t("waClose")}
               className="flex size-11 items-center justify-center"
-              onClick={() => setOpen(false)}
+              onClick={() => closeWa()}
             >
               <X className="size-4" />
             </button>
@@ -187,7 +189,7 @@ export function WhatsAppWidget() {
           "ml-auto flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)] transition-transform duration-150 ease-out active:scale-[0.96]",
           !open && "wa-pulse wa-pulse-fab",
         )}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => toggleWa()}
       >
         <WhatsAppIcon className="size-7" />
       </button>

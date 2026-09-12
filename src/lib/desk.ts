@@ -65,6 +65,7 @@ type DeskState = {
   hydrated: boolean;
   notice: string | null;
   aiOpen: boolean;
+  waOpen: boolean;
   hydrate: () => void;
   toggleCompare: (id: string) => void;
   removeCompare: (id: string) => void;
@@ -76,6 +77,9 @@ type DeskState = {
   openAi: () => void;
   closeAi: () => void;
   toggleAi: () => void;
+  openWa: () => void;
+  closeWa: () => void;
+  toggleWa: () => void;
 };
 
 export const useDesk = create<DeskState>((set, get) => ({
@@ -86,6 +90,7 @@ export const useDesk = create<DeskState>((set, get) => ({
   hydrated: false,
   notice: null,
   aiOpen: false,
+  waOpen: false,
   hydrate: () => {
     if (get().hydrated || typeof window === "undefined") return;
     try {
@@ -153,9 +158,14 @@ export const useDesk = create<DeskState>((set, get) => ({
     return quote;
   },
   clearNotice: () => set({ notice: null }),
-  openAi: () => set({ aiOpen: true }),
+  openAi: () => set({ aiOpen: true, waOpen: false }),
   closeAi: () => set({ aiOpen: false }),
-  toggleAi: () => set((s) => ({ aiOpen: !s.aiOpen })),
+  toggleAi: () =>
+    set((s) => (s.aiOpen ? { aiOpen: false } : { aiOpen: true, waOpen: false })),
+  openWa: () => set({ waOpen: true, aiOpen: false }),
+  closeWa: () => set({ waOpen: false }),
+  toggleWa: () =>
+    set((s) => (s.waOpen ? { waOpen: false } : { waOpen: true, aiOpen: false })),
 }));
 
 export function useHydrateDesk() {
