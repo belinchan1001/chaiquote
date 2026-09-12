@@ -275,6 +275,10 @@ describe("matchKnownEstate / classifyAddress", () => {
       ["米埔新村", "米埔新村"],
       ["馬牯纜村", "馬牯纜村"],
       ["大洞", "西貢大洞村"],
+      ["水頭村", "水頭村"],
+      ["水尾村", "水尾村"],
+      ["錦興圍", "錦興圍"],
+      ["落馬洲", "落馬洲"],
     ] as const;
     for (const [query, name] of cases) {
       assert.equal(searchEstates(query, 8)[0]?.name, name, query);
@@ -286,6 +290,8 @@ describe("matchKnownEstate / classifyAddress", () => {
     assert.equal(searchEstates("鴨脷洲村", 8)[0]?.name, "鴨脷洲村");
     assert.ok(!searchEstates("鴨脷洲村", 8).some((item) => item.name === "鴨脷洲邨"));
     assert.ok(ESTATES.filter((item) => item.housing === "village").length >= 300);
+    assert.equal(searchEstates("水邊圍", 8)[0]?.name, "水邊圍邨");
+    assert.equal(searchEstates("水邊圍", 8)[0]?.housing, "public");
   });
 
   it("classifies 美東樓 and 彩楊閣 with high confidence", () => {

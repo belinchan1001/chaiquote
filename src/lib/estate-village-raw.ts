@@ -59,19 +59,19 @@ export const VILLAGE_RAW = `
 水蕉新村|Shui Tsiu San Tsuen|元朗|village|十八鄉
 馬田村|Ma Tin Tsuen|元朗|village|十八鄉
 馬田心|Ma Tin Sham|元朗|village|十八鄉
-深涌|Sham Chung,十八鄉深涌|元朗|village|十八鄉
+深涌|Sham Chung,十八鄉深涌,深涌村|元朗|village|十八鄉
 攸潭尾|Yau Tam Mei|元朗|village|凹頭
 崇正新村|Shung Ching San Tsuen|元朗|village|十八鄉
 十八鄉楊屋村|Shap Pat Heung Yeung Uk Tsuen|元朗|village|十八鄉
-紅棗田|Hung Tso Tin|元朗|village|十八鄉
-木橋頭|Muk Kiu Tau|元朗|village|十八鄉
+紅棗田|Hung Tso Tin,紅棗田村|元朗|village|十八鄉
+木橋頭|Muk Kiu Tau,木橋頭村|元朗|village|十八鄉
 田寮村|Tin Liu Tsuen,十八鄉田寮|元朗|village|十八鄉
 春坎樹|Chun Hom Shu|元朗|village|十八鄉
 大生圍|Tai Sang Wai|元朗|village|凹頭
-塘頭埔|Tong Tau Po|元朗|village|十八鄉
-欖口|Lam Hau|元朗|village|十八鄉
-黃泥墩|Wong Nai Tun|元朗|village|大棠
-山貝|Shan Pui|元朗|village|十八鄉
+塘頭埔|Tong Tau Po,塘頭埔村|元朗|village|十八鄉
+欖口|Lam Hau,欖口村|元朗|village|十八鄉
+黃泥墩|Wong Nai Tun,黃泥墩村|元朗|village|大棠
+山貝|Shan Pui,山貝村|元朗|village|十八鄉
 山貝湖|Shan Pui Ho|元朗|village|十八鄉
 山貝洪田村|Shan Pui Hung Tin Tsuen,洪田村,山貝洪田|元朗|village|十八鄉
 上攸田村|Sheung Yau Tin Tsuen,上攸田|元朗|village|十八鄉
@@ -241,4 +241,80 @@ export const VILLAGE_RAW = `
 香港仔舊墟|Aberdeen Kau Hui|南區|village|香港仔
 鴨脷洲村|Ap Lei Chau Village|南區|village|鴨脷洲
 鶴咀村|Cape D Aguilar Village,Hok Tsui Village|南區|village|鶴咀
+水頭村|Shui Tau Tsuen,錦田水頭村|元朗|village|錦田
+水尾村|Shui Mei Tsuen,錦田水尾村|元朗|village|錦田
+錦興圍|Kam Hing Wai,錦慶圍,錦田錦興圍|元朗|village|錦田
+逢吉鄉|Fung Kat Heung|元朗|village|錦田
+錦田新村|Kam Tin San Tsuen|元朗|village|錦田
+廈村羅屋村|Ha Tsuen Lo Uk Tsuen|元朗|village|廈村
+廈村新生村|Ha Tsuen San Sang Tsuen,新生村|元朗|village|廈村
+錫降村|Sik Kong Tsuen|元朗|village|廈村
+祥降圍|Cheung Kong Wai Ha Tsuen|元朗|village|廈村
+長江村|Cheung Kong Tsuen Pat Heung|元朗|village|八鄉
+八鄉竹坑|Pat Heung Chuk Hang,竹坑|元朗|village|八鄉
+下輋|Ha Tse|元朗|village|八鄉
+上輋|Sheung Tse|元朗|village|八鄉
+八鄉梁屋村|Pat Heung Leung Uk Tsuen|元朗|village|八鄉
+八鄉羅屋村|Pat Heung Lo Uk Tsuen|元朗|village|八鄉
+牛徑|Ngau Keng|元朗|village|八鄉
+水流田|Shui Lau Tin|元朗|village|八鄉
+水盞田|Shui Chan Tin|元朗|village|八鄉
+打石湖|Ta Shek Wu|元朗|village|八鄉
+大乪|Tai Kong Pat Heung|元朗|village|八鄉
+八鄉大窩|Pat Heung Tai Wo,大窩村|元朗|village|八鄉
+橫台山|Wang Toi Shan|元朗|village|八鄉
+甲龍|Kap Lung|元朗|village|八鄉
+鳳池村|Fung Chi Tsuen|元朗|village|屏山
+永寧村|Wing Ning Tsuen Ping Shan|元朗|village|屏山
+屏山中心圍|Ping Shan Chung Sum Wai|元朗|village|屏山
+坑頭村|Hang Tau Tsuen Ping Shan|元朗|village|屏山
+林屋村|Lam Uk Tsuen Ping Shan|元朗|village|屏山
+牛磡村|Ngau Hom Tsuen|元朗|village|屏山
+西頭圍|Sai Tau Wai|元朗|village|屏山
+屏山新慶村|Ping Shan San Hing Tsuen|元朗|village|屏山
+屏山山下|Ping Shan Shan Ha|元朗|village|屏山
+石埔村|Shek Po Tsuen|元朗|village|屏山
+盛屋村|Shing Uk Tsuen|元朗|village|屏山
+水邊村|Shui Pin Tsuen|元朗|village|屏山
+屏山水邊圍|Ping Shan Shui Pin Wai,水邊圍村|元朗|village|屏山
+大井圍|Tai Tseng Wai|元朗|village|屏山
+水田村|Shui Tin Tsuen|元朗|village|屏山
+屏山新村|Ping Shan San Tsuen|元朗|village|屏山
+新田下新圍|San Tin Ha San Wai|元朗|village|新田
+新田上新圍|San Tin Sheung San Wai|元朗|village|新田
+上竹園|Sheung Chuk Yuen|元朗|village|新田
+下竹園|Ha Chuk Yuen|元朗|village|新田
+新田圍仔|San Tin Wai Tsai|元朗|village|新田
+青龍村|Ching Lung Tsuen|元朗|village|新田
+落馬洲|Lok Ma Chau|元朗|village|新田
+壆圍|Pok Wai|元朗|village|新田
+潘屋村|Pun Uk Tsuen|元朗|village|新田
+新龍村|San Lung Tsuen|元朗|village|新田
+東鎮圍|Tung Chun Wai|元朗|village|新田
+永平村|Wing Ping Tsuen San Tin|元朗|village|新田
+仁壽圍|Yan Shau Wai|元朗|village|新田
+龍田村|Lung Tin Tsuen Shap Pat Heung|元朗|village|十八鄉
+瓦窰頭|Nga Yiu Tau|元朗|village|十八鄉
+港頭村|Kong Tau Tsuen|元朗|village|十八鄉
+港頭新村|Kong Tau San Tsuen|元朗|village|十八鄉
+南坑村|Nam Hang Tsuen Shap Pat Heung|元朗|village|十八鄉
+西邊圍|Sai Pin Wai|元朗|village|十八鄉
+大橋|Tai Kiu|元朗|village|十八鄉
+大棠村|Tai Tong Tsuen|元朗|village|大棠
+蔡屋村|Tsoi Uk Tsuen Shap Pat Heung|元朗|village|十八鄉
+黃屋村|Wong Uk Tsuen Shap Pat Heung|元朗|village|十八鄉
+藍地新村|Lam Tei San Tsuen|屯門|village|屯門
+稔灣|Nim Wan|屯門|village|屯門
+田夫仔|Tin Fu Tsai|屯門|village|屯門
+屯門舊墟|Tuen Mun Kau Hui|屯門|village|屯門
+屯門新墟|Tuen Mun San Hui|屯門|village|屯門
+屯門黃家圍|Tuen Mun Wong Ka Wai|屯門|village|屯門
+蘆慈田|Lo Tsz Tin|大埔|village|大埔
+錦山|Kam Shan Tai Po|大埔|village|大埔
+船灣沙欄|Shuen Wan Sha Lan|大埔|village|船灣
+大埔頭水圍|Tai Po Tau Shui Wai|大埔|village|大埔
+咸田村|Ham Tin Tsuen Tsuen Wan|荃灣|village|荃灣
+河背村|Ho Pui Tsuen Tsuen Wan|荃灣|village|荃灣
+荃灣楊屋村|Tsuen Wan Yeung Uk Tsuen|荃灣|village|荃灣
+中葵涌村|Chung Kwai Chung Tsuen|葵青|village|葵涌
 `.trim();
