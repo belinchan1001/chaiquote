@@ -109,11 +109,11 @@ describe("plan list fade-up", () => {
 
     assert.match(
       css,
-      /@keyframes plan-card-in\s*\{\s*from\s*\{\s*opacity:\s*0;\s*transform:\s*translateY\(12px\);/,
+      /@keyframes plan-card-in\s*\{\s*from\s*\{\s*opacity:\s*0\.88;\s*transform:\s*translateY\(6px\);/,
     );
     assert.match(css, /\.plan-list-enter > \*\s*\{[^}]*animation:\s*plan-card-in 240ms ease-out both/);
     assert.match(css, /\.plan-list > \*\s*\{[^}]*pointer-events:\s*auto/);
-    assert.match(css, /\.plan-list:not\(\.plan-list-enter\) > \*\s*\{[^}]*opacity:\s*0;[^}]*transform:\s*translateY\(12px\)/);
+    assert.match(css, /\.plan-list:not\(\.plan-list-enter\) > \*\s*\{[^}]*opacity:\s*0\.88;[^}]*transform:\s*translateY\(6px\)/);
     assert.match(css, /\.plan-list\s*\{[^}]*scroll-margin-top:\s*5rem/);
     assert.match(css, /\.plan-list-enter > \*\s*\{[^}]*animation-delay:\s*450ms/);
     assert.doesNotMatch(css, /\.plan-card-shine[^{]*\{[^}]*plan-card-in/);

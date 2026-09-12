@@ -1,4 +1,4 @@
-import { startTransition, useId, useState, type FormEvent, type ReactNode } from "react";
+import { useId, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { AiFilterEntry } from "@/components/ai-filter-entry";
 import { Button } from "@/components/ui/button";
@@ -30,7 +30,7 @@ function RadioChip({
   return (
     <label
       className={cn(
-        "chip-press inline-flex h-11 min-w-11 cursor-pointer items-center justify-center rounded-full bg-surface px-4 text-sm font-medium transition-[background-color,color] duration-150 ease-out has-[:checked]:bg-primary has-[:checked]:text-primary-foreground",
+        "chip-press inline-flex h-11 min-w-11 cursor-pointer items-center justify-center rounded-full bg-surface px-4 text-sm font-medium transition-[background-color,color] duration-75 ease-out has-[:checked]:bg-primary has-[:checked]:text-primary-foreground",
       )}
     >
       <input
@@ -97,17 +97,15 @@ export function SearchPanel() {
     const data = Object.fromEntries(new FormData(e.currentTarget).entries());
     const housingValue = housing || resolvedHousing(estate) || undefined;
     remember({ estate, housing: housingValue ?? "", district });
-    startTransition(() => {
-      void navigate({
-        to: "/plans",
-        search: compactSearch(
-          parsePlansSearch({
-            ...data,
-            estate: estate.trim() || undefined,
-            housing: housingValue,
-          }),
-        ),
-      });
+    void navigate({
+      to: "/plans",
+      search: compactSearch(
+        parsePlansSearch({
+          ...data,
+          estate: estate.trim() || undefined,
+          housing: housingValue,
+        }),
+      ),
     });
   }
 
@@ -242,7 +240,7 @@ export function SearchPanel() {
               <RadioChip name="generation" value="5g">
                 {t("gen5")}
               </RadioChip>
-              <label className="chip-press inline-flex h-11 cursor-pointer items-center rounded-full bg-surface px-4 text-sm font-medium transition-[background-color,color] duration-150 ease-out has-[:checked]:bg-primary has-[:checked]:text-primary-foreground">
+              <label className="chip-press inline-flex h-11 cursor-pointer items-center rounded-full bg-surface px-4 text-sm font-medium transition-[background-color,color] duration-75 ease-out has-[:checked]:bg-primary has-[:checked]:text-primary-foreground">
                 <input type="checkbox" name="gba" value="1" className="sr-only" />
                 {t("gba")}
               </label>
@@ -285,13 +283,13 @@ export function SearchPanel() {
             key={item.label}
             to="/plans"
             search={item.search}
-            className="chip-press inline-flex h-11 items-center rounded-full bg-surface px-4 text-sm font-medium transition-[background-color] duration-150 ease-out hover:bg-border"
+            className="chip-press inline-flex h-11 items-center rounded-full bg-surface px-4 text-sm font-medium transition-[background-color] duration-75 ease-out hover:bg-border"
           >
             {item.label}
           </Link>
         ))}
       </div>
-      <Button type="submit" size="lg" className="order-4 mt-5 w-full sm:order-8 sm:mt-6 sm:w-auto">
+      <Button type="submit" size="lg" className="action-apply order-4 mt-5 w-full sm:order-8 sm:mt-6 sm:w-auto">
         {t("autoFilter")}
       </Button>
     </form>

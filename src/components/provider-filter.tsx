@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Link } from "@tanstack/react-router";
 import { ProviderLogo } from "@/components/provider-mark";
-import { chipClass } from "@/components/filter-link";
+import { chipClass, useChipArm } from "@/components/filter-link";
 import { useI18n } from "@/lib/i18n";
 import {
   PROVIDERS,
@@ -97,12 +97,13 @@ function ProviderChip({
   logoId?: ProviderId;
   ariaLabel?: string;
 }) {
+  const chip = useChipArm(selected);
   const inner = (
     <>
       {logoId ? <ProviderLogo id={logoId} size="sm" /> : null}
       <span>{label}</span>
       {typeof count === "number" ? (
-        <span className={cn("tabular-nums text-xs", selected ? "text-primary-foreground/80" : "text-muted")}>
+        <span className={cn("tabular-nums text-xs", chip.selected ? "text-primary-foreground/80" : "text-muted")}>
           {count}
         </span>
       ) : null}
@@ -119,9 +120,9 @@ function ProviderChip({
     return (
       <button
         type="button"
-        aria-pressed={selected}
+        aria-pressed={chip.selected}
         onClick={() => onChange(provider)}
-        className={cn(chipClass(selected), "gap-2 px-3")}
+        className={cn(chipClass(chip.selected), "gap-2 px-3")}
       >
         {inner}
       </button>
@@ -135,9 +136,10 @@ function ProviderChip({
       resetScroll={false}
       preload={false}
       search={compactSearch({ ...search, cat: search.cat, provider })}
-      aria-current={selected ? "page" : undefined}
+      aria-current={chip.selected ? "page" : undefined}
       aria-label={ariaLabel ?? label}
-      className={cn(chipClass(selected), "gap-2 px-3")}
+      className={cn(chipClass(chip.selected), "gap-2 px-3")}
+      onClick={chip.arm}
     >
       {inner}
     </Link>

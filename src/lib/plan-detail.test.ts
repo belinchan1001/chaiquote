@@ -92,6 +92,10 @@ describe("plan detail share landing", () => {
 
     assert.doesNotMatch(root, /key=\{pathname\}/);
     assert.match(root, /className="page-shell"/);
+    const pending = page.slice(page.indexOf("function PlanDetailPending"), page.indexOf("function PlanDetailPage"));
+    assert.match(page, /className="plan-detail-enter mx-auto max-w-6xl px-4 py-8"/);
+    assert.doesNotMatch(pending, /plan-detail-enter/);
+    assert.doesNotMatch(page, /count-?up|requestAnimationFrame\(\(\) => setFee/);
   });
 
   it("does not change plan SEO head or JSON-LD", () => {

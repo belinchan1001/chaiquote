@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState, startTransition } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PlanCard } from "@/components/plan-card";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
@@ -188,20 +188,18 @@ function PlansPage() {
   }, [replayKey, rows.length]);
 
   function patch(next: Partial<PlansSearch>) {
-    startTransition(() => {
-      void navigate({
-        resetScroll: false,
-        search: (prev) => {
-          const merged = { ...prev, ...next };
-          if (
-            merged.provider &&
-            filterPlans({ ...merged, provider: merged.provider }, saved).length === 0
-          ) {
-            merged.provider = undefined;
-          }
-          return compactSearch(merged);
-        },
-      });
+    void navigate({
+      resetScroll: false,
+      search: (prev) => {
+        const merged = { ...prev, ...next };
+        if (
+          merged.provider &&
+          filterPlans({ ...merged, provider: merged.provider }, saved).length === 0
+        ) {
+          merged.provider = undefined;
+        }
+        return compactSearch(merged);
+      },
     });
     if (next.estate !== undefined || next.housing !== undefined) {
       setInquiry({
@@ -343,7 +341,7 @@ function PlansPage() {
           {showHousing ? (
             <Button
               type="button"
-              className="w-full sm:w-auto"
+              className="action-apply w-full sm:w-auto"
               onClick={() => {
                 const next = resolvedHousing(estateDraft, search.housing);
                 patch({
