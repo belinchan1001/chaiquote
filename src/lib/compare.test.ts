@@ -101,8 +101,9 @@ describe("compare chips", () => {
     const here = dirname(fileURLToPath(import.meta.url));
     const widget = readFileSync(join(here, "../components/whatsapp-widget.tsx"), "utf8");
     const tip = readFileSync(join(here, "../components/pwa-install-tip.tsx"), "utf8");
-    assert.match(widget, /lifted \? "bottom-28 sm:bottom-20"/);
-    assert.match(tip, /lifted \? "bottom-28 sm:bottom-20"/);
+    assert.match(widget, /bottom-\[calc\(6\.5rem\+env\(safe-area-inset-bottom\)\)\] sm:bottom-20/);
+    assert.match(tip, /bottom-\[calc\(6\.5rem\+env\(safe-area-inset-bottom\)\)\] sm:bottom-20/);
+    assert.doesNotMatch(widget, /lifted \? "bottom-20 sm:bottom-20"/);
   });
 });
 
