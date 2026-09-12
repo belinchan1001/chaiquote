@@ -66,18 +66,13 @@ describe("estate SEO pages", () => {
 
   it("adds the directory and only estate pages with unique applicable plans", () => {
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/estates"));
+    const sitemapPaths = new Set(SITEMAP_PAGES.map((page) => page.path));
     const estateUrls = SITEMAP_PAGES.filter((page) => page.path.startsWith("/estates/"));
     assert.equal(estateUrls.length, INDEXABLE_ESTATE_PAGES.length);
-    for (const page of INDEXABLE_ESTATE_PAGES) {
-      assert.ok(
-        SITEMAP_PAGES.some((item) => item.path === `/estates/${page.slug}`),
-        page.slug,
-      );
-    }
     for (const page of ESTATE_PAGES) {
-      if (isIndexableEstatePage(page)) continue;
-      assert.ok(
-        SITEMAP_PAGES.every((item) => item.path !== `/estates/${page.slug}`),
+      assert.equal(
+        sitemapPaths.has(`/estates/${page.slug}`),
+        isIndexableEstatePage(page),
         page.slug,
       );
     }

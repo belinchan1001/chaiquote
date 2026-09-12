@@ -4,9 +4,9 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { SITE } from "./site.ts";
-import { getPlan, PLANS } from "./plans.ts";
+import { filterPlans, getPlan, PLANS } from "./plans.ts";
 import { GUIDES, getGuide } from "./guides.ts";
-import { ESTATE_PAGES, INDEXABLE_ESTATE_PAGES, isIndexableEstatePage } from "./estate-pages.ts";
+import { ESTATE_PAGES, INDEXABLE_ESTATE_PAGES, estatePlans, isIndexableEstatePage } from "./estate-pages.ts";
 import {
   ABOUT_SEO,
   canonicalRedirectLocation,
@@ -197,12 +197,28 @@ describe("renderSitemapXml", () => {
     const included = ["cheung-sha-wan-estate", "shing-chi-court", "le-mont", "on-tai"] as const;
     const excluded = ["tin-yiu", "taikoo-shing", "wah-fu", "pak-tin"] as const;
     for (const slug of included) {
-      assert.equal(isIndexableEstatePage(ESTATE_PAGES.find((page) => page.slug === slug)!), true, slug);
+      const page = ESTATE_PAGES.find((item) => item.slug === slug)!;
+      assert.equal(isIndexableEstatePage(page), true, slug);
       assert.ok(locs.includes(`https://www.chaiquote.hk/estates/${slug}`), slug);
+      const listed = estatePlans(page.estate);
+      const genericB = filterPlans({ cat: "broadband", housing: page.estate.housing });
+      const genericH = filterPlans({ cat: "home5g", housing: page.estate.housing });
+      assert.ok(
+        listed.broadband.length !== genericB.length ||
+          listed.home5g.length !== genericH.length ||
+          listed.broadband.some((plan) => !genericB.some((item) => item.id === plan.id)),
+        `${slug} should differ from the housing-only catalogue`,
+      );
     }
     for (const slug of excluded) {
-      assert.equal(isIndexableEstatePage(ESTATE_PAGES.find((page) => page.slug === slug)!), false, slug);
+      const page = ESTATE_PAGES.find((item) => item.slug === slug)!;
+      assert.equal(isIndexableEstatePage(page), false, slug);
       assert.equal(locs.includes(`https://www.chaiquote.hk/estates/${slug}`), false, slug);
+      const listed = estatePlans(page.estate);
+      const genericB = filterPlans({ cat: "broadband", housing: page.estate.housing });
+      const genericH = filterPlans({ cat: "home5g", housing: page.estate.housing });
+      assert.equal(listed.broadband.length, genericB.length, slug);
+      assert.equal(listed.home5g.length, genericH.length, slug);
     }
 
     for (const word of CLAIM_WORDS) {
