@@ -71,9 +71,13 @@ export function PlanCard({ plan }: { plan: Plan }) {
         {categoryLabel(plan.category)} · {tx(plan.network)}
       </p>
       <h3 className="mt-1 text-lg font-semibold leading-snug">
-        <Link to="/plans/$planId" params={{ planId: plan.id }} className="hover:underline">
-          {tx(plan.name)}
-        </Link>
+        {plan.staffOffer ? (
+          tx(plan.name)
+        ) : (
+          <Link to="/plans/$planId" params={{ planId: plan.id }} className="hover:underline">
+            {tx(plan.name)}
+          </Link>
+        )}
       </h3>
 
       <div className="mt-4 flex items-end gap-2">
