@@ -294,6 +294,55 @@ describe("matchKnownEstate / classifyAddress", () => {
     assert.equal(searchEstates("水邊圍", 8)[0]?.housing, "public");
   });
 
+  it("covers HA public phases and missing HOS / Housing Society courts", () => {
+    assert.equal(matchKnownEstate("天瑞一邨")?.name, "天瑞邨");
+    assert.equal(matchKnownEstate("天瑞二邨")?.housing, "public");
+    assert.equal(matchKnownEstate("梨木樹二邨")?.name, "梨木樹邨");
+    assert.equal(matchKnownEstate("石籬一邨")?.housing, "public");
+    assert.equal(matchKnownEstate("華富一邨")?.name, "華富邨");
+    assert.equal(matchKnownEstate("東頭(二)邨")?.name, "東頭邨");
+    assert.equal(matchKnownEstate("東頭(二)邨")?.housing, "public");
+    assert.equal(matchKnownEstate("黃大仙下二邨")?.name, "黃大仙下邨");
+    assert.equal(matchKnownEstate("翠屏(北)邨")?.name, "翠屏北邨");
+    assert.equal(matchKnownEstate("龍田邨")?.name, "大澳龍田邨");
+    assert.equal(matchKnownEstate("安秀苑")?.name, "觀塘安達臣安秀苑");
+    assert.equal(matchKnownEstate("康柏苑")?.name, "康栢苑");
+    assert.equal(matchKnownEstate("雲叠花園")?.name, "雲疊花園");
+    assert.equal(estate("坪麗苑")?.housing, "hos");
+    assert.equal(estate("尚翠苑")?.housing, "hos");
+    assert.equal(estate("綠悠雅苑")?.housing, "hos");
+    assert.equal(estate("天利苑")?.housing, "hos");
+    assert.equal(estate("寧峰苑")?.housing, "hos");
+    assert.equal(estate("悅麗苑")?.housing, "hos");
+    assert.equal(estate("翠瑤苑")?.housing, "hos");
+    assert.equal(estate("賢麗苑")?.housing, "hos");
+    assert.equal(estate("怡峰苑")?.housing, "hos");
+    assert.equal(estate("青盛苑")?.housing, "hos");
+    assert.equal(estate("葵俊苑")?.housing, "hos");
+    assert.equal(estate("葵賢苑")?.housing, "hos");
+    assert.equal(estate("葵康苑")?.housing, "hos");
+    assert.equal(estate("荔欣苑")?.housing, "hos");
+    assert.equal(estate("兆安苑")?.housing, "hos");
+    assert.equal(estate("兆軒苑")?.housing, "hos");
+    assert.equal(estate("兆隆苑")?.housing, "hos");
+    assert.equal(estate("新圍苑")?.housing, "hos");
+    assert.equal(estate("景峰花園")?.housing, "hos");
+    assert.equal(estate("芊紅居")?.housing, "hos");
+    assert.equal(estate("景新臺")?.housing, "hos");
+    assert.equal(estate("浩景臺")?.housing, "hos");
+    assert.equal(estate("樂啟軒")?.housing, "hos");
+    assert.equal(searchEstates("坪麗苑", 4)[0]?.housing, "hos");
+    assert.equal(searchEstates("青俊苑", 4)[0]?.name, "青俊苑");
+    assert.equal(searchEstates("寧峰苑", 4)[0]?.name, "寧峰苑");
+    assert.equal(matchKnownEstate("Melody Garden")?.name, "美樂花園");
+    assert.equal(matchKnownEstate("Yuet Wu Villa")?.name, "悅湖山莊");
+    assert.equal(matchKnownEstate("Ocean Court")?.name, "逸港居");
+    assert.equal(matchKnownEstate("Broadview Court")?.name, "雅濤閣");
+    assert.equal(matchKnownEstate("South Wave Court")?.name, "南濤閣");
+    assert.equal(matchKnownEstate("逸東樓")?.name, "逸東樓");
+    assert.notEqual(matchKnownEstate("逸東樓")?.name, "東涌逸東邨");
+  });
+
   it("classifies 美東樓 and 彩楊閣 with high confidence", () => {
     assert.equal(classifyAddress("美東樓").housing, "public");
     assert.equal(classifyAddress("美東邨美東樓").housing, "public");

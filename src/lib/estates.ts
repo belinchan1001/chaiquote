@@ -22,7 +22,7 @@ function isKnownHousing(value: string): value is Housing {
 }
 
 const RAW = `
-華富邨|華富,Wah Fu|南區|public
+華富邨|華富,華富一邨,華富二邨,Wah Fu|南區|public
 華貴邨|華貴,Wah Kwai|南區|public
 利東邨|利東,Lei Tung|南區|public
 石排灣邨|石排灣,Shek Pai Wan|南區|public
@@ -31,7 +31,7 @@ const RAW = `
 小西灣邨|小西灣,Siu Sai Wan|東區|public
 興東邨|興東,Hing Tung|東區|public
 愛東邨|愛東,Oi Tung|東區|public
-興華邨|興華,Hing Wah|東區|public
+興華邨|興華,興華一邨,興華二邨,Hing Wah|東區|public
 柴灣邨|柴灣,Chai Wan Estate|東區|public
 健康村|北角健康村,Healthy Village|東區|public
 模範邨|模範,Model Housing|東區|public
@@ -47,13 +47,13 @@ const RAW = `
 啟業邨|啟業,Kai Yip|觀塘|public
 坪石邨|坪石,Ping Shek|觀塘|public
 彩虹邨|彩虹,Choi Hung|黃大仙|public
-黃大仙下邨|黃大仙下,Lower Wong Tai Sin|黃大仙|public
+黃大仙下邨|黃大仙下,黃大仙下（一）邨,黃大仙下邨一區,黃大仙下二邨,黃大仙下（二）邨,黃大仙下(二)邨,Lower Wong Tai Sin|黃大仙|public
 黃大仙上邨|黃大仙上,Upper Wong Tai Sin|黃大仙|public
 竹園北邨|竹園北,Chuk Yuen North|黃大仙|public
 竹園南邨|竹園南,Chuk Yuen South|黃大仙|public
 慈雲山邨|慈雲山,Tsz Wan Shan|黃大仙|public
 慈樂邨|慈樂,Tsz Lok|黃大仙|public
-東頭邨|東頭,Tung Tau|黃大仙|public
+東頭邨|東頭,東頭二邨,東頭(二)邨,東頭（二）邨,Tung Tau,Tung Tau II Estate|黃大仙|public
 美東邨|美東,Mei Tung,Mei Tung Estate|黃大仙|public
 東匯邨|東匯,Tung Wui,Tung Wui Estate|黃大仙|public
 美東樓|美東樓,Mei Tung House,美東邨美東樓,東頭邨美東樓|黃大仙|public||check
@@ -82,7 +82,7 @@ const RAW = `
 盛東樓|盛東,Shing Tung House,東頭邨盛東樓|黃大仙|public
 東頭村|東頭村,Tung Tau Village,Tung Tau Tsuen,元朗東頭村,十八鄉東頭村|元朗|village|十八鄉
 樂富邨|樂富,Lok Fu|黃大仙|public
-彩雲邨|彩雲,Choi Wan|黃大仙|public
+彩雲邨|彩雲,彩雲一邨,彩雲二邨,Choi Wan|黃大仙|public
 橫頭磡邨|橫頭磡,Wang Tau Hom|黃大仙|public
 石硤尾邨|石硤尾,Shek Kip Mei|深水埗|public
 白田邨|白田,Pak Tin|深水埗|public
@@ -103,8 +103,8 @@ const RAW = `
 樂民新村|樂民,Lok Man|九龍城|public
 彩虹道邨|彩虹道|黃大仙|public
 大坑東邨|大坑東,Tai Hang Tung|深水埗|public
-大坑西邨|大坑西,Tai Hang Sai|深水埗|public
-梨木樹邨|梨木樹,Lei Muk Shue|荃灣|public
+大坑西邨|大坑西,大坑西新邨,Tai Hang Sai|深水埗|public
+梨木樹邨|梨木樹,梨木樹一邨,梨木樹二邨,Lei Muk Shue|荃灣|public
 麗瑤邨|麗瑤,Lai Yiu|葵青|public
 象山邨|象山,Cheung Shan|荃灣|public
 福來邨|福來,Fuk Loi|荃灣|public
@@ -112,7 +112,7 @@ const RAW = `
 葵盛東邨|葵盛東,Kwai Shing East|葵青|public
 葵盛西邨|葵盛西,Kwai Shing West|葵青|public
 葵涌邨|葵涌,Kwai Chung Estate|葵青|public
-石籬邨|石籬,Shek Lei|葵青|public
+石籬邨|石籬,石籬一邨,石籬二邨,Shek Lei|葵青|public
 石蔭邨|石蔭,Shek Yam|葵青|public
 石蔭東邨|石蔭東,Shek Yam East|葵青|public
 安蔭邨|安蔭,On Yam|葵青|public
@@ -126,7 +126,7 @@ const RAW = `
 安定邨|安定,On Ting|屯門|public
 友愛邨|友愛,Yau Oi|屯門|public
 山景邨|山景,Shan King|屯門|public
-大興邨|大興,Tai Hing|屯門|public
+大興邨|大興,大興上邨,大興下邨,Tai Hing|屯門|public
 良景邨|良景,Leung King|屯門|public
 田景邨|田景,Tin King|屯門|public
 寶田邨|寶田,Po Tin|屯門|public
@@ -134,9 +134,9 @@ const RAW = `
 欣田邨|欣田,Yan Tin|屯門|public
 兆康苑|兆康,Siu Hong Court|屯門|hos
 兆翠苑|兆翠,Siu Chui Court|屯門|hos
-悅湖山莊|悅湖,Melody Garden|屯門|hos
-天耀邨|天耀,Tin Yiu|元朗|public|天水圍
-天瑞邨|天瑞,Tin Shui|元朗|public|天水圍
+悅湖山莊|悅湖,Yuet Wu Villa|屯門|hos
+天耀邨|天耀,天耀一邨,天耀二邨,Tin Yiu|元朗|public|天水圍
+天瑞邨|天瑞,天瑞一邨,天瑞二邨,Tin Shui|元朗|public|天水圍
 天慈邨|天慈,Tin Tsz|元朗|public|天水圍
 天華邨|天華,Tin Wah|元朗|public|天水圍
 天恩邨|天恩,Tin Yan|元朗|public|天水圍
@@ -318,7 +318,7 @@ YOHO Midtown|YOHO Midtown|元朗|private
 灝景灣|灝景灣,Villa Esplanada|葵青|private
 藍澄灣|藍澄灣,Tierra Verde,Rambler Crest|葵青|private
 盈翠半島|盈翠,Nerine Cove|葵青|private
-東涌逸東邨|逸東,Yat Tung|離島|public|東涌
+東涌逸東邨|逸東,逸東邨,逸東一邨,逸東二邨,Yat Tung|離島|public|東涌
 滿東邨|滿東,Mun Tung|離島|public|東涌
 迎東邨|迎東,Ying Tung|離島|public|東涌
 裕東苑|裕東,Yu Tung Court|離島|hos|東涌

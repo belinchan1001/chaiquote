@@ -128,6 +128,7 @@ const SLUG_FALLBACK: Record<string, string> = {
   海典灣: "ocean-view",
   雅典居: "villa-athena",
   海柏花園: "bayshore-towers",
+  翠怡花園: "tivoli-garden",
   帝琴灣: "symphony-bay",
   淺月灣: "casa-marina",
   聚豪天下: "grand-palisades",

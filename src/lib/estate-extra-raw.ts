@@ -70,12 +70,12 @@ export const EXTRA_RAW = `
 田灣邨|田灣,Tin Wan Estate|南區|public
 漁光村|漁光,Yue Kwong Chuen|南區|public
 馬坑邨|馬坑,Ma Hang Estate|南區|public
-雅濤閣|雅濤,Nga Tao Court|南區|hos
+雅濤閣|雅濤,Nga Tao Court,Broadview Court|南區|hos
 鴻福苑|鴻福,Hung Fook Court|南區|hos
 嘉隆苑|嘉隆,Ka Lung Court|南區|hos
 漁暉苑|漁暉,Yue Fai Court|南區|hos
 漁安苑|漁安,Yue On Court|南區|hos
-南濤閣|南濤,Nam Tao Court|南區|hos
+南濤閣|南濤,Nam Tao Court,South Wave Court|南區|hos
 龍欣苑|龍欣,Lung Yan Court|南區|hos
 龍德苑|龍德,Lung Tak Court|南區|hos
 黃竹坑新圍|Wong Chuk Hang San Wai|南區|village
@@ -159,8 +159,8 @@ export const EXTRA_RAW = `
 宏景花園|宏景,Grand View Garden|黃大仙|hos
 嘉峰臺|嘉峰臺,Ka Fung Terrace|黃大仙|hos
 現崇山|The Latitude|黃大仙|private
-翠屏北邨|翠屏北,Tsui Ping North Estate|觀塘|public
-翠屏南邨|翠屏南,Tsui Ping South Estate|觀塘|public
+翠屏北邨|翠屏北,翠屏(北)邨,翠屏（北）邨,Tsui Ping North Estate|觀塘|public
+翠屏南邨|翠屏南,翠屏(南)邨,翠屏（南）邨,Tsui Ping South Estate|觀塘|public
 雲漢邨|雲漢,Wan Hon Estate|觀塘|public
 和樂邨|和樂,Wo Lok Estate|觀塘|public
 曉茵邨|曉茵,Hiu Yan Estate|觀塘|public
@@ -173,7 +173,7 @@ export const EXTRA_RAW = `
 高怡邨|高怡,Ko Yee Estate|觀塘|public
 康田苑|康田,Hong Tin Court|觀塘|hos
 康盈苑|康盈,Hong Ying Court|觀塘|hos
-康栢苑|康栢,Hong Pak Court|觀塘|hos
+康栢苑|康栢,康柏苑,Hong Pak Court|觀塘|hos
 康逸苑|康逸,Hong Yat Court|觀塘|hos
 康雅苑|康雅,Hong Nga Court|觀塘|hos
 康瑞苑|康瑞,Hong Shui Court|觀塘|hos
@@ -197,9 +197,9 @@ export const EXTRA_RAW = `
 青榕苑|青榕,Ching Yung Court|葵青|hos
 青泰苑|青泰,Ching Tai Court|葵青|hos
 偉景花園|Wonderland Villas|葵青|private
-翠怡花園|Tivoli Garden,Greenery Plaza|葵青|private
+翠怡花園|Greenery Plaza|葵青|private
 海欣花園|Hoi Shing Garden|葵青|private
-浩景臺|Hong Jing Terrace|葵青|private
+浩景臺|Highland Park,浩景臺葵涌|葵青|hos
 曉峯園|Villa Esplanada|葵青|private
 荃威花園|Allway Gardens|荃灣|private
 荃灣花園|Tsuen Wan Garden|荃灣|private
@@ -421,7 +421,7 @@ export const EXTRA_RAW = `
 大嶼山長沙|Cheung Sha Lantau|離島|village
 大嶼山塘福|Tong Fuk|離島|village
 大嶼山梅窩銀灣|Ngan Wan Mui Wo|離島|private
-大澳龍田邨|Lung Tin Estate|離島|public
+大澳龍田邨|龍田邨,Lung Tin Estate|離島|public
 天水圍嘉湖翠湖居|Chestwood Court|元朗|private
 天水圍嘉湖樂湖居|Locwood Court|元朗|private
 天水圍嘉湖賞湖居|Sherwood Court|元朗|private
@@ -473,8 +473,8 @@ export const EXTRA_RAW = `
 旺角奶路臣街|Nelson Street Residences|油尖旺|private
 尖沙咀港景峯|The Masterpiece Tsim Sha Tsui|油尖旺|private
 佐敦渡船角|Ferry Point Residences|油尖旺|private
-觀塘安達臣安秀苑|On Sau Court|觀塘|hos
-觀塘安達臣安柏苑|On Pak Court|觀塘|hos
+觀塘安達臣安秀苑|安秀苑,On Sau Court|觀塘|hos
+觀塘安達臣安柏苑|安柏苑,On Pak Court|觀塘|hos
 將軍澳天晉II|The Wings II|西貢|private
 屯門星堤|The Pier|屯門|private
 屯門小欖村|Siu Lam Village|屯門|village
@@ -532,7 +532,7 @@ export const EXTRA_RAW = `
 彩禾苑|Choi Wo Court|沙田|hos
 錦駿苑|Kam Chun Court|沙田|hos
 錦柏苑|錦柏,Kam Pak Court|沙田|hos|馬鞍山
-雲疊花園|雲疊,Carado Garden|沙田|hos
+雲疊花園|雲疊,雲叠花園,Carado Garden|沙田|hos
 富嘉花園|Grandway Garden|沙田|hos
 海福花園|Holford Gardens|沙田|hos
 綠怡雅苑|綠怡,Greenhill Villa,Greenya Court|沙田|hos
@@ -783,4 +783,45 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 樂嘉中心|Roca Centre|荃灣|private
 逸意居|The Floridian Hung Hom,土瓜灣逸意居|九龍城|private|土瓜灣
 彩頤居|Cheerful Court,彩頤|黃大仙|hos
+逸港居|Ocean Court,香港仔逸港居|南區|hos
+悅海華庭|Marina Habitat,鴨脷洲悅海華庭|南區|hos
+悅庭軒|Bel Air Heights,黃大仙悅庭軒|黃大仙|hos
+雅景臺|Park Belvedere,沙田雅景臺|沙田|hos
+晴碧花園|Sunshine Grove,馬鞍山晴碧|沙田|hos
+叠翠軒|The Pinnacle,將軍澳叠翠軒|西貢|hos
+美樂花園|Melody Garden,屯門美樂花園|屯門|hos
+寶石大廈|Bo Shek Mansion,荃灣寶石大廈|荃灣|hos
+海悅花園|Serene Garden,青衣海悅花園|葵青|hos
+宏福花園|Tivoli Garden,青衣宏福花園|葵青|hos
+坪麗苑|Peng Lai Court,坪洲坪麗苑|離島|hos
+龍軒苑|Lung Hin Court,大澳龍軒苑|離島|hos
+尚翠苑|Sheung Chui Court,荃灣尚翠苑|荃灣|hos
+青俊苑|Ching Chun Court,青衣青俊苑|葵青|hos
+尚文苑|Sheung Man Court,荃灣尚文苑|荃灣|hos
+天利苑|Tin Lai Court,東涌天利苑|離島|hos
+銀河苑|Ngan Ho Court,東涌銀河苑|離島|hos
+銀蔚苑|Ngan Wai Court,東涌銀蔚苑|離島|hos
+綠悠雅苑|Greenview Villa,青衣綠悠雅苑|葵青|hos
+翠鳴臺|Terrace Concerto,青衣翠鳴臺|葵青|hos
+樂頤居|Jolly Place,將軍澳樂頤居|西貢|hos
+豐頤居|Blissful Place,將軍澳豐頤居|西貢|hos
+青輝苑|Ching Fai Court,青衣青輝苑|葵青|hos
+寧峰苑|寧峰,Ning Fung Court|葵青|hos
+悅麗苑|悅麗,Yuet Lai Court|葵青|hos
+翠瑤苑|翠瑤,Tsui Yiu Court|葵青|hos
+賢麗苑|賢麗,Yin Lai Court|葵青|hos
+怡峰苑|怡峰,Yi Fung Court|葵青|hos
+青盛苑|青盛,Ching Shing Court|葵青|hos
+葵俊苑|葵俊,Kwai Chun Court|葵青|hos
+葵賢苑|葵賢,Kwai Yin Court|葵青|hos
+葵康苑|葵康,Kwai Hong Court|葵青|hos
+荔欣苑|荔欣,Lai Yan Court|葵青|hos
+兆安苑|兆安,Siu On Court|屯門|hos
+兆軒苑|兆軒,Siu Hin Court|屯門|hos
+兆隆苑|兆隆,Siu Lung Court|屯門|hos
+新圍苑|新圍苑,San Wai Court|屯門|hos
+景峰花園|景峰,Prime View Garden|屯門|hos
+芊紅居|Hibiscus Park,葵芳芊紅居|葵青|hos
+景新臺|Kingston Terrace,屯門景新臺|屯門|hos
+樂啟軒|Delight Terrace,啟德樂啟軒|九龍城|hos
 `.trim();
