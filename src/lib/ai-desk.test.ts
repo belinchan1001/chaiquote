@@ -160,7 +160,7 @@ describe("AI desk safety", () => {
     assert.match(desk, /id: "housing"/);
 
     assert.doesNotMatch(staff, /fixed right-3 top-20/);
-    assert.match(staff, /inset-x-0 bottom-0/);
+    assert.match(staff, /inset-x-0 bottom-24/);
     assert.match(staff, /lg:left-4 lg:top-20/);
     assert.doesNotMatch(staff, /lg:right-3|lg:right-4|right-3 top-20/);
 

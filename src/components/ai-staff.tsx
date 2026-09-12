@@ -118,7 +118,7 @@ export function AiStaffPanel() {
         aria-hidden={!open}
         aria-label={t("aiClose")}
         className={cn(
-          "fixed inset-0 z-40 bg-fg/40 transition-opacity duration-200 lg:hidden",
+          "fixed inset-x-0 bottom-0 top-16 z-40 bg-fg/40 transition-opacity duration-200 lg:hidden",
           open ? "opacity-100" : "pointer-events-none opacity-0",
         )}
         onClick={closeAi}
@@ -126,7 +126,7 @@ export function AiStaffPanel() {
       <div
         className={cn(
           "fixed z-[45] origin-bottom transition-[opacity,transform] duration-200 ease-out",
-          "inset-x-0 bottom-0 w-full",
+          "inset-x-0 bottom-24 w-full",
           "lg:inset-x-auto lg:bottom-auto lg:left-4 lg:top-20 lg:w-[min(20rem,calc(100vw-2rem))] lg:origin-top-left",
           open
             ? "translate-y-0 opacity-100"
@@ -138,7 +138,7 @@ export function AiStaffPanel() {
           role="dialog"
           aria-hidden={!open}
           aria-label={t("aiStaff")}
-          className="flex h-[min(32rem,calc(100dvh-8rem))] max-h-[calc(100dvh-8rem)] flex-col overflow-hidden rounded-t-2xl bg-card shadow-[var(--shadow-border-hover)] lg:h-[28rem] lg:max-h-[calc(100dvh-9rem)] lg:rounded-xl"
+          className="flex h-[min(22rem,44dvh)] max-h-[44dvh] flex-col overflow-hidden rounded-t-2xl bg-card shadow-[var(--shadow-border-hover)] lg:h-[28rem] lg:max-h-[calc(100dvh-9rem)] lg:rounded-xl"
         >
           <div className="flex items-center gap-3 bg-primary px-4 py-3 text-primary-foreground">
             <span className="flex size-11 items-center justify-center bg-accent text-accent-foreground">
@@ -186,8 +186,8 @@ export function AiStaffPanel() {
                           <ProviderMark id={plan.providerId} size="sm" showEn={false} />
                           <p className="mt-1 font-medium leading-snug">{tx(plan.name)}</p>
                           <p className="mt-1 tabular-nums">
-                            {formatFee(plan.monthlyFee)}
-                            <span className="ml-2 text-xs text-muted">{t("months", { n: plan.contractMonths })}</span>
+                            {formatFee(plan.monthlyFee)}{" "}
+                            <span className="text-xs text-muted">{t("months", { n: plan.contractMonths })}</span>
                           </p>
                           <p className="mt-0.5 text-[11px] text-subtle">{t("aiCardRef")}</p>
                         </Link>
