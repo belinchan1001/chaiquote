@@ -3659,6 +3659,10 @@ export function staffOfferPlans(offerId: string) {
   return PLANS.filter((plan) => plan.staffOffer === offerId);
 }
 
+export function staffOfferIds() {
+  return [...new Set(PLANS.map((plan) => plan.staffOffer).filter((id): id is string => Boolean(id)))];
+}
+
 export function isListedPlan(plan: Plan) {
   return !plan.onlyEstates?.length && !plan.staffOffer;
 }

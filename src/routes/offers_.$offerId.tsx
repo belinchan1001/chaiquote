@@ -6,7 +6,7 @@ import { QuoteLink } from "@/components/quote-link";
 import { useHydrateDesk } from "@/lib/desk";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { claimOfferView, issueOfferLink, peekOfferView, type OfferView } from "@/lib/offer-token";
-import { staffOfferPlans } from "@/lib/plans";
+import { formatFee, staffOfferIds, staffOfferPlans } from "@/lib/plans";
 import { CATEGORY_SEO } from "@/lib/canonical";
 import { SITE } from "@/lib/site";
 
@@ -22,7 +22,13 @@ export const Route = createFileRoute("/offers_/$offerId")({
     const known = staffOfferPlans(params.offerId);
     if (!known.length) throw notFound();
     const view = await peekOfferView({ data: { offerId: params.offerId, token: deps.k } });
-    return { offerId: params.offerId, token: deps.k, view };
+    return {
+      offerId: params.offerId,
+      token: deps.k,
+      view,
+      summaries: known.map((plan) => `${plan.name} · ${formatFee(plan.monthlyFee)}`),
+      others: staffOfferIds().filter((id) => id !== params.offerId),
+    };
   },
   head: () => {
     const { title, description } = CATEGORY_SEO.broadband;
@@ -39,7 +45,7 @@ export const Route = createFileRoute("/offers_/$offerId")({
 });
 
 function StaffOfferPage() {
-  const { offerId, token, view: initial } = Route.useLoaderData();
+  const { offerId, token, view: initial, summaries, others } = Route.useLoaderData();
   const [view, setView] = useState<OfferView>(initial);
   const [issued, setIssued] = useState("");
   const [copied, setCopied] = useState(false);
@@ -129,6 +135,11 @@ function StaffOfferPage() {
       {view.status === "mint" ? (
         <>
           <h1 className="text-title font-semibold">{t("offerMintTitle")}</h1>
+          <ul className="mt-3 list-none space-y-1 p-0 text-sm font-medium text-fg">
+            {summaries.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted">{t("offerMintLead")}</p>
           <Button type="button" className="mt-6" onClick={() => void mint()} disabled={busy}>
             {issued ? t("offerMintAgain") : t("offerMintMake")}
@@ -154,6 +165,16 @@ function StaffOfferPage() {
                 </Button>
               </div>
             </div>
+          ) : null}
+          {others.length ? (
+            <p className="mt-6 text-sm text-muted">
+              {t("offerMintOther")}
+              {others.map((id) => (
+                <Link key={id} to="/offers/$offerId" params={{ offerId: id }} className="ml-2 text-accent underline">
+                  {id === "nv78" ? "HK$78" : id === "nv98" ? "HK$98" : id}
+                </Link>
+              ))}
+            </p>
           ) : null}
         </>
       ) : null}

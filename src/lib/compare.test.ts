@@ -1536,6 +1536,7 @@ describe("Netvigator $78 staff offer", () => {
       staffOfferPlans("nv78").map((item) => item.id),
       [row.id],
     );
+    assert.ok(staffOfferPlans("nv78").every((item) => item.monthlyFee === 78));
   });
 });
 
