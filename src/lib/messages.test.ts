@@ -180,4 +180,17 @@ describe("trust/compliance copy", () => {
       assert.match(home, new RegExp(`slug: "${slug}"[\\s\\S]*planCat: "${planCat}"`));
     }
   });
+
+  it("pins compare page 返回計劃表 as an in-app /plans link", () => {
+    const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    const compare = readFileSync(join(here, "../routes/compare.tsx"), "utf8");
+    const [zh, en] = quoted(messages, "backToPlans");
+
+    assert.equal(zh, "返回計劃表");
+    assert.equal(en, "Back to plans");
+    assert.match(compare, /t\("backToPlans"\)/);
+    assert.match(compare, /to="\/plans"[\s\S]*search=\{\{ cat: "broadband" \}\}[\s\S]*t\("backToPlans"\)/);
+    assert.doesNotMatch(compare, /history\.back|navigate\(-1\)/);
+    assert.equal((compare.match(/t\("backToPlans"\)/g) ?? []).length, 2);
+  });
 });

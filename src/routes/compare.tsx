@@ -38,7 +38,7 @@ function ComparePage() {
         <p className="mt-3 text-muted">{t("compareNoneLead")}</p>
         <Button asChild className="mt-8">
           <Link to="/plans" search={{ cat: "broadband" }}>
-            {t("seePlans")}
+            {t("backToPlans")}
           </Link>
         </Button>
       </div>
@@ -81,7 +81,12 @@ function ComparePage() {
     <div className="mx-auto max-w-6xl px-4 py-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <h1 className="text-title font-semibold">{t("compareN", { n: plans.length })}</h1>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          <Button asChild variant="ghost">
+            <Link to="/plans" search={{ cat: "broadband" }}>
+              {t("backToPlans")}
+            </Link>
+          </Button>
           <Button variant="ghost" onClick={clearCompare}>
             {t("compareClear")}
           </Button>
