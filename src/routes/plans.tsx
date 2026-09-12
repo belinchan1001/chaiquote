@@ -137,9 +137,17 @@ function PlansPage() {
 
     let cancelled = false;
     let inner = 0;
+    let failSafe = 0;
     let stopWatch = () => {};
     const reduced =
       typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const show = () => {
+      if (cancelled) return;
+      window.clearTimeout(failSafe);
+      setListEntering(true);
+    };
+    failSafe = window.setTimeout(show, 900);
 
     const arm = () => {
       if (cancelled) return;
@@ -147,16 +155,14 @@ function PlansPage() {
       if (!list) return;
       if (replay) bringPlanListIntoView(list);
       if (reduced) {
-        setListEntering(true);
+        show();
         return;
       }
       if (isPlanListInView(list.getBoundingClientRect(), window.innerHeight)) {
-        setListEntering(true);
+        show();
         return;
       }
-      stopWatch = watchPlanListInView(list, () => {
-        if (!cancelled) setListEntering(true);
-      });
+      stopWatch = watchPlanListInView(list, show);
     };
 
     if (replay) {
@@ -165,6 +171,7 @@ function PlansPage() {
       });
       return () => {
         cancelled = true;
+        window.clearTimeout(failSafe);
         cancelAnimationFrame(outer);
         cancelAnimationFrame(inner);
         stopWatch();
@@ -174,6 +181,7 @@ function PlansPage() {
     arm();
     return () => {
       cancelled = true;
+      window.clearTimeout(failSafe);
       stopWatch();
     };
   }, [replayKey, rows.length]);

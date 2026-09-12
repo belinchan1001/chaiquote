@@ -5,7 +5,7 @@ function Select({ className, children, ...props }: React.ComponentProps<"select"
   return (
     <select
       className={cn(
-        "h-11 w-full appearance-none rounded-md bg-card bg-[length:12px] bg-[right_12px_center] bg-no-repeat px-3 pr-10 text-sm text-fg shadow-[var(--shadow-border)] outline-none transition-[box-shadow] duration-150 focus-visible:ring-2 focus-visible:ring-ring",
+        "h-11 w-full appearance-none rounded-md bg-card bg-[length:12px] bg-[right_12px_center] bg-no-repeat px-3 pr-10 text-base text-fg shadow-[var(--shadow-border)] outline-none transition-[box-shadow] duration-150 focus-visible:ring-2 focus-visible:ring-ring",
         className,
       )}
       style={{

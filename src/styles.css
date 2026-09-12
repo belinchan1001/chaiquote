@@ -79,6 +79,7 @@
     background: var(--color-bg);
     color: var(--color-fg);
     touch-action: manipulation;
+    overscroll-behavior-y: contain;
   }
 
   body {
@@ -399,6 +400,12 @@
     --foil-x: 28%;
     --foil-y: 42%;
     --foil-opacity: 0.12;
+  }
+
+  @media (pointer: coarse) {
+    .plan-card-shine {
+      animation: none;
+    }
   }
 
   /* Scroll-driven holofoil under opaque text. Inset keeps the 3px border clear.

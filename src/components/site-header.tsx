@@ -37,7 +37,7 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-30 border-b border-border bg-card/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-30 border-b border-border bg-card sm:bg-card/95 sm:backdrop-blur-sm">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-3 sm:gap-4 sm:px-4">
         <Logo className="shrink-0" />
         <nav className="hidden items-center gap-1 lg:flex">

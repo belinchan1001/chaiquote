@@ -53,6 +53,11 @@ describe("plan list filter replay", () => {
 describe("plan list fade-up", () => {
   it("staggers a 240ms fade-up on list items without remounting foil or blocking clicks", () => {
     const css = readFileSync(join(here, "../styles.css"), "utf8");
+    const input = readFileSync(join(here, "../components/ui/input.tsx"), "utf8");
+    const select = readFileSync(join(here, "../components/ui/select.tsx"), "utf8");
+    assert.match(input, /text-base/);
+    assert.doesNotMatch(input, /text-sm/);
+    assert.match(select, /text-base/);
     const page = readFileSync(join(here, "../routes/plans.tsx"), "utf8");
     const card = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
     const fade = readFileSync(join(here, "plan-list-fade.ts"), "utf8");
@@ -75,6 +80,7 @@ describe("plan list fade-up", () => {
     assert.match(page, /prevReplayKey/);
     assert.match(page, /setListEntering\(false\)/);
     assert.match(page, /setListEntering\(true\)/);
+    assert.match(page, /setTimeout\(show, 900\)/);
     assert.match(page, /bringPlanListIntoView\(list\)/);
     assert.match(page, /watchPlanListInView\(list/);
     assert.match(page, /isPlanListInView\(/);
@@ -121,6 +127,8 @@ describe("plan list fade-up", () => {
       /prefers-reduced-motion:\s*reduce[\s\S]*\.plan-list > \*,\s*\n\s*\.plan-list-enter > \*\s*\{[\s\S]*opacity:\s*1 !important/,
     );
     assert.match(css, /\.plan-card-shine\s*\{[\s\S]*animation:\s*quote-pick-shine 4\.8s linear infinite/);
+    assert.match(css, /@media \(pointer: coarse\)[\s\S]*\.plan-card-shine[\s\S]*animation:\s*none/);
+    assert.match(css, /overscroll-behavior-y:\s*contain/);
     assert.doesNotMatch(css, /\.plan-list[^{]*\{[^}]*perspective/);
     assert.doesNotMatch(css, /\.plan-list[\s\S]{0,200}rotateX/);
     assert.doesNotMatch(page, /wa-pulse|whatsapp-pulse|tilt/);
