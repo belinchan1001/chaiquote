@@ -281,6 +281,10 @@ function PlansPage() {
         </div>
       ) : null}
 
+      {search.cat === "business" ? (
+        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("businessDisclaimer")}</p>
+      ) : null}
+
       {search.housing === "village" && search.cat === "broadband" ? (
         <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
           {t("villageNote")}{" "}

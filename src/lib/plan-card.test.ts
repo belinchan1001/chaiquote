@@ -41,7 +41,13 @@ describe("plan card corner brand", () => {
       /formatFee\(plan\.monthlyFee\)[\s\S]{0,200}(plan-card-shine|className="foil"|LogoMark)/,
     );
     assert.match(card, /<PlanBadges plan=\{plan\} \/>[\s\S]*<QuoteLink plan=\{plan\}[\s\S]*<LogoMark/);
+    assert.match(card, /plan\.category === "business"/);
+    assert.match(
+      card,
+      /CertifiedStaffNote[\s\S]*plan\.category === "business"[\s\S]*t\("businessDisclaimer"\)[\s\S]*\{t\("referencePrice"\)\}/,
+    );
     assert.match(card, /\{t\("referencePrice"\)\}<\/p>\s*<span[\s\S]*<LogoMark className="size-5"/);
+    assert.doesNotMatch(card, /CertifiedStaffNote[\s\S]{0,120}businessDisclaimer/);
     assert.doesNotMatch(card, /<QuoteLink[^>]*>[\s\S]{0,80}<LogoMark/);
     assert.doesNotMatch(card, /<PlanBadges[^>]*>[\s\S]{0,80}<LogoMark/);
 

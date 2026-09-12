@@ -103,5 +103,49 @@ describe("trust/compliance copy", () => {
     assert.match(note, /<Check /);
     assert.match(note, /rounded-full bg-primary/);
     assert.match(note, /t\(key\)/);
+    assert.doesNotMatch(note, /businessDisclaimer/);
+  });
+
+  it("locks the business broadband disclaimer, separate from staff-note copy", () => {
+    const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    const plans = readFileSync(join(here, "../routes/plans.tsx"), "utf8");
+    const card = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
+    const detail = readFileSync(join(here, "../routes/plans_.$planId.tsx"), "utf8");
+    const note = readFileSync(join(here, "../components/certified-staff-note.tsx"), "utf8");
+    const [zh, en] = quoted(messages, "businessDisclaimer");
+    const [zhHkt, enHkt] = quoted(messages, "hktStaffNote");
+    const [zhHkbn, enHkbn] = quoted(messages, "hkbnStaffNote");
+
+    assert.equal(
+      zh,
+      "商業寬頻嘅月費、安裝費同舖址覆蓋僅供參考；實際視乎用途同現場環境，以電訊商確認為準。",
+    );
+    assert.equal(
+      en,
+      "Business fibre fees, install charges and shop coverage are for reference only. Actual terms depend on use and the site, and are confirmed by the carrier.",
+    );
+
+    for (const word of ["最抵", "保證"]) {
+      assert.equal(zh.includes(word), false, `disclaimer still claims ${word}`);
+    }
+    assert.doesNotMatch(en, /best-value|guaranteed|cheapest|lowest/i);
+
+    assert.match(plans, /search\.cat === "business"/);
+    assert.match(plans, /t\("businessDisclaimer"\)/);
+    assert.match(card, /plan\.category === "business"/);
+    assert.match(card, /t\("businessDisclaimer"\)/);
+    assert.match(detail, /plan\.category === "business"/);
+    assert.match(detail, /t\("businessDisclaimer"\)/);
+    assert.doesNotMatch(note, /businessDisclaimer/);
+
+    for (const staff of [zhHkt, enHkt, zhHkbn, enHkbn]) {
+      assert.equal(staff.includes(zh), false);
+      assert.equal(staff.includes(en), false);
+    }
+
+    const staffThenDisclaimer =
+      /CertifiedStaffNote[\s\S]*plan\.category === "business"[\s\S]*t\("businessDisclaimer"\)[\s\S]*t\("referencePrice"\)/;
+    assert.match(card, staffThenDisclaimer);
+    assert.match(detail, staffThenDisclaimer);
   });
 });

@@ -70,6 +70,11 @@ describe("plan list fade-up", () => {
     assert.doesNotMatch(page, /key=\{planListReplayKey/);
     assert.match(page, /className="plan-list-item"/);
     assert.match(page, /<div key=\{plan\.id\} className="plan-list-item">/);
+    assert.match(page, /search\.cat === "business"/);
+    assert.match(
+      page,
+      /search\.cat === "business" \? \(\s*<p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">\{t\("businessDisclaimer"\)\}<\/p>/,
+    );
     assert.match(page, /<PlanCard plan=\{plan\} \/>/);
     assert.doesNotMatch(page, /plan-list[\s\S]{0,200}<PlanCard key=/);
     assert.match(page, /setVisible\(\(n\) => n \+ PAGE_SIZE\)/);

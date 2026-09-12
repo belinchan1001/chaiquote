@@ -156,6 +156,9 @@ export function PlanCard({ plan }: { plan: Plan }) {
           <PlanShareButton plan={plan} />
         </div>
       </div>
+      {plan.category === "business" ? (
+        <p className="mt-3 text-xs leading-relaxed text-muted">{t("businessDisclaimer")}</p>
+      ) : null}
       <p className="mt-3 text-[11px] leading-relaxed text-subtle">{t("referencePrice")}</p>
       <span
         aria-hidden="true"
