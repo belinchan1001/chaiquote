@@ -15,6 +15,35 @@ import { cn } from "@/lib/utils";
 type Bubble = { id: string; from: "biz" | "me"; text: string; planIds?: string[] };
 
 const SESSION_KEY = "chaiquote-ai-session";
+const AI_CLOSE_MS = 180;
+
+function prefersReducedMotion() {
+  return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function useAiPresence(open: boolean) {
+  const [mounted, setMounted] = useState(open);
+  const [shown, setShown] = useState(open);
+
+  useEffect(() => {
+    if (open) {
+      setMounted(true);
+      let inner = 0;
+      const outer = requestAnimationFrame(() => {
+        inner = requestAnimationFrame(() => setShown(true));
+      });
+      return () => {
+        cancelAnimationFrame(outer);
+        cancelAnimationFrame(inner);
+      };
+    }
+    setShown(false);
+    const id = window.setTimeout(() => setMounted(false), prefersReducedMotion() ? 0 : AI_CLOSE_MS);
+    return () => window.clearTimeout(id);
+  }, [open]);
+
+  return { mounted, shown };
+}
 
 export function aiWelcomeCopy(t: (key: "aiWelcome" | "aiWelcomeTrial") => string) {
   return `${t("aiWelcome")}\n${t("aiWelcomeTrial")}`;
@@ -50,6 +79,7 @@ export function AiStaffPanel() {
   useHydrateDesk();
   const open = useDesk((s) => s.aiOpen);
   const closeAi = useDesk((s) => s.closeAi);
+  const { mounted, shown } = useAiPresence(open);
   const inquiry = useDesk((s) => s.inquiry);
   const { t, locale, tx } = useI18n();
 
@@ -123,34 +153,32 @@ export function AiStaffPanel() {
     }
   }
 
+  if (!mounted) return null;
+
   return (
     <>
       <button
         type="button"
-        tabIndex={open ? 0 : -1}
-        aria-hidden={!open}
+        tabIndex={shown ? 0 : -1}
+        aria-hidden={!shown}
         aria-label={t("aiClose")}
-        className={cn(
-          "fixed inset-x-0 bottom-0 top-16 z-40 bg-fg/40 transition-opacity duration-200 lg:hidden",
-          open ? "opacity-100" : "pointer-events-none opacity-0",
-        )}
+        className={cn("ai-overlay fixed inset-x-0 bottom-0 top-16 z-40 bg-fg/40 lg:hidden", shown && "is-open")}
         onClick={closeAi}
       />
       <div
         className={cn(
-          "fixed z-[45] origin-bottom transition-[opacity,transform] duration-200 ease-out",
+          "ai-panel fixed z-[45] origin-bottom",
           "inset-x-0 bottom-24 w-full",
           "lg:inset-x-auto lg:bottom-auto lg:left-4 lg:top-20 lg:w-[min(20rem,calc(100vw-2rem))] lg:origin-top-left",
-          open
-            ? "translate-y-0 opacity-100"
-            : "pointer-events-none translate-y-full opacity-0 lg:translate-y-0 lg:scale-[0.96]",
+          shown && "is-open",
         )}
       >
         <div
           id={panelId}
           role="dialog"
-          aria-hidden={!open}
+          aria-hidden={!shown}
           aria-label={t("aiStaff")}
+          inert={!shown}
           className="flex h-[min(22rem,44dvh)] max-h-[44dvh] flex-col overflow-hidden rounded-t-2xl bg-card shadow-[var(--shadow-border-hover)] lg:h-[28rem] lg:max-h-[calc(100dvh-9rem)] lg:rounded-xl"
         >
           <div className="flex items-center gap-3 bg-primary px-4 py-3 text-primary-foreground">

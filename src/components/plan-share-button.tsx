@@ -10,6 +10,7 @@ type Cue = "idle" | "copied" | "failed";
 export function PlanShareButton({ plan, className }: { plan: PlanSharePlan; className?: string }) {
   const { t } = useI18n();
   const [cue, setCue] = useState<Cue>("idle");
+  const [hot, setHot] = useState(false);
   const timer = useRef(0);
 
   useEffect(() => () => window.clearTimeout(timer.current), []);
@@ -21,11 +22,14 @@ export function PlanShareButton({ plan, className }: { plan: PlanSharePlan; clas
   }
 
   async function onShare() {
+    setHot(true);
     try {
       const result = await shareOrCopyPlan(plan);
       if (result === "copied") flash("copied");
     } catch {
       flash("failed");
+    } finally {
+      setHot(false);
     }
   }
 
@@ -37,8 +41,14 @@ export function PlanShareButton({ plan, className }: { plan: PlanSharePlan; clas
       variant="outline"
       aria-label={label}
       aria-live="polite"
+      aria-busy={hot}
       onClick={() => void onShare()}
-      className={cn("shrink-0", className)}
+      className={cn(
+        "shrink-0",
+        hot && "action-hot",
+        cue === "copied" && "action-done bg-accent text-accent-foreground",
+        className,
+      )}
     >
       {cue === "copied" ? <Check /> : <Share2 />}
       {label}

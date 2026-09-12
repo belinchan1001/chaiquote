@@ -183,7 +183,7 @@ describe("plan card share control", () => {
     assert.equal([...card.matchAll(/<PlanShareButton plan=\{plan\} \/>/g)].length, 1);
     assert.match(
       card,
-      /<QuoteLink plan=\{plan\} className="flex-1">\s*\{t\("askWa"\)\}\s*<\/QuoteLink>\s*<PlanShareButton plan=\{plan\} \/>/,
+      /<QuoteLink plan=\{plan\} className="flex-1">\s*\{t\("askWa"\)\}\s*<\/QuoteLink>\s*\{plan\.staffOffer \? null : <PlanShareButton plan=\{plan\} \/>\}/,
     );
     assert.match(card, /<ProviderMark id=\{plan\.providerId\} \/>\s*<button/);
     assert.match(card, /aria-label=\{inSaved \? t\("unsave"\) : t\("save"\)\}/);

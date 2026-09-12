@@ -130,7 +130,7 @@ function PlanDetailPage() {
   ];
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <div className="plan-detail-enter mx-auto max-w-6xl px-4 py-8">
       <JsonLd data={planJsonLd(plan)} />
       <Link
         to="/plans"

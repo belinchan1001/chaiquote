@@ -119,19 +119,26 @@
   .page-shell,
   .plan-list > *,
   .plan-list-enter > *,
+  .plan-detail-enter,
   .nav-progress-bar,
   .popover-in,
   .plan-card-shine,
   .plan-card-shine::before,
   .plan-card-shine > .foil,
   .chip-press,
-  .wa-pulse::after {
+  .wa-pulse::after,
+  .ai-overlay,
+  .ai-panel {
     animation: none !important;
     transform: none !important;
   }
 
   .plan-list > *,
   .plan-list-enter > * {
+    opacity: 1 !important;
+  }
+
+  .plan-detail-enter {
     opacity: 1 !important;
   }
 
@@ -158,8 +165,29 @@
   .wa-panel,
   .compare-dock,
   .compare-scroll,
-  .fab-lift {
+  .fab-lift,
+  .ai-overlay,
+  .ai-panel,
+  .chip-press,
+  .action-hot,
+  .action-apply {
     transition: none !important;
+  }
+
+  .plan-detail-enter,
+  .ai-overlay,
+  .ai-panel {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible;
+  }
+
+  .ai-overlay:not(.is-open),
+  .ai-panel:not(.is-open) {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
   }
 
   ::view-transition-old(root),
@@ -205,8 +233,8 @@
     pointer-events: auto;
   }
   .plan-list:not(.plan-list-enter) > * {
-    opacity: 0;
-    transform: translateY(12px);
+    opacity: 0.88;
+    transform: translateY(6px);
   }
   .plan-list-item > article {
     height: 100%;
@@ -249,12 +277,19 @@
   .chip-press {
     -webkit-tap-highlight-color: transparent;
     transform: scale(1);
-    transition: transform 280ms cubic-bezier(0.22, 1.55, 0.36, 1);
+    transition:
+      transform 90ms ease-out,
+      background-color 80ms ease-out,
+      color 80ms ease-out;
   }
   .chip-press:active {
-    transform: scale(0.95);
-    transition-duration: 80ms;
+    transform: scale(0.97);
+    transition-duration: 40ms;
     transition-timing-function: ease-out;
+  }
+  .chip-press:not([aria-current="page"]):active {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
   }
 
   .wa-pulse {
@@ -348,13 +383,81 @@
 
   @keyframes plan-card-in {
     from {
-      opacity: 0;
-      transform: translateY(12px);
+      opacity: 0.88;
+      transform: translateY(6px);
     }
     to {
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  .plan-detail-enter {
+    animation: plan-detail-in 180ms var(--ease-out-smooth) both;
+  }
+
+  @keyframes plan-detail-in {
+    from {
+      opacity: 0.88;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .ai-overlay {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 180ms ease,
+      visibility 180ms ease;
+  }
+  .ai-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .ai-panel {
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition:
+      opacity 180ms var(--ease-out-smooth),
+      transform 180ms var(--ease-out-smooth),
+      visibility 180ms ease;
+  }
+  .ai-panel.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  @media (min-width: 1024px) {
+    .ai-panel {
+      transform: translateY(0) scale(0.98);
+    }
+    .ai-panel.is-open {
+      transform: none;
+    }
+  }
+
+  .action-hot {
+    transform: scale(0.97);
+    transition: transform 40ms ease-out;
+  }
+
+  .action-apply {
+    transition-duration: 80ms;
+  }
+  .action-apply:active {
+    transform: scale(0.97);
+    transition-duration: 40ms;
   }
 
   @keyframes rise-in {
