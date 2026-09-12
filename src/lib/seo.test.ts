@@ -181,8 +181,7 @@ describe("renderSitemapXml", () => {
     assert.equal(locs.length, SITEMAP_PAGES.length);
     assert.equal(estateLocs.length, INDEXABLE_ESTATE_PAGES.length);
     assert.equal(INDEXABLE_ESTATE_PAGES.length, 63);
-    assert.equal(ESTATE_PAGES.length - INDEXABLE_ESTATE_PAGES.length, 1084);
-    assert.ok(INDEXABLE_ESTATE_PAGES.length < ESTATE_PAGES.length);
+    assert.ok(ESTATE_PAGES.length > INDEXABLE_ESTATE_PAGES.length);
 
     for (const page of STATIC_SITEMAP_PAGES) {
       assert.ok(

@@ -259,6 +259,29 @@ describe("matchKnownEstate / classifyAddress", () => {
     assert.equal(matchKnownEstate("東頭")?.name, "東頭邨");
   });
 
+  it("finds common NT villages that were missing from the address catalogue", () => {
+    const cases = [
+      ["輞井圍", "輞井圍"],
+      ["南生圍", "南生圍"],
+      ["泰亨", "泰亨"],
+      ["石澳村", "石澳村"],
+      ["大生圍", "大生圍"],
+      ["攸潭尾", "攸潭尾"],
+      ["青衣舊墟", "青衣舊墟"],
+      ["楊屋村", "屏山楊屋村"],
+    ] as const;
+    for (const [query, name] of cases) {
+      assert.equal(searchEstates(query, 8)[0]?.name, name, query);
+      assert.equal(searchEstates(query, 8)[0]?.housing, "village", query);
+      assert.equal(matchKnownEstate(query)?.housing, "village", query);
+    }
+    assert.equal(estate("鴨脷洲村")?.housing, "village");
+    assert.equal(estate("鴨脷洲邨")?.housing, "public");
+    assert.equal(searchEstates("鴨脷洲村", 8)[0]?.name, "鴨脷洲村");
+    assert.ok(!searchEstates("鴨脷洲村", 8).some((item) => item.name === "鴨脷洲邨"));
+    assert.ok(ESTATES.filter((item) => item.housing === "village").length >= 300);
+  });
+
   it("classifies 美東樓 and 彩楊閣 with high confidence", () => {
     assert.equal(classifyAddress("美東樓").housing, "public");
     assert.equal(classifyAddress("美東邨美東樓").housing, "public");
