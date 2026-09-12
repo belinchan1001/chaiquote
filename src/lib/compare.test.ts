@@ -11,7 +11,7 @@ import {
   type CompareCopy,
 } from "./compare.ts";
 import { toEnglish } from "./plan-en.ts";
-import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, getPlan, hasCertifiedStaff, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, averageFee, type Category } from "./plans.ts";
+import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, filterPlans, getPlan, hasCertifiedStaff, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, staffOfferPlans, averageFee, type Category } from "./plans.ts";
 
 const copy: CompareCopy = {
   dash: "—",
@@ -1449,6 +1449,29 @@ describe("CSL 5G 20GB $108", () => {
   });
 });
 
+describe("Netvigator $98 staff offer", () => {
+  it("hides the two $98 cards from public lists and keeps them on the staff link", () => {
+    const ids = ["netvigator-ftth-1000-private-36m", "netvigator-ftth-1000-public-36m-98"] as const;
+    for (const id of ids) {
+      const row = plan(id);
+      assert.equal(row.staffOffer, "nv98");
+      assert.equal(row.monthlyFee, 98);
+      assert.equal(row.quotePick, true);
+    }
+    const listed = filterPlans({ cat: "broadband" }).map((row) => row.id);
+    for (const id of ids) assert.equal(listed.includes(id), false, id);
+    assert.equal(filterPlans({ cat: "broadband", housing: "private" }).some((row) => row.id === ids[0]), false);
+    assert.equal(filterPlans({ cat: "broadband", housing: "public" }).some((row) => row.id === ids[1]), false);
+    assert.deepEqual(
+      staffOfferPlans("nv98").map((row) => row.id),
+      [...ids],
+    );
+    assert.deepEqual(staffOfferPlans("missing"), []);
+    assert.ok(getPlan("netvigator-ftth-1000-public-36m-108"));
+    assert.ok(getPlan("netvigator-ftth-1000-private-36m-118"));
+  });
+});
+
 describe("business broadband catalogue", () => {
   it("keeps only HKBN and Netvigator, dropping HGC and CMHK", () => {
     for (const id of ["cmhk-biz-1000", "hgc-biz-1000", "hgc-biz-2500", "hgc-biz-5000", "hgc-biz-10000"]) {
@@ -1501,6 +1524,7 @@ describe("cheapest plan auto-picks", () => {
           (p) =>
             p.category === "broadband" &&
             !p.onlyEstates?.length &&
+            !p.staffOffer &&
             (p.housing === "all" || p.housing.some((h) => h !== "village")),
         ).map((p) => p.monthlyFee),
       ),

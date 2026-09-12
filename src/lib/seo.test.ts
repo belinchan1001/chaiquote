@@ -145,11 +145,14 @@ describe("renderSitemapXml", () => {
     assert.doesNotMatch(xml, /housing=/);
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/plans?cat=broadband"));
     assert.ok(SITEMAP_PAGES.every((page) => page.path !== "/plans"));
-    for (const plan of PLANS.filter((item) => !item.onlyEstates?.length)) {
+    for (const plan of PLANS.filter((item) => !item.onlyEstates?.length && !item.staffOffer)) {
       assert.ok(
         SITEMAP_PAGES.some((page) => page.path === `/plans/${plan.id}`),
         `sitemap missing /plans/${plan.id}`,
       );
+    }
+    for (const id of ["netvigator-ftth-1000-private-36m", "netvigator-ftth-1000-public-36m-98"]) {
+      assert.ok(SITEMAP_PAGES.every((page) => page.path !== `/plans/${id}`), id);
     }
   });
 
@@ -171,6 +174,7 @@ describe("renderRobotsTxt", () => {
     assert.match(robots, /Allow: \/estates/);
     assert.match(robots, /Allow: \/about/);
     assert.match(robots, /Disallow: \/brand/);
+    assert.match(robots, /Disallow: \/offers\//);
     assert.match(robots, /Disallow: \/__grok\//);
     assert.match(robots, /Disallow: \/api\//);
     assert.match(robots, /Sitemap: https:\/\/www\.chaiquote\.hk\/sitemap\.xml/);

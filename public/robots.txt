@@ -5,6 +5,7 @@ Allow: /estates
 Allow: /guides
 Allow: /about
 Disallow: /brand
+Disallow: /offers/
 Disallow: /__grok/
 Disallow: /api/
 

@@ -1,4 +1,4 @@
-import { formatFee, PLANS, PROVIDER_MAP, type Housing, type Plan } from "./plans.ts";
+import { formatFee, isListedPlan, PLANS, PROVIDER_MAP, type Housing, type Plan } from "./plans.ts";
 import { ESTATE_PAGES, estatePagePath } from "./estate-pages.ts";
 import { GUIDES, type Guide } from "./guides.ts";
 import { SITE } from "./site.ts";
@@ -95,7 +95,7 @@ export const SITEMAP_PAGES: readonly SitemapPage[] = [
     changefreq: "weekly" as const,
     priority: "0.6",
   })),
-  ...PLANS.filter((plan) => !plan.onlyEstates?.length).map((plan) => ({
+  ...PLANS.filter(isListedPlan).map((plan) => ({
     path: `/plans/${plan.id}`,
     changefreq: "weekly" as const,
     priority: "0.7",
@@ -235,6 +235,7 @@ export function renderRobotsTxt(origin: string = DEFAULT_SEO_ORIGIN): string {
     "Allow: /guides",
     "Allow: /about",
     "Disallow: /brand",
+    "Disallow: /offers/",
     "Disallow: /__grok/",
     "Disallow: /api/",
     "",

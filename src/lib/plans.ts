@@ -67,6 +67,7 @@ export type Plan = {
   newIntakeOffer?: boolean;
   flashOffer?: boolean;
   onlyEstates?: string[];
+  staffOffer?: string;
   bestFor: string;
 };
 
@@ -1015,6 +1016,7 @@ export const PLANS: Plan[] = [
     limits: LIMITS_NETVIGATOR_FTTH,
     hot: true,
     quotePick: true,
+    staffOffer: "nv98",
     bestFor: "適合私人樓宇、需要 1000M 光纖及家居電話之住戶",
   },
   {
@@ -1128,6 +1130,7 @@ export const PLANS: Plan[] = [
     perks: [PERK_NETVIGATOR_MOVE, "家居固網電話", PERK_NETVIGATOR_NOWTV],
     limits: LIMITS_NETVIGATOR_FTTH,
     quotePick: true,
+    staffOffer: "nv98",
     bestFor: "適合公屋或居屋、需要 1000M 光纖之住戶",
   },
   {
@@ -3467,6 +3470,7 @@ export function hasGba(plan: Plan) {
 export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
   let rows = PLANS.filter((plan) => {
     if (plan.category !== search.cat) return false;
+    if (plan.staffOffer) return false;
     if (
       (search.cat === "broadband" || search.cat === "business") &&
       isNetvigatorOnlyEstate(search.estate) &&
@@ -3520,6 +3524,16 @@ export function getPlan(id: string) {
   return PLANS.find((p) => p.id === id);
 }
 
+export const STAFF_OFFER_NV98 = "nv98";
+
+export function staffOfferPlans(offerId: string) {
+  return PLANS.filter((plan) => plan.staffOffer === offerId);
+}
+
+export function isListedPlan(plan: Plan) {
+  return !plan.onlyEstates?.length && !plan.staffOffer;
+}
+
 export function formatFee(value: number) {
   return Number.isInteger(value) ? `HK$${value}` : `HK$${value.toFixed(1)}`;
 }
@@ -3560,6 +3574,7 @@ export function cheapestPlan(category: Category): Plan | undefined {
     PLANS.filter((plan) => {
       if (plan.category !== category) return false;
       if (plan.onlyEstates?.length) return false;
+      if (plan.staffOffer) return false;
       if (category === "broadband" && isVillageOnly(plan)) return false;
       return true;
     }),
@@ -3567,7 +3582,7 @@ export function cheapestPlan(category: Category): Plan | undefined {
 }
 
 export function cheapestVillageBroadbandPlan(): Plan | undefined {
-  return pickCheapest(PLANS.filter((plan) => plan.category === "broadband" && isVillageCapable(plan) && !plan.onlyEstates?.length));
+  return pickCheapest(PLANS.filter((plan) => plan.category === "broadband" && isVillageCapable(plan) && !plan.onlyEstates?.length && !plan.staffOffer));
 }
 
 export function formatMonthly(value: number) {

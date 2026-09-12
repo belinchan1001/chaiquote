@@ -1021,11 +1021,6 @@ export const GUIDE_ARTICLES: Guide[] = [
               value: "HK$98／36 個月",
               href: "/plans/hkbn-ftth-1000-36m-98",
             },
-            {
-              label: "網上行 1000M",
-              value: "HK$98／36 個月",
-              href: "/plans/netvigator-ftth-1000-public-36m-98",
-            },
           ],
         },
       },
@@ -1084,11 +1079,6 @@ export const GUIDE_ARTICLES: Guide[] = [
               label: "HKBN BE220 1000M",
               value: "HK$98 / 36 months",
               href: "/plans/hkbn-ftth-1000-36m-98",
-            },
-            {
-              label: "Netvigator 1000M",
-              value: "HK$98 / 36 months",
-              href: "/plans/netvigator-ftth-1000-public-36m-98",
             },
           ],
         },
@@ -1224,16 +1214,6 @@ export const GUIDE_ARTICLES: Guide[] = [
               href: "/plans/hkbn-ftth-1000-36m-98",
             },
             {
-              label: "網上行｜公居屋 1000M（36 個月）",
-              value: "公屋、居屋｜HK$98",
-              href: "/plans/netvigator-ftth-1000-public-36m-98",
-            },
-            {
-              label: "網上行｜私人樓宇 1000M（36 個月＋家居電話）",
-              value: "私樓｜HK$98",
-              href: "/plans/netvigator-ftth-1000-private-36m",
-            },
-            {
               label: "網上行｜村屋 1000M（36 個月）",
               value: "村屋｜HK$278",
               href: "/plans/netvigator-ftth-1000-village-36m",
@@ -1347,16 +1327,6 @@ export const GUIDE_ARTICLES: Guide[] = [
               label: "HKBN | 1000M with Wi-Fi 7 (BE220, 36 months)",
               value: "Public, HOS, private | HK$98",
               href: "/plans/hkbn-ftth-1000-36m-98",
-            },
-            {
-              label: "Netvigator | Public / HOS 1000M (36 months)",
-              value: "Public, HOS | HK$98",
-              href: "/plans/netvigator-ftth-1000-public-36m-98",
-            },
-            {
-              label: "Netvigator | Private-estate 1000M (36 months + home phone)",
-              value: "Private | HK$98",
-              href: "/plans/netvigator-ftth-1000-private-36m",
             },
             {
               label: "Netvigator | Village 1000M (36 months)",
@@ -1525,11 +1495,6 @@ export const GUIDE_ARTICLES: Guide[] = [
               href: "/plans/hkbn-ftth-1000-36m-98",
             },
             {
-              label: "網上行｜私人樓宇 1000M（36 個月＋家居電話）",
-              value: "私樓｜HK$98",
-              href: "/plans/netvigator-ftth-1000-private-36m",
-            },
-            {
               label: "香港寬頻｜1000M 家居寬頻（24 個月）",
               value: "公屋、居屋、私樓｜HK$109",
               href: "/plans/hkbn-ftth-1000-24m-109",
@@ -1592,11 +1557,6 @@ export const GUIDE_ARTICLES: Guide[] = [
               label: "HKBN | 1000M with Wi-Fi 7 (BE220, 36 months)",
               value: "Public, HOS, private | HK$98",
               href: "/plans/hkbn-ftth-1000-36m-98",
-            },
-            {
-              label: "Netvigator | Private-estate 1000M (36 months + home phone)",
-              value: "Private | HK$98",
-              href: "/plans/netvigator-ftth-1000-private-36m",
             },
             {
               label: "HKBN | 1000M home broadband (24 months)",

@@ -50,6 +50,7 @@ export const Route = createFileRoute("/plans_/$planId")({
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:url", content: url },
+        ...(plan.staffOffer ? [{ name: "robots", content: "noindex, nofollow" }] : []),
       ],
       links: [{ rel: "canonical", href: url }],
     };
@@ -65,7 +66,11 @@ function PlanDetailPage() {
   const toggleSaved = useDesk((s) => s.toggleSaved);
   const avg = averageFee(plan);
   const related = PLANS.filter(
-    (p) => p.category === plan.category && p.id !== plan.id && p.providerId !== plan.providerId,
+    (p) =>
+      p.category === plan.category &&
+      p.id !== plan.id &&
+      p.providerId !== plan.providerId &&
+      !p.staffOffer,
   ).slice(0, 2);
   const perks = planPerks(plan);
   const { t, tx, categoryLabel, housingList } = useI18n();

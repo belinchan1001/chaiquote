@@ -21,6 +21,7 @@ import { Route as EstatesRouteImport } from './routes/estates'
 import { Route as GuidesSlugRouteImport } from './routes/guides_.$slug'
 import { Route as PlansPlanIdRouteImport } from './routes/plans_.$planId'
 import { Route as EstatesSlugRouteImport } from './routes/estates_.$slug'
+import { Route as OffersOfferIdRouteImport } from './routes/offers_.$offerId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -82,6 +83,11 @@ const EstatesSlugRoute = EstatesSlugRouteImport.update({
   path: '/estates/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OffersOfferIdRoute = OffersOfferIdRouteImport.update({
+  id: '/offers_/$offerId',
+  path: '/offers/$offerId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -96,6 +102,7 @@ export interface FileRoutesByFullPath {
   '/guides/$slug': typeof GuidesSlugRoute
   '/plans/$planId': typeof PlansPlanIdRoute
   '/estates/$slug': typeof EstatesSlugRoute
+  '/offers/$offerId': typeof OffersOfferIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -110,6 +117,7 @@ export interface FileRoutesByTo {
   '/guides/$slug': typeof GuidesSlugRoute
   '/plans/$planId': typeof PlansPlanIdRoute
   '/estates/$slug': typeof EstatesSlugRoute
+  '/offers/$offerId': typeof OffersOfferIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -125,6 +133,7 @@ export interface FileRoutesById {
   '/guides_/$slug': typeof GuidesSlugRoute
   '/plans_/$planId': typeof PlansPlanIdRoute
   '/estates_/$slug': typeof EstatesSlugRoute
+  '/offers_/$offerId': typeof OffersOfferIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -141,6 +150,7 @@ export interface FileRouteTypes {
     | '/guides/$slug'
     | '/plans/$planId'
     | '/estates/$slug'
+    | '/offers/$offerId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -155,6 +165,7 @@ export interface FileRouteTypes {
     | '/guides/$slug'
     | '/plans/$planId'
     | '/estates/$slug'
+    | '/offers/$offerId'
   id:
     | '__root__'
     | '/'
@@ -169,6 +180,7 @@ export interface FileRouteTypes {
     | '/guides_/$slug'
     | '/plans_/$planId'
     | '/estates_/$slug'
+    | '/offers_/$offerId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -184,6 +196,7 @@ export interface RootRouteChildren {
   GuidesSlugRoute: typeof GuidesSlugRoute
   PlansPlanIdRoute: typeof PlansPlanIdRoute
   EstatesSlugRoute: typeof EstatesSlugRoute
+  OffersOfferIdRoute: typeof OffersOfferIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -272,6 +285,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EstatesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/offers_/$offerId': {
+      id: '/offers_/$offerId'
+      path: '/offers/$offerId'
+      fullPath: '/offers/$offerId'
+      preLoaderRoute: typeof OffersOfferIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -288,6 +308,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuidesSlugRoute: GuidesSlugRoute,
   PlansPlanIdRoute: PlansPlanIdRoute,
   EstatesSlugRoute: EstatesSlugRoute,
+  OffersOfferIdRoute: OffersOfferIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

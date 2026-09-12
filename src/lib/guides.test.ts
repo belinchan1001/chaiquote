@@ -290,7 +290,6 @@ describe("locked SEO guides", () => {
       { id: "hgc-ftth-1000-public-39m", fee: 89, months: 39 },
       { id: "icable-ftth-1000-public-36m", fee: 93, months: 36 },
       { id: "hkbn-ftth-1000-36m-98", fee: 98, months: 36 },
-      { id: "netvigator-ftth-1000-public-36m-98", fee: 98, months: 36 },
     ];
     assert.equal(tableSection.table.rows.length, expected.length);
     for (const [index, row] of tableSection.table.rows.entries()) {
@@ -347,8 +346,6 @@ describe("locked SEO guides", () => {
       { id: "icable-ftth-1000-private-36m", fee: 88 },
       { id: "hgc-ftth-1000-public-39m", fee: 89 },
       { id: "hkbn-ftth-1000-36m-98", fee: 98 },
-      { id: "netvigator-ftth-1000-public-36m-98", fee: 98 },
-      { id: "netvigator-ftth-1000-private-36m", fee: 98 },
       { id: "netvigator-ftth-1000-village-36m", fee: 278 },
     ];
     const expected2500 = [
@@ -422,7 +419,6 @@ describe("locked SEO guides", () => {
       { id: "icable-ftth-1000-private-36m", fee: 88 },
       { id: "hgc-ftth-1000-private-39m", fee: 89 },
       { id: "hkbn-ftth-1000-36m-98", fee: 98 },
-      { id: "netvigator-ftth-1000-private-36m", fee: 98 },
       { id: "hkbn-ftth-1000-24m-109", fee: 109 },
     ];
     assert.equal(tableSection.table.rows.length, expected.length);
