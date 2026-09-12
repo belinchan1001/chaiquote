@@ -229,12 +229,13 @@ describe("estate SEO pages", () => {
     assert.ok(ids.every((id) => !tin.broadband.some((plan) => plan.id === id)));
   });
 
-  it("hides Netvigator new-move-in fibre until a listed estate is searched", () => {
+  it("hides Netvigator new-move-in fibre from public lists and estate unlock", () => {
     const id = "netvigator-ftth-1000-36m-78-intake";
     const plan = getPlan(id)!;
     assert.equal(plan.providerId, "netvigator");
     assert.equal(plan.newIntakeOffer, true);
     assert.equal(plan.quotePick, true);
+    assert.equal(plan.staffOffer, "nv78");
     assert.equal(plan.monthlyFee, 78);
     assert.equal(plan.contractMonths, 36);
     assert.equal(plan.speedMbps, 1000);
@@ -248,7 +249,7 @@ describe("estate SEO pages", () => {
     const hidden = filterPlans({ cat: "broadband" }).map((row) => row.id);
     assert.equal(hidden.includes(id), false);
     const intake = filterPlans({ cat: "broadband", intake: true }).map((row) => row.id);
-    assert.equal(intake.includes(id), true);
+    assert.equal(intake.includes(id), false);
     const tinYiu = filterPlans({ cat: "broadband", housing: "public", estate: "天耀邨" }).map((row) => row.id);
     assert.equal(tinYiu.includes(id), false);
     const longTin = filterPlans({ cat: "broadband", housing: "hos", estate: "朗天苑" }).map((row) => row.id);
@@ -259,19 +260,22 @@ describe("estate SEO pages", () => {
       assert.equal(estateUnlocksPlan(name, NETVIGATOR_INTAKE_OFFER_ESTATES), true, name);
     }
     const shing = filterPlans({ cat: "broadband", housing: "hos", estate: "盛緻苑" }).map((row) => row.id);
-    assert.equal(shing.includes(id), true);
+    assert.equal(shing.includes(id), false);
     const lokLing = filterPlans({ cat: "broadband", housing: "public", estate: "樂嶺都匯" }).map((row) => row.id);
-    assert.equal(lokLing.includes(id), true);
+    assert.equal(lokLing.includes(id), false);
     const yanPo = filterPlans({ cat: "broadband", housing: "public", estate: "簡約公屋欣寶路項目" }).map((row) => row.id);
-    assert.equal(yanPo.includes(id), true);
+    assert.equal(yanPo.includes(id), false);
     const olympic = filterPlans({ cat: "broadband", housing: "public", estate: "世運道簡約公屋啟德站" }).map(
       (row) => row.id,
     );
-    assert.equal(olympic.includes(id), true);
+    assert.equal(olympic.includes(id), false);
     const gsh = filterPlans({ cat: "broadband", housing: "hos", estate: "綠置居" }).map((row) => row.id);
-    assert.equal(gsh.includes(id), true);
+    assert.equal(gsh.includes(id), false);
     const shingPage = estatePlans(ESTATES.find((item) => item.name === "盛緻苑")!);
-    assert.ok(shingPage.broadband.some((row) => row.id === id));
+    assert.equal(
+      shingPage.broadband.some((row) => row.id === id),
+      false,
+    );
     const longTinPage = estatePlans(ESTATES.find((item) => item.name === "朗天苑")!);
     assert.equal(
       longTinPage.broadband.some((row) => row.id === id),

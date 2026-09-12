@@ -1153,6 +1153,7 @@ export const PLANS: Plan[] = [
     limits: LIMITS_NETVIGATOR_INTAKE,
     quotePick: true,
     newIntakeOffer: true,
+    staffOffer: "nv78",
     onlyEstates: [...NETVIGATOR_INTAKE_OFFER_ESTATES],
     bestFor: "適合指定新入伙屋苑、需要 1000M 光纖及 Wi-Fi 6 路由器之住戶",
   },

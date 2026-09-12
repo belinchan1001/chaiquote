@@ -1472,6 +1472,27 @@ describe("Netvigator $98 staff offer", () => {
   });
 });
 
+describe("Netvigator $78 staff offer", () => {
+  it("hides the new-move-in $78 card from public lists and keeps it on the staff link", () => {
+    const row = plan("netvigator-ftth-1000-36m-78-intake");
+    assert.equal(row.staffOffer, "nv78");
+    assert.equal(row.monthlyFee, 78);
+    assert.equal(row.contractMonths, 36);
+    assert.equal(row.newIntakeOffer, true);
+    assert.equal(row.quotePick, true);
+    assert.equal(filterPlans({ cat: "broadband" }).some((item) => item.id === row.id), false);
+    assert.equal(filterPlans({ cat: "broadband", intake: true }).some((item) => item.id === row.id), false);
+    assert.equal(
+      filterPlans({ cat: "broadband", housing: "hos", estate: "盛緻苑" }).some((item) => item.id === row.id),
+      false,
+    );
+    assert.deepEqual(
+      staffOfferPlans("nv78").map((item) => item.id),
+      [row.id],
+    );
+  });
+});
+
 describe("business broadband catalogue", () => {
   it("keeps only HKBN and Netvigator, dropping HGC and CMHK", () => {
     for (const id of ["cmhk-biz-1000", "hgc-biz-1000", "hgc-biz-2500", "hgc-biz-5000", "hgc-biz-10000"]) {
