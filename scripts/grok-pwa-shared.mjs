@@ -565,9 +565,8 @@ export function grokOgHeadTags({
     tags.push(`<meta property="og:image" content="${escapeHtml(image)}">`);
     tags.push(`<meta property="og:image:width" content="1200">`);
     tags.push(`<meta property="og:image:height" content="630">`);
-    if (pageImage) {
-      tags.push(`<meta name="twitter:image" content="${escapeHtml(pageImage)}">`);
-    }
+    // Pair twitter:image with og:image for both route cards and the default /og.jpg.
+    tags.push(`<meta name="twitter:image" content="${escapeHtml(image)}">`);
     const banner = String(site.banner ?? "").trim();
     if (banner) {
       const bannerUrl = `https://${publicHost}${banner.startsWith("/") ? banner : `/${banner}`}`;
