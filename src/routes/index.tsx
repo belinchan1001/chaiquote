@@ -39,14 +39,15 @@ function Home() {
     to: "/guides/$slug";
     slug: "fiber" | "home5g" | "mobile" | "business";
     src: string;
+    webp: string;
     label: MessageKey;
     text: MessageKey;
     planCat: "broadband" | "home5g" | "mobile" | "business";
   }[] = [
-    { to: "/guides/$slug", slug: "fiber", src: "/images/cat-broadband.jpg", label: "catBroadband", text: "catFibreText", planCat: "broadband" },
-    { to: "/guides/$slug", slug: "home5g", src: "/images/cat-home5g.jpg", label: "catHome5g", text: "catHome5gText", planCat: "home5g" },
-    { to: "/guides/$slug", slug: "mobile", src: "/images/cat-mobile.jpg", label: "catMobile", text: "catMobileText", planCat: "mobile" },
-    { to: "/guides/$slug", slug: "business", src: "/images/cat-business.jpg", label: "catBusiness", text: "catBusinessText", planCat: "business" },
+    { to: "/guides/$slug", slug: "fiber", src: "/images/cat-broadband.jpg", webp: "/images/cat-broadband.webp", label: "catBroadband", text: "catFibreText", planCat: "broadband" },
+    { to: "/guides/$slug", slug: "home5g", src: "/images/cat-home5g.jpg", webp: "/images/cat-home5g.webp", label: "catHome5g", text: "catHome5gText", planCat: "home5g" },
+    { to: "/guides/$slug", slug: "mobile", src: "/images/cat-mobile.jpg", webp: "/images/cat-mobile.webp", label: "catMobile", text: "catMobileText", planCat: "mobile" },
+    { to: "/guides/$slug", slug: "business", src: "/images/cat-business.jpg", webp: "/images/cat-business.webp", label: "catBusiness", text: "catBusinessText", planCat: "business" },
   ];
   const faqs: { q: MessageKey; a: MessageKey }[] = [
     { q: "faq1q", a: "faq1a" },
@@ -74,13 +75,18 @@ function Home() {
         }}
       />
       <section className="relative overflow-hidden">
-        <img
-          src="/images/hero-home.jpg"
-          alt=""
-          fetchPriority="high"
-          decoding="async"
-          className="absolute inset-0 size-full object-cover"
-        />
+        <picture>
+          <source srcSet="/images/hero-home.webp" type="image/webp" />
+          <img
+            src="/images/hero-home.jpg"
+            alt=""
+            width={1280}
+            height={720}
+            fetchPriority="high"
+            decoding="async"
+            className="absolute inset-0 size-full object-cover"
+          />
+        </picture>
         <div className="absolute inset-0 bg-primary/55" />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/50 to-primary/25" />
         <div className="relative mx-auto grid max-w-6xl gap-6 px-4 py-8 lg:grid-cols-2 lg:gap-10 lg:py-16">
@@ -150,7 +156,18 @@ function Home() {
               className="overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border)]"
             >
               <Link to={item.to} params={{ slug: item.slug }} className="group block">
-                <img src={item.src} alt={t(item.label)} loading="lazy" decoding="async" className="h-40 w-full object-cover outline outline-1 -outline-offset-1 outline-fg/10" />
+                <picture>
+                  <source srcSet={item.webp} type="image/webp" />
+                  <img
+                    src={item.src}
+                    alt={t(item.label)}
+                    width={800}
+                    height={600}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-40 w-full object-cover outline outline-1 -outline-offset-1 outline-fg/10"
+                  />
+                </picture>
                 <div className="p-5 pb-2">
                   <p className="font-medium">
                     {t(item.label)}

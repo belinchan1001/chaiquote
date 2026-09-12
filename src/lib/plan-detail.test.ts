@@ -78,6 +78,22 @@ describe("plan detail share landing", () => {
     assert.doesNotMatch(page, /保證價|最抵|最低|最平/);
   });
 
+  it("avoids a blank flash: sync loader, skeleton, and no page-shell remount", () => {
+    const page = src("../routes/plans_.$planId.tsx");
+    const root = src("../routes/__root.tsx");
+
+    assert.match(page, /pendingComponent: PlanDetailPending/);
+    assert.match(page, /pendingMs: 0/);
+    assert.match(page, /function PlanDetailPending\(/);
+    assert.match(page, /loader: \(\{ params \}\) => \{/);
+    assert.doesNotMatch(page, /loader: async /);
+    assert.match(page, /aria-busy="true"/);
+    assert.match(page, /rounded-xl bg-card p-5 pb-12 shadow-\[var\(--shadow-border\)\]/);
+
+    assert.doesNotMatch(root, /key=\{pathname\}/);
+    assert.match(root, /className="page-shell"/);
+  });
+
   it("does not change plan SEO head or JSON-LD", () => {
     const page = src("../routes/plans_.$planId.tsx");
     assert.match(page, /const title = planSeoTitle\(plan\)/);

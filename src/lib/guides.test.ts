@@ -245,6 +245,8 @@ describe("village-onsite guide", () => {
     assert.match(page, /GUIDE_CATEGORY_META/);
     assert.match(page, /rounded-xl bg-card/);
     assert.match(page, /cat\.image/);
+    assert.match(page, /cat\.image\.replace\(\/\\\.jpg\$\/, "\.webp"\)/);
+    assert.match(page, /loading="lazy"/);
     assert.match(page, /seeDetail/);
     assert.match(page, /goCompare/);
     assert.match(page, /readGuide/);

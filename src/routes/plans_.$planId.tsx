@@ -32,7 +32,9 @@ import { JsonLd } from "@/components/json-ld";
 
 export const Route = createFileRoute("/plans_/$planId")({
   component: PlanDetailPage,
-  loader: async ({ params }) => {
+  pendingMs: 0,
+  pendingComponent: PlanDetailPending,
+  loader: ({ params }) => {
     const plan = getPlan(params.planId);
     if (!plan || plan.staffOffer) throw notFound();
     return { plan };
@@ -56,6 +58,30 @@ export const Route = createFileRoute("/plans_/$planId")({
     };
   },
 });
+
+function PlanDetailPending() {
+  return (
+    <div className="mx-auto max-w-6xl px-4 py-8" aria-busy="true">
+      <div className="h-5 w-28 rounded bg-surface" />
+      <article className="relative mt-6 max-w-3xl rounded-xl bg-card p-5 pb-12 shadow-[var(--shadow-border)]">
+        <div className="h-10 w-40 rounded bg-surface" />
+        <div className="mt-4 h-3 w-32 rounded bg-surface" />
+        <div className="mt-2 h-8 w-2/3 rounded bg-surface" />
+        <div className="mt-6 h-12 w-36 rounded bg-surface" />
+        <div className="mt-6 grid grid-cols-2 gap-3 border-t border-border pt-5">
+          <div className="h-12 rounded bg-surface" />
+          <div className="h-12 rounded bg-surface" />
+          <div className="h-12 rounded bg-surface" />
+          <div className="h-12 rounded bg-surface" />
+        </div>
+        <div className="mt-6 flex flex-col gap-2 sm:flex-row">
+          <div className="h-11 flex-1 rounded-md bg-surface" />
+          <div className="h-11 flex-1 rounded-md bg-surface" />
+        </div>
+      </article>
+    </div>
+  );
+}
 
 function PlanDetailPage() {
   const { plan } = Route.useLoaderData();
