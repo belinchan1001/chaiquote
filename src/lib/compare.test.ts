@@ -1,5 +1,8 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   compareChipLabel,
   compareFieldValue,
@@ -84,6 +87,16 @@ describe("compare chips", () => {
     assert.equal(planSpecToken(mobile), "100GB");
     assert.equal(compareChipLabel(broadband, "zh"), "有線 200M $68");
     assert.equal(compareChipLabel(mobile, "en"), "CMHK 100GB $149");
+  });
+
+  it("stacks chips above actions below sm so every remove control stays visible", () => {
+    const bar = readFileSync(join(dirname(fileURLToPath(import.meta.url)), "../components/compare-bar.tsx"), "utf8");
+    assert.match(bar, /flex-col gap-2 sm:flex-row/);
+    assert.match(bar, /h-\[calc\(6rem\+env\(safe-area-inset-bottom\)\)\] sm:h-14/);
+    assert.match(bar, /min-w-0 truncate/);
+    assert.match(bar, /size-6 shrink-0/);
+    assert.doesNotMatch(bar, /className="min-w-0 flex-1 overflow-x-auto"/);
+    assert.doesNotMatch(bar, /whitespace-nowrap/);
   });
 });
 
