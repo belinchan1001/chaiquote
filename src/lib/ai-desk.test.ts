@@ -1,5 +1,8 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   AI_MONTHLY_BUDGET_HKD,
   containsFeeTalk,
@@ -16,6 +19,13 @@ import {
   tokensToUsd,
   usdToHkd,
 } from "./ai-desk.ts";
+import { averageFee, getPlan } from "./plans.ts";
+
+const here = dirname(fileURLToPath(import.meta.url));
+
+function quoted(src: string, key: string): string[] {
+  return [...src.matchAll(new RegExp(`${key}:\\s*"([^"]*)"`, "g"))].map((match) => match[1]);
+}
 
 describe("AI desk safety", () => {
   it("caps the monthly budget at HK$200 and never lets the model talk fees", () => {
@@ -29,6 +39,10 @@ describe("AI desk safety", () => {
     assert.match(sanitizeAiReply("月費只要 $98", "zh"), /卡片/);
     assert.doesNotMatch(sanitizeAiReply("月費只要 $98", "zh"), /\$|月費/);
     assert.doesNotMatch(fallbackReply(true, "zh"), /最平|保證|月費 HK/);
+    assert.doesNotMatch(fallbackReply(true, "zh"), /幫你揀咗|幫我揀|幫你揀/);
+    assert.doesNotMatch(sanitizeAiReply("", "zh"), /幫你揀咗|幫我揀|幫你揀/);
+    assert.match(fallbackReply(true, "zh"), /列出對到/);
+    assert.match(sanitizeAiReply("", "zh"), /列出對到/);
   });
 
   it("parses model JSON and only keeps catalogue ids", () => {
@@ -84,5 +98,78 @@ describe("AI desk safety", () => {
     });
     assert.equal(faq.planIds.length, 0);
     assert.doesNotMatch(faq.reply, /最平|保證|HK\$/);
+  });
+
+  it("ranks retrieved plans by average fee ascending, not quotePick / flash / newIntake", () => {
+    const found = retrievePlansForAsk({ message: "村屋 1000M 光纖" });
+    assert.ok(found.plans.length >= 2);
+    const fees = found.plans.map((row) => {
+      const plan = getPlan(row.id);
+      assert.ok(plan, row.id);
+      return averageFee(plan);
+    });
+    assert.deepEqual(fees, [...fees].sort((a, b) => a - b));
+
+    const quoteFirst = [...found.plans].sort((a, b) => {
+      if (!!a.quotePick !== !!b.quotePick) return a.quotePick ? -1 : 1;
+      if (!!a.flashOffer !== !!b.flashOffer) return a.flashOffer ? -1 : 1;
+      if (!!a.newIntakeOffer !== !!b.newIntakeOffer) return a.newIntakeOffer ? -1 : 1;
+      return 0;
+    });
+    const feeOrderIds = found.plans.map((plan) => plan.id);
+    const pickOrderIds = quoteFirst.map((plan) => plan.id);
+    if (found.plans.some((plan) => plan.quotePick) && found.plans.some((plan) => !plan.quotePick)) {
+      assert.notDeepEqual(feeOrderIds, pickOrderIds);
+    }
+
+    const desk = readFileSync(join(here, "ai-desk.ts"), "utf8");
+    assert.match(desk, /const ranked = \[\.\.\.rows\]\.sort\(\(a, b\) => averageFee\(a\) - averageFee\(b\)\)/);
+    assert.doesNotMatch(desk, /if \(!!a\.quotePick !== !!b\.quotePick\)/);
+    assert.doesNotMatch(desk, /if \(!!a\.flashOffer !== !!b\.flashOffer\)/);
+    assert.doesNotMatch(desk, /if \(!!a\.newIntakeOffer !== !!b\.newIntakeOffer\)/);
+  });
+
+  it("locks filter copy, mini-cards, chips, and panel placement", () => {
+    const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    const staff = readFileSync(join(here, "../components/ai-staff.tsx"), "utf8");
+    const ask = readFileSync(join(here, "ai-ask.ts"), "utf8");
+    const desk = readFileSync(join(here, "ai-desk.ts"), "utf8");
+    const widget = readFileSync(join(here, "../components/whatsapp-widget.tsx"), "utf8");
+
+    assert.equal(quoted(messages, "aiStaffLead")[0], "講屋苑或想要咩，幫你收窄站內計劃");
+    assert.match(quoted(messages, "aiStaffLead")[1] ?? "", /narrow the on-site plans/);
+    assert.equal(quoted(messages, "aiWelcome")[0], "講屋苑或想要咩，對到就列俾你。價錢喺卡片。");
+    assert.equal(quoted(messages, "aiCardRef")[0], "僅供參考");
+    for (const key of ["aiWelcome", "aiHint"] as const) {
+      for (const text of quoted(messages, key)) {
+        assert.equal(text.includes("幫你揀咗"), false, `${key} still picks`);
+        assert.equal(text.includes("幫我揀"), false, `${key} still picks`);
+      }
+    }
+
+    assert.match(staff, /<ProviderMark id=\{plan\.providerId\} size="sm"/);
+    assert.match(staff, /formatFee\(plan\.monthlyFee\)/);
+    assert.match(staff, /t\("months", \{ n: plan\.contractMonths \}\)/);
+    assert.match(staff, /t\("aiCardRef"\)/);
+    assert.match(staff, /to="\/plans\/\$planId"/);
+    assert.match(staff, /t\("aiWaCta"\)/);
+    assert.doesNotMatch(staff, /QUICK_REPLIES/);
+    assert.match(staff, /QUESTION_CHIPS\.map/);
+    assert.match(desk, /id: "village"/);
+    assert.match(desk, /id: "port"/);
+    assert.match(desk, /id: "housing"/);
+
+    assert.doesNotMatch(staff, /fixed right-3 top-20/);
+    assert.match(staff, /inset-x-0 bottom-0/);
+    assert.match(staff, /lg:left-4 lg:top-20/);
+    assert.doesNotMatch(staff, /lg:right-3|lg:right-4|right-3 top-20/);
+
+    assert.match(ask, /listing or filtering plans/);
+    assert.match(ask, /篩選／列出計劃/);
+    assert.doesNotMatch(ask, /recommending or filtering/);
+    assert.doesNotMatch(ask, /篩選／推介計劃/);
+
+    assert.match(widget, /QUICK_REPLIES\.map/);
+    assert.match(widget, /wa-pulse wa-pulse-fab/);
   });
 });
