@@ -4,6 +4,7 @@ import { PlanCard } from "@/components/plan-card";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import { ProviderFilter } from "@/components/provider-filter";
+import { AiFilterEntry } from "@/components/ai-filter-entry";
 import { FilterLink } from "@/components/filter-link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -307,7 +308,9 @@ function PlansPage() {
         <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("plansFlashNote")}</p>
       ) : null}
 
-      <div className="mt-6 space-y-4 rounded-xl bg-card p-4 shadow-[var(--shadow-border)] sm:p-5">
+      <AiFilterEntry className="mt-6" />
+
+      <div className="mt-3 space-y-4 rounded-xl bg-card p-4 shadow-[var(--shadow-border)] sm:p-5">
         <div className="space-y-2">
           <label htmlFor="plans-estate" className="text-xs font-medium tracking-wider text-muted">
             {t("estateLabel")}

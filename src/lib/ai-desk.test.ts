@@ -222,6 +222,9 @@ describe("AI desk safety", () => {
     assert.match(staff, /<AiBetaMark className="shrink-0 text-primary-foreground\/75" \/>/);
     assert.match(header, /<AiBetaMark className="hidden text-primary-foreground\/80 sm:inline" \/>/);
     assert.match(header, /AiBetaMark className="pointer-events-none absolute inset-x-0 bottom-0.5/);
+    assert.match(header, /t\("aiStaffTiny"\)/);
+    assert.doesNotMatch(header, /sr-only sm:hidden/);
+    assert.doesNotMatch(header, /max-sm:w-11/);
     assert.match(staff, /plansForAiCards\(bubble\.planIds\)/);
     assert.match(staff, /<ProviderMark id=\{plan\.providerId\} size="sm"/);
     assert.match(staff, /formatFee\(plan\.monthlyFee\)/);
@@ -249,6 +252,38 @@ describe("AI desk safety", () => {
     assert.match(widget, /wa-pulse wa-pulse-fab/);
   });
 
+  it("surfaces locked AI filter entries on home, plans, and the mobile header", () => {
+    const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    const entry = readFileSync(join(here, "../components/ai-filter-entry.tsx"), "utf8");
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+    const search = readFileSync(join(here, "../components/search-panel.tsx"), "utf8");
+    const plans = readFileSync(join(here, "../routes/plans.tsx"), "utf8");
+    const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
+    const root = readFileSync(join(here, "../routes/__root.tsx"), "utf8");
+
+    assert.equal(quoted(messages, "aiStaffTiny")[0], "AI");
+    assert.equal(quoted(messages, "aiStaffTiny")[1], "AI");
+    assert.equal(quoted(messages, "aiEntryLead")[0], "唔知點揀？");
+    assert.equal(quoted(messages, "aiEntryCta")[0], "用 AI 篩選（測試版）");
+    assert.match(quoted(messages, "aiEntryLead")[1] ?? "", /Not sure how to choose/);
+    assert.equal(quoted(messages, "aiEntryCta")[1], "Use AI filter (Beta)");
+    assert.equal(quoted(messages, "aiBeta")[0], "測試版");
+
+    assert.match(entry, /toggleAi/);
+    assert.match(entry, /t\("aiEntryLead"\)/);
+    assert.match(entry, /t\("aiEntryCta"\)/);
+    assert.doesNotMatch(entry, /fixed |fab|floating/i);
+
+    assert.match(home, /<SearchPanel \/>/);
+    assert.match(search, /<AiFilterEntry className="pt-1" \/>/);
+    assert.match(plans, /<AiFilterEntry className="mt-6" \/>/);
+    assert.match(plans, /mt-3 space-y-4 rounded-xl bg-card/);
+    assert.match(header, /<span className="sm:hidden">\{t\("aiStaffTiny"\)\}<\/span>/);
+    assert.match(root, /<DeferredWhatsApp \/>/);
+    assert.match(root, /<AiStaffPanel \/>/);
+    assert.doesNotMatch(root, /AiFilterEntry/);
+  });
+
   it("allows HK$ only on mini-cards; chat body and catalogue stay fee-free", () => {
     const found = retrievePlansForAsk({ message: "村屋 1000M 光纖" });
     const shuffled = [...found.plans.map((plan) => plan.id)].reverse();
@@ -267,7 +302,7 @@ describe("AI desk safety", () => {
 
     const staff = readFileSync(join(here, "../components/ai-staff.tsx"), "utf8");
     assert.match(staff, /\{bubble\.text\}/);
-    assert.doesNotMatch(staff, /formatFee\([^\)]*bubble\.text/);
+    assert.doesNotMatch(staff, /formatFee\([^)]*bubble\.text/);
     assert.match(staff, /formatFee\(plan\.monthlyFee\)[\s\S]*t\("aiCardRef"\)/);
   });
 });
