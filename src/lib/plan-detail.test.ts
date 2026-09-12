@@ -12,7 +12,7 @@ function src(file: string) {
 }
 
 describe("plan detail share landing", () => {
-  it("reuses PlanShareButton beside badges, not over the fee or primary CTAs", () => {
+  it("reuses a labeled 分享 outline button beside WhatsApp, not in the top-right corner", () => {
     const page = src("../routes/plans_.$planId.tsx");
     const button = src("../components/plan-share-button.tsx");
 
@@ -20,16 +20,19 @@ describe("plan detail share landing", () => {
     assert.match(page, /import \{ PlanShareButton \} from "@\/components\/plan-share-button"/);
     assert.match(
       page,
-      /<PlanBadges plan=\{plan\} \/>\s*<PlanShareButton plan=\{plan\} \/>/,
+      /<QuoteLink plan=\{plan\} className="flex-1" \/>\s*<PlanShareButton plan=\{plan\} \/>/,
     );
-    assert.match(page, /<PlanShareButton plan=\{plan\} \/>[\s\S]*formatFee\(plan\.monthlyFee\)/);
-    assert.doesNotMatch(page, /formatFee\(plan\.monthlyFee\)[\s\S]{0,160}PlanShareButton/);
-    assert.doesNotMatch(page, /<QuoteLink[^>]*>[\s\S]{0,80}PlanShareButton/);
+    assert.match(page, /<ProviderMark id=\{plan\.providerId\} \/>[\s\S]*<PlanBadges plan=\{plan\} \/>[\s\S]*<h1/);
+    assert.doesNotMatch(page, /<PlanBadges plan=\{plan\} \/>\s*<PlanShareButton/);
+    assert.doesNotMatch(page, /<ProviderMark[\s\S]{0,220}PlanShareButton/);
+    assert.match(page, /formatFee\(plan\.monthlyFee\)[\s\S]*<PlanShareButton plan=\{plan\} \/>/);
     assert.doesNotMatch(page, /PlanShareButton[\s\S]{0,80}<LogoMark/);
     assert.doesNotMatch(page, /window\.location/);
 
     assert.match(button, /shareOrCopyPlan\(plan\)/);
     assert.match(button, /t\("share"\)/);
+    assert.match(button, /variant="outline"/);
+    assert.match(button, /\{label\}/);
     assert.match(button, /aria-live="polite"/);
   });
 

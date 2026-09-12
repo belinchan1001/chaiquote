@@ -174,17 +174,22 @@ describe("share or copy fallback", () => {
 });
 
 describe("plan card share control", () => {
-  it("exposes one 分享 control beside save, without covering fee, CTAs, or brand", () => {
+  it("exposes one labeled 分享 outline button beside WhatsApp, not in the bookmark corner", () => {
     const card = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
     const button = readFileSync(join(here, "../components/plan-share-button.tsx"), "utf8");
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
     const share = readFileSync(join(here, "plan-share.ts"), "utf8");
 
     assert.equal([...card.matchAll(/<PlanShareButton plan=\{plan\} \/>/g)].length, 1);
-    assert.match(card, /<PlanBadges plan=\{plan\} \/>\s*<PlanShareButton plan=\{plan\} \/>\s*<button/);
-    assert.match(card, /<PlanShareButton plan=\{plan\} \/>[\s\S]*aria-label=\{inSaved \? t\("unsave"\) : t\("save"\)\}/);
-    assert.doesNotMatch(card, /formatFee\(plan\.monthlyFee\)[\s\S]{0,120}PlanShareButton/);
-    assert.doesNotMatch(card, /<QuoteLink[^>]*>[\s\S]{0,80}PlanShareButton/);
+    assert.match(
+      card,
+      /<QuoteLink plan=\{plan\} className="flex-1">\s*\{t\("askWa"\)\}\s*<\/QuoteLink>\s*<PlanShareButton plan=\{plan\} \/>/,
+    );
+    assert.match(card, /<ProviderMark id=\{plan\.providerId\} \/>\s*<button/);
+    assert.match(card, /aria-label=\{inSaved \? t\("unsave"\) : t\("save"\)\}/);
+    assert.doesNotMatch(card, /<PlanBadges plan=\{plan\} \/>\s*<PlanShareButton/);
+    assert.doesNotMatch(card, /<PlanShareButton plan=\{plan\} \/>\s*<button/);
+    assert.doesNotMatch(card, /<ProviderMark[\s\S]{0,220}PlanShareButton/);
     assert.doesNotMatch(card, /PlanShareButton[\s\S]{0,80}<LogoMark/);
     assert.doesNotMatch(card, /window\.location/);
 
@@ -194,7 +199,10 @@ describe("plan card share control", () => {
     assert.match(button, /t\("shareCopied"\)/);
     assert.match(button, /shareOrCopyPlan\(plan\)/);
     assert.match(button, /aria-live="polite"/);
-    assert.match(button, /size-11/);
+    assert.match(button, /variant="outline"/);
+    assert.match(button, /\{label\}/);
+    assert.doesNotMatch(button, /size-11/);
+    assert.doesNotMatch(button, /text-muted/);
 
     assert.match(share, /from "\.\/plans\.ts"/);
     assert.match(share, /formatFee\(plan\.monthlyFee\)/);

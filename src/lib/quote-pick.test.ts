@@ -20,7 +20,7 @@ describe("齊Quote pick badge", () => {
     assert.doesNotMatch(messages, /quotePick: "[^"]*[Qq]oute/);
     assert.match(badges, /👍 \{t\("quotePick"\)\}/);
     assert.match(badges, /quotePickClass = "[^"]*bg-fg[^"]*text-white/);
-    assert.match(badges, /pillClass = "rounded-full bg-hot px-2 py-1 text-xs font-medium text-hot-foreground"/);
+    assert.match(badges, /pillClass = "rounded-full bg-hot px-2\.5 py-1 text-sm font-medium text-hot-foreground"/);
     assert.match(badges, /plan\.quotePick \? <span className=\{quotePickClass\}>👍 \{t\("quotePick"\)\}/);
     assert.match(badges, /plan\.latestOffer \? <span className=\{pillClass\}>\{t\("latestOffer"\)\}/);
     assert.match(badges, /plan\.hot \? <span className=\{pillClass\}>\{t\("hot"\)\}/);
@@ -28,6 +28,8 @@ describe("齊Quote pick badge", () => {
     assert.match(messages, /newIntakeOffer: "新入伙優惠"/);
     assert.match(messages, /flashOffer: "超限定快閃優惠"/);
     assert.match(badges, /flashClass = "[^"]*bg-flash[^"]*text-flash-foreground"/);
+    assert.match(badges, /<span className=\{/);
+    assert.doesNotMatch(badges, /<button|onClick|FilterLink|aria-pressed/);
     assert.doesNotMatch(badges, /最平|保證|最優惠/);
 
     for (const phrase of FORBIDDEN) {

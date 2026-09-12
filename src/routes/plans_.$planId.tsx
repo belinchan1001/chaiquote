@@ -110,13 +110,9 @@ function PlanDetailPage() {
       </Link>
 
       <article className="relative mt-6 max-w-3xl rounded-xl bg-card p-5 pb-12 shadow-[var(--shadow-border)]">
-        <div className="flex items-start justify-between gap-3">
-          <ProviderMark id={plan.providerId} />
-          <div className="flex items-center gap-1">
-            <PlanBadges plan={plan} />
-            <PlanShareButton plan={plan} />
-          </div>
-        </div>
+        <ProviderMark id={plan.providerId} />
+
+        <PlanBadges plan={plan} />
 
         <p className="mt-4 text-xs tracking-wider text-subtle uppercase">
           {categoryLabel(plan.category)} · {tx(plan.network)}
@@ -160,7 +156,10 @@ function PlanDetailPage() {
             <Bookmark className={cn(saved.includes(plan.id) && "fill-fg")} />
             {saved.includes(plan.id) ? t("savedPlan") : t("savePlan")}
           </Button>
-          <QuoteLink plan={plan} className="sm:flex-1" />
+          <div className="flex min-w-0 flex-1 gap-2">
+            <QuoteLink plan={plan} className="flex-1" />
+            <PlanShareButton plan={plan} />
+          </div>
           <Button asChild variant="outline">
             <Link to="/quote" search={{ plan: plan.id }}>
               {t("formQuote")}
