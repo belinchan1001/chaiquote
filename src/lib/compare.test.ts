@@ -528,7 +528,7 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     assert.equal(isNetvigatorVillage(plan("netvigator-ftth-1000-private-36m")), false);
 
     assert.equal(isHktPlan(village1000), true);
-    assert.equal(isHktPlan(plan("csl-5g-30")), true);
+    assert.equal(isHktPlan(plan("csl-5g-20")), true);
     assert.equal(isHktPlan(plan("csl-home5g")), true);
     const cslHome = plan("csl-home5g");
     assert.equal(cslHome.name, "5G 家居寬頻包 Wi-Fi 7 路由器");
@@ -558,7 +558,7 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     assert.ok(PLANS.filter((p) => p.providerId !== "netvigator" && p.providerId !== "csl").every((p) => !isHktPlan(p)));
 
     assert.equal(certifiedStaffNoteKey(village1000), "hktStaffNote");
-    assert.equal(certifiedStaffNoteKey(plan("csl-5g-30")), "hktStaffNote");
+    assert.equal(certifiedStaffNoteKey(plan("csl-5g-20")), "hktStaffNote");
     assert.equal(certifiedStaffNoteKey(plan("hkbn-ftth-1000-36m-98")), "hkbnStaffNote");
     assert.equal(certifiedStaffNoteKey(plan("hgc-village-1g-phone-24m")), null);
     assert.ok(PLANS.filter((p) => p.providerId === "hkbn").every(hasCertifiedStaff));
@@ -1429,6 +1429,23 @@ describe("SmarTone mobile catalogue", () => {
     assert.ok(mobiles.filter((row) => !row.id.includes("handset")).every((row) => row.perks.includes("豁免每月行政費 HK$18")));
     assert.ok(mobiles.filter((row) => row.id.includes("handset")).every((row) => row.perks.includes("每月行政費 HK$18")));
     assert.ok(mobiles.every((row) => row.perks.includes("推薦人優惠")));
+  });
+});
+
+describe("CSL 5G 20GB $108", () => {
+  it("corrects the local data allowance to 20GB without changing fee or contract", () => {
+    const row = plan("csl-5g-20");
+    assert.equal(row.name, "5G 20GB");
+    assert.equal(row.monthlyFee, 108);
+    assert.equal(row.contractMonths, 24);
+    assert.equal(row.dataGb, 20);
+    assert.equal(row.highSpeedGb, 20);
+    assert.equal(row.fupNote, "其後以 1Mbps 任用");
+    assert.equal(row.voice, "本地無限分鐘");
+    assert.equal(row.roaming, "每月 3GB 中澳數據");
+    assert.ok(row.perks.includes("轉台或可享 HK$100 回贈（視申請時優惠而定）"));
+    assert.equal(row.portInPerk, "攜號轉台簽訂 36 個月合約或可享月費回贈");
+    assert.equal(getPlan("csl-5g-30"), undefined);
   });
 });
 
