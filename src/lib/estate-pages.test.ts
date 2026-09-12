@@ -12,6 +12,8 @@ import {
   estateSelectTarget,
   estateSeoTitle,
   getEstatePage,
+  INDEXABLE_ESTATE_PAGES,
+  isIndexableEstatePage,
   SKIPPED_ESTATE_REQUESTS,
 } from "./estate-pages.ts";
 import {
@@ -62,13 +64,20 @@ describe("estate SEO pages", () => {
     assert.match(estateSeoTitle(tinYiu.estate), /天耀邨寬頻比較｜公屋｜齊Quote/);
   });
 
-  it("adds the directory and each estate page to the sitemap", () => {
+  it("adds the directory and only estate pages with unique applicable plans", () => {
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/estates"));
     const estateUrls = SITEMAP_PAGES.filter((page) => page.path.startsWith("/estates/"));
-    assert.equal(estateUrls.length, ESTATE_PAGES.length);
-    for (const page of ESTATE_PAGES) {
+    assert.equal(estateUrls.length, INDEXABLE_ESTATE_PAGES.length);
+    for (const page of INDEXABLE_ESTATE_PAGES) {
       assert.ok(
         SITEMAP_PAGES.some((item) => item.path === `/estates/${page.slug}`),
+        page.slug,
+      );
+    }
+    for (const page of ESTATE_PAGES) {
+      if (isIndexableEstatePage(page)) continue;
+      assert.ok(
+        SITEMAP_PAGES.every((item) => item.path !== `/estates/${page.slug}`),
         page.slug,
       );
     }

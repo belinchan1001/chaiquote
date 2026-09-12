@@ -231,6 +231,48 @@ export function estatePlans(estate: Estate): { broadband: Plan[]; home5g: Plan[]
   };
 }
 
+function samePlanIds(left: readonly Plan[], right: readonly Plan[]): boolean {
+  if (left.length !== right.length) return false;
+  const ids = new Set(left.map((plan) => plan.id));
+  return right.every((plan) => ids.has(plan.id));
+}
+
+const GENERIC_ESTATE_PLANS: Record<Housing, { broadband: Plan[]; home5g: Plan[] }> = {
+  public: {
+    broadband: filterPlans({ cat: "broadband", housing: "public" }),
+    home5g: filterPlans({ cat: "home5g", housing: "public" }),
+  },
+  hos: {
+    broadband: filterPlans({ cat: "broadband", housing: "hos" }),
+    home5g: filterPlans({ cat: "home5g", housing: "hos" }),
+  },
+  private: {
+    broadband: filterPlans({ cat: "broadband", housing: "private" }),
+    home5g: filterPlans({ cat: "home5g", housing: "private" }),
+  },
+  village: {
+    broadband: filterPlans({ cat: "broadband", housing: "village" }),
+    home5g: filterPlans({ cat: "home5g", housing: "village" }),
+  },
+};
+
+/**
+ * Sitemap / indexable estate pages only.
+ *
+ * A page is empty/thin when it has no broadband and no home5g plans, or when
+ * those lists are only the generic 樓類 catalogue (same cards as every other
+ * public / HOS / private / village estate). Pages stay on the site; they are
+ * omitted from the sitemap until they list estate-specific plans.
+ */
+export function isIndexableEstatePage(page: EstatePage): boolean {
+  const listed = estatePlans(page.estate);
+  if (!listed.broadband.length && !listed.home5g.length) return false;
+  const generic = GENERIC_ESTATE_PLANS[page.estate.housing];
+  return !samePlanIds(listed.broadband, generic.broadband) || !samePlanIds(listed.home5g, generic.home5g);
+}
+
+export const INDEXABLE_ESTATE_PAGES: readonly EstatePage[] = ESTATE_PAGES.filter(isIndexableEstatePage);
+
 export function nearbyEstatePages(estate: Estate, limit = 6): EstatePage[] {
   const same = ESTATE_PAGES.filter((page) => page.estate.name !== estate.name && page.estate.district === estate.district);
   const rest = ESTATE_PAGES.filter(
