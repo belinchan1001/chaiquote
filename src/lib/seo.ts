@@ -1,6 +1,7 @@
 import { formatFee, isListedPlan, PLANS, PROVIDER_MAP, type Housing, type Plan } from "./plans.ts";
 import { ESTATE_PAGES, estatePagePath } from "./estate-pages.ts";
 import { GUIDES, type Guide } from "./guides.ts";
+import { guideTopicImage } from "./guide-media.ts";
 import { SITE } from "./site.ts";
 import {
   ABOUT_SEO,
@@ -184,7 +185,7 @@ export function guideJsonLd(guide: Guide) {
         url: SITE.url,
         logo: { "@type": "ImageObject", url: `${SITE.url}/icon-512.png` },
       },
-      image: `${SITE.url}/og.jpg`,
+      image: `${SITE.url}${guideTopicImage(guide.slug)?.src ?? "/og.jpg"}`,
       ...(GUIDE_ARTICLE_KEYWORDS[guide.slug]
         ? { keywords: GUIDE_ARTICLE_KEYWORDS[guide.slug] }
         : {}),

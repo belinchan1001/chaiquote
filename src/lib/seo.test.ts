@@ -324,6 +324,7 @@ describe("guide JSON-LD", () => {
     assert.equal(article.headline, fiber.h1);
     assert.equal(article.inLanguage, "zh-HK");
     assert.equal(article.url, "https://www.chaiquote.hk/guides/fiber");
+    assert.equal(article.image, "https://www.chaiquote.hk/images/guide-fiber.jpg");
     assert.match(String(article.keywords), /香港光纖寬頻/);
     const crumbs = ld["@graph"].find((node) => node["@type"] === "BreadcrumbList");
     assert.ok(crumbs);

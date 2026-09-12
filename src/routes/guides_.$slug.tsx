@@ -5,6 +5,7 @@ import { JsonLd } from "@/components/json-ld";
 import { QuoteLink } from "@/components/quote-link";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { getGuide, guideCopy, type GuideTable } from "@/lib/guides";
+import { guideTopicImage } from "@/lib/guide-media";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { canonicalUrl } from "@/lib/canonical";
 import { guideJsonLd } from "@/lib/seo";
@@ -22,6 +23,7 @@ export const Route = createFileRoute("/guides_/$slug")({
     if (!loaderData) return { meta: [{ title: SITE.name }] };
     const { guide } = loaderData;
     const url = canonicalUrl(`/guides/${guide.slug}`);
+    const image = guideTopicImage(guide.slug);
     return {
       meta: [
         { title: guide.seoTitle },
@@ -32,6 +34,12 @@ export const Route = createFileRoute("/guides_/$slug")({
         { property: "og:type", content: "article" },
         { property: "og:locale", content: "zh_HK" },
         { property: "og:site_name", content: SITE.name },
+        ...(image
+          ? [
+              { property: "og:image", content: image.src },
+              { name: "twitter:image", content: image.src },
+            ]
+          : []),
       ],
       links: [{ rel: "canonical", href: url }],
     };
@@ -109,6 +117,7 @@ function GuidePage() {
     ...(copy.faq.length ? [{ id: "faq", label: t("faqHeading") }] : []),
   ];
   const firstTableHeading = copy.body.find((section) => section.table)?.heading;
+  const topicImage = guideTopicImage(guide.slug);
 
   return (
     <article className="mx-auto max-w-2xl px-4 py-10">
@@ -131,6 +140,20 @@ function GuidePage() {
       <p className="mt-6 text-xs text-subtle">{t("minutesRead", { n: guide.minutes })}</p>
       <h1 className="mt-2 text-title font-semibold">{copy.h1}</h1>
       <p className="mt-3 text-base leading-relaxed text-muted">{copy.excerpt}</p>
+      {topicImage ? (
+        <picture>
+          <source srcSet={topicImage.webp} type="image/webp" />
+          <img
+            src={topicImage.src}
+            alt={locale === "en" ? topicImage.altEn : topicImage.alt}
+            width={topicImage.width}
+            height={topicImage.height}
+            loading="lazy"
+            decoding="async"
+            className="mt-6 w-full rounded-xl object-cover outline outline-1 -outline-offset-1 outline-fg/10"
+          />
+        </picture>
+      ) : null}
       {toc.length > 2 ? (
         <nav
           aria-label={t("tocLabel")}

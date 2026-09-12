@@ -136,6 +136,34 @@ test("platform chrome overwrites share-card metas and always sets og:title", () 
   assert.doesNotMatch(out, /property="og:image"/);
 });
 
+test("document og:image wins over the site card for per-page share images", () => {
+  const html =
+    '<html><head><title>攜號轉台點樣做｜齊Quote</title><meta property="og:image" content="/images/guide-port-in.jpg"><meta name="twitter:image" content="/images/guide-port-in.jpg"></head></html>';
+  const out = isolatedHead(html, {
+    host: "www.chaiquote.hk",
+    site: { title: "齊Quote", card: "custom", image: "/og.jpg" },
+  });
+  assert.match(
+    out,
+    /property="og:image" content="https:\/\/www\.chaiquote\.hk\/images\/guide-port-in\.jpg"/,
+  );
+  assert.match(
+    out,
+    /name="twitter:image" content="https:\/\/www\.chaiquote\.hk\/images\/guide-port-in\.jpg"/,
+  );
+  assert.doesNotMatch(out, /og:image" content="https:\/\/www\.chaiquote\.hk\/og\.jpg"/);
+  assert.equal(out.split('property="og:image"').length - 1, 1);
+});
+
+test("pages without a document og:image still use the site card", () => {
+  const out = isolatedHead("<html><head><title>齊Quote｜私隱政策</title></head></html>", {
+    host: "www.chaiquote.hk",
+    site: { title: "齊Quote", card: "custom", image: "/og.jpg" },
+  });
+  assert.match(out, /property="og:image" content="https:\/\/www\.chaiquote\.hk\/og\.jpg"/);
+  assert.doesNotMatch(out, /twitter:image/);
+});
+
 test("document title and description win over site.json for share tags", () => {
   const title = "齊Quote｜香港寬頻同手機月費比較";
   const description =
