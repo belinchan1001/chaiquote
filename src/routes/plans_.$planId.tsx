@@ -123,7 +123,7 @@ function PlanDetailPage() {
           {categoryLabel(plan.category)} · {tx(plan.network)}
         </p>
         <h1 className="mt-1 text-title font-semibold leading-snug">{tx(plan.name)}</h1>
-        <p className="mt-2 text-muted">{tx(plan.bestFor)}</p>
+        {plan.staffOffer ? null : <p className="mt-2 text-muted">{tx(plan.bestFor)}</p>}
 
         <div className="mt-6 flex items-end gap-3">
           <p className="font-display text-5xl font-semibold tabular-nums leading-none">
