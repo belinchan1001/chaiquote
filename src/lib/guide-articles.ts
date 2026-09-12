@@ -1806,7 +1806,10 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         heading: "三步用屋苑篩",
-        paragraphs: ["跟住三步：輸入 → 睇卡 → 分享或 WhatsApp。"],
+        paragraphs: [
+          "跟住三步：輸入 → 睇卡 → 分享或 WhatsApp。",
+          "唔知屋苑名或者想講條件，可用頁面「AI 篩選（測試版）」講樓類或預算；對到會列出參考計劃（僅供參考）。價錢睇卡片，實際以電訊商確認為準。",
+        ],
         table: {
           caption: "三步用屋苑篩",
           headers: ["步驟", "做咩"],
@@ -1848,7 +1851,10 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         heading: "Three steps",
-        paragraphs: ["Type → read the card → share or WhatsApp."],
+        paragraphs: [
+          "Type → read the card → share or WhatsApp.",
+          "If you do not know the estate name or want to describe conditions, use the page **AI filter (Beta)** to mention housing type or budget. Matches list **reference plans** (for reference only). Read fees on the cards; the carrier confirms the actual terms.",
+        ],
         table: {
           caption: "Three steps for the estate filter",
           headers: ["Step", "What you do"],
