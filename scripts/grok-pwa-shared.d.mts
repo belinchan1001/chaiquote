@@ -66,6 +66,8 @@ export declare function ogServiceUrl(): string;
 export declare function titleFromDocument(html: string): string;
 export declare function metaContents(html: string, key: string): string[];
 export declare function descriptionFromDocument(html: string): string;
+export declare function documentOgImage(html: string): string;
+export declare function publicShareImageUrl(raw: string, publicHost: string): string;
 export declare function resolveOgTitle(
   site?: OgSite,
   appName?: string,
@@ -80,6 +82,7 @@ export declare function grokOgHeadTags(ctx?: {
   documentTitle?: string;
   documentDescription?: string;
   documentUrl?: string;
+  documentImage?: string;
   cwd?: string;
 }): string[];
 export declare function stripShareMetaTags(html: string): string;

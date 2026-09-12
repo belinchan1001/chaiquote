@@ -454,6 +454,35 @@ export function descriptionFromDocument(html) {
   return "";
 }
 
+/** Page `og:image` (then twitter:image) before the injector overwrites share metas. */
+export function documentOgImage(html) {
+  const og = metaContents(html, "og:image");
+  if (og.length) return og[og.length - 1];
+  const twitter = metaContents(html, "twitter:image");
+  if (twitter.length) return twitter[twitter.length - 1];
+  return "";
+}
+
+/** Turn a page-relative or https image into an absolute share URL for `publicHost`. */
+export function publicShareImageUrl(raw, publicHost) {
+  const value = String(raw ?? "").trim();
+  const host = String(publicHost ?? "").trim();
+  if (!value || !host) return "";
+  if (/^https:\/\//i.test(value)) {
+    try {
+      const url = new URL(value);
+      if (url.protocol !== "https:") return "";
+      return url.href;
+    } catch {
+      return "";
+    }
+  }
+  if (value.startsWith("/") && !value.startsWith("//") && !/[\s\\]/.test(value)) {
+    return `https://${host}${value}`;
+  }
+  return "";
+}
+
 export function resolveOgTitle(
   site = {},
   appName = DEFAULT_APP_NAME,
@@ -499,6 +528,7 @@ export function grokOgHeadTags({
   documentTitle = "",
   documentDescription = "",
   documentUrl = "",
+  documentImage = "",
   cwd = process.cwd(),
 } = {}) {
   const title = resolveOgTitle(site, appName, host, documentTitle);
@@ -521,16 +551,23 @@ export function grokOgHeadTags({
     tags.push(`<meta property="og:type" content="x:game">`);
   }
   if (publicHost) {
+    const pageImage = publicShareImageUrl(documentImage, publicHost);
     const asset = resolveOgCardAsset(site, cwd);
     const custom = Boolean(asset);
-    let image = custom
-      ? `https://${publicHost}${asset.startsWith("/") ? asset : `/${asset}`}`
-      : `${ogServiceUrl()}/v1/card.png?host=${encodeURIComponent(publicHost)}&title=${encodeURIComponent(title)}`;
-    const color = !custom ? placeholderCardColor(site) : "";
-    if (color) image += `&color=${encodeURIComponent(color)}`;
+    let image = pageImage;
+    if (!image) {
+      image = custom
+        ? `https://${publicHost}${asset.startsWith("/") ? asset : `/${asset}`}`
+        : `${ogServiceUrl()}/v1/card.png?host=${encodeURIComponent(publicHost)}&title=${encodeURIComponent(title)}`;
+      const color = !custom ? placeholderCardColor(site) : "";
+      if (color) image += `&color=${encodeURIComponent(color)}`;
+    }
     tags.push(`<meta property="og:image" content="${escapeHtml(image)}">`);
     tags.push(`<meta property="og:image:width" content="1200">`);
     tags.push(`<meta property="og:image:height" content="630">`);
+    if (pageImage) {
+      tags.push(`<meta name="twitter:image" content="${escapeHtml(pageImage)}">`);
+    }
     const banner = String(site.banner ?? "").trim();
     if (banner) {
       const bannerUrl = `https://${publicHost}${banner.startsWith("/") ? banner : `/${banner}`}`;
@@ -596,6 +633,7 @@ export function injectGrokPwaHead(html, ctx = {}) {
   const documentDescription = descriptionFromDocument(html);
   const urls = metaContents(html, "og:url");
   const documentUrl = urls.length ? urls[urls.length - 1] : "";
+  const documentImage = documentOgImage(html);
   // PWA chrome keeps the site/app name. Share tags use the document title.
   const appName = resolveOgTitle(site, ctx.appName ?? DEFAULT_APP_NAME, host);
   let next = stripShareMetaTags(html);
@@ -617,6 +655,7 @@ export function injectGrokPwaHead(html, ctx = {}) {
       documentTitle,
       documentDescription,
       documentUrl,
+      documentImage,
       cwd,
     }).join(""),
   );
