@@ -20,7 +20,10 @@ export function CompareBar() {
   return (
     <>
       <div
-        className={cn("shrink-0 transition-[height] duration-200 ease-out", show ? "h-14" : "h-0")}
+        className={cn(
+          "shrink-0 transition-[height] duration-200 ease-out",
+          show ? "h-[calc(6rem+env(safe-area-inset-bottom))] sm:h-14" : "h-0",
+        )}
         aria-hidden
       />
       <div
@@ -29,9 +32,9 @@ export function CompareBar() {
           show ? "translate-y-0" : "pointer-events-none translate-y-full",
         )}
       >
-        <div className="mx-auto flex w-full max-w-6xl items-center gap-2">
-          <div className="min-w-0 flex-1 overflow-x-auto">
-            <div className="flex w-max items-center gap-1.5">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 sm:flex-row sm:items-center">
+          <div className="min-w-0 w-full sm:flex-1 sm:overflow-x-auto">
+            <div className="flex w-full items-center gap-1.5 sm:w-max">
               {compare.map((id) => {
                 const plan = getPlan(id);
                 if (!plan) return null;
@@ -39,14 +42,14 @@ export function CompareBar() {
                 return (
                   <span
                     key={id}
-                    className="inline-flex h-7 items-center gap-1 rounded-full bg-surface pl-2.5 pr-0.5 text-xs"
+                    className="inline-flex h-7 min-w-0 flex-1 items-center gap-1 rounded-full bg-surface pl-2.5 pr-0.5 text-xs sm:flex-none"
                   >
-                    <span className="whitespace-nowrap">{label}</span>
+                    <span className="min-w-0 truncate">{label}</span>
                     <button
                       type="button"
                       aria-label={t("removeCompare", { name: label })}
                       onClick={() => removeCompare(id)}
-                      className="relative flex size-6 items-center justify-center after:absolute after:inset-1/2 after:size-10 after:-translate-x-1/2 after:-translate-y-1/2"
+                      className="relative flex size-6 shrink-0 items-center justify-center after:absolute after:inset-1/2 after:size-10 after:-translate-x-1/2 after:-translate-y-1/2"
                     >
                       <X className="size-3.5" />
                     </button>
@@ -54,7 +57,7 @@ export function CompareBar() {
                 );
               })}
               {notice ? (
-                <p className="max-w-56 text-xs text-accent sm:max-w-none">
+                <p className="max-w-56 shrink-0 text-xs text-accent sm:max-w-none">
                   {t("compareMax")}{" "}
                   <button type="button" className="underline" onClick={clearNotice}>
                     {t("compareBarKnow")}

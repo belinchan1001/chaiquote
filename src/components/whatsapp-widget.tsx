@@ -80,7 +80,7 @@ export function WhatsAppWidget() {
     <div
       className={cn(
         "fab-lift fixed right-4 z-50 flex flex-col items-end gap-3 transition-[bottom] duration-200 ease-out",
-        lifted ? "bottom-20 sm:bottom-20" : "bottom-6",
+        lifted ? "bottom-[calc(6.5rem+env(safe-area-inset-bottom))] sm:bottom-20" : "bottom-6",
       )}
     >
       <div
@@ -199,6 +199,9 @@ export function WhatsAppWidget() {
 
 export function DeferredWhatsApp() {
   const [ready, setReady] = useState(false);
+  useHydrateDesk();
+  const compare = useDesk((s) => s.compare);
+  const lifted = compare.length > 0;
   const { t } = useI18n();
   useEffect(() => {
     const timer = window.setTimeout(() => setReady(true), 1);
@@ -210,7 +213,10 @@ export function DeferredWhatsApp() {
         href={`https://wa.me/${SITE.whatsappE164}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="wa-pulse wa-pulse-fab fixed right-4 bottom-6 z-50 flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)]"
+        className={cn(
+          "wa-pulse wa-pulse-fab fixed right-4 z-50 flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)]",
+          lifted ? "bottom-[calc(6.5rem+env(safe-area-inset-bottom))] sm:bottom-20" : "bottom-6",
+        )}
         aria-label={t("waQuoteWithNumber", { phone: SITE.phoneDisplay })}
       >
         <WhatsAppIcon className="size-7" />
