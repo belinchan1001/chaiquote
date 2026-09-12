@@ -1318,6 +1318,82 @@ describe("3HK mobile catalogue", () => {
   });
 });
 
+describe("SmarTone mobile catalogue", () => {
+  it("replaces the previous seven cards with the new youth, family and handset plans", () => {
+    for (const id of [
+      "smartone-45g-78",
+      "smartone-45g-98",
+      "smartone-5g-30-youth",
+      "smartone-45g-120",
+      "smartone-5g-60-youth",
+      "smartone-5g-30-iphone",
+      "smartone-5g-60",
+    ]) {
+      assert.equal(getPlan(id), undefined, id);
+    }
+    const mobiles = PLANS.filter((row) => row.providerId === "smartone" && row.category === "mobile");
+    assert.equal(mobiles.length, 14);
+    assert.ok(getPlan("smartone-ftth-1000"));
+    assert.ok(getPlan("smartone-home5g-w6"));
+    const youth98 = plan("smartone-5g-youth-60-98");
+    assert.equal(youth98.monthlyFee, 98);
+    assert.equal(youth98.contractMonths, 36);
+    assert.equal(youth98.dataGb, 60);
+    assert.equal(youth98.voice, "無限本地通話");
+    assert.match(youth98.fupNote ?? "", /1Mbps/);
+    assert.match(youth98.roaming ?? "", /3GB/);
+    assert.match(youth98.limits ?? "", /18 至 29 歲/);
+    assert.ok(youth98.perks.includes("豁免每月行政費 HK$18"));
+    assert.ok(youth98.perks.includes("推薦人優惠"));
+    const youth138 = plan("smartone-5g-youth-120-138");
+    assert.equal(youth138.monthlyFee, 138);
+    assert.equal(youth138.dataGb, 120);
+    const fourFive79 = plan("smartone-45g-15-79");
+    assert.equal(fourFive79.monthlyFee, 79);
+    assert.equal(fourFive79.contractMonths, 30);
+    assert.equal(fourFive79.dataGb, 15);
+    assert.match(fourFive79.fupNote ?? "", /2Mbps/);
+    const unlimited100 = plan("smartone-45g-42m-100");
+    assert.equal(unlimited100.monthlyFee, 100);
+    assert.equal(unlimited100.dataGb, undefined);
+    const fiveG234 = plan("smartone-5g-110-234");
+    assert.equal(fiveG234.monthlyFee, 234);
+    assert.equal(fiveG234.dataGb, 110);
+    assert.match(fiveG234.voice ?? "", /中澳 200/);
+    const family2 = plan("smartone-5g-family-2-309");
+    assert.equal(family2.monthlyFee, 309);
+    assert.ok(family2.perks.includes("2 張 SIM 卡共享 110GB"));
+    assert.ok(family2.perks.includes("送 HK$500 買機及配件禮券"));
+    const family3 = plan("smartone-5g-family-3-414");
+    assert.equal(family3.monthlyFee, 414);
+    assert.ok(family3.perks.includes("3 張 SIM 卡共享 110GB"));
+    const family4 = plan("smartone-5g-family-4-519");
+    assert.equal(family4.monthlyFee, 519);
+    const family5 = plan("smartone-5g-family-5-624");
+    assert.equal(family5.monthlyFee, 624);
+    const handset139 = plan("smartone-5g-handset-30-139");
+    assert.equal(handset139.monthlyFee, 139);
+    assert.equal(handset139.contractMonths, 30);
+    assert.ok(handset139.perks.includes("每月行政費 HK$18"));
+    assert.ok(handset139.perks.includes("送 HK$1,400 買機禮券"));
+    const handset179 = plan("smartone-5g-handset-60-179");
+    assert.equal(handset179.dataGb, 60);
+    assert.ok(handset179.perks.includes("送 HK$1,700 買機禮券"));
+    const handset239 = plan("smartone-5g-handset-110-239");
+    assert.equal(handset239.dataGb, 110);
+    assert.ok(handset239.perks.includes("送 15 日亞太區漫遊數據"));
+    const handset299 = plan("smartone-5g-handset-110-299");
+    assert.equal(handset299.monthlyFee, 299);
+    assert.match(handset299.voice ?? "", /中澳 200/);
+    const handset399 = plan("smartone-5g-handset-180-399");
+    assert.equal(handset399.dataGb, 180);
+    assert.ok(handset399.perks.includes("送 HK$3,200 買機禮券"));
+    assert.ok(mobiles.filter((row) => !row.id.includes("handset")).every((row) => row.perks.includes("豁免每月行政費 HK$18")));
+    assert.ok(mobiles.filter((row) => row.id.includes("handset")).every((row) => row.perks.includes("每月行政費 HK$18")));
+    assert.ok(mobiles.every((row) => row.perks.includes("推薦人優惠")));
+  });
+});
+
 describe("cheapest plan auto-picks", () => {
   it("returns the lowest monthly fee per service type", () => {
     const fiber = cheapestPlan("broadband");
