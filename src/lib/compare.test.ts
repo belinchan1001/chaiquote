@@ -11,7 +11,7 @@ import {
   type CompareCopy,
 } from "./compare.ts";
 import { toEnglish } from "./plan-en.ts";
-import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, filterPlans, getPlan, hasCertifiedStaff, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, staffOfferPlans, averageFee, type Category } from "./plans.ts";
+import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, filterPlans, getPlan, hasCertifiedStaff, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, staffOfferLabel, staffOfferPlans, averageFee, type Category } from "./plans.ts";
 
 const copy: CompareCopy = {
   dash: "—",
@@ -1537,6 +1537,8 @@ describe("Netvigator $78 staff offer", () => {
       [row.id],
     );
     assert.ok(staffOfferPlans("nv78").every((item) => item.monthlyFee === 78));
+    assert.equal(staffOfferLabel("nv78"), "網上行 $78 新入伙");
+    assert.equal(staffOfferLabel("nv98"), "網上行 $98");
   });
 });
 

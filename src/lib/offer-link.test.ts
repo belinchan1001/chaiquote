@@ -34,8 +34,8 @@ describe("one-time staff offer links", () => {
     assert.match(page, /issueOfferLink/);
     assert.match(page, /claimOfferView/);
     assert.match(page, /peekOfferView/);
-    assert.match(page, /t\("offerMintMake"\)/);
-    assert.match(page, /t\("offerMintSend"\)/);
+    assert.match(page, /t\(issued \? "offerMintAgainPlan" : "offerMintMakePlan"/);
+    assert.match(page, /staffOfferLabel\(offerId/);
     assert.match(page, /SITE\.url/);
     assert.doesNotMatch(page, /PlanShareButton/);
   });

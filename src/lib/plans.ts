@@ -3659,8 +3659,11 @@ export function staffOfferPlans(offerId: string) {
   return PLANS.filter((plan) => plan.staffOffer === offerId);
 }
 
-export function staffOfferIds() {
-  return [...new Set(PLANS.map((plan) => plan.staffOffer).filter((id): id is string => Boolean(id)))];
+export function staffOfferLabel(offerId: string, locale: "zh" | "en" = "zh") {
+  if (offerId === "nv78") return locale === "en" ? "Netvigator $78 new-intake" : "網上行 $78 新入伙";
+  if (offerId === "nv98") return locale === "en" ? "Netvigator $98" : "網上行 $98";
+  const first = staffOfferPlans(offerId)[0];
+  return first ? `${first.name} ${formatFee(first.monthlyFee)}` : offerId;
 }
 
 export function isListedPlan(plan: Plan) {

@@ -6,7 +6,7 @@ import { QuoteLink } from "@/components/quote-link";
 import { useHydrateDesk } from "@/lib/desk";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { claimOfferView, issueOfferLink, peekOfferView, type OfferView } from "@/lib/offer-token";
-import { formatFee, staffOfferIds, staffOfferPlans } from "@/lib/plans";
+import { formatFee, staffOfferLabel, staffOfferPlans } from "@/lib/plans";
 import { CATEGORY_SEO } from "@/lib/canonical";
 import { SITE } from "@/lib/site";
 
@@ -27,7 +27,6 @@ export const Route = createFileRoute("/offers_/$offerId")({
       token: deps.k,
       view,
       summaries: known.map((plan) => `${plan.name} · ${formatFee(plan.monthlyFee)}`),
-      others: staffOfferIds().filter((id) => id !== params.offerId),
     };
   },
   head: () => {
@@ -45,7 +44,7 @@ export const Route = createFileRoute("/offers_/$offerId")({
 });
 
 function StaffOfferPage() {
-  const { offerId, token, view: initial, summaries, others } = Route.useLoaderData();
+  const { offerId, token, view: initial, summaries } = Route.useLoaderData();
   const [view, setView] = useState<OfferView>(initial);
   const [issued, setIssued] = useState("");
   const [copied, setCopied] = useState(false);
@@ -53,7 +52,7 @@ function StaffOfferPage() {
   const [busy, setBusy] = useState(false);
   const linkRef = useRef<HTMLParagraphElement>(null);
   useHydrateDesk();
-  const { t, categoryLabel } = useI18n();
+  const { t, categoryLabel, locale } = useI18n();
   usePageTitle(CATEGORY_SEO.broadband.title);
 
   async function mint() {
@@ -134,20 +133,22 @@ function StaffOfferPage() {
 
       {view.status === "mint" ? (
         <>
-          <h1 className="text-title font-semibold">{t("offerMintTitle")}</h1>
-          <ul className="mt-3 list-none space-y-1 p-0 text-sm font-medium text-fg">
+          <p className="text-xs font-medium tracking-wider text-accent">{t("staffOfferTitle")}</p>
+          <h1 className="mt-2 text-title font-semibold">{staffOfferLabel(offerId, locale)}</h1>
+          <ul className="mt-3 list-none space-y-1 p-0 text-sm text-muted">
             {summaries.map((line) => (
               <li key={line}>{line}</li>
             ))}
           </ul>
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted">{t("offerMintLead")}</p>
           <Button type="button" className="mt-6" onClick={() => void mint()} disabled={busy}>
-            {issued ? t("offerMintAgain") : t("offerMintMake")}
+            {t(issued ? "offerMintAgainPlan" : "offerMintMakePlan", { plan: staffOfferLabel(offerId, locale) })}
           </Button>
           {mintError ? <p className="mt-4 text-sm text-accent">{t("offerMintFail")}</p> : null}
           {issued ? (
             <div className="mt-6 rounded-xl bg-card p-5 shadow-[var(--shadow-border)]">
               <p className="text-sm font-medium text-fg">{t("offerMintReady")}</p>
+              <p className="mt-1 text-xs text-muted">{staffOfferLabel(offerId, locale)}</p>
               <p
                 ref={linkRef}
                 className="mt-3 break-all font-mono text-sm leading-relaxed text-fg select-all"
@@ -165,16 +166,6 @@ function StaffOfferPage() {
                 </Button>
               </div>
             </div>
-          ) : null}
-          {others.length ? (
-            <p className="mt-6 text-sm text-muted">
-              {t("offerMintOther")}
-              {others.map((id) => (
-                <Link key={id} to="/offers/$offerId" params={{ offerId: id }} className="ml-2 text-accent underline">
-                  {id === "nv78" ? "HK$78" : id === "nv98" ? "HK$98" : id}
-                </Link>
-              ))}
-            </p>
           ) : null}
         </>
       ) : null}
