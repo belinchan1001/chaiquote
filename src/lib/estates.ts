@@ -467,6 +467,34 @@ function estateNeedles(estate: Estate): string[] {
   return [...new Set([estate.name, ...estate.aliases, ...extra].map(compact).filter((n) => n.length >= 2))];
 }
 
+/**
+ * Area aliases must not match as a prefix of a road/street (長沙灣 ⊂ 長沙灣道).
+ * Full 邨／苑／村／樓／閣 names may still sit in a street named after them (東頭村道).
+ */
+const ROAD_HEAD =
+  /^(?:道|路|街|里|巷|坊|徑|公路|大道|大街|road|street|lane|path|drive|avenue)/;
+const COMPLETE_PLACE_TAIL = /[邨苑村樓閣]$/;
+const NEEDLE_IS_ROAD = /(?:道|路|街|里|巷|坊|徑)$/;
+
+function needleEmbeddedInRoad(needle: string, after: string): boolean {
+  if (!ROAD_HEAD.test(after)) return false;
+  if (COMPLETE_PLACE_TAIL.test(needle) || NEEDLE_IS_ROAD.test(needle)) return false;
+  return true;
+}
+
+function textHasEstateNeedle(text: string, needle: string): boolean {
+  if (!needle || needle.length < 2 || !text) return false;
+  let from = 0;
+  while (from <= text.length - needle.length) {
+    const idx = text.indexOf(needle, from);
+    if (idx < 0) return false;
+    const after = text.slice(idx + needle.length);
+    if (!needleEmbeddedInRoad(needle, after)) return true;
+    from = idx + 1;
+  }
+  return false;
+}
+
 /** Estate / 苑 parents only — never village (村) or short aliases like「東頭」. */
 export function isCatalogueParent(estate: Estate): boolean {
   return estate.housing !== "village" && /[邨苑]$/.test(estate.name);
@@ -529,7 +557,8 @@ function searchKeys(query: string): string[] {
   }
   if (/[道路街]$/.test(stripped) && stripped.length >= 4) {
     const roadless = stripped.replace(/[道路街]$/, "");
-    if (roadless.length >= 2) keys.push(roadless);
+    /** Keep 東頭村道 → 東頭村; do not turn 長沙灣道 into alias 長沙灣. */
+    if (roadless.length >= 2 && COMPLETE_PLACE_TAIL.test(roadless)) keys.push(roadless);
   }
   return [...new Set(keys)];
 }
@@ -552,7 +581,10 @@ function scoreAgainstQuery(estate: Estate, q: string): number {
   const aliasPrefix = aliases.filter((alias) => alias.startsWith(q));
   if (aliasPrefix.length) return 600 + Math.max(...aliasPrefix.map((alias) => alias.length));
   if (q.startsWith(name) && name.length >= 3) return 820 + name.length;
-  const aliasHead = aliases.filter((alias) => q.startsWith(alias) && canContainAlias(alias));
+  const aliasHead = aliases.filter((alias) => {
+    if (!q.startsWith(alias) || !canContainAlias(alias)) return false;
+    return !needleEmbeddedInRoad(alias, q.slice(alias.length));
+  });
   if (aliasHead.length) return 780 + Math.max(...aliasHead.map((alias) => alias.length));
   if (name.includes(q)) return 400 + name.length;
   const aliasIncl = aliases.filter((alias) => alias.includes(q));
@@ -625,7 +657,7 @@ export function matchKnownEstate(name: string, address = ""): Estate | undefined
   if (!hay) return undefined;
 
   const present = [...ALL_ESTATE_NEEDLES, ...NON_ESTATE_NEEDLES].filter(
-    (needle) => hay.includes(needle) || nameCompact.includes(needle),
+    (needle) => textHasEstateNeedle(hay, needle) || textHasEstateNeedle(nameCompact, needle),
   );
 
   let best: { estate: Estate; score: number } | undefined;
@@ -633,8 +665,8 @@ export function matchKnownEstate(name: string, address = ""): Estate | undefined
     for (const estate of ESTATES) {
       const needles = estateNeedles(estate);
       for (const needle of needles) {
-        const inName = nameCompact.includes(needle);
-        if (!inName && !hay.includes(needle)) continue;
+        const inName = textHasEstateNeedle(nameCompact, needle);
+        if (!inName && !textHasEstateNeedle(hay, needle)) continue;
         /** Village / area names in the street (屏山段) must not steal 朗天苑. */
         if (!inName && !allowAddressOnlyNeedle(estate)) continue;
         const coveredByOther = present.some((longer) => {

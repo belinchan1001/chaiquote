@@ -19,6 +19,12 @@ import {
   searchEstates,
 } from "./estates.ts";
 import { toTraditional } from "./zh-s2t.ts";
+import {
+  HKBN_FLASH_OFFER_ESTATES,
+  HKBN_LPR_FLASH_ESTATES,
+  estateUnlocksPlan,
+  isHkbnFlashEstate,
+} from "./estate-new-intake.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
 
@@ -839,6 +845,49 @@ describe("housing type audit 2026", () => {
       assert.equal(estate(name)?.housing, "public", name);
       assert.equal(classifyAddress(name).housing, "public", name);
     }
+  });
+});
+
+describe("road / street false-positive estate matching", () => {
+  it("does not map 永安大廈 + 長沙灣道 to 長沙灣邨 or unlock flash", () => {
+    const wingOn = "永安大廈，長沙灣道 250-252號";
+    assert.notEqual(matchKnownEstate(wingOn)?.name, "長沙灣邨");
+    assert.equal(matchKnownEstate(wingOn), undefined);
+    assert.equal(matchKnownEstate("永安大廈", "長沙灣道 250-252號"), undefined);
+    assert.notEqual(matchKnownEstate("永安大廈")?.name, "長沙灣邨");
+    assert.equal(isHkbnFlashEstate(wingOn), false);
+    assert.equal(isHkbnFlashEstate("永安大廈"), false);
+    assert.equal(estateUnlocksPlan(wingOn, HKBN_FLASH_OFFER_ESTATES), false);
+    assert.equal(estateUnlocksPlan("永安大廈", HKBN_FLASH_OFFER_ESTATES), false);
+    assert.ok(!names(wingOn).includes("長沙灣邨"));
+    assert.ok(!names("永安大廈").includes("長沙灣邨"));
+  });
+
+  it("does not treat area aliases inside 道／路／街 as the estate", () => {
+    assert.notEqual(matchKnownEstate("長沙灣道")?.name, "長沙灣邨");
+    assert.equal(isHkbnFlashEstate("長沙灣道"), false);
+    assert.equal(estateUnlocksPlan("長沙灣道", HKBN_FLASH_OFFER_ESTATES), false);
+    assert.notEqual(matchKnownEstate("觀塘道")?.name, "觀塘邨");
+    assert.notEqual(matchKnownEstate("柴灣道")?.name, "柴灣邨");
+    assert.notEqual(matchKnownEstate("紅磡道")?.name, "紅磡邨");
+  });
+
+  it("still unlocks real flash estates and keeps 東頭村道 → 東頭村", () => {
+    assert.equal(matchKnownEstate("長沙灣邨")?.name, "長沙灣邨");
+    assert.equal(isHkbnFlashEstate("長沙灣邨"), true);
+    assert.equal(estateUnlocksPlan("長沙灣邨", HKBN_FLASH_OFFER_ESTATES), true);
+    assert.equal(matchKnownEstate("安泰邨")?.name, "安泰邨");
+    assert.equal(isHkbnFlashEstate("安泰邨"), true);
+    assert.equal(estateUnlocksPlan("安泰邨", HKBN_LPR_FLASH_ESTATES), true);
+    for (const name of HKBN_FLASH_OFFER_ESTATES) {
+      assert.equal(estateUnlocksPlan(name, HKBN_FLASH_OFFER_ESTATES), true, name);
+    }
+    for (const name of HKBN_LPR_FLASH_ESTATES) {
+      assert.equal(estateUnlocksPlan(name, HKBN_LPR_FLASH_ESTATES), true, name);
+    }
+    assert.equal(matchKnownEstate("東頭村道")?.name, "東頭村");
+    assert.equal(names("東頭村道")[0], "東頭村");
+    assert.ok(!names("東頭村道").includes("東頭邨"));
   });
 });
 
