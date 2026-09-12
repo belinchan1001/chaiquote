@@ -27,7 +27,6 @@ import {
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { canonicalUrl } from "@/lib/canonical";
-import { hasOfferSession } from "@/lib/offer-token";
 import { planJsonLd, planSeoDescription, planSeoTitle } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 
@@ -35,11 +34,7 @@ export const Route = createFileRoute("/plans_/$planId")({
   component: PlanDetailPage,
   loader: async ({ params }) => {
     const plan = getPlan(params.planId);
-    if (!plan) throw notFound();
-    if (plan.staffOffer) {
-      const ok = await hasOfferSession({ data: { offerId: plan.staffOffer } });
-      if (!ok) throw notFound();
-    }
+    if (!plan || plan.staffOffer) throw notFound();
     return { plan };
   },
   head: ({ loaderData }) => {
