@@ -52,6 +52,12 @@ describe("plan detail share landing", () => {
     assert.match(page, /<QuoteLink plan=\{plan\}/);
     assert.match(page, /<WhatsAppTip className="mt-3" \/>/);
     assert.match(page, /\{t\("referencePrice"\)\}/);
+    assert.match(page, /plan\.category === "business"/);
+    assert.match(
+      page,
+      /CertifiedStaffNote[\s\S]*plan\.category === "business"[\s\S]*t\("businessDisclaimer"\)[\s\S]*\{t\("referencePrice"\)\}/,
+    );
+    assert.doesNotMatch(page, /CertifiedStaffNote[\s\S]{0,120}businessDisclaimer/);
     assert.match(page, /t\("installCoverage"\)[\s\S]*t\("referencePrice"\)[\s\S]*t\("disclaimer1"\)/);
 
     const heroEnd = page.indexOf("serviceLimits");

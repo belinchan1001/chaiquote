@@ -129,6 +129,8 @@ export const MESSAGES = {
     speed: "網絡速度",
     speedNote: "實際速度視乎現場環境而定",
     villageFeeNote: "村屋計劃有可能會因地址覆蓋而有所調整，詳情請向銷售員查詢。",
+    businessDisclaimer:
+      "商業寬頻嘅月費、安裝費同舖址覆蓋僅供參考；實際視乎用途同現場環境，以電訊商確認為準。",
     hktStaffNote:
       "網上行／CSL 計劃經本站核對身份嘅香港電訊 HKT 同事，用指定 WhatsApp 回覆。回覆嘅係該香港電訊 HKT 指定授權銷售同事；本站不是官方客服。",
     hkbnStaffNote:
@@ -514,6 +516,8 @@ export const MESSAGES = {
     speedNote: "Actual speed depends on site conditions",
     villageFeeNote:
       "Village plans may be adjusted depending on address coverage. Please check with a sales adviser.",
+    businessDisclaimer:
+      "Business fibre fees, install charges and shop coverage are for reference only. Actual terms depend on use and the site, and are confirmed by the carrier.",
     hktStaffNote:
       "Netvigator / CSL plans are answered via designated WhatsApp by HKT colleagues whose identity was checked by this site. Replies are from that HKT designated authorized sales colleague; this site is not official customer service.",
     hkbnStaffNote:

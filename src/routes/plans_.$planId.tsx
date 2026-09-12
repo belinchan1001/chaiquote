@@ -167,6 +167,9 @@ function PlanDetailPage() {
           </Button>
         </div>
         <WhatsAppTip className="mt-3" />
+        {plan.category === "business" ? (
+          <p className="mt-3 text-xs leading-relaxed text-muted">{t("businessDisclaimer")}</p>
+        ) : null}
         <p className="mt-3 text-[11px] leading-relaxed text-subtle">{t("referencePrice")}</p>
         <span
           aria-hidden="true"
