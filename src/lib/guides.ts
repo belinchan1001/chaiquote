@@ -226,7 +226,7 @@ export const CORE_GUIDES: Guide[] = [
       {
         heading: "村屋光纖唔係公屋價",
         paragraphs: [
-          "公屋／居屋有時有指定批量計劃；村屋多數係另一批報價，月費、安裝費、完工期都可以唔同。齊Quote 分開列出參考，唔好用屋邨價去估丁屋。",
+          "公屋／居屋有時有指定批量計劃；村屋多數係另一批報價，月費、安裝費、完工期都可以唔同。齊Quote 分開列出參考，例子見 [村屋光纖參考月費](/guides/village-fees)，唔好用屋邨價去估丁屋。",
         ],
       },
       {
@@ -251,7 +251,7 @@ export const CORE_GUIDES: Guide[] = [
         ],
       },
     ],
-    related: ["village-onsite", "fiber", "fiber-vs-5g", "estate-filter", "home-broadband-2026"],
+    related: ["village-onsite", "fiber", "fiber-vs-5g", "estate-filter", "home-broadband-2026", "village-fees"],
     plans: [
       { href: "/plans?cat=broadband&housing=village", label: "村屋光纖計劃" },
       { href: "/plans?cat=home5g", label: "5G 家居格價" },

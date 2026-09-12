@@ -76,6 +76,8 @@ export const GUIDE_ARTICLE_KEYWORDS: Record<string, string> = {
   mobile: "香港手機月費,攜號轉台,大灣區數據,5G月費",
   business: "香港商業寬頻,店舖寬頻,寫字樓寬頻,固定IP",
   "public-hos-fees": "公屋寬頻月費,居屋1000M,公屋光纖參考月費",
+  "private-1000-fees": "私樓寬頻月費,私樓1000M,私人樓宇光纖參考月費",
+  "village-fees": "村屋寬頻月費,村屋光纖參考月費,丁屋寬頻",
   "home-broadband-2026": "2026家居寬頻,家居光纖參考月費,1000M月費,2500M月費",
   "estate-filter": "屋苑篩,齊Quote屋苑,寬頻覆蓋查核",
   "switch-broadband": "轉寬頻,轉台寬頻,先裝後停",
