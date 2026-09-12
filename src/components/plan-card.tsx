@@ -54,20 +54,18 @@ export function PlanCard({ plan }: { plan: Plan }) {
       {plan.quotePick ? <span className="foil" aria-hidden="true" /> : null}
       <div className="flex items-start justify-between gap-3">
         <ProviderMark id={plan.providerId} />
-        <div className="flex items-center gap-1">
-          <PlanBadges plan={plan} />
-          <PlanShareButton plan={plan} />
-          <button
-            type="button"
-            aria-label={inSaved ? t("unsave") : t("save")}
-            aria-pressed={inSaved}
-            onClick={() => toggleSaved(plan.id)}
-            className="relative flex size-11 shrink-0 items-center justify-center text-muted transition-[color] duration-150 hover:text-fg"
-          >
-            <Bookmark className={cn("size-4", inSaved && "fill-fg text-fg")} />
-          </button>
-        </div>
+        <button
+          type="button"
+          aria-label={inSaved ? t("unsave") : t("save")}
+          aria-pressed={inSaved}
+          onClick={() => toggleSaved(plan.id)}
+          className="relative flex size-11 shrink-0 items-center justify-center text-muted transition-[color] duration-150 hover:text-fg"
+        >
+          <Bookmark className={cn("size-4", inSaved && "fill-fg text-fg")} />
+        </button>
       </div>
+
+      <PlanBadges plan={plan} />
 
       <p className="mt-4 text-xs tracking-wider text-subtle uppercase">
         {categoryLabel(plan.category)} · {tx(plan.network)}
@@ -151,9 +149,12 @@ export function PlanCard({ plan }: { plan: Plan }) {
           <GitCompareArrows />
           {inCompare ? t("navCompare") : t("compare")}
         </Button>
-        <QuoteLink plan={plan} className="flex-1">
-          {t("askWa")}
-        </QuoteLink>
+        <div className="flex min-w-0 flex-1 gap-2">
+          <QuoteLink plan={plan} className="flex-1">
+            {t("askWa")}
+          </QuoteLink>
+          <PlanShareButton plan={plan} />
+        </div>
       </div>
       <p className="mt-3 text-[11px] leading-relaxed text-subtle">{t("referencePrice")}</p>
       <span
