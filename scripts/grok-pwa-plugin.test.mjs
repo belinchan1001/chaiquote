@@ -152,7 +152,9 @@ test("document og:image wins over the site card for per-page share images", () =
     /name="twitter:image" content="https:\/\/www\.chaiquote\.hk\/images\/guide-port-in\.jpg"/,
   );
   assert.doesNotMatch(out, /og:image" content="https:\/\/www\.chaiquote\.hk\/og\.jpg"/);
+  assert.doesNotMatch(out, /twitter:image" content="https:\/\/www\.chaiquote\.hk\/og\.jpg"/);
   assert.equal(out.split('property="og:image"').length - 1, 1);
+  assert.equal(out.split('name="twitter:image"').length - 1, 1);
 });
 
 test("pages without a document og:image still use the site card", () => {
@@ -161,7 +163,40 @@ test("pages without a document og:image still use the site card", () => {
     site: { title: "齊Quote", card: "custom", image: "/og.jpg" },
   });
   assert.match(out, /property="og:image" content="https:\/\/www\.chaiquote\.hk\/og\.jpg"/);
-  assert.doesNotMatch(out, /twitter:image/);
+  assert.match(out, /name="twitter:image" content="https:\/\/www\.chaiquote\.hk\/og\.jpg"/);
+  assert.equal(out.split('property="og:image"').length - 1, 1);
+  assert.equal(out.split('name="twitter:image"').length - 1, 1);
+});
+
+test("twitter:image always matches og:image for default and document cards", () => {
+  const site = { title: "齊Quote", card: "custom", image: "/og.jpg" };
+  const homepage = isolatedHead(
+    `<html><head><title>齊Quote｜香港寬頻同手機月費比較</title><meta name="description" content="一次過比較香港光纖、5G 家居、商業同手機計劃。所列月費僅供參考，實際以電訊商確認為準。"><meta property="og:url" content="https://www.chaiquote.hk/"></head></html>`,
+    { host: "www.chaiquote.hk", site },
+  );
+  assert.match(homepage, /property="og:image" content="https:\/\/www\.chaiquote\.hk\/og\.jpg"/);
+  assert.match(homepage, /name="twitter:image" content="https:\/\/www\.chaiquote\.hk\/og\.jpg"/);
+
+  const controlGuide = isolatedHead(
+    '<html><head><title>村屋上門點樣做｜齊Quote</title></head></html>',
+    { host: "www.chaiquote.hk", site },
+  );
+  assert.match(controlGuide, /property="og:image" content="https:\/\/www\.chaiquote\.hk\/og\.jpg"/);
+  assert.match(controlGuide, /name="twitter:image" content="https:\/\/www\.chaiquote\.hk\/og\.jpg"/);
+
+  const customGuide = isolatedHead(
+    '<html><head><title>村屋寬頻點揀｜齊Quote</title><meta property="og:image" content="/images/guide-village.jpg"><meta name="twitter:image" content="/images/guide-village.jpg"></head></html>',
+    { host: "www.chaiquote.hk", site },
+  );
+  assert.match(
+    customGuide,
+    /property="og:image" content="https:\/\/www\.chaiquote\.hk\/images\/guide-village\.jpg"/,
+  );
+  assert.match(
+    customGuide,
+    /name="twitter:image" content="https:\/\/www\.chaiquote\.hk\/images\/guide-village\.jpg"/,
+  );
+  assert.equal(isolatedHead(customGuide, { host: "www.chaiquote.hk", site }), customGuide);
 });
 
 test("document title and description win over site.json for share tags", () => {
@@ -391,6 +426,7 @@ test("vercel Host without a public hostname emits no og:image", () => {
       site: { title: "RACK", card: "custom" },
     });
     assert.doesNotMatch(out, /property="og:image"/);
+    assert.doesNotMatch(out, /name="twitter:image"/);
     assert.doesNotMatch(out, /vercel\.app/);
   } finally {
     if (prev === undefined) delete process.env.VITE_PUBLIC_HOSTNAME;
