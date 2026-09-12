@@ -1788,7 +1788,6 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Type an estate name to match housing type and reference-applicable plans. Incomplete names or intake-only offers are not city-wide. Coverage is confirmed by the carrier.",
     h1En: "How do I use the ChaiQuote estate filter?",
     published: "2026-09-11",
-    modified: "2026-09-12",
     related: ["fiber", "village", "public-hos-fees", "private-1000-fees", "village-fees", "public-vs-hos", "switch-broadband"],
     plans: [
       { href: "/", label: "返首頁搜屋苑" },
