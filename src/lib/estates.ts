@@ -455,6 +455,12 @@ export function isNonEstatePlace(query: string): boolean {
   return NON_ESTATE_NEEDLES.some((needle) => q === needle || q.startsWith(needle));
 }
 
+/** Housing-type words, not an estate — 「村屋／丁屋／village house」. */
+export function isBareHousingTypeQuery(query: string): boolean {
+  const q = compact(query);
+  return q === "村屋" || q === "丁屋" || q === "villagehouse" || q === "villagehouses";
+}
+
 function estateNeedles(estate: Estate): string[] {
   const extra = estate.street ? [estate.street] : [];
   return [...new Set([estate.name, ...estate.aliases, ...extra].map(compact).filter((n) => n.length >= 2))];
@@ -588,6 +594,7 @@ function uniqueRankedEstate(query: string): Estate | undefined {
 }
 
 export function searchEstates(query: string, limit = 8): Estate[] {
+  if (isBareHousingTypeQuery(query)) return [];
   const ranked = rankEstates(query).map((row) => row.estate);
   const out: Estate[] = [];
   const seen = new Set<string>();
@@ -611,6 +618,7 @@ export function searchEstates(query: string, limit = 8): Estate[] {
 }
 
 export function matchKnownEstate(name: string, address = ""): Estate | undefined {
+  if (isBareHousingTypeQuery(name) && !compact(address)) return undefined;
   const nameCompact = compact(name);
   const hay = compact(`${name}${address}`);
   if (!hay) return undefined;
@@ -693,7 +701,7 @@ export function guessHousing(name: string, address = ""): Housing | undefined {
   const text = `${name}${address}`;
   if (/公屋|屋邨/.test(text)) return "public";
   if (/居屋/.test(text)) return "hos";
-  if (/村屋|丁屋/.test(text)) return "village";
+  if (/村屋|丁屋|village\s*houses?/i.test(text)) return "village";
   if (/新邨|花園|廣場|中心|大廈|洋房|半島|豪庭|豪園|山莊|屋苑/.test(text)) return "private";
   const title = name.replace(/[，,].*$/, "").trim();
   if (/苑$/.test(title)) return "hos";

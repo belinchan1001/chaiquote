@@ -9,6 +9,7 @@ import {
   ESTATES,
   estateLabel,
   estateStreet,
+  isBareHousingTypeQuery,
   isCatalogueParent,
   isImpracticalPlace,
   isRelatedBlock,
@@ -237,6 +238,17 @@ describe("searchEstates longest-match / full-name priority", () => {
 });
 
 describe("matchKnownEstate / classifyAddress", () => {
+  it("does not treat bare 村屋／丁屋／village house as an estate name", () => {
+    for (const query of ["村屋", "丁屋", "village house", "village houses"]) {
+      assert.equal(isBareHousingTypeQuery(query), true, query);
+      assert.equal(matchKnownEstate(query), undefined, query);
+      assert.deepEqual(searchEstates(query, 8), [], query);
+      assert.equal(classifyAddress(query).housing, "village", query);
+    }
+    assert.equal(matchKnownEstate("東頭村")?.name, "東頭村");
+    assert.equal(searchEstates("東頭村", 1)[0]?.name, "東頭村");
+  });
+
   it("does not let alias 東頭 classify 東頭村 as public", () => {
     assert.equal(matchKnownEstate("東頭村")?.name, "東頭村");
     assert.equal(matchKnownEstate("東頭村")?.housing, "village");
