@@ -100,7 +100,7 @@ export function PwaInstallTip() {
       aria-label="加到主畫面"
       className={cn(
         "fixed left-4 z-30 w-[min(20rem,calc(100vw-5.5rem))] rounded-xl bg-card px-3.5 py-3 shadow-[var(--shadow-border-hover)] transition-[bottom] duration-200 ease-out",
-        lifted ? "bottom-20 sm:bottom-20" : "bottom-6",
+        lifted ? "bottom-28 sm:bottom-20" : "bottom-6",
       )}
     >
       <div className="flex items-start gap-2">

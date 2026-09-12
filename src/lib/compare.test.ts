@@ -97,6 +97,12 @@ describe("compare chips", () => {
     assert.match(bar, /size-6 shrink-0/);
     assert.doesNotMatch(bar, /className="min-w-0 flex-1 overflow-x-auto"/);
     assert.doesNotMatch(bar, /whitespace-nowrap/);
+
+    const here = dirname(fileURLToPath(import.meta.url));
+    const widget = readFileSync(join(here, "../components/whatsapp-widget.tsx"), "utf8");
+    const tip = readFileSync(join(here, "../components/pwa-install-tip.tsx"), "utf8");
+    assert.match(widget, /lifted \? "bottom-28 sm:bottom-20"/);
+    assert.match(tip, /lifted \? "bottom-28 sm:bottom-20"/);
   });
 });
 

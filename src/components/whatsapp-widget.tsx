@@ -80,7 +80,7 @@ export function WhatsAppWidget() {
     <div
       className={cn(
         "fab-lift fixed right-4 z-50 flex flex-col items-end gap-3 transition-[bottom] duration-200 ease-out",
-        lifted ? "bottom-20 sm:bottom-20" : "bottom-6",
+        lifted ? "bottom-28 sm:bottom-20" : "bottom-6",
       )}
     >
       <div
