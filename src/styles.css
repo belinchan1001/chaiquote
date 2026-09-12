@@ -197,9 +197,16 @@
 }
 
 @layer components {
-  .estate-dir-group {
+  section.estate-dir-group {
     content-visibility: auto;
     contain-intrinsic-size: auto 320px;
+  }
+
+  .estate-dir-group > summary {
+    list-style: none;
+  }
+  .estate-dir-group > summary::-webkit-details-marker {
+    display: none;
   }
 
   .estate-dir-card {

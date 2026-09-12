@@ -109,6 +109,11 @@ describe("estate SEO pages", () => {
     assert.match(dir, /rounded-xl bg-card/);
     assert.match(dir, /estatesIndexCount/);
     assert.match(dir, /estate-dir-district/);
+    assert.match(dir, /estateSelectTarget/);
+    assert.match(dir, /<details/);
+    assert.match(dir, /coverageCheck/);
+    assert.match(dir, /estatesFindCta/);
+    assert.doesNotMatch(dir, /startTransition/);
     const wahFu = getEstatePage("wah-fu");
     assert.ok(wahFu);
     assert.deepEqual(estateSelectTarget(wahFu.estate), { kind: "page", slug: "wah-fu" });

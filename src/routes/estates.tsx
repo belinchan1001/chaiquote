@@ -1,14 +1,14 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { startTransition, useMemo, useState, type FormEvent } from "react";
+import { useMemo, useState, type FormEvent } from "react";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import { JsonLd } from "@/components/json-ld";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
-import { addressHitValue } from "@/lib/address-search";
+import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { useDesk } from "@/lib/desk";
 import { compact, ESTATES } from "@/lib/estates";
-import { estateHousingLabel, estatePagesByDistrict, ESTATE_PAGES } from "@/lib/estate-pages";
+import { estatePagesByDistrict, estateSelectTarget, ESTATE_PAGES } from "@/lib/estate-pages";
 import { isNewIntakeEstate, NEW_INTAKE_NAMES, newIntakeGroups } from "@/lib/estate-new-intake";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { compactSearch, parsePlansSearch } from "@/lib/search";
@@ -37,6 +37,13 @@ const DISTRICT_GROUPS = estatePagesByDistrict();
 const NEW_INTAKE_GROUPS = newIntakeGroups(ESTATE_PAGES);
 const NEW_INTAKE_COUNT = NEW_INTAKE_NAMES.size;
 
+const POPULAR_ESTATES = [
+  { slug: "tin-yiu", name: "天耀邨" },
+  { slug: "kingswood-villas", name: "嘉湖山莊" },
+  { slug: "city-one", name: "沙田第一城" },
+  { slug: "taikoo-shing", name: "太古城" },
+] as const;
+
 export const Route = createFileRoute("/estates")({
   component: EstatesIndexPage,
   head: () => {
@@ -48,6 +55,8 @@ export const Route = createFileRoute("/estates")({
         { property: "og:title", content: TITLE },
         { property: "og:description", content: DESCRIPTION },
         { property: "og:url", content: url },
+        { name: "twitter:title", content: TITLE },
+        { name: "twitter:description", content: DESCRIPTION },
       ],
       links: [{ rel: "canonical", href: url }],
     };
@@ -89,46 +98,90 @@ function EstatesIndexPage() {
   }, [activeDistrict, estate, groups, housingFilter, newIntakeFilter]);
 
   const visibleCount = visible.reduce((sum, group) => sum + group.pages.length, 0);
+  const browseAll = !compact(estate) && !housingFilter && !activeDistrict && !newIntakeFilter;
+  const hasFilter = !browseAll;
+
+  function remember(next: { estate?: string; housing?: string; district?: string }) {
+    setInquiry({
+      estate: (next.estate ?? estate).trim(),
+      housing: next.housing ?? housing,
+      district: next.district ?? district,
+    });
+  }
 
   function openPlans(next: { estate?: string; housing?: string; district?: string }) {
     const estateValue = (next.estate ?? estate).trim();
     const housingValue = next.housing || housing || resolvedHousing(estateValue) || undefined;
     const districtValue = next.district ?? district;
-    setInquiry({
-      estate: estateValue,
-      housing: housingValue ?? "",
-      district: districtValue,
+    remember({ estate: estateValue, housing: housingValue ?? "", district: districtValue });
+    void navigate({
+      to: "/plans",
+      search: compactSearch(
+        parsePlansSearch({
+          cat: "broadband",
+          estate: estateValue || undefined,
+          housing: housingValue,
+        }),
+      ),
     });
-    startTransition(() => {
-      void navigate({
-        to: "/plans",
-        search: compactSearch(
-          parsePlansSearch({
-            cat: "broadband",
-            estate: estateValue || undefined,
-            housing: housingValue,
-          }),
-        ),
-      });
-    });
+  }
+
+  function goEstatePage(next: { estate: string; housing?: string; district?: string }) {
+    const estateValue = next.estate.trim();
+    if (!estateValue) {
+      document.getElementById("estate-dir-list")?.scrollIntoView({ block: "start" });
+      return;
+    }
+    const known = matchKnownEstate(estateValue);
+    const housingValue = next.housing || housing || known?.housing || resolvedHousing(estateValue) || "";
+    const districtValue = next.district ?? district ?? known?.district ?? "";
+    remember({ estate: estateValue, housing: housingValue, district: districtValue });
+    if (known) {
+      const target = estateSelectTarget(known);
+      if (target.kind === "page") {
+        void navigate({ to: "/estates/$slug", params: { slug: target.slug } });
+        return;
+      }
+    }
+    document.getElementById("estate-dir-list")?.scrollIntoView({ block: "start" });
   }
 
   function onSubmit(e: FormEvent) {
     e.preventDefault();
-    openPlans({});
+    goEstatePage({ estate, housing: housingFilter || housing, district: activeDistrict || district });
+  }
+
+  function clearFilters() {
+    setEstate("");
+    setHousing("");
+    setDistrict("");
+    setDistrictFilter("");
+    setHousingFilter("");
+    setNewIntakeFilter(false);
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <div className="mx-auto max-w-6xl px-4 py-8 pb-28">
       <JsonLd
         data={{
           "@context": "https://schema.org",
-          "@type": "CollectionPage",
-          name: TITLE,
-          description: DESCRIPTION,
-          url,
-          inLanguage: "zh-HK",
-          numberOfItems: ESTATES.length,
+          "@graph": [
+            {
+              "@type": "CollectionPage",
+              name: TITLE,
+              description: DESCRIPTION,
+              url,
+              inLanguage: "zh-HK",
+              numberOfItems: ESTATES.length,
+            },
+            {
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "齊Quote", item: canonicalUrl("/") },
+                { "@type": "ListItem", position: 2, name: "香港屋苑寬頻比較", item: url },
+              ],
+            },
+          ],
         }}
       />
       <nav aria-label={t("crumbNav")} className="text-sm text-muted">
@@ -145,6 +198,83 @@ function EstatesIndexPage() {
       <h1 className="mt-6 text-title font-semibold">香港屋苑寬頻比較</h1>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{t("estatesDirLead")}</p>
       <p className="mt-2 text-sm font-medium">{t("estatesIndexCount", { n: ESTATES.length })}</p>
+
+      <form className="mt-6 max-w-xl space-y-3 rounded-xl bg-card p-4 shadow-[var(--shadow-border)] sm:p-5" onSubmit={onSubmit}>
+        <div className="space-y-2">
+          <label htmlFor="estate-dir-q" className="text-xs font-medium tracking-wider text-muted">
+            {t("estateLabel")}
+          </label>
+          <EstateSuggest
+            id="estate-dir-q"
+            value={estate}
+            onChange={setEstate}
+            name="estate"
+            placeholder={t("estatePlaceholder")}
+            onSelect={(hit) => {
+              const nextHousing = hit.housing ?? resolvedHousing(hit.name) ?? "";
+              const nextEstate = addressHitValue(hit);
+              if (nextHousing) setHousing(nextHousing);
+              if (hit.district) setDistrict(hit.district);
+              setEstate(nextEstate);
+              goEstatePage({
+                estate: nextEstate,
+                housing: nextHousing,
+                district: hit.district,
+              });
+            }}
+          />
+          <HousingGuessNote query={estate} applied={(housingFilter || housing || undefined) as Housing | undefined} />
+        </div>
+        <fieldset>
+          <legend className="text-xs font-medium tracking-wider text-muted">{t("housingType")}</legend>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => setHousingFilter("")}
+              className={cn(
+                "chip-press inline-flex h-11 items-center rounded-full px-4 text-sm font-medium",
+                !housingFilter ? "bg-primary text-primary-foreground" : "bg-surface",
+              )}
+            >
+              {t("any")}
+            </button>
+            {HOUSING_FALLBACK.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setHousingFilter((current) => (current === item.id ? "" : item.id))}
+                className={cn(
+                  "chip-press inline-flex h-11 items-center rounded-full px-4 text-sm font-medium",
+                  housingFilter === item.id ? "bg-primary text-primary-foreground" : "bg-surface",
+                )}
+              >
+                {housingLabel(item.id)}
+              </button>
+            ))}
+          </div>
+        </fieldset>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <Button type="submit">{t("estatesFindCta")}</Button>
+          <Button type="button" variant="outline" onClick={() => openPlans({ housing: housingFilter || housing })}>
+            {t("estatesPlansCta")}
+          </Button>
+        </div>
+        <p className="text-sm text-muted">
+          {t("estatesPopular")}：
+          {POPULAR_ESTATES.map((item, i) => (
+            <span key={item.slug}>
+              {i ? <span className="px-1.5 text-subtle">·</span> : " "}
+              <Link
+                to="/estates/$slug"
+                params={{ slug: item.slug }}
+                className="text-accent underline-offset-4 hover:underline"
+              >
+                {item.name}
+              </Link>
+            </span>
+          ))}
+        </p>
+      </form>
 
       <div className="mt-6 grid grid-cols-3 gap-2 lg:grid-cols-6">
         <button
@@ -210,59 +340,37 @@ function EstatesIndexPage() {
             </option>
           ))}
         </Select>
+        <div className="flex flex-wrap gap-2">
+          {districtGroups.map((group) => (
+            <button
+              key={group.district}
+              type="button"
+              onClick={() => setDistrictFilter((current) => (current === group.district ? "" : group.district))}
+              className={cn(
+                "chip-press inline-flex h-11 items-center rounded-full px-3 text-sm font-medium",
+                activeDistrict === group.district ? "bg-primary text-primary-foreground" : "bg-card shadow-[var(--shadow-border)]",
+              )}
+            >
+              {group.district}
+              <span className="ml-1 tabular-nums text-xs opacity-70">{group.pages.length}</span>
+            </button>
+          ))}
+        </div>
         {newIntakeFilter ? <p className="text-sm text-muted">{t("estatesNewIntakeLead")}</p> : null}
       </div>
 
-      <form className="mt-6 max-w-xl space-y-3 rounded-xl bg-card p-4 shadow-[var(--shadow-border)] sm:p-5" onSubmit={onSubmit}>
-        <div className="space-y-2">
-          <label htmlFor="estate-dir-q" className="text-xs font-medium tracking-wider text-muted">
-            {t("estateLabel")}
-          </label>
-          <EstateSuggest
-            id="estate-dir-q"
-            value={estate}
-            onChange={setEstate}
-            name="estate"
-            placeholder={t("estatePlaceholder")}
-            onSelect={(hit) => {
-              const nextHousing = hit.housing ?? resolvedHousing(hit.name) ?? "";
-              const nextEstate = addressHitValue(hit);
-              if (nextHousing) setHousing(nextHousing);
-              if (hit.district) setDistrict(hit.district);
-              setEstate(nextEstate);
-              openPlans({
-                estate: nextEstate,
-                housing: nextHousing,
-                district: hit.district,
-              });
-            }}
-          />
-          <HousingGuessNote query={estate} applied={(housing || undefined) as Housing | undefined} />
-        </div>
-        <Button type="submit">{t("autoFilter")}</Button>
-        <p className="text-sm text-muted">
-          或揀樓類：
-          {HOUSING_FALLBACK.map((item, i) => (
-            <span key={item.id}>
-              {i ? <span className="px-1.5 text-subtle">·</span> : " "}
-              <Link
-                to="/plans"
-                search={{ cat: "broadband", housing: item.id }}
-                className="text-accent underline-offset-4 hover:underline"
-              >
-                {item.label}
-              </Link>
-            </span>
-          ))}
-        </p>
-      </form>
-
-      <p className="mt-5 text-sm text-muted">
+      <p id="estate-dir-list" className="mt-5 scroll-mt-20 text-sm text-muted">
         {t("estatesShowing", { n: visibleCount })}
         {newIntakeFilter ? ` · ${t("estatesNewIntake")}` : ""}
         {housingFilter ? ` · ${housingLabel(housingFilter)}` : ""}
         {activeDistrict ? ` · ${activeDistrict}` : ""}
       </p>
+      {browseAll ? <p className="mt-1 text-sm text-muted">{t("estatesBrowseHint")}</p> : null}
+      {hasFilter ? (
+        <button type="button" onClick={clearFilters} className="mt-2 text-sm font-medium text-accent underline-offset-4 hover:underline">
+          {t("estatesClear")}
+        </button>
+      ) : null}
 
       <div className="mt-6 space-y-10">
         {visible.length === 0 ? (
@@ -270,12 +378,14 @@ function EstatesIndexPage() {
             {t("estatesEmptyFilter")}
           </p>
         ) : (
-          visible.map((group) => (
-            <section key={group.district} id={`district-${group.district}`} className="estate-dir-group">
-              <h2 className="text-lg font-semibold">
+          visible.map((group) => {
+            const heading = (
+              <>
                 {group.district}
                 <span className="ml-2 text-sm font-normal tabular-nums text-muted">{group.pages.length}</span>
-              </h2>
+              </>
+            );
+            const cards = (
               <ul className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4">
                 {group.pages.map((page) => (
                   <li key={page.slug}>
@@ -285,15 +395,30 @@ function EstatesIndexPage() {
                     >
                       <p className="text-sm font-medium leading-snug">{page.estate.name}</p>
                       <p className="mt-0.5 text-xs text-muted">
-                        {estateHousingLabel(page.estate.housing)}
-                        {isNewIntakeEstate(page.estate.name) ? " · 新入伙" : ""}
+                        {housingLabel(page.estate.housing)}
+                        {isNewIntakeEstate(page.estate.name) ? ` · ${t("estatesNewIntakeTag")}` : ""}
+                        {page.estate.coverageCheck ? ` · ${t("coverageCheck")}` : ""}
                       </p>
                     </a>
                   </li>
                 ))}
               </ul>
-            </section>
-          ))
+            );
+            return browseAll ? (
+              <details key={group.district} id={`district-${group.district}`} className="estate-dir-group">
+                <summary className="flex cursor-pointer list-none items-center text-lg font-semibold">
+                  <h2 className="text-lg font-semibold">{heading}</h2>
+                  <span className="ml-2 text-subtle">+</span>
+                </summary>
+                {cards}
+              </details>
+            ) : (
+              <section key={group.district} id={`district-${group.district}`} className="estate-dir-group">
+                <h2 className="text-lg font-semibold">{heading}</h2>
+                {cards}
+              </section>
+            );
+          })
         )}
       </div>
     </div>
