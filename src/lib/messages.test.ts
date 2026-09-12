@@ -22,7 +22,7 @@ describe("trust/compliance copy", () => {
     assert.equal(zhTitle, "齊Quote 精選計劃");
     assert.equal(
       zhLead,
-      "每個服務類型，由本站現有參考計劃入面揀月費較低嘅一條；唔代表全港最平，實際以電訊商確認為準。",
+      "每個服務類型，喺本站現有參考計劃入面揀月費較低嘅一條。唔代表全港最平，實際以電訊商確認為準。",
     );
     assert.equal(
       zhCommission,
@@ -76,19 +76,19 @@ describe("trust/compliance copy", () => {
 
     assert.equal(
       zhHkt,
-      "網上行／CSL 計劃經本站核對身份嘅香港電訊 HKT 同事，用指定 WhatsApp 回覆。回覆嘅係該香港電訊 HKT 指定授權銷售同事；本站不是官方客服。",
+      "網上行／CSL 計劃由本站核對身份的香港電訊（HKT）指定授權銷售同事，經指定 WhatsApp 回覆。本站並非官方客服。",
     );
     assert.equal(
       zhHkbn,
-      "香港寬頻計劃經本站核對身份嘅香港寬頻 HKBN 同事，用指定 WhatsApp 回覆。回覆嘅係該香港寬頻 HKBN 指定授權銷售同事；本站不是官方客服。",
+      "香港寬頻計劃由本站核對身份的 HKBN 指定授權銷售同事，經指定 WhatsApp 回覆。本站並非官方客服。",
     );
     assert.equal(
       enHkt,
-      "Netvigator / CSL plans are answered via designated WhatsApp by HKT colleagues whose identity was checked by this site. Replies are from that HKT designated authorized sales colleague; this site is not official customer service.",
+      "Netvigator / CSL plans are answered on designated WhatsApp by authorised HKT sales staff whose identity this site has checked. This site is not official customer service.",
     );
     assert.equal(
       enHkbn,
-      "HKBN plans are answered via designated WhatsApp by HKBN colleagues whose identity was checked by this site. Replies are from that HKBN designated authorized sales colleague; this site is not official customer service.",
+      "HKBN plans are answered on designated WhatsApp by authorised HKBN sales staff whose identity this site has checked. This site is not official customer service.",
     );
 
     for (const text of [zhHkt, zhHkbn, enHkt, enHkbn]) {

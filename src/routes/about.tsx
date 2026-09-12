@@ -60,7 +60,6 @@ function AboutPage() {
 
       <section className="mt-8">
         <h2 className="text-lg font-semibold">{t("aboutDisclaimer")}</h2>
-        <p className="mt-3 text-sm leading-relaxed text-muted">{t("noCommission")}</p>
         <p className="mt-3 text-sm leading-relaxed text-muted">{t("referencePrice")}</p>
         <p className="mt-3 text-sm leading-relaxed text-muted">{t("disclaimer1")}</p>
         <p className="mt-3 text-sm leading-relaxed text-muted">{t("disclaimer2")}</p>

@@ -30,7 +30,7 @@ export function SiteFooter() {
             {updated}
           </p>
           <div className="mt-5 space-y-2 text-xs leading-relaxed text-primary-foreground/70">
-            <p className="tracking-wider text-primary-foreground/55">加到主畫面／安裝</p>
+            <p className="tracking-wider text-primary-foreground/55">{t("pwaInstallHeading")}</p>
             <p>{PWA.androidTip}</p>
             <p>{PWA.iosTip}</p>
             <p className="text-primary-foreground/55">{PWA.disclaimer}</p>
@@ -61,7 +61,7 @@ export function SiteFooter() {
             </li>
             <li>
               <Link to="/estates" className="hover:underline">
-                屋苑寬頻格價
+                {t("estatesDirTitle")}
               </Link>
             </li>
           </ul>
