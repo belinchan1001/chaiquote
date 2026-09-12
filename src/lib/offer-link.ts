@@ -16,5 +16,5 @@ export function isLinkPreviewBot(userAgent: string | null | undefined) {
 }
 
 export function isOfferTokenFormat(token: string) {
-  return /^[A-Za-z0-9_-]{20,64}$/.test(token);
+  return /^[A-Za-z0-9_-]{20,64}$/.test(token) || /^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/.test(token);
 }

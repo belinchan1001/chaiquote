@@ -19,6 +19,7 @@ describe("one-time staff offer links", () => {
     assert.equal(isLinkPreviewBot("Mozilla/5.0 iPhone"), false);
     assert.equal(isOfferTokenFormat("abc"), false);
     assert.equal(isOfferTokenFormat("n1u2v3w4x5y6z7a8b9c0d1e2"), true);
+    assert.equal(isOfferTokenFormat("aaa.bbb"), true);
     assert.equal(offerCookieName("nv98"), "cq_o_nv98");
     assert.equal(offerViewPath("nv98", "tok_1"), "/offers/nv98?k=tok_1");
   });
