@@ -1432,6 +1432,32 @@ describe("SmarTone mobile catalogue", () => {
   });
 });
 
+describe("business broadband catalogue", () => {
+  it("keeps only HKBN and Netvigator, dropping HGC and CMHK", () => {
+    for (const id of ["cmhk-biz-1000", "hgc-biz-1000", "hgc-biz-2500", "hgc-biz-5000", "hgc-biz-10000"]) {
+      assert.equal(getPlan(id), undefined, id);
+    }
+    const rows = PLANS.filter((row) => row.category === "business");
+    assert.deepEqual(
+      [...new Set(rows.map((row) => row.providerId))].sort(),
+      ["hkbn", "netvigator"],
+    );
+    assert.deepEqual(
+      rows.map((row) => row.id),
+      [
+        "hkbn-biz-1000",
+        "netvigator-biz-1000",
+        "hkbn-biz-2500",
+        "hkbn-biz-5000",
+        "hkbn-biz-10000",
+        "netvigator-biz-10000",
+      ],
+    );
+    assert.ok(getPlan("hgc-ftth-1000-public-36m"));
+    assert.ok(getPlan("cmhk-ftth-1000"));
+  });
+});
+
 describe("cheapest plan auto-picks", () => {
   it("returns the lowest monthly fee per service type", () => {
     const fiber = cheapestPlan("broadband");
