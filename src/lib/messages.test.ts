@@ -148,4 +148,36 @@ describe("trust/compliance copy", () => {
     assert.match(card, staffThenDisclaimer);
     assert.match(detail, staffThenDisclaimer);
   });
+
+  it("pins homepage 或睇攻略文章 under 去格價 and the four guide hubs", () => {
+    const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+    const [zh, en] = quoted(messages, "orReadGuide");
+    const [zhCompare, enCompare] = quoted(messages, "goCompare");
+
+    assert.equal(zh, "或睇攻略文章");
+    assert.equal(en, "Or read the guide");
+    assert.equal(zhCompare, "去格價");
+    assert.equal(enCompare, "Compare plans");
+    for (const word of ["最抵", "必讀", "必看", "最平"]) {
+      assert.equal(zh.includes(word), false, `orReadGuide still claims ${word}`);
+    }
+    assert.doesNotMatch(en, /must-read|best-value|cheapest/i);
+
+    assert.match(home, /to="\/plans"[\s\S]*search=\{\{ cat: item\.planCat \}\}[\s\S]*t\("goCompare"\)/);
+    assert.match(
+      home,
+      /t\("goCompare"\)[\s\S]*to="\/guides\/\$slug"[\s\S]*params=\{\{ slug: item\.slug \}\}[\s\S]*t\("orReadGuide"\)/,
+    );
+
+    const destinations = [
+      ["fiber", "broadband"],
+      ["home5g", "home5g"],
+      ["mobile", "mobile"],
+      ["business", "business"],
+    ] as const;
+    for (const [slug, planCat] of destinations) {
+      assert.match(home, new RegExp(`slug: "${slug}"[\\s\\S]*planCat: "${planCat}"`));
+    }
+  });
 });

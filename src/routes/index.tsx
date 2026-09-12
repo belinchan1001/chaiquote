@@ -176,15 +176,26 @@ function Home() {
                   <p className="mt-1 text-sm text-muted">{t(item.text)}</p>
                 </div>
               </Link>
-              <p className="px-5 pb-5 text-sm">
-                <Link
-                  to="/plans"
-                  search={{ cat: item.planCat }}
-                  className="text-accent underline-offset-4 hover:underline"
-                >
-                  {t("goCompare")}
-                </Link>
-              </p>
+              <div className="px-5 pb-5 text-sm">
+                <p>
+                  <Link
+                    to="/plans"
+                    search={{ cat: item.planCat }}
+                    className="text-accent underline-offset-4 hover:underline"
+                  >
+                    {t("goCompare")}
+                  </Link>
+                </p>
+                <p className="mt-1">
+                  <Link
+                    to="/guides/$slug"
+                    params={{ slug: item.slug }}
+                    className="text-muted underline-offset-4 hover:underline"
+                  >
+                    {t("orReadGuide")}
+                  </Link>
+                </p>
+              </div>
             </div>
           ))}
         </div>
