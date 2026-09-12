@@ -38,6 +38,17 @@ export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "彩石邨", group: "其他地區" },
   { name: "安楹苑", group: "其他地區" },
   { name: "上然", group: "大埔" },
+  { name: "攸壆路簡約公屋", group: "新界" },
+  { name: "彩興路簡約公屋", group: "九龍" },
+  { name: "彩園路簡約公屋", group: "新界" },
+  { name: "順安道簡約公屋", group: "九龍" },
+  { name: "彩石里簡約公屋", group: "九龍" },
+  { name: "青發街簡約公屋", group: "屯門" },
+  { name: "Sierra Sea", group: "大埔" },
+  { name: "黃金海灣", group: "屯門" },
+  { name: "Double Coast", group: "九龍" },
+  { name: "海盈山", group: "港島" },
+  { name: "逸瓏灣", group: "大埔" },
 ];
 
 export const NEW_INTAKE_NAMES = new Set(NEW_INTAKE.map((item) => item.name));
@@ -69,6 +80,12 @@ export const HKBN_INTAKE_OFFER_ESTATES = [
   "啟盈苑",
   "朗天苑",
   "綠置居",
+  "攸壆路簡約公屋",
+  "彩興路簡約公屋",
+  "彩園路簡約公屋",
+  "順安道簡約公屋",
+  "彩石里簡約公屋",
+  "青發街簡約公屋",
 ] as const;
 
 /** Netvigator fibre for a subset of new-move-in estates (blocks inherit the parent). */

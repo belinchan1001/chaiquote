@@ -272,7 +272,7 @@ export const VILLAGE_RAW = `
 牛磡村|Ngau Hom Tsuen|元朗|village|屏山
 西頭圍|Sai Tau Wai|元朗|village|屏山
 屏山新慶村|Ping Shan San Hing Tsuen|元朗|village|屏山
-屏山山下|Ping Shan Shan Ha|元朗|village|屏山
+屏山山下|Ping Shan Shan Ha,山廈村,屏山山廈村|元朗|village|屏山
 石埔村|Shek Po Tsuen|元朗|village|屏山
 盛屋村|Shing Uk Tsuen|元朗|village|屏山
 水邊村|Shui Pin Tsuen|元朗|village|屏山
@@ -317,4 +317,43 @@ export const VILLAGE_RAW = `
 河背村|Ho Pui Tsuen Tsuen Wan|荃灣|village|荃灣
 荃灣楊屋村|Tsuen Wan Yeung Uk Tsuen|荃灣|village|荃灣
 中葵涌村|Chung Kwai Chung Tsuen|葵青|village|葵涌
+攸壆村|Yau Pok Tsuen,攸壆,錦繡花園攸壆|元朗|village|米埔
+五和村|Ng Wo Tsuen,十八鄉五和|元朗|village|十八鄉
+十八鄉石埗村|Shap Pat Heung Shek Po Tsuen,石埗村十八鄉|元朗|village|十八鄉
+元朗舊墟|Yuen Long Kau Hui,元朗舊墟村|元朗|village|元朗
+高埔新村|Ko Po San Tsuen,錦田高埔新村|元朗|village|錦田
+蝦尾基|Ha Mei Kei,天水圍蝦尾基|元朗|village|天水圍
+粉嶺圍|Fanling Wai,粉嶺圍村|北區|village|粉嶺
+古洞村|Kwu Tung Tsuen,古洞舊村,古洞村屋|北區|village|古洞
+上水鄉|Sheung Shui Heung,上水鄉舊村|北區|village|上水
+燕崗村|Yin Kong Tsuen,燕崗,上水燕崗|北區|village|上水
+龍山村|Lung Shan Tsuen,粉嶺龍山|北區|village|粉嶺
+東平洲|Tung Ping Chau,平洲東平洲|北區|village|沙頭角
+鴨洲|Ap Chau,鴨洲村|北區|village|沙頭角
+白鷺湖|Pak Nai Wu Tai Po,大埔白鷺湖|大埔|village|大埔滘
+林村谷|Lam Tsuen Valley,大埔林村谷|大埔|village|林村
+白沙灣|Pak Sha Wan,西貢白沙灣,銀線灣白沙灣村|西貢|village|西貢
+茅坪村|Mao Ping Tsuen,西貢茅坪|西貢|village|西貢
+西貢園|Sai Kung Yuen,西貢園村|西貢|village|西貢
+西貢橋頭村|Kiu Tau Tsuen Sai Kung,西貢橋頭|西貢|village|西貢
+黃竹灣|Wong Chuk Wan,西貢黃竹灣|西貢|village|西貢
+蛋家灣|Tan Ka Wan,西貢北蛋家灣|西貢|village|西貢北
+大環頭|Tai Wan Tau,清水灣大環頭|西貢|village|清水灣
+榕樹澳|Yung Shue O,西貢北榕樹澳|西貢|village|西貢北
+高塘|Ko Tong,西貢北高塘|西貢|village|西貢北
+荔枝莊|Lai Chi Chong,西貢北荔枝莊|西貢|village|西貢北
+赤徑|Chek Keng,西貢北赤徑|西貢|village|西貢北
+深井村|Sham Tseng Tsuen,深井舊村,深井村屋|荃灣|village|深井
+青龍頭村|Tsing Lung Tau Tsuen,青龍頭舊村|荃灣|village|青龍頭
+馬灣田寮村|Ma Wan Tin Liu,田寮村馬灣|荃灣|village|馬灣
+東涌陰澳|Yam O,陰澳,陰澳村|離島|village|東涌
+梅窩南山|Mui Wo Nam Shan,南山梅窩|離島|village|梅窩
+梅窩鹿地塘|Luk Tei Tong,鹿地塘|離島|village|梅窩
+長洲東灣|Cheung Chau Tung Wan,長洲東灣村|離島|village|長洲
+坪洲南灣|Peng Chau Nam Wan,坪洲南灣村|離島|village|坪洲
+大嶼山水口|Shui Hau,水口村,水口大嶼山|離島|village|大嶼山
+小瀝源村|Siu Lek Yuen Village,小瀝源舊村|沙田|village|小瀝源
+沙田圍村|Sha Tin Wai Village,沙田圍舊村|沙田|village|沙田圍
+藍地村|Lam Tei Tsuen,屯門藍地村|屯門|village|藍地
+紫田新村|Tsz Tin San Tsuen,屯門紫田新村|屯門|village|屯門
 `.trim();

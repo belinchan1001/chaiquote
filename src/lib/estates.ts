@@ -268,7 +268,7 @@ const RAW = `
 碧海藍天|碧海藍天,Aqua Marine|深水埗|private
 宇晴軒|宇晴軒,The Pacifica|深水埗|private
 昇悅居|昇悅居,Banyan Garden|深水埗|private
-海麗|海麗商場|深水埗|public
+海麗商場|Hoi Lai Shopping Centre,海麗商場長沙灣|深水埗|private
 又一村|又一村,Yau Yat Tsuen|深水埗|private
 麗港城|麗港城,Laguna City|觀塘|private
 匯景花園|匯景,Sceneway Garden|觀塘|private
@@ -279,7 +279,7 @@ const RAW = `
 富緻閣|富緻,Fu Chi House,宏緻苑富緻閣|觀塘|hos|九龍灣
 喜緻閣|喜緻,Hei Chi House,宏緻苑喜緻閣|觀塘|hos|九龍灣
 崇緻閣|崇緻,Sung Chi House,宏緻苑崇緻閣|觀塘|hos|九龍灣
-盛緻苑|盛緻,Shing Chi Court|觀塘|hos|九龍灣|覆蓋需查核
+盛緻苑|盛緻,Shing Chi Court|觀塘|hos|九龍灣
 景泰苑|景泰,King Tai Court|黃大仙|hos
 啟德1號|啟德1號|九龍城|private
 啟悅苑|啟悅,Kai Yuet Court|九龍城|hos|啟德
