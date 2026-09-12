@@ -100,6 +100,7 @@ describe("village-onsite guide", () => {
       "business",
       "public-vs-hos",
       "public-hos-fees",
+      "home-broadband-2026",
       "estate-filter",
       "is-1000m-enough",
       "switch-broadband",
@@ -255,15 +256,17 @@ const RANKING_FORBIDDEN = ["最抵", "最低", "最平", "必選", "齊Quote 推
 
 describe("locked SEO guides", () => {
   it("registers public-hos-fees and estate-filter on the fibre hub and sitemap", () => {
-    for (const slug of ["public-hos-fees", "estate-filter"] as const) {
+    for (const slug of ["public-hos-fees", "estate-filter", "home-broadband-2026"] as const) {
       assert.equal(getGuide(slug)?.slug, slug);
       assert.ok(GUIDES.some((guide) => guide.slug === slug));
       assert.ok(SITEMAP_PAGES.some((page) => page.path === `/guides/${slug}`));
     }
     assert.ok(getGuide("fiber")?.related?.includes("public-hos-fees"));
     assert.ok(getGuide("fiber")?.related?.includes("estate-filter"));
+    assert.ok(getGuide("fiber")?.related?.includes("home-broadband-2026"));
     assert.ok(getGuide("switch-broadband")?.related?.includes("public-hos-fees"));
     assert.ok(getGuide("switch-broadband")?.related?.includes("estate-filter"));
+    assert.ok(getGuide("switch-broadband")?.related?.includes("home-broadband-2026"));
   });
 
   it("locks public-hos-fees listed fees to real plan cards and the 私樓 note", () => {
@@ -302,6 +305,92 @@ describe("locked SEO guides", () => {
     assert.match(text, /唔係保證價/);
     assert.match(text, /樓類篩/);
     assert.match(text, /唔係排名/);
+    for (const phrase of [...FORBIDDEN, ...RANKING_FORBIDDEN]) {
+      assert.equal(text.includes(phrase), false, `forbidden phrase: ${phrase}`);
+    }
+  });
+
+  it("locks home-broadband-2026 listed fees to real plan cards and housing notes", () => {
+    const guide = getGuide("home-broadband-2026");
+    assert.ok(guide);
+    assert.equal(guide.h1, "2026 家居寬頻格價：站內列出嘅參考月費");
+    assert.equal(guide.published, "2026-09-12");
+    assert.equal(guide.minutes, 7);
+    assert.equal(guide.category, "fiber");
+    assert.deepEqual(guide.related, [
+      "public-hos-fees",
+      "estate-filter",
+      "switch-broadband",
+      "village",
+      "fiber",
+      "is-1000m-enough",
+      "public-vs-hos",
+    ]);
+    const tables = guide.body.filter((section) => section.table).map((section) => section.table);
+    assert.equal(tables.length, 2);
+    assert.equal(tables[0]?.caption, "站內列出，僅供參考");
+    assert.deepEqual(tables[0]?.headers, ["供應商／計劃例子", "樓類／站內列出"]);
+    const expected1000 = [
+      { id: "icable-ftth-1000-48m-58", fee: 58 },
+      { id: "hgc-ftth-1000-public-36m", fee: 75 },
+      { id: "cmhk-ftth-2500", fee: 88 },
+      { id: "smartone-ftth-1000", fee: 88 },
+      { id: "icable-ftth-1000-private-36m", fee: 88 },
+      { id: "hgc-ftth-1000-public-39m", fee: 89 },
+      { id: "hkbn-ftth-1000-36m-98", fee: 98 },
+      { id: "netvigator-ftth-1000-public-36m-98", fee: 98 },
+      { id: "netvigator-ftth-1000-private-36m", fee: 98 },
+      { id: "netvigator-ftth-1000-village-36m", fee: 278 },
+    ];
+    const expected2500 = [
+      { id: "hkbn-ftth-2500-24m-149", fee: 149 },
+      { id: "netvigator-ftth-2500-public-36m-158", fee: 158 },
+      { id: "netvigator-ftth-2500-private-36m-176", fee: 178 },
+      { id: "hkbn-village-2500-24m", fee: 258 },
+      { id: "netvigator-ftth-2500-village-36m", fee: 376 },
+    ];
+    assert.equal(tables[0]?.rows.length, expected1000.length);
+    assert.equal(tables[1]?.rows.length, expected2500.length);
+    for (const [index, row] of (tables[0]?.rows ?? []).entries()) {
+      const want = expected1000[index];
+      assert.equal(row.href, `/plans/${want.id}`);
+      const plan = getPlan(want.id);
+      assert.ok(plan, want.id);
+      assert.equal(plan.monthlyFee, want.fee);
+      assert.equal(plan.flashOffer, undefined);
+      assert.match(row.value, new RegExp(String(want.fee)));
+    }
+    for (const [index, row] of (tables[1]?.rows ?? []).entries()) {
+      const want = expected2500[index];
+      assert.equal(row.href, `/plans/${want.id}`);
+      const plan = getPlan(want.id);
+      assert.ok(plan, want.id);
+      assert.equal(plan.monthlyFee, want.fee);
+      assert.equal(plan.flashOffer, undefined);
+      assert.match(row.value, new RegExp(String(want.fee)));
+    }
+    const headings = guide.body.map((section) => section.heading);
+    const noteIndex = headings.indexOf("點理解 1000M 表");
+    assert.ok(noteIndex > headings.indexOf("1000M：站內列出例子"));
+    assert.ok(noteIndex < headings.indexOf("2500M：站內列出例子"));
+    const note = guide.body[noteIndex]?.paragraphs.join("");
+    assert.match(note ?? "", /唔係排名/);
+    assert.match(note ?? "", /\/guides\/public-hos-fees/);
+    assert.match(note ?? "", /\/guides\/village/);
+    assert.match(note ?? "", /唔好混用/);
+    assert.ok(guide.faq?.some((item) => /HK\$58/.test(item.q) && /唔可以/.test(item.a)));
+    assert.ok(guide.faq?.some((item) => /保證價/.test(item.q) && /唔係保證價/.test(item.a)));
+    assert.ok(guide.faq?.some((item) => /快閃/.test(item.q)));
+    assert.ok(guide.faq?.some((item) => /公屋同居屋/.test(item.q) && /public-hos-fees/.test(item.a)));
+    assert.ok(guide.bodyEn.length >= guide.body.length);
+    assert.equal(guide.plans?.[0]?.href, "/plans?cat=broadband");
+    const text = guideText("home-broadband-2026");
+    assert.match(text, /站內列出/);
+    assert.match(text, /僅供參考/);
+    assert.match(text, /唔係排名/);
+    assert.match(text, /以電訊商確認為準/);
+    assert.match(text, /\/guides\/estate-filter/);
+    assert.match(text, /\/guides\/switch-broadband/);
     for (const phrase of [...FORBIDDEN, ...RANKING_FORBIDDEN]) {
       assert.equal(text.includes(phrase), false, `forbidden phrase: ${phrase}`);
     }
