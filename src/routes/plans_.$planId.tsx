@@ -27,14 +27,19 @@ import {
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { canonicalUrl } from "@/lib/canonical";
+import { hasOfferSession } from "@/lib/offer-token";
 import { planJsonLd, planSeoDescription, planSeoTitle } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 
 export const Route = createFileRoute("/plans_/$planId")({
   component: PlanDetailPage,
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
     const plan = getPlan(params.planId);
     if (!plan) throw notFound();
+    if (plan.staffOffer) {
+      const ok = await hasOfferSession({ data: { offerId: plan.staffOffer } });
+      if (!ok) throw notFound();
+    }
     return { plan };
   },
   head: ({ loaderData }) => {
@@ -163,7 +168,7 @@ function PlanDetailPage() {
           </Button>
           <div className="flex min-w-0 flex-1 gap-2">
             <QuoteLink plan={plan} className="flex-1" />
-            <PlanShareButton plan={plan} />
+            {plan.staffOffer ? null : <PlanShareButton plan={plan} />}
           </div>
           <Button asChild variant="outline">
             <Link to="/quote" search={{ plan: plan.id }}>

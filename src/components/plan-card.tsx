@@ -153,7 +153,7 @@ export function PlanCard({ plan }: { plan: Plan }) {
           <QuoteLink plan={plan} className="flex-1">
             {t("askWa")}
           </QuoteLink>
-          <PlanShareButton plan={plan} />
+          {plan.staffOffer ? null : <PlanShareButton plan={plan} />}
         </div>
       </div>
       {plan.category === "business" ? (

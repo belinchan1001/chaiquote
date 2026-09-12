@@ -20,7 +20,7 @@ describe("plan detail share landing", () => {
     assert.match(page, /import \{ PlanShareButton \} from "@\/components\/plan-share-button"/);
     assert.match(
       page,
-      /<QuoteLink plan=\{plan\} className="flex-1" \/>\s*<PlanShareButton plan=\{plan\} \/>/,
+      /<QuoteLink plan=\{plan\} className="flex-1" \/>\s*\{plan\.staffOffer \? null : <PlanShareButton plan=\{plan\} \/>\}/,
     );
     assert.match(page, /<ProviderMark id=\{plan\.providerId\} \/>[\s\S]*<PlanBadges plan=\{plan\} \/>[\s\S]*<h1/);
     assert.doesNotMatch(page, /<PlanBadges plan=\{plan\} \/>\s*<PlanShareButton/);

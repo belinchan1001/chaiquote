@@ -33,6 +33,7 @@ describe("plan card corner brand", () => {
     assert.match(card, /<ProviderMark id=\{plan\.providerId\} \/>[\s\S]*<PlanBadges plan=\{plan\} \/>[\s\S]*<h3/);
     assert.doesNotMatch(card, /<ProviderMark[\s\S]{0,220}PlanBadges/);
     assert.doesNotMatch(card, /<PlanBadges plan=\{plan\} \/>\s*<PlanShareButton/);
+    assert.match(card, /\{plan\.staffOffer \? null : <PlanShareButton plan=\{plan\} \/>\}/);
     assert.match(card, /<QuoteLink plan=\{plan\}/);
     assert.match(card, /toggleCompare\(plan\.id\)/);
     assert.match(card, /\{t\("referencePrice"\)\}/);
