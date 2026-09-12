@@ -13,13 +13,14 @@ import {
   matchKnowledge,
   parseAiJson,
   pickAllowedPlanIds,
+  plansForAiCards,
   retrievePlansForAsk,
   sanitizeAiReply,
   stripFeeTalk,
   tokensToUsd,
   usdToHkd,
 } from "./ai-desk.ts";
-import { averageFee, getPlan } from "./plans.ts";
+import { averageFee, formatFee, getPlan } from "./plans.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -147,6 +148,7 @@ describe("AI desk safety", () => {
       }
     }
 
+    assert.match(staff, /plansForAiCards\(bubble\.planIds\)/);
     assert.match(staff, /<ProviderMark id=\{plan\.providerId\} size="sm"/);
     assert.match(staff, /formatFee\(plan\.monthlyFee\)/);
     assert.match(staff, /t\("months", \{ n: plan\.contractMonths \}\)/);
@@ -171,5 +173,27 @@ describe("AI desk safety", () => {
 
     assert.match(widget, /QUICK_REPLIES\.map/);
     assert.match(widget, /wa-pulse wa-pulse-fab/);
+  });
+
+  it("allows HK$ only on mini-cards; chat body and catalogue stay fee-free", () => {
+    const found = retrievePlansForAsk({ message: "村屋 1000M 光纖" });
+    const shuffled = [...found.plans.map((plan) => plan.id)].reverse();
+    const cards = plansForAiCards(shuffled);
+    assert.ok(cards.length >= 2);
+    const fees = cards.map((plan) => averageFee(plan));
+    assert.deepEqual(fees, [...fees].sort((a, b) => a - b));
+    assert.match(formatFee(cards[0].monthlyFee), /^HK\$/);
+    assert.ok(cards[0].contractMonths > 0);
+
+    assert.doesNotMatch(sanitizeAiReply("月費只要 HK$98，好平", "zh"), /HK\$|\$\d/);
+    assert.doesNotMatch(sanitizeAiReply("Only $98 / month", "en"), /HK\$|\$\d/);
+    assert.doesNotMatch(fallbackReply(true, "zh"), /HK\$|\$\d/);
+    assert.doesNotMatch(fallbackReply(true, "en"), /HK\$|\$\d/);
+    assert.doesNotMatch(JSON.stringify(found.plans), /monthlyFee|HK\$/);
+
+    const staff = readFileSync(join(here, "../components/ai-staff.tsx"), "utf8");
+    assert.match(staff, /\{bubble\.text\}/);
+    assert.doesNotMatch(staff, /formatFee\([^\)]*bubble\.text/);
+    assert.match(staff, /formatFee\(plan\.monthlyFee\)[\s\S]*t\("aiCardRef"\)/);
   });
 });

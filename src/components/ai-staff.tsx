@@ -5,10 +5,10 @@ import { ProviderMark } from "@/components/provider-mark";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { askAiDesk } from "@/lib/ai-ask";
-import { fallbackReply, QUESTION_CHIPS, retrievePlansForAsk } from "@/lib/ai-desk";
+import { fallbackReply, plansForAiCards, QUESTION_CHIPS, retrievePlansForAsk } from "@/lib/ai-desk";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
-import { formatFee, getPlan } from "@/lib/plans";
+import { formatFee } from "@/lib/plans";
 import { quoteMessage, whatsappHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -173,31 +173,27 @@ export function AiStaffPanel() {
                 </p>
                 {bubble.planIds?.length ? (
                   <div className="mt-2 space-y-2">
-                    {bubble.planIds.map((id) => {
-                      const plan = getPlan(id);
-                      if (!plan) return null;
-                      return (
-                        <Link
-                          key={id}
-                          to="/plans/$planId"
-                          params={{ planId: plan.id }}
-                          className="block bg-card px-3 py-2 text-sm shadow-[var(--shadow-border)] hover:shadow-[var(--shadow-border-hover)]"
-                        >
-                          <ProviderMark id={plan.providerId} size="sm" showEn={false} />
-                          <p className="mt-1 font-medium leading-snug">{tx(plan.name)}</p>
-                          <p className="mt-1 tabular-nums">
-                            {formatFee(plan.monthlyFee)}{" "}
-                            <span className="text-xs text-muted">{t("months", { n: plan.contractMonths })}</span>
-                          </p>
-                          <p className="mt-0.5 text-[11px] text-subtle">{t("aiCardRef")}</p>
-                        </Link>
-                      );
-                    })}
+                    {plansForAiCards(bubble.planIds).map((plan) => (
+                      <Link
+                        key={plan.id}
+                        to="/plans/$planId"
+                        params={{ planId: plan.id }}
+                        className="block bg-card px-3 py-2 text-sm shadow-[var(--shadow-border)] hover:shadow-[var(--shadow-border-hover)]"
+                      >
+                        <ProviderMark id={plan.providerId} size="sm" showEn={false} />
+                        <p className="mt-1 font-medium leading-snug">{tx(plan.name)}</p>
+                        <p className="mt-1 tabular-nums">
+                          {formatFee(plan.monthlyFee)}{" "}
+                          <span className="text-xs text-muted">{t("months", { n: plan.contractMonths })}</span>
+                        </p>
+                        <p className="mt-0.5 text-[11px] text-subtle">{t("aiCardRef")}</p>
+                      </Link>
+                    ))}
                     <p className="text-xs text-muted">{t("aiFeeNote")}</p>
                     <a
                       href={whatsappHref(
                         quoteMessage(
-                          bubble.planIds.map(getPlan).filter((p): p is NonNullable<typeof p> => Boolean(p)),
+                          plansForAiCards(bubble.planIds),
                           inquiry,
                           locale,
                         ),

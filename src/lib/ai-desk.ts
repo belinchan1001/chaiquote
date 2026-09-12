@@ -4,6 +4,7 @@ import {
   PROVIDER_MAP,
   averageFee,
   filterPlans,
+  getPlan,
   type Category,
   type Housing,
   type Plan,
@@ -191,6 +192,13 @@ export function retrievePlansForAsk(input: {
     category,
     plans: ranked.slice(0, AI_MAX_PLANS).map(toCatalogPlan),
   };
+}
+
+export function plansForAiCards(ids: string[]) {
+  return ids
+    .map((id) => getPlan(id))
+    .filter((plan): plan is Plan => Boolean(plan))
+    .sort((a, b) => averageFee(a) - averageFee(b));
 }
 
 export type AiModelJson = {
