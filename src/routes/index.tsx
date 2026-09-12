@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { PlanCard } from "@/components/plan-card";
-import { AiFilterEntry } from "@/components/ai-filter-entry";
 import { SearchPanel } from "@/components/search-panel";
 import { Button } from "@/components/ui/button";
 import { ESTATES } from "@/lib/estates";
@@ -110,10 +109,7 @@ function Home() {
               </p>
             </div>
           </div>
-          <div>
-            <SearchPanel />
-            <AiFilterEntry tone="hero" className="mt-3" />
-          </div>
+          <SearchPanel />
         </div>
       </section>
 

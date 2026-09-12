@@ -1,5 +1,6 @@
 import { startTransition, useId, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { AiFilterEntry } from "@/components/ai-filter-entry";
 import { Button } from "@/components/ui/button";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
@@ -167,6 +168,7 @@ export function SearchPanel() {
             全部屋苑
           </Link>
         </p>
+        <AiFilterEntry className="pt-1" />
       </div>
       <fieldset className="order-3 mt-4 sm:mt-5">
         <legend className="text-xs font-medium tracking-wider text-muted">{t("wantWhat")}</legend>

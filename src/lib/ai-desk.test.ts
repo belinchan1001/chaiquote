@@ -256,6 +256,7 @@ describe("AI desk safety", () => {
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
     const entry = readFileSync(join(here, "../components/ai-filter-entry.tsx"), "utf8");
     const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+    const search = readFileSync(join(here, "../components/search-panel.tsx"), "utf8");
     const plans = readFileSync(join(here, "../routes/plans.tsx"), "utf8");
     const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
     const root = readFileSync(join(here, "../routes/__root.tsx"), "utf8");
@@ -274,7 +275,7 @@ describe("AI desk safety", () => {
     assert.doesNotMatch(entry, /fixed |fab|floating/i);
 
     assert.match(home, /<SearchPanel \/>/);
-    assert.match(home, /<AiFilterEntry tone="hero"/);
+    assert.match(search, /<AiFilterEntry className="pt-1" \/>/);
     assert.match(plans, /<AiFilterEntry className="mt-6" \/>/);
     assert.match(plans, /mt-3 space-y-4 rounded-xl bg-card/);
     assert.match(header, /<span className="sm:hidden">\{t\("aiStaffTiny"\)\}<\/span>/);
