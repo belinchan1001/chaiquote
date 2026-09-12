@@ -4,6 +4,7 @@ import {
   PROVIDER_MAP,
   averageFee,
   filterPlans,
+  getPlan,
   type Category,
   type Housing,
   type Plan,
@@ -98,7 +99,7 @@ export function sanitizeAiReply(text: string, locale: "zh" | "en") {
   if (stripped) return stripped;
   return locale === "en"
     ? "Here are matching reference plans from this site. Fees are on the cards. The carrier confirms the final terms."
-    : "我幫你揀咗站內參考計劃，價錢喺下面卡片。實際以電訊商確認為準。";
+    : "列出對到嘅站內參考計劃，價錢喺下面卡片。實際以電訊商確認為準。";
 }
 
 export function stripFeeFromPerk(perk: string) {
@@ -184,18 +185,20 @@ export function retrievePlansForAsk(input: {
   if (!rows.length && provider) {
     rows = filterPlans({ cat: category, estate: base.estate, housing });
   }
-  const ranked = [...rows].sort((a, b) => {
-    if (!!a.quotePick !== !!b.quotePick) return a.quotePick ? -1 : 1;
-    if (!!a.flashOffer !== !!b.flashOffer) return a.flashOffer ? -1 : 1;
-    if (!!a.newIntakeOffer !== !!b.newIntakeOffer) return a.newIntakeOffer ? -1 : 1;
-    return averageFee(a) - averageFee(b);
-  });
+  const ranked = [...rows].sort((a, b) => averageFee(a) - averageFee(b));
   return {
     estate: estateRow?.name,
     housing,
     category,
     plans: ranked.slice(0, AI_MAX_PLANS).map(toCatalogPlan),
   };
+}
+
+export function plansForAiCards(ids: string[]) {
+  return ids
+    .map((id) => getPlan(id))
+    .filter((plan): plan is Plan => Boolean(plan))
+    .sort((a, b) => averageFee(a) - averageFee(b));
 }
 
 export type AiModelJson = {
@@ -364,6 +367,6 @@ export function fallbackReply(hasPlans: boolean, locale: "zh" | "en") {
       : "I am not sure which plan fits. WhatsApp us to check, or tell me the estate and whether you need fibre or mobile.";
   }
   return hasPlans
-    ? "我幫你揀咗站內參考計劃，價錢喺下面卡片。實際以電訊商確認為準。"
-    : "我未肯定邊張啱。可以直接 WhatsApp 查核報價，或者再講下屋苑／想要光纖定手機。";
+    ? "列出對到嘅站內參考計劃，價錢喺下面卡片。實際以電訊商確認為準。"
+    : "未肯定對到邊張。可以直接 WhatsApp 查核報價，或者再講下屋苑／想要光纖定手機。";
 }
