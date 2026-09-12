@@ -1449,6 +1449,52 @@ describe("CSL 5G 20GB $108", () => {
   });
 });
 
+describe("CSL 5G $138 $168 $198", () => {
+  it("lists 24- and 36-month twins with local data, 3GB roaming and 36-month port-in extras", () => {
+    const a24 = plan("csl-5g-30-138-24m");
+    const a36 = plan("csl-5g-30-138-36m");
+    const b24 = plan("csl-5g-60-168-24m");
+    const b36 = plan("csl-5g-60-168-36m");
+    const c24 = plan("csl-5g-100-198-24m");
+    const c36 = plan("csl-5g-100-198-36m");
+    assert.equal(a24.monthlyFee, 138);
+    assert.equal(a24.contractMonths, 24);
+    assert.equal(a24.dataGb, 30);
+    assert.equal(a36.monthlyFee, 138);
+    assert.equal(a36.contractMonths, 36);
+    assert.equal(a36.dataGb, 30);
+    assert.equal(b24.monthlyFee, 168);
+    assert.equal(b24.dataGb, 60);
+    assert.equal(b36.monthlyFee, 168);
+    assert.equal(b36.contractMonths, 36);
+    assert.equal(c24.monthlyFee, 198);
+    assert.equal(c24.dataGb, 100);
+    assert.equal(c36.monthlyFee, 198);
+    assert.equal(c36.contractMonths, 36);
+    for (const row of [a24, a36, b24, b36, c24, c36]) {
+      assert.equal(row.providerId, "csl");
+      assert.equal(row.category, "mobile");
+      assert.equal(row.network, "5G");
+      assert.equal(row.voice, "本地無限分鐘");
+      assert.equal(row.roaming, "每月 3GB 中國內地及澳門數據");
+      assert.equal(row.fupNote, "其後以 1Mbps 任用");
+      assert.ok(row.perks.includes("每月行政費 HK$18"));
+      assert.ok(row.perks.includes("2,000 The Club 積分"));
+      assert.match(row.portInPerk ?? "", /轉台可豁免每月行政費 HK\$18/);
+    }
+    assert.equal(a24.portInPerk?.includes("HK$200"), false);
+    assert.equal(b24.portInPerk?.includes("禮券"), false);
+    assert.match(a36.portInPerk ?? "", /HK\$200 月費回贈/);
+    assert.match(a36.portInPerk ?? "", /HK\$800 CSL 手機及智能家電禮券/);
+    assert.match(a36.portInPerk ?? "", /須預繳 HK\$500/);
+    assert.match(b36.portInPerk ?? "", /HK\$1,000 CSL 手機及智能家電禮券/);
+    assert.match(c36.portInPerk ?? "", /HK\$1,000 CSL 手機及智能家電禮券/);
+    assert.equal(plan("csl-5g-20").monthlyFee, 108);
+    assert.equal(toEnglish(a24.name), "5G 30GB (24 months)");
+    assert.equal(toEnglish(a36.portInPerk ?? ""), "Port-in can waive HK$18 admin/month; extra HK$200 fee rebate if port-in within 6 months; HK$800 CSL handset and smart-home voucher if port-in within 12 months (HK$500 prepaid)");
+  });
+});
+
 describe("Netvigator $98 staff offer", () => {
   it("hides the two $98 cards from public lists and keeps them on the staff link", () => {
     const ids = ["netvigator-ftth-1000-private-36m", "netvigator-ftth-1000-public-36m-98"] as const;

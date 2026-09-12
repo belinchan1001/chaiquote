@@ -68,6 +68,18 @@ const EXACT: Record<string, string> = {
 };
 
 const PHRASES: [string, string][] = [
+  ["2,000 The Club 積分", "2,000 The Club points"],
+  ["轉台可豁免每月行政費 HK$18；6 個月內轉台另享 HK$200 月費回贈；12 個月內轉台另享 HK$800 CSL 手機及智能家電禮券（須預繳 HK$500）", "Port-in can waive HK$18 admin/month; extra HK$200 fee rebate if port-in within 6 months; HK$800 CSL handset and smart-home voucher if port-in within 12 months (HK$500 prepaid)"],
+  ["轉台可豁免每月行政費 HK$18；6 個月內轉台另享 HK$200 月費回贈；12 個月內轉台另享 HK$1,000 CSL 手機及智能家電禮券（須預繳 HK$500）", "Port-in can waive HK$18 admin/month; extra HK$200 fee rebate if port-in within 6 months; HK$1,000 CSL handset and smart-home voucher if port-in within 12 months (HK$500 prepaid)"],
+  ["5G 30GB（24 個月）", "5G 30GB (24 months)"],
+  ["5G 30GB（36 個月）", "5G 30GB (36 months)"],
+  ["5G 60GB（24 個月）", "5G 60GB (24 months)"],
+  ["5G 60GB（36 個月）", "5G 60GB (36 months)"],
+  ["5G 100GB（24 個月）", "5G 100GB (24 months)"],
+  ["5G 100GB（36 個月）", "5G 100GB (36 months)"],
+  ["適合需要 5G 30GB 及無限通話之用戶", "For 5G 30GB and unlimited calls"],
+  ["適合需要 5G 60GB 及無限通話之用戶", "For 5G 60GB and unlimited calls"],
+  ["適合需要 5G 100GB 及無限通話之用戶", "For 5G 100GB and unlimited calls"],
   ["以信用卡自動轉賬可豁免按金 HK$1,500", "HK$1,500 deposit waived with credit-card autopay"],
   ["可加購每月 HK$68 換購指定家電（須符合資格）", "Optional HK$68/month to redeem selected appliances (eligibility applies)"],
   ["可加 HK$10 選配 Linksys EA9350 Wi-Fi 6 路由器", "Add HK$10 for a Linksys EA9350 Wi-Fi 6 router"],
