@@ -527,6 +527,28 @@ describe("locked SEO guides", () => {
     }
   });
 
+  it("pins the 喪簡 AI-filter note under 三步用屋苑篩 and forbids claim words", () => {
+    const guide = getGuide("estate-filter");
+    assert.ok(guide);
+    const locked =
+      "唔知屋苑名或者想講條件，可用頁面「AI 篩選（測試版）」講樓類或預算；對到會列出參考計劃（僅供參考）。價錢睇卡片，實際以電訊商確認為準。";
+    const steps = guide.body.find((section) => section.heading === "三步用屋苑篩");
+    assert.ok(steps);
+    assert.equal(steps.paragraphs[1], locked);
+    assert.match(steps.paragraphs[1] ?? "", /僅供參考/);
+    assert.match(steps.paragraphs[1] ?? "", /實際以電訊商確認為準/);
+    const stepsEn = guide.bodyEn.find((section) => section.heading === "Three steps");
+    assert.ok(stepsEn?.paragraphs[1]);
+    assert.match(stepsEn.paragraphs[1], /AI filter \(Beta\)/);
+    assert.match(stepsEn.paragraphs[1], /reference plans/);
+    assert.match(stepsEn.paragraphs[1], /for reference only/i);
+    assert.match(stepsEn.paragraphs[1], /carrier confirms/i);
+    const text = guideText("estate-filter");
+    for (const phrase of ["最平", "最抵", "推薦保證", "必讀", ...FORBIDDEN, ...RANKING_FORBIDDEN]) {
+      assert.equal(text.includes(phrase), false, `forbidden phrase: ${phrase}`);
+    }
+  });
+
   it("strengthens switch-broadband with 五件事, 先裝後停, and a matching EN body", () => {
     const guide = getGuide("switch-broadband");
     assert.ok(guide);
