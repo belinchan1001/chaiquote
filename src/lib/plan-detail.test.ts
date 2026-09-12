@@ -69,8 +69,10 @@ describe("plan detail share landing", () => {
     assert.match(hero, /t\("rowPerks"\)/);
     assert.match(hero, /<QuoteLink plan=\{plan\}/);
     assert.match(hero, /\{t\("referencePrice"\)\}/);
-    assert.match(hero, /<article className="relative mt-6 max-w-3xl rounded-xl bg-card/);
-    assert.doesNotMatch(hero, /plan-card-shine|className="foil"|registerFoilCard/);
+    assert.match(hero, /relative mt-6 max-w-3xl rounded-xl bg-card/);
+    assert.match(hero, /<article[\s\S]*plan\.quotePick && "plan-card-shine"/);
+    assert.match(hero, /plan\.quotePick \? <span className="foil" aria-hidden="true" \/> : null/);
+    assert.match(hero, /registerFoilCard/);
 
     for (const word of CLAIM_WORDS) {
       assert.equal(page.includes(word), false, `detail page still claims ${word}`);
@@ -96,6 +98,29 @@ describe("plan detail share landing", () => {
     assert.match(page, /className="plan-detail-enter mx-auto max-w-6xl px-4 py-8"/);
     assert.doesNotMatch(pending, /plan-detail-enter/);
     assert.doesNotMatch(page, /count-?up|requestAnimationFrame\(\(\) => setFee/);
+  });
+
+  it("mirrors list PlanCard shine/foil on quotePick detail only", () => {
+    const page = src("../routes/plans_.$planId.tsx");
+    const card = src("../components/plan-card.tsx");
+    const home = src("../routes/index.tsx");
+
+    assert.match(page, /import \{ registerFoilCard \} from "@\/lib\/foil-scroll"/);
+    assert.match(page, /if \(!plan\.quotePick\) return;/);
+    assert.match(page, /return registerFoilCard\(el\)/);
+    assert.match(page, /plan\.quotePick && "plan-card-shine"/);
+    assert.match(page, /plan\.quotePick \? <span className="foil" aria-hidden="true" \/> : null/);
+    assert.equal([...page.matchAll(/className="foil"/g)].length, 1);
+    assert.doesNotMatch(page, /function PlanDetailPending[\s\S]{0,800}plan-card-shine/);
+    assert.doesNotMatch(page, /is-foil-sweep|playFoilSweep|is-featured/);
+
+    assert.match(card, /<article[\s\S]*plan\.quotePick && "plan-card-shine"/);
+    assert.match(card, /plan\.quotePick \? <span className="foil" aria-hidden="true" \/> : null/);
+    assert.match(card, /registerFoilCard/);
+
+    assert.doesNotMatch(home, /plan-card-shine|className="foil"|registerFoilCard/);
+    assert.match(home, /t\("bestPicksTitle"\)/);
+    assert.match(home, /t\("bestPicksCta"\)/);
   });
 
   it("does not change plan SEO head or JSON-LD", () => {

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Bookmark, GitCompareArrows } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { ProviderMark } from "@/components/provider-mark";
 import { PlanCard } from "@/components/plan-card";
 import { PlanShareButton } from "@/components/plan-share-button";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
+import { registerFoilCard } from "@/lib/foil-scroll";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import {
   averageFee,
@@ -101,6 +103,14 @@ function PlanDetailPage() {
   const perks = planPerks(plan);
   const { t, tx, categoryLabel, housingList } = useI18n();
   usePageTitle(planSeoTitle(plan));
+  const shineRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!plan.quotePick) return;
+    const el = shineRef.current;
+    if (!el) return;
+    return registerFoilCard(el);
+  }, [plan.quotePick, plan.id]);
 
   const dash = t("dash");
   const rows: [string, string | undefined][] = [
@@ -140,7 +150,14 @@ function PlanDetailPage() {
         {t("backTo", { cat: categoryLabel(plan.category) })}
       </Link>
 
-      <article className="relative mt-6 max-w-3xl rounded-xl bg-card p-5 pb-12 shadow-[var(--shadow-border)]">
+      <article
+        ref={shineRef}
+        className={cn(
+          "relative mt-6 max-w-3xl rounded-xl bg-card p-5 pb-12 shadow-[var(--shadow-border)]",
+          plan.quotePick && "plan-card-shine",
+        )}
+      >
+        {plan.quotePick ? <span className="foil" aria-hidden="true" /> : null}
         <ProviderMark id={plan.providerId} />
 
         <PlanBadges plan={plan} />

@@ -63,11 +63,15 @@ describe("scroll-driven 齊Quote foil", () => {
   it("uses one shared rAF scroll driver and CSS variables, not hover or a one-shot sweep", () => {
     const driver = readFileSync(join(here, "foil-scroll.ts"), "utf8");
     const card = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
+    const detail = readFileSync(join(here, "../routes/plans_.$planId.tsx"), "utf8");
     const css = readFileSync(join(here, "../styles.css"), "utf8");
 
     assert.match(card, /registerFoilCard/);
     assert.match(card, /plan\.quotePick && "plan-card-shine"/);
     assert.match(card, /plan\.quotePick \? <span className="foil"/);
+    assert.match(detail, /registerFoilCard/);
+    assert.match(detail, /plan\.quotePick && "plan-card-shine"/);
+    assert.match(detail, /plan\.quotePick \? <span className="foil"/);
     assert.doesNotMatch(card, /addEventListener\(\s*["']scroll["']/);
     assert.doesNotMatch(card, /onPointerDown/);
     assert.doesNotMatch(card, /is-foil-sweep|playFoilSweep/);
