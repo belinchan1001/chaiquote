@@ -147,7 +147,6 @@ const PREPAID_HKBN_200_REBATE = "須預繳 HK$200，第 1 至第 4 個月每月�
 const PERK_HKBN_365 = "可選擇延遲服務生效日（最長 365 日）";
 const PERK_HKBN_SAFE = "SAFE 網絡安全防護及防毒軟件 6 個月";
 const PERK_HKBN_MONEYBACK = "Money-Back 雙重保證（速度保證、低時延保證）";
-const PERK_HKBN_REFER = "推薦人計劃適用";
 const PERK_HKBN_PHONE_24 = "家居電話服務（24 個月）";
 const LIMITS_HKBN_INTAKE =
   "僅適用於指定新入伙屋苑。本計劃為自動續約。可選擇延遲服務生效日（最長 365 日）。豁免安裝費。實際覆蓋同安裝期以電訊商確認為準。";
@@ -389,7 +388,6 @@ export const PLANS: Plan[] = [
     perks: [
       "借用 TP-Link Aginet EB610v 路由器（24 個月，合約後須歸還）",
       PERK_HKBN_PHONE_24,
-      PERK_HKBN_REFER,
       PERK_HKBN_365,
       PERK_HKBN_MONEYBACK,
     ],
@@ -412,7 +410,6 @@ export const PLANS: Plan[] = [
     perks: [
       "送 TP-Link Deco BE25 兩件裝 Wi-Fi 7 路由器（24 個月，合約後無須歸還）",
       PERK_HKBN_PHONE_24,
-      PERK_HKBN_REFER,
       PERK_HKBN_365,
       PERK_HKBN_MONEYBACK,
     ],

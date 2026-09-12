@@ -812,14 +812,12 @@ describe("HKBN 2.5Gbps / 5Gbps 24-month GigaFast cards", () => {
     assert.equal(loan.install, "豁免安裝費（原價 HK$680）");
     assert.equal(loan.prepaid, "須預繳 HK$200，第 1 至第 4 個月每月從預繳費用中扣減月費 HK$50");
     assert.ok(loan.perks.includes("借用 TP-Link Aginet EB610v 路由器（24 個月，合約後須歸還）"));
-    assert.ok(loan.perks.includes("推薦人計劃適用"));
     assert.equal(loan.quotePick, undefined);
 
     const mesh = plan("hkbn-ftth-2500-24m-189-be25");
     assert.equal(mesh.monthlyFee, 189);
     assert.equal(mesh.speedMbps, 2500);
     assert.ok(mesh.perks.includes("送 TP-Link Deco BE25 兩件裝 Wi-Fi 7 路由器（24 個月，合約後無須歸還）"));
-    assert.ok(mesh.perks.includes("推薦人計劃適用"));
 
     const phone = plan("hkbn-ftth-5000-24m-349-phone");
     assert.equal(phone.monthlyFee, 349);

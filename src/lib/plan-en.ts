@@ -76,7 +76,6 @@ const PHRASES: [string, string][] = [
   ["借用 TP-Link Aginet EB610v 路由器（24 個月，合約後須歸還）", "Loan TP-Link Aginet EB610v router (24 months, return after contract)"],
   ["送 TP-Link Archer GE550 Wi-Fi 7 路由器（24 個月，合約後無須歸還）", "Includes TP-Link Archer GE550 Wi-Fi 7 router (24 months, keep after contract)"],
   ["家居電話服務（24 個月）", "Home landline (24 months)"],
-  ["推薦人計劃適用", "Referrer plan"],
   ["2500M 連家居電話及 Aginet EB610v（24 個月）", "2500M with home phone and Aginet EB610v (24 months)"],
   ["2500M 連家居電話及 Deco BE25 兩件裝（24 個月）", "2500M with home phone and Deco BE25 two-pack (24 months)"],
   ["5000M 連家居電話及 Archer GE550（24 個月）", "5000M with home phone and Archer GE550 (24 months)"],
