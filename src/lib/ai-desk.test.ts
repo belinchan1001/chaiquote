@@ -139,7 +139,8 @@ describe("AI desk safety", () => {
 
     assert.equal(quoted(messages, "aiStaffLead")[0], "講屋苑或想要咩，幫你收窄站內計劃");
     assert.match(quoted(messages, "aiStaffLead")[1] ?? "", /narrow the on-site plans/);
-    assert.equal(quoted(messages, "aiWelcome")[0], "講屋苑或想要咩，對到就列俾你。價錢喺卡片。");
+    assert.equal(quoted(messages, "aiWelcome")[0], "講屋苑或想要咩，對到就列俾你。價錢喺卡片，以電訊商確認為準。");
+    assert.match(quoted(messages, "aiWelcome")[1] ?? "", /carrier confirms the final terms/);
     assert.equal(quoted(messages, "aiCardRef")[0], "僅供參考");
     for (const key of ["aiWelcome", "aiHint"] as const) {
       for (const text of quoted(messages, key)) {
