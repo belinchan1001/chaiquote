@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { PlanCard } from "@/components/plan-card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { QuoteLink } from "@/components/quote-link";
 import { useHydrateDesk } from "@/lib/desk";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { claimOfferView, issueOfferLink, peekOfferView, type OfferView } from "@/lib/offer-token";
 import { staffOfferPlans } from "@/lib/plans";
 import { CATEGORY_SEO } from "@/lib/canonical";
+import { SITE } from "@/lib/site";
 
 type OfferSearch = { k?: string };
 
@@ -43,19 +43,35 @@ function StaffOfferPage() {
   const [view, setView] = useState<OfferView>(initial);
   const [issued, setIssued] = useState("");
   const [copied, setCopied] = useState(false);
+  const [mintError, setMintError] = useState(false);
   const [busy, setBusy] = useState(false);
+  const linkRef = useRef<HTMLParagraphElement>(null);
   useHydrateDesk();
   const { t, categoryLabel } = useI18n();
   usePageTitle(CATEGORY_SEO.broadband.title);
 
   async function mint() {
     setBusy(true);
+    setMintError(false);
     try {
       const result = await issueOfferLink({ data: { offerId } });
-      if (result.ok) {
-        setIssued(`${window.location.origin}${result.path}`);
+      if (result.ok && result.path) {
+        const url = `${SITE.url}${result.path}`;
+        setIssued(url);
         setCopied(false);
+        try {
+          await navigator.clipboard.writeText(url);
+          setCopied(true);
+        } catch {
+          setCopied(false);
+        }
+      } else {
+        setIssued("");
+        setMintError(true);
       }
+    } catch {
+      setIssued("");
+      setMintError(true);
     } finally {
       setBusy(false);
     }
@@ -67,7 +83,13 @@ function StaffOfferPage() {
       await navigator.clipboard.writeText(issued);
       setCopied(true);
     } catch {
-      setCopied(false);
+      const node = linkRef.current;
+      if (!node) return;
+      const range = document.createRange();
+      range.selectNodeContents(node);
+      const selection = window.getSelection();
+      selection?.removeAllRanges();
+      selection?.addRange(range);
     }
   }
 
@@ -108,17 +130,29 @@ function StaffOfferPage() {
         <>
           <h1 className="text-title font-semibold">{t("offerMintTitle")}</h1>
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted">{t("offerMintLead")}</p>
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Button type="button" onClick={() => void mint()} disabled={busy}>
-              {t("offerMintMake")}
-            </Button>
-          </div>
+          <Button type="button" className="mt-6" onClick={() => void mint()} disabled={busy}>
+            {issued ? t("offerMintAgain") : t("offerMintMake")}
+          </Button>
+          {mintError ? <p className="mt-4 text-sm text-accent">{t("offerMintFail")}</p> : null}
           {issued ? (
-            <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-              <Input readOnly value={issued} className="font-mono text-sm" />
-              <Button type="button" variant="outline" onClick={() => void copyLink()}>
-                {copied ? t("shareCopied") : t("offerMintCopy")}
-              </Button>
+            <div className="mt-6 rounded-xl bg-card p-5 shadow-[var(--shadow-border)]">
+              <p className="text-sm font-medium text-fg">{t("offerMintReady")}</p>
+              <p
+                ref={linkRef}
+                className="mt-3 break-all font-mono text-sm leading-relaxed text-fg select-all"
+              >
+                {issued}
+              </p>
+              <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+                <Button type="button" onClick={() => void copyLink()}>
+                  {copied ? t("shareCopied") : t("offerMintCopy")}
+                </Button>
+                <Button type="button" variant="outline" asChild>
+                  <a href={`https://wa.me/?text=${encodeURIComponent(issued)}`} target="_blank" rel="noopener noreferrer">
+                    {t("offerMintSend")}
+                  </a>
+                </Button>
+              </div>
             </div>
           ) : null}
         </>

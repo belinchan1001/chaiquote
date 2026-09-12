@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { createServerFn } from "@tanstack/react-start";
 import {
   isLinkPreviewBot,
@@ -21,7 +20,8 @@ function plansFor(offerId: string) {
   return staffOfferPlans(offerId);
 }
 
-function newToken() {
+async function newToken() {
+  const { randomBytes } = await import("node:crypto");
   return randomBytes(24).toString("base64url");
 }
 
@@ -116,7 +116,7 @@ export const claimOfferView = createServerFn({ method: "POST" })
     }
     if (existing.expired) return { status: "invalid", plans: [] };
 
-    const sessionId = newToken();
+    const sessionId = await newToken();
     const { getSql } = await import("@/lib/db");
     const sql = await getSql();
     const claimed = await sql<{ token: string }>`
@@ -143,15 +143,19 @@ export const issueOfferLink = createServerFn({ method: "POST" })
   .inputValidator((data: { offerId: string }) => data)
   .handler(async ({ data }) => {
     if (!plansFor(data.offerId).length) return { ok: false as const, path: "" };
-    const token = newToken();
-    const expiresAt = new Date(Date.now() + OFFER_TOKEN_TTL_MS).toISOString();
-    const { getSql } = await import("@/lib/db");
-    const sql = await getSql();
-    await sql`
-      insert into offer_tokens (token, offer_id, expires_at)
-      values (${token}, ${data.offerId}, ${expiresAt})
-    `;
-    return { ok: true as const, path: offerViewPath(data.offerId, token) };
+    try {
+      const token = await newToken();
+      const expiresAt = new Date(Date.now() + OFFER_TOKEN_TTL_MS).toISOString();
+      const { getSql } = await import("@/lib/db");
+      const sql = await getSql();
+      await sql`
+        insert into offer_tokens (token, offer_id, expires_at)
+        values (${token}, ${data.offerId}, ${expiresAt})
+      `;
+      return { ok: true as const, path: offerViewPath(data.offerId, token) };
+    } catch {
+      return { ok: false as const, path: "" };
+    }
   });
 
 export const hasOfferSession = createServerFn({ method: "GET" })
