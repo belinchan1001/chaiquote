@@ -188,9 +188,11 @@ describe("trust/compliance copy", () => {
 
     assert.equal(zh, "返回計劃表");
     assert.equal(en, "Back to plans");
-    assert.match(compare, /t\("backToPlans"\)/);
-    assert.match(compare, /to="\/plans"[\s\S]*search=\{\{ cat: "broadband" \}\}[\s\S]*t\("backToPlans"\)/);
+    assert.match(compare, /to="\/plans"/);
+    assert.match(compare, /search=\{plansSearch\}/);
+    assert.match(compare, /cat: "broadband"/);
+    assert.match(compare, /plan\.category/);
     assert.doesNotMatch(compare, /history\.back|navigate\(-1\)/);
-    assert.equal((compare.match(/t\("backToPlans"\)/g) ?? []).length, 2);
+    assert.equal((compare.match(/t\("backToPlans"\)/g) ?? []).length, 3);
   });
 });

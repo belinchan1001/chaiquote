@@ -13,9 +13,15 @@ import {
   shortProviderName,
   visibleCompareFields,
 } from "@/lib/compare";
-import { formatFee, getPlan, planPerks } from "@/lib/plans";
+import { formatFee, getPlan, planPerks, type Category } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
+
+function plansListSearch(plans: { category: Category }[]): { cat: Category } {
+  const cat = plans[0]?.category;
+  if (cat && plans.every((plan) => plan.category === cat)) return { cat };
+  return { cat: "broadband" };
+}
 
 export const Route = createFileRoute("/compare")({
   component: ComparePage,
@@ -28,16 +34,24 @@ function ComparePage() {
   const removeCompare = useDesk((s) => s.removeCompare);
   const clearCompare = useDesk((s) => s.clearCompare);
   const plans = ids.map(getPlan).filter((p): p is NonNullable<typeof p> => Boolean(p));
+  const plansSearch = plansListSearch(plans);
   const { t, tx, categoryLabel, locale } = useI18n();
   usePageTitle(`${t("navCompare")} · ${SITE.name}`);
 
   if (plans.length === 0) {
     return (
-      <div className="mx-auto max-w-xl px-4 py-20 text-center">
-        <h1 className="text-title font-semibold">{t("compareNoneTitle")}</h1>
+      <div className="mx-auto max-w-6xl px-4 py-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <h1 className="text-title font-semibold">{t("compareNoneTitle")}</h1>
+          <Button asChild variant="ghost">
+            <Link to="/plans" search={plansSearch}>
+              {t("backToPlans")}
+            </Link>
+          </Button>
+        </div>
         <p className="mt-3 text-muted">{t("compareNoneLead")}</p>
         <Button asChild className="mt-8">
-          <Link to="/plans" search={{ cat: "broadband" }}>
+          <Link to="/plans" search={plansSearch}>
             {t("backToPlans")}
           </Link>
         </Button>
@@ -83,7 +97,7 @@ function ComparePage() {
         <h1 className="text-title font-semibold">{t("compareN", { n: plans.length })}</h1>
         <div className="flex flex-wrap gap-2">
           <Button asChild variant="ghost">
-            <Link to="/plans" search={{ cat: "broadband" }}>
+            <Link to="/plans" search={plansSearch}>
               {t("backToPlans")}
             </Link>
           </Button>
