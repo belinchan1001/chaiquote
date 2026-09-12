@@ -39,10 +39,25 @@ test("injects the extensions script without a project id", () => {
     appName: "Demo",
     projectId: "",
   });
-  assert.match(out, /src="https:\/\/grok\.com\/grok-app-builder\/extensions\.js" defer/);
+  assert.match(out, /grok-app-builder\/extensions\.js/);
+  assert.match(out, /requestIdleCallback/);
+  assert.match(out, /addEventListener\("load"/);
+  assert.doesNotMatch(out, /<script src="https:\/\/grok\.com\/grok-app-builder\/extensions\.js"/);
   assert.doesNotMatch(out, /grok-project-id/);
   assert.doesNotMatch(out, /data-project-id/);
   assert.doesNotMatch(out, /property="grok:app_id"/);
+});
+
+test("idle-loads extensions.js after window load instead of a head script src", () => {
+  const out = isolatedHead("<html><head></head></html>", {
+    appName: "Demo",
+    projectId: "proj-123",
+  });
+  assert.match(out, /requestIdleCallback/);
+  assert.match(out, /addEventListener\("load"/);
+  assert.match(out, /fetchpriority","low"/);
+  assert.match(out, /s\.setAttribute\("data-project-id","proj-123"\)/);
+  assert.doesNotMatch(out, /<script[^>]+src="https:\/\/grok\.com\/grok-app-builder\/extensions\.js"/);
 });
 
 test("injects project id on the script and meta when provided", () => {
@@ -51,7 +66,7 @@ test("injects project id on the script and meta when provided", () => {
     projectId: "proj-123",
   });
   assert.match(out, /name="grok-project-id" content="proj-123"/);
-  assert.match(out, /data-project-id="proj-123"/);
+  assert.match(out, /setAttribute\("data-project-id","proj-123"\)/);
   assert.match(out, /property="grok:app_id" content="proj-123"/);
 });
 

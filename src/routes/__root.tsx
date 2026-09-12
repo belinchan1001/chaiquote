@@ -1,4 +1,4 @@
-import { createRootRoute, HeadContent, Link, Outlet, Scripts, useRouterState } from "@tanstack/react-router";
+import { createRootRoute, HeadContent, Link, Outlet, Scripts } from "@tanstack/react-router";
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { SiteHeader } from "@/components/site-header";
@@ -78,10 +78,9 @@ function SkipLink() {
 }
 
 function PageShell() {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
     <main id="main" className="flex-1">
-      <div key={pathname} className="page-shell">
+      <div className="page-shell">
         <Outlet />
       </div>
     </main>

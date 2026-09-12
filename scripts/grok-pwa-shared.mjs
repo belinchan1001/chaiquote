@@ -347,6 +347,17 @@ export function grokXCreatorHeadTags(creator = readXCreator(), creatorId = readX
   ];
 }
 
+/**
+ * Idle-load extensions.js after window `load` so the homepage first paint
+ * does not contend with the third-party Grok builder script.
+ */
+export function grokExtensionsIdleLoaderScript(projectId = "") {
+  const src = JSON.stringify(GROK_EXTENSIONS_SCRIPT_SRC);
+  const id = projectId ? JSON.stringify(escapeHtml(projectId)) : "";
+  const dataAttr = id ? `s.setAttribute("data-project-id",${id});` : "";
+  return `<script>(function(){var SRC=${src};function load(){if(document.querySelector('script[src="'+SRC+'"]'))return;var s=document.createElement("script");s.src=SRC;s.async=true;s.setAttribute("fetchpriority","low");${dataAttr}document.head.appendChild(s);}function schedule(){if("requestIdleCallback"in window)requestIdleCallback(load,{timeout:2500});else setTimeout(load,1);}if(document.readyState==="complete")schedule();else addEventListener("load",schedule,{once:true});})();</script>`;
+}
+
 /** Platform "Created with Grok" banner — injected into every HTML document. */
 export function grokExtensionsHeadTags(projectId = readGrokProjectId()) {
   const id = escapeHtml(projectId);
@@ -354,11 +365,7 @@ export function grokExtensionsHeadTags(projectId = readGrokProjectId()) {
   if (projectId) {
     tags.push(`<meta name="grok-project-id" content="${id}">`);
   }
-  tags.push(
-    `<script src="${GROK_EXTENSIONS_SCRIPT_SRC}"${
-      projectId ? ` data-project-id="${id}"` : ""
-    } defer></script>`,
-  );
+  tags.push(grokExtensionsIdleLoaderScript(projectId));
   return tags;
 }
 
