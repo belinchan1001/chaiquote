@@ -73,6 +73,9 @@ export const VILLAGE_RAW = `
 黃泥墩|Wong Nai Tun|元朗|village|大棠
 山貝|Shan Pui|元朗|village|十八鄉
 山貝湖|Shan Pui Ho|元朗|village|十八鄉
+山貝洪田村|Shan Pui Hung Tin Tsuen,洪田村,山貝洪田|元朗|village|十八鄉
+上攸田村|Sheung Yau Tin Tsuen,上攸田|元朗|village|十八鄉
+下攸田村|Ha Yau Tin Tsuen,下攸田|元朗|village|十八鄉
 南生圍|Nam Sang Wai|元朗|village|凹頭
 白沙村|Pak Sha Tsuen|元朗|village|十八鄉
 英龍圍|Ying Lung Wai|元朗|village|十八鄉
@@ -80,6 +83,7 @@ export const VILLAGE_RAW = `
 蕃田|Fan Tin|元朗|village|新田
 洲頭|Chau Tau|元朗|village|新田
 米埔村|Mai Po Tsuen|元朗|village|米埔
+米埔新村|Mai Po San Tsuen|元朗|village|米埔
 米埔隴|Mai Po Loong|元朗|village|米埔
 安龍村|On Lung Tsuen|元朗|village|新田
 新田石湖圍|San Tin Shek Wu Wai|元朗|village|新田
@@ -164,6 +168,8 @@ export const VILLAGE_RAW = `
 對面海|Tui Min Hoi|西貢|village|西貢
 沙角尾|Sha Kok Mei|西貢|village|西貢
 西貢南山|Sai Kung Nam Shan|西貢|village|西貢
+馬牯纜村|Ma Kwu Lam Tsuen,馬牯纜|西貢|village|西貢
+西貢大洞村|Tai Tung Sai Kung,大洞村,大洞,西貢大洞|西貢|village|西貢
 莫遮輋|Mok Tse Che|西貢|village|西貢
 大涌口|Tai Chung Hau|西貢|village|西貢
 西貢頭|Sai Kung Tau|西貢|village|西貢

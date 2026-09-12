@@ -269,6 +269,12 @@ describe("matchKnownEstate / classifyAddress", () => {
       ["攸潭尾", "攸潭尾"],
       ["青衣舊墟", "青衣舊墟"],
       ["楊屋村", "屏山楊屋村"],
+      ["上攸田村", "上攸田村"],
+      ["下攸田村", "下攸田村"],
+      ["山貝洪田村", "山貝洪田村"],
+      ["米埔新村", "米埔新村"],
+      ["馬牯纜村", "馬牯纜村"],
+      ["大洞", "西貢大洞村"],
     ] as const;
     for (const [query, name] of cases) {
       assert.equal(searchEstates(query, 8)[0]?.name, name, query);
