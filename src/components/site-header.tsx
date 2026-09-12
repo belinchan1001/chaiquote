@@ -70,14 +70,14 @@ export function SiteHeader() {
               size="sm"
               aria-expanded={aiOpen}
               aria-label={`${t("aiStaff")}（${t("aiBeta")}）`}
-              className="max-sm:h-11 max-sm:w-11 max-sm:px-0 sm:px-3"
+              className="max-sm:h-11 max-sm:px-2 sm:px-3"
               onClick={() => {
                 setOpen(false);
                 toggleAi();
               }}
             >
               <Sparkles />
-              <span className="sr-only sm:hidden">{t("aiStaffShort")}</span>
+              <span className="sm:hidden">{t("aiStaffTiny")}</span>
               <span className="hidden sm:inline lg:hidden">{t("aiStaffShort")}</span>
               <span className="hidden lg:inline">{t("aiStaff")}</span>
               <AiBetaMark className="hidden text-primary-foreground/80 sm:inline" />
