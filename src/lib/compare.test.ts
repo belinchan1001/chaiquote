@@ -803,6 +803,46 @@ describe("Netvigator exclusive-private 2500M $244", () => {
   });
 });
 
+describe("HKBN 2.5Gbps / 5Gbps 24-month GigaFast cards", () => {
+  it("lists the four screenshot plans and keeps loan vs gift routers distinct", () => {
+    const loan = plan("hkbn-ftth-2500-24m-169-eb610v");
+    assert.equal(loan.monthlyFee, 169);
+    assert.equal(loan.contractMonths, 24);
+    assert.equal(loan.speedMbps, 2500);
+    assert.equal(loan.install, "豁免安裝費（原價 HK$680）");
+    assert.equal(loan.prepaid, "須預繳 HK$200，第 1 至第 4 個月每月從預繳費用中扣減月費 HK$50");
+    assert.ok(loan.perks.includes("借用 TP-Link Aginet EB610v 路由器（24 個月，合約後須歸還）"));
+    assert.ok(loan.perks.includes("推薦人計劃適用"));
+    assert.equal(loan.quotePick, undefined);
+
+    const mesh = plan("hkbn-ftth-2500-24m-189-be25");
+    assert.equal(mesh.monthlyFee, 189);
+    assert.equal(mesh.speedMbps, 2500);
+    assert.ok(mesh.perks.includes("送 TP-Link Deco BE25 兩件裝 Wi-Fi 7 路由器（24 個月，合約後無須歸還）"));
+    assert.ok(mesh.perks.includes("推薦人計劃適用"));
+
+    const phone = plan("hkbn-ftth-5000-24m-349-phone");
+    assert.equal(phone.monthlyFee, 349);
+    assert.equal(phone.speedMbps, 5000);
+    assert.equal(phone.prepaid, "須預繳 HK$200，第 1 至第 4 個月每月回贈 HK$50");
+    assert.ok(phone.perks.includes("SAFE 網絡安全防護及防毒軟件 6 個月"));
+    assert.equal(phone.perks.some((item) => item.includes("路由器")), false);
+
+    const ge550 = plan("hkbn-ftth-5000-24m-399-ge550");
+    assert.equal(ge550.monthlyFee, 399);
+    assert.equal(ge550.speedMbps, 5000);
+    assert.ok(ge550.perks.includes("送 TP-Link Archer GE550 Wi-Fi 7 路由器（24 個月，合約後無須歸還）"));
+
+    assert.equal(plan("hkbn-ftth-2500-24m-149").monthlyFee, 149);
+    assert.equal(plan("hkbn-ftth-5000").monthlyFee, 249);
+    assert.equal(toEnglish(loan.perks[0]), "Loan TP-Link Aginet EB610v router (24 months, return after contract)");
+    assert.equal(
+      toEnglish(mesh.perks[0]),
+      "Includes TP-Link Deco BE25 two-pack Wi-Fi 7 router (24 months, keep after contract)",
+    );
+  });
+});
+
 describe("HKBN 2.5Gbps 12-month $218", () => {
   it("charges first-time HK$680 install without changing other plans", () => {
     const row = plan("hkbn-ftth-2500-12m-218");

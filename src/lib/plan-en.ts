@@ -53,6 +53,8 @@ const EXACT: Record<string, string> = {
     "Add-on HK$46/month for 24 months only (HK$1,104 total) to auto-upgrade to 2500M during the contract",
   "須預繳 HK$200，第 1 至第 4 個月每月從預繳費用中扣減月費 HK$50":
     "Prepaid HK$200; HK$50/month deducted in months 1–4",
+  "須預繳 HK$200，第 1 至第 4 個月每月回贈 HK$50":
+    "Prepaid HK$200; HK$50 rebate/month in months 1–4",
   "實際月費、數據用量及申請條款以電訊商確認為準。":
     "Monthly fees, data quota and terms are confirmed by the carrier.",
   "適用於 18 至 29 歲客戶。實際月費、數據用量及申請資格以電訊商確認為準。":
@@ -69,7 +71,16 @@ const PHRASES: [string, string][] = [
   ["以信用卡自動轉賬可豁免按金 HK$1,500", "HK$1,500 deposit waived with credit-card autopay"],
   ["可加購每月 HK$68 換購指定家電（須符合資格）", "Optional HK$68/month to redeem selected appliances (eligibility applies)"],
   ["可加 HK$10 選配 Linksys EA9350 Wi-Fi 6 路由器", "Add HK$10 for a Linksys EA9350 Wi-Fi 6 router"],
+  ["送 TP-Link Deco BE25 兩件裝 Wi-Fi 7 路由器（24 個月，合約後無須歸還）", "Includes TP-Link Deco BE25 two-pack Wi-Fi 7 router (24 months, keep after contract)"],
   ["送 TP-Link Deco BE25 兩件裝 Wi-Fi 7 路由器（36 個月）", "Includes TP-Link Deco BE25 two-pack Wi-Fi 7 router (36 months)"],
+  ["借用 TP-Link Aginet EB610v 路由器（24 個月，合約後須歸還）", "Loan TP-Link Aginet EB610v router (24 months, return after contract)"],
+  ["送 TP-Link Archer GE550 Wi-Fi 7 路由器（24 個月，合約後無須歸還）", "Includes TP-Link Archer GE550 Wi-Fi 7 router (24 months, keep after contract)"],
+  ["家居電話服務（24 個月）", "Home landline (24 months)"],
+  ["推薦人計劃適用", "Referrer plan"],
+  ["2500M 連家居電話及 Aginet EB610v（24 個月）", "2500M with home phone and Aginet EB610v (24 months)"],
+  ["2500M 連家居電話及 Deco BE25 兩件裝（24 個月）", "2500M with home phone and Deco BE25 two-pack (24 months)"],
+  ["5000M 連家居電話及 Archer GE550（24 個月）", "5000M with home phone and Archer GE550 (24 months)"],
+  ["5000M 連家居電話（24 個月）", "5000M with home phone (24 months)"],
   ["送 TP-Link Archer BE230 Wi-Fi 7 路由器（36 個月）", "Includes TP-Link Archer BE230 Wi-Fi 7 router (36 months)"],
   ["送 TP-Link Aginet EB810v Wi-Fi 7 路由器（24 個月）", "Includes TP-Link Aginet EB810v Wi-Fi 7 router (24 months)"],
   ["送 TP-Link Archer GE800 Wi-Fi 7 路由器（24 個月）", "Includes TP-Link Archer GE800 Wi-Fi 7 router (24 months)"],
@@ -748,6 +759,7 @@ const BEST_FOR: [string, string][] = [
   ["適合經常往返中港澳之用戶", "For frequent HK–Mainland–Macao travel"],
   ["適合經常往返內地，以及需要澳門數據之用戶", "For frequent Mainland travel plus Macao data"],
   ["適合經常連海外總部之企業", "For businesses that often connect to an overseas HQ"],
+  ["適合較大單位、需要全屋 Mesh 覆蓋及家居電話之住戶", "For larger flats that need whole-home Mesh and a home phone"],
   ["適合較大單位、需要全屋 Mesh 覆蓋之住戶", "For larger flats that need whole-home Mesh"],
   ["適合較高本地數據用量之用戶", "For higher local data use"],
   ["適合輕量上網、攜號轉台之用戶", "For light use and number port-in"],
@@ -800,6 +812,8 @@ const BEST_FOR: [string, string][] = [
   ["適合需要 24 個月合約及 350GB 高速數據之住戶", "For a 24-month contract and 350GB high-speed data"],
   ["適合需要 24 個月合約及 500GB 高速數據之住戶", "For a 24-month contract and 500GB high-speed data"],
   ["適合需要 2500M 光纖及 Wi-Fi 7 路由器之住戶", "For those who need 2500M fibre and a Wi-Fi 7 router"],
+  ["適合需要 2500M 光纖及家居電話、接受借用路由器之住戶", "For 2500M fibre and a home phone, with a loaned router"],
+  ["適合需要 5000M 光纖、家居電話及 Wi-Fi 7 路由器之住戶", "For 5000M fibre, a home phone and a Wi-Fi 7 router"],
   ["適合需要 2500M 光纖及家居電話之住戶", "For those who need 2500M fibre and a home phone"],
   ["適合需要 30 個月合約及 300GB 高速數據之住戶", "For a 30-month contract and 300GB high-speed data"],
   ["適合需要 30 個月合約及 350GB 高速數據之住戶", "For a 30-month contract and 350GB high-speed data"],

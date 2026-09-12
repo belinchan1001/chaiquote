@@ -143,8 +143,12 @@ const LIMITS_SMARTONE_HANDSET =
 const PERK_HKBN_PORT = "攜號轉台適用";
 const PREPAID_HGC_300 = "須預繳 HK$300";
 const PREPAID_HKBN_200 = "須預繳 HK$200，第 1 至第 4 個月每月從預繳費用中扣減月費 HK$50";
+const PREPAID_HKBN_200_REBATE = "須預繳 HK$200，第 1 至第 4 個月每月回贈 HK$50";
 const PERK_HKBN_365 = "可選擇延遲服務生效日（最長 365 日）";
 const PERK_HKBN_SAFE = "SAFE 網絡安全防護及防毒軟件 6 個月";
+const PERK_HKBN_MONEYBACK = "Money-Back 雙重保證（速度保證、低時延保證）";
+const PERK_HKBN_REFER = "推薦人計劃適用";
+const PERK_HKBN_PHONE_24 = "家居電話服務（24 個月）";
 const LIMITS_HKBN_INTAKE =
   "僅適用於指定新入伙屋苑。本計劃為自動續約。可選擇延遲服務生效日（最長 365 日）。豁免安裝費。實際覆蓋同安裝期以電訊商確認為準。";
 const PERK_HKBN_INTAKE_OTT_6 =
@@ -370,6 +374,52 @@ export const PLANS: Plan[] = [
     bestFor: "適合需要 2500M 光纖及家居電話之住戶",
   },
   {
+    id: "hkbn-ftth-2500-24m-169-eb610v",
+    providerId: "hkbn",
+    category: "broadband",
+    name: "2500M 連家居電話及 Aginet EB610v（24 個月）",
+    monthlyFee: 169,
+    freeMonths: 0,
+    contractMonths: 24,
+    speedMbps: 2500,
+    install: "豁免安裝費（原價 HK$680）",
+    housing: ["public", "hos", "private"],
+    network: "光纖入屋",
+    prepaid: PREPAID_HKBN_200,
+    perks: [
+      "借用 TP-Link Aginet EB610v 路由器（24 個月，合約後須歸還）",
+      PERK_HKBN_PHONE_24,
+      PERK_HKBN_REFER,
+      PERK_HKBN_365,
+      PERK_HKBN_MONEYBACK,
+    ],
+    limits: LIMITS_HKBN_FTTH,
+    bestFor: "適合需要 2500M 光纖及家居電話、接受借用路由器之住戶",
+  },
+  {
+    id: "hkbn-ftth-2500-24m-189-be25",
+    providerId: "hkbn",
+    category: "broadband",
+    name: "2500M 連家居電話及 Deco BE25 兩件裝（24 個月）",
+    monthlyFee: 189,
+    freeMonths: 0,
+    contractMonths: 24,
+    speedMbps: 2500,
+    install: "豁免安裝費（原價 HK$680）",
+    housing: ["public", "hos", "private"],
+    network: "光纖入屋",
+    prepaid: PREPAID_HKBN_200,
+    perks: [
+      "送 TP-Link Deco BE25 兩件裝 Wi-Fi 7 路由器（24 個月，合約後無須歸還）",
+      PERK_HKBN_PHONE_24,
+      PERK_HKBN_REFER,
+      PERK_HKBN_365,
+      PERK_HKBN_MONEYBACK,
+    ],
+    limits: LIMITS_HKBN_FTTH,
+    bestFor: "適合較大單位、需要全屋 Mesh 覆蓋及家居電話之住戶",
+  },
+  {
     id: "hkbn-ftth-2500-12m-218",
     providerId: "hkbn",
     category: "broadband",
@@ -401,9 +451,48 @@ export const PLANS: Plan[] = [
     install: "豁免安裝費（原價 HK$680）",
     housing: ["public", "hos", "private"],
     network: "光纖入屋",
-    perks: ["家居電話服務", PERK_HKBN_SAFE, PERK_HKBN_365, "Money-Back 雙重保證（速度保證、低時延保證）"],
+    perks: ["家居電話服務", PERK_HKBN_SAFE, PERK_HKBN_365, PERK_HKBN_MONEYBACK],
     limits: LIMITS_HKBN_5G,
     bestFor: "適合公屋、居屋或私人住宅，需要 5000M 光纖及家居電話之住戶",
+  },
+  {
+    id: "hkbn-ftth-5000-24m-349-phone",
+    providerId: "hkbn",
+    category: "broadband",
+    name: "5000M 連家居電話（24 個月）",
+    monthlyFee: 349,
+    freeMonths: 0,
+    contractMonths: 24,
+    speedMbps: 5000,
+    install: "豁免安裝費（原價 HK$680）",
+    housing: ["public", "hos", "private"],
+    network: "光纖入屋",
+    prepaid: PREPAID_HKBN_200_REBATE,
+    perks: [PERK_HKBN_PHONE_24, PERK_HKBN_SAFE, PERK_HKBN_365, PERK_HKBN_MONEYBACK],
+    limits: LIMITS_HKBN_5G,
+    bestFor: "適合需要 5000M 光纖及家居電話之住戶",
+  },
+  {
+    id: "hkbn-ftth-5000-24m-399-ge550",
+    providerId: "hkbn",
+    category: "broadband",
+    name: "5000M 連家居電話及 Archer GE550（24 個月）",
+    monthlyFee: 399,
+    freeMonths: 0,
+    contractMonths: 24,
+    speedMbps: 5000,
+    install: "豁免安裝費（原價 HK$680）",
+    housing: ["public", "hos", "private"],
+    network: "光纖入屋",
+    prepaid: PREPAID_HKBN_200_REBATE,
+    perks: [
+      "送 TP-Link Archer GE550 Wi-Fi 7 路由器（24 個月，合約後無須歸還）",
+      PERK_HKBN_PHONE_24,
+      PERK_HKBN_365,
+      PERK_HKBN_MONEYBACK,
+    ],
+    limits: LIMITS_HKBN_5G,
+    bestFor: "適合需要 5000M 光纖、家居電話及 Wi-Fi 7 路由器之住戶",
   },
   {
     id: "hkbn-ftth-10000-entertainment",
