@@ -179,38 +179,36 @@ export function SearchPanel() {
         </div>
       </fieldset>
 
+      <fieldset className="order-4 mt-4 sm:mt-5">
+        <legend className="text-xs font-medium tracking-wider text-muted">{t("housingType")}</legend>
+        <div className="mt-2 flex flex-wrap gap-2 pb-1">
+          <RadioChip name="housing" value="" checked={housing === ""} onChange={setHousing}>
+            {t("any")}
+          </RadioChip>
+          {housingOpts.map((option) => (
+            <RadioChip
+              key={option.id}
+              name="housing"
+              value={option.id}
+              checked={housing === option.id}
+              onChange={setHousing}
+            >
+              {t(option.label)}
+            </RadioChip>
+          ))}
+        </div>
+      </fieldset>
+
       <input id={moreId} type="checkbox" className="peer/more sr-only" tabIndex={-1} aria-hidden />
       <label
         htmlFor={moreId}
-        className="order-6 mt-1 flex h-11 cursor-pointer items-center text-sm font-medium text-muted sm:hidden peer-checked/more:[&_.more-plus]:rotate-45"
+        className="order-7 mt-1 flex h-11 cursor-pointer items-center text-sm font-medium text-muted sm:hidden peer-checked/more:[&_.more-plus]:rotate-45"
       >
         {t("moreFilters")}
         <span className="more-plus ml-2 text-subtle transition-transform duration-150">+</span>
       </label>
 
-      <div className="order-7 mt-4 hidden space-y-5 peer-checked/more:block sm:order-4 sm:mt-5 sm:block">
-        <fieldset className="soft-fold fold-mobile">
-          <div className="soft-fold-inner">
-            <legend className="text-xs font-medium tracking-wider text-muted">{t("housingType")}</legend>
-            <div className="mt-2 flex flex-wrap gap-2 pb-1">
-              <RadioChip name="housing" value="" checked={housing === ""} onChange={setHousing}>
-                {t("any")}
-              </RadioChip>
-              {housingOpts.map((option) => (
-                <RadioChip
-                  key={option.id}
-                  name="housing"
-                  value={option.id}
-                  checked={housing === option.id}
-                  onChange={setHousing}
-                >
-                  {t(option.label)}
-                </RadioChip>
-              ))}
-            </div>
-          </div>
-        </fieldset>
-
+      <div className="order-8 mt-4 hidden space-y-5 peer-checked/more:block sm:order-4 sm:mt-5 sm:block">
         <fieldset className="soft-fold fold-fibre">
           <div className="soft-fold-inner">
             <legend className="text-xs font-medium tracking-wider text-muted">{t("netSpeed")}</legend>
@@ -277,7 +275,7 @@ export function SearchPanel() {
         </details>
       </div>
 
-      <div className="order-5 mt-4 flex flex-wrap gap-2 sm:order-5 sm:mt-5">
+      <div className="order-6 mt-4 flex flex-wrap gap-2 sm:order-5 sm:mt-5">
         {shortcuts.map((item) => (
           <Link
             key={item.label}
@@ -289,7 +287,7 @@ export function SearchPanel() {
           </Link>
         ))}
       </div>
-      <Button type="submit" size="lg" className="action-apply order-4 mt-5 w-full sm:order-8 sm:mt-6 sm:w-auto">
+      <Button type="submit" size="lg" className="action-apply order-5 mt-5 w-full sm:order-8 sm:mt-6 sm:w-auto">
         {t("autoFilter")}
       </Button>
     </form>
