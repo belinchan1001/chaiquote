@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, Sparkles, X } from "lucide-react";
+import { AiBetaMark } from "@/components/ai-staff";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
 import { LangToggle } from "@/components/lang-toggle";
@@ -63,22 +64,26 @@ export function SiteHeader() {
               {compareCount ? ` ${compareCount}` : ""}
             </Link>
           </Button>
-          <Button
-            type="button"
-            size="sm"
-            aria-expanded={aiOpen}
-            aria-label={t("aiStaff")}
-            className="max-sm:h-11 max-sm:w-11 max-sm:px-0 sm:px-3"
-            onClick={() => {
-              setOpen(false);
-              toggleAi();
-            }}
-          >
-            <Sparkles />
-            <span className="sr-only sm:hidden">{t("aiStaffShort")}</span>
-            <span className="hidden sm:inline lg:hidden">{t("aiStaffShort")}</span>
-            <span className="hidden lg:inline">{t("aiStaff")}</span>
-          </Button>
+          <div className="relative shrink-0">
+            <Button
+              type="button"
+              size="sm"
+              aria-expanded={aiOpen}
+              aria-label={`${t("aiStaff")}（${t("aiBeta")}）`}
+              className="max-sm:h-11 max-sm:w-11 max-sm:px-0 sm:px-3"
+              onClick={() => {
+                setOpen(false);
+                toggleAi();
+              }}
+            >
+              <Sparkles />
+              <span className="sr-only sm:hidden">{t("aiStaffShort")}</span>
+              <span className="hidden sm:inline lg:hidden">{t("aiStaffShort")}</span>
+              <span className="hidden lg:inline">{t("aiStaff")}</span>
+              <AiBetaMark className="hidden text-primary-foreground/80 sm:inline" />
+            </Button>
+            <AiBetaMark className="pointer-events-none absolute inset-x-0 bottom-0.5 text-center text-[8px] leading-none text-primary-foreground/85 sm:hidden" />
+          </div>
           <Button
             type="button"
             variant="outline"
@@ -111,13 +116,14 @@ export function SiteHeader() {
             </Link>
             <button
               type="button"
-              className="flex h-12 items-center text-base font-medium"
+              className="flex h-12 items-center gap-1.5 text-base font-medium"
               onClick={() => {
                 setOpen(false);
                 toggleAi();
               }}
             >
               {t("aiStaff")}
+              <AiBetaMark className="text-muted" />
             </button>
             <a
               href={`https://wa.me/${SITE.whatsappE164}`}
