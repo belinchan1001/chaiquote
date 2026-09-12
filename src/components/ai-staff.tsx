@@ -16,6 +16,19 @@ type Bubble = { id: string; from: "biz" | "me"; text: string; planIds?: string[]
 
 const SESSION_KEY = "chaiquote-ai-session";
 
+export function aiWelcomeCopy(t: (key: "aiWelcome" | "aiWelcomeTrial") => string) {
+  return `${t("aiWelcome")}\n${t("aiWelcomeTrial")}`;
+}
+
+export function AiBetaMark({ className }: { className?: string }) {
+  const { t } = useI18n();
+  return (
+    <span className={cn("text-[10px] font-normal leading-none tracking-normal opacity-80", className)}>
+      {t("aiBeta")}
+    </span>
+  );
+}
+
 function sessionId() {
   try {
     const existing = sessionStorage.getItem(SESSION_KEY);
@@ -42,7 +55,7 @@ export function AiStaffPanel() {
 
   useEffect(() => {
     setBubbles([
-      { id: "a1", from: "biz", text: t("aiWelcome") },
+      { id: "a1", from: "biz", text: aiWelcomeCopy(t) },
       { id: "a2", from: "biz", text: t("aiHint") },
     ]);
   }, [locale, t]);
@@ -145,7 +158,10 @@ export function AiStaffPanel() {
               <Sparkles className="size-5" />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="truncate font-medium">{t("aiStaff")}</p>
+              <p className="flex min-w-0 items-baseline gap-1.5">
+                <span className="truncate font-medium">{t("aiStaff")}</span>
+                <AiBetaMark className="shrink-0 text-primary-foreground/75" />
+              </p>
               <p className="truncate text-xs text-primary-foreground/70">{t("aiStaffLead")}</p>
             </div>
             <button

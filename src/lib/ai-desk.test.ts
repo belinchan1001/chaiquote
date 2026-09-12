@@ -197,22 +197,31 @@ describe("AI desk safety", () => {
   it("locks filter copy, mini-cards, chips, and panel placement", () => {
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
     const staff = readFileSync(join(here, "../components/ai-staff.tsx"), "utf8");
+    const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
     const ask = readFileSync(join(here, "ai-ask.ts"), "utf8");
     const desk = readFileSync(join(here, "ai-desk.ts"), "utf8");
     const widget = readFileSync(join(here, "../components/whatsapp-widget.tsx"), "utf8");
 
     assert.equal(quoted(messages, "aiStaffLead")[0], "講屋苑或想要咩，幫你收窄站內計劃");
     assert.match(quoted(messages, "aiStaffLead")[1] ?? "", /narrow the on-site plans/);
+    assert.equal(quoted(messages, "aiBeta")[0], "測試版");
+    assert.equal(quoted(messages, "aiBeta")[1], "Beta");
     assert.equal(quoted(messages, "aiWelcome")[0], "講屋苑或想要咩，對到就列俾你。價錢喺卡片，以電訊商確認為準。");
     assert.match(quoted(messages, "aiWelcome")[1] ?? "", /carrier confirms the final terms/);
+    assert.equal(quoted(messages, "aiWelcomeTrial")[0], "功能試用中，結果僅供參考");
+    assert.match(quoted(messages, "aiWelcomeTrial")[1] ?? "", /on trial/);
     assert.equal(quoted(messages, "aiCardRef")[0], "僅供參考");
-    for (const key of ["aiWelcome", "aiHint"] as const) {
+    for (const key of ["aiWelcome", "aiWelcomeTrial", "aiHint"] as const) {
       for (const text of quoted(messages, key)) {
         assert.equal(text.includes("幫你揀咗"), false, `${key} still picks`);
         assert.equal(text.includes("幫我揀"), false, `${key} still picks`);
       }
     }
 
+    assert.match(staff, /aiWelcomeCopy\(t\)/);
+    assert.match(staff, /<AiBetaMark className="shrink-0 text-primary-foreground\/75" \/>/);
+    assert.match(header, /<AiBetaMark className="hidden text-primary-foreground\/80 sm:inline" \/>/);
+    assert.match(header, /AiBetaMark className="pointer-events-none absolute inset-x-0 bottom-0.5/);
     assert.match(staff, /plansForAiCards\(bubble\.planIds\)/);
     assert.match(staff, /<ProviderMark id=\{plan\.providerId\} size="sm"/);
     assert.match(staff, /formatFee\(plan\.monthlyFee\)/);
