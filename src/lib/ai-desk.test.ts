@@ -14,15 +14,21 @@ import {
   parseAiJson,
   pickAllowedPlanIds,
   plansForAiCards,
+  resolveEstate,
   retrievePlansForAsk,
   sanitizeAiReply,
   stripFeeTalk,
   tokensToUsd,
   usdToHkd,
 } from "./ai-desk.ts";
-import { averageFee, formatFee, getPlan } from "./plans.ts";
+import { isBareHousingTypeQuery, matchKnownEstate, searchEstates } from "./estates.ts";
+import { averageFee, formatFee, getPlan, type Plan } from "./plans.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
+
+function planAppliesToVillage(housing: Plan["housing"]) {
+  return housing === "all" || housing.includes("village");
+}
 
 function quoted(src: string, key: string): string[] {
   return [...src.matchAll(new RegExp(`${key}:\\s*"([^"]*)"`, "g"))].map((match) => match[1]);
@@ -72,7 +78,7 @@ describe("AI desk safety", () => {
     assert.equal(found.category, "broadband");
     assert.ok(found.plans.length >= 1);
     assert.ok(found.plans.every((plan) => plan.category === "broadband"));
-    assert.ok(found.plans.some((plan) => plan.id.includes("village") || plan.housing === "village" || plan.housing === "all"));
+    assert.ok(found.plans.every((plan) => planAppliesToVillage(plan.housing)));
     const blob = JSON.stringify(found.plans);
     assert.doesNotMatch(blob, /monthlyFee|averageFee|"rebate"/);
     assert.equal(containsFeeTalk("最終條款以電訊商確認為準"), false);
@@ -99,6 +105,64 @@ describe("AI desk safety", () => {
     });
     assert.equal(faq.planIds.length, 0);
     assert.doesNotMatch(faq.reply, /最平|保證|HK\$/);
+  });
+
+  it("does not treat bare 村屋／丁屋／village house as an estate name", () => {
+    for (const query of ["村屋", "丁屋", "village house", "village houses", "Village House"]) {
+      assert.equal(isBareHousingTypeQuery(query), true, query);
+      assert.equal(matchKnownEstate(query), undefined, query);
+      assert.deepEqual(searchEstates(query, 8), [], query);
+      assert.equal(resolveEstate(query), undefined, query);
+      assert.equal(resolveEstate(query, "天耀邨"), undefined, query);
+    }
+    assert.equal(isBareHousingTypeQuery("東頭村"), false);
+    assert.equal(resolveEstate("東頭村 村屋")?.name, "東頭村");
+    assert.equal(resolveEstate("村屋 1000M", "健康村"), undefined);
+  });
+
+  it("forces village housing for 村屋光纖／村屋 1000M and never lists i-Cable public+private cards", () => {
+    const banned = ["icable-ftth-1000-48m-58", "icable-ftth-200-36m"];
+    const queries = ["村屋光纖", "村屋 1000M", "丁屋 1000M", "village house 1000M"];
+    const extras = [
+      {},
+      { housing: "public" },
+      { housing: "private" },
+      { estate: "天耀邨" },
+      { estate: "健康村", housing: "public" },
+      { estate: "太古城", housing: "private" },
+    ];
+    for (const message of queries) {
+      for (const extra of extras) {
+        const found = retrievePlansForAsk({ message, ...extra });
+        assert.equal(found.housing, "village", `${message} ${JSON.stringify(extra)}`);
+        assert.equal(found.estate, undefined, `${message} should not keep leftover estate`);
+        assert.ok(found.plans.length >= 1, message);
+        assert.ok(
+          found.plans.every((plan) => planAppliesToVillage(plan.housing)),
+          `${message} leaked non-village housing`,
+        );
+        assert.ok(
+          found.plans.every((plan) => !banned.includes(plan.id) && plan.provider !== "有線寬頻"),
+          `${message} leaked i-Cable`,
+        );
+      }
+    }
+
+    const thousand = retrievePlansForAsk({
+      message: "村屋 1000M",
+      housing: "public",
+      estate: "太古城",
+    });
+    assert.equal(thousand.housing, "village");
+    assert.ok(thousand.plans.every((plan) => plan.speedMbps === 1000));
+    assert.ok(thousand.plans.some((plan) => plan.id === "netvigator-ftth-1000-village-24m"));
+    const fees = thousand.plans.map((row) => {
+      const plan = getPlan(row.id);
+      assert.ok(plan, row.id);
+      return averageFee(plan);
+    });
+    assert.deepEqual(fees, [...fees].sort((a, b) => a - b));
+    assert.ok(fees[0] >= 270, "village 1000M should be around HK$278, not i-Cable $58");
   });
 
   it("ranks retrieved plans by average fee ascending, not quotePick / flash / newIntake", () => {

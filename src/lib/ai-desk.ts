@@ -1,4 +1,10 @@
-import { matchKnownEstate, searchEstates, classifyAddress, type Estate } from "./estates.ts";
+import {
+  matchKnownEstate,
+  searchEstates,
+  classifyAddress,
+  isBareHousingTypeQuery,
+  type Estate,
+} from "./estates.ts";
 import {
   PLANS,
   PROVIDER_MAP,
@@ -29,7 +35,7 @@ const CATEGORY_HINTS: { cat: Category; re: RegExp }[] = [
   { cat: "mobile", re: /手機|流動|sim|上台|轉台|攜號|5g\s*plan|數據卡/i },
   { cat: "home5g", re: /5g\s*家居|家居寬頻|唔使拉線|插電|家居5g/i },
   { cat: "business", re: /商業|舖頭|鋪頭|寫字樓|商店|公司寬頻/i },
-  { cat: "broadband", re: /光纖|寬頻|wifi|路由器|1000m|2500m|5000m|10000m|村屋/i },
+  { cat: "broadband", re: /光纖|寬頻|wifi|路由器|1000m|2500m|5000m|10000m|村屋|丁屋|village\s*houses?/i },
 ];
 
 const SPEED_HINTS: { speed: number; re: RegExp }[] = [
@@ -151,12 +157,26 @@ export function detectProvider(message: string): ProviderId | undefined {
   return undefined;
 }
 
+const VILLAGE_HOUSING_INTENT = /村屋|丁屋|village\s*houses?/i;
+
+export function isVillageHousingIntent(message: string) {
+  return VILLAGE_HOUSING_INTENT.test(message);
+}
+
+/** Strip housing-type words so「村屋 1000M」is not searched as an estate name. */
+export function estateQueryFromMessage(message: string) {
+  return message.replace(VILLAGE_HOUSING_INTENT, " ").replace(/\s+/g, " ").trim();
+}
+
 export function resolveEstate(message: string, inquiryEstate?: string): Estate | undefined {
+  const villageIntent = isVillageHousingIntent(message);
   const fromInquiry = inquiryEstate?.trim() ? matchKnownEstate(inquiryEstate) : undefined;
-  if (fromInquiry) return fromInquiry;
-  const known = matchKnownEstate(message);
+  if (fromInquiry && !villageIntent) return fromInquiry;
+  const estateMessage = villageIntent ? estateQueryFromMessage(message) : message.trim();
+  if (!estateMessage || isBareHousingTypeQuery(estateMessage)) return undefined;
+  const known = matchKnownEstate(estateMessage);
   if (known) return known;
-  return searchEstates(message, 1)[0];
+  return searchEstates(estateMessage, 1)[0];
 }
 
 export function retrievePlansForAsk(input: {
@@ -165,18 +185,21 @@ export function retrievePlansForAsk(input: {
   housing?: string;
 }): AiRetrieveResult {
   const message = input.message.trim().slice(0, AI_MAX_MESSAGE_CHARS);
-  const estateRow = resolveEstate(message, input.estate);
+  const villageIntent = isVillageHousingIntent(message);
+  const estateRow = resolveEstate(message, villageIntent ? undefined : input.estate);
   const guessed = classifyAddress(estateRow?.name ?? message);
-  const housing = (["public", "hos", "private", "village"] as Housing[]).includes(input.housing as Housing)
-    ? (input.housing as Housing)
-    : estateRow?.housing ?? guessed.housing;
+  const housing = villageIntent
+    ? "village"
+    : (["public", "hos", "private", "village"] as Housing[]).includes(input.housing as Housing)
+      ? (input.housing as Housing)
+      : estateRow?.housing ?? guessed.housing;
   const category = detectCategory(message);
   const speed =
     category === "broadband" || category === "business" ? detectSpeed(message) : undefined;
   const provider = detectProvider(message);
   const base = {
     cat: category,
-    estate: estateRow?.name ?? input.estate,
+    estate: estateRow?.name ?? (villageIntent ? undefined : input.estate),
     housing,
     provider,
   } as const;
@@ -247,7 +270,9 @@ export function isFilterIntent(message: string) {
     detectSpeed(message) ||
       detectProvider(message) ||
       matchKnownEstate(message) ||
-      /幫我揀|我想睇|有咩計劃|篩選|1000m|2500m|5000m|光纖|手機|5g 家居|村屋/i.test(message),
+      /幫我揀|我想睇|有咩計劃|篩選|1000m|2500m|5000m|光纖|手機|5g 家居|村屋|丁屋|village\s*houses?/i.test(
+        message,
+      ),
   );
 }
 
