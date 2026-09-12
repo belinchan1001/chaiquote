@@ -1,6 +1,6 @@
 import { formatFee, isListedPlan, PLANS, PROVIDER_MAP, type Housing, type Plan } from "./plans.ts";
-import { ESTATE_PAGES, estatePagePath } from "./estate-pages.ts";
-import { GUIDES, type Guide } from "./guides.ts";
+import { INDEXABLE_ESTATE_PAGES, estatePagePath } from "./estate-pages.ts";
+import { GUIDES, getGuide, type Guide } from "./guides.ts";
 import { guideTopicImage } from "./guide-media.ts";
 import { SITE } from "./site.ts";
 import {
@@ -54,6 +54,40 @@ export type SitemapPage = {
   priority: string;
 };
 
+/** Protocol cap. Live URL count is far below this; do not split files yet. */
+export const SITEMAP_URL_LIMIT = 50_000;
+
+const W3C_LASTMOD = /^\d{4}(?:-\d{2}(?:-\d{2})?)?$/;
+
+/**
+ * SITE.updated is a human month stamp (`2026年9月`). Convert only that
+ * documented form to W3C `YYYY-MM`. Do not invent a day.
+ */
+export function siteDataLastmod(stamp: string = SITE.updated): string | undefined {
+  const match = /^(\d{4})年(\d{1,2})月$/.exec(stamp);
+  if (!match) return undefined;
+  return `${match[1]}-${match[2]!.padStart(2, "0")}`;
+}
+
+/**
+ * lastmod only from repo-backed dates. Guide `modified` / `published` win
+ * for article URLs. Other URLs use the site catalogue stamp. Omit when
+ * neither source exists — never use the clock.
+ */
+export function sitemapLastmod(path: string): string | undefined {
+  if (path.startsWith("/guides/")) {
+    const slug = path.slice("/guides/".length);
+    if (slug && !slug.includes("/")) {
+      const guide = getGuide(slug);
+      if (guide) {
+        const date = guide.modified ?? guide.published;
+        return date && W3C_LASTMOD.test(date) ? date : undefined;
+      }
+    }
+  }
+  return siteDataLastmod();
+}
+
 /** Static indexable URLs. Filter-parameter pages are not listed. */
 export const STATIC_SITEMAP_PAGES: readonly SitemapPage[] = [
   { path: "/", changefreq: "weekly", priority: "1.0" },
@@ -91,7 +125,7 @@ export const SITEMAP_PAGES: readonly SitemapPage[] = [
     changefreq: "monthly" as const,
     priority: HUB_GUIDE_SLUGS.has(guide.slug) ? "0.8" : "0.6",
   })),
-  ...ESTATE_PAGES.map((page) => ({
+  ...INDEXABLE_ESTATE_PAGES.map((page) => ({
     path: estatePagePath(page),
     changefreq: "weekly" as const,
     priority: "0.6",
@@ -214,14 +248,16 @@ export function guideJsonLd(guide: Guide) {
 }
 
 function escapeXml(value: string): string {
-  return value.replaceAll("&", "&").replaceAll("<", "<").replaceAll(">", ">");
+  return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 }
 
 export function renderSitemapXml(origin: string = DEFAULT_SEO_ORIGIN): string {
   const host = seoOrigin(origin);
   const urls = SITEMAP_PAGES.map((page) => {
     const loc = escapeXml(`${host}${page.path}`);
-    return `  <url><loc>${loc}</loc><changefreq>${page.changefreq}</changefreq><priority>${page.priority}</priority></url>`;
+    const lastmod = sitemapLastmod(page.path);
+    const lastmodXml = lastmod ? `<lastmod>${lastmod}</lastmod>` : "";
+    return `  <url><loc>${loc}</loc>${lastmodXml}<changefreq>${page.changefreq}</changefreq><priority>${page.priority}</priority></url>`;
   });
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>\n`;
 }

@@ -4,8 +4,9 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { SITE } from "./site.ts";
-import { getPlan, PLANS } from "./plans.ts";
-import { getGuide } from "./guides.ts";
+import { filterPlans, getPlan, PLANS } from "./plans.ts";
+import { GUIDES, getGuide } from "./guides.ts";
+import { ESTATE_PAGES, INDEXABLE_ESTATE_PAGES, estatePlans, isIndexableEstatePage } from "./estate-pages.ts";
 import {
   ABOUT_SEO,
   canonicalRedirectLocation,
@@ -28,7 +29,11 @@ import {
   runtimeSeoOrigin,
   seoOrigin,
   shareHead,
+  siteDataLastmod,
+  sitemapLastmod,
   SITEMAP_PAGES,
+  SITEMAP_URL_LIMIT,
+  STATIC_SITEMAP_PAGES,
 } from "./seo.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
@@ -164,6 +169,94 @@ describe("renderSitemapXml", () => {
   it("stays in sync with public/sitemap.xml so Vite/CDN and the Nitro route agree", () => {
     const fromDisk = readFileSync(join(ROOT, "public/sitemap.xml"), "utf8");
     assert.equal(fromDisk, renderSitemapXml());
+  });
+
+  it("keeps non-estate URLs and drops thin/template estate pages", () => {
+    const CLAIM_WORDS = ["最抵", "最低", "最平"] as const;
+    const xml = renderSitemapXml();
+    const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+    const estateLocs = locs.filter((loc) => loc.includes("/estates/"));
+
+    assert.ok(SITEMAP_PAGES.length < SITEMAP_URL_LIMIT, `${SITEMAP_PAGES.length} URLs need a sitemap index`);
+    assert.equal(locs.length, SITEMAP_PAGES.length);
+    assert.equal(estateLocs.length, INDEXABLE_ESTATE_PAGES.length);
+    assert.equal(INDEXABLE_ESTATE_PAGES.length, 63);
+    assert.equal(ESTATE_PAGES.length - INDEXABLE_ESTATE_PAGES.length, 1084);
+    assert.ok(INDEXABLE_ESTATE_PAGES.length < ESTATE_PAGES.length);
+
+    for (const page of STATIC_SITEMAP_PAGES) {
+      assert.ok(
+        locs.includes(`https://www.chaiquote.hk${page.path}`),
+        `missing static ${page.path}`,
+      );
+    }
+    for (const guide of GUIDES) {
+      assert.ok(locs.includes(`https://www.chaiquote.hk/guides/${guide.slug}`), guide.slug);
+    }
+
+    const included = ["cheung-sha-wan-estate", "shing-chi-court", "le-mont", "on-tai"] as const;
+    const excluded = ["tin-yiu", "taikoo-shing", "wah-fu", "pak-tin"] as const;
+    for (const slug of included) {
+      const page = ESTATE_PAGES.find((item) => item.slug === slug)!;
+      assert.equal(isIndexableEstatePage(page), true, slug);
+      assert.ok(locs.includes(`https://www.chaiquote.hk/estates/${slug}`), slug);
+      const listed = estatePlans(page.estate);
+      const genericB = filterPlans({ cat: "broadband", housing: page.estate.housing });
+      const genericH = filterPlans({ cat: "home5g", housing: page.estate.housing });
+      assert.ok(
+        listed.broadband.length !== genericB.length ||
+          listed.home5g.length !== genericH.length ||
+          listed.broadband.some((plan) => !genericB.some((item) => item.id === plan.id)),
+        `${slug} should differ from the housing-only catalogue`,
+      );
+    }
+    for (const slug of excluded) {
+      const page = ESTATE_PAGES.find((item) => item.slug === slug)!;
+      assert.equal(isIndexableEstatePage(page), false, slug);
+      assert.equal(locs.includes(`https://www.chaiquote.hk/estates/${slug}`), false, slug);
+      const listed = estatePlans(page.estate);
+      const genericB = filterPlans({ cat: "broadband", housing: page.estate.housing });
+      const genericH = filterPlans({ cat: "home5g", housing: page.estate.housing });
+      assert.equal(listed.broadband.length, genericB.length, slug);
+      assert.equal(listed.home5g.length, genericH.length, slug);
+    }
+
+    for (const word of CLAIM_WORDS) {
+      assert.equal(xml.includes(word), false, word);
+    }
+  });
+
+  it("emits lastmod only from documented guide dates or SITE.updated", () => {
+    const xml = renderSitemapXml();
+    const lastmods = [...xml.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((match) => match[1]);
+    const allowed = new Set<string>();
+    const siteStamp = siteDataLastmod();
+    assert.equal(siteStamp, "2026-09");
+    assert.equal(SITE.updated, "2026年9月");
+    assert.equal(siteDataLastmod("not-a-date"), undefined);
+    if (siteStamp) allowed.add(siteStamp);
+    for (const guide of GUIDES) {
+      for (const date of [guide.modified, guide.published]) {
+        if (date && /^\d{4}(?:-\d{2}(?:-\d{2})?)?$/.test(date)) allowed.add(date);
+      }
+    }
+    assert.ok(lastmods.length > 0);
+    for (const date of lastmods) {
+      assert.ok(allowed.has(date), `unexpected lastmod ${date}`);
+    }
+
+    assert.equal(sitemapLastmod("/guides/fiber"), "2026-09-10");
+    assert.equal(sitemapLastmod("/guides/port-in"), undefined);
+    assert.equal(sitemapLastmod("/"), "2026-09");
+    assert.match(xml, /\/guides\/fiber<\/loc><lastmod>2026-09-10<\/lastmod>/);
+    assert.match(xml, /\/guides\/port-in<\/loc><changefreq>/);
+    assert.doesNotMatch(xml, /\/guides\/port-in<\/loc><lastmod>/);
+    assert.match(xml, /www\.chaiquote\.hk\/<\/loc><lastmod>2026-09<\/lastmod>/);
+
+    const src = readFileSync(join(ROOT, "src/lib/seo.ts"), "utf8");
+    assert.doesNotMatch(src, /Date\.now/);
+    assert.doesNotMatch(src, /new Date\s*\(/);
+    assert.doesNotMatch(src, /toISOString|getUTCFullYear|getFullYear/);
   });
 });
 
