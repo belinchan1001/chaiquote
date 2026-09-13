@@ -188,8 +188,7 @@ describe("trust/compliance copy", () => {
 
     assert.equal(zh, "屋苑索引");
     assert.equal(en, "Estate index");
-    assert.match(header, /to="\/estates"/);
-    assert.match(header, /labelKey: "navEstates"/);
+    assert.match(header, /to: "\/estates", labelKey: "navEstates"/);
   });
 
   it("pins compare page 返回計劃表 as an in-app /plans link", () => {
