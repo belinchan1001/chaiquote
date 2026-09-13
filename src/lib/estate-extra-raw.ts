@@ -550,7 +550,7 @@ export const EXTRA_RAW = `
 順欣花園|Sunningdale Garden|北區|hos
 翠麗花園|Tsui Lai Garden|北區|hos
 榮輝中心|Wing Fai Centre|北區|hos
-樂嶺軒|Lok Ling Hin,樂嶺都匯樂嶺軒,樂嶺都匯第3座|北區|hos|粉嶺||百和路72號
+樂嶺軒|Sierra Terrace,Lok Ling Hin,樂嶺都匯樂嶺軒,樂嶺都匯第3座,嶺樂活,嶺・樂活,Sierra Life|北區|hos|粉嶺||百和路72號
 澤豐花園|Affluence Garden|屯門|hos
 樂翹都匯|Lok Kiu Hub,Eminence Terrace,樂翹軒|元朗|hos
 置樂花園|置樂,Chi Lok Fa Yuen|屯門|hos
@@ -836,8 +836,8 @@ Double Coast|Double Coast I,Double Coast II,啟德Double Coast|九龍城|private
 海盈山|La Montagne,海盈山第4A期,海盈山第4B期,港島南岸海盈山|南區|private|黃竹坑||香葉道11號
 逸瓏灣|Mayfair By The Sea,逸瓏灣I,逸瓏灣1期,逸瓏灣一期,白石角逸瓏灣|大埔|private|白石角
 逸瓏灣II|Mayfair By The Sea II,逸瓏灣2期,逸瓏灣二期|大埔|private|白石角
-樂嶺樓|Lok Ling House,樂嶺都匯樂嶺樓,樂嶺都匯第1座|北區|public|粉嶺||百和路72號
-盛頤居|Shing Yee Residence,樂嶺都匯盛頤居,樂嶺都匯第2座,長者安居樂盛頤居|北區|public|粉嶺||百和路72號
+樂嶺樓|Sierra Tower,Lok Ling House,樂嶺都匯樂嶺樓,樂嶺都匯第1座|北區|public|粉嶺||百和路72號
+盛頤居|Blossom Place,Shing Yee Residence,樂嶺都匯盛頤居,樂嶺都匯第2座,長者安居樂盛頤居|北區|public|粉嶺||百和路72號
 御金國峯|御金·國峯,The Coronation,友翔道1號|油尖旺|private|油麻地||友翔道1號
 深井Ocean Pointe|Ocean Pointe,Ocean Pointe Sham Tseng|荃灣|private|深井
 NOVO LAND|Novo Land,NOVO LAND 1A,NOVO LAND 1B,NOVO LAND 1C,NOVO LAND 2A,NOVO LAND 2B,NOVO LAND 3A,屯門NOVO LAND|屯門|private|兆康||興貴街8號
@@ -855,12 +855,14 @@ Beacon Peak|Beacon Peak 1,畢架山Beacon Peak|深水埗|private|畢架山
 維港灣畔|Victoria Voyage,維港・灣畔,維港灣畔第2B期|九龍城|private|啟德||承豐道18號
 海德園|THE HEADLAND RESIDENCES,海德園第二期,柴灣常安街99號|東區|private|柴灣||常安街99號
 邑庭居|Yap Ting Terraced Home,將軍澳邑庭居|西貢|public|將軍澳
-嶺樂活|嶺・樂活,Sierra Life,皇后山嶺樂活|北區|hos|粉嶺
 Miami Quay I|Miami Quay 1,啟德Miami Quay I|九龍城|private|啟德
 柏傲莊I|The Pavilia Farm I,Pavilia Farm 1,柏傲莊 1期|沙田|private|大圍
 柏傲莊II|The Pavilia Farm II,Pavilia Farm 2,柏傲莊 2期|沙田|private|大圍
-華富北邨|Wah Fu North Estate,華景街公屋,薄扶林華富北|南區|public|薄扶林|覆蓋需查核
+華富北邨|Wah Fu North Estate,華景街公屋,華溢邨,薄扶林華富北|南區|public|薄扶林|覆蓋需查核
 首匯|CHESTER,紅磡首匯,黃埔街8號|九龍城|private|紅磡||黃埔街8號
 首岸|ONE VICTORIA COVE,紅磡首岸,庇利街1號|九龍城|private|紅磡||庇利街1號
+The Monet|龍庭里8號,九龍塘The Monet,Lung Ting Lane|九龍城|private|九龍塘||龍庭里8號
+博峯|Mount Broadcast,廣播道79號,九龍塘博峯|九龍城|private|九龍塘||廣播道79號
+錦河邨|Kam Ho Estate,錦田南公屋,錦田南1號用地公屋|元朗|public|錦田|覆蓋需查核
 `.trim();
 

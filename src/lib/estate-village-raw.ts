@@ -559,6 +559,14 @@ export const VILLAGE_RAW = `
 十八鄉北邊圍|Pak Pin Wai,元朗北邊圍|元朗|village|十八鄉
 八鄉石湖塘村|Shek Wu Tong Tsuen|元朗|village|八鄉
 八鄉長江|Cheung Kong Pat Heung,八鄉長江村|元朗|village|八鄉
+圓茶壺村|Yuen Cha Wu Village,打鼓嶺圓茶壺|北區|village|打鼓嶺
+啟芳園|Kai Fong Garden,坪輋啟芳園|北區|village|打鼓嶺
+恐龍坑|Hung Lung Hang,恐龍坑村|北區|village|打鼓嶺
+打鼓嶺新村|Ta Kwu Ling San Tsuen|北區|village|打鼓嶺
+布格仔|Po Kat Tsai|北區|village|粉嶺
+馬料水新村|Ma Liu Shui San Tsuen|北區|village|粉嶺
+高埔北村|Ko Po North Village,軍地高埔北|北區|village|粉嶺
+軍地北村|Kwan Tei North Village|北區|village|粉嶺
 `.trim();
 
 

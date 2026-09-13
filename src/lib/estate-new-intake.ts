@@ -66,10 +66,15 @@ export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "業旺邨", group: "屯門" },
   { name: "顯發邨", group: "屯門" },
   { name: "邑庭居", group: "新界" },
-  { name: "嶺樂活", group: "新界" },
+  { name: "樂嶺軒", group: "新界" },
+  { name: "盛頤居", group: "新界" },
   { name: "Miami Quay I", group: "九龍" },
   { name: "首匯", group: "九龍" },
   { name: "首岸", group: "九龍" },
+  { name: "高宏苑", group: "九龍" },
+  { name: "清濤苑", group: "其他地區" },
+  { name: "The Monet", group: "九龍" },
+  { name: "博峯", group: "九龍" },
 ];
 
 export const NEW_INTAKE_NAMES = new Set(NEW_INTAKE.map((item) => item.name));

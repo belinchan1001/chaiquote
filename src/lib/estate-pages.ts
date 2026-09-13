@@ -194,7 +194,7 @@ const SLUG_FALLBACK: Record<string, string> = {
   維港灣畔: "victoria-voyage",
   海德園: "the-headland-residences",
   邑庭居: "yap-ting-home",
-  嶺樂活: "sierra-life",
+  樂嶺軒: "sierra-terrace",
   "Miami Quay I": "miami-quay-i",
   柏傲莊I: "pavilia-farm-i",
   柏傲莊II: "pavilia-farm-ii",
@@ -202,6 +202,9 @@ const SLUG_FALLBACK: Record<string, string> = {
   首匯: "chester-hung-hom",
   首岸: "one-victoria-cove",
   "YOHO West": "yoho-west",
+  "The Monet": "the-monet",
+  博峯: "mount-broadcast",
+  錦河邨: "kam-ho-estate",
 };
 
 function requireEstate(name: string): Estate {

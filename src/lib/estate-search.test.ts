@@ -1077,4 +1077,27 @@ describe("search query tails, simplified, english", () => {
     assert.equal(classifyAddress("東").housing, undefined);
     assert.equal(classifyAddress("東").confidence, "none");
   });
+
+  it("treats 嶺樂活 as 樂嶺軒, and tags recent occupied estates", () => {
+    assert.equal(estate("嶺樂活"), undefined);
+    assert.equal(matchKnownEstate("嶺樂活")?.name, "樂嶺軒");
+    assert.equal(matchKnownEstate("Sierra Terrace")?.name, "樂嶺軒");
+    assert.equal(estate("樂嶺軒")?.housing, "hos");
+    assert.equal(estate("盛頤居")?.housing, "public");
+    assert.equal(matchKnownEstate("Blossom Place")?.name, "盛頤居");
+    assert.equal(matchKnownEstate("Sierra Tower")?.name, "樂嶺樓");
+    assert.equal(estate("高宏苑")?.housing, "hos");
+    assert.equal(estate("清濤苑")?.housing, "hos");
+    assert.equal(estate("The Monet")?.housing, "private");
+    assert.equal(estate("The Monet")?.street, "龍庭里8號");
+    assert.equal(matchKnownEstate("龍庭里8號")?.name, "The Monet");
+    assert.equal(estate("博峯")?.housing, "private");
+    assert.equal(matchKnownEstate("Mount Broadcast")?.name, "博峯");
+    assert.equal(matchKnownEstate("廣播道79號")?.name, "博峯");
+    assert.equal(estate("錦河邨")?.housing, "public");
+    assert.equal(estate("錦河邨")?.coverageCheck, true);
+    assert.equal(matchKnownEstate("華溢邨")?.name, "華富北邨");
+    assert.equal(searchEstates("圓茶壺村", 4)[0]?.housing, "village");
+    assert.equal(searchEstates("打鼓嶺新村", 4)[0]?.housing, "village");
+  });
 });
