@@ -81,9 +81,12 @@ describe("homepage first-load images", () => {
     assert.match(vercel, /X-Content-Type-Options/);
     assert.match(cache, /s-maxage=300/);
     assert.match(cache, /CDN-Cache-Control/);
-    assert.match(dir, /openDistricts/);
-    assert.match(dir, /showCards/);
     assert.match(estatePage, /broadbandPreview/);
     assert.match(estatePage, /home5gPreview/);
+    assert.doesNotMatch(dir, /showCards|openDistricts/);
+    assert.match(dir, /const collapseGroups = !compact\(estate\) && !activeDistrict && !newIntakeFilter/);
+    assert.match(dir, /return collapseGroups \? \(/);
+    assert.match(dir, /<details/);
+    assert.match(dir, /href=\{\`\/estates\/\$\{page\.slug\}\`\}/);
   });
 });
