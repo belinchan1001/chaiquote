@@ -1,4 +1,5 @@
 import { HKBN_FLASH_OFFER_ESTATES, HKBN_INTAKE_OFFER_ESTATES, HKBN_LPR_FLASH_ESTATES, NETVIGATOR_INTAKE_OFFER_ESTATES, estateUnlocksPlan, isNetvigatorOnlyEstate } from "./estate-new-intake.ts";
+import { estateHasHgcVillageCoverage } from "./hgc-village-coverage.ts";
 
 export type Category = "broadband" | "mobile" | "home5g" | "business";
 export type Housing = "public" | "hos" | "private" | "village";
@@ -90,7 +91,7 @@ const LIMITS_NETVIGATOR_10G =
 const LIMITS_NETVIGATOR_VILLAGE_WAIVED =
   "適用於指定村屋及唐樓地址。豁免安裝費。實際覆蓋須核對門牌。網上行之公屋、居屋及私人樓宇計劃不適用於村屋或唐樓。";
 const LIMITS_HGC_VILLAGE =
-  "適用於村屋地址。馬灣或若干指定村落未必享有額外特別優惠，詳情請向當值銷售員查詢。不適用於公屋、居屋及私人樓宇。實際覆蓋須核對門牌。";
+  "僅適用於指定村屋地址。馬灣或若干指定村落未必享有額外特別優惠，詳情請向當值銷售員查詢。不適用於公屋、居屋及私人樓宇。實際覆蓋須核對門牌。";
 const LIMITS_ICABLE_FTTH_NO_VILLAGE = "適用於公屋、居屋及私人樓宇。不適用於村屋。";
 const LIMITS_HKBN_FLASH = "僅適用於指定屋苑。須繳付安裝費。實際覆蓋同安裝期以電訊商確認為準。";
 const LIMITS_HKBN_FLASH_2500 =
@@ -3561,6 +3562,10 @@ export function isNetvigatorVillage(plan: Plan) {
   return plan.providerId === "netvigator" && plan.housing !== "all" && plan.housing.includes("village");
 }
 
+export function isHgcVillage(plan: Plan) {
+  return plan.providerId === "hgc" && plan.housing !== "all" && plan.housing.every((item) => item === "village");
+}
+
 export function isHktPlan(plan: Plan) {
   return plan.providerId === "netvigator" || plan.providerId === "csl";
 }
@@ -3615,6 +3620,7 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
         return false;
       }
     }
+    if (isHgcVillage(plan) && !estateHasHgcVillageCoverage(search.estate)) return false;
     if (search.intake && !plan.newIntakeOffer) return false;
     if (!matchesHousing(plan, search.housing)) return false;
     if (search.maxFee && plan.monthlyFee > search.maxFee) return false;

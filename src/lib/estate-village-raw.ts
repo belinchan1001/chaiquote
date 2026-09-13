@@ -356,4 +356,151 @@ export const VILLAGE_RAW = `
 沙田圍村|Sha Tin Wai Village,沙田圍舊村|沙田|village|沙田圍
 藍地村|Lam Tei Tsuen,屯門藍地村|屯門|village|藍地
 紫田新村|Tsz Tin San Tsuen,屯門紫田新村|屯門|village|屯門
+清潭路元崗新村|Tsing Tam Rd Yuen Kong San Tsuen|元朗|village|八鄉
+上村 - 石頭圍|Sheung Tsuen - Shek Tau Wai,石頭圍|元朗|village|八鄉
+下灣村|Ha Wan Tsuen|元朗|village|新田
+渡頭灣|To Tau Wan Village|沙田|village|馬鞍山
+獅頭嶺|Sze Tau Leng|北區|village|粉嶺
+畫眉山|Wa Mei Shan|北區|village|粉嶺
+丹竹坑|Tan Chuk Hang|北區|village|沙頭角
+新屋仔|San Uk Tsai|北區|village|沙頭角
+塘肚|Tong To|北區|village|沙頭角
+烏石角|Wu Shek Kok|北區|village|沙頭角
+麻雀嶺新屋下|Mat Tseuk Leng San Uk Ha|北區|village|沙頭角
+落馬洲新村|Lok Ma Chau San Tsuen|元朗|village|新田
+雷公田村|Lui Kung Tin|元朗|village|八鄉
+元嶺葉屋|Yuen Leng Yip Uk|大埔|village|大埔
+馬尾下嶺咀|Ma Mei Ha Leng Tsui|北區|village|沙頭角
+嶺皮村|Leng Pei Tsuen|北區|village|沙頭角
+大塘湖|Tai Tong Wu|北區|village|沙頭角
+橫山腳新村|Wang Shan Keuk|北區|village|沙頭角
+羅湖|Lo Wu|北區|village|上水
+木湖瓦窰|Muk Wu Nga Yiu|北區|village|上水
+得月樓|Tak Yuet Lau|北區|village|上水
+瓦窰下|Nga Yiu Ha|北區|village|上水
+簡頭村|Kan Tau Tsuen|北區|village|沙頭角
+禾坑大朗|Wo Hang Tai Long|北區|village|沙頭角
+元嶺李屋|Yuen Leng Lee Uk|大埔|village|大埔
+鹽灶下|Yim Tso Ha|北區|village|沙頭角
+馬灣大街村南|Ma Wan Main Street Village South|荃灣|village|馬灣
+山咀|Shan Tsui|北區|village|沙頭角
+雞谷樹下|Kai Kuk Shue Ha|北區|village|沙頭角
+馬灣大街村東|Ma Wan Main Street Village East|荃灣|village|馬灣
+稔埔村|Nim Po Tsuen|離島|village|梅窩
+馬灣漁民村|Ma Wan Fishermen|荃灣|village|馬灣
+高莆|Ko Po|北區|village|沙頭角
+石橋頭村|Shek Kiu Tau|北區|village|沙頭角
+白石窩新村|Pak Shek Wo San Tsuen|西貢|village|西貢
+新屋嶺|San Uk Ling|北區|village|粉嶺
+南邊圍|Nam Bin Wai|離島|village|梅窩
+新塘莆|San Tong Po|北區|village|沙頭角
+黃泥屋|Wong Nai Uk|離島|village|東涌
+南坑尾|Nam Hang Mei|北區|village|沙頭角
+膊頭下|Pok Tau Ha|北區|village|沙頭角
+磡頭角|San Tau Kok|大埔|village|大埔
+萬景台|Man King Terrace|西貢|village|西貢
+打鼓嶺村|Ta Kwu Ling Village|北區|village|打鼓嶺
+鹿頸陳屋|Luk Keng Chan Uk|北區|village|沙頭角
+鹿頸黃屋|Luk Keng Wong Uk|北區|village|沙頭角
+木湖|Muk Wu|北區|village|上水
+上担水坑|Sheung Tam Shui Hang|北區|village|沙頭角
+沙頭角新村|San Tsuen|北區|village|沙頭角
+上禾坑|Sheung Wo Hang|北區|village|沙頭角
+普通道(西)|Po Tung Road (West)|西貢|village|西貢
+營盤下竹坑|Ying Pun Ha Chuk Hang|大埔|village|大埔
+西貢正街(西)|Sai Kung Main Street (West)|西貢|village|西貢
+西貢道(北)|Sai Kung Road (North)|西貢|village|西貢
+沙江圍仔|Sha Kong Wai Tsai|元朗|village|流浮山
+彭家村|Pang Ka Tsuen|元朗|village|八鄉
+大埔田|Tai Po Tin|北區|village|打鼓嶺
+上村 - 杜屋村|Sheung Tsuen - To Uk Tsuen,杜屋村|元朗|village|八鄉
+下担水坑|Ha Tam Shui Hang|北區|village|沙頭角
+西貢道(南)|Sai Kung Road (South)|西貢|village|西貢
+蓮澳鄭屋|Lin Au Cheng Uk|大埔|village|大埔
+西貢正街(東)|Sai Kung Main Street (East)|西貢|village|西貢
+井頭新村|Tseng Tau San Tsuen|離島|village|梅窩
+蓮澳李屋|Lin Au Lei Uk|大埔|village|大埔
+德隆前街|Tak Lung Front Street|西貢|village|西貢
+坪輋新村|Ping Che New Village|北區|village|打鼓嶺
+黃崗山村|Wong Kong Shan|北區|village|粉嶺
+下禾坑|Ha Wo Hang|北區|village|沙頭角
+橫台山新村|Wang Toi Shan San Tsuen|元朗|village|八鄉
+蕉坑|Tsiu Hang|北區|village|沙頭角
+永寧新村|Wing Ning San Tsuen|元朗|village|錦田
+昇平村|Sing Ping Village|北區|village|打鼓嶺
+上村 - 屋頭村|Sheung Tsuen - Uk Tau Tsuen,屋頭村|元朗|village|八鄉
+華盛村|Wah Shing Tsuen|元朗|village|錦田
+下山雞乙|Ha Shan Kai Wat|北區|village|打鼓嶺
+錦田市|Kam Tin Shi|元朗|village|錦田
+橫台山散村|Wang Toi Shan Shan Tsuen|元朗|village|八鄉
+龍鼓灘沙埔崗|Lung Kwu Tan Sha Po Kong|屯門|village|屯門
+西貢大街(東)|Sai Kung Tai Street (East)|西貢|village|西貢
+凹下|Au Ha|北區|village|沙頭角
+德隆後街|Tak Lung Back Street|西貢|village|西貢
+嶺仔|Leng Tsai|北區|village|沙頭角
+坪輋隔田|Ping Che Kat Tin|北區|village|打鼓嶺
+九龍坑老圍|Kau Lung Hang Lo Wai|大埔|village|大埔
+橫台山邱屋村|Wang Toi Shan Yau Uk Tsuen|元朗|village|八鄉
+鳳凰湖|Fung Wong Wu|北區|village|打鼓嶺
+新屋排|San Uk Pai|大埔|village|大埔
+坪輋|Ping Che|北區|village|打鼓嶺
+坪輋元下|Yuen Ha Tsuen Ping Che|北區|village|打鼓嶺
+馬灣大街村中|Ma Wan Main Street Village|荃灣|village|馬灣
+龍躍頭覲龍村|Lung Yeuk Tau Kan Lung Tsuen|北區|village|粉嶺
+塘坊|Tong Fong|北區|village|打鼓嶺
+下輦|Ha Che|元朗|village|八鄉
+李屋|Lei Uk Village|北區|village|打鼓嶺
+馬灣大街村北|Ma Wan Main Street Village North|荃灣|village|馬灣
+模範鄉|Mo Fan Heung|元朗|village|新田
+楊屋村嘉樂園|Yeung Uk Tsuen|元朗|village|元朗
+橫台山永寧里|Wang Toi Shan Wing Ning Lei|元朗|village|八鄉
+龍躍頭新圍|Lung Yeuk Tau San Wai|北區|village|粉嶺
+九肚村|Kau To Village|沙田|village|火炭
+塘坑東村|Tong Hang Tung Chuen|北區|village|粉嶺
+木棉頭|Muk Min Tau|北區|village|沙頭角
+下香園|Ha Heung Yuen|北區|village|打鼓嶺
+大地塘|Tai Tei Tong|離島|village|梅窩
+上村 - 張屋村|Sheung Tsuen - Cheung Uk Tsuen,張屋村|元朗|village|八鄉
+馬料|Ma Niu Village|沙田|village|火炭
+上村 - 曾屋村|Sheung Tsuen - Tsang Uk Tsuen,曾屋村|元朗|village|八鄉
+簡頭圍|Kan Tai Wai|北區|village|打鼓嶺
+老鼠嶺週田村|Chow Tin Tsuen Lo Shue Ling|北區|village|打鼓嶺
+上村新村|Sheung Tsuen San Tsuen|元朗|village|八鄉
+竹園|Chuk Yuen Village|北區|village|打鼓嶺
+九龍坑新圍|Kau Lung Hang San Wai|大埔|village|大埔
+田心新村|Tin Sam San Tsuen|元朗|village|八鄉
+白銀鄉|Pak Ngan Heung|離島|village|梅窩
+大埔大窩|Tai Wo|大埔|village|大埔
+新龍圍|Sun Lung Wai|離島|village|梅窩
+輦下|Che Ha|大埔|village|大埔
+龍鼓灘南朗|Lung Kwu Tan Nam Long|屯門|village|屯門
+龍鼓灘北朗|Lung Kwu Tan Pak Long|屯門|village|屯門
+上村 - 北邊村|Sheung Tsuen - Pak Pin Tsuen,北邊村|元朗|village|八鄉
+新隆圍|San Lung Wai|元朗|village|八鄉
+上村 - 南慶里|Sheung Tsuen - Nam Hing Lei,南慶里|元朗|village|八鄉
+西貢大街(西)|Sai Kung Tai Street (West)|西貢|village|西貢
+白田新村|Pak Tin New Village|北區|village|沙頭角
+普通道(東)|Po Tung Road (East)|西貢|village|西貢
+河田村|Ho Tin Tsuen|屯門|village|屯門
+萬宜灣新村|Man Yee Wan New Village|西貢|village|西貢
+上村 - 謝屋村|Sheung Tsuen - Tse Uk Tsuen,謝屋村|元朗|village|八鄉
+麻布村|Ma Po Tsuen|離島|village|梅窩
+鰲磡村|Ngau Hom Tsuen|元朗|village|流浮山
+梅窩舊村|Mui Wo Kau Tsuen|離島|village|梅窩
+橫台山河瀝背村|Wang Toi Shan Lo Lik Pui|元朗|village|八鄉
+井頭中村及下(頌皇台)|Tseng Tau Chung Tsuen|屯門|village|屯門
+大亹|Tai Kek|元朗|village|八鄉
+下灣漁民新村|Ha Wan Fisherman San Tsuen|元朗|village|新田
+橫台山羅屋村|Wang Toi Shan Lo Uk Tsuen|元朗|village|八鄉
+上村 - 中心村|Sheung Tsuen - Chung Sum Tsuen,中心村|元朗|village|八鄉
+梁屋村|Leung Uk Tsuen|元朗|village|八鄉
+田寮新村|Tin Liu New Village|荃灣|village|馬灣
+上山雞乙|Sheung Shan Kai Wat|北區|village|打鼓嶺
+上村 - 黎屋村|Sheung Tsuen - Lai Uk Tsuen,黎屋村|元朗|village|八鄉
+龍躍頭新屋村|Lung Yeuk Tau San Uk Tsuen|北區|village|粉嶺
+較寮村|Kaw Liu Village|北區|village|打鼓嶺
+上村 - 門口仔|Sheung Tsuen - Mun Hau Tsai,門口仔|元朗|village|八鄉
+上村 - 祠堂村|Sheung Tsuen - Tsz Tong Tsuen,上村祠堂村|元朗|village|八鄉
+沙頭角瓦窰頭|Sha Tau Kok Nga Yiu Tau|北區|village|沙頭角
+亞公角漁民新村|Ah Kung Kok Fishermen Village|沙田|village|沙田
 `.trim();

@@ -433,9 +433,9 @@ export const EXTRA_RAW = `
 元朗大旗嶺|Tai Kei Leng|元朗|village
 元朗南邊圍|Nam Pin Wai|元朗|village
 元朗北圍|Pak Wai Yuen Long|元朗|village
-錦田吉慶圍|Kat Hing Wai|元朗|village
-錦田永隆圍|Wing Lung Wai|元朗|village
-八鄉上村|Sheung Tsuen|元朗|village
+錦田吉慶圍|Kat Hing Wai,吉慶圍|元朗|village
+錦田永隆圍|Wing Lung Wai,永隆圍|元朗|village
+八鄉上村|Sheung Tsuen,上村|元朗|village
 八鄉下村|Ha Tsuen Pat Heung|元朗|village
 廈村新圍|San Wai Ha Tsuen|元朗|village
 洪水橋瓏珀山|Hung Shui Kiu Long Pak Shan,洪水橋瓏珀|元朗|private|洪水橋
@@ -694,7 +694,7 @@ KOKO Hills|KOKO Hills|觀塘|private
 大埔井頭|Tseng Tau Tai Po|大埔|village
 元朗蝦尾新村|Ha Mei San Tsuen|元朗|village
 八鄉河背|Ho Pui Pat Heung|元朗|village
-八鄉蓮花地|Lin Fa Tei|元朗|village
+八鄉蓮花地|Lin Fa Tei,蓮花地|元朗|village
 屏山坑尾村|Hang Mei Tsuen|元朗|village
 廈村羅衡圍|Lo Uk Tsuen Ha Tsuen|元朗|village
 屯門青磚圍|Tsing Chuen Wai|屯門|village

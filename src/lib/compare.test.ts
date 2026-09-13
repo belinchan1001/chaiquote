@@ -14,7 +14,12 @@ import {
   type CompareCopy,
 } from "./compare.ts";
 import { toEnglish } from "./plan-en.ts";
-import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, filterPlans, getPlan, hasCertifiedStaff, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, staffOfferLabel, staffOfferPlans, averageFee, type Category } from "./plans.ts";
+import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, filterPlans, getPlan, hasCertifiedStaff, isHgcVillage, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, staffOfferLabel, staffOfferPlans, averageFee, type Category } from "./plans.ts";
+import {
+  HGC_VILLAGE_COVERAGE,
+  HGC_VILLAGE_UNMATCHED,
+  estateHasHgcVillageCoverage,
+} from "./hgc-village-coverage.ts";
 
 const copy: CompareCopy = {
   dash: "—",
@@ -920,7 +925,7 @@ describe("HGC village broadband install waiver", () => {
     "hgc-village-2g-wifi7-30m",
   ] as const;
   const HGC_VILLAGE_LIMITS =
-    "適用於村屋地址。馬灣或若干指定村落未必享有額外特別優惠，詳情請向當值銷售員查詢。不適用於公屋、居屋及私人樓宇。實際覆蓋須核對門牌。";
+    "僅適用於指定村屋地址。馬灣或若干指定村落未必享有額外特別優惠，詳情請向當值銷售員查詢。不適用於公屋、居屋及私人樓宇。實際覆蓋須核對門牌。";
 
   it("waives install on six HGC village plans without sweeping any other install", () => {
     const expected = [
@@ -1069,6 +1074,58 @@ describe("HGC village broadband install waiver", () => {
     const netvigatorVillage = plan("netvigator-ftth-1000-village-36m");
     assert.equal(netvigatorVillage.install, "豁免安裝費");
     assert.match(netvigatorVillage.limits ?? "", /實際覆蓋須核對門牌/);
+    assert.equal(
+      toEnglish(HGC_VILLAGE_LIMITS),
+      "Selected village-house addresses only. Ma Wan or certain villages may not have extra promotions; ask the on-duty sales adviser. Not for public housing, HOS or private buildings. Coverage must be checked against the exact address.",
+    );
+  });
+});
+
+describe("HGC village coverage lock", () => {
+  function hgcVillagePlans(estate?: string) {
+    return filterPlans({ cat: "broadband", housing: "village", estate }).filter((row) => isHgcVillage(row));
+  }
+
+  it("lists 212 May 2026 coverage villages and matches every row in the catalogue", () => {
+    assert.equal(HGC_VILLAGE_COVERAGE.length, 212);
+    assert.equal(new Set(HGC_VILLAGE_COVERAGE.map((row) => row.id)).size, 212);
+    assert.equal(HGC_VILLAGE_UNMATCHED.length, 0);
+    assert.ok(
+      PLANS.filter((row) => isHgcVillage(row)).every((row) => !row.onlyEstates?.length),
+    );
+  });
+
+  it("keeps HGC on the generic village list and on listed villages only", () => {
+    assert.equal(hgcVillagePlans(undefined).length, 6);
+    assert.equal(estateHasHgcVillageCoverage(undefined), true);
+
+    const listed = [
+      "吉慶圍",
+      "錦田吉慶圍",
+      "大生圍",
+      "八鄉上村",
+      "上村",
+      "楊屋村嘉樂園",
+      "八鄉河背",
+      "馬灣涌",
+      "沙頭角瓦窰頭",
+      "上村 - 祠堂村",
+    ];
+    for (const name of listed) {
+      assert.equal(estateHasHgcVillageCoverage(name), true, name);
+      assert.equal(hgcVillagePlans(name).length, 6, name);
+    }
+
+    const outside = ["屏山楊屋村", "楊屋村", "元朗南邊圍", "河背村", "瓦窰頭", "天耀邨"];
+    for (const name of outside) {
+      assert.equal(estateHasHgcVillageCoverage(name), false, name);
+      assert.equal(hgcVillagePlans(name).length, 0, name);
+    }
+
+    const pingShan = filterPlans({ cat: "broadband", housing: "village", estate: "屏山楊屋村" });
+    assert.equal(pingShan.some((row) => isHgcVillage(row)), false);
+    assert.ok(pingShan.some((row) => row.providerId === "hkbn"));
+    assert.ok(pingShan.some((row) => isNetvigatorVillage(row)));
   });
 });
 

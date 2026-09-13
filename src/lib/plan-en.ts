@@ -31,6 +31,8 @@ const EXACT: Record<string, string> = {
     "For selected village houses and tong lau. Installation fee extra. Coverage must be checked against the exact address. Netvigator public/HOS/private plans do not apply to village houses or tong lau.",
   "適用於指定村屋及唐樓地址。豁免安裝費。實際覆蓋須核對門牌。網上行之公屋、居屋及私人樓宇計劃不適用於村屋或唐樓。":
     "For selected village houses and tong lau. Installation waived. Coverage must be checked against the exact address. Netvigator public/HOS/private plans do not apply to village houses or tong lau.",
+  "僅適用於指定村屋地址。馬灣或若干指定村落未必享有額外特別優惠，詳情請向當值銷售員查詢。不適用於公屋、居屋及私人樓宇。實際覆蓋須核對門牌。":
+    "Selected village-house addresses only. Ma Wan or certain villages may not have extra promotions; ask the on-duty sales adviser. Not for public housing, HOS or private buildings. Coverage must be checked against the exact address.",
   "適用於村屋地址。馬灣或若干指定村落未必享有額外特別優惠，詳情請向當值銷售員查詢。不適用於公屋、居屋及私人樓宇。實際覆蓋須核對門牌。":
     "For village-house addresses. Ma Wan or certain villages may not have extra promotions; ask the on-duty sales adviser. Not for public housing, HOS or private buildings. Coverage must be checked against the exact address.",
   "適用於公屋、居屋及私人樓宇。不適用於村屋。":
