@@ -71,6 +71,7 @@ function EstatesIndexPage() {
   const [districtFilter, setDistrictFilter] = useState("");
   const [housingFilter, setHousingFilter] = useState<Housing | "">("");
   const [newIntakeFilter, setNewIntakeFilter] = useState(false);
+  const [openDistricts, setOpenDistricts] = useState<ReadonlySet<string>>(() => new Set());
   const navigate = useNavigate();
   const setInquiry = useDesk((s) => s.setInquiry);
   const { t, housingLabel } = useI18n();
@@ -158,6 +159,16 @@ function EstatesIndexPage() {
     setDistrictFilter("");
     setHousingFilter("");
     setNewIntakeFilter(false);
+    setOpenDistricts(new Set());
+  }
+
+  function onDistrictToggle(district: string, open: boolean) {
+    setOpenDistricts((current) => {
+      const next = new Set(current);
+      if (open) next.add(district);
+      else next.delete(district);
+      return next;
+    });
   }
 
   return (
@@ -385,7 +396,8 @@ function EstatesIndexPage() {
                 <span className="ml-2 text-sm font-normal tabular-nums text-muted">{group.pages.length}</span>
               </>
             );
-            const cards = (
+            const showCards = !browseAll || openDistricts.has(group.district);
+            const cards = showCards ? (
               <ul className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4">
                 {group.pages.map((page) => (
                   <li key={page.slug}>
@@ -403,9 +415,14 @@ function EstatesIndexPage() {
                   </li>
                 ))}
               </ul>
-            );
+            ) : null;
             return browseAll ? (
-              <details key={group.district} id={`district-${group.district}`} className="estate-dir-group">
+              <details
+                key={group.district}
+                id={`district-${group.district}`}
+                className="estate-dir-group"
+                onToggle={(e) => onDistrictToggle(group.district, (e.currentTarget as HTMLDetailsElement).open)}
+              >
                 <summary className="flex cursor-pointer list-none items-center text-lg font-semibold">
                   <h2 className="text-lg font-semibold">{heading}</h2>
                   <span className="ml-2 text-subtle">+</span>

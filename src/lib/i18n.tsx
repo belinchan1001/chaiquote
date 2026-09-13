@@ -1,7 +1,7 @@
 import { createContext, startTransition, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { toEnglish } from "@/lib/plan-en";
+import { loadPlanEn, toEnglishLazy } from "@/lib/plan-en-lazy";
 import { MESSAGES, type Locale, type MessageKey } from "@/lib/messages";
-import { PLANS, PROVIDER_MAP, type Category, type Housing, type ProviderId } from "@/lib/plans";
+import { PROVIDER_MAP, type Category, type Housing, type ProviderId } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 
 const STORAGE_KEY = "chaiquote-lang";
@@ -57,24 +57,9 @@ function readStored(): Locale {
   return "zh";
 }
 
-function warmupEnglish() {
-  for (const plan of PLANS) {
-    toEnglish(plan.name);
-    toEnglish(plan.network);
-    toEnglish(plan.install);
-    toEnglish(plan.bestFor);
-    if (plan.prepaid) toEnglish(plan.prepaid);
-    if (plan.limits) toEnglish(plan.limits);
-    if (plan.fupNote) toEnglish(plan.fupNote);
-    if (plan.voice) toEnglish(plan.voice);
-    if (plan.roaming) toEnglish(plan.roaming);
-    if (plan.portInPerk) toEnglish(plan.portInPerk);
-    for (const perk of plan.perks) toEnglish(perk);
-  }
-}
-
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>("zh");
+  const [enReady, setEnReady] = useState(false);
 
   useEffect(() => {
     setLocaleState(readStored());
@@ -85,20 +70,29 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }, [locale]);
 
   useEffect(() => {
+    if (locale !== "en") return;
     let cancelled = false;
-    const run = () => {
-      if (!cancelled) warmupEnglish();
-    };
-    const idle =
-      typeof requestIdleCallback === "function"
-        ? requestIdleCallback(run, { timeout: 1200 })
-        : window.setTimeout(run, 200);
+    void loadPlanEn().then(async (toEnglish) => {
+      const { PLANS } = await import("@/lib/plans");
+      for (const plan of PLANS) {
+        toEnglish(plan.name);
+        toEnglish(plan.network);
+        toEnglish(plan.install);
+        toEnglish(plan.bestFor);
+        if (plan.prepaid) toEnglish(plan.prepaid);
+        if (plan.limits) toEnglish(plan.limits);
+        if (plan.fupNote) toEnglish(plan.fupNote);
+        if (plan.voice) toEnglish(plan.voice);
+        if (plan.roaming) toEnglish(plan.roaming);
+        if (plan.portInPerk) toEnglish(plan.portInPerk);
+        for (const perk of plan.perks) toEnglish(perk);
+      }
+      if (!cancelled) setEnReady(true);
+    });
     return () => {
       cancelled = true;
-      if (typeof cancelIdleCallback === "function") cancelIdleCallback(idle as number);
-      else window.clearTimeout(idle as number);
     };
-  }, []);
+  }, [locale]);
 
   const value = useMemo<I18nValue>(() => {
     function setLocale(next: Locale) {
@@ -116,7 +110,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     }
     function tx(text: string) {
       if (locale === "zh" || !text) return text;
-      return toEnglish(text);
+      return toEnglishLazy(text);
     }
     function providerName(id: ProviderId) {
       const provider = PROVIDER_MAP[id];
@@ -147,7 +141,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       callWindowLabel,
       updated: locale === "en" ? "September 2026" : SITE.updated,
     };
-  }, [locale]);
+  }, [locale, enReady]);
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }

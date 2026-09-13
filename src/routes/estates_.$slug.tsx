@@ -55,6 +55,8 @@ function EstatePage() {
   const setInquiry = useDesk((s) => s.setInquiry);
   const { t } = useI18n();
   usePageTitle(estateSeoTitle(estate));
+  const broadbandPreview = broadband.slice(0, 4);
+  const home5gPreview = home5g.slice(0, 3);
 
   useEffect(() => {
     if (!ready) return;
@@ -85,7 +87,7 @@ function EstatePage() {
         <h2 className="text-lg font-semibold">適用{housing}光纖計劃</h2>
         <p className="mt-1 text-sm text-muted">只列出適用{housing}嘅參考月費，並連去原本計劃頁。</p>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {broadband.map((plan) => (
+          {broadbandPreview.map((plan) => (
             <PlanCard key={plan.id} plan={plan} />
           ))}
         </div>
@@ -95,7 +97,9 @@ function EstatePage() {
             search={{ cat: "broadband", housing: estate.housing, estate: estate.name }}
             className="text-accent underline-offset-4 hover:underline"
           >
-            睇晒適用{housing}光纖計劃
+            {broadband.length > broadbandPreview.length
+              ? `睇晒適用${housing}光纖計劃（${broadband.length}）`
+              : `睇晒適用${housing}光纖計劃`}
           </Link>
         </p>
       </section>
@@ -104,10 +108,21 @@ function EstatePage() {
         <h2 className="text-lg font-semibold">5G 家居寬頻</h2>
         <p className="mt-1 text-sm text-muted">免拉線隨插即用，實際速度視訊號而定。</p>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {home5g.map((plan) => (
+          {home5gPreview.map((plan) => (
             <PlanCard key={plan.id} plan={plan} />
           ))}
         </div>
+        {home5g.length > home5gPreview.length ? (
+          <p className="mt-4 text-sm">
+            <Link
+              to="/plans"
+              search={{ cat: "home5g", housing: estate.housing, estate: estate.name }}
+              className="text-accent underline-offset-4 hover:underline"
+            >
+              睇晒 5G 家居計劃（{home5g.length}）
+            </Link>
+          </p>
+        ) : null}
       </section>
 
       <section className="mt-12 border-t border-border pt-8">

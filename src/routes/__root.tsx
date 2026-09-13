@@ -10,7 +10,7 @@ import { AiStaffPanel } from "@/components/ai-staff";
 import { FirstVisitTour } from "@/components/first-visit-tour";
 import { PwaInstallTip } from "@/components/pwa-install-tip";
 import { PwaServiceWorker } from "@/components/pwa-service-worker";
-import { I18nProvider, useI18n } from "@/lib/i18n";
+import { I18nProvider, useI18n, usePageTitle } from "@/lib/i18n";
 import { SITE } from "@/lib/site";
 import { PWA } from "@/lib/pwa";
 import { canonicalUrlFromMatches } from "@/lib/canonical";
@@ -54,6 +54,7 @@ export const Route = createRootRoute({
 
 function NotFound() {
   const { t } = useI18n();
+  usePageTitle(`${t("notFound")}｜${SITE.name}`);
   return (
     <div className="mx-auto max-w-lg px-4 py-20 text-center">
       <h1 className="text-title font-semibold">{t("notFound")}</h1>

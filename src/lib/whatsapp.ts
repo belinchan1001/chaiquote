@@ -10,7 +10,7 @@ import {
 import { SITE } from "@/lib/site";
 import type { Inquiry } from "@/lib/desk";
 import type { Locale } from "@/lib/messages";
-import { toEnglish } from "@/lib/plan-en";
+import { toEnglishLazy } from "@/lib/plan-en-lazy";
 
 const BRAND_TAG = `【${SITE.name}】`;
 
@@ -33,7 +33,7 @@ export function whatsappHref(text: string) {
 export function planLine(plan: Plan, locale: Locale = "zh") {
   const provider = PROVIDER_MAP[plan.providerId];
   if (locale === "en") {
-    return `${provider.nameEn} ${toEnglish(plan.name)} (${toEnglish(CATEGORY_LABEL[plan.category])}, ${formatFee(plan.monthlyFee)} / ${plan.contractMonths} months)`;
+    return `${provider.nameEn} ${toEnglishLazy(plan.name)} (${toEnglishLazy(CATEGORY_LABEL[plan.category])}, ${formatFee(plan.monthlyFee)} / ${plan.contractMonths} months)`;
   }
   return `${provider.name} ${plan.name}（${CATEGORY_LABEL[plan.category]}，月費 ${formatFee(plan.monthlyFee)}／${plan.contractMonths}個月）`;
 }
@@ -41,7 +41,7 @@ export function planLine(plan: Plan, locale: Locale = "zh") {
 function housingLabel(value?: string, locale: Locale = "zh") {
   if (!value) return "";
   const label = value in HOUSING_LABEL ? HOUSING_LABEL[value as Housing] : value;
-  return locale === "en" ? toEnglish(label) : label;
+  return locale === "en" ? toEnglishLazy(label) : label;
 }
 
 export function inquiryLines(inquiry?: Partial<Inquiry> | null, locale: Locale = "zh") {
