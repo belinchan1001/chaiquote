@@ -13,7 +13,21 @@ import { JsonLd } from "@/components/json-ld";
 
 export const Route = createFileRoute("/")({
   component: Home,
-  head: () => shareHead(HOME_SEO, canonicalUrl("/")),
+  head: () => {
+    const seo = shareHead(HOME_SEO, canonicalUrl("/"));
+    return {
+      meta: seo.meta,
+      links: [
+        ...(seo.links ?? []),
+        {
+          rel: "preload",
+          href: "/images/hero-home.webp",
+          as: "image",
+          type: "image/webp",
+        },
+      ],
+    };
+  },
 });
 
 const FEATURED_IDS = [

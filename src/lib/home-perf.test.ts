@@ -22,6 +22,8 @@ describe("homepage first-load images", () => {
     assert.match(home, /srcSet="\/images\/hero-home\.webp"/);
     assert.match(home, /src="\/images\/hero-home\.jpg"/);
     assert.match(home, /fetchPriority="high"/);
+    assert.match(home, /rel: "preload"/);
+    assert.match(home, /href: "\/images\/hero-home\.webp"/);
     assert.doesNotMatch(home.slice(home.indexOf("hero-home.jpg"), home.indexOf("hero-home.jpg") + 400), /loading="lazy"/);
 
     assert.match(home, /srcSet=\{item\.webp\}/);
@@ -79,8 +81,11 @@ describe("homepage first-load images", () => {
     assert.match(vercel, /\/images\/\(\.\*\)/);
     assert.match(vercel, /max-age=2592000/);
     assert.match(vercel, /X-Content-Type-Options/);
-    assert.match(cache, /s-maxage=300/);
+    assert.match(cache, /s-maxage=3600/);
     assert.match(cache, /CDN-Cache-Control/);
+    assert.match(cache, /Vercel-CDN-Cache-Control/);
+    assert.match(cache, /X-Robots-Tag/);
+    assert.match(cache, /HEAD/);
     assert.match(estatePage, /broadbandPreview/);
     assert.match(estatePage, /home5gPreview/);
     assert.doesNotMatch(dir, /showCards|openDistricts/);
