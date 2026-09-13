@@ -35,6 +35,9 @@ export const GUIDE_ARTICLES: Guide[] = [
       "switch-broadband",
       "contract-fees",
       "home5g",
+      "tin-shui-wai",
+      "sha-tin",
+      "tseung-kwan-o",
     ],
     plans: [
       { href: "/plans?cat=broadband", label: "去光纖格價" },
@@ -57,7 +60,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "公屋、居屋、私樓、村屋點分",
         paragraphs: [
           "公屋同埋居屋多數有指定批量價，選擇相對集中，記住用對應樓類去篩，唔好用私樓價去估公屋。想知分別可睇 [公屋同居屋有咩分別](/guides/public-vs-hos)。站內列出嘅 1000M 例子見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)。公屋例子：[天耀邨](/estates/tin-yiu)。",
-          "私樓選擇通常多啲，合約期、路由器、家居電話組合都較密，例如 [太古城](/estates/taikoo-shing)。站內列出嘅 1000M 例子見 [私樓 1000M 參考月費](/guides/private-1000-fees)。村屋係另一批計劃，月費同安裝環境都可以同屋邨差好遠，詳情見 [村屋寬頻點算](/guides/village)。村屋例子見 [村屋光纖參考月費](/guides/village-fees)。",
+          "私樓選擇通常多啲，合約期、路由器、家居電話組合都較密，例如 [太古城](/estates/taikoo-shing)。站內列出嘅 1000M 例子見 [私樓 1000M 參考月費](/guides/private-1000-fees)。村屋係另一批計劃，月費同安裝環境都可以同屋邨差好遠，詳情見 [村屋寬頻點算](/guides/village)。村屋光纖月費例子見 [村屋光纖月費](/guides/village-fees)。",
         ],
         table: {
           caption: "四類樓點分",
@@ -80,8 +83,8 @@ export const GUIDE_ARTICLES: Guide[] = [
             },
             {
               label: "村屋",
-              value: "另一批計劃，月費同安裝環境都可以同屋邨差好遠。",
-              href: "/guides/village",
+              value: "另一套計劃。村屋光纖月費同安裝環境都可以同屋邨差好遠。",
+              href: "/guides/village-fees",
             },
           ],
         },
@@ -118,7 +121,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "下一步",
         paragraphs: [
-          "返首頁輸入屋苑，或者直接開 [光纖格價](/plans?cat=broadband)。屋苑篩點用見 [齊Quote 點用屋苑篩](/guides/estate-filter)。想比較免拉線方案，可睇 [光纖同 5G 家居點揀](/guides/fiber-vs-5g) 或者 [5G 家居攻略](/guides/home5g)。屋苑例子：[天耀邨](/estates/tin-yiu)、[太古城](/estates/taikoo-shing)；全部屋苑見 [屋苑目錄](/estates)。",
+          "返首頁輸入屋苑，或者直接開 [光纖格價](/plans?cat=broadband)。屋苑篩點用見 [齊Quote 點用屋苑篩](/guides/estate-filter)。想比較免拉線方案，可睇 [光纖同 5G 家居點揀](/guides/fiber-vs-5g) 或者 [5G 家居攻略](/guides/home5g)。屋苑例子：[天耀邨](/estates/tin-yiu)、[太古城](/estates/taikoo-shing)；地區：[天水圍寬頻](/guides/tin-shui-wai)、[沙田寬頻](/guides/sha-tin)、[將軍澳寬頻](/guides/tseung-kwan-o)；村屋見 [村屋光纖月費](/guides/village-fees)；全部屋苑見 [屋苑目錄](/estates)。",
         ],
       },
     ],
@@ -134,7 +137,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "Public, HOS, private, village",
         paragraphs: [
           "Public and HOS housing usually have bulk rates. Do not use a private-estate price to guess a public-estate fee. See [public vs HOS](/guides/public-vs-hos). Listed 1000M examples: [public / HOS 1000M reference fees](/guides/public-hos-fees).",
-          "Listed 1000M examples: [private-estate 1000M reference fees](/guides/private-1000-fees). Village houses are a different set of plans. Details: [village broadband](/guides/village). Village examples: [village fibre reference fees](/guides/village-fees).",
+          "Listed 1000M examples: [private-estate 1000M reference fees](/guides/private-1000-fees). Village houses are a different set of plans. Details: [village broadband](/guides/village). Village fibre monthly fees: [village fibre fees](/guides/village-fees).",
         ],
         table: {
           caption: "Housing types",
@@ -157,8 +160,8 @@ export const GUIDE_ARTICLES: Guide[] = [
             },
             {
               label: "Village",
-              value: "Separate plans; install conditions can differ a lot.",
-              href: "/guides/village",
+              value: "Separate plans. Village fibre fees and install conditions can differ a lot.",
+              href: "/guides/village-fees",
             },
           ],
         },
@@ -194,7 +197,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "Next step",
         paragraphs: [
-          "Open the fibre compare page or type your estate on the home page. How to use the estate filter: [estate filter](/guides/estate-filter). To compare a wireless option, see [fibre vs 5G home](/guides/fiber-vs-5g).",
+          "Open the fibre compare page or type your estate on the home page. How to use the estate filter: [estate filter](/guides/estate-filter). District pages: [Tin Shui Wai](/guides/tin-shui-wai), [Sha Tin](/guides/sha-tin), [Tseung Kwan O](/guides/tseung-kwan-o). Village fibre fees: [village fibre fees](/guides/village-fees). To compare a wireless option, see [fibre vs 5G home](/guides/fiber-vs-5g).",
         ],
       },
     ],
@@ -209,7 +212,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         q: "村屋有冇光纖？",
-        a: "有指定計劃，但唔等於公屋價，亦唔等於一定拉到。現場環境、村路、入線都要電訊商確認。拉唔到可以一併比較 [5G 家居](/guides/home5g)。詳見 [村屋寬頻點算](/guides/village)。站內列出例子見 [村屋光纖參考月費](/guides/village-fees)。",
+        a: "有指定計劃，但唔等於公屋價，亦唔等於一定拉到。現場環境、村路、入線都要電訊商確認。拉唔到可以一併比較 [5G 家居](/guides/home5g)。詳見 [村屋寬頻點算](/guides/village)。站內列出例子見 [村屋光纖月費](/guides/village-fees)。",
       },
       {
         q: "轉寬頻會唔會斷網？",
@@ -231,7 +234,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         q: "Do village houses have fibre?",
-        a: "Some do, on separate plans. Coverage and install still need carrier confirmation. See [village broadband](/guides/village). Listed examples: [village fibre reference fees](/guides/village-fees).",
+        a: "Some do, on separate plans. Coverage and install still need carrier confirmation. See [village broadband](/guides/village). Listed examples: [village fibre fees](/guides/village-fees).",
       },
       {
         q: "Will switching broadband cut the connection?",
@@ -959,19 +962,20 @@ export const GUIDE_ARTICLES: Guide[] = [
     slug: "public-hos-fees",
     minutes: 6,
     category: "fiber",
-    seoTitle: "公屋居屋 1000M 參考月費｜齊Quote",
+    seoTitle: "公屋寬頻月費｜居屋1000M參考｜齊Quote",
     h1: "公屋／居屋 1000M 常見參考月費幾多？",
     description:
-      "公屋／居屋 1000M 唔係劃一價。下列係站內列出例子，僅供參考，唔係保證價。先用樓類篩，覆蓋同月費以電訊商確認為準。",
+      "公屋寬頻月費同埋居屋 1000M 唔係劃一價。下列係站內列出例子，僅供參考，唔係保證價。先用樓類篩，覆蓋同月費以電訊商確認為準。",
     title: "公屋／居屋 1000M 常見參考月費幾多？",
-    excerpt: "唔係劃一價。下列係站內列出例子，僅供參考，唔代表你屋苑一定有。",
+    excerpt: "公屋寬頻月費唔係劃一價。下列係站內列出例子，僅供參考，唔代表你屋苑一定有。",
     titleEn: "Public / HOS 1000M: listed reference monthly fees",
     excerptEn: "Not one flat price. The examples below are listed on this site, for reference only — not a guarantee for your estate.",
     descriptionEn:
       "Public and HOS 1000M fibre is not one flat price. Examples below are listed on this site for reference only, not a guaranteed fee. Filter by housing type; coverage and fees are confirmed by the carrier.",
     h1En: "What are common listed 1000M fees for public / HOS housing?",
     published: "2026-09-11",
-    related: ["public-vs-hos", "home-broadband-2026", "private-1000-fees", "estate-filter", "fiber", "switch-broadband", "is-1000m-enough"],
+    modified: "2026-09-13",
+    related: ["public-vs-hos", "home-broadband-2026", "private-1000-fees", "village-fees", "estate-filter", "fiber", "switch-broadband", "is-1000m-enough", "tin-shui-wai", "sha-tin"],
     plans: [
       { href: "/plans?cat=broadband&housing=public", label: "公屋光纖計劃" },
       { href: "/plans?cat=broadband&housing=hos", label: "居屋光纖計劃" },
@@ -1030,6 +1034,13 @@ export const GUIDE_ARTICLES: Guide[] = [
           "部分例子亦適用私樓；適用樓類以計劃卡為準",
           "呢張表**唔係排名**，亦唔保證你屋苑有其中一條。公屋同居屋好多時分開報價，分別見 [公屋同居屋有咩分別](/guides/public-vs-hos)。",
           "點查：先用樓類篩（公屋／居屋），再睇計劃卡上嘅月費、合約同適用樓類，最後用 WhatsApp 查核。覆蓋同月費以電訊商確認為準。",
+        ],
+      },
+      {
+        heading: "地區例子",
+        paragraphs: [
+          "天水圍公屋例如 [天耀邨](/estates/tin-yiu)、[天瑞邨](/estates/tin-shui)，用呢張公居屋表，唔好用嘉湖私樓價。詳情見 [天水圍寬頻](/guides/tin-shui-wai)。",
+          "沙田公屋例如 [瀝源邨](/estates/lek-yuen)、[禾輋邨](/estates/wo-che)，見 [沙田寬頻](/guides/sha-tin)。將軍澳公屋例如 [坑口邨](/estates/hang-hau)、[寶林邨](/estates/po-lam)，見 [將軍澳寬頻](/guides/tseung-kwan-o)。村屋／丁屋唔入呢張表，見 [村屋光纖月費](/guides/village-fees)。",
         ],
       },
       {
@@ -1092,6 +1103,13 @@ export const GUIDE_ARTICLES: Guide[] = [
         ],
       },
       {
+        heading: "District examples",
+        paragraphs: [
+          "Tin Shui Wai public estates such as [Tin Yiu](/estates/tin-yiu) use this public / HOS table, not Kingswood private pricing. See [Tin Shui Wai broadband](/guides/tin-shui-wai).",
+          "Sha Tin public estates: [Sha Tin broadband](/guides/sha-tin). Tseung Kwan O public estates: [Tseung Kwan O broadband](/guides/tseung-kwan-o). Village houses are not on this table; see [village fibre fees](/guides/village-fees).",
+        ],
+      },
+      {
         heading: "Next step",
         paragraphs: [
           "Open [public fibre plans](/plans?cat=broadband&housing=public) or [HOS fibre plans](/plans?cat=broadband&housing=hos) and keep the housing filter on. How to search by estate name: [estate filter](/guides/estate-filter).",
@@ -1100,6 +1118,10 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
     ],
     faq: [
+      {
+        q: "公屋寬頻月費大概幾錢？",
+        a: "站內列出嘅 1000M 例子由有線 HK$58／48 個月、HGC 轉台 HK$75／36 個月，去到香港寬頻 HK$98／36 個月。呢啲**唔係**保證價，亦唔代表你屋邨一定有。實際以電訊商確認為準。",
+      },
       {
         q: "公屋同居屋價會唔會一樣？",
         a: "唔一定。好多時分開批量計劃，篩選時分開揀。分別見 [公屋同居屋有咩分別](/guides/public-vs-hos)。頁上例子只係站內列出、僅供參考。",
@@ -1114,6 +1136,10 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
     ],
     faqEn: [
+      {
+        q: "What are typical public-housing fibre monthly fees?",
+        a: "Listed 1000M examples range from i-Cable HK$58 / 48 months and HGC switch HK$75 / 36 months, to HKBN HK$98 / 36 months. These are **not** guaranteed prices and do not mean your estate has them. The carrier confirms the actual fee.",
+      },
       {
         q: "Are public-housing and HOS fees the same?",
         a: "Not necessarily. They often have separate bulk plans and should be filtered separately. See [public vs HOS](/guides/public-vs-hos). The examples on this page are listed on the site, for reference only.",
@@ -1160,7 +1186,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       { href: "/estates", label: "屋苑目錄" },
       { href: "/guides/public-hos-fees", label: "公屋／居屋參考月費" },
       { href: "/guides/private-1000-fees", label: "私樓 1000M 參考月費" },
-      { href: "/guides/village-fees", label: "村屋參考月費" },
+      { href: "/guides/village-fees", label: "村屋光纖月費" },
       { href: "/guides/village", label: "村屋點算" },
     ],
     body: [
@@ -1225,7 +1251,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "點理解 1000M 表",
         paragraphs: [
           "呢張表**唔係排名**，亦唔保證你屋苑有其中一條。",
-          "村屋月費同公屋／居屋／私樓**唔好混用**。公居屋 1000M 見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)；私樓 1000M 見 [私樓 1000M 參考月費](/guides/private-1000-fees)；村屋見 [村屋光纖參考月費](/guides/village-fees)。",
+          "村屋月費同公屋／居屋／私樓**唔好混用**。公居屋 1000M 見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)；私樓 1000M 見 [私樓 1000M 參考月費](/guides/private-1000-fees)；村屋見 [村屋光纖月費](/guides/village-fees)。",
           "適用樓類以計劃卡為準。",
         ],
       },
@@ -1273,7 +1299,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "下一步",
         paragraphs: [
-          "去 [光纖格價](/plans?cat=broadband) 對卡。覆蓋同月費以電訊商確認為準。",
+          "去 [光纖格價](/plans?cat=broadband) 對卡。覆蓋同月費以電訊商確認為準。地區例子：[天水圍寬頻](/guides/tin-shui-wai)、[沙田寬頻](/guides/sha-tin)、[將軍澳寬頻](/guides/tseung-kwan-o)。",
           DISCLAIMER,
         ],
       },
@@ -1340,7 +1366,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "How to read the 1000M table",
         paragraphs: [
           "This table is **not a ranking**, and it does not guarantee any of these plans at your estate.",
-          "Do **not** mix village fees with public / HOS / private fees. Public / HOS 1000M: [public / HOS 1000M reference fees](/guides/public-hos-fees). Private 1000M: [private-estate 1000M reference fees](/guides/private-1000-fees). Village: [village fibre reference fees](/guides/village-fees).",
+          "Do **not** mix village fees with public / HOS / private fees. Public / HOS 1000M: [public / HOS 1000M reference fees](/guides/public-hos-fees). Private 1000M: [private-estate 1000M reference fees](/guides/private-1000-fees). Village: [village fibre fees](/guides/village-fees).",
           "Housing type is confirmed on the plan card.",
         ],
       },
@@ -1388,7 +1414,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "Next step",
         paragraphs: [
-          "Open [fibre compare](/plans?cat=broadband) and read the cards. Coverage and fees are confirmed by the carrier.",
+          "Open [fibre compare](/plans?cat=broadband) and read the cards. Coverage and fees are confirmed by the carrier. District pages: [Tin Shui Wai](/guides/tin-shui-wai), [Sha Tin](/guides/sha-tin), [Tseung Kwan O](/guides/tseung-kwan-o).",
           DISCLAIMER,
         ],
       },
@@ -1400,7 +1426,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         q: "村屋可唔可以用 HK$58 嗰行？",
-        a: "唔可以。HK$58 嗰行係有線 1000M（48 個月），適用公屋、居屋、私樓，唔適用村屋。村屋月費同安裝環境係另一套，見 [村屋光纖參考月費](/guides/village-fees)。",
+        a: "唔可以。HK$58 嗰行係有線 1000M（48 個月），適用公屋、居屋、私樓，唔適用村屋。村屋月費同安裝環境係另一套，見 [村屋光纖月費](/guides/village-fees)。",
       },
       {
         q: "表上數字係咪保證價？",
@@ -1418,7 +1444,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         q: "Can a village house use the HK$58 row?",
-        a: "No. The HK$58 row is i-Cable 1000M (48 months) for public, HOS and private housing, not village houses. Village fees and install conditions are a separate set; see [village fibre reference fees](/guides/village-fees).",
+        a: "No. The HK$58 row is i-Cable 1000M (48 months) for public, HOS and private housing, not village houses. Village fees and install conditions are a separate set; see [village fibre fees](/guides/village-fees).",
       },
       {
         q: "Is the table a guaranteed price?",
@@ -1434,7 +1460,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     slug: "private-1000-fees",
     minutes: 6,
     category: "fiber",
-    seoTitle: "私樓 1000M 參考月費｜齊Quote",
+    seoTitle: "私樓寬頻月費｜私樓1000M參考｜齊Quote",
     h1: "私樓 1000M 常見參考月費幾多？",
     description:
       "私樓 1000M 唔係劃一價。下列係站內列出例子，僅供參考，唔係保證價。部分計劃亦適用公屋／居屋，以計劃卡為準。覆蓋同月費以電訊商確認為準。",
@@ -1447,7 +1473,8 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Private-estate 1000M fibre is not one flat price. Examples below are listed on this site for reference only, not a guaranteed fee. Some plans also apply to public / HOS; the plan card wins. Coverage and fees are confirmed by the carrier.",
     h1En: "What are common listed 1000M fees for private estates?",
     published: "2026-09-12",
-    related: ["public-hos-fees", "home-broadband-2026", "estate-filter", "fiber", "public-vs-hos"],
+    modified: "2026-09-13",
+    related: ["public-hos-fees", "home-broadband-2026", "village-fees", "estate-filter", "fiber", "public-vs-hos", "sha-tin", "tseung-kwan-o"],
     plans: [{ href: "/plans?cat=broadband&housing=private", label: "私樓光纖計劃" }],
     estates: [
       { href: "/estates/taikoo-shing", label: "太古城" },
@@ -1505,9 +1532,15 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "點理解呢批例子",
         paragraphs: [
-          "唔好用公屋／居屋價去估私樓。公居屋 1000M 見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)。2026 年站內列出例子見 [2026 家居寬頻格價](/guides/home-broadband-2026)。",
+          "唔好用公屋／居屋價去估私樓。公居屋 1000M 見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)。2026 年站內列出例子見 [2026 家居寬頻格價](/guides/home-broadband-2026)。村屋唔入呢張表，見 [村屋光纖月費](/guides/village-fees)。",
           "呢張表**唔係排名**，亦唔保證你屋苑有其中一條。適用樓類以計劃卡為準。",
           "點查：先用樓類篩（私樓），再睇計劃卡上嘅月費、合約同適用樓類，最後用 WhatsApp 查核。覆蓋同月費以電訊商確認為準。",
+        ],
+      },
+      {
+        heading: "地區例子",
+        paragraphs: [
+          "嘉湖山莊見 [天水圍寬頻](/guides/tin-shui-wai)。沙田第一城、名城見 [沙田寬頻](/guides/sha-tin)。日出康城、維景灣畔見 [將軍澳寬頻](/guides/tseung-kwan-o)。",
         ],
       },
       {
@@ -1569,9 +1602,15 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "How to read these examples",
         paragraphs: [
-          "Do not guess a private-estate fee from a public-housing price. Public / HOS 1000M: [public / HOS 1000M reference fees](/guides/public-hos-fees). 2026 listed examples: [2026 home broadband](/guides/home-broadband-2026).",
+          "Do not guess a private-estate fee from a public-housing price. Public / HOS 1000M: [public / HOS 1000M reference fees](/guides/public-hos-fees). 2026 listed examples: [2026 home broadband](/guides/home-broadband-2026). Village houses: [village fibre fees](/guides/village-fees).",
           "This table is **not a ranking**, and it does not guarantee any of these plans at your estate. Housing type is confirmed on the plan card.",
           "How to check: filter by housing type (private), read the fee, contract and housing tags on the plan card, then confirm on WhatsApp. Coverage and fees are confirmed by the carrier.",
+        ],
+      },
+      {
+        heading: "District examples",
+        paragraphs: [
+          "Kingswood Villas: [Tin Shui Wai broadband](/guides/tin-shui-wai). City One: [Sha Tin broadband](/guides/sha-tin). LOHAS Park: [Tseung Kwan O broadband](/guides/tseung-kwan-o).",
         ],
       },
       {
@@ -1584,6 +1623,10 @@ export const GUIDE_ARTICLES: Guide[] = [
     ],
     faq: [
       {
+        q: "私樓寬頻月費大概幾錢？",
+        a: "站內列出嘅私樓 1000M 例子包括有線私人樓宇 HK$88／36 個月、HGC HK$89／39 個月、香港寬頻 HK$98／36 個月。部分計劃亦適用公屋／居屋，**以計劃卡為準**。唔係保證價。",
+      },
+      {
         q: "係咪保證價？",
         a: "唔係保證價。站內列出只供參考，實際月費、合約同覆蓋一律以電訊商確認為準。",
       },
@@ -1593,6 +1636,10 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
     ],
     faqEn: [
+      {
+        q: "What are typical private-estate fibre monthly fees?",
+        a: "Listed private 1000M examples include i-Cable HK$88 / 36 months, HGC HK$89 / 39 months and HKBN HK$98 / 36 months. Some plans also apply to public / HOS — **the plan card wins**. Not a guaranteed price.",
+      },
       {
         q: "Is this a guaranteed price?",
         a: "No. Listed fees are for reference only. Actual fees, contracts and coverage are confirmed by the carrier.",
@@ -1607,12 +1654,12 @@ export const GUIDE_ARTICLES: Guide[] = [
     slug: "village-fees",
     minutes: 6,
     category: "fiber",
-    seoTitle: "村屋光纖參考月費｜齊Quote",
+    seoTitle: "村屋光纖月費｜丁屋參考計劃｜齊Quote",
     h1: "村屋光纖常見參考月費幾多？",
     description:
-      "村屋光纖係另一套計劃。下列係站內列出例子，僅供參考。唔好套用公屋／居屋／私樓月費。覆蓋同安裝以電訊商確認為準。",
-    title: "村屋光纖常見參考月費幾多？",
-    excerpt: "村屋係另一套計劃。下列係站內列出例子，僅供參考。唔好套用公屋／居屋／私樓月費。",
+      "村屋光纖月費係另一套計劃，唔好套用公屋／居屋／私樓價。下列係站內列出例子，僅供參考。丁屋、新界村屋覆蓋同安裝以電訊商確認為準。",
+    title: "村屋光纖月費幾多？站內列出參考",
+    excerpt: "村屋光纖月費係另一套計劃。下列係站內列出例子，僅供參考。唔好套用公屋／居屋／私樓月費。",
     titleEn: "Village fibre: listed reference monthly fees",
     excerptEn:
       "Village fibre is a separate set of plans. The examples below are listed on this site, for reference only. Do not apply public / HOS / private fees.",
@@ -1620,18 +1667,28 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Village fibre is a separate set of plans. Examples below are listed on this site for reference only. Do not apply public, HOS or private fees. Coverage and install are confirmed by the carrier.",
     h1En: "What are common listed village fibre monthly fees?",
     published: "2026-09-12",
-    related: ["village", "home-broadband-2026", "village-onsite", "fiber", "estate-filter"],
+    modified: "2026-09-13",
+    related: ["village", "home-broadband-2026", "village-onsite", "fiber", "estate-filter", "tseung-kwan-o", "tin-shui-wai"],
     plans: [{ href: "/plans?cat=broadband&housing=village", label: "村屋光纖計劃" }],
     estates: [
       { href: "/guides/village", label: "村屋點算" },
       { href: "/guides/village-onsite", label: "實地視察" },
       { href: "/estates", label: "屋苑目錄" },
     ],
+    inquiry: { housing: "village" },
+    cta: {
+      lead: "填完整村屋／丁屋地址，用 WhatsApp 查核覆蓋同村屋光纖月費。僅供參考，以電訊商確認為準。",
+      leadEn: "Send the full village-house address on WhatsApp to check coverage and village fibre fees. For reference only; the carrier confirms.",
+      button: "WhatsApp 查核村屋光纖月費",
+      buttonEn: "WhatsApp a village fibre quote",
+      waText: "【齊Quote】你好，我想查核村屋光纖月費同覆蓋。完整地址：",
+      waTextEn: "[ChaiQuote] Hi, I would like to check village fibre monthly fees and coverage. Full address:",
+    },
     body: [
       {
         heading: "村屋係另一套",
         paragraphs: [
-          "村屋光纖係**另一套**計劃，**唔好**套用公屋／居屋／私樓月費。下列係**站內列出**例子，僅供參考。",
+          "村屋光纖月費係**另一套**計劃，**唔好**套用公屋／居屋／私樓月費。下列係**站內列出**例子，僅供參考。",
         ],
         table: {
           caption: "站內列出｜僅供參考",
@@ -1678,9 +1735,29 @@ export const GUIDE_ARTICLES: Guide[] = [
         ],
       },
       {
+        heading: "點解村屋光纖月費通常分開報",
+        paragraphs: [
+          "公屋、居屋好多時有批量合約；村屋、丁屋入線睇條村、條街、井蓋同屋地，所以月費、安裝費、完工期都係另一套。表上由 HK$229 起嗰幾行係**特選村屋**計劃，唔等於新界每條村都有。",
+          "報價一定要填完整地址，唔好只寫「元朗村屋」。需要可以約 [實地視察同現場測 5G](/guides/village-onsite)。",
+        ],
+      },
+      {
+        heading: "拉唔到光纖點算",
+        paragraphs: [
+          "村屋未必拉到光纖。可以一併睇 [5G 家居攻略](/guides/home5g) 同 [5G 家居格價](/plans?cat=home5g)。5G 家居速度視訊號，唔好當固定光纖替代。",
+        ],
+      },
+      {
+        heading: "新界村屋、丁屋點報價",
+        paragraphs: [
+          "元朗、錦田、八鄉、屏山、大埔、西貢、坑口村等新界村屋／丁屋，唔好用公屋表去估村屋光纖月費。月費睇條村、條街，唔係一區一價。將軍澳範圍村屋見 [將軍澳寬頻](/guides/tseung-kwan-o)；天水圍附近村屋仍然用呢張村屋表，唔好用嘉湖價，見 [天水圍寬頻](/guides/tin-shui-wai)。",
+          "報價一定要填完整地址同門牌，唔好只寫區名。",
+        ],
+      },
+      {
         heading: "下一步",
         paragraphs: [
-          "去 [村屋光纖格價](/plans?cat=broadband&housing=village) 對卡。拉唔到光纖可一併睇 [5G 家居格價](/plans?cat=home5g)。想知點用屋苑名，見 [齊Quote 點用屋苑篩](/guides/estate-filter)。",
+          "去 [村屋光纖格價](/plans?cat=broadband&housing=village) 對卡。拉唔到光纖可一併睇 [5G 家居格價](/plans?cat=home5g)。地區：[天水圍寬頻](/guides/tin-shui-wai)、[將軍澳寬頻](/guides/tseung-kwan-o)。想知點用屋苑名，見 [齊Quote 點用屋苑篩](/guides/estate-filter)。",
           DISCLAIMER,
         ],
       },
@@ -1689,7 +1766,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "Village is a separate set",
         paragraphs: [
-          "Village fibre is a **separate set** of plans. Do **not** apply public / HOS / private fees. The rows below are **listed on this site**, for reference only.",
+          "Village fibre monthly fees are a **separate set** of plans. Do **not** apply public / HOS / private fees. The rows below are **listed on this site**, for reference only.",
         ],
         table: {
           caption: "Listed on this site | for reference only",
@@ -1736,14 +1813,38 @@ export const GUIDE_ARTICLES: Guide[] = [
         ],
       },
       {
+        heading: "Why village fibre is quoted separately",
+        paragraphs: [
+          "Public and HOS estates often have bulk contracts. Village houses depend on the village, the street and the install path, so the fee table is a **separate set**. Rows from HK$229 are **selected village** plans, not every village in the New Territories.",
+          "Give the full address. You can book [an on-site visit / 5G test](/guides/village-onsite).",
+        ],
+      },
+      {
+        heading: "If fibre cannot be pulled",
+        paragraphs: [
+          "Village houses may not get fibre. Also see [5G home](/guides/home5g) and [5G home plans](/plans?cat=home5g). Speed depends on the signal; do not treat it as fixed fibre.",
+        ],
+      },
+      {
+        heading: "How New Territories village houses are quoted",
+        paragraphs: [
+          "Village houses and ding uk in Yuen Long, Kam Tin, Pat Heung, Ping Shan, Tai Po, Sai Kung and Hang Hau Village should not reuse a public-housing table for village fibre fees. The fee depends on the village and the street, not one district price. Tseung Kwan O villages: [Tseung Kwan O broadband](/guides/tseung-kwan-o). Villages near Tin Shui Wai still use this village table, not Kingswood pricing: [Tin Shui Wai broadband](/guides/tin-shui-wai).",
+          "Give the full address and house number. A district name alone is not enough.",
+        ],
+      },
+      {
         heading: "Next step",
         paragraphs: [
-          "Open [village fibre plans](/plans?cat=broadband&housing=village) and read the cards. If fibre cannot be pulled, also see [5G home plans](/plans?cat=home5g). How to search by estate name: [estate filter](/guides/estate-filter).",
+          "Open [village fibre plans](/plans?cat=broadband&housing=village) and read the cards. If fibre cannot be pulled, also see [5G home plans](/plans?cat=home5g). Districts: [Tin Shui Wai](/guides/tin-shui-wai), [Tseung Kwan O](/guides/tseung-kwan-o). How to search by estate name: [estate filter](/guides/estate-filter).",
           DISCLAIMER,
         ],
       },
     ],
     faq: [
+      {
+        q: "村屋光纖月費大概幾錢？",
+        a: "站內列出例子由特選村屋 2000M HK$229／24 個月起，去到網上行村屋 2500M HK$376／36 個月。呢啲**唔係**保證價，亦唔等於你條村一定有。實際以電訊商確認為準。",
+      },
       {
         q: "拉唔到光纖點算？",
         a: "村屋未必拉到光纖。可以先睇 [5G 家居攻略](/guides/home5g)，或者約 [實地視察同現場測 5G](/guides/village-onsite)。覆蓋以電訊商確認為準。",
@@ -1753,11 +1854,23 @@ export const GUIDE_ARTICLES: Guide[] = [
         a: "唔可以。私樓 1000M 例子見 [私樓 1000M 參考月費](/guides/private-1000-fees)。村屋係另一套計劃，唔好套用公屋／居屋／私樓月費。頁上例子只係站內列出、僅供參考。",
       },
       {
+        q: "丁屋光纖月費同村屋一樣？",
+        a: "丁屋同村屋都歸入村屋計劃，唔好套用公屋／居屋／私樓月費。實際村屋光纖月費以電訊商確認為準，表上只係站內列出例子。",
+      },
+      {
+        q: "特選村屋計劃係咪每條村都有？",
+        a: "唔係。表上由 HK$229 起嗰幾行係特選村屋計劃，唔等於新界每條村都有。覆蓋以電訊商確認為準。",
+      },
+      {
         q: "係咪保證價？",
         a: "唔係保證價。站內列出只供參考，實際月費、合約同覆蓋一律以電訊商確認為準。",
       },
     ],
     faqEn: [
+      {
+        q: "What are typical village fibre monthly fees?",
+        a: "Listed examples start at selected-village 2000M HK$229 / 24 months, up to Netvigator village 2500M HK$376 / 36 months. These are **not** guaranteed prices and do not mean every village has them. The carrier confirms the actual fee.",
+      },
       {
         q: "What if fibre cannot be pulled?",
         a: "Village houses may not get fibre. See [5G home](/guides/home5g), or book [an on-site visit / 5G test](/guides/village-onsite). Coverage is confirmed by the carrier.",
@@ -1765,6 +1878,14 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         q: "Can I use the private-estate table prices?",
         a: "No. Private-estate 1000M examples: [private-estate 1000M reference fees](/guides/private-1000-fees). Village plans are a separate set. Do not reuse public / HOS / private fees. The examples on this page are listed on the site, for reference only.",
+      },
+      {
+        q: "Are ding uk fees the same as village fibre fees?",
+        a: "Ding uk and village houses both use village plans. Do not reuse public / HOS / private fees. Actual village fibre fees are confirmed by the carrier; the table is listed examples only.",
+      },
+      {
+        q: "Does every village have the selected-village plans?",
+        a: "No. Rows from HK$229 are selected-village plans, not every village in the New Territories. Coverage is confirmed by the carrier.",
       },
       {
         q: "Is this a guaranteed price?",
@@ -1837,7 +1958,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "名唔全、錯字或者嘈音，結果可能唔準；可以改少少字再試，或者去 [屋苑目錄](/estates) 搵。",
           "入伙限定、快閃計劃只適用指定屋苑，**唔等於全港**都有同一價。",
-          "村屋係另一套，見 [村屋寬頻點算](/guides/village)。",
+          "村屋係另一套，見 [村屋寬頻點算](/guides/village)、[村屋光纖月費](/guides/village-fees)。",
           DISCLAIMER,
         ],
       },
@@ -1882,7 +2003,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "Incomplete names, typos or noisy results can miss. Try a shorter name, or browse the [estate directory](/estates).",
           "Intake-only and flash offers apply to named estates. They are **not** the same fee across Hong Kong.",
-          "Village houses are a separate set of plans; see [village broadband](/guides/village).",
+          "Village houses are a separate set of plans; see [village broadband](/guides/village) and [village fibre fees](/guides/village-fees).",
           DISCLAIMER,
         ],
       },
@@ -1898,7 +2019,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         q: "村屋點處理？",
-        a: "村屋唔好用公屋價去估。另見 [村屋寬頻點算](/guides/village)，需要可以約 [實地視察](/guides/village-onsite)。",
+        a: "村屋唔好用公屋價去估。月費例子見 [村屋光纖月費](/guides/village-fees)。另見 [村屋寬頻點算](/guides/village)，需要可以約 [實地視察](/guides/village-onsite)。",
       },
     ],
     faqEn: [
@@ -1912,7 +2033,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         q: "How should village houses be handled?",
-        a: "Do not reuse a public-housing fee for a village house. See [village broadband](/guides/village); book an [on-site check](/guides/village-onsite) if needed.",
+        a: "Do not reuse a public-housing fee for a village house. Fee examples: [village fibre fees](/guides/village-fees). Also see [village broadband](/guides/village); book an [on-site check](/guides/village-onsite) if needed.",
       },
     ],
   },

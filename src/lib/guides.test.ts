@@ -574,3 +574,56 @@ describe("locked SEO guides", () => {
     }
   });
 });
+
+describe("district and village-fee search pages", () => {
+  it("publishes Tin Shui Wai, Sha Tin and Tseung Kwan O guides on the sitemap", () => {
+    for (const slug of ["tin-shui-wai", "sha-tin", "tseung-kwan-o"] as const) {
+      const guide = getGuide(slug);
+      assert.ok(guide, slug);
+      assert.equal(guide.category, "fiber");
+      assert.equal(guide.published, "2026-09-13");
+      assert.match(guide.seoTitle, /齊Quote$/);
+      assert.notEqual(guide.seoTitle, guide.h1);
+      assert.ok(guide.description.length >= 70, slug);
+      assert.match(guide.description, /以電訊商確認為準/);
+      assert.ok(guide.faq && guide.faq.length >= 3, slug);
+      assert.ok(guide.bodyEn.length >= guide.body.length, slug);
+      assert.ok(SITEMAP_PAGES.some((page) => page.path === `/guides/${slug}`), slug);
+      const text = guideText(slug);
+      assert.match(text, /僅供參考|for reference only/i);
+      assert.match(text, /唔係排名|not a ranking/i);
+      for (const phrase of [...FORBIDDEN, ...RANKING_FORBIDDEN]) {
+        assert.equal(text.includes(phrase), false, `${slug} forbidden ${phrase}`);
+      }
+    }
+    assert.match(getGuide("tin-shui-wai")!.h1, /天水圍寬頻/);
+    assert.match(getGuide("sha-tin")!.h1, /沙田寬頻/);
+    assert.match(getGuide("tseung-kwan-o")!.h1, /將軍澳寬頻/);
+    assert.ok(getGuide("fiber")?.related?.includes("tin-shui-wai"));
+    assert.ok(getGuide("public-hos-fees")?.related?.includes("tin-shui-wai"));
+  });
+
+  it("aims village-fees at 村屋光纖月費 without changing the locked table", () => {
+    const guide = getGuide("village-fees");
+    assert.ok(guide);
+    assert.match(guide.seoTitle, /村屋光纖月費/);
+    assert.match(guide.title, /村屋光纖月費/);
+    assert.match(guide.description, /村屋光纖月費/);
+    assert.match(guide.cta?.button ?? "", /村屋光纖月費/);
+    assert.ok(guide.body.some((section) => section.heading === "點解村屋光纖月費通常分開報"));
+    assert.ok(guide.body.some((section) => section.heading === "新界村屋、丁屋點報價"));
+    assert.ok(guide.faq?.some((item) => /村屋光纖月費/.test(item.q)));
+    assert.ok(guide.faq?.some((item) => /丁屋光纖月費/.test(item.q)));
+    const text = guideText("village-fees");
+    assert.match(text, /特選村屋/);
+    assert.match(text, /完整地址/);
+    assert.match(text, /坑口村/);
+    assert.ok(guide.bodyEn.length >= guide.body.length);
+    assert.match(guideText("fiber"), /\[村屋光纖月費\]\(\/guides\/village-fees\)/);
+    assert.match(guideText("village"), /\[村屋光纖月費\]\(\/guides\/village-fees\)/);
+    assert.match(guideText("home-broadband-2026"), /\[村屋光纖月費\]\(\/guides\/village-fees\)/);
+    assert.ok(getGuide("tin-shui-wai")?.related?.includes("village-fees"));
+    assert.ok(getGuide("sha-tin")?.related?.includes("village-fees"));
+    assert.ok(SITEMAP_PAGES.some((page) => page.path === "/guides/village-fees"));
+  });
+});

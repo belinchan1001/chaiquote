@@ -1,5 +1,6 @@
 import type { Inquiry } from "./desk.ts";
 import { GUIDE_ARTICLES } from "./guide-articles.ts";
+import { DISTRICT_GUIDES } from "./district-guides.ts";
 
 export type GuideSection = { heading: string; paragraphs: string[]; table?: GuideTable };
 export type GuideCategory = "fiber" | "home5g" | "mobile" | "business";
@@ -226,7 +227,7 @@ export const CORE_GUIDES: Guide[] = [
       {
         heading: "村屋光纖唔係公屋價",
         paragraphs: [
-          "公屋／居屋有時有指定批量計劃；村屋多數係另一批報價，月費、安裝費、完工期都可以唔同。齊Quote 分開列出參考，例子見 [村屋光纖參考月費](/guides/village-fees)，唔好用屋邨價去估丁屋。",
+          "公屋／居屋有時有指定批量計劃；村屋多數係另一批報價，月費、安裝費、完工期都可以唔同。齊Quote 分開列出參考，例子見 [村屋光纖月費](/guides/village-fees)，唔好用屋邨價去估丁屋。",
         ],
       },
       {
@@ -248,6 +249,19 @@ export const CORE_GUIDES: Guide[] = [
         heading: "5G home is a common option",
         paragraphs: [
           "Village houses and tong lau without fibre can use 5G home — plug in and go. Ask about the high-speed GB cap and peak-hour performance.",
+        ],
+      },
+      {
+        heading: "Village fibre is not a public-housing fee",
+        paragraphs: [
+          "Public and HOS estates sometimes have bulk plans. Village houses are usually a separate quote: monthly fee, install fee and completion date can all differ. Listed examples: [village fibre fees](/guides/village-fees). Do not guess a ding uk fee from an estate price.",
+        ],
+      },
+      {
+        heading: "A visit may be needed",
+        paragraphs: [
+          "The pull path, manhole and rooftop position rarely show up in photos. Book [an on-site visit / 5G test](/guides/village-onsite) if needed, then decide fibre or 5G home.",
+          "Coverage, install dates and fees are confirmed by the carrier. Do not assume a line exists.",
         ],
       },
     ],
@@ -273,7 +287,7 @@ export const CORE_GUIDES: Guide[] = [
     titleEn: "Village broadband: on-site fibre check and 5G signal test",
     excerptEn:
       "Not sure whether fibre is worth installing at a village house, or whether 5G home is stable enough? We can visit, or bring a router to test the signal, then advise.",
-    related: ["village", "fiber-vs-5g"],
+    related: ["village", "fiber-vs-5g", "village-fees"],
     plans: [{ href: "/plans?cat=broadband&housing=village", label: "村屋光纖計劃" }],
     estates: [
       { href: "/estates", label: "屋苑目錄" },
@@ -321,7 +335,7 @@ export const CORE_GUIDES: Guide[] = [
         heading: "點約",
         paragraphs: [
           "WhatsApp 報完整地址＋想視察光纖／測 5G／兩樣。",
-          "可先睇網上記錄計劃，村屋建議查核／視察定案。",
+          "可先睇 [村屋光纖月費](/guides/village-fees)，村屋建議查核／視察定案。",
         ],
       },
     ],
@@ -357,14 +371,14 @@ export const CORE_GUIDES: Guide[] = [
         heading: "How to book",
         paragraphs: [
           "WhatsApp us the full address and whether you want a fibre inspection, a 5G test, or both.",
-          "You can browse the plans listed on the site first; for village houses we suggest confirming with a coverage check or an on-site visit.",
+          "You can browse [village fibre fees](/guides/village-fees) first; for village houses we suggest confirming with a coverage check or an on-site visit.",
         ],
       },
     ],
   },
 ];
 
-export const GUIDES: Guide[] = [...CORE_GUIDES, ...GUIDE_ARTICLES];
+export const GUIDES: Guide[] = [...CORE_GUIDES, ...GUIDE_ARTICLES, ...DISTRICT_GUIDES];
 
 export function getGuide(slug: string) {
   return GUIDES.find((g) => g.slug === slug);

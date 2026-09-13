@@ -106,16 +106,19 @@ export const STATIC_SITEMAP_PAGES: readonly SitemapPage[] = [
 export const HUB_GUIDE_SLUGS = new Set(["fiber", "home5g", "mobile", "business"]);
 
 export const GUIDE_ARTICLE_KEYWORDS: Record<string, string> = {
-  fiber: "香港光纖寬頻,公屋寬頻,居屋寬頻,私樓光纖,村屋光纖,1000M",
+  fiber: "香港光纖寬頻,公屋寬頻,居屋寬頻,私樓光纖,村屋光纖,村屋光纖月費,1000M",
   home5g: "香港5G家居,5G家居寬頻,免拉線寬頻,村屋5G",
   mobile: "香港手機月費,攜號轉台,大灣區數據,5G月費",
   business: "香港商業寬頻,店舖寬頻,寫字樓寬頻,固定IP",
   "public-hos-fees": "公屋寬頻月費,居屋1000M,公屋光纖參考月費",
   "private-1000-fees": "私樓寬頻月費,私樓1000M,私人樓宇光纖參考月費",
-  "village-fees": "村屋寬頻月費,村屋光纖參考月費,丁屋寬頻",
+  "village-fees": "村屋光纖月費,丁屋光纖月費,村屋寬頻月費,丁屋寬頻,村屋光纖參考月費",
   "home-broadband-2026": "2026家居寬頻,家居光纖參考月費,1000M月費,2500M月費",
   "estate-filter": "屋苑篩,齊Quote屋苑,寬頻覆蓋查核",
   "switch-broadband": "轉寬頻,轉台寬頻,先裝後停",
+  "tin-shui-wai": "天水圍寬頻,天耀邨寬頻,嘉湖山莊寬頻,天水圍光纖",
+  "sha-tin": "沙田寬頻,沙田第一城寬頻,瀝源邨寬頻,馬鞍山寬頻",
+  "tseung-kwan-o": "將軍澳寬頻,日出康城寬頻,坑口寬頻,寶林邨寬頻",
 };
 
 export const SITEMAP_PAGES: readonly SitemapPage[] = [
