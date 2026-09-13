@@ -189,7 +189,13 @@ const PERK_CMHK_ADMIN = "每月行政費 HK$18";
 const PERK_CSL_ADMIN = "每月行政費 HK$18";
 const PERK_CSL_CLUB = "2,000 The Club 積分";
 const PERK_CSL_ADMIN_PORT = "轉台可豁免每月行政費 HK$18";
+const PERK_CSL_ADMIN_CAN_WAIVE = "可豁免每月行政費 HK$18";
+const PERK_CSL_STUDENT_ELIG = "須持有中小學學生手冊或學生證（不適用於大專／大學）";
+const LIMITS_CSL_PRIMARY_SECONDARY =
+  "須持有中小學學生手冊或學生證。不適用於大專或大學。實際月費、數據用量及申請資格以電訊商確認為準。";
+const ROAM_CSL_1 = "每月 1GB 中國內地及澳門數據";
 const ROAM_CSL_3 = "每月 3GB 中國內地及澳門數據";
+const PORT_CSL_36_100 = "轉台可豁免每月行政費 HK$18；轉台另享 HK$100 月費回贈";
 const PORT_CSL_36_800 =
   "轉台可豁免每月行政費 HK$18；6 個月內轉台另享 HK$200 月費回贈；12 個月內轉台另享 HK$800 CSL 手機及智能家電禮券（須預繳 HK$500）";
 const PORT_CSL_36_1000 =
@@ -2812,24 +2818,80 @@ export const PLANS: Plan[] = [
     bestFor: "適合輕量上網、需要無限通話之用戶",
   },
   {
-    id: "csl-5g-20",
+    id: "csl-5g-20-108-24m",
     providerId: "csl",
     category: "mobile",
-    name: "5G 20GB",
+    name: "5G 20GB（24 個月）",
     monthlyFee: 108,
     freeMonths: 0,
     contractMonths: 24,
     dataGb: 20,
     highSpeedGb: 20,
     fupNote: "其後以 1Mbps 任用",
-    voice: "本地無限分鐘",
-    roaming: "每月 3GB 中澳數據",
+    roaming: ROAM_CSL_3,
     install: "不適用",
     housing: "all",
     network: "5G",
-    perks: ["轉台或可享 HK$100 回贈（視申請時優惠而定）"],
-    portInPerk: "攜號轉台簽訂 36 個月合約或可享月費回贈",
-    bestFor: "適合重視地鐵沿線覆蓋之用戶",
+    perks: [],
+    portInPerk: PERK_CSL_ADMIN_PORT,
+    bestFor: "適合需要 5G 20GB 及每月 3GB 中澳數據之用戶",
+  },
+  {
+    id: "csl-5g-20-108-36m",
+    providerId: "csl",
+    category: "mobile",
+    name: "5G 20GB（36 個月）",
+    monthlyFee: 108,
+    freeMonths: 0,
+    contractMonths: 36,
+    dataGb: 20,
+    highSpeedGb: 20,
+    fupNote: "其後以 1Mbps 任用",
+    roaming: ROAM_CSL_3,
+    install: "不適用",
+    housing: "all",
+    network: "5G",
+    perks: [],
+    portInPerk: PORT_CSL_36_100,
+    bestFor: "適合需要 5G 20GB 及每月 3GB 中澳數據之用戶",
+  },
+  {
+    id: "csl-5g-student-10-78-24m",
+    providerId: "csl",
+    category: "mobile",
+    name: "5G 中小學學生 10GB（24 個月）",
+    monthlyFee: 78,
+    freeMonths: 0,
+    contractMonths: 24,
+    dataGb: 10,
+    highSpeedGb: 10,
+    fupNote: "其後以 1Mbps 任用",
+    roaming: ROAM_CSL_1,
+    install: "不適用",
+    housing: "all",
+    network: "5G",
+    perks: [PERK_CSL_ADMIN_CAN_WAIVE, PERK_CSL_STUDENT_ELIG],
+    limits: LIMITS_CSL_PRIMARY_SECONDARY,
+    bestFor: "適合持有中小學學生手冊或學生證之用戶（不適用於大專／大學）",
+  },
+  {
+    id: "csl-5g-student-10-78-36m",
+    providerId: "csl",
+    category: "mobile",
+    name: "5G 中小學學生 10GB（36 個月）",
+    monthlyFee: 78,
+    freeMonths: 0,
+    contractMonths: 36,
+    dataGb: 10,
+    highSpeedGb: 10,
+    fupNote: "其後以 1Mbps 任用",
+    roaming: ROAM_CSL_1,
+    install: "不適用",
+    housing: "all",
+    network: "5G",
+    perks: [PERK_CSL_ADMIN_CAN_WAIVE, PERK_CSL_STUDENT_ELIG],
+    limits: LIMITS_CSL_PRIMARY_SECONDARY,
+    bestFor: "適合持有中小學學生手冊或學生證之用戶（不適用於大專／大學）",
   },
   {
     id: "csl-5g-30-138-24m",
@@ -3660,8 +3722,13 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
   return rows;
 }
 
+/** Retired catalogue ids that still resolve so bookmarked /plans URLs keep working. */
+const PLAN_ID_ALIASES: Record<string, string> = {
+  "csl-5g-20": "csl-5g-20-108-24m",
+};
+
 export function getPlan(id: string) {
-  return PLANS.find((p) => p.id === id);
+  return PLANS.find((p) => p.id === (PLAN_ID_ALIASES[id] ?? id));
 }
 
 export const STAFF_OFFER_NV98 = "nv98";

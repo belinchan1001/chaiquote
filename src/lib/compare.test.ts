@@ -554,7 +554,7 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     assert.equal(isNetvigatorVillage(plan("netvigator-ftth-1000-private-36m")), false);
 
     assert.equal(isHktPlan(village1000), true);
-    assert.equal(isHktPlan(plan("csl-5g-20")), true);
+    assert.equal(isHktPlan(plan("csl-5g-20-108-24m")), true);
     assert.equal(isHktPlan(plan("csl-home5g")), true);
     const cslHome = plan("csl-home5g");
     assert.equal(cslHome.name, "5G 家居寬頻包 Wi-Fi 7 路由器");
@@ -589,7 +589,7 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     assert.ok(PLANS.filter((p) => p.providerId !== "netvigator" && p.providerId !== "csl").every((p) => !isHktPlan(p)));
 
     assert.equal(certifiedStaffNoteKey(village1000), "hktStaffNote");
-    assert.equal(certifiedStaffNoteKey(plan("csl-5g-20")), "hktStaffNote");
+    assert.equal(certifiedStaffNoteKey(plan("csl-5g-20-108-24m")), "hktStaffNote");
     assert.equal(certifiedStaffNoteKey(plan("hkbn-ftth-1000-36m-98")), "hkbnStaffNote");
     assert.equal(certifiedStaffNoteKey(plan("hgc-village-1g-phone-24m")), null);
     assert.ok(PLANS.filter((p) => p.providerId === "hkbn").every(hasCertifiedStaff));
@@ -1544,20 +1544,83 @@ describe("SmarTone mobile catalogue", () => {
   });
 });
 
+function planCopy(row: ReturnType<typeof plan>) {
+  return [row.name, row.bestFor, row.fupNote, row.voice, row.roaming, row.portInPerk, row.limits, ...row.perks]
+    .filter(Boolean)
+    .join("\n");
+}
+
 describe("CSL 5G 20GB $108", () => {
-  it("corrects the local data allowance to 20GB without changing fee or contract", () => {
-    const row = plan("csl-5g-20");
-    assert.equal(row.name, "5G 20GB");
-    assert.equal(row.monthlyFee, 108);
-    assert.equal(row.contractMonths, 24);
-    assert.equal(row.dataGb, 20);
-    assert.equal(row.highSpeedGb, 20);
-    assert.equal(row.fupNote, "其後以 1Mbps 任用");
-    assert.equal(row.voice, "本地無限分鐘");
-    assert.equal(row.roaming, "每月 3GB 中澳數據");
-    assert.ok(row.perks.includes("轉台或可享 HK$100 回贈（視申請時優惠而定）"));
-    assert.equal(row.portInPerk, "攜號轉台簽訂 36 個月合約或可享月費回贈");
+  it("splits 24- and 36-month cards, omits voice, and keeps the $100 rebate on 36 months only", () => {
+    const a24 = plan("csl-5g-20-108-24m");
+    const a36 = plan("csl-5g-20-108-36m");
+    assert.equal(getPlan("csl-5g-20")?.id, "csl-5g-20-108-24m");
     assert.equal(getPlan("csl-5g-30"), undefined);
+    for (const row of [a24, a36]) {
+      assert.equal(row.providerId, "csl");
+      assert.equal(row.category, "mobile");
+      assert.equal(row.network, "5G");
+      assert.equal(row.monthlyFee, 108);
+      assert.equal(row.dataGb, 20);
+      assert.equal(row.highSpeedGb, 20);
+      assert.equal(row.fupNote, "其後以 1Mbps 任用");
+      assert.equal(row.voice, undefined);
+      assert.equal(row.roaming, "每月 3GB 中國內地及澳門數據");
+      assert.equal(row.quotePick, undefined);
+      assert.equal(row.hot, undefined);
+      assert.equal(row.latestOffer, undefined);
+      assert.doesNotMatch(JSON.stringify(row), /最平|本地無限分鐘/);
+    }
+    assert.equal(a24.contractMonths, 24);
+    assert.equal(a24.name, "5G 20GB（24 個月）");
+    assert.equal(a24.portInPerk, "轉台可豁免每月行政費 HK$18");
+    assert.equal(planCopy(a24).includes("HK$100"), false);
+    assert.equal(a36.contractMonths, 36);
+    assert.equal(a36.name, "5G 20GB（36 個月）");
+    assert.match(a36.portInPerk ?? "", /轉台可豁免每月行政費 HK\$18/);
+    assert.match(a36.portInPerk ?? "", /HK\$100 月費回贈/);
+    assert.equal(toEnglish(a24.name), "5G 20GB (24 months)");
+    assert.equal(toEnglish(a36.portInPerk ?? ""), "Port-in can waive HK$18 admin/month; extra HK$100 fee rebate on port-in");
+    assert.equal(toEnglish(a24.roaming ?? ""), "3GB Mainland & Macao data/month");
+  });
+});
+
+describe("CSL 5G student 10GB $78", () => {
+  it("lists 24- and 36-month primary/secondary cards and excludes tertiary", () => {
+    const s24 = plan("csl-5g-student-10-78-24m");
+    const s36 = plan("csl-5g-student-10-78-36m");
+    const leftover = plan("csl-45g-78");
+    assert.equal(leftover.network, "4.5G");
+    assert.equal(leftover.monthlyFee, 78);
+    for (const row of [s24, s36]) {
+      assert.equal(row.providerId, "csl");
+      assert.equal(row.category, "mobile");
+      assert.equal(row.network, "5G");
+      assert.equal(row.monthlyFee, 78);
+      assert.equal(row.dataGb, 10);
+      assert.equal(row.highSpeedGb, 10);
+      assert.equal(row.fupNote, "其後以 1Mbps 任用");
+      assert.equal(row.voice, undefined);
+      assert.equal(row.roaming, "每月 1GB 中國內地及澳門數據");
+      assert.equal(row.quotePick, undefined);
+      assert.equal(row.hot, undefined);
+      assert.equal(row.latestOffer, undefined);
+      assert.match(row.name, /中小學/);
+      assert.match(row.bestFor, /中小學/);
+      assert.match(row.bestFor, /大專／大學/);
+      assert.ok(row.perks.some((perk) => perk.includes("中小學") && perk.includes("大專")));
+      assert.match(row.limits ?? "", /中小學/);
+      assert.match(row.limits ?? "", /不適用於大專或大學/);
+      assert.ok(row.perks.includes("可豁免每月行政費 HK$18"));
+      assert.equal(row.portInPerk, undefined);
+      assert.doesNotMatch(JSON.stringify(row), /最平|本地無限分鐘|quotePick/);
+    }
+    assert.equal(s24.contractMonths, 24);
+    assert.equal(s36.contractMonths, 36);
+    assert.equal(toEnglish(s24.name), "5G primary/secondary student 10GB (24 months)");
+    assert.equal(toEnglish(s24.roaming ?? ""), "1GB Mainland & Macao data/month");
+    assert.match(toEnglish(s24.limits ?? ""), /Not for tertiary or university/);
+    assert.match(toEnglish(s24.bestFor), /not for tertiary\/university/);
   });
 });
 
@@ -1601,7 +1664,7 @@ describe("CSL 5G $138 $168 $198", () => {
     assert.match(a36.portInPerk ?? "", /須預繳 HK\$500/);
     assert.match(b36.portInPerk ?? "", /HK\$1,000 CSL 手機及智能家電禮券/);
     assert.match(c36.portInPerk ?? "", /HK\$1,000 CSL 手機及智能家電禮券/);
-    assert.equal(plan("csl-5g-20").monthlyFee, 108);
+    assert.equal(plan("csl-5g-20-108-24m").monthlyFee, 108);
     assert.equal(toEnglish(a24.name), "5G 30GB (24 months)");
     assert.equal(toEnglish(a36.portInPerk ?? ""), "Port-in can waive HK$18 admin/month; extra HK$200 fee rebate if port-in within 6 months; HK$800 CSL handset and smart-home voucher if port-in within 12 months (HK$500 prepaid)");
   });
