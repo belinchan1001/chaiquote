@@ -181,6 +181,17 @@ describe("trust/compliance copy", () => {
     }
   });
 
+  it("pins the estates nav label as 屋苑索引 / Estate index", () => {
+    const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
+    const [zh, en] = quoted(messages, "navEstates");
+
+    assert.equal(zh, "屋苑索引");
+    assert.equal(en, "Estate index");
+    assert.match(header, /to="\/estates"/);
+    assert.match(header, /labelKey: "navEstates"/);
+  });
+
   it("pins compare page 返回計劃表 as an in-app /plans link", () => {
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
     const compare = readFileSync(join(here, "../routes/compare.tsx"), "utf8");
