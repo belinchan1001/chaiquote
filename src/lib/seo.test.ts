@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { SITE } from "./site.ts";
@@ -22,6 +22,7 @@ import {
   PRIVACY_SEO,
   guideJsonLd,
   planJsonLd,
+  planJsonLdImage,
   planSeoDescription,
   planSeoTitle,
   renderRobotsTxt,
@@ -397,6 +398,42 @@ describe("plan SEO copy", () => {
     assert.match(planSeoTitle(sample), /1000M 連 Wi-Fi 7 路由器（BE220・36 個月）/);
     assert.equal(planJsonLd(sample)["@type"], "Product");
     assert.equal(planJsonLd(sample).offers.price, 98);
+    assert.equal(planJsonLd(sample).offers.priceCurrency, "HKD");
+    assert.equal(planJsonLd(sample).offers.url, canonicalUrl(`/plans/${sample.id}`));
+    assert.equal(planJsonLd(sample).image, `${SITE.url}/images/providers/hkbn.png`);
+  });
+});
+
+describe("plan JSON-LD product image", () => {
+  it("uses an absolute provider trademark or OG fallback, never fake reviews or shipping", () => {
+    const mark = readFileSync(join(ROOT, "src/components/provider-mark.tsx"), "utf8");
+    const forbidden = /AggregateRating|aggregateRating|shippingDetails|hasMerchantReturnPolicy/;
+
+    for (const plan of PLANS) {
+      const ld = planJsonLd(plan);
+      const image = ld.image;
+      assert.equal(typeof image, "string");
+      assert.ok(image.startsWith(SITE.url), `${plan.id} image host ${image}`);
+      assert.match(image, /\/images\/providers\/|\/og\.jpg/);
+      assert.equal(image, planJsonLdImage(plan));
+      assert.equal(ld.offers.price, plan.monthlyFee);
+      assert.equal(ld.offers.priceCurrency, "HKD");
+      assert.equal(ld.offers.url, canonicalUrl(`/plans/${plan.id}`));
+
+      const json = JSON.stringify(ld);
+      assert.doesNotMatch(json, forbidden);
+
+      const path = image.slice(SITE.url.length);
+      if (path.startsWith("/images/providers/")) {
+        assert.match(mark, new RegExp(`src: "${path.replaceAll("/", "\\/")}"`));
+        assert.equal(existsSync(join(ROOT, "public", path)), true, path);
+      }
+    }
+
+    const fallback = planJsonLdImage({ providerId: "missing" as (typeof PLANS)[number]["providerId"] });
+    assert.equal(fallback, `${SITE.url}/og.jpg`);
+    assert.ok(fallback.startsWith(SITE.url));
+    assert.match(fallback, /\/og\.jpg$/);
   });
 });
 
