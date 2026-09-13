@@ -143,20 +143,20 @@ export function PlanCard({ plan }: { plan: Plan }) {
       </ul>
 
       {hasCertifiedStaff(plan) ? <CertifiedStaffNote plan={plan} className="mt-5" /> : null}
-      <div className={cn("flex flex-col gap-2 sm:flex-row", hasCertifiedStaff(plan) ? "mt-2" : "mt-5")}>
-        <Button
-          type="button"
-          variant={inCompare ? "accent" : "outline"}
-          className="flex-1"
-          onClick={() => toggleCompare(plan.id)}
-        >
-          <GitCompareArrows />
-          {inCompare ? t("navCompare") : t("compare")}
-        </Button>
-        <div className="flex min-w-0 flex-1 gap-2">
-          <QuoteLink plan={plan} className="flex-1">
-            {t("askWa")}
-          </QuoteLink>
+      <div className={cn("flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center", hasCertifiedStaff(plan) ? "mt-2" : "mt-5")}>
+        <QuoteLink plan={plan} className="w-full min-w-fit shrink-0 sm:w-auto">
+          {t("askWa")}
+        </QuoteLink>
+        <div className="flex gap-2 sm:shrink-0">
+          <Button
+            type="button"
+            variant={inCompare ? "accent" : "outline"}
+            className="flex-1 sm:flex-none"
+            onClick={() => toggleCompare(plan.id)}
+          >
+            <GitCompareArrows />
+            {inCompare ? t("navCompare") : t("compare")}
+          </Button>
           {plan.staffOffer ? null : <PlanShareButton plan={plan} />}
         </div>
       </div>
