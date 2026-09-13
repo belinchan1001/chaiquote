@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Logo } from "@/components/logo";
 import { useI18n } from "@/lib/i18n";
-import { PWA } from "@/lib/pwa";
 import { SITE } from "@/lib/site";
 
 export function SiteFooter() {
@@ -36,10 +35,10 @@ export function SiteFooter() {
             {updated}
           </p>
           <div className="mt-5 space-y-2 text-xs leading-relaxed text-primary-foreground/70">
-            <p className="tracking-wider text-primary-foreground/55">加到主畫面／安裝</p>
-            <p>{PWA.androidTip}</p>
-            <p>{PWA.iosTip}</p>
-            <p className="text-primary-foreground/55">{PWA.disclaimer}</p>
+            <p className="tracking-wider text-primary-foreground/55">{t("pwaInstallTitle")}</p>
+            <p>{t("pwaAndroidTip")}</p>
+            <p>{t("pwaIosTip")}</p>
+            <p className="text-primary-foreground/55">{t("pwaDisclaimer")}</p>
           </div>
         </div>
         <div>
@@ -67,7 +66,7 @@ export function SiteFooter() {
             </li>
             <li>
               <Link to="/estates" className="hover:underline">
-                屋苑寬頻格價
+                {t("estatesDirTitle")}
               </Link>
             </li>
           </ul>

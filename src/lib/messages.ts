@@ -6,7 +6,7 @@ export const MESSAGES = {
   zh: {
     tagline: "搵寬頻唔使四圍問",
     description:
-      "齊Quote 為獨立電訊比較平台，協助用戶一次過比較香港家居寬頻、商業寬頻及流動通訊計劃。所列月費僅供參考。",
+      "齊Quote 係獨立電訊比較平台，一次過比較香港家居寬頻、5G 家居、商業寬頻同手機計劃。所列月費僅供參考。",
     updatedPrefix: "價錢更新：",
     hkUpdated: "香港 · 資料更新 {date}",
     navFibre: "光纖寬頻",
@@ -26,7 +26,7 @@ export const MESSAGES = {
     aiBeta: "測試版",
     aiEntryLead: "唔知點揀？",
     aiEntryCta: "用 AI 篩選（測試版）",
-    aiStaffLead: "講屋苑或想要咩，幫你收窄站內計劃",
+    aiStaffLead: "講屋苑或想要咩，幫你收窄呢度嘅計劃",
     aiWelcome: "講屋苑或想要咩，對到就列俾你。價錢喺卡片，以電訊商確認為準。",
     aiWelcomeTrial: "功能試用中，結果僅供參考",
     aiDraft: "問屋苑或 1000M／手機…",
@@ -49,8 +49,8 @@ export const MESSAGES = {
     contactUsLead: "WhatsApp、致電或電郵都可以。",
     emailUs: "電郵我哋",
     heroTitle1: "搵寬頻唔使四圍問，",
-    heroTitle2: "呢度一次過幫你睇晒。",
-    heroLead: "輸入你住邊，即刻對晒各大電訊商而家嘅月費同優惠。",
+    heroTitle2: "一次過比較晒而家啲計劃。",
+    heroLead: "輸入你住邊，即刻比較各大電訊商而家嘅月費同優惠。",
     statProviders: "{n} 間電訊商",
     statPlans: "{n} 個參考計劃",
     statEstates: "{n} 個屋苑",
@@ -63,7 +63,7 @@ export const MESSAGES = {
     bestPicksLead: "每個服務類型，由本站現有參考計劃入面揀月費較低嘅一條；唔代表全港最平，實際以電訊商確認為準。",
     bestPicksCta: "睇計劃",
     catFibreText: "1000M 至 10000M，公屋／居屋／私樓／村屋",
-    catHome5gText: "免拉線，速度視現場",
+    catHome5gText: "免拉線，速度視現場訊號",
     catMobileText: "4G／5G，大灣區數據",
     catBusinessText: "店舖同寫字樓，1000M 起",
     featuredTitle: "入門價一覽",
@@ -141,9 +141,9 @@ export const MESSAGES = {
     businessDisclaimer:
       "商業寬頻嘅月費、安裝費同舖址覆蓋僅供參考；實際視乎用途同現場環境，以電訊商確認為準。",
     hktStaffNote:
-      "網上行／CSL 計劃經本站核對身份嘅香港電訊 HKT 同事，用指定 WhatsApp 回覆。回覆嘅係該香港電訊 HKT 指定授權銷售同事；本站不是官方客服。",
+      "網上行／CSL 計劃，會由本站核對身份嘅香港電訊（HKT）指定授權銷售同事，用指定 WhatsApp 回覆。本站唔係官方客服。",
     hkbnStaffNote:
-      "香港寬頻計劃經本站核對身份嘅香港寬頻 HKBN 同事，用指定 WhatsApp 回覆。回覆嘅係該香港寬頻 HKBN 指定授權銷售同事；本站不是官方客服。",
+      "香港寬頻計劃，會由本站核對身份嘅香港寬頻（HKBN）指定授權銷售同事，用指定 WhatsApp 回覆。本站唔係官方客服。",
     data: "高速數據",
     prepaid: "預繳",
     install: "安裝費",
@@ -214,10 +214,10 @@ export const MESSAGES = {
     compareClear: "清空",
     removeCompare: "移出比較：{name}",
     aboutTitle: "關於我們",
-    aboutWho: "我們是誰",
+    aboutWho: "我哋係邊個",
     aboutWhoText:
-      "齊Quote 係香港獨立電訊比較平台，將家居寬頻、5G 家居同手機月費擺埋一齊，公開、中立，唔幫任何一間電訊商講嘢。",
-    aboutWhy: "我們的理念",
+      "齊Quote 係香港獨立電訊比較平台，將家居寬頻、5G 家居、商業寬頻同手機月費擺埋一齊。公開、中立，唔幫任何一間電訊商講嘢。",
+    aboutWhy: "點解要有齊Quote",
     aboutWhyText:
       "市面上合約條款同隱藏收費好亂。我哋將各大營運商最新方案整理好，等你用最短時間揀到啱預算、啱需要嘅計劃。",
     aboutIndependent: "獨立聲明",
@@ -252,11 +252,11 @@ export const MESSAGES = {
       "公屋同埋居屋好多時有指定供應商同批量價，不過每個屋邨／屋苑合約都可能唔同。篩選時可以分開揀；問價時請填齊屋苑名稱。",
     faq3q: "村屋有冇光纖？",
     faq3a:
-      "村屋光纖現時主要由香港寬頻、HGC 及網上行提供指定計劃；公屋、居屋及私人樓宇計劃一般不適用於村屋地址。尚未有光纖的地址，可一併比較 5G 家居寬頻。實際覆蓋須核對門牌。",
+      "村屋光纖而家主要由香港寬頻、HGC 同網上行提供指定計劃；公屋、居屋同私樓計劃一般唔適用於村屋地址。未有光纖嘅地址，可以一併比較 5G 家居寬頻。實際覆蓋要核對門牌。",
     faq4q: "商業寬頻同家居計劃有咩分別？",
     faq4a:
       "商業寬頻多可加購固定 IP 及辦公時間技術支援，安裝以工商地址為準。月費一般高於家居計劃，適合店舖、寫字樓及工作室。",
-    faq5q: "大灣區數據包唔包？",
+    faq5q: "大灣區數據包唔包內地？",
     faq5a:
       "流動通訊計劃可篩選「大灣區數據」，即包含中國內地及／或澳門用量，或三地共享數據池。實際適用地區及用量以電訊商條款為準。",
     faq6q: "點樣查核報價？",
@@ -277,7 +277,7 @@ export const MESSAGES = {
     privacyControllerText:
       "齊Quote（個人獨立營運）。查閱或改正個人資料，請 WhatsApp／致電 {phone}、電郵 {email}，或透過網站「留低電話」留下聯絡。",
     privacyCollect: "收集咩資料",
-    privacyCollectText: "姓名／電話（留低電話）、WhatsApp／電話聯絡資料、一般瀏覽技術資料。",
+    privacyCollectText: "姓名同電話（留低電話表格）、WhatsApp／電話聯絡資料，以及一般瀏覽技術資料。",
     privacyUse: "用嚟做咩",
     privacyUseText: "回覆查詢、提供計劃參考同跟進、改善網站、法律要求下配合。",
     privacyContactHow: "點樣聯絡你",
@@ -286,10 +286,10 @@ export const MESSAGES = {
     privacyThirdText:
       "唔會出售；只在同意、完成查詢所必需（轉介電訊商）、或法律要求時分享必要資料。",
     privacyKeep: "保存同保安",
-    privacyKeepText: "只保留所需時間＋合理保安措施。",
+    privacyKeepText: "只保留處理查詢所需時間，並採取合理保安措施。",
     privacyOverseas: "境外存放",
     privacyRights: "你嘅權利",
-    privacyRightsText: "查閱／改正；渠道同上。",
+    privacyRightsText: "你可以查閱或改正個人資料；聯絡渠道同上。",
     privacyUpdate: "更新",
     privacyUpdateText: "政策或會更新；重大改動喺本頁公布。最後更新日期：{date}。",
     sort: "點排",
@@ -398,6 +398,10 @@ export const MESSAGES = {
     logoSee: "標誌用法見",
     dash: "—",
     villageNoteEnd: "。",
+    pwaInstallTitle: "加到主畫面／安裝",
+    pwaAndroidTip: "想更快開啟？加到主畫面，之後撳圖示就用齊Quote。",
+    pwaIosTip: "用 Safari 開本站 → 分享掣 →「加入主畫面」，之後好似 App 一樣開。",
+    pwaDisclaimer: "月費同覆蓋僅供參考，實際以查核報價為準。",
     errorTitle: "呢頁暫時出咗問題",
     errorLead: "請重新整理，或者返去首頁再試。",
   },
@@ -424,7 +428,7 @@ export const MESSAGES = {
     aiBeta: "Beta",
     aiEntryLead: "Not sure how to choose?",
     aiEntryCta: "Use AI filter (Beta)",
-    aiStaffLead: "Name an estate or what you want — I'll narrow the on-site plans",
+    aiStaffLead: "Name an estate or what you need. I'll narrow the plans on this site.",
     aiWelcome: "Name an estate or what you want. I'll list matches on this site. Fees stay on the cards. The carrier confirms the final terms.",
     aiWelcomeTrial: "This feature is on trial. Results are for reference only.",
     aiDraft: "Estate, 1000M or mobile…",
@@ -447,7 +451,7 @@ export const MESSAGES = {
     contactUsLead: "WhatsApp, call or email.",
     emailUs: "Email us",
     heroTitle1: "Stop shopping around for broadband.",
-    heroTitle2: "Compare every plan here.",
+    heroTitle2: "Compare current plans in one place.",
     heroLead: "Enter your address and compare current fees and offers from the major providers.",
     statProviders: "{n} providers",
     statPlans: "{n} reference plans",
@@ -462,7 +466,7 @@ export const MESSAGES = {
       "Each category picks a lower monthly fee from the site’s current reference plans. This is not a claim that these are Hong Kong’s lowest. The carrier confirms the final terms.",
     bestPicksCta: "See plan",
     catFibreText: "1000M to 10000M for public housing, HOS, private and village homes",
-    catHome5gText: "No cabling. Speed depends on the site",
+    catHome5gText: "No cabling. Speed depends on the signal on site",
     catMobileText: "4G/5G, Greater Bay Area data",
     catBusinessText: "Shops and offices, from 1000M",
     featuredTitle: "Starter prices",
@@ -541,9 +545,9 @@ export const MESSAGES = {
     businessDisclaimer:
       "Business fibre fees, install charges and shop coverage are for reference only. Actual terms depend on use and the site, and are confirmed by the carrier.",
     hktStaffNote:
-      "Netvigator / CSL plans are answered via designated WhatsApp by HKT colleagues whose identity was checked by this site. Replies are from that HKT designated authorized sales colleague; this site is not official customer service.",
+      "Netvigator / CSL plans are answered on designated WhatsApp by HKT authorised sales colleagues whose identity this site has checked. This site is not official customer service.",
     hkbnStaffNote:
-      "HKBN plans are answered via designated WhatsApp by HKBN colleagues whose identity was checked by this site. Replies are from that HKBN designated authorized sales colleague; this site is not official customer service.",
+      "HKBN plans are answered on designated WhatsApp by HKBN authorised sales colleagues whose identity this site has checked. This site is not official customer service.",
     data: "High-speed data",
     prepaid: "Prepaid",
     install: "Installation",
@@ -617,8 +621,8 @@ export const MESSAGES = {
     aboutTitle: "About us",
     aboutWho: "Who we are",
     aboutWhoText:
-      "ChaiQuote is an independent Hong Kong telecom comparison site. We publish home broadband and mobile plans in one place, openly and without picking a single carrier.",
-    aboutWhy: "What we do",
+      "ChaiQuote is an independent Hong Kong telecom comparison site. We publish home broadband, 5G home, business broadband and mobile plans in one place, openly and without picking a single carrier.",
+    aboutWhy: "Why ChaiQuote exists",
     aboutWhyText:
       "Contracts and hidden fees are messy. We organise current offers so you can pick a plan that fits budget and need in minutes.",
     aboutIndependent: "Independence",
@@ -805,7 +809,11 @@ export const MESSAGES = {
     logoSee: "Logo usage:",
     dash: "—",
     villageNoteEnd: ".",
-    errorTitle: "This page hit a problem",
+    pwaInstallTitle: "Add to Home Screen",
+    pwaAndroidTip: "Want a faster launch? Add this site to your Home Screen, then tap the icon.",
+    pwaIosTip: "Open this site in Safari → Share → Add to Home Screen. It then opens like an app.",
+    pwaDisclaimer: "Fees and coverage are for reference only. Confirm the quote before you apply.",
+    errorTitle: "This page isn’t working right now",
     errorLead: "Refresh, or go back home and try again.",
   },
 } as const;

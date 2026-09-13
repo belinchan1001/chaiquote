@@ -286,7 +286,7 @@ describe("locked page share titles and descriptions", () => {
     "/": {
       title: "齊Quote｜香港寬頻同手機月費比較",
       description:
-        "一次過比較香港光纖、5G 家居、商業同手機計劃。所列月費僅供參考，實際以電訊商確認為準。",
+        "一次過比較香港光纖、5G 家居、商業寬頻同手機計劃。所列月費僅供參考，實際以電訊商確認為準。",
     },
     "/plans?cat=broadband": {
       title: "齊Quote｜光纖寬頻比較",
@@ -314,7 +314,7 @@ describe("locked page share titles and descriptions", () => {
     },
     "/guides": {
       title: "齊Quote｜寬頻同手機攻略",
-      description: "點揀光纖、5G 家居同手機計劃。內容僅供參考，實際以電訊商確認為準。",
+      description: "點揀光纖、5G 家居、手機同商業寬頻。內容僅供參考，實際以電訊商確認為準。",
     },
   } as const;
 

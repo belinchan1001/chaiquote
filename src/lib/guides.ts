@@ -189,6 +189,26 @@ export const CORE_GUIDES: Guide[] = [
           "If fibre can be installed, pick fibre. If it cannot, or you need internet today, look at 5G home. If budget allows, use fibre as primary and 5G as backup.",
         ],
       },
+      {
+        heading: "When to use which",
+        paragraphs: [
+          "Long-term home, need stability and upload: fibre first. Renting, waiting for install, or no fibre yet: look at 5G home. Village houses may need both checked — do not assume a line exists.",
+          "If you need internet today or the landlord will not allow cabling, 5G home is the option that can work the same day. Peak hours and indoor placement still matter; do not treat it as fixed fibre.",
+        ],
+      },
+      {
+        heading: "Data caps",
+        paragraphs: [
+          "5G home often has a high-speed GB cap, then slows down or is deprioritised. Fibre to the home usually follows that plan’s local-usage terms. Details are in the contract.",
+        ],
+      },
+      {
+        heading: "Village houses / no fibre yet",
+        paragraphs: [
+          "Village fibre is not a public-housing fee, and it is not guaranteed. The site, village roads and the pull path have to be confirmed by the carrier. Compare 5G home at the same time, and book a visit if needed. See [village broadband](/guides/village) and [on-site check and 5G test](/guides/village-onsite).",
+          "Coverage, install dates and fees are confirmed by the carrier.",
+        ],
+      },
     ],
     related: ["fiber", "home5g", "village"],
     plans: [
@@ -307,22 +327,22 @@ export const CORE_GUIDES: Guide[] = [
       {
         heading: "點解要落場",
         paragraphs: [
-          "村／街／左右鄰都可能唔同。網上難一次講死。",
+          "村、街、甚至左右鄰都可以唔同，網上好難一次講死覆蓋。",
           "有需要就約去地址睇，再按現場俾建議。",
         ],
       },
       {
         heading: "光纖視察",
         paragraphs: [
-          "約現場睇路綫同環境；之後講觀察同建議下一步。",
-          "計劃當參考，以查核／申請為準。",
+          "約現場睇入線路經同環境，之後講觀察同建議下一步。",
+          "站內計劃只當參考，實際以查核報價／申請為準。",
         ],
       },
       {
         heading: "5G 測訊號",
         paragraphs: [
-          "帶 5G 家居路由器去你地址開機睇表現同擺位；按結果建議主用定後備。",
-          "測試亦係參考。",
+          "帶 5G 家居路由器去你地址開機，睇表現同擺位；再按結果建議主用定後備。",
+          "現場測試同樣只係參考。",
         ],
       },
       {

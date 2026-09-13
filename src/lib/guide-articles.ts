@@ -3,6 +3,9 @@ import type { Guide } from "./guides.ts";
 const DISCLAIMER =
   "以上只供參考。實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準，唔好假設一定有線或者一定裝到。";
 
+const DISCLAIMER_EN =
+  "The above is for reference only. Coverage, install dates, fees, contracts and router terms are confirmed by the carrier. Do not assume a line exists or that it can be installed.";
+
 export const GUIDE_ARTICLES: Guide[] = [
   {
     slug: "fiber",
@@ -50,7 +53,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     ],
     body: [
       {
-        heading: "香港光纖不是一張價表",
+        heading: "香港光纖唔係一張價表",
         paragraphs: [
           "同一句「1000M 光纖」，公屋、居屋、私樓、村屋見到嘅計劃同月費通常唔同。電訊商會按屋苑類型、批量合約、入線路經報價，所以齊Quote 先叫你揀樓類，而唔係丟一張全港劃一價。",
           "網上記錄嘅月費係參考。覆蓋、完工期、豁免安裝費同路由器條款，申請時先由電訊商確認。想一次過對實際計劃，可開 [光纖格價](/plans?cat=broadband)。2026 年站內列出例子見 [2026 家居寬頻格價](/guides/home-broadband-2026)。",
@@ -953,7 +956,29 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "Usually different",
         paragraphs: [
-          "Public housing and HOS often have separate fibre SKUs. Filter by housing type; do not reuse a private-building price.",
+          "Yes. Even when both are “1000M fibre”, carriers often use different plan codes, contract lengths and bulk rates. That is why ChaiQuote asks you to pick a housing type: a public-housing page should not show private-only fees, and HOS should not be compared against a public-housing price.",
+          "The difference does not mean one type is always cheaper. Individual estates, application windows and nominated providers all change the listed fee. Numbers on the page are market records, not a confirmed price for your address.",
+        ],
+      },
+      {
+        heading: "Why they are quoted separately",
+        paragraphs: [
+          "Public estates and HOS courts often have bulk contracts, nominated providers, or building-office rules that differ from private blocks. Carriers issue plans against those conditions, which is why you see one set for public/HOS and another for private.",
+          "Village houses are a third set. Do not apply a public-housing fee to a ding uk. Coverage and whether a line can be pulled still have to be confirmed by the carrier; ChaiQuote will not write that a line “definitely exists”.",
+        ],
+      },
+      {
+        heading: "How to read 1000M without inventing coverage",
+        paragraphs: [
+          "Filter [public fibre](/plans?cat=broadband&housing=public) and [HOS fibre](/plans?cat=broadband&housing=hos) and you will see different providers, contracts, routers and fees at the same speed. That is plan logic, not confirmation that a given estate can be installed. Listed 1000M examples: [public / HOS 1000M reference fees](/guides/public-hos-fees).",
+          "To match a real building, open the estate page, for example [Tin Yiu Estate](/estates/tin-yiu) or [Tin Shui Estate](/estates/tin-shui). Those pages only list reference plans for that housing type. You still need to check the quote.",
+        ],
+      },
+      {
+        heading: "How to pick housing type on ChaiQuote",
+        paragraphs: [
+          "Type the estate on the home page. The site detects public housing, HOS, private or village house, then takes you to the compare page. Steps: [how to use the estate filter](/guides/estate-filter). You can also pick housing type by hand on the compare page. The wrong type shows the wrong fees.",
+          DISCLAIMER_EN,
         ],
       },
     ],
@@ -1113,7 +1138,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "Next step",
         paragraphs: [
           "Open [public fibre plans](/plans?cat=broadband&housing=public) or [HOS fibre plans](/plans?cat=broadband&housing=hos) and keep the housing filter on. How to search by estate name: [estate filter](/guides/estate-filter).",
-          DISCLAIMER,
+          DISCLAIMER_EN,
         ],
       },
     ],
@@ -1415,7 +1440,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "Next step",
         paragraphs: [
           "Open [fibre compare](/plans?cat=broadband) and read the cards. Coverage and fees are confirmed by the carrier. District pages: [Tin Shui Wai](/guides/tin-shui-wai), [Sha Tin](/guides/sha-tin), [Tseung Kwan O](/guides/tseung-kwan-o).",
-          DISCLAIMER,
+          DISCLAIMER_EN,
         ],
       },
     ],
@@ -1617,7 +1642,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "Next step",
         paragraphs: [
           "Open [private fibre plans](/plans?cat=broadband&housing=private) and keep the housing filter on. How to search by estate name: [estate filter](/guides/estate-filter).",
-          DISCLAIMER,
+          DISCLAIMER_EN,
         ],
       },
     ],
@@ -1836,7 +1861,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "Next step",
         paragraphs: [
           "Open [village fibre plans](/plans?cat=broadband&housing=village) and read the cards. If fibre cannot be pulled, also see [5G home plans](/plans?cat=home5g). Districts: [Tin Shui Wai](/guides/tin-shui-wai), [Tseung Kwan O](/guides/tseung-kwan-o). How to search by estate name: [estate filter](/guides/estate-filter).",
-          DISCLAIMER,
+          DISCLAIMER_EN,
         ],
       },
     ],
@@ -2004,7 +2029,7 @@ export const GUIDE_ARTICLES: Guide[] = [
           "Incomplete names, typos or noisy results can miss. Try a shorter name, or browse the [estate directory](/estates).",
           "Intake-only and flash offers apply to named estates. They are **not** the same fee across Hong Kong.",
           "Village houses are a separate set of plans; see [village broadband](/guides/village) and [village fibre fees](/guides/village-fees).",
-          DISCLAIMER,
+          DISCLAIMER_EN,
         ],
       },
     ],
@@ -2082,7 +2107,24 @@ export const GUIDE_ARTICLES: Guide[] = [
     bodyEn: [
       {
         heading: "Most homes are fine on 1000M",
-        paragraphs: ["Fix Wi-Fi placement before paying for 2500M. Fibre still depends on whether the carrier can install it."],
+        paragraphs: [
+          "Streaming, video calls, cloud sync, and several phones and TVs at once: 1000M fibre already has headroom for most households. You do not have to chase 2500M or 10000M from day one.",
+          "The real bottleneck is often an old router, Wi-Fi placement, walls, or the device’s network card — not the fibre into the home. Before paying for more speed, check whether the current Wi-Fi is already using the full 1000M.",
+        ],
+      },
+      {
+        heading: "What you actually use",
+        paragraphs: [
+          "One or two 4K streams, daily calls and classes: 1000M is usually enough. A busy home, several HD streams at once, frequent large uploads or a NAS: consider 2500M. Very many devices, or spare bandwidth, may need a higher rate — and a higher fee and better hardware.",
+          "Do not treat a 5G home headline speed as fibre 1000M. On-site signal and data caps limit the experience. Compare: [fibre vs 5G home](/guides/fiber-vs-5g).",
+        ],
+      },
+      {
+        heading: "Fix in-home Wi-Fi before buying more speed",
+        paragraphs: [
+          "After fibre is in, a Wi-Fi 6 / Wi-Fi 7 router, sensible placement, and avoiding microwaves and thick walls often help more than the next speed tier. Ask whether the contract “includes” a router or “gifts” one that must be returned; see [install, prepay, contract](/guides/contract-fees).",
+          "Next: [fibre compare](/plans?cat=broadband). Estate examples: [Taikoo Shing](/estates/taikoo-shing), [Mei Foo Sun Chuen](/estates/mei-foo-sun-chuen). " + DISCLAIMER_EN,
+        ],
       },
     ],
   },
@@ -2238,7 +2280,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "Switch offers often waive the install fee or the first month. Also ask about prepay, contract length, and whether the router is included or must be returned. Count year-one cost, not just the sticker fee. Details: [beyond the monthly fee](/guides/contract-fees).",
           "Keeping a mobile number is a different flow; see [number porting](/guides/port-in). For fibre, open [fibre compare](/plans?cat=broadband) and confirm the quote on WhatsApp.",
-          DISCLAIMER,
+          DISCLAIMER_EN,
         ],
       },
     ],
@@ -2313,8 +2355,23 @@ export const GUIDE_ARTICLES: Guide[] = [
     ],
     bodyEn: [
       {
-        heading: "Read the zone, not the slogan",
-        paragraphs: ["GBA data is defined by the carrier. Local and GBA quotas are often separate."],
+        heading: "GBA coverage is a contract term, not a travel guarantee",
+        paragraphs: [
+          "“Greater Bay Area” on a plan usually means the zones and networks listed in the carrier’s terms — not that every city, village or basement is equally fast. Which partner network you use, and any roaming limits, follow the product sheet at application. This page does not freeze city-by-city detail that goes stale.",
+        ],
+      },
+      {
+        heading: "Local vs GBA quotas",
+        paragraphs: [
+          "Local GB and GBA GB are often counted separately. After the GBA quota, speed may drop, roaming charges may apply, or a daily add-on may start. Before you travel, ask how many GB are included, how usage is shown, and what happens after. Do not treat “GBA” as unlimited.",
+        ],
+      },
+      {
+        heading: "When you port",
+        paragraphs: [
+          "After number porting, GBA benefits follow the new plan. They do not inherit the old add-on. During the cutover, roaming and cross-border data may pause. Flow: [number porting](/guides/port-in).",
+          "Next: [mobile compare](/plans?cat=mobile), then check the quote on WhatsApp. Actual charges are confirmed by the carrier.",
+        ],
       },
     ],
   },
@@ -2324,9 +2381,9 @@ export const GUIDE_ARTICLES: Guide[] = [
     category: "business",
     seoTitle: "店舖申請商業寬頻要準備咩｜齊Quote",
     h1: "店舖／寫字樓申請寬頻清單",
-    description: "店舖同寫字樓要用商業寬頻。準備地址、文件、固定IP同安裝預約。家居計劃通常不能搬去舖。",
+    description: "店舖同寫字樓要用商業寬頻。準備地址、文件、固定IP同安裝預約。家居計劃通常唔能夠搬去舖。",
     title: "店舖／寫字樓申請寬頻清單",
-    excerpt: "地址類型、文件、固定 IP、安裝預約。家居公屋價唔能直接用喺舖。",
+    excerpt: "地址類型、文件、固定 IP、安裝預約。家居公屋價唔能夠直接用喺舖。",
     titleEn: "Checklist for shop and office broadband",
     excerptEn: "Address type, documents, static IP, install booking. Home plans usually cannot move to a shop.",
     descriptionEn: "Business fibre needs a commercial address, documents and often a static IP. Home plans cannot usually be used in a shop.",
@@ -2358,7 +2415,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         ],
       },
       {
-        heading: "家居計劃不能直接搬去舖",
+        heading: "家居計劃唔能夠直接搬去舖",
         paragraphs: [
           "公屋／居屋家居價綁住宅用途。搬去舖頭或者報住宅裝商用，後期好容易被改約或者終止。正確入口係 [商業寬頻格價](/plans?cat=business)，WhatsApp 預填「商業寬頻」查核報價。",
           DISCLAIMER,
@@ -2367,8 +2424,29 @@ export const GUIDE_ARTICLES: Guide[] = [
     ],
     bodyEn: [
       {
-        heading: "Use a business address",
-        paragraphs: ["Do not reuse a home public-housing plan for a shop. Ask about static IP and building access."],
+        heading: "Address type",
+        paragraphs: [
+          "Shops, offices, workshops and warehouses usually need business broadband. A ground-floor conversion, industrial building or mall shop can have different cabling and management-office rules. Quote against the trading address, not the owner’s home.",
+        ],
+      },
+      {
+        heading: "Documents",
+        paragraphs: [
+          "Carriers commonly ask for a business registration, lease or title, and the responsible person’s ID. The exact list varies. Coverage can be checked first; documents are usually needed to sign.",
+        ],
+      },
+      {
+        heading: "Static IP and install booking",
+        paragraphs: [
+          "Tills, VPN, cameras and mail servers may need a static IP. A home dynamic IP may not do. Ask about the install window: commercial addresses often have to work around mall management, and out-of-hours visits may cost extra.",
+        ],
+      },
+      {
+        heading: "A home plan cannot move to a shop",
+        paragraphs: [
+          "Public / HOS home rates are tied to residential use. Moving them to a shop, or registering a home address for commercial use, is often rewritten or terminated later. The right door is [business compare](/plans?cat=business). WhatsApp can be pre-filled with “商業寬頻”.",
+          DISCLAIMER_EN,
+        ],
       },
     ],
   },
@@ -2415,8 +2493,24 @@ export const GUIDE_ARTICLES: Guide[] = [
     ],
     bodyEn: [
       {
-        heading: "Count year one, not the sticker",
-        paragraphs: ["Ask whether the router is included or must be returned, and how early termination is billed."],
+        heading: "Sticker fee vs year-one cost",
+        paragraphs: [
+          "The advertised monthly fee may already include a free first month, waived install or a voucher. What you actually count: install fee, prepayment, set-top / router deposit, visit charges, and the sum of monthly fees in the term. A “cheap” fee sometimes just moves the cost into prepay or a longer contract.",
+        ],
+      },
+      {
+        heading: "Router: gift, included, or return at the end",
+        paragraphs: [
+          "“Gifted router” and “router included” are not the same. Included often means you return it when the contract ends; gifted is yours. 5G home routers especially are often on loan. Ask the model, how a fault is swapped, and what a loss costs, before you sign.",
+        ],
+      },
+      {
+        heading: "Early termination",
+        paragraphs: [
+          "Stopping before the term usually means a termination fee or clawing back the offer. Moving house, renovation, or a shop closing can all trigger it. This page does not advise how to exit a contract — only to read the original terms.",
+          "After you have a reference fee, check the quote on WhatsApp and ask about install, prepay, the router and end-of-term rules. Next: [fibre compare](/plans?cat=broadband).",
+          DISCLAIMER_EN,
+        ],
       },
     ],
   },

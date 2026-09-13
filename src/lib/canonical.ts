@@ -90,7 +90,7 @@ export type SeoCopy = {
 export const HOME_SEO = {
   title: "齊Quote｜香港寬頻同手機月費比較",
   description:
-    "一次過比較香港光纖、5G 家居、商業同手機計劃。所列月費僅供參考，實際以電訊商確認為準。",
+    "一次過比較香港光纖、5G 家居、商業寬頻同手機計劃。所列月費僅供參考，實際以電訊商確認為準。",
 } as const satisfies SeoCopy;
 
 export const HOME_SEO_TITLE = HOME_SEO.title;
@@ -107,7 +107,7 @@ export const PRIVACY_SEO = {
 
 export const GUIDES_SEO = {
   title: "齊Quote｜寬頻同手機攻略",
-  description: "點揀光纖、5G 家居同手機計劃。內容僅供參考，實際以電訊商確認為準。",
+  description: "點揀光纖、5G 家居、手機同商業寬頻。內容僅供參考，實際以電訊商確認為準。",
 } as const satisfies SeoCopy;
 
 export const CATEGORY_SEO: Record<Category, SeoCopy> = {

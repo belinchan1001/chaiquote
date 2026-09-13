@@ -3,6 +3,9 @@ import type { Guide } from "./guides.ts";
 const DISCLAIMER =
   "以上只供參考。實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準，唔好假設一定有線或者一定裝到。";
 
+const DISCLAIMER_EN =
+  "The above is for reference only. Coverage, install dates, fees, contracts and router terms are confirmed by the carrier. Do not assume a line exists or that it can be installed.";
+
 const FEE_CAPTION = "站內列出｜僅供參考";
 const FEE_HEADERS: [string, string] = ["計劃例子", "樓類／參考月費"];
 
@@ -166,7 +169,7 @@ export const DISTRICT_GUIDES: Guide[] = [
         heading: "Next step",
         paragraphs: [
           "Type the block and street on the home page, or open [public fibre plans](/plans?cat=broadband&housing=public). Nearby: [Sha Tin](/guides/sha-tin), [Tseung Kwan O](/guides/tseung-kwan-o). Nearby villages: [village fibre fees](/guides/village-fees).",
-          DISCLAIMER,
+          DISCLAIMER_EN,
         ],
       },
     ],
@@ -309,7 +312,7 @@ export const DISTRICT_GUIDES: Guide[] = [
         heading: "Next step",
         paragraphs: [
           "Type the estate on the home page or open [private fibre plans](/plans?cat=broadband&housing=private). Also: [Tin Shui Wai](/guides/tin-shui-wai), [Tseung Kwan O](/guides/tseung-kwan-o). Nearby villages: [village fibre fees](/guides/village-fees).",
-          DISCLAIMER,
+          DISCLAIMER_EN,
         ],
       },
     ],
@@ -452,7 +455,7 @@ export const DISTRICT_GUIDES: Guide[] = [
         heading: "Next step",
         paragraphs: [
           "Type the estate on the home page or open [private fibre plans](/plans?cat=broadband&housing=private). Also: [Tin Shui Wai](/guides/tin-shui-wai), [Sha Tin](/guides/sha-tin). Village: [village fibre fees](/guides/village-fees).",
-          DISCLAIMER,
+          DISCLAIMER_EN,
         ],
       },
     ],
