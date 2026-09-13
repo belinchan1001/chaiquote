@@ -1,4 +1,4 @@
-import { formatFee, isListedPlan, PLANS, PROVIDER_MAP, type Housing, type Plan } from "./plans.ts";
+import { formatFee, isListedPlan, PLANS, PROVIDER_MAP, type Housing, type Plan, type ProviderId } from "./plans.ts";
 import { INDEXABLE_ESTATE_PAGES, estatePagePath } from "./estate-pages.ts";
 import { GUIDES, getGuide, type Guide } from "./guides.ts";
 import { guideTopicImage } from "./guide-media.ts";
@@ -173,11 +173,30 @@ export function planSeoDescription(plan: Plan): string {
   return text;
 }
 
+/** Same PNG trademarks as `provider-mark.tsx` LOGO.src. Prefer .png for Product image. */
+const PROVIDER_TRADEMARK_PNG: Partial<Record<ProviderId, string>> = {
+  hkbn: "/images/providers/hkbn.png",
+  netvigator: "/images/providers/netvigator.png",
+  cmhk: "/images/providers/cmhk.png",
+  hgc: "/images/providers/hgc.png",
+  smartone: "/images/providers/smartone.png",
+  three: "/images/providers/three.png",
+  csl: "/images/providers/csl.png",
+  icable: "/images/providers/icable.png",
+};
+
+/** Absolute Product image: provider trademark, or site OG if a logo is missing. */
+export function planJsonLdImage(plan: Pick<Plan, "providerId">): string {
+  const src = PROVIDER_TRADEMARK_PNG[plan.providerId] ?? "/og.jpg";
+  return `${SITE.url}${src}`;
+}
+
 export function planJsonLd(plan: Plan) {
   return {
     "@context": "https://schema.org",
     "@type": "Product",
     name: plan.name,
+    image: planJsonLdImage(plan),
     brand: { "@type": "Brand", name: PROVIDER_MAP[plan.providerId].name },
     description: planSeoDescription(plan),
     offers: {
