@@ -24,6 +24,7 @@ import {
   HKBN_LPR_FLASH_ESTATES,
   estateUnlocksPlan,
   isHkbnFlashEstate,
+  isNewIntakeEstate,
 } from "./estate-new-intake.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
@@ -852,7 +853,6 @@ describe("housing type audit 2026", () => {
       "加州豪園",
       "銀禧花園",
       "駿景園",
-      "祈德尊新邨",
       "海怡半島",
       "帝欣苑",
       "聽濤雅苑",
@@ -896,6 +896,32 @@ describe("housing type audit 2026", () => {
     assert.equal(classifyAddress("Chelsea Court").housing, "private");
     assert.equal(classifyAddress("The Spectra").housing, "private");
     assert.equal(classifyAddress("The Floridian").housing, "private");
+    assert.equal(estate("祈德尊新邨")?.housing, "public");
+    assert.equal(classifyAddress("祈德尊新邨").housing, "public");
+    assert.equal(estate("駿發花園")?.housing, "public");
+    assert.equal(estate("寶石大廈")?.housing, "public");
+    assert.equal(estate("翠塘花園")?.housing, "public");
+    assert.equal(estate("偉景花園")?.housing, "hos");
+    assert.equal(estate("華景山莊")?.housing, "private");
+    assert.equal(matchKnownEstate("Wonderland Villas")?.name, "華景山莊");
+    assert.equal(matchKnownEstate("Broadview Garden")?.name, "偉景花園");
+    assert.equal(matchKnownEstate("瑜一")?.name, "瑜一");
+    assert.equal(estate("瑜一")?.housing, "private");
+    assert.equal(matchKnownEstate("In One")?.name, "瑜一");
+    assert.equal(matchKnownEstate("揚海")?.name, "揚海");
+    assert.equal(matchKnownEstate("La Marina")?.name, "揚海");
+    assert.equal(estate("漁映樓")?.housing, "public");
+    assert.equal(matchKnownEstate("Yue Ying Lau")?.name, "漁映樓");
+    assert.equal(matchKnownEstate("厦村")?.name, "廈村");
+    assert.equal(estate("山下村")?.housing, "village");
+    assert.equal(matchKnownEstate("泥圍")?.name, "屯門泥圍");
+    assert.equal(estate("華富中邨")?.housing, "public");
+    assert.equal(estate("華富中邨")?.coverageCheck, true);
+    assert.equal(matchKnownEstate("華樂徑")?.name, "華富中邨");
+    assert.equal(estate("麗玥苑")?.housing, "hos");
+    assert.equal(estate("皇都")?.housing, "private");
+    assert.equal(matchKnownEstate("State Pavilia")?.name, "皇都");
+    assert.equal(estate("啟悅苑")?.street, "沐和街2號");
   });
 
   it("keeps recent HOS / GSH courts as 居屋", () => {
@@ -1099,5 +1125,10 @@ describe("search query tails, simplified, english", () => {
     assert.equal(matchKnownEstate("華溢邨")?.name, "華富北邨");
     assert.equal(searchEstates("圓茶壺村", 4)[0]?.housing, "village");
     assert.equal(searchEstates("打鼓嶺新村", 4)[0]?.housing, "village");
+    assert.equal(isNewIntakeEstate("漁映樓"), true);
+    assert.equal(isNewIntakeEstate("兆翠苑"), true);
+    assert.equal(isNewIntakeEstate("啟悅苑"), true);
+    assert.equal(isNewIntakeEstate("瑜一"), true);
+    assert.equal(isNewIntakeEstate("樂啟軒"), false);
   });
 });

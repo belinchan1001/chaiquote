@@ -181,7 +181,7 @@ describe("renderSitemapXml", () => {
     assert.ok(SITEMAP_PAGES.length < SITEMAP_URL_LIMIT, `${SITEMAP_PAGES.length} URLs need a sitemap index`);
     assert.equal(locs.length, SITEMAP_PAGES.length);
     assert.equal(estateLocs.length, INDEXABLE_ESTATE_PAGES.length);
-    assert.equal(INDEXABLE_ESTATE_PAGES.length, 69);
+    assert.equal(INDEXABLE_ESTATE_PAGES.length, 77);
     assert.ok(ESTATE_PAGES.length > INDEXABLE_ESTATE_PAGES.length);
 
     for (const page of STATIC_SITEMAP_PAGES) {

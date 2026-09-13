@@ -205,6 +205,22 @@ const SLUG_FALLBACK: Record<string, string> = {
   "The Monet": "the-monet",
   博峯: "mount-broadcast",
   錦河邨: "kam-ho-estate",
+  漁映樓: "yue-ying-lau",
+  瑜一: "in-one",
+  揚海: "la-marina",
+  華景山莊: "wonderland-villas",
+  偉景花園: "broadview-garden",
+  高禮閣: "ko-lai-house",
+  高賢閣: "ko-yin-house",
+  樂啟軒: "delight-terrace",
+  清濤苑: "ching-tao-court",
+  高宏苑: "ko-wang-court",
+  兆翠苑: "siu-chui-court",
+  祈德尊新邨: "clague-garden",
+  啟悅苑: "kai-yuet-court",
+  華富中邨: "wah-fu-central",
+  麗玥苑: "lai-yuet-court",
+  皇都: "state-pavilia",
 };
 
 function requireEstate(name: string): Estate {

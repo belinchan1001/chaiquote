@@ -85,7 +85,7 @@ export const EXTRA_RAW = `
 淺水灣花園|Repulse Bay Garden|南區|private
 深水灣道|Deep Water Bay Road|南區|private
 赤柱廣場|Stanley Plaza Residences|南區|private
-駿發花園|駿發,Prosperous Garden|油尖旺|hos
+駿發花園|駿發,Prosperous Garden|油尖旺|public
 海富苑|海富,Hoi Fu Court|油尖旺|hos
 富榮花園|富榮,Charming Garden|油尖旺|hos
 柏景灣|Park Avenue|油尖旺|private
@@ -180,7 +180,9 @@ export const EXTRA_RAW = `
 油翠苑|油翠,Yau Chui Court|觀塘|hos
 油美苑|油美,Yau Mei Court|觀塘|hos
 高俊苑|高俊,Ko Chun Court|觀塘|hos
-高宏苑|高宏,Ko Wang Court|觀塘|hos
+高宏苑|高宏,Ko Wang Court|觀塘|hos|油塘||欣榮街131號
+高禮閣|高禮,Ko Lai House,高宏苑高禮閣,高宏苑A座|觀塘|hos|油塘||欣榮街131號
+高賢閣|高賢,Ko Yin House,高宏苑高賢閣,高宏苑B座|觀塘|hos|油塘||欣榮街131號
 高曦苑|高曦,Ko Hei Court|觀塘|hos
 曉麗苑|曉麗,Hiu Lai Court|觀塘|hos
 油塘中心|Yau Tong Centre|觀塘|private
@@ -196,7 +198,8 @@ export const EXTRA_RAW = `
 青富苑|青富,Ching Fu Court|葵青|hos
 青榕苑|青榕,Ching Yung Court|葵青|hos
 青泰苑|青泰,Ching Tai Court|葵青|hos
-偉景花園|Wonderland Villas|葵青|private
+偉景花園|Broadview Garden,青衣偉景花園|葵青|hos|青衣||細山路
+華景山莊|Wonderland Villas,荔景華景山莊|葵青|private|荔景||荔景山路55號
 翠怡花園|Greenery Plaza|葵青|private
 海欣花園|Hoi Shing Garden|葵青|private
 浩景臺|Highland Park,浩景臺葵涌|葵青|hos
@@ -500,8 +503,8 @@ export const EXTRA_RAW = `
 青逸軒|Ching Yat Hin|葵青|public
 滿樂大廈|Moon Lok Dai Ha|荃灣|public
 茵怡花園|Verbena Heights|西貢|hos
-翠塘花園|Tsui Tong Garden|西貢|hos
-漁映樓|Yu Ying House|南區|public
+翠塘花園|Tsui Tong Garden,西貢翠塘花園|西貢|public
+漁映樓|漁映,Yue Ying Lau,Yu Ying House,田灣漁映樓,石排灣道33號|南區|public|田灣||石排灣道33號
 康達閣|Hong Tat Court Block|東區|public
 康智閣|Hong Chi Court Block|東區|public
 海嵐閣|Hoi Nam Court|油尖旺|public
@@ -540,7 +543,7 @@ export const EXTRA_RAW = `
 富康花園|Beverly Garden TKO|西貢|hos
 富寧花園|Fu Ning Garden|西貢|hos
 翠嶺峰|Mount Verdant|西貢|hos
-清濤苑|Ching Tao Court|北區|hos
+清濤苑|清濤,Ching Tao Court|北區|hos|上水||清曉路1號
 景盛苑|King Shing Court|北區|hos
 旭埔苑|Yuk Po Court|北區|hos
 榮福中心|Wing Fuk Centre|北區|hos
@@ -629,7 +632,8 @@ YOHO West|YOHO West,YOHO WEST,Yoho West,Yoho West Parkside,天恩路1號|元朗|
 柏傲莊|The Pavilia Tai Wai,The Pavilia Farm|沙田|private|大圍
 利奧坊綠岸|The Pavilia Green|油尖旺|private
 利奧坊曦岸|The Pavilia Sunrise|油尖旺|private
-晉環|The Southside Southland|南區|private
+晉環|The Southside Southland,港島南岸晉環,港島南岸第1期,La Splendeur|南區|private|黃竹坑||香葉道11號
+揚海|La Marina,港島南岸揚海,港島南岸第2期,The Southside Phase 2|南區|private|黃竹坑||香葉道11號
 賽西湖大廈|Braemar Hill Mansions|東區|private
 雍景臺|Robinson Heights|中西區|private
 聯邦花園|Union Garden Midlevels|中西區|private
@@ -669,8 +673,8 @@ KOKO Hills|KOKO Hills|觀塘|private
 元朗凹頭|Au Tau|元朗|village
 元朗橫洲|Wang Chau|元朗|village
 屯門藍地|Lam Tei|屯門|village
-屯門泥圍|Nai Wai|屯門|village
-屯門鍾屋村|Chung Uk Tsuen|屯門|village
+屯門泥圍|Nai Wai,泥圍,泥圍村|屯門|village
+屯門鍾屋村|Chung Uk Tsuen,鍾屋村屯門,屯門鍾屋|屯門|village
 荃灣青龍頭|Tsing Lung Tau|荃灣|village
 西貢北港|Pak Kong Sai Kung|西貢|village
 西貢壁屋|Pik Uk|西貢|village
@@ -694,12 +698,12 @@ KOKO Hills|KOKO Hills|觀塘|private
 大埔井頭|Tseng Tau Tai Po|大埔|village
 元朗蝦尾新村|Ha Mei San Tsuen|元朗|village
 八鄉河背|Ho Pui Pat Heung|元朗|village
-八鄉蓮花地|Lin Fa Tei,蓮花地|元朗|village
+八鄉蓮花地|Lin Fa Tei,蓮花地,蓮花地村|元朗|village
 屏山坑尾村|Hang Mei Tsuen|元朗|village
 廈村羅衡圍|Lo Uk Tsuen Ha Tsuen|元朗|village
 屯門青磚圍|Tsing Chuen Wai|屯門|village
-屯門屯子圍|Tuen Tsz Wai|屯門|village
-屯門大欖涌|Tai Lam Chung|屯門|village
+屯門屯子圍|Tuen Tsz Wai,屯子圍|屯門|village
+屯門大欖涌|Tai Lam Chung,大欖涌村|屯門|village
 西貢馬游塘|Ma Yau Tong|西貢|village
 西貢北圍|Pak Wai Sai Kung|西貢|village
 沙田排頭|Pai Tau|沙田|village
@@ -790,7 +794,7 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 晴碧花園|Sunshine Grove,馬鞍山晴碧|沙田|hos
 叠翠軒|The Pinnacle,將軍澳叠翠軒|西貢|hos
 美樂花園|Melody Garden,屯門美樂花園|屯門|hos
-寶石大廈|Bo Shek Mansion,荃灣寶石大廈|荃灣|hos
+寶石大廈|Bo Shek Mansion,荃灣寶石大廈|荃灣|public
 海悅花園|Serene Garden,青衣海悅花園|葵青|hos
 宏福花園|Tivoli Garden,青衣宏福花園|葵青|hos
 坪麗苑|Peng Lai Court,坪洲坪麗苑|離島|hos
@@ -823,7 +827,11 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 景峰花園|景峰,Prime View Garden|屯門|hos
 芊紅居|Hibiscus Park,葵芳芊紅居|葵青|hos
 景新臺|Kingston Terrace,屯門景新臺|屯門|hos
-樂啟軒|Delight Terrace,啟德樂啟軒|九龍城|hos
+樂啟軒|Delight Terrace,啟德樂啟軒,沐縉街樂啟軒,樂啟都匯樂啟軒|九龍城|hos|啟德|覆蓋需查核|沐縉街2號
+瑜一|In One,何文田瑜一,忠孝街1號瑜一,何文田站瑜一|九龍城|private|何文田||忠孝街1號
+華富中邨|Wah Fu Central Estate,華樂徑公屋,薄扶林華富中,華富邨華樂徑|南區|public|薄扶林|覆蓋需查核
+麗玥苑|麗玥,Lai Yuet Court,白田麗玥苑|深水埗|hos|白田|覆蓋需查核
+皇都|State Pavilia,北角皇都,英皇道277號皇都|東區|private|北角||英皇道277-291號
 攸壆路簡約公屋|攸壆路項目,Yau Pok Road LPH,元朗攸壆路簡約公屋,簡約公屋攸壆路,攸壆路18號|元朗|public|錦繡花園||攸壆路18號
 彩興路簡約公屋|彩興路項目,Choi Hing Road LPH,牛頭角彩興路簡約公屋,簡約公屋彩興路|觀塘|public|平山||彩興路23號
 彩園路簡約公屋|彩園路項目,Choi Yuen Road LPH,上水彩園路簡約公屋,簡約公屋彩園路|北區|public|上水||彩園路

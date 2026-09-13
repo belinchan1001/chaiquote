@@ -104,7 +104,7 @@ export const VILLAGE_RAW = `
 龍鼓下莊|Lung Kwu Ha Tan|屯門|village|龍鼓灘
 蔡意林|Tsoi Yee Lam|屯門|village|屯門
 青山村|Tsing Shan Tsuen|屯門|village|屯門
-屯門井頭|Tuen Mun Tseng Tau|屯門|village|屯門
+屯門井頭|Tuen Mun Tseng Tau,井頭村屯門,屯門井頭村|屯門|village|屯門
 桃園圍|To Yuen Wai|屯門|village|屯門
 望后石|Mong Hau Shek|屯門|village|屯門
 泰亨|Tai Hang Tai Po,大埔泰亨|大埔|village|泰亨
@@ -113,7 +113,7 @@ export const VILLAGE_RAW = `
 大埔頭|Tai Po Tau|大埔|village|大埔
 樟樹灘|Cheung Shue Tan|大埔|village|大埔
 梅樹坑|Mui Shu Hang|大埔|village|大埔
-碗窰|Wun Yiu|大埔|village|大埔
+碗窰|Wun Yiu,大埔碗窰,碗窰村|大埔|village|大埔
 荔枝山|Lai Chi Shan|大埔|village|大埔
 烏蛟騰|Wu Kau Tang|大埔|village|汀角
 汀角村|Ting Kok Tsuen|大埔|village|汀角
@@ -148,7 +148,7 @@ export const VILLAGE_RAW = `
 香園圍|Heung Yuen Wai|北區|village|打鼓嶺
 松園下|Chung Yuen Ha|北區|village|粉嶺
 塘坑|Tong Hang,粉嶺塘坑|北區|village|粉嶺
-萊洞|Loi Tung|北區|village|沙頭角
+萊洞|Loi Tung,萊洞村,沙頭角萊洞|北區|village|沙頭角
 鴨麻埔|Ap Tam Po|北區|village|沙頭角
 南涌|Nam Chung|北區|village|沙頭角
 三椏|Sam A|北區|village|沙頭角
@@ -196,7 +196,7 @@ export const VILLAGE_RAW = `
 山廈圍|Shan Ha Wai|沙田|village|沙田
 下城門|Ha Shing Mun|沙田|village|大圍
 芙蓉別|Fu Yung Pit|沙田|village|沙田
-多石|To Shek|沙田|village|沙田
+多石|To Shek,沙田多石,沙田多石村|沙田|village|沙田
 排頭村|Pai Tau Tsuen|沙田|village|沙田
 沙田頭村|Sha Tin Tau Tsuen|沙田|village|沙田
 曾大屋|Tsang Tai Uk|沙田|village|沙田
@@ -567,6 +567,24 @@ export const VILLAGE_RAW = `
 馬料水新村|Ma Liu Shui San Tsuen|北區|village|粉嶺
 高埔北村|Ko Po North Village,軍地高埔北|北區|village|粉嶺
 軍地北村|Kwan Tei North Village|北區|village|粉嶺
+山下村|Shan Ha Tsuen,屏山山下村,洪水橋山下村|元朗|village|屏山
+大井村|Tai Tseng,屯門大井,大井圍,大井村屯門|屯門|village|屯門
+清快塘|Tsing Fai Tong,荃灣清快塘,清快塘村|荃灣|village|荃灣
+吳家村馬灣|Ng Ka Tsuen Ma Wan,馬灣吳家村|荃灣|village|馬灣
+南丫高塱|Ko Long,南丫島高塱,高塱村|離島|village|南丫
+南丫沙埔|Sha Po Lamma,南丫島沙埔|離島|village|南丫
+南丫榕樹塱|Yung Shue Long,南丫島榕樹塱|離島|village|南丫
+大嶼山咸田|Ham Tin Lantau,南大嶼咸田,鹹田村大嶼|離島|village|南大嶼
+大嶼山望東灣|Mong Tung Wan,南大嶼望東灣|離島|village|南大嶼
+大嶼山羅屋|Law Uk Lantau,南大嶼羅屋|離島|village|南大嶼
+大澳上羗山|Sheung Keung Shan,大澳上羗山村|離島|village|大澳
+大澳下羗山|Ha Keung Shan,大澳下羗山村|離島|village|大澳
+大澳梁屋|Leung Uk Tai O,大澳梁屋村|離島|village|大澳
+坪輋五洲路|Ng Chau Road Ping Che,坪輋五洲路村|北區|village|打鼓嶺
+西貢大蛇灣|Tai She Wan,大蛇灣|西貢|village|西貢
+新桂田|San Kwai Tin,打鼓嶺新桂田|北區|village|打鼓嶺
+沙田銅鑼灣村|Tung Lo Wan Sha Tin,沙田銅鑼灣|沙田|village|沙田
+屯門亦園|Yik Yuen Tuen Mun,亦園村|屯門|village|屯門
 `.trim();
 
 

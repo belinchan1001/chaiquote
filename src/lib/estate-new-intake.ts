@@ -75,6 +75,10 @@ export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "清濤苑", group: "其他地區" },
   { name: "The Monet", group: "九龍" },
   { name: "博峯", group: "九龍" },
+  { name: "漁映樓", group: "港島" },
+  { name: "兆翠苑", group: "屯門" },
+  { name: "啟悅苑", group: "九龍" },
+  { name: "瑜一", group: "九龍" },
 ];
 
 export const NEW_INTAKE_NAMES = new Set(NEW_INTAKE.map((item) => item.name));
@@ -112,6 +116,12 @@ export const HKBN_INTAKE_OFFER_ESTATES = [
   "順安道簡約公屋",
   "彩石里簡約公屋",
   "青發街簡約公屋",
+  "漁映樓",
+  "兆翠苑",
+  "高宏苑",
+  "清濤苑",
+  "樂嶺軒",
+  "啟悅苑",
 ] as const;
 
 /** Netvigator fibre for a subset of new-move-in estates (blocks inherit the parent). */
@@ -129,6 +139,11 @@ export const NETVIGATOR_INTAKE_OFFER_ESTATES = [
   "裕興苑",
   "錦柏苑",
   "欣寶路項目",
+  "漁映樓",
+  "兆翠苑",
+  "高宏苑",
+  "清濤苑",
+  "啟悅苑",
 ] as const;
 
 /** Fibre coverage currently Netvigator-only; blocks inherit the parent. */

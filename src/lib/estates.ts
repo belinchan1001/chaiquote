@@ -133,7 +133,7 @@ const RAW = `
 富泰邨|富泰,Fu Tai|屯門|public
 欣田邨|欣田,Yan Tin|屯門|public
 兆康苑|兆康,Siu Hong Court|屯門|hos
-兆翠苑|兆翠,Siu Chui Court|屯門|hos
+兆翠苑|兆翠,Siu Chui Court|屯門|hos|||恒富街26號
 悅湖山莊|悅湖,Yuet Wu Villa|屯門|hos
 天耀邨|天耀,天耀一邨,天耀二邨,Tin Yiu|元朗|public|天水圍
 天瑞邨|天瑞,天瑞一邨,天瑞二邨,Tin Shui|元朗|public|天水圍
@@ -281,7 +281,7 @@ const RAW = `
 盛緻苑|盛緻,Shing Chi Court|觀塘|hos|九龍灣
 景泰苑|景泰,King Tai Court|黃大仙|hos
 啟德1號|啟德1號|九龍城|private
-啟悅苑|啟悅,Kai Yuet Court|九龍城|hos|啟德
+啟悅苑|啟悅,Kai Yuet Court|九龍城|hos|啟德||沐和街2號
 啟欣苑|啟欣,Kai Yan Court|九龍城|hos|啟德
 啟盈苑|啟盈,Kai Ying Court|九龍城|hos|啟德
 啟陽苑|啟陽,Kai Yeung Court|九龍城|hos|啟德|覆蓋需查核
@@ -303,7 +303,7 @@ YOHO Midtown|YOHO Midtown|元朗|private
 綠楊新邨|綠楊,Luk Yeung Sun Chuen|荃灣|private
 灣景花園|灣景花園,Belvedere Garden|荃灣|private
 海濱花園|海濱花園,Riviera Gardens|荃灣|private
-祈德尊新邨|祈德尊,Clague Garden Estate|荃灣|private
+祈德尊新邨|祈德尊,Clague Garden Estate|荃灣|public
 海之戀|海之戀,The Pavilia Bay|荃灣|private
 柏傲灣|柏傲灣,The Pavilia|荃灣|private
 環宇海灣|環宇海灣,Ocean Pride|荃灣|private
@@ -331,7 +331,7 @@ YOHO Midtown|YOHO Midtown|元朗|private
 坪洲|坪洲,Peng Chau|離島|village
 大澳|大澳,Tai O|離島|village
 梅窩|梅窩,Mui Wo|離島|village
-廈村|廈村,Ha Tsuen|元朗|village
+廈村|廈村,厦村,Ha Tsuen|元朗|village
 屏山|屏山,Ping Shan|元朗|village
 洪水橋|洪水橋,Hung Shui Kiu|元朗|village
 流浮山|流浮山,Lau Fau Shan|元朗|village
