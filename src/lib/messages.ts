@@ -45,6 +45,9 @@ export const MESSAGES = {
     footerQuote: "留低電話",
     footerPrivacy: "私隱政策",
     footerHome5g: "5G 家居寬頻",
+    contactUs: "聯絡我們",
+    contactUsLead: "WhatsApp、致電或電郵都可以。",
+    emailUs: "電郵我哋",
     heroTitle1: "搵寬頻唔使四圍問，",
     heroTitle2: "呢度一次過幫你睇晒。",
     heroLead: "輸入你住邊，即刻對晒各大電訊商而家嘅月費同優惠。",
@@ -258,7 +261,7 @@ export const MESSAGES = {
       "流動通訊計劃可篩選「大灣區數據」，即包含中國內地及／或澳門用量，或三地共享數據池。實際適用地區及用量以電訊商條款為準。",
     faq6q: "點樣查核報價？",
     faq6a:
-      "最快用 WhatsApp {phone}。冇 WhatsApp 可以撳「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼。",
+      "最快用 WhatsApp {phone}。冇 WhatsApp 可以撳「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 {email}。",
     disclaimer1:
       "本網站所列之所有月費計劃、禮券優惠及安裝條款僅供參考，實際收費及服務細則受相關電訊供應商之最新合約條款約束。",
     disclaimer2:
@@ -272,13 +275,13 @@ export const MESSAGES = {
       "齊Quote（「本網站」）由獨立比較服務營運，並非電訊商官網。我哋重視你嘅私隱，並按香港《個人資料（私隱）條例》處理資料。",
     privacyController: "資料使用者",
     privacyControllerText:
-      "齊Quote（個人獨立營運）。查閱或改正個人資料，請 WhatsApp／致電 {phone}，或透過網站「留低電話」留下聯絡。",
+      "齊Quote（個人獨立營運）。查閱或改正個人資料，請 WhatsApp／致電 {phone}、電郵 {email}，或透過網站「留低電話」留下聯絡。",
     privacyCollect: "收集咩資料",
     privacyCollectText: "姓名／電話（留低電話）、WhatsApp／電話聯絡資料、一般瀏覽技術資料。",
     privacyUse: "用嚟做咩",
     privacyUseText: "回覆查詢、提供計劃參考同跟進、改善網站、法律要求下配合。",
     privacyContactHow: "點樣聯絡你",
-    privacyContactHowText: "可能用電話／WhatsApp 回覆；唔想再收聯絡可用同一渠道通知。",
+    privacyContactHowText: "可能用電話／WhatsApp／電郵回覆（視乎你點聯絡）；唔想再收聯絡可用同一渠道通知。",
     privacyThird: "會唔會交畀第三者",
     privacyThirdText:
       "唔會出售；只在同意、完成查詢所必需（轉介電訊商）、或法律要求時分享必要資料。",
@@ -306,7 +309,7 @@ export const MESSAGES = {
     quoteCallYou: "我哋會打俾你",
     quoteRecorded: "已記下 {name}，電話 {phone}{address}。目標今日內致電。",
     quoteAddressPart: "，地址 {estate}",
-    quoteEmailPending: "電郵通道尚未接上期間，等唔切請直接致電或 WhatsApp {phone}。",
+    quoteEmailPending: "表格未能電郵期間，等唔切請直接致電或 WhatsApp {phone}，或電郵 {email}。",
     callNowNumber: "致電查核報價 {phone}",
     keepComparing: "繼續格價",
     quotePageTitle: "留低電話，我哋打俾你",
@@ -321,7 +324,7 @@ export const MESSAGES = {
     submitCall: "請致電我",
     youPicked: "你揀咗",
     cantWait: "等唔切？",
-    cantWaitLead: "有 WhatsApp 或者想即刻講，用下面兩粒掣。",
+    cantWaitLead: "有 WhatsApp、想即刻講，或者想電郵，用下面掣。",
     callNumber: "致電 {phone}",
     compareNoneTitle: "未揀計劃嚟比較",
     compareNoneLead: "喺計劃度撳「比較月費」，最多可以對 3 個計劃。",
@@ -440,6 +443,9 @@ export const MESSAGES = {
     footerQuote: "Leave a number",
     footerPrivacy: "Privacy",
     footerHome5g: "5G home broadband",
+    contactUs: "Contact us",
+    contactUsLead: "WhatsApp, call or email.",
+    emailUs: "Email us",
     heroTitle1: "Stop shopping around for broadband.",
     heroTitle2: "Compare every plan here.",
     heroLead: "Enter your address and compare current fees and offers from the major providers.",
@@ -656,7 +662,7 @@ export const MESSAGES = {
       "Mobile plans tagged Greater Bay Area include Mainland and/or Macao data, or a shared pool. Regions and quotas follow the carrier’s terms.",
     faq6q: "How do I check a quote?",
     faq6a:
-      "Fastest: WhatsApp {phone}. No WhatsApp? Tap Leave a number. You can also call the same number.",
+      "Fastest: WhatsApp {phone}. No WhatsApp? Tap Leave a number. You can also call the same number, or email {email}.",
     disclaimer1:
       "All monthly fees, gifts and installation terms on this site are for reference only. Actual charges follow the carrier’s latest contract.",
     disclaimer2:
@@ -673,7 +679,7 @@ export const MESSAGES = {
       "ChaiQuote (“this site”) is an independent comparison service, not a carrier website. We take your privacy seriously and handle personal data under Hong Kong’s Personal Data (Privacy) Ordinance.",
     privacyController: "Data user",
     privacyControllerText:
-      "ChaiQuote (personal independent operation). To access or correct your personal data, WhatsApp or call {phone}, or leave a number on this site.",
+      "ChaiQuote (personal independent operation). To access or correct your personal data, WhatsApp or call {phone}, email {email}, or leave a number on this site.",
     privacyCollect: "What we collect",
     privacyCollectText:
       "Name and phone number (leave-a-number form), WhatsApp / phone contact details, and ordinary browsing technical data.",
@@ -682,7 +688,7 @@ export const MESSAGES = {
       "To reply to enquiries, provide plan references and follow-up, improve the site, and comply when the law requires it.",
     privacyContactHow: "How we contact you",
     privacyContactHowText:
-      "We may reply by phone or WhatsApp. To stop further contact, tell us through the same channel.",
+      "We may reply by phone, WhatsApp or email, depending on how you reached us. To stop further contact, tell us through the same channel.",
     privacyThird: "Do we share with third parties?",
     privacyThirdText:
       "We do not sell your data. We share only what is needed with your consent, to complete an enquiry (referring a carrier), or when the law requires it.",
@@ -710,7 +716,7 @@ export const MESSAGES = {
     quoteCallYou: "We will call you",
     quoteRecorded: "Noted {name} at {phone}{address}. We aim to call today.",
     quoteAddressPart: ", address {estate}",
-    quoteEmailPending: "Until email is connected, call or WhatsApp {phone} if you need us sooner.",
+    quoteEmailPending: "If the form did not email through, call or WhatsApp {phone}, or email {email}.",
     callNowNumber: "Call {phone} to check quote",
     keepComparing: "Continue comparing",
     quotePageTitle: "Leave a number, we will call",
@@ -725,7 +731,7 @@ export const MESSAGES = {
     submitCall: "Please call me",
     youPicked: "You selected",
     cantWait: "Need us now?",
-    cantWaitLead: "WhatsApp or call using the buttons below.",
+    cantWaitLead: "WhatsApp, call or email using the buttons below.",
     callNumber: "Call {phone}",
     compareNoneTitle: "No plans to compare",
     compareNoneLead: "Tap Compare on a plan. You can compare up to 3.",

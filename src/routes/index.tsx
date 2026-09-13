@@ -69,7 +69,7 @@ function Home() {
             name: t(item.q),
             acceptedAnswer: {
               "@type": "Answer",
-              text: t(item.a, { phone: SITE.phoneDisplay }),
+              text: t(item.a, { phone: SITE.phoneDisplay, email: SITE.leadEmail }),
             },
           })),
         }}
@@ -231,7 +231,7 @@ function Home() {
                   {t(item.q)}
                   <span className="text-subtle transition-transform duration-150 group-open:rotate-45">+</span>
                 </summary>
-                <p className="mt-3 text-sm leading-relaxed text-muted">{t(item.a, { phone: SITE.phoneDisplay })}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted">{t(item.a, { phone: SITE.phoneDisplay, email: SITE.leadEmail })}</p>
               </details>
             ))}
           </div>

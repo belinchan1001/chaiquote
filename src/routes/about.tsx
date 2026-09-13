@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { QuoteLink } from "@/components/quote-link";
 import { ProviderMark } from "@/components/provider-mark";
@@ -72,12 +73,27 @@ function AboutPage() {
         </p>
       </section>
 
-      <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-        <QuoteLink showNumber />
-        <Button asChild variant="outline">
-          <Link to="/quote">{t("formQuote")}</Link>
-        </Button>
-      </div>
+      <section className="mt-10">
+        <h2 className="text-lg font-semibold">{t("contactUs")}</h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted">{t("contactUsLead")}</p>
+        <p className="mt-3 text-sm">
+          <a href={`mailto:${SITE.leadEmail}`} className="text-accent underline-offset-4 hover:underline">
+            {SITE.leadEmail}
+          </a>
+        </p>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <QuoteLink showNumber />
+          <Button asChild variant="outline">
+            <a href={`mailto:${SITE.leadEmail}`}>
+              <Mail />
+              {t("emailUs")}
+            </a>
+          </Button>
+          <Button asChild variant="outline">
+            <Link to="/quote">{t("formQuote")}</Link>
+          </Button>
+        </div>
+      </section>
     </div>
   );
 }

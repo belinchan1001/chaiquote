@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { QuoteLink } from "@/components/quote-link";
 import { WhatsAppTip } from "@/components/whatsapp-tip";
@@ -151,7 +151,7 @@ function QuotePage() {
         </p>
         {done.emailed ? null : (
           <p className="mt-3 text-sm text-muted">
-            {t("quoteEmailPending", { phone: SITE.phoneDisplay })}
+            {t("quoteEmailPending", { phone: SITE.phoneDisplay, email: SITE.leadEmail })}
           </p>
         )}
         <div className="mt-8 flex flex-col gap-3">
@@ -169,6 +169,12 @@ function QuotePage() {
             {t("waHeader")}
           </QuoteLink>
           {preselected.length ? <CertifiedStaffNote plans={preselected} /> : null}
+          <Button asChild variant="outline">
+            <a href={`mailto:${SITE.leadEmail}`}>
+              <Mail className="size-4" />
+              {SITE.leadEmail}
+            </a>
+          </Button>
           <WhatsAppTip />
           <Button asChild variant="ghost">
             <Link to="/plans" search={{ cat: category }}>
@@ -330,6 +336,12 @@ function QuotePage() {
               <a href={`tel:+${SITE.whatsappE164}`}>
                 <Phone className="size-4" />
                 {t("callNumber", { phone: SITE.phoneDisplay })}
+              </a>
+            </Button>
+            <Button asChild variant="outline">
+              <a href={`mailto:${SITE.leadEmail}`}>
+                <Mail className="size-4" />
+                {SITE.leadEmail}
               </a>
             </Button>
             <WhatsAppTip />

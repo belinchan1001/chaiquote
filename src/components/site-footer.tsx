@@ -12,7 +12,8 @@ export function SiteFooter() {
         <div>
           <Logo onPrimary />
           <p className="mt-3 text-sm text-primary-foreground/70">{t("tagline")}</p>
-          <p className="mt-4 text-sm">
+          <p className="mt-4 text-xs tracking-wider text-primary-foreground/55">{t("contactUs")}</p>
+          <p className="mt-3 text-sm">
             <a
               href={`https://wa.me/${SITE.whatsappE164}`}
               target="_blank"
@@ -20,6 +21,11 @@ export function SiteFooter() {
               className="underline-offset-4 hover:underline"
             >
               WhatsApp {SITE.phoneDisplay}
+            </a>
+          </p>
+          <p className="mt-2 text-sm">
+            <a href={`mailto:${SITE.leadEmail}`} className="underline-offset-4 hover:underline">
+              {SITE.leadEmail}
             </a>
           </p>
           <p className="mt-2 text-xs leading-relaxed text-primary-foreground/55">

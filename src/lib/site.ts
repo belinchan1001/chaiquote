@@ -7,7 +7,7 @@ export const SITE = {
   updated: "2026年9月",
   phoneDisplay: "9862 2444",
   whatsappE164: "85298622444",
-  leadEmail: "",
+  leadEmail: "info@chaiquote.hk",
 } as const;
 
 /** Locked compliance copy. Do not invent a personal legal name. */
@@ -123,6 +123,6 @@ export const FAQ = [
   },
   {
     q: "點樣查核報價？",
-    a: "最快用 WhatsApp 9862 2444。冇 WhatsApp 可以撳「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼。",
+    a: "最快用 WhatsApp 9862 2444。冇 WhatsApp 可以撳「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 info@chaiquote.hk。",
   },
 ] as const;

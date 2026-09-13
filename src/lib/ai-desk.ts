@@ -328,8 +328,8 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
   {
     id: "quote",
     re: /點樣查核|點查核|點報價|how (do i )?check/i,
-    zh: "最快用右下角 WhatsApp 查核報價。篩過地址之後，訊息會帶你嘅申請地址。冇 WhatsApp 可以撳「留低電話」。",
-    en: "The fastest way is the green WhatsApp button. If you already filtered an address, it is included. No WhatsApp? Use leave-a-number.",
+    zh: "最快用右下角 WhatsApp 查核報價。篩過地址之後，訊息會帶你嘅申請地址。冇 WhatsApp 可以撳「留低電話」，或電郵 info@chaiquote.hk。",
+    en: "The fastest way is the green WhatsApp button. If you already filtered an address, it is included. No WhatsApp? Use leave-a-number, or email info@chaiquote.hk.",
     attach: false,
   },
   {
