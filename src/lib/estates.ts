@@ -268,7 +268,6 @@ const RAW = `
 碧海藍天|碧海藍天,Aqua Marine|深水埗|private
 宇晴軒|宇晴軒,The Pacifica|深水埗|private
 昇悅居|昇悅居,Banyan Garden|深水埗|private
-海麗商場|Hoi Lai Shopping Centre,海麗商場長沙灣|深水埗|private
 又一村|又一村,Yau Yat Tsuen|深水埗|private
 麗港城|麗港城,Laguna City|觀塘|private
 匯景花園|匯景,Sceneway Garden|觀塘|private
@@ -296,7 +295,6 @@ YOHO Midtown|YOHO Midtown|元朗|private
 錦繡花園|錦繡花園,Fairview Park|元朗|private
 爾巒|爾巒,The Reach|元朗|private
 峻巒|峻巒,Park Yoho|元朗|private
-新時代廣場|屯門市廣場,Tuen Mun Town Plaza|屯門|private
 瓏門|瓏門,The Palazzo TM|屯門|private
 愛琴灣|愛琴灣,Aegean Coast|屯門|private
 掃管笏|掃管笏,So Kwun Wat|屯門|private
@@ -305,7 +303,6 @@ YOHO Midtown|YOHO Midtown|元朗|private
 綠楊新邨|綠楊,Luk Yeung Sun Chuen|荃灣|private
 灣景花園|灣景花園,Belvedere Garden|荃灣|private
 海濱花園|海濱花園,Riviera Gardens|荃灣|private
-荃灣廣場|荃灣廣場|荃灣|private
 祈德尊新邨|祈德尊,Clague Garden Estate|荃灣|private
 海之戀|海之戀,The Pavilia Bay|荃灣|private
 柏傲灣|柏傲灣,The Pavilia|荃灣|private
@@ -441,6 +438,9 @@ const NON_ESTATE_RAW = `
 濕地公園路|濕地公園
 新城市廣場|New Town Plaza
 形點|Yoho Mall
+海麗商場|Hoi Lai Shopping Centre,海麗商場長沙灣
+荃灣廣場|Tsuen Wan Plaza
+新時代廣場|屯門市廣場,Tuen Mun Town Plaza
 `.trim();
 
 const NON_ESTATE_NEEDLES = NON_ESTATE_RAW.split("\n").flatMap((line) => {
@@ -817,22 +817,49 @@ const FACILITY_NOISE = [
 /** Short stems that appear inside real streets — only drop as a suffix. */
 const AMBIGUOUS_NOISE = ["公園", "廟"];
 
+/**
+ * Clear commercial / industrial POI tokens. Do not add 中心／廣場 —
+ * real private / HOS estates use those in the name (將軍澳中心、大埔廣場).
+ */
+const COMMERCIAL_POI_NOISE = [
+  "ShoppingCentre",
+  "ShoppingMall",
+  "IndustrialBuilding",
+  "CommercialBuilding",
+  "購物中心",
+  "購物商場",
+  "商業大廈",
+  "工業大廈",
+  "工廠大廈",
+  "寫字樓",
+  "商場",
+  "工廈",
+  "酒店",
+  "Hotel",
+].sort((a, b) => b.length - a.length);
+
+const NOISE_TOKENS = [...FACILITY_NOISE, ...COMMERCIAL_POI_NOISE, ...AMBIGUOUS_NOISE].sort(
+  (a, b) => b.length - a.length,
+);
+
 function longestNoiseToken(name: string): string | undefined {
-  return [...FACILITY_NOISE, ...AMBIGUOUS_NOISE].find((token) => name.includes(token));
+  const hay = name.toLowerCase();
+  return NOISE_TOKENS.find((token) => hay.includes(token.toLowerCase()));
 }
 
 function isFacilityRemainder(rest: string): boolean {
   const stripped = rest.replace(/[()（）[\]【】\-–—·.,，、\s近外]/g, "");
   if (!stripped) return false;
-  return [...FACILITY_NOISE, ...AMBIGUOUS_NOISE].some(
+  return NOISE_TOKENS.some(
     (token) => stripped === compact(token) || stripped.endsWith(compact(token)),
   );
 }
 
 /**
- * Drop standalone / suffixed facilities (公廁、的士站、管理處).
+ * Drop standalone / suffixed facilities (公廁、的士站、管理處)
+ * and obvious commercial / industrial POIs (商場、工廈、寫字樓、酒店).
  * Keep a longer official name that only happens to contain 管理處.
- * When the remainder is not a clean facility, keep.
+ * Catalogue residential names win even when they contain a keyword.
  */
 export function shouldDropAsNoise(name: string, knownName?: string): boolean {
   const title = name.replace(/\s+/g, "").trim();
@@ -860,7 +887,8 @@ export function shouldDropAsNoise(name: string, knownName?: string): boolean {
 }
 
 /** Catalogue longest-match, then {@link shouldDropAsNoise}. */
-export function isImpracticalPlace(name: string, _address = ""): boolean {
-  const known = matchKnownEstate(name, "");
-  return shouldDropAsNoise(name, known?.name);
+export function isImpracticalPlace(name: string, address = ""): boolean {
+  const known = matchKnownEstate(name, address);
+  const knownName = known && HOUSING_VALUES.includes(known.housing) ? known.name : undefined;
+  return shouldDropAsNoise(name, knownName);
 }

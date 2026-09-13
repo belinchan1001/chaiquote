@@ -130,6 +130,10 @@ describe("locked acceptance checks", () => {
     const suggest = readFileSync(join(ROOT, "src/components/estate-suggest.tsx"), "utf8");
     assert.match(suggest, /coverageCheck/);
     assert.match(suggest, /noisePlaceHint/);
+    for (const file of [...files, "src/lib/messages.ts", "src/components/estate-suggest.tsx"]) {
+      const text = readFileSync(join(ROOT, file), "utf8");
+      assert.doesNotMatch(text, /官方住宅|純住宅|official residential|residential only/i);
+    }
     const plans = readFileSync(join(ROOT, "src/routes/plans.tsx"), "utf8");
     assert.match(plans, /coverageCheck/);
     const pwa = readFileSync(join(ROOT, "src/lib/pwa.ts"), "utf8");
@@ -191,6 +195,9 @@ describe("estate catalogue", () => {
       "濕地公園路",
       "新城市廣場",
       "形點",
+      "海麗商場",
+      "荃灣廣場",
+      "新時代廣場",
     ];
     for (const name of removed) {
       assert.equal(estate(name), undefined, name);
@@ -382,6 +389,9 @@ describe("matchKnownEstate / classifyAddress", () => {
       "濕地公園路",
       "新城市廣場",
       "形點",
+      "海麗商場",
+      "荃灣廣場",
+      "新時代廣場",
     ];
     for (const place of places) {
       const guess = classifyAddress(place);
@@ -610,6 +620,81 @@ describe("impractical address noise", () => {
       assert.equal(isImpracticalPlace(name), false, name);
     }
     assert.equal(isImpracticalPlace("黃大仙廟"), true);
+  });
+});
+
+describe("non-residential gov / catalogue filter", () => {
+  it("drops mall / industrial / office gov-style names", () => {
+    for (const name of [
+      "海麗商場",
+      "Hoi Lai Shopping Centre",
+      "長沙灣工廈",
+      "觀塘工業大廈",
+      "觀塘工廠大廈",
+      "中環寫字樓",
+      "金鐘商業大廈",
+      "尖沙咀酒店",
+      "Harbour Hotel",
+    ]) {
+      assert.equal(isImpracticalPlace(name), true, name);
+      assert.equal(classifyAddress(name).housing, undefined, name);
+      assert.equal(classifyAddress(name).confidence, "none", name);
+    }
+  });
+
+  it("keeps known residential estates whose names contain 中心／廣場", () => {
+    for (const [name, housing] of [
+      ["將軍澳中心", "private"],
+      ["沙田中心", "private"],
+      ["荃灣中心", "private"],
+      ["大埔廣場", "hos"],
+    ] as const) {
+      assert.equal(isImpracticalPlace(name), false, name);
+      assert.equal(classifyAddress(name).housing, housing, name);
+      assert.equal(searchEstates(name, 8)[0]?.name, name, name);
+      assert.equal(searchEstates(name, 8)[0]?.housing, housing, name);
+    }
+  });
+
+  it("lets a catalogue residential match override a keyword drop", () => {
+    assert.equal(estate("葵涌廣場住宅")?.housing, "private");
+    assert.equal(isImpracticalPlace("葵涌廣場住宅"), false);
+    assert.equal(classifyAddress("葵涌廣場住宅").housing, "private");
+    assert.equal(shouldDropAsNoise("葵涌廣場住宅", "葵涌廣場住宅"), false);
+    assert.equal(shouldDropAsNoise("海麗商場", "海麗商場"), false);
+    assert.equal(shouldDropAsNoise("海麗商場", undefined), true);
+    assert.equal(isImpracticalPlace("海麗商場"), true);
+    assert.equal(isImpracticalPlace("海麗邨海麗商場"), true);
+    assert.equal(isImpracticalPlace("沙田中心商場"), true);
+    assert.equal(isImpracticalPlace("將軍澳中心"), false);
+  });
+
+  it("does not guess floor use on mixed industrial / commercial names", () => {
+    assert.equal(isImpracticalPlace("長沙灣工廈12樓"), true);
+    assert.equal(isImpracticalPlace("觀塘工業大廈15樓A室"), true);
+    assert.equal(isImpracticalPlace("長沙灣道250號"), false);
+    assert.notEqual(classifyAddress("長沙灣道250號").housing, "public");
+    assert.notEqual(matchKnownEstate("長沙灣道250號")?.name, "長沙灣邨");
+  });
+
+  it("removes non-residential malls from the local catalogue", () => {
+    for (const name of ["海麗商場", "荃灣廣場", "新時代廣場"]) {
+      assert.equal(estate(name), undefined, name);
+      assert.ok(!searchEstates(name, 12).some((hit) => hit.name === name), name);
+    }
+  });
+
+  it("does not claim official residential-only in search copy", () => {
+    const files = [
+      "src/lib/estates.ts",
+      "src/lib/address-search.ts",
+      "src/components/estate-suggest.tsx",
+      "src/lib/messages.ts",
+    ];
+    for (const file of files) {
+      const text = readFileSync(join(ROOT, file), "utf8");
+      assert.doesNotMatch(text, /官方住宅|純住宅|official residential|residential only/i);
+    }
   });
 });
 
