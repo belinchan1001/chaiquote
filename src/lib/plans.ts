@@ -1,5 +1,5 @@
 import { HKBN_FLASH_OFFER_ESTATES, HKBN_INTAKE_OFFER_ESTATES, HKBN_LPR_FLASH_ESTATES, NETVIGATOR_INTAKE_OFFER_ESTATES, estateUnlocksPlan, isNetvigatorOnlyEstate } from "./estate-new-intake.ts";
-import { estateHasHgcVillageCoverage } from "./hgc-village-coverage.ts";
+import { estateBlocksHkbnVillage, estateHasHgcVillageCoverage } from "./hgc-village-coverage.ts";
 
 export type Category = "broadband" | "mobile" | "home5g" | "business";
 export type Housing = "public" | "hos" | "private" | "village";
@@ -79,9 +79,9 @@ const LIMITS_HKBN_5G =
 const LIMITS_HKBN_FTTH =
   "本計劃為自動續約。可選擇延遲服務生效日（最長 365 日）。適用於指定公屋、居屋及私人住宅。不適用於村屋。";
 const LIMITS_HKBN_VILLAGE_27 =
-  "僅適用於指定村屋地址。本計劃為 27 個月合約。可選擇延遲服務生效日（最長 365 日）。香港寬頻之公屋、居屋及私人樓宇計劃不適用於村屋地址。實際覆蓋須另行核對。";
+  "僅適用於指定村屋地址。本計劃為 27 個月合約。可選擇延遲服務生效日（最長 365 日）。香港寬頻之公屋、居屋及私人樓宇計劃不適用於村屋地址。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須另行核對。";
 const LIMITS_HKBN_VILLAGE_SELECT_24 =
-  "僅適用於指定村屋地址。本計劃為 24 個月合約。可選擇延遲服務生效日（最長 365 日）。實際覆蓋須另行核對。";
+  "僅適用於指定村屋地址。本計劃為 24 個月合約。可選擇延遲服務生效日（最長 365 日）。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須另行核對。";
 const LIMITS_NETVIGATOR_FTTH =
   "可選擇先安裝後啟動服務（最長 365 日）。實際覆蓋視乎個別樓宇而定。";
 const LIMITS_NETVIGATOR_INTAKE =
@@ -3566,6 +3566,10 @@ export function isHgcVillage(plan: Plan) {
   return plan.providerId === "hgc" && plan.housing !== "all" && plan.housing.every((item) => item === "village");
 }
 
+export function isHkbnVillage(plan: Plan) {
+  return plan.providerId === "hkbn" && plan.housing !== "all" && plan.housing.every((item) => item === "village");
+}
+
 export function isHktPlan(plan: Plan) {
   return plan.providerId === "netvigator" || plan.providerId === "csl";
 }
@@ -3621,6 +3625,7 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
       }
     }
     if (isHgcVillage(plan) && !estateHasHgcVillageCoverage(search.estate)) return false;
+    if (isHkbnVillage(plan) && estateBlocksHkbnVillage(search.estate)) return false;
     if (search.intake && !plan.newIntakeOffer) return false;
     if (!matchesHousing(plan, search.housing)) return false;
     if (search.maxFee && plan.monthlyFee > search.maxFee) return false;

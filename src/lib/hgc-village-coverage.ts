@@ -1,6 +1,8 @@
 /**
  * HGC village fibre coverage as listed May 2026.
- * Used to hide HGC village plans on village addresses outside this set.
+ * Used to hide HGC village plans on village addresses outside this set,
+ * and to hide HKBN village plans on addresses inside this set
+ * (HGC fibre here means HKBN village fibre is not listed).
  * Site IDs stay internal; do not show them on the site.
  */
 import { compact, ESTATES, matchKnownEstate } from "./estates.ts";
@@ -334,4 +336,14 @@ export function estateHasHgcVillageCoverage(estateQuery: string | undefined): bo
     return false;
   }
   return UNLOCK_KEYS.has(q);
+}
+
+/**
+ * HKBN village plans stay on the generic village list (no address yet).
+ * A named village on the HGC May 2026 list does not list HKBN village fibre.
+ */
+export function estateBlocksHkbnVillage(estateQuery: string | undefined): boolean {
+  const raw = estateQuery?.trim();
+  if (!raw) return false;
+  return estateHasHgcVillageCoverage(raw);
 }

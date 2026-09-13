@@ -17,10 +17,10 @@ const EXACT: Record<string, string> = {
     "Selected estates only. This plan auto-renews. Service start can be deferred up to 365 days. Coverage and install dates are confirmed by the carrier.",
   "僅適用於指定屋苑。本計劃為自動續約。免 3 個月月費。實際覆蓋同安裝期以電訊商確認為準。":
     "Selected estates only. This plan auto-renews. Three months free. Coverage and install dates are confirmed by the carrier.",
-  "僅適用於指定村屋地址。本計劃為 27 個月合約。可選擇延遲服務生效日（最長 365 日）。香港寬頻之公屋、居屋及私人樓宇計劃不適用於村屋地址。實際覆蓋須另行核對。":
-    "Village-house addresses only. 27-month contract. Service start can be deferred up to 365 days. HKBN public/HOS/private plans do not apply to village houses. Coverage must be confirmed separately.",
-  "僅適用於指定村屋地址。本計劃為 24 個月合約。可選擇延遲服務生效日（最長 365 日）。實際覆蓋須另行核對。":
-    "Village-house addresses only. 24-month contract. Service start can be deferred up to 365 days. Coverage must be confirmed separately.",
+  "僅適用於指定村屋地址。本計劃為 27 個月合約。可選擇延遲服務生效日（最長 365 日）。香港寬頻之公屋、居屋及私人樓宇計劃不適用於村屋地址。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須另行核對。":
+    "Village-house addresses only. 27-month contract. Service start can be deferred up to 365 days. HKBN public/HOS/private plans do not apply to village houses. Not for villages with HGC fibre coverage. Coverage must be confirmed separately.",
+  "僅適用於指定村屋地址。本計劃為 24 個月合約。可選擇延遲服務生效日（最長 365 日）。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須另行核對。":
+    "Village-house addresses only. 24-month contract. Service start can be deferred up to 365 days. Not for villages with HGC fibre coverage. Coverage must be confirmed separately.",
   "可選擇先安裝後啟動服務（最長 365 日）。實際覆蓋視乎個別樓宇而定。":
     "Install first, activate later (up to 365 days). Coverage depends on the building.",
   "可選擇先安裝後啟動服務（最長 365 日）。實際覆蓋視乎個別樓宇而定。僅適用於指定獨家私人樓宇。":

@@ -14,10 +14,11 @@ import {
   type CompareCopy,
 } from "./compare.ts";
 import { toEnglish } from "./plan-en.ts";
-import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, filterPlans, getPlan, hasCertifiedStaff, isHgcVillage, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, staffOfferLabel, staffOfferPlans, averageFee, type Category } from "./plans.ts";
+import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, filterPlans, getPlan, hasCertifiedStaff, isHgcVillage, isHkbnVillage, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, staffOfferLabel, staffOfferPlans, averageFee, type Category } from "./plans.ts";
 import {
   HGC_VILLAGE_COVERAGE,
   HGC_VILLAGE_UNMATCHED,
+  estateBlocksHkbnVillage,
   estateHasHgcVillageCoverage,
 } from "./hgc-village-coverage.ts";
 
@@ -1062,6 +1063,8 @@ describe("HGC village broadband install waiver", () => {
     const hkbnVillage = plan("hkbn-village-200-27m");
     assert.equal(hkbnVillage.install, "豁免安裝費（原價 HK$680）");
     assert.match(hkbnVillage.limits ?? "", /實際覆蓋須另行核對/);
+    assert.match(hkbnVillage.limits ?? "", /HGC 已有光纖覆蓋嘅村屋不適用/);
+    assert.match(toEnglish(hkbnVillage.limits ?? ""), /Not for villages with HGC fibre coverage/);
 
     const village2500Upgrade = plan("hkbn-village-2500-upgrade");
     assert.equal(village2500Upgrade.monthlyFee, 378);
@@ -1126,6 +1129,33 @@ describe("HGC village coverage lock", () => {
     assert.equal(pingShan.some((row) => isHgcVillage(row)), false);
     assert.ok(pingShan.some((row) => row.providerId === "hkbn"));
     assert.ok(pingShan.some((row) => isNetvigatorVillage(row)));
+  });
+
+  it("hides every HKBN village plan on HGC-covered villages and keeps them elsewhere", () => {
+    const hkbnVillageCount = PLANS.filter((row) => isHkbnVillage(row)).length;
+    assert.equal(hkbnVillageCount, 7);
+    assert.equal(estateBlocksHkbnVillage(undefined), false);
+    assert.equal(estateBlocksHkbnVillage(""), false);
+
+    const generic = filterPlans({ cat: "broadband", housing: "village" });
+    assert.equal(generic.filter((row) => isHkbnVillage(row)).length, hkbnVillageCount);
+
+    const listed = ["吉慶圍", "錦田吉慶圍", "大生圍", "八鄉上村", "馬灣涌", "上村 - 祠堂村"];
+    for (const name of listed) {
+      assert.equal(estateBlocksHkbnVillage(name), true, name);
+      const rows = filterPlans({ cat: "broadband", housing: "village", estate: name });
+      assert.equal(rows.some((row) => isHkbnVillage(row)), false, name);
+      assert.equal(rows.filter((row) => isHgcVillage(row)).length, 6, name);
+      assert.ok(rows.some((row) => isNetvigatorVillage(row)), name);
+    }
+
+    const outside = ["屏山楊屋村", "楊屋村", "元朗南邊圍", "天耀邨"];
+    for (const name of outside) {
+      assert.equal(estateBlocksHkbnVillage(name), false, name);
+    }
+    const pingShan = filterPlans({ cat: "broadband", housing: "village", estate: "屏山楊屋村" });
+    assert.equal(pingShan.filter((row) => isHkbnVillage(row)).length, hkbnVillageCount);
+    assert.equal(pingShan.some((row) => isHgcVillage(row)), false);
   });
 });
 
