@@ -258,7 +258,7 @@ const RAW = `
 海怡半島|海怡,South Horizons|南區|private
 黃埔花園|黃埔,Whampoa Garden|九龍城|private
 海逸豪園|海逸豪園,Laguna Verde|九龍城|private
-翔龍灣|翔龍灣,The Coronation|油尖旺|private
+翔龍灣|翔龍灣,Grand Waterfront|九龍城|private|土瓜灣
 奧海城|奧海城,Olympian City|油尖旺|private
 君匯港|君匯港,Harbour Green|油尖旺|private
 浪澄灣|浪澄灣,The Long Beach|油尖旺|private
@@ -295,7 +295,7 @@ YOHO Midtown|YOHO Midtown|元朗|private
 錦繡花園|錦繡花園,Fairview Park|元朗|private
 爾巒|爾巒,The Reach|元朗|private
 峻巒|峻巒,Park Yoho|元朗|private
-瓏門|瓏門,The Palazzo TM|屯門|private
+瓏門|瓏門,Century Gateway|屯門|private
 愛琴灣|愛琴灣,Aegean Coast|屯門|private
 掃管笏|掃管笏,So Kwun Wat|屯門|private
 黃金海岸|黃金海岸,Gold Coast|屯門|private
@@ -313,8 +313,8 @@ YOHO Midtown|YOHO Midtown|元朗|private
 長亨|長亨邨|葵青|public
 青衣城|青衣城,Maritime Square|葵青|private
 灝景灣|灝景灣,Villa Esplanada|葵青|private
-藍澄灣|藍澄灣,Tierra Verde,Rambler Crest|葵青|private
-盈翠半島|盈翠,Nerine Cove|葵青|private
+藍澄灣|藍澄灣,Rambler Crest|葵青|private
+盈翠半島|盈翠,Tierra Verde|葵青|private
 東涌逸東邨|逸東,逸東邨,逸東一邨,逸東二邨,Yat Tung|離島|public|東涌
 滿東邨|滿東,Mun Tung|離島|public|東涌
 迎東邨|迎東,Ying Tung|離島|public|東涌

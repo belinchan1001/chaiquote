@@ -503,4 +503,62 @@ export const VILLAGE_RAW = `
 上村 - 祠堂村|Sheung Tsuen - Tsz Tong Tsuen,上村祠堂村|元朗|village|八鄉
 沙頭角瓦窰頭|Sha Tau Kok Nga Yiu Tau|北區|village|沙頭角
 亞公角漁民新村|Ah Kung Kok Fishermen Village|沙田|village|沙田
+牛潭尾|Ngau Tam Mei,牛潭尾村,牛潭尾西|元朗|village|凹頭
+隔田村|Kak Tin Tsuen,大圍隔田村,沙田隔田|沙田|village|大圍
+梅窩涌口|Mui Wo Chung Hau,涌口村|離島|village|梅窩
+東涌舊墟|Tung Chung Old Market,東涌市,東涌墟|離島|village|東涌
+泥涌|Nai Chung,西沙泥涌,十四鄉泥涌|大埔|village|西貢北
+輋徑篤|Che Keng Tuk,西貢輋徑篤,十四鄉輋徑篤|西貢|village|西貢
+大嶼山長沙|Cheung Sha Lantau,長沙嶼南,上長沙,下長沙,南大嶼長沙|離島|village|南大嶼
+新田舊村|San Tin Kau Tsuen|元朗|village|新田
+沙田田心村|Tin Sam Tai Wai,大圍田心村,田心村大圍|沙田|village|大圍
+禾寮坑|Wo Liu Hang,火炭禾寮坑|沙田|village|火炭
+山尾村|Shan Mei Tsuen,火炭山尾|沙田|village|火炭
+拔子窩|Pat Tsz Wo|沙田|village|火炭
+香粉寮|Heung Fan Liu,大圍香粉寮|沙田|village|大圍
+積存圍|Chik Chuen Wai,大圍積存圍|沙田|village|大圍
+南丫北角村|Pak Kok Village,南丫島北角村|離島|village|南丫
+南丫模達灣|Mo Tat Wan,模達村|離島|village|南丫
+長洲西灣|Cheung Chau Sai Wan,西灣長洲|離島|village|長洲
+稔灣|Nim Wan,稔灣村|元朗|village|流浮山
+白泥|Pak Nai,白泥村,流浮山白泥|元朗|village|流浮山
+蝦尾新村|Ha Mei San Tsuen,天水圍蝦尾|元朗|village|天水圍
+山廈村|Shan Ha Tsuen,十八鄉山廈|元朗|village|十八鄉
+粉嶺樓|Fanling Lau,粉嶺樓村|北區|village|粉嶺
+古洞北村|Kwu Tung North Village|北區|village|古洞
+十四鄉黃竹灣|Wong Chuk Wan Sai Sha,西沙黃竹灣|大埔|village|西貢北
+井頭村大埔|Tseng Tau Tai Po,大埔井頭村|大埔|village|汀角
+馬鞍山村|Ma On Shan Tsuen,馬鞍山舊村|沙田|village|馬鞍山
+烏溪沙村|Wu Kai Sha Village,烏溪沙舊村|沙田|village|馬鞍山
+大埔頭老圍|Tai Po Tau Lo Wai|大埔|village|大埔
+大埔頭水圍|Tai Po Tau Shui Wai|大埔|village|大埔
+古洞南|Kwu Tung South|北區|village|古洞
+沙頭角南涌|Nam Chung,南涌村|北區|village|沙頭角
+鹿頸村|Luk Keng Village,鹿頸|北區|village|沙頭角
+荔枝窩|Lai Chi Wo|北區|village|沙頭角
+吉澳|Kat O,吉澳村|北區|village|沙頭角
+鴨洲|Ap Chau|北區|village|沙頭角
+大嶼山塘福村|Tong Fuk Village|離島|village|南大嶼
+大嶼山貝澳老圍|Pui O Lo Wai,貝澳老圍|離島|village|貝澳
+東涌塱塢|Lam Che,東涌塱塢村|離島|village|東涌
+東涌莫家|Mok Ka,東涌莫家村|離島|village|東涌
+東涌黃家|Wong Ka Wai,東涌黃家圍|離島|village|東涌
+青龍頭村|Tsing Lung Tau Village|荃灣|village|青龍頭
+深井舊村|Sham Tseng Kau Tsuen|荃灣|village|深井
+汀九村|Ting Kau Village|荃灣|village|汀九
+葵涌九華徑上村|Kau Wa Keng Upper Village|葵青|village|葵涌
+葵涌九華徑下村|Kau Wa Keng Lower Village|葵青|village|葵涌
+青衣老屋村|Tsing Yi Lo Uk Tsuen,青衣舊村|葵青|village|青衣
+青衣大王下村|Tai Wong Ha Tsuen|葵青|village|青衣
+青衣涌美村|Chung Mei Tsuen Tsing Yi|葵青|village|青衣
+青衣南灣村|Nam Wan Tsuen Tsing Yi|葵青|village|青衣
+洪水橋田心|Hung Shui Kiu Tin Sam,洪水橋田心村|元朗|village|洪水橋
+屏山坑尾村|Hang Mei Tsuen,屏山坑尾|元朗|village|屏山
+屏山坑頭村|Hang Tau Tsuen,屏山坑頭|元朗|village|屏山
+十八鄉南邊圍|Nam Pin Wai,元朗南邊圍|元朗|village|十八鄉
+十八鄉北邊圍|Pak Pin Wai,元朗北邊圍|元朗|village|十八鄉
+八鄉石湖塘村|Shek Wu Tong Tsuen|元朗|village|八鄉
+八鄉長江|Cheung Kong Pat Heung,八鄉長江村|元朗|village|八鄉
 `.trim();
+
+

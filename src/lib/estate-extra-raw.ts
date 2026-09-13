@@ -85,11 +85,11 @@ export const EXTRA_RAW = `
 淺水灣花園|Repulse Bay Garden|南區|private
 深水灣道|Deep Water Bay Road|南區|private
 赤柱廣場|Stanley Plaza Residences|南區|private
-駿發花園|駿發,Prosperous Garden|油尖旺|public
+駿發花園|駿發,Prosperous Garden|油尖旺|hos
 海富苑|海富,Hoi Fu Court|油尖旺|hos
 富榮花園|富榮,Charming Garden|油尖旺|hos
 柏景灣|Park Avenue|油尖旺|private
-帝柏海灣|The Long Beach|油尖旺|private
+帝柏海灣|Imperial Cullinan Bay,海庭道18號帝柏海灣|油尖旺|private|||海庭道18號
 君臨天下|The Harbourside|油尖旺|private
 凱旋門|The Arch|油尖旺|private
 名鑄|The Masterpiece|油尖旺|private
@@ -408,8 +408,8 @@ export const EXTRA_RAW = `
 汀九|Ting Kau|荃灣|village
 深井碧堤半島|Bellagio Sham Tseng|荃灣|private
 深井海韻花園|Rhine Garden|荃灣|private
-深井浪翠園|Lido Garden|荃灣|private
-深井麗都花園|Ocean Pointe|荃灣|private
+深井浪翠園|浪翠園,Nerine Cove|荃灣|private|深井
+深井麗都花園|麗都花園,Lido Garden|荃灣|private|深井
 馬灣挪亞方舟住宅|Noah Residences|離島|private
 愉景灣海澄湖畔|DB North|離島|private
 愉景灣翠峰|DB Hillgrove|離島|private
@@ -611,7 +611,7 @@ OMA掃管笏|OMA OMA|屯門|private
 四季豪園|Seasons Palace|元朗|private
 棕櫚泉|Palm Springs Yuen Long|元朗|private
 Grand YOHO|Grand YOHO|元朗|private
-YOHO West|YOHO West|元朗|private
+YOHO West|YOHO West,YOHO WEST,Yoho West,Yoho West Parkside,天恩路1號|元朗|private|天水圍||天恩路1號
 河畔花園|Shatin Riverside|沙田|private
 花園城|Garden Rivera Tai Wai|沙田|private
 蔚景園|Wai King Garden|沙田|private
@@ -838,4 +838,29 @@ Double Coast|Double Coast I,Double Coast II,啟德Double Coast|九龍城|private
 逸瓏灣II|Mayfair By The Sea II,逸瓏灣2期,逸瓏灣二期|大埔|private|白石角
 樂嶺樓|Lok Ling House,樂嶺都匯樂嶺樓,樂嶺都匯第1座|北區|public|粉嶺||百和路72號
 盛頤居|Shing Yee Residence,樂嶺都匯盛頤居,樂嶺都匯第2座,長者安居樂盛頤居|北區|public|粉嶺||百和路72號
+御金國峯|御金·國峯,The Coronation,友翔道1號|油尖旺|private|油麻地||友翔道1號
+深井Ocean Pointe|Ocean Pointe,Ocean Pointe Sham Tseng|荃灣|private|深井
+NOVO LAND|Novo Land,NOVO LAND 1A,NOVO LAND 1B,NOVO LAND 1C,NOVO LAND 2A,NOVO LAND 2B,NOVO LAND 3A,屯門NOVO LAND|屯門|private|兆康||興貴街8號
+傲華|Oria,筲箕灣傲華,筲箕灣東大街121號|東區|private|筲箕灣||筲箕灣東大街121號
+滙都|High Park,滙都I,滙都II,High Park I,High Park II,洪水橋滙都,洪安里1號|元朗|private|洪水橋||洪安里1號
+維港雙鑽|維港・雙鑽,Grand Victoria Kai Tak,啟德維港雙鑽|九龍城|private|啟德
+天璽海|天璽・海,Cullinan Harbour,天璽海第2B期|九龍城|private|啟德||承豐道26號
+天璽天|天璽・天,Cullinan Sky,啟德天璽天|九龍城|private|啟德
+啟德海灣|KT Marina,啟德海灣1,啟德海灣2,KT Marina 1,KT Marina 2,承豐道15號|九龍城|private|啟德||承豐道15號
+壹沐|HIGHWOOD,壹沐第2期,HIGHWOOD Phase 2,土瓜灣道70號|九龍城|private|土瓜灣||土瓜灣道70號
+應天|21 Borrett Road,21 Borrett Road Phase 2,波老道21號|中西區|private|西半山||波老道21號
+璟南|VELE,鴨脷洲海旁道18號,Ap Lei Chau VELE|南區|private|鴨脷洲||鴨脷洲海旁道18號
+Beacon Peak|Beacon Peak 1,畢架山Beacon Peak|深水埗|private|畢架山
+尚岸|The Shore TM,屯門尚岸|屯門|private
+維港灣畔|Victoria Voyage,維港・灣畔,維港灣畔第2B期|九龍城|private|啟德||承豐道18號
+海德園|THE HEADLAND RESIDENCES,海德園第二期,柴灣常安街99號|東區|private|柴灣||常安街99號
+邑庭居|Yap Ting Terraced Home,將軍澳邑庭居|西貢|public|將軍澳
+嶺樂活|嶺・樂活,Sierra Life,皇后山嶺樂活|北區|hos|粉嶺
+Miami Quay I|Miami Quay 1,啟德Miami Quay I|九龍城|private|啟德
+柏傲莊I|The Pavilia Farm I,Pavilia Farm 1,柏傲莊 1期|沙田|private|大圍
+柏傲莊II|The Pavilia Farm II,Pavilia Farm 2,柏傲莊 2期|沙田|private|大圍
+華富北邨|Wah Fu North Estate,華景街公屋,薄扶林華富北|南區|public|薄扶林|覆蓋需查核
+首匯|CHESTER,紅磡首匯,黃埔街8號|九龍城|private|紅磡||黃埔街8號
+首岸|ONE VICTORIA COVE,紅磡首岸,庇利街1號|九龍城|private|紅磡||庇利街1號
 `.trim();
+
