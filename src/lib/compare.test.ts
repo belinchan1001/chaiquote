@@ -1551,7 +1551,7 @@ function planCopy(row: ReturnType<typeof plan>) {
 }
 
 describe("CSL 5G 20GB $108", () => {
-  it("splits 24- and 36-month cards, omits voice, and keeps the $100 rebate on 36 months only", () => {
+  it("splits 24- and 36-month cards with unlimited local voice and keeps the $100 rebate on 36 months only", () => {
     const a24 = plan("csl-5g-20-108-24m");
     const a36 = plan("csl-5g-20-108-36m");
     assert.equal(getPlan("csl-5g-20")?.id, "csl-5g-20-108-24m");
@@ -1564,12 +1564,12 @@ describe("CSL 5G 20GB $108", () => {
       assert.equal(row.dataGb, 20);
       assert.equal(row.highSpeedGb, 20);
       assert.equal(row.fupNote, "其後以 1Mbps 任用");
-      assert.equal(row.voice, undefined);
+      assert.equal(row.voice, "本地無限分鐘");
       assert.equal(row.roaming, "每月 3GB 中國內地及澳門數據");
       assert.equal(row.quotePick, undefined);
       assert.equal(row.hot, undefined);
       assert.equal(row.latestOffer, undefined);
-      assert.doesNotMatch(JSON.stringify(row), /最平|本地無限分鐘/);
+      assert.doesNotMatch(JSON.stringify(row), /最平/);
     }
     assert.equal(a24.contractMonths, 24);
     assert.equal(a24.name, "5G 20GB（24 個月）");
@@ -1582,6 +1582,7 @@ describe("CSL 5G 20GB $108", () => {
     assert.equal(toEnglish(a24.name), "5G 20GB (24 months)");
     assert.equal(toEnglish(a36.portInPerk ?? ""), "Port-in can waive HK$18 admin/month; extra HK$100 fee rebate on port-in");
     assert.equal(toEnglish(a24.roaming ?? ""), "3GB Mainland & Macao data/month");
+    assert.equal(toEnglish(a24.voice ?? ""), "Unlimited local minutes");
   });
 });
 
@@ -1600,7 +1601,7 @@ describe("CSL 5G student 10GB $78", () => {
       assert.equal(row.dataGb, 10);
       assert.equal(row.highSpeedGb, 10);
       assert.equal(row.fupNote, "其後以 1Mbps 任用");
-      assert.equal(row.voice, undefined);
+      assert.equal(row.voice, "本地無限分鐘");
       assert.equal(row.roaming, "每月 1GB 中國內地及澳門數據");
       assert.equal(row.quotePick, undefined);
       assert.equal(row.hot, undefined);
@@ -1613,7 +1614,7 @@ describe("CSL 5G student 10GB $78", () => {
       assert.match(row.limits ?? "", /不適用於大專或大學/);
       assert.ok(row.perks.includes("可豁免每月行政費 HK$18"));
       assert.equal(row.portInPerk, undefined);
-      assert.doesNotMatch(JSON.stringify(row), /最平|本地無限分鐘|quotePick/);
+      assert.doesNotMatch(JSON.stringify(row), /最平|quotePick/);
     }
     assert.equal(s24.contractMonths, 24);
     assert.equal(s36.contractMonths, 36);
@@ -1621,6 +1622,7 @@ describe("CSL 5G student 10GB $78", () => {
     assert.equal(toEnglish(s24.roaming ?? ""), "1GB Mainland & Macao data/month");
     assert.match(toEnglish(s24.limits ?? ""), /Not for tertiary or university/);
     assert.match(toEnglish(s24.bestFor), /not for tertiary\/university/);
+    assert.equal(toEnglish(s24.voice ?? ""), "Unlimited local minutes");
   });
 });
 
