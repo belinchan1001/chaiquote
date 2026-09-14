@@ -74,11 +74,12 @@ export const SITEMAP_URL_LIMIT = 50_000;
 const W3C_LASTMOD = /^\d{4}(?:-\d{2}(?:-\d{2})?)?$/;
 
 /**
- * SITE.updated is a human stamp (`2026年9月` or `2026年9月15日`).
- * Convert only those documented forms to W3C `YYYY-MM` / `YYYY-MM-DD`.
+ * SITE.updated is a catalogue stamp (`2026-09-15`, `2026年9月15日`, or `2026年9月`).
+ * Convert documented forms to W3C `YYYY-MM` / `YYYY-MM-DD`.
  * Do not invent a clock date.
  */
 export function siteDataLastmod(stamp: string = SITE.updated): string | undefined {
+  if (W3C_LASTMOD.test(stamp)) return stamp;
   const day = /^(\d{4})年(\d{1,2})月(\d{1,2})日$/.exec(stamp);
   if (day) {
     return `${day[1]}-${day[2]!.padStart(2, "0")}-${day[3]!.padStart(2, "0")}`;

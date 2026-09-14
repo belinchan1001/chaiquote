@@ -4,7 +4,7 @@ export const SITE = {
   url: "https://www.chaiquote.hk",
   description:
     "齊Quote 係獨立電訊比較平台，一次過比較香港家居寬頻、5G 家居、商業寬頻同手機計劃。所列月費僅供參考。",
-  updated: "2026年9月15日",
+  updated: "2026-09-15",
   phoneDisplay: "9862 2444",
   whatsappE164: "85298622444",
   leadEmail: "info@chaiquote.hk",

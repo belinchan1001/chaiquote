@@ -241,9 +241,11 @@ describe("renderSitemapXml", () => {
     const allowed = new Set<string>();
     const siteStamp = siteDataLastmod();
     assert.equal(siteStamp, "2026-09-15");
-    assert.equal(SITE.updated, "2026年9月15日");
+    assert.equal(SITE.updated, "2026-09-15");
+    assert.equal(siteDataLastmod("2026-09-15"), "2026-09-15");
     assert.equal(siteDataLastmod("not-a-date"), undefined);
     assert.equal(siteDataLastmod("2026年9月"), "2026-09");
+    assert.equal(siteDataLastmod("2026年9月15日"), "2026-09-15");
     if (siteStamp) allowed.add(siteStamp);
     for (const guide of GUIDES) {
       for (const date of [guide.modified, guide.published]) {
