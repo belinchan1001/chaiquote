@@ -305,8 +305,9 @@ describe("404 document head", () => {
 
   it("marks only not-found matches noindex,follow; 200 matches stay index,follow", () => {
     const indexable = [{ pathname: "/" }, { pathname: "/about" }];
-    const unmatched = [{ pathname: "/", globalNotFound: true }];
+    const unmatched = [{ pathname: "/", _notFound: true }];
     const thrown = [{ pathname: "/plans/missing", status: "notFound" as const }];
+    const newer = [{ pathname: "/", globalNotFound: true }];
 
     assert.equal(isNotFoundDocument(indexable), false);
     assert.equal(documentRobots(indexable), "index,follow");
@@ -319,6 +320,9 @@ describe("404 document head", () => {
     assert.equal(isNotFoundDocument(thrown), true);
     assert.equal(documentRobots(thrown), "noindex,follow");
     assert.equal(documentFallbackTitle(thrown), NOT_FOUND_SEO.title);
+
+    assert.equal(isNotFoundDocument(newer), true);
+    assert.equal(documentRobots(newer), "noindex,follow");
 
     const head = notFoundHead();
     assert.equal(head.meta.find((tag) => "title" in tag)?.title, NOT_FOUND_SEO.title);

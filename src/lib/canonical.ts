@@ -156,13 +156,19 @@ export const NOT_FOUND_SEO = {
 export const INDEXABLE_ROBOTS = "index,follow" as const;
 
 type NotFoundMatch = {
+  /** Installed TanStack Router / Start (1.170) marks the root 404 boundary this way. */
+  _notFound?: boolean;
+  /** Newer router-core builds expose the same flag as `globalNotFound`. */
   globalNotFound?: boolean;
   status?: string;
 };
 
-/** Root not-found boundary sets `globalNotFound`; nested boundaries use status. */
+/** Root not-found boundary sets `_notFound` / `globalNotFound`; nested boundaries use status. */
 export function isNotFoundDocument(matches: ReadonlyArray<NotFoundMatch>): boolean {
-  return matches.some((match) => match.globalNotFound === true || match.status === "notFound");
+  return matches.some(
+    (match) =>
+      match._notFound === true || match.globalNotFound === true || match.status === "notFound",
+  );
 }
 
 export function documentRobots(matches: ReadonlyArray<NotFoundMatch>): "noindex,follow" | "index,follow" {
