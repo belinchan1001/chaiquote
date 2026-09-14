@@ -5,7 +5,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { GUIDES, getGuide } from "./guides.ts";
 import { getPlan } from "./plans.ts";
-import { SITEMAP_PAGES } from "./seo.ts";
+import { SITEMAP_PAGES, sitemapLastmod } from "./seo.ts";
 
 const FORBIDDEN = ["保證裝到", "全港最平", "官方", "唔保證裝到"];
 const here = dirname(fileURLToPath(import.meta.url));
@@ -55,6 +55,31 @@ describe("village-onsite guide", () => {
         SITEMAP_PAGES.some((page) => page.path === `/guides/${guide.slug}`),
         `sitemap missing /guides/${guide.slug}`,
       );
+    }
+  });
+
+  it("backfills lastmod for the nine older guides from git-backed dates, not today", () => {
+    const expected: Record<string, string> = {
+      "port-in": "2026-09-06",
+      "fiber-vs-5g": "2026-09-13",
+      village: "2026-09-13",
+      "village-onsite": "2026-09-13",
+      "public-vs-hos": "2026-09-13",
+      "is-1000m-enough": "2026-09-13",
+      "gba-mobile": "2026-09-13",
+      "shop-broadband": "2026-09-13",
+      "contract-fees": "2026-09-13",
+    };
+    const today = new Date().toISOString().slice(0, 10);
+    for (const [slug, date] of Object.entries(expected)) {
+      const guide = getGuide(slug);
+      assert.ok(guide, slug);
+      const lastmod = guide.modified ?? guide.published;
+      assert.equal(lastmod, date, slug);
+      assert.match(lastmod ?? "", /^\d{4}-\d{2}-\d{2}$/);
+      assert.notEqual(lastmod, today, `${slug} lastmod must not be today's date`);
+      assert.notEqual(lastmod, "2026-09-14");
+      assert.equal(sitemapLastmod(`/guides/${slug}`), date, slug);
     }
   });
 

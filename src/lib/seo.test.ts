@@ -246,11 +246,10 @@ describe("renderSitemapXml", () => {
     }
 
     assert.equal(sitemapLastmod("/guides/fiber"), "2026-09-10");
-    assert.equal(sitemapLastmod("/guides/port-in"), undefined);
+    assert.equal(sitemapLastmod("/guides/port-in"), "2026-09-06");
     assert.equal(sitemapLastmod("/"), "2026-09");
     assert.match(xml, /\/guides\/fiber<\/loc><lastmod>2026-09-10<\/lastmod>/);
-    assert.match(xml, /\/guides\/port-in<\/loc><changefreq>/);
-    assert.doesNotMatch(xml, /\/guides\/port-in<\/loc><lastmod>/);
+    assert.match(xml, /\/guides\/port-in<\/loc><lastmod>2026-09-06<\/lastmod>/);
     assert.match(xml, /www\.chaiquote\.hk\/<\/loc><lastmod>2026-09<\/lastmod>/);
 
     const src = readFileSync(join(ROOT, "src/lib/seo.ts"), "utf8");
