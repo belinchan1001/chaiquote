@@ -4,6 +4,7 @@ export const SITE = {
   url: "https://www.chaiquote.hk",
   description:
     "齊Quote 係獨立電訊比較平台，一次過比較香港家居寬頻、5G 家居、商業寬頻同手機計劃。所列月費僅供參考。",
+  /** Catalogue stamp shown on the homepage hero as YYYY-MM-DD. */
   updated: "2026-09-15",
   phoneDisplay: "9862 2444",
   whatsappE164: "85298622444",
@@ -106,7 +107,7 @@ export const FAQ = [
     a: "唔係。我哋係獨立比較網站，將公開渠道同市場常見優惠擺埋一齊。最終月費、覆蓋同安裝期，都以電訊商確認為準。",
   },
   {
-    q: "公屋同居屋價錢會唔會唔同？",
+    q: "公屋同埋居屋價錢會唔會唔同？",
     a: "公屋同埋居屋好多時有指定供應商同批量價，不過每個屋邨／屋苑合約都可能唔同。篩選時可以分開揀；問價時請填齊屋苑名稱。",
   },
   {

@@ -286,7 +286,7 @@ export type KnowledgeHit = {
 export const QUESTION_CHIPS = [
   { id: "village", zh: "村屋有冇光纖？", en: "Can village houses get fibre?" },
   { id: "port", zh: "攜號轉台點做？", en: "How do I port my number?" },
-  { id: "housing", zh: "公屋同居屋有分別？", en: "Public housing vs HOS?" },
+  { id: "housing", zh: "公屋同埋居屋有分別？", en: "Public housing vs HOS?" },
 ] as const;
 
 const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
@@ -300,7 +300,7 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
   {
     id: "public-hos",
     re: /公屋|居屋|價錢會唔會唔同|public housing|hos/i,
-    zh: "公屋同居屋好多時有指定供應商同批量價，每個屋邨／屋苑都可能唔同。篩選時可以分開揀樓類，問價時填齊屋苑名稱。",
+    zh: "公屋同埋居屋好多時有指定供應商同批量價，每個屋邨／屋苑都可能唔同。篩選時可以分開揀樓類，問價時填齊屋苑名稱。",
     en: "Public housing and HOS often have designated carriers and bulk rates, and each estate can differ. Filter by housing type and give the estate name when you check a quote.",
     attach: true,
   },

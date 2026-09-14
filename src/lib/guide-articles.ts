@@ -16,7 +16,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     description:
       "香港光纖寬頻唔係一張價表。同樣 1000M，公屋、居屋、私樓、村屋月費同計劃通常不同。先分樓類，再對 1000M／2500M 同轉台注意。覆蓋同安裝以電訊商確認為準。",
     title: "香港光纖寬頻點揀：先分樓類再睇月費",
-    excerpt: "香港光纖唔係一張價表。先分公屋、居屋、私樓、村屋，再對參考月費同 1000M／2500M。",
+    excerpt: "香港光纖唔係一張價表。先分公屋、居屋、私樓定村屋，再對 1000M／2500M 參考月費。",
     titleEn: "Hong Kong fibre guide: housing type first, then the fee",
     excerptEn:
       "Hong Kong fibre is not one price list. Sort public, HOS, private and village housing first, then compare 1000M and 2500M.",
@@ -258,7 +258,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     description:
       "香港 5G 家居用流動網絡開家用 Wi-Fi，免拉線、隨插即用。啱未有光纖、租樓、村屋；唔好當固定光纖替代。數據上限、訊號同月費以電訊商確認為準。",
     title: "香港 5G 家居點揀：免拉線，速度視現場",
-    excerpt: "插電路由器就用。啱未有光纖、租樓、趕時間；唔好當固定光纖替代。",
+    excerpt: "插電路由器就用。啱未有光纖、租樓或者趕時間；唔好當固定光纖替代。",
     titleEn: "Hong Kong 5G home: no cabling, speed depends on the site",
     excerptEn: "Plug in a router. Useful when fibre is not ready. Not a guaranteed fixed line.",
     descriptionEn:
@@ -688,7 +688,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     description:
       "香港店舖、寫字樓、工作室要用商業寬頻，唔好用家居公屋價去舖頭申請。固定 IP、安裝窗口、商業登記都要問清楚。月費、覆蓋同安裝期以電訊商確認為準。",
     title: "香港商業寬頻點揀：店舖同寫字樓唔好用家居計劃",
-    excerpt: "舖址、商業登記、固定 IP 同支援時間都同家居唔同。",
+    excerpt: "舖址、商業登記、固定 IP 同支援時間，都同家居計劃唔同。",
     titleEn: "Hong Kong business broadband: do not use a home plan for a shop",
     excerptEn: "Shop and office lines need a business address, and often a static IP.",
     descriptionEn:
@@ -906,7 +906,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "公屋寬頻同居屋有咩分別｜齊Quote",
     h1: "公屋同埋居屋，寬頻價錢會唔會不同？",
     description:
-      "公屋同居屋寬頻多數分開報價。同樣 1000M 都可能唔同計劃。先揀樓類，實際覆蓋以電訊商確認。",
+      "公屋同埋居屋寬頻多數分開報價。同樣 1000M 都可能唔同計劃。先揀樓類，實際覆蓋以電訊商確認。",
     title: "公屋同埋居屋，寬頻價錢會唔會不同？",
     excerpt: "多數會不同。批量合約同指定計劃，令公屋、居屋唔好共用一張價。",
     titleEn: "Do public housing and HOS pay different broadband fees?",
