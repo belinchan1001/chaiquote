@@ -589,6 +589,9 @@
     .plan-card-shine {
       animation: none;
     }
+    .plan-card-shine.ai-filter-shine {
+      animation: quote-pick-shine 4.8s linear infinite;
+    }
   }
 
   /* Scroll-driven holofoil under opaque text. Inset keeps the 3px border clear.
