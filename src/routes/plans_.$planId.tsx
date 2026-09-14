@@ -28,7 +28,7 @@ import {
 } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
-import { canonicalUrl } from "@/lib/canonical";
+import { canonicalUrl, notFoundHead } from "@/lib/canonical";
 import { planJsonLd, planSeoDescription, planSeoTitle } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 
@@ -42,7 +42,7 @@ export const Route = createFileRoute("/plans_/$planId")({
     return { plan };
   },
   head: ({ loaderData }) => {
-    if (!loaderData) return { meta: [{ title: SITE.name }] };
+    if (!loaderData) return notFoundHead();
     const { plan } = loaderData;
     const title = planSeoTitle(plan);
     const description = planSeoDescription(plan);

@@ -3,6 +3,7 @@
  * homepage / shell do not load the full estate catalogue on first paint.
  */
 import type { Category } from "./plans.ts";
+import { SITE } from "./site.ts";
 
 export const DEFAULT_SEO_ORIGIN = "https://www.chaiquote.hk";
 
@@ -140,6 +141,53 @@ export const LOCKED_PAGE_SEO = [
   { path: "/privacy", ...PRIVACY_SEO },
   { path: "/guides", ...GUIDES_SEO },
 ] as const;
+
+/**
+ * 404 document head. Matches the root `notFoundComponent` copy
+ * (`messages.notFound` / `notFoundLead`) and `X-Robots-Tag: noindex, follow`.
+ * Do not use the homepage title or `index,follow` here.
+ */
+export const NOT_FOUND_SEO = {
+  title: "搵唔到呢頁｜齊Quote",
+  description: "呢個計劃或者教學可能已經唔喺度。",
+  robots: "noindex,follow",
+} as const satisfies SeoCopy & { robots: "noindex,follow" };
+
+export const INDEXABLE_ROBOTS = "index,follow" as const;
+
+type NotFoundMatch = {
+  /** Installed TanStack Router / Start (1.170) marks the root 404 boundary this way. */
+  _notFound?: boolean;
+  /** Newer router-core builds expose the same flag as `globalNotFound`. */
+  globalNotFound?: boolean;
+  status?: string;
+};
+
+/** Root not-found boundary sets `_notFound` / `globalNotFound`; nested boundaries use status. */
+export function isNotFoundDocument(matches: ReadonlyArray<NotFoundMatch>): boolean {
+  return matches.some(
+    (match) =>
+      match._notFound === true || match.globalNotFound === true || match.status === "notFound",
+  );
+}
+
+export function documentRobots(matches: ReadonlyArray<NotFoundMatch>): "noindex,follow" | "index,follow" {
+  return isNotFoundDocument(matches) ? NOT_FOUND_SEO.robots : INDEXABLE_ROBOTS;
+}
+
+export function documentFallbackTitle(matches: ReadonlyArray<NotFoundMatch>): string {
+  return isNotFoundDocument(matches) ? NOT_FOUND_SEO.title : `${SITE.name} · ${SITE.tagline}`;
+}
+
+export function notFoundHead(): { meta: ShareMeta[] } {
+  return {
+    meta: [
+      { title: NOT_FOUND_SEO.title },
+      { name: "description", content: NOT_FOUND_SEO.description },
+      { name: "robots", content: NOT_FOUND_SEO.robots },
+    ],
+  };
+}
 
 type ShareMeta =
   | { title: string }

@@ -7,7 +7,7 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { getGuide, guideCopy, type GuideTable } from "@/lib/guides";
 import { guideTopicImage } from "@/lib/guide-media";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import { canonicalUrl } from "@/lib/canonical";
+import { canonicalUrl, notFoundHead } from "@/lib/canonical";
 import { guideJsonLd } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { whatsappHref } from "@/lib/whatsapp";
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/guides_/$slug")({
   },
   component: GuidePage,
   head: ({ loaderData }) => {
-    if (!loaderData) return { meta: [{ title: SITE.name }] };
+    if (!loaderData) return notFoundHead();
     const { guide } = loaderData;
     const url = canonicalUrl(`/guides/${guide.slug}`);
     const image = guideTopicImage(guide.slug);
