@@ -79,6 +79,18 @@ export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "兆翠苑", group: "屯門" },
   { name: "啟悅苑", group: "九龍" },
   { name: "瑜一", group: "九龍" },
+  { name: "安秀苑", group: "九龍" },
+  { name: "安柏苑", group: "九龍" },
+  { name: "冠山苑", group: "九龍" },
+  { name: "昭明苑", group: "新界" },
+  { name: "啟欣苑", group: "九龍" },
+  { name: "驥華苑", group: "港島" },
+  { name: "啟鑽苑", group: "九龍" },
+  { name: "樂啟軒", group: "九龍" },
+  { name: "柏蔚森", group: "九龍" },
+  { name: "尚逸", group: "港島" },
+  { name: "泓璟", group: "九龍" },
+  { name: "恒苑", group: "其他地區" },
 ];
 
 export const NEW_INTAKE_NAMES = new Set(NEW_INTAKE.map((item) => item.name));
@@ -122,6 +134,14 @@ export const HKBN_INTAKE_OFFER_ESTATES = [
   "清濤苑",
   "樂嶺軒",
   "啟悅苑",
+  "安秀苑",
+  "安柏苑",
+  "冠山苑",
+  "昭明苑",
+  "啟欣苑",
+  "驥華苑",
+  "啟鑽苑",
+  "樂啟軒",
 ] as const;
 
 /** Netvigator fibre for a subset of new-move-in estates (blocks inherit the parent). */
@@ -144,6 +164,10 @@ export const NETVIGATOR_INTAKE_OFFER_ESTATES = [
   "高宏苑",
   "清濤苑",
   "啟悅苑",
+  "安秀苑",
+  "安柏苑",
+  "啟欣苑",
+  "啟鑽苑",
 ] as const;
 
 /** Fibre coverage currently Netvigator-only; blocks inherit the parent. */

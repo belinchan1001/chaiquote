@@ -221,6 +221,20 @@ const SLUG_FALLBACK: Record<string, string> = {
   華富中邨: "wah-fu-central",
   麗玥苑: "lai-yuet-court",
   皇都: "state-pavilia",
+  柏蔚森: "the-pavilia-forest",
+  尚逸: "des-voeux-w",
+  泓璟: "one-liberty",
+  恒苑: "hang-yuen-cheung-chau",
+  安秀苑: "on-sau-court",
+  安柏苑: "on-pak-court",
+  冠山苑: "koon-shan-court",
+  昭明苑: "chiu-ming-court",
+  啟欣苑: "kai-yan-court",
+  啟鑽苑: "kai-chuen-court",
+  鯉安苑: "lei-on-court",
+  駿發花園: "prosperous-garden",
+  翠塘花園: "lakeside-garden",
+  寶石大廈: "bo-shek-mansion",
 };
 
 function requireEstate(name: string): Estate {

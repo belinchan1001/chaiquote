@@ -584,7 +584,18 @@ export const VILLAGE_RAW = `
 西貢大蛇灣|Tai She Wan,大蛇灣|西貢|village|西貢
 新桂田|San Kwai Tin,打鼓嶺新桂田|北區|village|打鼓嶺
 沙田銅鑼灣村|Tung Lo Wan Sha Tin,沙田銅鑼灣|沙田|village|沙田
-屯門亦園|Yik Yuen Tuen Mun,亦園村|屯門|village|屯門
+屯門亦園|Yik Yuen Tuen Mun,屯門亦園村|屯門|village|屯門
+大美督|Tai Mei Tuk,大埔大美督|大埔|village|汀角
+山寮|Shan Liu,大埔山寮,大埔山寮村|大埔|village|大埔
+滘西|High Island,滘西洲,西貢滘西|西貢|village|西貢
+橋咀|Kiu Tsui,橋咀洲,西貢橋咀|西貢|village|西貢
+東涌石門甲|Shek Mun Kap,石門甲,東涌石門甲村|離島|village|東涌
+貝澳新圍|Pui O San Wai,大嶼山貝澳新圍|離島|village|貝澳
+長洲南社|Cheung Chau Nam She,長洲南社街|離島|village|長洲
+荃灣老圍|Tsuen Wan Lo Wai,老圍荃灣|荃灣|village|荃灣
+衙前圍村|Nga Tsin Wai Tsuen,九龍城衙前圍|九龍城|village|九龍城
+粉嶺安樂村|On Lok Tsuen Fanling,安樂村粉嶺,粉嶺安樂|北區|village|粉嶺
+梅窩橫塘|Wang Tong Mui Wo,梅窩橫塘村|離島|village|梅窩
 `.trim();
 
 

@@ -139,7 +139,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       housingLabel,
       housingList,
       callWindowLabel,
-      updated: locale === "en" ? "September 2026" : SITE.updated,
+      updated: locale === "en" ? "15 September 2026" : SITE.updated,
     };
   }, [locale, enReady]);
 

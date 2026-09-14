@@ -282,7 +282,7 @@ const RAW = `
 景泰苑|景泰,King Tai Court|黃大仙|hos
 啟德1號|啟德1號|九龍城|private
 啟悅苑|啟悅,Kai Yuet Court|九龍城|hos|啟德||沐和街2號
-啟欣苑|啟欣,Kai Yan Court|九龍城|hos|啟德
+啟欣苑|啟欣,Kai Yan Court|九龍城|hos|啟德||沐禮街6號
 啟盈苑|啟盈,Kai Ying Court|九龍城|hos|啟德
 啟陽苑|啟陽,Kai Yeung Court|九龍城|hos|啟德|覆蓋需查核
 天水圍嘉湖山莊|嘉湖,嘉湖山莊,Kingswood Villas|元朗|private|天水圍
@@ -370,7 +370,7 @@ YOHO Midtown|YOHO Midtown|元朗|private
 高翔苑|高翔,Ko Cheung Court|觀塘|hos
 康華苑|康華,Hong Wah Court|觀塘|hos
 鯉魚門邨|鯉魚門,Lei Yue Mun Estate|觀塘|public
-居屋鯉安苑|鯉安苑,Lei On Court|觀塘|hos
+鯉安苑|居屋鯉安苑,Lei On Court|觀塘|hos
 安達邨|安達,On Tat|觀塘|public
 安泰邨|安泰,On Tai|觀塘|public
 安楹苑|安楹,On Ying Court|觀塘|hos

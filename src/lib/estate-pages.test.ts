@@ -170,6 +170,9 @@ describe("estate SEO pages", () => {
     assert.equal(isNewIntakeEstate("清濤苑"), true);
     assert.equal(isNewIntakeEstate("The Monet"), true);
     assert.equal(isNewIntakeEstate("博峯"), true);
+    assert.equal(isNewIntakeEstate("安秀苑"), true);
+    assert.equal(isNewIntakeEstate("柏蔚森"), true);
+    assert.equal(isNewIntakeEstate("樂啟軒"), true);
     assert.equal(isNewIntakeEstate("錦河邨"), false);
     assert.equal(getEstatePage("sierra-terrace")?.estate.name, "樂嶺軒");
     assert.equal(getEstatePage("the-monet")?.estate.housing, "private");

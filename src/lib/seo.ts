@@ -74,10 +74,15 @@ export const SITEMAP_URL_LIMIT = 50_000;
 const W3C_LASTMOD = /^\d{4}(?:-\d{2}(?:-\d{2})?)?$/;
 
 /**
- * SITE.updated is a human month stamp (`2026年9月`). Convert only that
- * documented form to W3C `YYYY-MM`. Do not invent a day.
+ * SITE.updated is a human stamp (`2026年9月` or `2026年9月15日`).
+ * Convert only those documented forms to W3C `YYYY-MM` / `YYYY-MM-DD`.
+ * Do not invent a clock date.
  */
 export function siteDataLastmod(stamp: string = SITE.updated): string | undefined {
+  const day = /^(\d{4})年(\d{1,2})月(\d{1,2})日$/.exec(stamp);
+  if (day) {
+    return `${day[1]}-${day[2]!.padStart(2, "0")}-${day[3]!.padStart(2, "0")}`;
+  }
   const match = /^(\d{4})年(\d{1,2})月$/.exec(stamp);
   if (!match) return undefined;
   return `${match[1]}-${match[2]!.padStart(2, "0")}`;
@@ -92,7 +97,7 @@ export function siteOfferValidUntil(stamp: string = SITE.updated): string | unde
   if (mon < 1 || mon > 12) return undefined;
   const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
   const days = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  return `${month}-${String(days[mon - 1]).padStart(2, "0")}`;
+  return `${month.slice(0, 7)}-${String(days[mon - 1]).padStart(2, "0")}`;
 }
 
 /**
