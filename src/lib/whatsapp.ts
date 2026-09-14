@@ -77,7 +77,7 @@ export function withInquiry(text: string, inquiry?: Partial<Inquiry> | null, loc
 const ASK_COVERAGE_ZH = "請幫我核對覆蓋同最新優惠。";
 const ASK_MOBILE_ZH = "請幫我核對新號碼上台優惠／攜號轉台優惠。";
 const ASK_COVERAGE_EN = "Please confirm coverage and the latest offer.";
-const ASK_MOBILE_EN = "Please confirm the new-number signup offer / number-porting offer.";
+const ASK_MOBILE_EN = "Please help me check new-number signup offers / number-porting (MNP) offers.";
 
 export function quoteAsk(plans: Plan[], locale: Locale = "zh") {
   const mobileOnly = plans.length > 0 && plans.every((plan) => plan.category === "mobile");
