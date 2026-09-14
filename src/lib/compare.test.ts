@@ -231,6 +231,38 @@ describe("HKBN 5G 100GB + 8GB $128", () => {
   });
 });
 
+describe("HKBN 5G 70GB CGA $158", () => {
+  it("keeps the $158 poster extras on the 24-month 70GB shared plan", () => {
+    const row = plan("hkbn-5g-cga-70");
+    assert.equal(row.providerId, "hkbn");
+    assert.equal(row.category, "mobile");
+    assert.equal(row.name, "5G 70GB 中港澳共享");
+    assert.equal(row.monthlyFee, 158);
+    assert.equal(row.freeMonths, 0);
+    assert.equal(row.contractMonths, 24);
+    assert.equal(row.dataGb, 70);
+    assert.equal(row.highSpeedGb, 70);
+    assert.equal(row.fupNote, "其後不高於 1Mbps 任用香港本地流動數據");
+    assert.equal(row.voice, "本地 3,000 分鐘");
+    assert.equal(row.roaming, "香港、內地、澳門共享 70GB");
+    assert.equal(row.network, "5G");
+    assert.deepEqual(row.perks, [
+      "香港、內地及澳門共享數據池",
+      "免每月行政費 HK$28",
+      "每月 200 分鐘中國內地及澳門通話",
+      "SAFE 網絡安全防護及防毒軟件 6 個月免費（價值 $168）",
+    ]);
+    assert.equal(row.portInPerk, "攜號轉台適用");
+    assert.match(row.limits ?? "", /3香港網絡/);
+    assert.match(row.limits ?? "", /24 個月/);
+    assert.equal(toEnglish(row.name), "5G 70GB HK–Mainland–Macao shared");
+    assert.equal(toEnglish(row.fupNote ?? ""), "Then local Hong Kong data unlimited at up to 1Mbps");
+    assert.equal(toEnglish(row.perks[1]), "HK$28 admin/month waived");
+    assert.equal(toEnglish(row.perks[2]), "200 Mainland & Macao minutes/month");
+    assert.equal(toEnglish(row.perks[3]), "6 months SAFE security and antivirus free (value $168)");
+  });
+});
+
 describe("HKBN 1000M four-in-one $199", () => {
   it("keeps fibre+OTT+5G combo public with quote pick, latest offer and screenshot terms", () => {
     const row = plan("hkbn-ftth-1000-24m-199-mobile");
