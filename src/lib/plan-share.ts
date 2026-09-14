@@ -89,3 +89,86 @@ export async function shareOrCopyPlan(
   await host.writeText(planShareClipboardText(plan));
   return "copied";
 }
+
+/** How long the in-button check / 「已複製」 cue stays visible. */
+export const SHARE_SUCCESS_CUE_MS = 700;
+
+export function isPlanShareSuccess(result: PlanShareResult): boolean {
+  return result === "shared" || result === "copied";
+}
+
+export type ShareSuccessDingHost = {
+  hidden?: boolean;
+  muted?: boolean;
+  reducedMotion?: boolean;
+  /** false when the click gesture has already been consumed (e.g. after a share sheet). */
+  userGestureActive?: boolean;
+};
+
+type AudioContextCtor = typeof AudioContext;
+
+export function readShareSuccessDingHost(): ShareSuccessDingHost {
+  if (typeof document === "undefined" || typeof window === "undefined") {
+    return { hidden: true, userGestureActive: false };
+  }
+  const doc = document as Document & { muted?: boolean };
+  return {
+    hidden: document.hidden,
+    muted: Boolean(doc.muted),
+    reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    userGestureActive: navigator.userActivation ? navigator.userActivation.isActive : true,
+  };
+}
+
+export function shouldPlayShareSuccessDing(host: ShareSuccessDingHost): boolean {
+  if (host.hidden || host.muted || host.reducedMotion) return false;
+  if (host.userGestureActive === false) return false;
+  return true;
+}
+
+function audioContextCtor(): AudioContextCtor | undefined {
+  const scope = globalThis as typeof globalThis & {
+    AudioContext?: AudioContextCtor;
+    webkitAudioContext?: AudioContextCtor;
+  };
+  return scope.AudioContext ?? scope.webkitAudioContext;
+}
+
+/** Quiet one-shot oscillator blip. Never loops; skip when motion/audio is suppressed. */
+export function playShareSuccessDing(host: ShareSuccessDingHost = readShareSuccessDingHost()): void {
+  if (!shouldPlayShareSuccessDing(host)) return;
+  const Ctor = audioContextCtor();
+  if (!Ctor) return;
+
+  let ctx: AudioContext;
+  try {
+    ctx = new Ctor();
+  } catch {
+    return;
+  }
+  if (ctx.state !== "running") {
+    void ctx.close();
+    return;
+  }
+
+  try {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const t = ctx.currentTime;
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(880, t);
+    osc.frequency.exponentialRampToValueAtTime(1320, t + 0.045);
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(0.055, t + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.11);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.12);
+    osc.addEventListener("ended", () => {
+      void ctx.close();
+    });
+  } catch {
+    void ctx.close();
+  }
+}

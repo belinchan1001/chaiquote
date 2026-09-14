@@ -8,12 +8,16 @@ import { SITE } from "./site.ts";
 import {
   PLAN_SHARE_DISCLAIMER,
   PLAN_SHARE_SENTENCE,
+  SHARE_SUCCESS_CUE_MS,
+  isPlanShareSuccess,
   planShareBody,
   planShareClipboardText,
   planShareFactsLine,
   planSharePayload,
   planShareUrl,
+  playShareSuccessDing,
   shareOrCopyPlan,
+  shouldPlayShareSuccessDing,
 } from "./plan-share.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -183,7 +187,7 @@ describe("plan card share control", () => {
     assert.equal([...card.matchAll(/<PlanShareButton plan=\{plan\} \/>/g)].length, 1);
     assert.match(
       card,
-      /<QuoteLink plan=\{plan\} className="flex-1">\s*\{t\("askWa"\)\}\s*<\/QuoteLink>\s*\{plan\.staffOffer \? null : <PlanShareButton plan=\{plan\} \/>\}/,
+      /<QuoteLink plan=\{plan\} className="w-full min-w-fit shrink-0 sm:w-auto">\s*\{t\("askWa"\)\}\s*<\/QuoteLink>\s*<div className="flex gap-2 sm:shrink-0">[\s\S]*\{plan\.staffOffer \? null : <PlanShareButton plan=\{plan\} \/>\}/,
     );
     assert.match(card, /<ProviderMark id=\{plan\.providerId\} \/>\s*<button/);
     assert.match(card, /aria-label=\{inSaved \? t\("unsave"\) : t\("save"\)\}/);
@@ -198,11 +202,20 @@ describe("plan card share control", () => {
     assert.match(button, /t\("share"\)/);
     assert.match(button, /t\("shareCopied"\)/);
     assert.match(button, /shareOrCopyPlan\(plan\)/);
+    assert.match(button, /isPlanShareSuccess\(result\)/);
+    assert.match(button, /result === "aborted"\) return/);
+    assert.match(button, /playShareSuccessDing\(\)/);
+    assert.match(button, /SHARE_SUCCESS_CUE_MS/);
+    assert.match(button, /flash\("copied"\)/);
+    assert.match(button, /action-done bg-accent text-accent-foreground/);
     assert.match(button, /aria-live="polite"/);
     assert.match(button, /variant="outline"/);
     assert.match(button, /\{label\}/);
     assert.doesNotMatch(button, /size-11/);
     assert.doesNotMatch(button, /text-muted/);
+    assert.doesNotMatch(button, /toast|sonner|Toaster/);
+    assert.doesNotMatch(button, /onMouseEnter|onPointerEnter|onHover/);
+    assert.doesNotMatch(button, /setTimeout\(\(\) => setCue\("idle"\), 2000\)/);
 
     assert.match(share, /from "\.\/plans\.ts"/);
     assert.match(share, /formatFee\(plan\.monthlyFee\)/);
@@ -212,5 +225,111 @@ describe("plan card share control", () => {
     assert.match(messages, /shareCopied: "已複製連結"/);
     assert.match(messages, /shareFailed: "未能複製，請再試"/);
     assert.match(messages, /share: "Share"/);
+    assert.doesNotMatch(messages, /shareSucceeded/);
+  });
+});
+
+describe("share success cue", () => {
+  it("treats shared and copied as success, and abort as silence", () => {
+    assert.equal(SHARE_SUCCESS_CUE_MS, 700);
+    assert.equal(isPlanShareSuccess("shared"), true);
+    assert.equal(isPlanShareSuccess("copied"), true);
+    assert.equal(isPlanShareSuccess("aborted"), false);
+  });
+
+  it("plays a short quiet oscillator ding only when motion and audio are allowed", () => {
+    const share = readFileSync(join(here, "plan-share.ts"), "utf8");
+    const css = readFileSync(join(here, "../styles.css"), "utf8");
+
+    assert.equal(shouldPlayShareSuccessDing({}), true);
+    assert.equal(shouldPlayShareSuccessDing({ reducedMotion: true }), false);
+    assert.equal(shouldPlayShareSuccessDing({ muted: true }), false);
+    assert.equal(shouldPlayShareSuccessDing({ hidden: true }), false);
+    assert.equal(shouldPlayShareSuccessDing({ userGestureActive: false }), false);
+    assert.equal(
+      shouldPlayShareSuccessDing({
+        hidden: false,
+        muted: false,
+        reducedMotion: false,
+        userGestureActive: true,
+      }),
+      true,
+    );
+
+    assert.match(share, /createOscillator/);
+    assert.match(share, /AudioContext/);
+    assert.match(share, /osc\.stop\(t \+ 0\.12\)/);
+    assert.match(share, /prefers-reduced-motion: reduce/);
+    assert.doesNotMatch(share, /\.mp3|\.wav|\.ogg/);
+    assert.doesNotMatch(share, /loop\s*=\s*true/);
+    assert.doesNotMatch(share, /autoplay/);
+
+    assert.match(css, /@keyframes action-done-pop/);
+    assert.match(css, /\.action-done\s*\{[^}]*animation:\s*action-done-pop 180ms/);
+    assert.match(
+      css,
+      /prefers-reduced-motion:\s*reduce[\s\S]*\.action-done[\s\S]*animation:\s*none !important/,
+    );
+
+    const started: number[] = [];
+    const stopped: number[] = [];
+    class FakeOscillator {
+      type = "";
+      frequency = {
+        setValueAtTime() {},
+        exponentialRampToValueAtTime() {},
+      };
+      connect() {}
+      start(at: number) {
+        started.push(at);
+      }
+      stop(at: number) {
+        stopped.push(at);
+      }
+      addEventListener() {}
+    }
+    class FakeGain {
+      gain = {
+        setValueAtTime() {},
+        exponentialRampToValueAtTime() {},
+      };
+      connect() {}
+    }
+    class FakeContext {
+      currentTime = 0;
+      state = "running";
+      destination = {};
+      createOscillator() {
+        return new FakeOscillator();
+      }
+      createGain() {
+        return new FakeGain();
+      }
+      close() {
+        return Promise.resolve();
+      }
+    }
+
+    const prior = globalThis.AudioContext;
+    Object.defineProperty(globalThis, "AudioContext", {
+      configurable: true,
+      writable: true,
+      value: FakeContext,
+    });
+    try {
+      playShareSuccessDing({ reducedMotion: true });
+      assert.equal(started.length, 0);
+
+      playShareSuccessDing({ hidden: false, muted: false, reducedMotion: false });
+      assert.equal(started.length, 1);
+      assert.equal(stopped.length, 1);
+      assert.ok(stopped[0] - started[0] <= 0.15);
+    } finally {
+      Object.defineProperty(globalThis, "AudioContext", {
+        configurable: true,
+        writable: true,
+        value: prior,
+      });
+    }
   });
 });
