@@ -130,9 +130,16 @@
   .ai-overlay,
   .ai-panel,
   .action-done,
-  .share-success-toast-mark {
+  .share-success-toast-mark,
+  .share-success-toast-mark::before,
+  .share-success-toast-mark::after {
     animation: none !important;
     transform: none !important;
+  }
+
+  .share-success-toast-mark::before,
+  .share-success-toast-mark::after {
+    content: none !important;
   }
 
   .plan-list > *,
@@ -488,37 +495,70 @@
   }
 
   .share-success-toast-card {
+    /* Compact stack only — no toast board / card chrome. */
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.65rem;
+    gap: 0.4rem;
   }
 
   .share-success-toast-label {
     margin: 0;
     color: #16a34a;
-    font-size: 0.95rem;
+    font-size: 0.8125rem;
     font-weight: 650;
     letter-spacing: 0.01em;
   }
 
   .share-success-toast-mark {
+    position: relative;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 4.5rem;
-    height: 4.5rem;
+    /* Smaller than the #82 4.5rem mark. */
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 9999px;
     /* True green — not site cyan / --color-accent. */
     background: #16a34a;
     color: #fff;
-    box-shadow: 0 10px 28px -10px rgb(22 163 74 / 0.65);
+    box-shadow: 0 6px 16px -8px rgb(22 163 74 / 0.45);
     animation: share-success-toast-in 180ms var(--ease-out-smooth);
   }
 
   .share-success-toast-mark svg {
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .share-success-toast-mark::after {
+    content: "";
+    position: absolute;
+    inset: -30%;
+    background: linear-gradient(
+      115deg,
+      transparent 38%,
+      rgb(255 255 255 / 0.42) 50%,
+      transparent 62%
+    );
+    transform: translateX(-130%) rotate(18deg);
+    animation: share-success-mark-shine 560ms var(--ease-out-smooth) 160ms 1 both;
+    pointer-events: none;
+  }
+
+  .share-success-toast-mark::before {
+    content: "";
+    position: absolute;
+    top: 16%;
+    right: 20%;
+    width: 0.22rem;
+    height: 0.22rem;
+    background: #fff;
+    border-radius: 1px;
+    transform: rotate(45deg) scale(0);
+    animation: share-success-mark-sparkle 420ms var(--ease-out-smooth) 280ms 1 both;
+    pointer-events: none;
   }
 
   @keyframes share-success-toast-in {
@@ -529,6 +569,35 @@
     to {
       opacity: 1;
       transform: scale(1);
+    }
+  }
+
+  @keyframes share-success-mark-shine {
+    from {
+      transform: translateX(-130%) rotate(18deg);
+      opacity: 0;
+    }
+    30% {
+      opacity: 1;
+    }
+    to {
+      transform: translateX(130%) rotate(18deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes share-success-mark-sparkle {
+    from {
+      opacity: 0;
+      transform: rotate(45deg) scale(0);
+    }
+    40% {
+      opacity: 1;
+      transform: rotate(45deg) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: rotate(45deg) scale(0.35);
     }
   }
 

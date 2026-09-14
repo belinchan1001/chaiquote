@@ -9,7 +9,6 @@ import {
   defaultShareSuccessResumeHost,
   defaultShareSuccessToastHost,
   isPlanShareSuccess,
-  playShareSuccessDing,
   scheduleShareSuccessReveal,
   shareOrCopyPlan,
   startShareSuccessToast,
@@ -57,7 +56,6 @@ export function PlanShareButton({ plan, className }: { plan: PlanSharePlan; clas
 
   function revealSuccess() {
     flash("copied");
-    playShareSuccessDing();
     showSuccessToast();
   }
 

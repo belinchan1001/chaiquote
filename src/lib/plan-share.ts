@@ -126,7 +126,7 @@ export function defaultShareSuccessResumeHost(): ShareSuccessResumeHost {
 }
 
 /**
- * Reveal toast+ding now, or wait until the document is visible again after Web Share.
+ * Reveal toast now, or wait until the document is visible again after Web Share.
  * `copied` always reveals immediately. Cancel the returned stopper on abort / unmount.
  */
 export function scheduleShareSuccessReveal(
@@ -237,88 +237,4 @@ export function startShareSuccessToast(
     host.removeVisibilityListener(onVis);
     host.hide();
   };
-}
-
-export type ShareSuccessDingHost = {
-  hidden?: boolean;
-  muted?: boolean;
-  reducedMotion?: boolean;
-};
-
-type AudioContextCtor = typeof AudioContext;
-
-export function readShareSuccessDingHost(): ShareSuccessDingHost {
-  if (typeof document === "undefined" || typeof window === "undefined") {
-    return { hidden: true };
-  }
-  const doc = document as Document & { muted?: boolean };
-  return {
-    hidden: document.hidden,
-    muted: Boolean(doc.muted),
-    reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-  };
-}
-
-export function shouldPlayShareSuccessDing(host: ShareSuccessDingHost): boolean {
-  if (host.hidden || host.muted || host.reducedMotion) return false;
-  return true;
-}
-
-function audioContextCtor(): AudioContextCtor | undefined {
-  const scope = globalThis as typeof globalThis & {
-    AudioContext?: AudioContextCtor;
-    webkitAudioContext?: AudioContextCtor;
-  };
-  return scope.AudioContext ?? scope.webkitAudioContext;
-}
-
-/** Quiet one-shot oscillator blip. Never loops; skip when motion/audio is suppressed. */
-export function playShareSuccessDing(host: ShareSuccessDingHost = readShareSuccessDingHost()): void {
-  if (!shouldPlayShareSuccessDing(host)) return;
-  const Ctor = audioContextCtor();
-  if (!Ctor) return;
-
-  let ctx: AudioContext;
-  try {
-    ctx = new Ctor();
-  } catch {
-    return;
-  }
-  if (ctx.state === "closed") return;
-
-  const start = () => {
-    if (ctx.state !== "running") {
-      void ctx.close();
-      return;
-    }
-    try {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      const t = ctx.currentTime;
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(880, t);
-      osc.frequency.exponentialRampToValueAtTime(1320, t + 0.045);
-      gain.gain.setValueAtTime(0.0001, t);
-      gain.gain.exponentialRampToValueAtTime(0.055, t + 0.01);
-      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.11);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(t);
-      osc.stop(t + 0.12);
-      osc.addEventListener("ended", () => {
-        void ctx.close();
-      });
-    } catch {
-      void ctx.close();
-    }
-  };
-
-  // May be suspended after returning from a share sheet; resume then blip.
-  if (ctx.state !== "running") {
-    void ctx.resume().then(start).catch(() => {
-      void ctx.close();
-    });
-    return;
-  }
-  start();
 }

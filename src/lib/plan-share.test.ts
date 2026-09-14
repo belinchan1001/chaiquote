@@ -16,10 +16,8 @@ import {
   planShareFactsLine,
   planSharePayload,
   planShareUrl,
-  playShareSuccessDing,
   scheduleShareSuccessReveal,
   shareOrCopyPlan,
-  shouldPlayShareSuccessDing,
   shouldRevealShareSuccessNow,
   startShareSuccessToast,
 } from "./plan-share.ts";
@@ -211,7 +209,6 @@ describe("plan card share control", () => {
     assert.match(button, /result === "aborted"/);
     assert.match(button, /scheduleShareSuccessReveal/);
     assert.match(button, /revealSuccess/);
-    assert.match(button, /playShareSuccessDing\(\)/);
     assert.match(button, /SHARE_SUCCESS_CUE_MS/);
     assert.match(button, /SHARE_SUCCESS_TOAST_MS/);
     assert.match(button, /flash\("copied"\)/);
@@ -225,9 +222,9 @@ describe("plan card share control", () => {
     assert.match(button, /aria-live="polite"/);
     assert.match(button, /variant="outline"/);
     assert.match(button, /\{label\}/);
-    assert.doesNotMatch(button, /playShareSuccessDing\(\);\s*setHot\(true\)/);
-    assert.doesNotMatch(button, /onShare\(\) \{\s*playShareSuccessDing/);
-    assert.match(button, /function revealSuccess\(\) \{\s*flash\("copied"\);\s*playShareSuccessDing\(\);/);
+    assert.doesNotMatch(button, /playShareSuccessDing/);
+    assert.doesNotMatch(button, /shouldPlayShareSuccessDing/);
+    assert.match(button, /function revealSuccess\(\) \{\s*flash\("copied"\);\s*showSuccessToast\(\);/);
     assert.doesNotMatch(button, /size-11/);
     assert.doesNotMatch(button, /text-muted/);
     assert.doesNotMatch(button, /sonner|Toaster/);
@@ -240,6 +237,7 @@ describe("plan card share control", () => {
     assert.match(share, /shouldRevealShareSuccessNow/);
     assert.match(share, /pageshow/);
     assert.match(share, /visibilitychange/);
+    assert.doesNotMatch(share, /playShareSuccessDing|shouldPlayShareSuccessDing|createOscillator|AudioContext/);
     assert.doesNotMatch(share, /最抵|最低|最平|保證價/);
 
     assert.equal([...messages.matchAll(/share: "分享"/g)].length, 1);
@@ -267,7 +265,7 @@ describe("share success cue", () => {
     assert.equal(shouldRevealShareSuccessNow("shared", true), false);
   });
 
-  it("reveals ding+toast immediately for copy, and for shared only once visible again", () => {
+  it("reveals toast immediately for copy, and for shared only once visible again", () => {
     const revealed: string[] = [];
     const listeners: Array<() => void> = [];
     let hidden = true;
@@ -363,31 +361,14 @@ describe("share success cue", () => {
     assert.equal(shown, false);
   });
 
-  it("plays a short quiet oscillator ding only when motion and audio are allowed", async () => {
+  it("uses a smaller true-green toast with a reduced-motion-safe mark shine, and no ding", () => {
     const share = readFileSync(join(here, "plan-share.ts"), "utf8");
+    const button = readFileSync(join(here, "../components/plan-share-button.tsx"), "utf8");
     const css = readFileSync(join(here, "../styles.css"), "utf8");
 
-    assert.equal(shouldPlayShareSuccessDing({}), true);
-    assert.equal(shouldPlayShareSuccessDing({ reducedMotion: true }), false);
-    assert.equal(shouldPlayShareSuccessDing({ muted: true }), false);
-    assert.equal(shouldPlayShareSuccessDing({ hidden: true }), false);
-    assert.equal(
-      shouldPlayShareSuccessDing({
-        hidden: false,
-        muted: false,
-        reducedMotion: false,
-      }),
-      true,
-    );
-
-    assert.match(share, /createOscillator/);
-    assert.match(share, /AudioContext/);
-    assert.match(share, /ctx\.resume\(\)/);
-    assert.match(share, /osc\.stop\(t \+ 0\.12\)/);
-    assert.match(share, /prefers-reduced-motion: reduce/);
+    assert.doesNotMatch(share, /playShareSuccessDing|shouldPlayShareSuccessDing|createOscillator|AudioContext/);
+    assert.doesNotMatch(button, /playShareSuccessDing/);
     assert.doesNotMatch(share, /\.mp3|\.wav|\.ogg/);
-    assert.doesNotMatch(share, /loop\s*=\s*true/);
-    assert.doesNotMatch(share, /autoplay/);
 
     assert.match(css, /@keyframes action-done-pop/);
     assert.match(css, /\.action-done\s*\{[^}]*animation:\s*action-done-pop 180ms/);
@@ -395,9 +376,19 @@ describe("share success cue", () => {
     assert.match(css, /\.share-success-toast\s*\{[^}]*align-items:\s*center/);
     assert.match(css, /\.share-success-toast\s*\{[^}]*justify-content:\s*center/);
     assert.match(css, /\.share-success-toast-mark\s*\{[^}]*background:\s*#16a34a/);
+    assert.match(css, /\.share-success-toast-mark\s*\{[^}]*width:\s*2\.5rem/);
+    assert.match(css, /\.share-success-toast-mark\s*\{[^}]*height:\s*2\.5rem/);
+    assert.match(css, /\.share-success-toast-mark svg\s*\{[^}]*width:\s*1\.25rem/);
     assert.match(css, /\.share-success-toast-label\s*\{[^}]*color:\s*#16a34a/);
+    assert.match(css, /\.share-success-toast-label\s*\{[^}]*font-size:\s*0\.8125rem/);
+    assert.doesNotMatch(css, /\.share-success-toast-mark\s*\{[^}]*width:\s*4\.5rem/);
     assert.doesNotMatch(css, /\.share-success-toast-mark\s*\{[^}]*var\(--color-accent\)/);
+    assert.doesNotMatch(css, /\.share-success-toast-card\s*\{[^}]*(?:background|min-width|padding|min-height)/);
     assert.match(css, /@keyframes share-success-toast-in/);
+    assert.match(css, /@keyframes share-success-mark-shine/);
+    assert.match(css, /@keyframes share-success-mark-sparkle/);
+    assert.match(css, /\.share-success-toast-mark::after\s*\{[^}]*share-success-mark-shine/);
+    assert.match(css, /\.share-success-toast-mark::before\s*\{[^}]*share-success-mark-sparkle/);
     assert.match(
       css,
       /prefers-reduced-motion:\s*reduce[\s\S]*\.action-done[\s\S]*animation:\s*none !important/,
@@ -406,86 +397,9 @@ describe("share success cue", () => {
       css,
       /prefers-reduced-motion:\s*reduce[\s\S]*\.share-success-toast-mark[\s\S]*animation:\s*none !important/,
     );
-
-    const started: number[] = [];
-    const stopped: number[] = [];
-    class FakeOscillator {
-      type = "";
-      frequency = {
-        setValueAtTime() {},
-        exponentialRampToValueAtTime() {},
-      };
-      connect() {}
-      start(at: number) {
-        started.push(at);
-      }
-      stop(at: number) {
-        stopped.push(at);
-      }
-      addEventListener() {}
-    }
-    class FakeGain {
-      gain = {
-        setValueAtTime() {},
-        exponentialRampToValueAtTime() {},
-      };
-      connect() {}
-    }
-    class FakeContext {
-      currentTime = 0;
-      state = "running";
-      destination = {};
-      resumed = 0;
-      createOscillator() {
-        return new FakeOscillator();
-      }
-      createGain() {
-        return new FakeGain();
-      }
-      resume() {
-        this.resumed += 1;
-        this.state = "running";
-        return Promise.resolve();
-      }
-      close() {
-        return Promise.resolve();
-      }
-    }
-
-    class SuspendedContext extends FakeContext {
-      override state = "suspended";
-    }
-
-    const prior = globalThis.AudioContext;
-    Object.defineProperty(globalThis, "AudioContext", {
-      configurable: true,
-      writable: true,
-      value: FakeContext,
-    });
-    try {
-      playShareSuccessDing({ reducedMotion: true });
-      assert.equal(started.length, 0);
-
-      playShareSuccessDing({ hidden: false, muted: false, reducedMotion: false });
-      assert.equal(started.length, 1);
-      assert.equal(stopped.length, 1);
-      assert.ok(stopped[0] - started[0] <= 0.15);
-
-      Object.defineProperty(globalThis, "AudioContext", {
-        configurable: true,
-        writable: true,
-        value: SuspendedContext,
-      });
-      playShareSuccessDing({ hidden: false, muted: false, reducedMotion: false });
-      await Promise.resolve();
-      assert.equal(started.length, 2);
-      assert.equal(stopped.length, 2);
-    } finally {
-      Object.defineProperty(globalThis, "AudioContext", {
-        configurable: true,
-        writable: true,
-        value: prior,
-      });
-    }
+    assert.match(
+      css,
+      /prefers-reduced-motion:\s*reduce[\s\S]*\.share-success-toast-mark::after[\s\S]*content:\s*none !important/,
+    );
   });
 });
