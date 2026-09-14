@@ -15,7 +15,7 @@ import {
   relatedGuideSlug,
 } from "@/lib/estate-pages";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import { canonicalUrl } from "@/lib/canonical";
+import { canonicalUrl, notFoundHead } from "@/lib/canonical";
 import { isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
 
 export const Route = createFileRoute("/estates_/$slug")({
@@ -26,7 +26,7 @@ export const Route = createFileRoute("/estates_/$slug")({
   },
   component: EstatePage,
   head: ({ loaderData }) => {
-    if (!loaderData) return { meta: [{ title: "齊Quote" }] };
+    if (!loaderData) return notFoundHead();
     const { estate } = loaderData.page;
     const title = estateSeoTitle(estate);
     const description = estateSeoDescription(estate);

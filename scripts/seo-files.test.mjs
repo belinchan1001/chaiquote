@@ -34,6 +34,18 @@ test("root head emits a per-route canonical, not a hardcoded homepage", () => {
   assert.doesNotMatch(root, /href:\s*`\$\{SITE\.url\}\/`/);
 });
 
+test("404 documents override title and robots without changing indexable pages", () => {
+  const root = readFileSync(join(ROOT, "src/routes/__root.tsx"), "utf8");
+  const canonical = readFileSync(join(ROOT, "src/lib/canonical.ts"), "utf8");
+  assert.match(canonical, /robots:\s*"noindex,follow"/);
+  assert.match(canonical, /title:\s*"搵唔到呢頁｜齊Quote"/);
+  assert.match(canonical, /INDEXABLE_ROBOTS = "index,follow"/);
+  assert.match(root, /documentRobots\(matches\)/);
+  assert.match(root, /documentFallbackTitle\(matches\)/);
+  assert.doesNotMatch(root, /name:\s*"robots",\s*content:\s*"noindex/);
+  assert.doesNotMatch(root, /title:\s*`\$\{SITE\.name\} · \$\{SITE\.tagline\}`/);
+});
+
 test("root head ships a site-root ICO plus 48/96 PNG favicons for Google Search", () => {
   const root = readFileSync(join(ROOT, "src/routes/__root.tsx"), "utf8");
   const ico = root.indexOf('href: "/favicon.ico"');

@@ -13,24 +13,31 @@ import { PwaServiceWorker } from "@/components/pwa-service-worker";
 import { I18nProvider, useI18n, usePageTitle } from "@/lib/i18n";
 import { SITE } from "@/lib/site";
 import { PWA } from "@/lib/pwa";
-import { canonicalUrlFromMatches } from "@/lib/canonical";
+import {
+  NOT_FOUND_SEO,
+  canonicalUrlFromMatches,
+  documentFallbackTitle,
+  documentRobots,
+  isNotFoundDocument,
+} from "@/lib/canonical";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
   head: ({ matches }) => {
     const pageUrl = canonicalUrlFromMatches(matches);
+    const notFoundDoc = isNotFoundDocument(matches);
     return {
       meta: [
         { charSet: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
-        { title: `${SITE.name} · ${SITE.tagline}` },
-        { name: "description", content: SITE.description },
+        { title: documentFallbackTitle(matches) },
+        { name: "description", content: notFoundDoc ? NOT_FOUND_SEO.description : SITE.description },
         { name: "theme-color", content: PWA.themeColor },
         { name: "apple-mobile-web-app-title", content: SITE.name },
         { name: "apple-mobile-web-app-capable", content: "yes" },
         { name: "mobile-web-app-capable", content: "yes" },
         { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
-        { name: "robots", content: "index,follow" },
+        { name: "robots", content: documentRobots(matches) },
         { property: "og:url", content: pageUrl },
       ],
       links: [

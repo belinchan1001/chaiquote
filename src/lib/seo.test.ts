@@ -17,8 +17,14 @@ import {
   GUIDES_SEO,
   HOME_SEO,
   HOME_SEO_TITLE,
+  INDEXABLE_ROBOTS,
   isLegacyProductionHost,
+  isNotFoundDocument,
+  documentFallbackTitle,
+  documentRobots,
   LOCKED_PAGE_SEO,
+  NOT_FOUND_SEO,
+  notFoundHead,
   PRIVACY_SEO,
   guideJsonLd,
   planJsonLd,
@@ -276,6 +282,72 @@ describe("renderRobotsTxt", () => {
   it("stays in sync with public/robots.txt", () => {
     const fromDisk = readFileSync(join(ROOT, "public/robots.txt"), "utf8");
     assert.equal(fromDisk, renderRobotsTxt());
+  });
+});
+
+describe("404 document head", () => {
+  const HOME_FALLBACK = `${SITE.name} · ${SITE.tagline}`;
+
+  it("uses 搵唔到呢頁 copy and noindex,follow — never the homepage title", () => {
+    assert.equal(NOT_FOUND_SEO.title, "搵唔到呢頁｜齊Quote");
+    assert.equal(NOT_FOUND_SEO.description, "呢個計劃或者教學可能已經唔喺度。");
+    assert.equal(NOT_FOUND_SEO.robots, "noindex,follow");
+    assert.equal(INDEXABLE_ROBOTS, "index,follow");
+    assert.notEqual(NOT_FOUND_SEO.title, HOME_SEO.title);
+    assert.notEqual(NOT_FOUND_SEO.title, HOME_FALLBACK);
+    assert.match(NOT_FOUND_SEO.title, /搵唔到呢頁/);
+    assert.doesNotMatch(NOT_FOUND_SEO.title, /搵寬頻唔使四圍問/);
+
+    const messages = readFileSync(join(ROOT, "src/lib/messages.ts"), "utf8");
+    assert.match(messages, /notFound: "搵唔到呢頁"/);
+    assert.match(messages, /notFoundLead: "呢個計劃或者教學可能已經唔喺度。"/);
+  });
+
+  it("marks only not-found matches noindex,follow; 200 matches stay index,follow", () => {
+    const indexable = [{ pathname: "/" }, { pathname: "/about" }];
+    const unmatched = [{ pathname: "/", globalNotFound: true }];
+    const thrown = [{ pathname: "/plans/missing", status: "notFound" as const }];
+
+    assert.equal(isNotFoundDocument(indexable), false);
+    assert.equal(documentRobots(indexable), "index,follow");
+    assert.equal(documentFallbackTitle(indexable), HOME_FALLBACK);
+
+    assert.equal(isNotFoundDocument(unmatched), true);
+    assert.equal(documentRobots(unmatched), "noindex,follow");
+    assert.equal(documentFallbackTitle(unmatched), NOT_FOUND_SEO.title);
+
+    assert.equal(isNotFoundDocument(thrown), true);
+    assert.equal(documentRobots(thrown), "noindex,follow");
+    assert.equal(documentFallbackTitle(thrown), NOT_FOUND_SEO.title);
+
+    const head = notFoundHead();
+    assert.equal(head.meta.find((tag) => "title" in tag)?.title, NOT_FOUND_SEO.title);
+    assert.equal(
+      head.meta.find((tag) => "name" in tag && tag.name === "robots")?.content,
+      "noindex,follow",
+    );
+    assert.ok(!head.meta.some((tag) => "name" in tag && tag.name === "robots" && tag.content === "index,follow"));
+  });
+
+  it("wires 404 head through the root not-found document, not a global robots change", () => {
+    const root = readFileSync(join(ROOT, "src/routes/__root.tsx"), "utf8");
+    const cache = readFileSync(join(ROOT, "server/middleware/html-cache.ts"), "utf8");
+    assert.match(root, /isNotFoundDocument\(matches\)/);
+    assert.match(root, /documentFallbackTitle\(matches\)/);
+    assert.match(root, /documentRobots\(matches\)/);
+    assert.match(root, /notFoundDoc \? NOT_FOUND_SEO\.description/);
+    assert.match(root, /notFoundComponent: NotFound/);
+    assert.doesNotMatch(root, /name:\s*"robots",\s*content:\s*"index,follow"/);
+    assert.doesNotMatch(root, /name:\s*"robots",\s*content:\s*"noindex/);
+    assert.match(cache, /if \(result\.status === 404\) \{\s*headers\.set\("X-Robots-Tag", "noindex, follow"\)/);
+
+    const plan = readFileSync(join(ROOT, "src/routes/plans_.$planId.tsx"), "utf8");
+    const guide = readFileSync(join(ROOT, "src/routes/guides_.$slug.tsx"), "utf8");
+    const estate = readFileSync(join(ROOT, "src/routes/estates_.$slug.tsx"), "utf8");
+    assert.match(plan, /if \(!loaderData\) return notFoundHead\(\)/);
+    assert.match(guide, /if \(!loaderData\) return notFoundHead\(\)/);
+    assert.match(estate, /if \(!loaderData\) return notFoundHead\(\)/);
+    assert.match(readFileSync(join(ROOT, "src/routes/index.tsx"), "utf8"), /shareHead\(HOME_SEO/);
   });
 });
 
