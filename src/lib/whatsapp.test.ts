@@ -8,7 +8,13 @@ import { planLine, quoteAsk, quoteMessage, QUICK_REPLIES } from "./whatsapp.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const ASK_MOBILE = "請幫我核對新號碼上台優惠／攜號轉台優惠。";
+const ASK_MOBILE_EN = "Please help me check new-number signup offers / number-porting (MNP) offers.";
 const ASK_COVERAGE = "請幫我核對覆蓋同最新優惠。";
+const ASK_COVERAGE_EN = "Please confirm coverage and the latest offer.";
+
+function lastLine(text: string) {
+  return text.trim().split("\n").at(-1) ?? "";
+}
 
 function plan(id: string): Plan {
   const found = getPlan(id);
@@ -24,7 +30,7 @@ describe("WhatsApp quote prefill closing line", () => {
 
     assert.equal(quoteAsk([mobile]), ASK_MOBILE);
     assert.match(text, /^你好，我想即時報價：\n/);
-    assert.match(text, new RegExp(`\\n${ASK_MOBILE}$`));
+    assert.equal(lastLine(text), ASK_MOBILE);
     assert.equal(text.includes("覆蓋"), false);
     assert.match(text, /攜號轉台/);
     assert.doesNotMatch(text, /好過轉台|𨍭台/);
@@ -36,7 +42,7 @@ describe("WhatsApp quote prefill closing line", () => {
 
     assert.equal(quoteAsk([plan("cmhk-5g-limited-50-129"), plan("three-5g-22-78")]), ASK_MOBILE);
     assert.match(another, /^你好，我想即時報價以下計劃：\n/);
-    assert.match(another, new RegExp(`\\n${ASK_MOBILE}$`));
+    assert.equal(lastLine(another), ASK_MOBILE);
     assert.equal(another.includes("覆蓋"), false);
     assert.match(another, /攜號轉台/);
     assert.doesNotMatch(another, /好過轉台|𨍭台/);
@@ -54,7 +60,7 @@ describe("WhatsApp quote prefill closing line", () => {
       const text = quoteMessage([found]);
       assert.equal(quoteAsk([found]), ASK_COVERAGE);
       assert.match(text, /^你好，我想即時報價：\n/);
-      assert.match(text, new RegExp(`\\n${ASK_COVERAGE}$`));
+      assert.equal(lastLine(text), ASK_COVERAGE);
       assert.match(text, /覆蓋/);
       assert.doesNotMatch(text, /新號碼上台優惠|攜號轉台/);
       assert.equal(text.includes(found.name), true);
@@ -63,7 +69,7 @@ describe("WhatsApp quote prefill closing line", () => {
     }
 
     const twoFibre = quoteMessage([plan("hkbn-ftth-1000-36m-98"), plan("three-home5g-a-118")]);
-    assert.match(twoFibre, new RegExp(`\\n${ASK_COVERAGE}$`));
+    assert.equal(lastLine(twoFibre), ASK_COVERAGE);
     assert.doesNotMatch(twoFibre, /新號碼上台優惠|攜號轉台/);
   });
 
@@ -71,7 +77,7 @@ describe("WhatsApp quote prefill closing line", () => {
     const mixed = [plan("three-45g-10-58"), plan("hkbn-ftth-1000-36m-98")];
     const text = quoteMessage(mixed);
     assert.equal(quoteAsk(mixed), ASK_COVERAGE);
-    assert.match(text, new RegExp(`\\n${ASK_COVERAGE}$`));
+    assert.equal(lastLine(text), ASK_COVERAGE);
     assert.doesNotMatch(text, /新號碼上台優惠|攜號轉台/);
   });
 
@@ -80,10 +86,12 @@ describe("WhatsApp quote prefill closing line", () => {
     const fibre = plan("hkbn-ftth-1000-36m-98");
     const mobileText = quoteMessage([mobile], null, "en");
     const fibreText = quoteMessage([fibre], null, "en");
-    assert.match(mobileText, /Please help me check new-number signup offers \/ number-porting \(MNP\) offers\.$/);
+    assert.equal(lastLine(mobileText), ASK_MOBILE_EN);
     assert.doesNotMatch(mobileText, /coverage/i);
-    assert.match(fibreText, /Please confirm coverage and the latest offer\.$/);
+    assert.equal(lastLine(quoteMessage([mobile, plan("three-5g-22-78")], null, "en")), ASK_MOBILE_EN);
+    assert.equal(lastLine(fibreText), ASK_COVERAGE_EN);
     assert.doesNotMatch(fibreText, /new-number signup|number-porting/);
+    assert.equal(lastLine(quoteMessage([mobile, fibre], null, "en")), ASK_COVERAGE_EN);
   });
 
   it("routes quote links, the widget and AI staff through quoteMessage", () => {

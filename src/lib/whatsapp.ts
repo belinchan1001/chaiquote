@@ -79,6 +79,7 @@ const ASK_MOBILE_ZH = "請幫我核對新號碼上台優惠／攜號轉台優惠
 const ASK_COVERAGE_EN = "Please confirm coverage and the latest offer.";
 const ASK_MOBILE_EN = "Please help me check new-number signup offers / number-porting (MNP) offers.";
 
+/** Mobile-only selections never ask for 覆蓋; any non-mobile plan keeps the coverage ask. */
 export function quoteAsk(plans: Plan[], locale: Locale = "zh") {
   const mobileOnly = plans.length > 0 && plans.every((plan) => plan.category === "mobile");
   if (locale === "en") return mobileOnly ? ASK_MOBILE_EN : ASK_COVERAGE_EN;
