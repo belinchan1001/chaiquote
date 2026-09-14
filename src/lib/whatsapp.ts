@@ -6,11 +6,11 @@ import {
   type Category,
   type Housing,
   type Plan,
-} from "@/lib/plans";
-import { SITE } from "@/lib/site";
-import type { Inquiry } from "@/lib/desk";
-import type { Locale } from "@/lib/messages";
-import { toEnglishLazy } from "@/lib/plan-en-lazy";
+} from "./plans.ts";
+import { SITE } from "./site.ts";
+import type { Inquiry } from "./desk.ts";
+import type { Locale } from "./messages.ts";
+import { toEnglishLazy } from "./plan-en-lazy.ts";
 
 const BRAND_TAG = `【${SITE.name}】`;
 
@@ -74,22 +74,34 @@ export function withInquiry(text: string, inquiry?: Partial<Inquiry> | null, loc
   return `${text}\n${extra.join("\n")}`;
 }
 
+const ASK_COVERAGE_ZH = "請幫我核對覆蓋同最新優惠。";
+const ASK_MOBILE_ZH = "請幫我核對新號碼上台優惠／攜號轉台優惠。";
+const ASK_COVERAGE_EN = "Please confirm coverage and the latest offer.";
+const ASK_MOBILE_EN = "Please confirm the new-number signup offer / number-porting offer.";
+
+export function quoteAsk(plans: Plan[], locale: Locale = "zh") {
+  const mobileOnly = plans.length > 0 && plans.every((plan) => plan.category === "mobile");
+  if (locale === "en") return mobileOnly ? ASK_MOBILE_EN : ASK_COVERAGE_EN;
+  return mobileOnly ? ASK_MOBILE_ZH : ASK_COVERAGE_ZH;
+}
+
 export function quoteMessage(plans: Plan[] = [], inquiry?: Partial<Inquiry> | null, locale: Locale = "zh") {
+  const ask = quoteAsk(plans, locale);
   let text: string;
   if (locale === "en") {
     if (plans.length === 1) {
-      text = `Hi, I would like a quote for:\n${planLine(plans[0], "en")}\nPlease confirm coverage and the latest offer.`;
+      text = `Hi, I would like a quote for:\n${planLine(plans[0], "en")}\n${ask}`;
     } else if (plans.length > 1) {
       const list = plans.map((plan, i) => `${i + 1}. ${planLine(plan, "en")}`).join("\n");
-      text = `Hi, I would like a quote for these plans:\n${list}\nPlease confirm coverage and the latest offer.`;
+      text = `Hi, I would like a quote for these plans:\n${list}\n${ask}`;
     } else {
       text = "Hi, I would like a quote for fibre / mobile plans.";
     }
   } else if (plans.length === 1) {
-    text = `你好，我想即時報價：\n${planLine(plans[0])}\n請幫我核對覆蓋同最新優惠。`;
+    text = `你好，我想即時報價：\n${planLine(plans[0])}\n${ask}`;
   } else if (plans.length > 1) {
     const list = plans.map((plan, i) => `${i + 1}. ${planLine(plan)}`).join("\n");
-    text = `你好，我想即時報價以下計劃：\n${list}\n請幫我核對覆蓋同最新優惠。`;
+    text = `你好，我想即時報價以下計劃：\n${list}\n${ask}`;
   } else {
     text = "你好，我想查詢寬頻／手機月費計劃，請幫手即時報價。";
   }
