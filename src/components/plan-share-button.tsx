@@ -2,7 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { Check, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
-import { shareOrCopyPlan, type PlanSharePlan } from "@/lib/plan-share";
+import {
+  SHARE_SUCCESS_CUE_MS,
+  isPlanShareSuccess,
+  playShareSuccessDing,
+  shareOrCopyPlan,
+  type PlanSharePlan,
+} from "@/lib/plan-share";
 import { cn } from "@/lib/utils";
 
 type Cue = "idle" | "copied" | "failed";
@@ -18,14 +24,19 @@ export function PlanShareButton({ plan, className }: { plan: PlanSharePlan; clas
   function flash(next: Exclude<Cue, "idle">) {
     setCue(next);
     window.clearTimeout(timer.current);
-    timer.current = window.setTimeout(() => setCue("idle"), 2000);
+    const holdMs = next === "copied" ? SHARE_SUCCESS_CUE_MS : 2000;
+    timer.current = window.setTimeout(() => setCue("idle"), holdMs);
   }
 
   async function onShare() {
     setHot(true);
     try {
       const result = await shareOrCopyPlan(plan);
-      if (result === "copied") flash("copied");
+      if (result === "aborted") return;
+      if (isPlanShareSuccess(result)) {
+        flash("copied");
+        playShareSuccessDing();
+      }
     } catch {
       flash("failed");
     } finally {

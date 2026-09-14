@@ -128,7 +128,8 @@
   .chip-press,
   .wa-pulse::after,
   .ai-overlay,
-  .ai-panel {
+  .ai-panel,
+  .action-done {
     animation: none !important;
     transform: none !important;
   }
@@ -457,6 +458,22 @@
   .action-hot {
     transform: scale(0.97);
     transition: transform 40ms ease-out;
+  }
+
+  @keyframes action-done-pop {
+    from {
+      transform: scale(0.92);
+    }
+    55% {
+      transform: scale(1.06);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  .action-done {
+    animation: action-done-pop 180ms var(--ease-out-smooth);
   }
 
   .action-apply {
