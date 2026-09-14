@@ -742,9 +742,9 @@ KOKO Hills|KOKO Hills|觀塘|private
 欣寶路項目|欣寶路簡約公屋,Yan Po Road LPH,屯門欣寶路,簡約公屋欣寶路項目|屯門|public
 鴻鵠臺|鴻鵠,Hung Woo Terrace|觀塘|public
 柏傲莊III|The Pavilia Farm III,Pavilia Farm 3,柏傲莊 III|沙田|private|大圍
-101 Kings Road|英皇道101號|東區|private
+101 Kings Road|英皇道101號,炮台山101 Kings Road|東區|private|炮台山||英皇道101號
 Belgravia Place I|Belgravia Place,Belgravia Place 1|深水埗|private
-Blue Coast I & II|Blue Coast,Blue Coast I,Blue Coast II|南區|private|黃竹坑
+Blue Coast I & II|Blue Coast,Blue Coast I,Blue Coast II,港島南岸Blue Coast,港島南岸3B期,港島南岸3C期|南區|private|黃竹坑||香葉道11號
 Finnie|Finnie Quarry Bay|東區|private|鰂魚涌
 Miami Quay II|Miami Quay,Miami Quay 2|九龍城|private|啟德
 One Central Place|中環 One Central Place|中西區|private
@@ -756,7 +756,7 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 朗屏8號|The Spectra,朗屏站上蓋|元朗|private|朗屏||朗屏路8號
 荷李活華庭|Hollywood Terrace|中西區|private|||荷李活道123號
 富雅花園|富雅,Elegance Garden Tai Po|大埔|hos
-日出康城第12期|LOHAS Park Phase 12,LP12,康城第12期,Grand Seasons,日出康城12C期,LP12C,康城Grand Seasons|西貢|private|將軍澳
+日出康城第12期|LOHAS Park Phase 12,LP12,康城第12期,Grand Seasons,日出康城12C期,LP12C,康城Grand Seasons,Park Seasons,日出康城12B期,LP12B,康城Park Seasons|西貢|private|將軍澳
 古雋邨|古雋,Kwu Chun Estate|北區|public|古洞
 世運道簡約公屋|世運道項目,Olympic Avenue LPH,宋皇臺站簡約公屋,宋皇臺簡約公屋,啟德世運道簡約公屋,世運道簡約公屋啟德站|九龍城|public|啟德
 柴灣常安街簡約公屋|常安街簡約公屋,Sheung On Street LPH,柴灣常安街|東區|public
@@ -828,8 +828,8 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 芊紅居|Hibiscus Park,葵芳芊紅居|葵青|hos
 景新臺|Kingston Terrace,屯門景新臺|屯門|hos
 樂啟軒|Delight Terrace,啟德樂啟軒,沐縉街樂啟軒,樂啟都匯樂啟軒|九龍城|hos|啟德|覆蓋需查核|沐縉街2號
-樂啟樓|Delight Tower,啟德樂啟樓,樂啟都匯樂啟樓|九龍城|public|啟德|覆蓋需查核|沐縉街2號
-樂真樓|Lok Chun Lau,啟德樂真樓,樂啟都匯樂真樓,樂真樓第一座,樂真樓第二座|九龍城|public|啟德|覆蓋需查核|沐縉街2號
+樂啟樓|Delight Tower,啟德樂啟樓,樂啟都匯樂啟樓|九龍城|public|啟德|覆蓋需查核
+樂真樓|Lok Chun Lau,啟德樂真樓,樂啟都匯樂真樓,樂真樓第一座,樂真樓第二座|九龍城|public|啟德|覆蓋需查核
 瑜一|In One,何文田瑜一,忠孝街1號瑜一,何文田站瑜一|九龍城|private|何文田||忠孝街1號
 華富中邨|Wah Fu Central Estate,華樂徑公屋,薄扶林華富中,華富邨華樂徑|南區|public|薄扶林|覆蓋需查核
 麗玥苑|麗玥,Lai Yuet Court,白田麗玥苑|深水埗|hos|白田|覆蓋需查核
@@ -877,9 +877,17 @@ The Monet|龍庭里8號,九龍塘The Monet,Lung Ting Lane|九龍城|private|九�
 柏蔚森|The Pavilia Forest,THE PAVILIA FOREST,柏蔚森I,柏蔚森II,柏蔚森III,柏蔚森1期,柏蔚森2期,柏蔚森3期,啟德柏蔚森|九龍城|private|啟德||承景街2號
 尚逸|Des Voeux W,西營盤尚逸,德輔道西328號尚逸|中西區|private|西營盤||德輔道西328號
 泓璟|ONE LIBERTY,何文田泓璟,自由道1B號泓璟|九龍城|private|何文田||自由道1B號
-恒苑|Hang Yuen,長洲恒苑|離島|private|長洲
+恒苑|Hang Yuen,長洲恒苑,高山村43號,長洲高山村43號|離島|village|長洲
 滶晨|Deep Water Pavilia,Deep Water Pavilia I,Deep Water Pavilia II,滶晨I,滶晨II,滶晨1期,滶晨2期,港島南岸第5期,港島南岸第5A期,港島南岸第5B期,The Southside Phase 5|南區|private|黃竹坑||香葉道11號
 欣雅苑|Yan Nga Court,大埔欣雅苑,頌雅路9號欣雅苑|大埔|hos|大埔|覆蓋需查核|頌雅路9號
 曉雅苑|Hiu Nga Court,大埔曉雅苑,頌雅路7號曉雅苑|大埔|hos|大埔|覆蓋需查核|頌雅路7號
+朗賢峯|Onmantin,何文田朗賢峯,朗賢峯IIA,朗賢峯IIB,朗賢峯IIA期,朗賢峯IIB期,何文田站朗賢峯|九龍城|private|何文田
+峻譽渣甸山|峻譽・渣甸山,Jardini,大坑峻譽,大坑道135號|灣仔|private|大坑||大坑道135號
+One Stanley|赤柱One Stanley,赤柱新盤One Stanley,黃麻角道128號|南區|private|赤柱||黃麻角道128號
+Mount Pokfulam|薄扶林Mount Pokfulam,薄扶林新盤Mount Pokfulam|南區|private|薄扶林
+海璇|Victoria Harbour North Point,北角海璇,海璇II,海璇2B,渣華道133號|東區|private|北角||渣華道133號
+皇璇|STATE RESIDENCE,北角皇璇,熙和街1號皇璇|東區|private|北角|覆蓋需查核|熙和街1號
+滿．意|ONE TOSCANA,滿‧意,愉景灣滿．意,意濤,Toscana Discovery Bay,滿．意2期,ONE TOSCANA 2|離島|private|愉景灣
+太子道西233號|233 Prince Edward Road West,何文田太子道西233號|九龍城|private|何文田||太子道西233號
 `.trim();
 

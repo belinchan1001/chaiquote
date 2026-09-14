@@ -52,7 +52,7 @@ export const VILLAGE_RAW = `
 石崗菜園村|Shek Kong Choi Yuen Tsuen|元朗|village|石崗
 江夏圍|Kong Ha Wai|元朗|village|八鄉
 七星崗|Chat Sing Kong|元朗|village|八鄉
-八鄉田心|Pat Heung Tin Sam|元朗|village|八鄉
+八鄉田心|Pat Heung Tin Sam,田心舊村,Tin Sum Tsuen,田心舊村八鄉|元朗|village|八鄉
 石湖塘|Shek Wu Tong|元朗|village|八鄉
 大樹下|Tai Shu Ha|元朗|village|十八鄉
 水蕉老圍|Shui Tsiu Lo Wai|元朗|village|十八鄉
@@ -60,7 +60,7 @@ export const VILLAGE_RAW = `
 馬田村|Ma Tin Tsuen|元朗|village|十八鄉
 馬田心|Ma Tin Sham|元朗|village|十八鄉
 深涌|Sham Chung,十八鄉深涌,深涌村|元朗|village|十八鄉
-攸潭尾|Yau Tam Mei|元朗|village|凹頭
+攸潭尾|Yau Tam Mei,攸潭美,攸潭美一,攸潭美二,Yau Tam Mei (1),Yau Tam Mei (2)|元朗|village|凹頭
 崇正新村|Shung Ching San Tsuen|元朗|village|十八鄉
 十八鄉楊屋村|Shap Pat Heung Yeung Uk Tsuen|元朗|village|十八鄉
 紅棗田|Hung Tso Tin,紅棗田村|元朗|village|十八鄉
@@ -80,7 +80,7 @@ export const VILLAGE_RAW = `
 白沙村|Pak Sha Tsuen|元朗|village|十八鄉
 英龍圍|Ying Lung Wai|元朗|village|十八鄉
 忠心圍|Chung Sam Wai|元朗|village|十八鄉
-蕃田|Fan Tin|元朗|village|新田
+蕃田|Fan Tin,Fan Tin Tsuen,蕃田村,新田蕃田|元朗|village|新田
 洲頭|Chau Tau|元朗|village|新田
 米埔村|Mai Po Tsuen|元朗|village|米埔
 米埔新村|Mai Po San Tsuen|元朗|village|米埔
@@ -466,7 +466,7 @@ export const VILLAGE_RAW = `
 簡頭圍|Kan Tai Wai|北區|village|打鼓嶺
 老鼠嶺週田村|Chow Tin Tsuen Lo Shue Ling|北區|village|打鼓嶺
 上村新村|Sheung Tsuen San Tsuen|元朗|village|八鄉
-竹園|Chuk Yuen Village|北區|village|打鼓嶺
+竹園|Chuk Yuen Village,打鼓嶺竹園,打鼓嶺竹園村,Chuk Yuen Ta Kwu Ling|北區|village|打鼓嶺
 九龍坑新圍|Kau Lung Hang San Wai|大埔|village|大埔
 田心新村|Tin Sam San Tsuen|元朗|village|八鄉
 白銀鄉|Pak Ngan Heung|離島|village|梅窩
@@ -599,6 +599,10 @@ export const VILLAGE_RAW = `
 斬竹灣|Tsam Chuk Wan,西貢斬竹灣|西貢|village|西貢
 西貢黃石|Wong Shek,黃石碼頭,西貢黃石村,黃石村|西貢|village|西貢北
 大埔龍尾|Lung Mei Tai Po,龍尾村大埔,汀角龍尾|大埔|village|汀角
+甩洲|Lat Tiu,米埔甩洲|元朗|village|米埔
+沙頭角墟|Sha Tau Kok Market,沙頭角市,沙頭角墟市|北區|village|沙頭角
+梧桐河村|Ng Tung River Village,梧桐河,梧桐河上水|北區|village|上水
+長洲高山村|Ko Shan Tsuen Cheung Chau,長洲高山,高山村長洲|離島|village|長洲
 `.trim();
 
 
