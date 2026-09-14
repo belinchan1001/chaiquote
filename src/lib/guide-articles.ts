@@ -913,6 +913,8 @@ export const GUIDE_ARTICLES: Guide[] = [
     excerptEn: "Usually yes. Carriers often file separate bulk plans.",
     descriptionEn: "Public housing and HOS broadband are usually quoted separately. Pick the right housing type; coverage is confirmed by the carrier.",
     h1En: "Do public housing and HOS broadband fees differ?",
+    published: "2026-09-09",
+    modified: "2026-09-13",
     related: ["fiber", "is-1000m-enough", "public-hos-fees", "estate-filter"],
     plans: [
       { href: "/plans?cat=broadband&housing=public", label: "公屋光纖計劃" },
@@ -2075,6 +2077,8 @@ export const GUIDE_ARTICLES: Guide[] = [
     excerptEn: "For most homes, yes. Upgrade when many people stream and upload at once.",
     descriptionEn: "Most households are fine on 1000M. Fix Wi-Fi before buying more speed. Install is confirmed by the carrier.",
     h1En: "Is 1000M enough? When to consider 2500M",
+    published: "2026-09-09",
+    modified: "2026-09-13",
     related: ["fiber", "fiber-vs-5g", "contract-fees"],
     plans: [{ href: "/plans?cat=broadband", label: "去光纖格價" }],
     estates: [
@@ -2326,6 +2330,8 @@ export const GUIDE_ARTICLES: Guide[] = [
     excerptEn: "Separate local data from GBA data. Do not treat it as unlimited China roaming.",
     descriptionEn: "GBA add-ons depend on the carrier’s zone and quota. Confirm extra charges before you port.",
     h1En: "Greater Bay Area data: where, how it counts, how to avoid extra fees",
+    published: "2026-09-09",
+    modified: "2026-09-13",
     related: ["mobile", "port-in"],
     plans: [{ href: "/plans?cat=mobile", label: "去手機格價" }],
     estates: [
@@ -2388,6 +2394,8 @@ export const GUIDE_ARTICLES: Guide[] = [
     excerptEn: "Address type, documents, static IP, install booking. Home plans usually cannot move to a shop.",
     descriptionEn: "Business fibre needs a commercial address, documents and often a static IP. Home plans cannot usually be used in a shop.",
     h1En: "Shop / office broadband application checklist",
+    published: "2026-09-09",
+    modified: "2026-09-13",
     related: ["business", "contract-fees"],
     plans: [{ href: "/plans?cat=business", label: "去商業寬頻格價" }],
     estates: [
@@ -2463,6 +2471,8 @@ export const GUIDE_ARTICLES: Guide[] = [
     excerptEn: "Count year-one cost, router terms and early termination, not just the sticker fee.",
     descriptionEn: "Install fees, prepayments, router ownership and early termination sit outside the monthly fee. The carrier confirms the contract.",
     h1En: "Beyond the monthly fee: install, prepay, contract",
+    published: "2026-09-09",
+    modified: "2026-09-13",
     related: ["switch-broadband", "fiber", "shop-broadband"],
     plans: [{ href: "/plans?cat=broadband", label: "去光纖格價" }],
     estates: [

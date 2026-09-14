@@ -64,6 +64,8 @@ export const CORE_GUIDES: Guide[] = [
     excerpt: "留舊號碼轉去新電訊商，行政費、幾時生效、寬頻轉台有咩分別。",
     titleEn: "How to port your number without losing service",
     excerptEn: "Keep your number when you switch. Admin fees, when it takes effect, and how broadband switching is different.",
+    published: "2026-09-05",
+    modified: "2026-09-06",
     body: [
       {
         heading: "手機：先申請、後停舊台",
@@ -126,6 +128,8 @@ export const CORE_GUIDES: Guide[] = [
     excerpt: "拉線穩唔穩、幾時裝到、有冇數據上限、村屋適唔適合。",
     titleEn: "Fibre vs 5G home broadband",
     excerptEn: "Stability, install time, data caps, and what works for village houses.",
+    published: "2026-09-05",
+    modified: "2026-09-13",
     body: [
       {
         heading: "光纖入屋",
@@ -231,6 +235,8 @@ export const CORE_GUIDES: Guide[] = [
     excerpt: "覆蓋點查、5G 家居同光纖到村實際有咩分別。",
     titleEn: "Broadband for village houses",
     excerptEn: "How to check coverage, and how 5G home differs from fibre to the village.",
+    published: "2026-09-05",
+    modified: "2026-09-13",
     body: [
       {
         heading: "先問覆蓋，唔好淨睇月費",
@@ -307,6 +313,8 @@ export const CORE_GUIDES: Guide[] = [
     titleEn: "Village broadband: on-site fibre check and 5G signal test",
     excerptEn:
       "Not sure whether fibre is worth installing at a village house, or whether 5G home is stable enough? We can visit, or bring a router to test the signal, then advise.",
+    published: "2026-09-07",
+    modified: "2026-09-13",
     related: ["village", "fiber-vs-5g", "village-fees"],
     plans: [{ href: "/plans?cat=broadband&housing=village", label: "村屋光纖計劃" }],
     estates: [
