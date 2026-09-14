@@ -172,11 +172,14 @@ describe("estate SEO pages", () => {
     assert.equal(isNewIntakeEstate("博峯"), true);
     assert.equal(isNewIntakeEstate("安秀苑"), true);
     assert.equal(isNewIntakeEstate("柏蔚森"), true);
-    assert.equal(isNewIntakeEstate("樂啟軒"), true);
+    assert.equal(isNewIntakeEstate("樂啟軒"), false);
+    assert.equal(isNewIntakeEstate("滶晨"), true);
     assert.equal(isNewIntakeEstate("錦河邨"), false);
     assert.equal(getEstatePage("sierra-terrace")?.estate.name, "樂嶺軒");
     assert.equal(getEstatePage("the-monet")?.estate.housing, "private");
     assert.equal(getEstatePage("mount-broadcast")?.estate.name, "博峯");
+    assert.equal(getEstatePage("deep-water-pavilia")?.estate.name, "滶晨");
+    assert.equal(getEstatePage("yan-nga-court")?.estate.coverageCheck, true);
     assert.equal(estateUnlocksPlan("上然", HKBN_INTAKE_OFFER_ESTATES), false);
     assert.equal(isNetvigatorOnlyEstate("上然"), true);
     assert.equal(isNetvigatorOnlyEstate("上然第2座"), true);

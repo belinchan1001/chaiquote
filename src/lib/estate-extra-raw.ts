@@ -828,6 +828,8 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 芊紅居|Hibiscus Park,葵芳芊紅居|葵青|hos
 景新臺|Kingston Terrace,屯門景新臺|屯門|hos
 樂啟軒|Delight Terrace,啟德樂啟軒,沐縉街樂啟軒,樂啟都匯樂啟軒|九龍城|hos|啟德|覆蓋需查核|沐縉街2號
+樂啟樓|Delight Tower,啟德樂啟樓,樂啟都匯樂啟樓|九龍城|public|啟德|覆蓋需查核|沐縉街2號
+樂真樓|Lok Chun Lau,啟德樂真樓,樂啟都匯樂真樓,樂真樓第一座,樂真樓第二座|九龍城|public|啟德|覆蓋需查核|沐縉街2號
 瑜一|In One,何文田瑜一,忠孝街1號瑜一,何文田站瑜一|九龍城|private|何文田||忠孝街1號
 華富中邨|Wah Fu Central Estate,華樂徑公屋,薄扶林華富中,華富邨華樂徑|南區|public|薄扶林|覆蓋需查核
 麗玥苑|麗玥,Lai Yuet Court,白田麗玥苑|深水埗|hos|白田|覆蓋需查核
@@ -876,5 +878,8 @@ The Monet|龍庭里8號,九龍塘The Monet,Lung Ting Lane|九龍城|private|九�
 尚逸|Des Voeux W,西營盤尚逸,德輔道西328號尚逸|中西區|private|西營盤||德輔道西328號
 泓璟|ONE LIBERTY,何文田泓璟,自由道1B號泓璟|九龍城|private|何文田||自由道1B號
 恒苑|Hang Yuen,長洲恒苑|離島|private|長洲
+滶晨|Deep Water Pavilia,Deep Water Pavilia I,Deep Water Pavilia II,滶晨I,滶晨II,滶晨1期,滶晨2期,港島南岸第5期,港島南岸第5A期,港島南岸第5B期,The Southside Phase 5|南區|private|黃竹坑||香葉道11號
+欣雅苑|Yan Nga Court,大埔欣雅苑,頌雅路9號欣雅苑|大埔|hos|大埔|覆蓋需查核|頌雅路9號
+曉雅苑|Hiu Nga Court,大埔曉雅苑,頌雅路7號曉雅苑|大埔|hos|大埔|覆蓋需查核|頌雅路7號
 `.trim();
 

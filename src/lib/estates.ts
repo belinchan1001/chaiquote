@@ -284,7 +284,7 @@ const RAW = `
 啟悅苑|啟悅,Kai Yuet Court|九龍城|hos|啟德||沐和街2號
 啟欣苑|啟欣,Kai Yan Court|九龍城|hos|啟德||沐禮街6號
 啟盈苑|啟盈,Kai Ying Court|九龍城|hos|啟德
-啟陽苑|啟陽,Kai Yeung Court|九龍城|hos|啟德|覆蓋需查核
+啟陽苑|啟陽,Kai Yeung Court|九龍城|hos|啟德|覆蓋需查核|沐和街8號
 天水圍嘉湖山莊|嘉湖,嘉湖山莊,Kingswood Villas|元朗|private|天水圍
 俊宏軒|俊宏軒,Central Park Towers|元朗|private|天水圍
 慧景軒|慧景軒,Central Park|元朗|private|天水圍
@@ -320,7 +320,7 @@ YOHO Midtown|YOHO Midtown|元朗|private
 迎東邨|迎東,Ying Tung|離島|public|東涌
 裕東苑|裕東,Yu Tung Court|離島|hos|東涌
 裕雅苑|裕雅,Yu Nga Court|離島|hos|東涌
-裕豐苑|裕豐,Yu Fung Court|離島|hos|東涌|覆蓋需查核
+裕豐苑|裕豐,Yu Fung Court|離島|hos|東涌|覆蓋需查核|匯東街12號
 東堤灣畔|東堤灣畔,Caribbean Coast|離島|private|東涌
 映灣園|映灣園,Seaview Crescent|離島|private|東涌
 藍天海岸|藍天海岸,Coastal Skyline|離島|private|東涌

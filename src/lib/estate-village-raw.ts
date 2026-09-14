@@ -164,7 +164,7 @@ export const VILLAGE_RAW = `
 麻雀嶺|Ma Chak Hang|北區|village|粉嶺
 北潭凹|Pak Tam Au|西貢|village|西貢北
 糧船灣|Leung Shuen Wan,High Island|西貢|village|西貢
-滘西|Kau Sai|西貢|village|西貢
+滘西|Kau Sai,滘西洲,西貢滘西|西貢|village|西貢
 對面海|Tui Min Hoi|西貢|village|西貢
 沙角尾|Sha Kok Mei|西貢|village|西貢
 西貢南山|Sai Kung Nam Shan|西貢|village|西貢
@@ -587,7 +587,6 @@ export const VILLAGE_RAW = `
 屯門亦園|Yik Yuen Tuen Mun,屯門亦園村|屯門|village|屯門
 大美督|Tai Mei Tuk,大埔大美督|大埔|village|汀角
 山寮|Shan Liu,大埔山寮,大埔山寮村|大埔|village|大埔
-滘西|High Island,滘西洲,西貢滘西|西貢|village|西貢
 橋咀|Kiu Tsui,橋咀洲,西貢橋咀|西貢|village|西貢
 東涌石門甲|Shek Mun Kap,石門甲,東涌石門甲村|離島|village|東涌
 貝澳新圍|Pui O San Wai,大嶼山貝澳新圍|離島|village|貝澳
@@ -596,6 +595,10 @@ export const VILLAGE_RAW = `
 衙前圍村|Nga Tsin Wai Tsuen,九龍城衙前圍|九龍城|village|九龍城
 粉嶺安樂村|On Lok Tsuen Fanling,安樂村粉嶺,粉嶺安樂|北區|village|粉嶺
 梅窩橫塘|Wang Tong Mui Wo,梅窩橫塘村|離島|village|梅窩
+北潭涌|Pak Tam Chung,西貢北潭涌|西貢|village|西貢北
+斬竹灣|Tsam Chuk Wan,西貢斬竹灣|西貢|village|西貢
+西貢黃石|Wong Shek,黃石碼頭,西貢黃石村,黃石村|西貢|village|西貢北
+大埔龍尾|Lung Mei Tai Po,龍尾村大埔,汀角龍尾|大埔|village|汀角
 `.trim();
 
 
