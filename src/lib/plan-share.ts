@@ -90,7 +90,7 @@ export async function shareOrCopyPlan(
   return "copied";
 }
 
-/** How long the optional in-button check / 「已複製」 cue stays visible. */
+/** How long the optional in-button check / 「已分享連結」 cue stays visible. */
 export const SHARE_SUCCESS_CUE_MS = 700;
 
 /** How long the center success toast stays visible while the page is in the foreground. */
@@ -98,6 +98,60 @@ export const SHARE_SUCCESS_TOAST_MS = 1000;
 
 export function isPlanShareSuccess(result: PlanShareResult): boolean {
   return result === "shared" || result === "copied";
+}
+
+/** Clipboard success is immediate; native share waits if the page is behind the sheet. */
+export function shouldRevealShareSuccessNow(result: "shared" | "copied", hidden: boolean): boolean {
+  return result === "copied" || !hidden;
+}
+
+export type ShareSuccessResumeHost = {
+  hidden: () => boolean;
+  addResumeListener: (fn: () => void) => void;
+  removeResumeListener: (fn: () => void) => void;
+};
+
+export function defaultShareSuccessResumeHost(): ShareSuccessResumeHost {
+  return {
+    hidden: () => typeof document !== "undefined" && document.hidden,
+    addResumeListener: (fn) => {
+      document.addEventListener("visibilitychange", fn);
+      window.addEventListener("pageshow", fn);
+    },
+    removeResumeListener: (fn) => {
+      document.removeEventListener("visibilitychange", fn);
+      window.removeEventListener("pageshow", fn);
+    },
+  };
+}
+
+/**
+ * Reveal toast+ding now, or wait until the document is visible again after Web Share.
+ * `copied` always reveals immediately. Cancel the returned stopper on abort / unmount.
+ */
+export function scheduleShareSuccessReveal(
+  result: "shared" | "copied",
+  reveal: () => void,
+  host: ShareSuccessResumeHost = defaultShareSuccessResumeHost(),
+): () => void {
+  if (shouldRevealShareSuccessNow(result, host.hidden())) {
+    reveal();
+    return () => {};
+  }
+
+  let cancelled = false;
+  const onResume = () => {
+    if (cancelled || host.hidden()) return;
+    cancelled = true;
+    host.removeResumeListener(onResume);
+    reveal();
+  };
+  host.addResumeListener(onResume);
+  return () => {
+    if (cancelled) return;
+    cancelled = true;
+    host.removeResumeListener(onResume);
+  };
 }
 
 export type ShareSuccessToastHost = {
@@ -120,8 +174,14 @@ export function defaultShareSuccessToastHost(handlers: {
     hide: handlers.hide,
     setTimeout: (fn, ms) => window.setTimeout(fn, ms),
     clearTimeout: (id) => window.clearTimeout(id),
-    addVisibilityListener: (fn) => document.addEventListener("visibilitychange", fn),
-    removeVisibilityListener: (fn) => document.removeEventListener("visibilitychange", fn),
+    addVisibilityListener: (fn) => {
+      document.addEventListener("visibilitychange", fn);
+      window.addEventListener("pageshow", fn);
+    },
+    removeVisibilityListener: (fn) => {
+      document.removeEventListener("visibilitychange", fn);
+      window.removeEventListener("pageshow", fn);
+    },
   };
 }
 
@@ -183,28 +243,24 @@ export type ShareSuccessDingHost = {
   hidden?: boolean;
   muted?: boolean;
   reducedMotion?: boolean;
-  /** false when the click gesture has already been consumed (e.g. after a share sheet). */
-  userGestureActive?: boolean;
 };
 
 type AudioContextCtor = typeof AudioContext;
 
 export function readShareSuccessDingHost(): ShareSuccessDingHost {
   if (typeof document === "undefined" || typeof window === "undefined") {
-    return { hidden: true, userGestureActive: false };
+    return { hidden: true };
   }
   const doc = document as Document & { muted?: boolean };
   return {
     hidden: document.hidden,
     muted: Boolean(doc.muted),
     reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-    userGestureActive: navigator.userActivation ? navigator.userActivation.isActive : true,
   };
 }
 
 export function shouldPlayShareSuccessDing(host: ShareSuccessDingHost): boolean {
   if (host.hidden || host.muted || host.reducedMotion) return false;
-  if (host.userGestureActive === false) return false;
   return true;
 }
 
@@ -230,31 +286,39 @@ export function playShareSuccessDing(host: ShareSuccessDingHost = readShareSucce
   }
   if (ctx.state === "closed") return;
 
-  // iOS starts AudioContext suspended; resume during the tap gesture so the blip can play.
-  if (ctx.state !== "running") {
-    void ctx.resume().catch(() => {
+  const start = () => {
+    if (ctx.state !== "running") {
       void ctx.close();
-    });
-  }
+      return;
+    }
+    try {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const t = ctx.currentTime;
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(880, t);
+      osc.frequency.exponentialRampToValueAtTime(1320, t + 0.045);
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(0.055, t + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.11);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.12);
+      osc.addEventListener("ended", () => {
+        void ctx.close();
+      });
+    } catch {
+      void ctx.close();
+    }
+  };
 
-  try {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const t = ctx.currentTime;
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(880, t);
-    osc.frequency.exponentialRampToValueAtTime(1320, t + 0.045);
-    gain.gain.setValueAtTime(0.0001, t);
-    gain.gain.exponentialRampToValueAtTime(0.055, t + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.11);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start(t);
-    osc.stop(t + 0.12);
-    osc.addEventListener("ended", () => {
+  // May be suspended after returning from a share sheet; resume then blip.
+  if (ctx.state !== "running") {
+    void ctx.resume().then(start).catch(() => {
       void ctx.close();
     });
-  } catch {
-    void ctx.close();
+    return;
   }
+  start();
 }

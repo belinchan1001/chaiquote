@@ -6,9 +6,11 @@ import { useI18n } from "@/lib/i18n";
 import {
   SHARE_SUCCESS_CUE_MS,
   SHARE_SUCCESS_TOAST_MS,
+  defaultShareSuccessResumeHost,
   defaultShareSuccessToastHost,
   isPlanShareSuccess,
   playShareSuccessDing,
+  scheduleShareSuccessReveal,
   shareOrCopyPlan,
   startShareSuccessToast,
   type PlanSharePlan,
@@ -24,11 +26,13 @@ export function PlanShareButton({ plan, className }: { plan: PlanSharePlan; clas
   const [hot, setHot] = useState(false);
   const timer = useRef(0);
   const stopToast = useRef<(() => void) | undefined>(undefined);
+  const cancelPending = useRef<(() => void) | undefined>(undefined);
 
   useEffect(
     () => () => {
       window.clearTimeout(timer.current);
       stopToast.current?.();
+      cancelPending.current?.();
     },
     [],
   );
@@ -51,17 +55,33 @@ export function PlanShareButton({ plan, className }: { plan: PlanSharePlan; clas
     );
   }
 
-  async function onShare() {
+  function revealSuccess() {
+    flash("copied");
     playShareSuccessDing();
+    showSuccessToast();
+  }
+
+  async function onShare() {
     setHot(true);
+    cancelPending.current?.();
+    cancelPending.current = undefined;
     try {
       const result = await shareOrCopyPlan(plan);
-      if (result === "aborted") return;
+      if (result === "aborted") {
+        cancelPending.current?.();
+        cancelPending.current = undefined;
+        return;
+      }
       if (isPlanShareSuccess(result)) {
-        flash("copied");
-        showSuccessToast();
+        cancelPending.current = scheduleShareSuccessReveal(
+          result,
+          revealSuccess,
+          defaultShareSuccessResumeHost(),
+        );
       }
     } catch {
+      cancelPending.current?.();
+      cancelPending.current = undefined;
       flash("failed");
     } finally {
       setHot(false);
@@ -91,9 +111,12 @@ export function PlanShareButton({ plan, className }: { plan: PlanSharePlan; clas
       </Button>
       {toast
         ? createPortal(
-            <div className="share-success-toast" aria-hidden="true">
-              <div className="share-success-toast-mark">
-                <Check strokeWidth={2.75} />
+            <div className="share-success-toast" role="status" aria-live="polite">
+              <div className="share-success-toast-card">
+                <div className="share-success-toast-mark">
+                  <Check strokeWidth={2.75} />
+                </div>
+                <p className="share-success-toast-label">{t("shareSuccessToast")}</p>
               </div>
             </div>,
             document.body,

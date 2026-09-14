@@ -487,6 +487,21 @@
     pointer-events: none;
   }
 
+  .share-success-toast-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .share-success-toast-label {
+    margin: 0;
+    color: #16a34a;
+    font-size: 0.95rem;
+    font-weight: 650;
+    letter-spacing: 0.01em;
+  }
+
   .share-success-toast-mark {
     display: flex;
     align-items: center;

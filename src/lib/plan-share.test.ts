@@ -17,8 +17,10 @@ import {
   planSharePayload,
   planShareUrl,
   playShareSuccessDing,
+  scheduleShareSuccessReveal,
   shareOrCopyPlan,
   shouldPlayShareSuccessDing,
+  shouldRevealShareSuccessNow,
   startShareSuccessToast,
 } from "./plan-share.ts";
 
@@ -203,10 +205,13 @@ describe("plan card share control", () => {
     assert.match(button, /<Share2 /);
     assert.match(button, /t\("share"\)/);
     assert.match(button, /t\("shareCopied"\)/);
+    assert.match(button, /t\("shareSuccessToast"\)/);
     assert.match(button, /shareOrCopyPlan\(plan\)/);
     assert.match(button, /isPlanShareSuccess\(result\)/);
-    assert.match(button, /result === "aborted"\) return/);
-    assert.match(button, /playShareSuccessDing\(\);\s*setHot\(true\)/);
+    assert.match(button, /result === "aborted"/);
+    assert.match(button, /scheduleShareSuccessReveal/);
+    assert.match(button, /revealSuccess/);
+    assert.match(button, /playShareSuccessDing\(\)/);
     assert.match(button, /SHARE_SUCCESS_CUE_MS/);
     assert.match(button, /SHARE_SUCCESS_TOAST_MS/);
     assert.match(button, /flash\("copied"\)/);
@@ -215,11 +220,14 @@ describe("plan card share control", () => {
     assert.match(button, /createPortal/);
     assert.match(button, /share-success-toast/);
     assert.match(button, /share-success-toast-mark/);
+    assert.match(button, /share-success-toast-label/);
     assert.match(button, /action-done bg-accent text-accent-foreground/);
     assert.match(button, /aria-live="polite"/);
     assert.match(button, /variant="outline"/);
     assert.match(button, /\{label\}/);
-    assert.doesNotMatch(button, /isPlanShareSuccess\(result\)[\s\S]{0,80}playShareSuccessDing/);
+    assert.doesNotMatch(button, /playShareSuccessDing\(\);\s*setHot\(true\)/);
+    assert.doesNotMatch(button, /onShare\(\) \{\s*playShareSuccessDing/);
+    assert.match(button, /function revealSuccess\(\) \{\s*flash\("copied"\);\s*playShareSuccessDing\(\);/);
     assert.doesNotMatch(button, /size-11/);
     assert.doesNotMatch(button, /text-muted/);
     assert.doesNotMatch(button, /sonner|Toaster/);
@@ -228,12 +236,20 @@ describe("plan card share control", () => {
 
     assert.match(share, /from "\.\/plans\.ts"/);
     assert.match(share, /formatFee\(plan\.monthlyFee\)/);
+    assert.match(share, /scheduleShareSuccessReveal/);
+    assert.match(share, /shouldRevealShareSuccessNow/);
+    assert.match(share, /pageshow/);
+    assert.match(share, /visibilitychange/);
     assert.doesNotMatch(share, /最抵|最低|最平|保證價/);
 
     assert.equal([...messages.matchAll(/share: "分享"/g)].length, 1);
-    assert.match(messages, /shareCopied: "已複製連結"/);
+    assert.match(messages, /shareCopied: "已分享連結"/);
+    assert.match(messages, /shareSuccessToast: "已成功分享"/);
+    assert.match(messages, /shareCopied: "Link shared"/);
+    assert.match(messages, /shareSuccessToast: "Shared successfully"/);
     assert.match(messages, /shareFailed: "未能複製，請再試"/);
     assert.match(messages, /share: "Share"/);
+    assert.doesNotMatch(messages, /已複製連結/);
     assert.doesNotMatch(messages, /shareSucceeded/);
   });
 });
@@ -245,6 +261,53 @@ describe("share success cue", () => {
     assert.equal(isPlanShareSuccess("shared"), true);
     assert.equal(isPlanShareSuccess("copied"), true);
     assert.equal(isPlanShareSuccess("aborted"), false);
+    assert.equal(shouldRevealShareSuccessNow("copied", false), true);
+    assert.equal(shouldRevealShareSuccessNow("copied", true), true);
+    assert.equal(shouldRevealShareSuccessNow("shared", false), true);
+    assert.equal(shouldRevealShareSuccessNow("shared", true), false);
+  });
+
+  it("reveals ding+toast immediately for copy, and for shared only once visible again", () => {
+    const revealed: string[] = [];
+    const listeners: Array<() => void> = [];
+    let hidden = true;
+
+    const host = {
+      hidden: () => hidden,
+      addResumeListener: (fn: () => void) => {
+        listeners.push(fn);
+      },
+      removeResumeListener: (fn: () => void) => {
+        const i = listeners.indexOf(fn);
+        if (i >= 0) listeners.splice(i, 1);
+      },
+    };
+
+    scheduleShareSuccessReveal("copied", () => revealed.push("copied"), host);
+    assert.deepEqual(revealed, ["copied"]);
+    assert.equal(listeners.length, 0);
+
+    const cancelShared = scheduleShareSuccessReveal("shared", () => revealed.push("shared"), host);
+    assert.deepEqual(revealed, ["copied"]);
+    assert.equal(listeners.length, 1);
+
+    for (const fn of [...listeners]) fn();
+    assert.deepEqual(revealed, ["copied"]);
+
+    hidden = false;
+    for (const fn of [...listeners]) fn();
+    assert.deepEqual(revealed, ["copied", "shared"]);
+    assert.equal(listeners.length, 0);
+
+    hidden = true;
+    const cancelAbort = scheduleShareSuccessReveal("shared", () => revealed.push("late"), host);
+    assert.equal(listeners.length, 1);
+    cancelAbort();
+    hidden = false;
+    for (const fn of [...listeners]) fn();
+    assert.deepEqual(revealed, ["copied", "shared"]);
+    assert.equal(listeners.length, 0);
+    cancelShared();
   });
 
   it("holds the center toast for 1s while visible and restarts after the page is hidden", () => {
@@ -300,7 +363,7 @@ describe("share success cue", () => {
     assert.equal(shown, false);
   });
 
-  it("plays a short quiet oscillator ding only when motion and audio are allowed", () => {
+  it("plays a short quiet oscillator ding only when motion and audio are allowed", async () => {
     const share = readFileSync(join(here, "plan-share.ts"), "utf8");
     const css = readFileSync(join(here, "../styles.css"), "utf8");
 
@@ -308,13 +371,11 @@ describe("share success cue", () => {
     assert.equal(shouldPlayShareSuccessDing({ reducedMotion: true }), false);
     assert.equal(shouldPlayShareSuccessDing({ muted: true }), false);
     assert.equal(shouldPlayShareSuccessDing({ hidden: true }), false);
-    assert.equal(shouldPlayShareSuccessDing({ userGestureActive: false }), false);
     assert.equal(
       shouldPlayShareSuccessDing({
         hidden: false,
         muted: false,
         reducedMotion: false,
-        userGestureActive: true,
       }),
       true,
     );
@@ -334,6 +395,7 @@ describe("share success cue", () => {
     assert.match(css, /\.share-success-toast\s*\{[^}]*align-items:\s*center/);
     assert.match(css, /\.share-success-toast\s*\{[^}]*justify-content:\s*center/);
     assert.match(css, /\.share-success-toast-mark\s*\{[^}]*background:\s*#16a34a/);
+    assert.match(css, /\.share-success-toast-label\s*\{[^}]*color:\s*#16a34a/);
     assert.doesNotMatch(css, /\.share-success-toast-mark\s*\{[^}]*var\(--color-accent\)/);
     assert.match(css, /@keyframes share-success-toast-in/);
     assert.match(
@@ -415,6 +477,7 @@ describe("share success cue", () => {
         value: SuspendedContext,
       });
       playShareSuccessDing({ hidden: false, muted: false, reducedMotion: false });
+      await Promise.resolve();
       assert.equal(started.length, 2);
       assert.equal(stopped.length, 2);
     } finally {

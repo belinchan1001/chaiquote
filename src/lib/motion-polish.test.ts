@@ -57,7 +57,9 @@ describe("light UX motion polish", () => {
     assert.match(share, /action-done bg-accent text-accent-foreground/);
     assert.match(share, /isPlanShareSuccess\(result\)/);
     assert.match(share, /SHARE_SUCCESS_CUE_MS/);
-    assert.match(share, /playShareSuccessDing\(\);\s*setHot\(true\)/);
+    assert.match(share, /function revealSuccess\(\) \{\s*flash\("copied"\);\s*playShareSuccessDing\(\);/);
+    assert.match(share, /scheduleShareSuccessReveal/);
+    assert.doesNotMatch(share, /playShareSuccessDing\(\);\s*setHot\(true\)/);
     assert.match(share, /share-success-toast/);
     assert.match(share, /startShareSuccessToast/);
     assert.match(css, /\.action-hot\s*\{[^}]*transform:\s*scale\(0\.97\)/);
