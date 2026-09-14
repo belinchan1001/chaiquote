@@ -67,6 +67,8 @@ const EXACT: Record<string, string> = {
     "Handset sign-up. Phone model, vouchers, screen cover and fees are confirmed by the carrier.",
   "須預繳 HK$3,600，第 1 至第 24 個月每月回贈 HK$150":
     "Prepaid HK$3,600; HK$150 rebate/month in months 1–24",
+  "此流動通訊計劃使用 3香港網絡。客戶須承諾最短合約期 24 個月。所有優惠及服務受條款及細則約束。":
+    "This mobile plan uses the 3HK network. Minimum 24-month contract. All offers and services are subject to terms.",
 };
 
 const PHRASES: [string, string][] = [
@@ -82,6 +84,7 @@ const PHRASES: [string, string][] = [
   ["5G 30GB（36 個月）", "5G 30GB (36 months)"],
   ["5G 60GB（24 個月）", "5G 60GB (24 months)"],
   ["5G 60GB（36 個月）", "5G 60GB (36 months)"],
+  ["5G 100GB + 8GB（24 個月）", "5G 100GB + 8GB (24 months)"],
   ["5G 100GB（24 個月）", "5G 100GB (24 months)"],
   ["5G 100GB（36 個月）", "5G 100GB (36 months)"],
   ["可豁免每月行政費 HK$18", "HK$18 admin/month can be waived"],
@@ -153,6 +156,7 @@ const PHRASES: [string, string][] = [
   ["24 個月 Netflix 標準計劃", "24 months Netflix Standard"],
   ["24 個月 100 分鐘 hgc on air Wi-Fi", "24 months of 100 minutes hgc on air Wi-Fi"],
   ["30 個月 100 分鐘 hgc on air Wi-Fi", "30 months of 100 minutes hgc on air Wi-Fi"],
+  ["SAFE 網絡安全防護及防毒軟件 6 個月免費（價值 $168）", "6 months SAFE security and antivirus free (value $168)"],
   ["SAFE 網絡安全防護及防毒軟件 6 個月", "6 months SAFE security and antivirus"],
   ["SAFE 防毒軟件 6 個月", "6 months SAFE antivirus"],
   ["Money-Back 雙重保證（速度保證、低時延保證）", "Money-back double guarantee (speed and low latency)"],
@@ -179,6 +183,7 @@ const PHRASES: [string, string][] = [
   ["其後以 128kbps 任用", "then unlimited at 128kbps"],
   ["其後以 1Mbps 無限任用", "then unlimited at 1Mbps"],
   ["其後以 2Mbps 無限任用", "then unlimited at 2Mbps"],
+  ["其後不高於 1Mbps 任用", "Then unlimited at up to 1Mbps"],
   ["其後以 1Mbps 任用", "then unlimited at 1Mbps"],
   ["其後以 2Mbps 任用", "then unlimited at 2Mbps"],
   ["其後限速無限上網（最高 1Mbps）", "Then unlimited at up to 1Mbps"],
@@ -221,6 +226,7 @@ const PHRASES: [string, string][] = [
   ["送 HK$500 月費回贈", "HK$500 bill rebate"],
   ["免 6 個月月費", "6 months free"],
   ["限時計劃。實際月費、數據用量及轉台條款以電訊商確認為準。", "Limited-time plan. Fees, data and port-in terms are confirmed by the carrier."],
+  ["免每月行政費 HK$28", "HK$28 admin/month waived"],
   ["轉台可豁免每月行政費 HK$28", "Port-in can waive HK$28 admin/month"],
   ["每月行政費 HK$28", "HK$28 admin/month"],
   ["豁免每月行政費 HK$18", "HK$18 admin/month waived"],
@@ -445,6 +451,7 @@ const PHRASES: [string, string][] = [
   ["myTV SUPER 解碼器", "myTV SUPER decoder"],
   ["1GB 電郵儲存量", "1GB email storage"],
   ["200GB 本地高速數據", "200GB local high-speed data"],
+  ["每月 50 分鐘中國內地及澳門通話", "50 Mainland & Macao minutes/month"],
   ["每月 10 分鐘中國內地及澳門通話", "10 Mainland & Macao minutes/month"],
   ["每月 12GB 中國及澳門數據", "12GB China & Macao data/month"],
   ["每月 1GB 中國內地及澳門數據", "1GB Mainland & Macao data/month"],
@@ -460,6 +467,8 @@ const PHRASES: [string, string][] = [
   ["每月 4GB 中國及澳門數據", "4GB China & Macao data/month"],
   ["加送 2GB 大灣區數據", "Includes extra 2GB Greater Bay Area data"],
   ["每月 500MB 中國及澳門數據", "500MB China & Macao data/month"],
+  ["8GB 中國內地及澳門數據", "8GB Mainland & Macao data"],
+  ["每月 8GB 中國內地及澳門數據", "8GB Mainland & Macao data/month"],
   ["每月 8GB 中國內地數據", "8GB Mainland data/month"],
   ["每月 8GB 中國及澳門數據", "8GB China & Macao data/month"],
   ["無限本地數據（42Mbps）", "Unlimited local data (42Mbps)"],
@@ -862,6 +871,7 @@ const BEST_FOR: [string, string][] = [
   ["適合香港寬頻客戶加設無線後備線路", "For HKBN customers adding a wireless backup line"],
   ["適合高本地數據用量之用戶", "For high local data use"],
   ["適合高本地數據用量，以及使用串流應用之用戶", "For high local data plus streaming"],
+  ["適合高本地數據用量，以及需要內地及澳門數據之用戶", "For high local data plus Mainland and Macao data"],
   ["適合高本地數據用量，以及需要較多內地數據之用戶", "For high local data plus extra Mainland data"],
   ["適合高流量企業", "For high-traffic businesses"],
 ];
