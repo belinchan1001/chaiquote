@@ -25,7 +25,12 @@ function plansListSearch(plans: { category: Category }[]): { cat: Category } {
 
 export const Route = createFileRoute("/compare")({
   component: ComparePage,
-  head: () => ({ meta: [{ title: `格價比較 · ${SITE.name}` }] }),
+  head: () => ({
+    meta: [
+      { title: `格價比較 · ${SITE.name}` },
+      { name: "robots", content: "noindex,follow" },
+    ],
+  }),
 });
 
 function ComparePage() {

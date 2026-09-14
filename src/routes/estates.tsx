@@ -8,7 +8,7 @@ import { Select } from "@/components/ui/select";
 import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { useDesk } from "@/lib/desk";
 import { compact, ESTATES } from "@/lib/estates";
-import { estatePagesByDistrict, estateSelectTarget, ESTATE_PAGES } from "@/lib/estate-pages";
+import { estatePagesByDistrict, estateSelectTarget, ESTATE_PAGES, INDEXABLE_ESTATE_PAGES } from "@/lib/estate-pages";
 import { isNewIntakeEstate, NEW_INTAKE_NAMES, newIntakeGroups } from "@/lib/estate-new-intake";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { compactSearch, parsePlansSearch } from "@/lib/search";
@@ -277,6 +277,28 @@ function EstatesIndexPage() {
           ))}
         </p>
       </form>
+
+      <section className="mt-8">
+        <h2 className="text-lg font-semibold">指定屋苑計劃</h2>
+        <p className="mt-1 max-w-2xl text-sm text-muted">
+          呢啲屋苑有專屬或指定供應商參考計劃，唔係淨係樓類通用價。
+        </p>
+        <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+          {INDEXABLE_ESTATE_PAGES.map((page) => (
+            <li key={page.slug}>
+              <a
+                href={`/estates/${page.slug}`}
+                className="estate-dir-card flex h-full min-h-11 flex-col justify-center rounded-xl bg-card px-2.5 py-2 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
+              >
+                <p className="text-sm font-medium leading-snug">{page.estate.name}</p>
+                <p className="mt-0.5 text-xs text-muted">
+                  {page.estate.district} · {housingLabel(page.estate.housing)}
+                </p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <div className="mt-6 grid grid-cols-3 gap-2 lg:grid-cols-6">
         <button

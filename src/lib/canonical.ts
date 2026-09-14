@@ -3,7 +3,7 @@
  * homepage / shell do not load the full estate catalogue on first paint.
  */
 import type { Category } from "./plans.ts";
-import { SITE } from "./site.ts";
+import { SITE, FAQ } from "./site.ts";
 
 export const DEFAULT_SEO_ORIGIN = "https://www.chaiquote.hk";
 
@@ -202,6 +202,9 @@ export function shareHead(seo: SeoCopy, url?: string): {
   const meta: ShareMeta[] = [
     { title: seo.title },
     { name: "description", content: seo.description },
+    { property: "og:type", content: "website" },
+    { property: "og:locale", content: "zh_HK" },
+    { property: "og:site_name", content: SITE.name },
     { property: "og:title", content: seo.title },
     { property: "og:description", content: seo.description },
     { name: "twitter:title", content: seo.title },
@@ -209,4 +212,42 @@ export function shareHead(seo: SeoCopy, url?: string): {
   ];
   if (url) meta.push({ property: "og:url", content: url });
   return url ? { meta, links: [{ rel: "canonical", href: url }] } : { meta };
+}
+
+/** Homepage graph. Lives here so `/` does not import the estate catalogue. */
+export function homeJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${SITE.url}/#organization`,
+        name: SITE.name,
+        url: SITE.url,
+        logo: { "@type": "ImageObject", url: `${SITE.url}/icon-512.png` },
+        email: SITE.leadEmail,
+        telephone: `+${SITE.whatsappE164}`,
+        description: SITE.description,
+        areaServed: { "@type": "Country", name: "HK" },
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${SITE.url}/#website`,
+        name: SITE.name,
+        url: SITE.url,
+        inLanguage: "zh-HK",
+        description: HOME_SEO.description,
+        publisher: { "@id": `${SITE.url}/#organization` },
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${SITE.url}/#faq`,
+        mainEntity: FAQ.map((item) => ({
+          "@type": "Question",
+          name: item.q,
+          acceptedAnswer: { "@type": "Answer", text: item.a },
+        })),
+      },
+    ],
+  };
 }

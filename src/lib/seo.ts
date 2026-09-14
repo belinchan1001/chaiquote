@@ -1,5 +1,5 @@
 import { formatFee, isListedPlan, PLANS, PROVIDER_MAP, type Housing, type Plan, type ProviderId } from "./plans.ts";
-import { INDEXABLE_ESTATE_PAGES, estatePagePath } from "./estate-pages.ts";
+import { INDEXABLE_ESTATE_PAGES, estatePagePath, estateSeoDescription, estateSeoTitle, type EstatePage } from "./estate-pages.ts";
 import { GUIDES, getGuide, type Guide } from "./guides.ts";
 import { guideTopicImage } from "./guide-media.ts";
 import { SITE } from "./site.ts";
@@ -27,6 +27,7 @@ import {
   runtimeSeoOrigin,
   seoOrigin,
   shareHead,
+  homeJsonLd,
   LEGACY_PRODUCTION_HOSTS,
 } from "./canonical.ts";
 
@@ -55,6 +56,7 @@ export {
   runtimeSeoOrigin,
   seoOrigin,
   shareHead,
+  homeJsonLd,
 };
 
 export type SitemapChangefreq = "weekly" | "monthly";
@@ -79,6 +81,18 @@ export function siteDataLastmod(stamp: string = SITE.updated): string | undefine
   const match = /^(\d{4})年(\d{1,2})月$/.exec(stamp);
   if (!match) return undefined;
   return `${match[1]}-${match[2]!.padStart(2, "0")}`;
+}
+
+/** Last calendar day of SITE.updated, for Offer.priceValidUntil. */
+export function siteOfferValidUntil(stamp: string = SITE.updated): string | undefined {
+  const month = siteDataLastmod(stamp);
+  if (!month) return undefined;
+  const year = Number(month.slice(0, 4));
+  const mon = Number(month.slice(5, 7));
+  if (mon < 1 || mon > 12) return undefined;
+  const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+  const days = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  return `${month}-${String(days[mon - 1]).padStart(2, "0")}`;
 }
 
 /**
@@ -218,6 +232,7 @@ export function planJsonLd(plan: Plan) {
       "@type": "Offer",
       price: plan.monthlyFee,
       priceCurrency: "HKD",
+      priceValidUntil: siteOfferValidUntil(),
       availability: "https://schema.org/InStock",
       url: canonicalUrl(`/plans/${plan.id}`),
     },
@@ -279,6 +294,31 @@ export function guideJsonLd(guide: Guide) {
     });
   }
   return { "@context": "https://schema.org", "@graph": graph };
+}
+
+export function estateJsonLd(page: EstatePage) {
+  const url = canonicalUrl(estatePagePath(page));
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        name: estateSeoTitle(page.estate),
+        description: estateSeoDescription(page.estate),
+        url,
+        inLanguage: "zh-HK",
+        isPartOf: { "@id": `${SITE.url}/#website` },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "首頁", item: canonicalUrl("/") },
+          { "@type": "ListItem", position: 2, name: "香港屋苑寬頻比較", item: canonicalUrl("/estates") },
+          { "@type": "ListItem", position: 3, name: page.estate.name, item: url },
+        ],
+      },
+    ],
+  };
 }
 
 function escapeXml(value: string): string {

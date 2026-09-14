@@ -8,7 +8,7 @@ import { PLANS, formatFee, getPlan, cheapestPlan, cheapestVillageBroadbandPlan }
 import { SITE } from "@/lib/site";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import type { MessageKey } from "@/lib/messages";
-import { HOME_SEO, canonicalUrl, shareHead } from "@/lib/canonical";
+import { HOME_SEO, canonicalUrl, homeJsonLd, shareHead } from "@/lib/canonical";
 import { JsonLd } from "@/components/json-ld";
 
 export const Route = createFileRoute("/")({
@@ -74,20 +74,7 @@ function Home() {
 
   return (
     <div>
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: faqs.map((item) => ({
-            "@type": "Question",
-            name: t(item.q),
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: t(item.a, { phone: SITE.phoneDisplay, email: SITE.leadEmail }),
-            },
-          })),
-        }}
-      />
+      <JsonLd data={homeJsonLd()} />
       <section className="relative overflow-hidden">
         <picture>
           <source srcSet="/images/hero-home.webp" type="image/webp" />

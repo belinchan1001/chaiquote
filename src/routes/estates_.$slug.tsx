@@ -11,11 +11,14 @@ import {
   estateSeoDescription,
   estateSeoTitle,
   getEstatePage,
+  isIndexableEstatePage,
   nearbyEstatePages,
   relatedGuideSlug,
 } from "@/lib/estate-pages";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { canonicalUrl, notFoundHead } from "@/lib/canonical";
+import { estateJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
 import { isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
 
 export const Route = createFileRoute("/estates_/$slug")({
@@ -27,10 +30,12 @@ export const Route = createFileRoute("/estates_/$slug")({
   component: EstatePage,
   head: ({ loaderData }) => {
     if (!loaderData) return notFoundHead();
-    const { estate } = loaderData.page;
+    const { page } = loaderData;
+    const { estate } = page;
     const title = estateSeoTitle(estate);
     const description = estateSeoDescription(estate);
-    const url = canonicalUrl(estatePagePath(loaderData.page));
+    const url = canonicalUrl(estatePagePath(page));
+    const indexable = isIndexableEstatePage(page);
     return {
       meta: [
         { title },
@@ -38,6 +43,7 @@ export const Route = createFileRoute("/estates_/$slug")({
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:url", content: url },
+        ...(indexable ? [] : [{ name: "robots", content: "noindex,follow" }]),
       ],
       links: [{ rel: "canonical", href: url }],
     };
@@ -64,9 +70,11 @@ function EstatePage() {
   }, [ready, estate.name, estate.housing, estate.district, setInquiry]);
 
   const guideSlug = relatedGuideSlug(estate);
+  const indexable = isIndexableEstatePage(page);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
+      {indexable ? <JsonLd data={estateJsonLd(page)} /> : null}
       <Link to="/estates" className="text-sm text-muted hover:text-fg">
         香港屋苑寬頻比較
       </Link>

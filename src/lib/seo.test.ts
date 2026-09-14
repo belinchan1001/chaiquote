@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { SITE } from "./site.ts";
+import { SITE, FAQ } from "./site.ts";
 import { filterPlans, getPlan, PLANS } from "./plans.ts";
 import { GUIDES, getGuide } from "./guides.ts";
 import { ESTATE_PAGES, INDEXABLE_ESTATE_PAGES, estatePlans, isIndexableEstatePage } from "./estate-pages.ts";
@@ -27,6 +27,7 @@ import {
   notFoundHead,
   PRIVACY_SEO,
   guideJsonLd,
+  estateJsonLd,
   planJsonLd,
   planJsonLdImage,
   planSeoDescription,
@@ -36,7 +37,9 @@ import {
   runtimeSeoOrigin,
   seoOrigin,
   shareHead,
+  homeJsonLd,
   siteDataLastmod,
+  siteOfferValidUntil,
   sitemapLastmod,
   SITEMAP_PAGES,
   SITEMAP_URL_LIMIT,
@@ -351,7 +354,13 @@ describe("404 document head", () => {
     assert.match(plan, /if \(!loaderData\) return notFoundHead\(\)/);
     assert.match(guide, /if \(!loaderData\) return notFoundHead\(\)/);
     assert.match(estate, /if \(!loaderData\) return notFoundHead\(\)/);
+    assert.match(estate, /isIndexableEstatePage/);
+    assert.match(estate, /noindex,follow/);
+    assert.match(estate, /estateJsonLd/);
+    assert.match(readFileSync(join(ROOT, "src/routes/compare.tsx"), "utf8"), /noindex,follow/);
     assert.match(readFileSync(join(ROOT, "src/routes/index.tsx"), "utf8"), /shareHead\(HOME_SEO/);
+    assert.match(readFileSync(join(ROOT, "src/routes/index.tsx"), "utf8"), /homeJsonLd\(\)/);
+    assert.doesNotMatch(readFileSync(join(ROOT, "src/routes/index.tsx"), "utf8"), /from "@\/lib\/seo"/);
   });
 });
 
@@ -435,6 +444,9 @@ describe("locked page share titles and descriptions", () => {
       });
     assert.equal(head.meta.find((tag) => "title" in tag)?.title, HOME_SEO.title);
     assert.equal(values("description", "name")[0]?.content, HOME_SEO.description);
+    assert.equal(values("og:type", "property")[0]?.content, "website");
+    assert.equal(values("og:locale", "property")[0]?.content, "zh_HK");
+    assert.equal(values("og:site_name", "property")[0]?.content, SITE.name);
     assert.equal(values("og:title", "property")[0]?.content, HOME_SEO.title);
     assert.equal(values("og:description", "property")[0]?.content, HOME_SEO.description);
     assert.equal(values("twitter:title", "name")[0]?.content, HOME_SEO.title);
@@ -474,6 +486,7 @@ describe("plan SEO copy", () => {
     assert.equal(planJsonLd(sample)["@type"], "Product");
     assert.equal(planJsonLd(sample).offers.price, 98);
     assert.equal(planJsonLd(sample).offers.priceCurrency, "HKD");
+    assert.equal(planJsonLd(sample).offers.priceValidUntil, "2026-09-30");
     assert.equal(planJsonLd(sample).offers.url, canonicalUrl(`/plans/${sample.id}`));
     assert.equal(planJsonLd(sample).image, `${SITE.url}/images/providers/hkbn.png`);
   });
@@ -493,6 +506,7 @@ describe("plan JSON-LD product image", () => {
       assert.equal(image, planJsonLdImage(plan));
       assert.equal(ld.offers.price, plan.monthlyFee);
       assert.equal(ld.offers.priceCurrency, "HKD");
+      assert.equal(ld.offers.priceValidUntil, "2026-09-30");
       assert.equal(ld.offers.url, canonicalUrl(`/plans/${plan.id}`));
 
       const json = JSON.stringify(ld);
@@ -565,5 +579,59 @@ describe("guide JSON-LD", () => {
       assert.equal(questions.some((item) => item.acceptedAnswer.text.includes("[")), false, slug);
       assert.ok(SITEMAP_PAGES.some((page) => page.path === `/guides/${slug}` && page.priority === "0.8"), slug);
     }
+  });
+});
+
+describe("home JSON-LD", () => {
+  it("emits Organization, WebSite and FAQPage without pulling seo.ts into the homepage", () => {
+    const ld = homeJsonLd();
+    assert.equal(ld["@context"], "https://schema.org");
+    const types = ld["@graph"].map((node) => node["@type"]);
+    assert.deepEqual(types.sort(), ["FAQPage", "Organization", "WebSite"].sort());
+    const org = ld["@graph"].find((node) => node["@type"] === "Organization");
+    assert.ok(org);
+    assert.equal(org.name, SITE.name);
+    assert.equal(org.url, SITE.url);
+    assert.equal(org.email, SITE.leadEmail);
+    const site = ld["@graph"].find((node) => node["@type"] === "WebSite");
+    assert.ok(site);
+    assert.equal(site.inLanguage, "zh-HK");
+    assert.equal(site.publisher?.["@id"], `${SITE.url}/#organization`);
+    const faq = ld["@graph"].find((node) => node["@type"] === "FAQPage");
+    assert.ok(faq);
+    const questions = faq.mainEntity as { name: string }[];
+    assert.equal(questions.length, FAQ.length);
+    assert.equal(questions[0]?.name, FAQ[0]?.q);
+    const json = JSON.stringify(ld);
+    assert.doesNotMatch(json, /AggregateRating|aggregateRating/);
+    const home = readFileSync(join(ROOT, "src/routes/index.tsx"), "utf8");
+    const canonical = readFileSync(join(ROOT, "src/lib/canonical.ts"), "utf8");
+    assert.match(home, /homeJsonLd\(\)/);
+    assert.match(canonical, /export function homeJsonLd/);
+    assert.doesNotMatch(home, /from "@\/lib\/seo"/);
+  });
+});
+
+describe("estate JSON-LD and robots", () => {
+  it("adds WebPage breadcrumbs only on unique-plan estates and noindexes the rest", () => {
+    const unique = ESTATE_PAGES.find((page) => isIndexableEstatePage(page));
+    const thin = ESTATE_PAGES.find((page) => !isIndexableEstatePage(page));
+    assert.ok(unique);
+    assert.ok(thin);
+    const ld = estateJsonLd(unique);
+    const types = ld["@graph"].map((node) => node["@type"]);
+    assert.deepEqual(types.sort(), ["BreadcrumbList", "WebPage"].sort());
+    const crumbs = ld["@graph"].find((node) => node["@type"] === "BreadcrumbList");
+    const items = crumbs?.itemListElement as { item: string }[];
+    assert.equal(items[0]?.item, "https://www.chaiquote.hk/");
+    assert.equal(items[1]?.item, "https://www.chaiquote.hk/estates");
+    assert.equal(items[2]?.item, `https://www.chaiquote.hk/estates/${unique.slug}`);
+
+    const src = readFileSync(join(ROOT, "src/routes/estates_.$slug.tsx"), "utf8");
+    assert.match(src, /isIndexableEstatePage\(page\)/);
+    assert.match(src, /noindex,follow/);
+    assert.match(src, /estateJsonLd\(page\)/);
+    assert.equal(siteOfferValidUntil(), "2026-09-30");
+    assert.equal(siteOfferValidUntil("not-a-date"), undefined);
   });
 });

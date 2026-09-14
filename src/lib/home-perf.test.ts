@@ -88,7 +88,11 @@ describe("homepage first-load images", () => {
     assert.match(cache, /HEAD/);
     assert.match(estatePage, /broadbandPreview/);
     assert.match(estatePage, /home5gPreview/);
+    assert.match(estatePage, /isIndexableEstatePage/);
+    assert.match(estatePage, /noindex,follow/);
     assert.doesNotMatch(dir, /showCards|openDistricts/);
+    assert.match(dir, /INDEXABLE_ESTATE_PAGES/);
+    assert.match(dir, /指定屋苑計劃/);
     assert.match(dir, /const collapseGroups = !compact\(estate\) && !activeDistrict && !newIntakeFilter/);
     assert.match(dir, /return collapseGroups \? \(/);
     assert.match(dir, /<details/);
