@@ -57,9 +57,13 @@ describe("light UX motion polish", () => {
     assert.match(share, /action-done bg-accent text-accent-foreground/);
     assert.match(share, /isPlanShareSuccess\(result\)/);
     assert.match(share, /SHARE_SUCCESS_CUE_MS/);
-    assert.match(share, /playShareSuccessDing\(\)/);
+    assert.match(share, /playShareSuccessDing\(\);\s*setHot\(true\)/);
+    assert.match(share, /share-success-toast/);
+    assert.match(share, /startShareSuccessToast/);
     assert.match(css, /\.action-hot\s*\{[^}]*transform:\s*scale\(0\.97\)/);
     assert.match(css, /\.action-done\s*\{[^}]*animation:\s*action-done-pop 180ms/);
+    assert.match(css, /\.share-success-toast-mark\s*\{[^}]*background:\s*#16a34a/);
+    assert.match(css, /\.share-success-toast-mark\s*\{[^}]*animation:\s*share-success-toast-in 180ms/);
 
     assert.doesNotMatch(search, /startTransition/);
     assert.doesNotMatch(plans, /startTransition/);
@@ -113,6 +117,10 @@ describe("light UX motion polish", () => {
     assert.match(
       css,
       /prefers-reduced-motion:\s*reduce[\s\S]*\.action-done[\s\S]*animation:\s*none !important/,
+    );
+    assert.match(
+      css,
+      /prefers-reduced-motion:\s*reduce[\s\S]*\.share-success-toast-mark[\s\S]*animation:\s*none !important/,
     );
   });
 

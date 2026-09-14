@@ -90,11 +90,93 @@ export async function shareOrCopyPlan(
   return "copied";
 }
 
-/** How long the in-button check / 「已複製」 cue stays visible. */
+/** How long the optional in-button check / 「已複製」 cue stays visible. */
 export const SHARE_SUCCESS_CUE_MS = 700;
+
+/** How long the center success toast stays visible while the page is in the foreground. */
+export const SHARE_SUCCESS_TOAST_MS = 1000;
 
 export function isPlanShareSuccess(result: PlanShareResult): boolean {
   return result === "shared" || result === "copied";
+}
+
+export type ShareSuccessToastHost = {
+  hidden: () => boolean;
+  show: () => void;
+  hide: () => void;
+  setTimeout: (fn: () => void, ms: number) => number;
+  clearTimeout: (id: number) => void;
+  addVisibilityListener: (fn: () => void) => void;
+  removeVisibilityListener: (fn: () => void) => void;
+};
+
+export function defaultShareSuccessToastHost(handlers: {
+  show: () => void;
+  hide: () => void;
+}): ShareSuccessToastHost {
+  return {
+    hidden: () => typeof document !== "undefined" && document.hidden,
+    show: handlers.show,
+    hide: handlers.hide,
+    setTimeout: (fn, ms) => window.setTimeout(fn, ms),
+    clearTimeout: (id) => window.clearTimeout(id),
+    addVisibilityListener: (fn) => document.addEventListener("visibilitychange", fn),
+    removeVisibilityListener: (fn) => document.removeEventListener("visibilitychange", fn),
+  };
+}
+
+/**
+ * Show the toast immediately, but only count the hold while the page is visible.
+ * Hidden → visible (returning from WhatsApp) restarts the hold so the check is seen.
+ */
+export function startShareSuccessToast(
+  holdMs: number = SHARE_SUCCESS_TOAST_MS,
+  host: ShareSuccessToastHost,
+): () => void {
+  let timer = 0;
+  let stopped = false;
+
+  const clearTimer = () => {
+    if (!timer) return;
+    host.clearTimeout(timer);
+    timer = 0;
+  };
+
+  const finish = () => {
+    if (stopped || host.hidden()) return;
+    stopped = true;
+    clearTimer();
+    host.removeVisibilityListener(onVis);
+    host.hide();
+  };
+
+  const arm = () => {
+    if (stopped) return;
+    clearTimer();
+    if (host.hidden()) return;
+    timer = host.setTimeout(finish, holdMs);
+  };
+
+  const onVis = () => {
+    if (stopped) return;
+    if (host.hidden()) {
+      clearTimer();
+      return;
+    }
+    arm();
+  };
+
+  host.show();
+  host.addVisibilityListener(onVis);
+  arm();
+
+  return () => {
+    if (stopped) return;
+    stopped = true;
+    clearTimer();
+    host.removeVisibilityListener(onVis);
+    host.hide();
+  };
 }
 
 export type ShareSuccessDingHost = {
@@ -146,9 +228,13 @@ export function playShareSuccessDing(host: ShareSuccessDingHost = readShareSucce
   } catch {
     return;
   }
+  if (ctx.state === "closed") return;
+
+  // iOS starts AudioContext suspended; resume during the tap gesture so the blip can play.
   if (ctx.state !== "running") {
-    void ctx.close();
-    return;
+    void ctx.resume().catch(() => {
+      void ctx.close();
+    });
   }
 
   try {

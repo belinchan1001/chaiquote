@@ -9,6 +9,7 @@ import {
   PLAN_SHARE_DISCLAIMER,
   PLAN_SHARE_SENTENCE,
   SHARE_SUCCESS_CUE_MS,
+  SHARE_SUCCESS_TOAST_MS,
   isPlanShareSuccess,
   planShareBody,
   planShareClipboardText,
@@ -18,6 +19,7 @@ import {
   playShareSuccessDing,
   shareOrCopyPlan,
   shouldPlayShareSuccessDing,
+  startShareSuccessToast,
 } from "./plan-share.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -204,16 +206,23 @@ describe("plan card share control", () => {
     assert.match(button, /shareOrCopyPlan\(plan\)/);
     assert.match(button, /isPlanShareSuccess\(result\)/);
     assert.match(button, /result === "aborted"\) return/);
-    assert.match(button, /playShareSuccessDing\(\)/);
+    assert.match(button, /playShareSuccessDing\(\);\s*setHot\(true\)/);
     assert.match(button, /SHARE_SUCCESS_CUE_MS/);
+    assert.match(button, /SHARE_SUCCESS_TOAST_MS/);
     assert.match(button, /flash\("copied"\)/);
+    assert.match(button, /showSuccessToast\(\)/);
+    assert.match(button, /startShareSuccessToast/);
+    assert.match(button, /createPortal/);
+    assert.match(button, /share-success-toast/);
+    assert.match(button, /share-success-toast-mark/);
     assert.match(button, /action-done bg-accent text-accent-foreground/);
     assert.match(button, /aria-live="polite"/);
     assert.match(button, /variant="outline"/);
     assert.match(button, /\{label\}/);
+    assert.doesNotMatch(button, /isPlanShareSuccess\(result\)[\s\S]{0,80}playShareSuccessDing/);
     assert.doesNotMatch(button, /size-11/);
     assert.doesNotMatch(button, /text-muted/);
-    assert.doesNotMatch(button, /toast|sonner|Toaster/);
+    assert.doesNotMatch(button, /sonner|Toaster/);
     assert.doesNotMatch(button, /onMouseEnter|onPointerEnter|onHover/);
     assert.doesNotMatch(button, /setTimeout\(\(\) => setCue\("idle"\), 2000\)/);
 
@@ -232,9 +241,63 @@ describe("plan card share control", () => {
 describe("share success cue", () => {
   it("treats shared and copied as success, and abort as silence", () => {
     assert.equal(SHARE_SUCCESS_CUE_MS, 700);
+    assert.equal(SHARE_SUCCESS_TOAST_MS, 1000);
     assert.equal(isPlanShareSuccess("shared"), true);
     assert.equal(isPlanShareSuccess("copied"), true);
     assert.equal(isPlanShareSuccess("aborted"), false);
+  });
+
+  it("holds the center toast for 1s while visible and restarts after the page is hidden", () => {
+    let hidden = false;
+    let shown = false;
+    const listeners: Array<() => void> = [];
+    const timers = new Map<number, () => void>();
+    let nextId = 1;
+
+    const stop = startShareSuccessToast(1000, {
+      hidden: () => hidden,
+      show: () => {
+        shown = true;
+      },
+      hide: () => {
+        shown = false;
+      },
+      setTimeout: (fn) => {
+        const id = nextId++;
+        timers.set(id, fn);
+        return id;
+      },
+      clearTimeout: (id) => {
+        timers.delete(id);
+      },
+      addVisibilityListener: (fn) => {
+        listeners.push(fn);
+      },
+      removeVisibilityListener: (fn) => {
+        const i = listeners.indexOf(fn);
+        if (i >= 0) listeners.splice(i, 1);
+      },
+    });
+
+    assert.equal(shown, true);
+    assert.equal(timers.size, 1);
+
+    hidden = true;
+    for (const fn of [...listeners]) fn();
+    assert.equal(shown, true);
+    assert.equal(timers.size, 0);
+
+    hidden = false;
+    for (const fn of [...listeners]) fn();
+    assert.equal(shown, true);
+    assert.equal(timers.size, 1);
+
+    for (const fn of [...timers.values()]) fn();
+    assert.equal(shown, false);
+    assert.equal(listeners.length, 0);
+
+    stop();
+    assert.equal(shown, false);
   });
 
   it("plays a short quiet oscillator ding only when motion and audio are allowed", () => {
@@ -258,6 +321,7 @@ describe("share success cue", () => {
 
     assert.match(share, /createOscillator/);
     assert.match(share, /AudioContext/);
+    assert.match(share, /ctx\.resume\(\)/);
     assert.match(share, /osc\.stop\(t \+ 0\.12\)/);
     assert.match(share, /prefers-reduced-motion: reduce/);
     assert.doesNotMatch(share, /\.mp3|\.wav|\.ogg/);
@@ -266,9 +330,19 @@ describe("share success cue", () => {
 
     assert.match(css, /@keyframes action-done-pop/);
     assert.match(css, /\.action-done\s*\{[^}]*animation:\s*action-done-pop 180ms/);
+    assert.match(css, /\.share-success-toast\s*\{[^}]*position:\s*fixed/);
+    assert.match(css, /\.share-success-toast\s*\{[^}]*align-items:\s*center/);
+    assert.match(css, /\.share-success-toast\s*\{[^}]*justify-content:\s*center/);
+    assert.match(css, /\.share-success-toast-mark\s*\{[^}]*background:\s*#16a34a/);
+    assert.doesNotMatch(css, /\.share-success-toast-mark\s*\{[^}]*var\(--color-accent\)/);
+    assert.match(css, /@keyframes share-success-toast-in/);
     assert.match(
       css,
       /prefers-reduced-motion:\s*reduce[\s\S]*\.action-done[\s\S]*animation:\s*none !important/,
+    );
+    assert.match(
+      css,
+      /prefers-reduced-motion:\s*reduce[\s\S]*\.share-success-toast-mark[\s\S]*animation:\s*none !important/,
     );
 
     const started: number[] = [];
@@ -299,15 +373,25 @@ describe("share success cue", () => {
       currentTime = 0;
       state = "running";
       destination = {};
+      resumed = 0;
       createOscillator() {
         return new FakeOscillator();
       }
       createGain() {
         return new FakeGain();
       }
+      resume() {
+        this.resumed += 1;
+        this.state = "running";
+        return Promise.resolve();
+      }
       close() {
         return Promise.resolve();
       }
+    }
+
+    class SuspendedContext extends FakeContext {
+      override state = "suspended";
     }
 
     const prior = globalThis.AudioContext;
@@ -324,6 +408,15 @@ describe("share success cue", () => {
       assert.equal(started.length, 1);
       assert.equal(stopped.length, 1);
       assert.ok(stopped[0] - started[0] <= 0.15);
+
+      Object.defineProperty(globalThis, "AudioContext", {
+        configurable: true,
+        writable: true,
+        value: SuspendedContext,
+      });
+      playShareSuccessDing({ hidden: false, muted: false, reducedMotion: false });
+      assert.equal(started.length, 2);
+      assert.equal(stopped.length, 2);
     } finally {
       Object.defineProperty(globalThis, "AudioContext", {
         configurable: true,
