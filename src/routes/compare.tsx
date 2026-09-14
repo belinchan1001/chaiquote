@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronsLeftRight } from "lucide-react";
+import { ArrowLeft, ChevronsLeftRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { QuoteLink } from "@/components/quote-link";
 import { WhatsAppTip } from "@/components/whatsapp-tip";
@@ -95,16 +95,20 @@ function ComparePage() {
     <div className="mx-auto max-w-6xl px-4 py-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <h1 className="text-title font-semibold">{t("compareN", { n: plans.length })}</h1>
-        <div className="flex flex-wrap gap-2">
-          <Button asChild variant="ghost">
+        <div className="flex flex-wrap items-center gap-2">
+          <Button asChild variant="outline">
             <Link to="/plans" search={plansSearch}>
+              <ArrowLeft />
               {t("backToPlans")}
             </Link>
           </Button>
-          <Button variant="ghost" onClick={clearCompare}>
+          <Button variant="outline" onClick={clearCompare}>
+            <X />
             {t("compareClear")}
           </Button>
-          <QuoteLink plans={plans}>{t("quoteThese")}</QuoteLink>
+          <QuoteLink plans={plans} className="min-w-fit shrink-0">
+            {t("quoteThese")}
+          </QuoteLink>
         </div>
       </div>
       <p className="mt-3 text-xs leading-relaxed text-muted">{t("referencePrice")}</p>
