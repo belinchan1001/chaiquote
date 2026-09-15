@@ -101,7 +101,7 @@ function PlanDetailPage() {
       !p.staffOffer,
   ).slice(0, 2);
   const perks = planPerks(plan);
-  const { t, tx, categoryLabel, housingList } = useI18n();
+  const { t, tx, categoryLabel, housingList, updated } = useI18n();
   usePageTitle(planSeoTitle(plan));
   const shineRef = useRef<HTMLElement>(null);
 
@@ -166,6 +166,7 @@ function PlanDetailPage() {
           {categoryLabel(plan.category)} · {tx(plan.network)}
         </p>
         <h1 className="mt-1 text-title font-semibold leading-snug">{tx(plan.name)}</h1>
+        <p className="mt-2 text-xs text-subtle">{t("dataUpdated", { date: updated })}</p>
         {plan.staffOffer ? null : <p className="mt-2 text-muted">{tx(plan.bestFor)}</p>}
 
         <div className="mt-6 flex items-end gap-3">

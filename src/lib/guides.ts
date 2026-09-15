@@ -161,7 +161,7 @@ export const CORE_GUIDES: Guide[] = [
       {
         heading: "數據上限",
         paragraphs: [
-          "5G 家居好多時有高速 GB，用完會降速或降低優先權。光纖入屋通常按該計劃條款提供本地用量，細節以合約為準。",
+          "5G 家居好多時有高速數據用量，用完會降速或降低優先權。光纖入屋通常按該計劃條款提供本地用量，細節以合約為準。",
         ],
       },
       {
@@ -203,7 +203,7 @@ export const CORE_GUIDES: Guide[] = [
       {
         heading: "Data caps",
         paragraphs: [
-          "5G home often has a high-speed GB cap, then slows down or is deprioritised. Fibre to the home usually follows that plan’s local-usage terms. Details are in the contract.",
+          "5G home often has a high-speed data cap, then slows down or is deprioritised. Fibre to the home usually follows that plan’s local-usage terms. Details are in the contract.",
         ],
       },
       {
@@ -247,7 +247,7 @@ export const CORE_GUIDES: Guide[] = [
       {
         heading: "5G 家居係常見方案",
         paragraphs: [
-          "未有光纖嘅村屋、唐樓，5G 家居插電就用。記住問清楚高速 GB 同繁忙時間表現。",
+          "未有光纖嘅村屋、唐樓，5G 家居插電就用。記住問清楚高速數據用量同繁忙時間表現。",
         ],
       },
       {
@@ -274,7 +274,7 @@ export const CORE_GUIDES: Guide[] = [
       {
         heading: "5G home is a common option",
         paragraphs: [
-          "Village houses and tong lau without fibre can use 5G home — plug in and go. Ask about the high-speed GB cap and peak-hour performance.",
+          "Village houses and tong lau without fibre can use 5G home — plug in and go. Ask about the high-speed data cap and peak-hour performance.",
         ],
       },
       {
@@ -408,8 +408,17 @@ export const CORE_GUIDES: Guide[] = [
 
 export const GUIDES: Guide[] = [...CORE_GUIDES, ...GUIDE_ARTICLES, ...DISTRICT_GUIDES];
 
+
 export function getGuide(slug: string) {
   return GUIDES.find((g) => g.slug === slug);
+}
+
+/** Article dates only. Never fall back to SITE.updated. */
+export function guideManuscriptDates(guide: Pick<Guide, "published" | "modified">): { published?: string; modified?: string } {
+  const published = guide.published ?? guide.modified;
+  const modified =
+    guide.modified && guide.published && guide.modified !== guide.published ? guide.modified : undefined;
+  return { published, modified };
 }
 
 export function guideCopy(guide: Guide, locale: "zh" | "en") {

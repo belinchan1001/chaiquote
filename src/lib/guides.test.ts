@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { GUIDES, getGuide } from "./guides.ts";
+import { GUIDES, getGuide, guideManuscriptDates } from "./guides.ts";
+import { SITE } from "./site.ts";
 import { getPlan } from "./plans.ts";
 import { SITEMAP_PAGES, sitemapLastmod } from "./seo.ts";
 
@@ -650,5 +651,50 @@ describe("district and village-fee search pages", () => {
     assert.ok(getGuide("tin-shui-wai")?.related?.includes("village-fees"));
     assert.ok(getGuide("sha-tin")?.related?.includes("village-fees"));
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/guides/village-fees"));
+  });
+});
+
+describe("guide manuscript dates vs catalogue stamp", () => {
+  it("keeps every guide on a YYYY-MM-DD manuscript date, not SITE.updated", () => {
+    for (const guide of GUIDES) {
+      const { published, modified } = guideManuscriptDates(guide);
+      assert.ok(published, `${guide.slug} missing manuscript date`);
+      assert.match(published ?? "", /^\d{4}-\d{2}-\d{2}$/, guide.slug);
+      if (modified) {
+        assert.match(modified, /^\d{4}-\d{2}-\d{2}$/, guide.slug);
+        assert.notEqual(modified, published, guide.slug);
+      }
+    }
+    const fiber = guideManuscriptDates(getGuide("fiber-vs-5g")!);
+    assert.equal(fiber.published, "2026-09-05");
+    assert.equal(fiber.modified, "2026-09-13");
+    const port = guideManuscriptDates(getGuide("port-in")!);
+    assert.equal(port.published, "2026-09-05");
+    assert.equal(port.modified, "2026-09-06");
+    const district = guideManuscriptDates(getGuide("tin-shui-wai")!);
+    assert.equal(district.published, "2026-09-13");
+    assert.equal(district.modified, undefined);
+  });
+
+  it("renders 稿件日期 on guide pages and 資料更新 on plan/estate pages", () => {
+    const guidePage = readFileSync(join(here, "../routes/guides_.$slug.tsx"), "utf8");
+    const guideIndex = readFileSync(join(here, "../routes/guides.tsx"), "utf8");
+    const plans = readFileSync(join(here, "../routes/plans.tsx"), "utf8");
+    const plan = readFileSync(join(here, "../routes/plans_.$planId.tsx"), "utf8");
+    const estates = readFileSync(join(here, "../routes/estates.tsx"), "utf8");
+    const estate = readFileSync(join(here, "../routes/estates_.$slug.tsx"), "utf8");
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+
+    assert.match(guidePage, /guideManuscriptDates/);
+    assert.match(guidePage, /manuscriptUpdated|manuscriptDate/);
+    assert.match(guideIndex, /guideManuscriptDates/);
+    assert.doesNotMatch(guidePage, /t\("dataUpdated"/);
+    assert.doesNotMatch(guideIndex, /t\("dataUpdated"/);
+
+    for (const src of [plans, plan, estates, estate]) {
+      assert.match(src, /t\("dataUpdated", \{ date: updated \}\)/);
+    }
+    assert.match(home, /t\("hkUpdated", \{ date: updated \}\)/);
+    assert.equal(SITE.updated, "2026-09-16");
   });
 });

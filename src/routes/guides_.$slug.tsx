@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { JsonLd } from "@/components/json-ld";
 import { QuoteLink } from "@/components/quote-link";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
-import { getGuide, guideCopy, type GuideTable } from "@/lib/guides";
+import { getGuide, guideCopy, guideManuscriptDates, type GuideTable } from "@/lib/guides";
 import { guideTopicImage } from "@/lib/guide-media";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { canonicalUrl, notFoundHead } from "@/lib/canonical";
@@ -98,6 +98,34 @@ function GuideCompareCards({ table, seeDetail }: { table: GuideTable; seeDetail:
   );
 }
 
+
+function GuideDateLine({
+  guide,
+  minutes,
+}: {
+  guide: { published?: string; modified?: string; minutes: number };
+  minutes: number;
+}) {
+  const { t } = useI18n();
+  const { published, modified } = guideManuscriptDates(guide);
+  const date = published
+    ? modified
+      ? t("manuscriptUpdated", { published, modified })
+      : t("manuscriptDate", { date: published })
+    : null;
+  return (
+    <>
+      {date ? (
+        <>
+          {date}
+          <span className="mx-1.5 text-subtle/70">·</span>
+        </>
+      ) : null}
+      {t("minutesRead", { n: minutes })}
+    </>
+  );
+}
+
 function GuidePage() {
   const { guide } = Route.useLoaderData();
   const { t, locale } = useI18n();
@@ -137,7 +165,9 @@ function GuidePage() {
           </li>
         </ol>
       </nav>
-      <p className="mt-6 text-xs text-subtle">{t("minutesRead", { n: guide.minutes })}</p>
+      <p className="mt-6 text-xs text-subtle">
+        <GuideDateLine guide={guide} minutes={guide.minutes} />
+      </p>
       <h1 className="mt-2 text-title font-semibold">{copy.h1}</h1>
       <p className="mt-3 text-base leading-relaxed text-muted">{copy.excerpt}</p>
       {topicImage ? (
@@ -240,7 +270,7 @@ function GuidePage() {
       <section className="mt-10 rounded-xl bg-card p-5 shadow-[var(--shadow-border)]">
         <p className="font-semibold">{copy.ctaLead ?? t("guideCta")}</p>
         <p className="mt-2 text-sm leading-relaxed text-muted">
-          實際覆蓋、安裝期同月費以電訊商確認為準，唔好假設一定有線。
+          {t("guideConfirm")}
         </p>
         <div className="mt-5 flex flex-col gap-3 sm:flex-row">
           {primaryPlan ? (
