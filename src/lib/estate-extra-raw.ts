@@ -132,8 +132,8 @@ export const EXTRA_RAW = `
 冠山苑|冠山,Koon Shan Court,土瓜灣冠山苑|九龍城|hos|馬頭角||高山道60號
 欣圖軒|欣圖,Yan Tu Court|九龍城|hos
 俊民苑|俊民,Chun Man Court|九龍城|hos
-煥然壹居|Grand Homm|九龍城|private
-煥然懿居|The Auborn|九龍城|private
+煥然壹居|De Novo,煥然壹居啟德,沐翠街3號|九龍城|hos|啟德||沐翠街3號
+煥然懿居|eResidence,煥然懿居II,eResidence II,鶴園街2號,鶴園街8號,紅磡煥然懿居|九龍城|hos|紅磡||鶴園街2及8號
 龍譽|Dragon One|九龍城|private
 天鑄|The Henley|九龍城|private
 海濱南岸|Harbour Place|九龍城|private
@@ -206,8 +206,8 @@ export const EXTRA_RAW = `
 青泰苑|青泰,Ching Tai Court|葵青|hos
 偉景花園|Broadview Garden,青衣偉景花園|葵青|hos|青衣||細山路
 華景山莊|Wonderland Villas,荔景華景山莊|葵青|private|荔景||荔景山路55號
-翠怡花園|Greenery Plaza|葵青|private
-海欣花園|Hoi Shing Garden|葵青|private
+翠怡花園|Greenfield Garden,青衣翠怡花園,楓樹窩路1號|葵青|private|青衣||楓樹窩路1號
+海欣花園|Hoi Shing Garden,青衣海欣花園|葵青|private|青衣||青衣鄉事會路
 浩景臺|Highland Park,浩景臺葵涌|葵青|hos
 曉峰園|Mount Haven,曉峯園,寮肚路曉峰園|葵青|private|青衣||寮肚路3號
 荃威花園|Allway Gardens|荃灣|private
@@ -277,7 +277,7 @@ export const EXTRA_RAW = `
 龍豐花園|Lung Fung Garden|北區|private
 上水中心|Sheung Shui Centre|北區|private
 寶鄉邨|寶鄉,Po Heung Estate|大埔|public
-富蝶邨|富蝶,Fu Tip Estate|大埔|public
+富蝶邨|富蝶,Fu Tip Estate,大埔富蝶邨|大埔|public|大埔||頌雅路
 明雅苑|明雅,Ming Nga Court|大埔|hos
 逸雅苑|逸雅,Yat Nga Court|大埔|hos
 德雅苑|德雅,Tak Nga Court|大埔|hos
@@ -368,7 +368,7 @@ export const EXTRA_RAW = `
 長貴邨|長貴,Cheung Kwai Estate|離島|public
 銀灣邨|銀灣,Ngan Wan Estate|離島|public
 金坪邨|金坪,Kam Peng Estate|離島|public
-雅寧苑|雅寧,Nga Ning Court,長洲雅寧苑|離島|public|長洲||長洲山頂道西
+雅寧苑|雅寧,Nga Ning Court,長洲雅寧苑|離島|hos|長洲||長洲山頂道西
 東環|Century Link|離島|private|東涌
 昇薈|The Visionary|離島|private|東涌
 裕泰苑|Yu Tai Court|離島|hos
@@ -402,11 +402,11 @@ export const EXTRA_RAW = `
 海寶花園|Treasure Garden|大埔|private
 比華利山花園|比華利山別墅,The Beverly Hills,Beverly Hills Tai Po|大埔|private|||三門仔路23號
 半山名邸|The Paragon Tai Po|大埔|private
-翠林花園|Greenfield Garden|葵青|private
+翠林花園|Greenland Garden,屯門翠林花園,石排頭路15號|屯門|private|屯門||石排頭路15號
 葵芳閣|Kwai Fong Terrace|葵青|private
 葵涌廣場住宅|Kwai Chung Plaza Residences|葵青|private
 葵盛圍|Kwai Shing Circuit Residences|葵青|private
-青衣海欣花園|Tsing Yi Garden|葵青|private
+青怡花園|Tsing Yi Garden,青衣青怡花園,青綠街7號|葵青|private|青衣||青綠街7-19號
 荔景山路華景|Lai King Hill Road|葵青|private
 九華徑|Kau Wa Keng|葵青|village
 大窩口村|Tai Wo Hau Village|葵青|village
@@ -535,7 +535,7 @@ export const EXTRA_RAW = `
 寶雅苑|Po Nga Court|大埔|hos
 怡雅苑|Yee Nga Court|大埔|hos
 景雅苑|King Nga Court|大埔|hos
-宏福苑|Wang Fuk Court|大埔|hos
+宏福苑|Wang Fuk Court,大埔宏福苑|大埔|hos|大埔||廣福道
 旭禾苑|Yuk Wo Court|沙田|hos
 彩禾苑|Choi Wo Court|沙田|hos
 錦駿苑|Kam Chun Court|沙田|hos
@@ -666,7 +666,7 @@ KOKO Hills|KOKO Hills|觀塘|private
 粉嶺龍躍頭|Lung Yeuk Tau|北區|village
 粉嶺坪輋|Ping Che|北區|village
 上水古洞|Kwu Tung|北區|village
-上水河上鄉|Ho Sheung Heung|北區|village
+上水河上鄉|Ho Sheung Heung,河上鄉,上水河上鄉村|北區|village
 上水金錢|Kam Tsin,金錢村,上水金錢村|北區|village
 打鼓嶺|Ta Kwu Ling|北區|village
 沙頭角鹿頸|Luk Keng|北區|village
@@ -687,15 +687,15 @@ KOKO Hills|KOKO Hills|觀塘|private
 沙田小瀝源|Siu Lek Yuen|沙田|village
 大嶼山昂坪|Ngong Ping|離島|village
 大嶼山石壁|Shek Pik|離島|village
-東涌馬灣涌|Ma Wan Chung Tung Chung|離島|village
+東涌馬灣涌|Ma Wan Chung Tung Chung,馬灣涌,東涌馬灣涌村|離島|village
 蒲台島|Po Toi|離島|village
 聯和墟|Luen Wo Hui|北區|village
 石湖墟|Shek Wu Hui|北區|village
 上水圍|Sheung Shui Wai|北區|village
 丙崗|Ping Kong|北區|village
-華山村|Wah Shan Village|北區|village
-軍地|Kwan Tei|北區|village
-孔嶺|Hung Leng|北區|village
+華山村|Wah Shan Village,上水華山|北區|village
+軍地|Kwan Tei,粉嶺軍地,軍地村|北區|village
+孔嶺|Hung Leng,粉嶺孔嶺,孔嶺村|北區|village
 大埔滘|Tai Po Kau|大埔|village
 洞梓|Tung Tsz|大埔|village
 南華莆|Nam Wa Po|大埔|village
@@ -801,7 +801,7 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 美樂花園|Melody Garden,屯門美樂花園|屯門|hos
 寶石大廈|Bo Shek Mansion,荃灣寶石大廈,沙咀道328號|荃灣|hos|荃灣||沙咀道328號
 海悅花園|Serene Garden,青衣海悅花園|葵青|hos
-宏福花園|Tivoli Garden,青衣宏福花園|葵青|hos
+宏福花園|Tivoli Garden,青衣宏福花園|葵青|hos|青衣||青敬路75號
 坪麗苑|Peng Lai Court,坪洲坪麗苑|離島|hos
 龍軒苑|Lung Hin Court,大澳龍軒苑|離島|hos
 尚翠苑|Sheung Chui Court,荃灣尚翠苑|荃灣|hos
@@ -847,7 +847,7 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 青發街簡約公屋|青發街項目,Tsing Fat Street LPH,屯門青發街簡約公屋,小欖樂安排簡約公屋,簡約公屋青發街|屯門|public|小欖||青發街
 Sierra Sea|西沙Sierra Sea,十四鄉Sierra Sea,Sierra Sea 1期,Sierra Sea 2期,西沙海映路|大埔|private|西貢北||海映路8號
 黃金海灣|Gold Coast Bay,黃金海灣意嵐,黃金海灣珀岸,意嵐,珀岸,The Uppland|屯門|private|青山灣||青山公路－青山灣段18號
-Double Coast|Double Coast I,Double Coast II,啟德Double Coast|九龍城|private|啟德||承豐道19號
+Double Coast|Double Coast I,Double Coast II,Double Coast III,Double Coast 3,啟德Double Coast,啟德Double Coast III|九龍城|private|啟德||承豐道19號
 海盈山|La Montagne,海盈山第4A期,海盈山第4B期,港島南岸海盈山|南區|private|黃竹坑||香葉道11號
 逸瓏灣|Mayfair By The Sea,逸瓏灣I,逸瓏灣1期,逸瓏灣一期,白石角逸瓏灣|大埔|private|白石角
 逸瓏灣II|Mayfair By The Sea II,逸瓏灣2期,逸瓏灣二期|大埔|private|白石角
@@ -902,5 +902,18 @@ Deep Water South|DEEP WATER SOUTH,港島南岸第6期,港島南岸第6A期,港�
 栢慧豪園|栢慧,柏慧豪園,Central Park Towers,栢慧豪廷,Central Park,天水圍栢慧豪園,天恩路2號栢慧豪園|元朗|private|天水圍||天恩路2號
 峻然|Hemma Emerald,安達臣峻然,安達臣道峻然,房協峻然,觀塘峻然|觀塘|hos|安達臣|覆蓋需查核|安禧街
 聚然|Hemma Fab,粉嶺聚然,馬會道聚然,馬會道288號聚然,房協聚然|北區|hos|粉嶺|覆蓋需查核|馬會道288號
+傲玟|Grand Homm,何文田傲玟,常盛街17號傲玟|九龍城|private|何文田||常盛街17號
+維港滙|Grand Victoria,維港匯,維港滙I,維港滙II,維港滙III,Grand Victoria I,Grand Victoria II,Grand Victoria III,長沙灣維港滙|深水埗|private|長沙灣||荔盈街6及8號
+恒莆新苑|Hang Po Court,錦田恒莆新苑,錦田2160號地段|元朗|public|錦田
+路德會雙魚薈|ELCHK Pisces,粉錦公路雙魚薈,雙魚薈|元朗|public|八鄉||粉錦公路
+新田部屋|San Tin Residence,牛潭尾新田部屋,新潭路過渡性房屋|元朗|public|新田||新潭路
+路德會七星薈|ELCHK Seven Stars,七星崗過渡性房屋,八鄉七星薈,七星薈|元朗|public|八鄉||七星崗
+悅安居|Yuet On Residence,前永安學校,大樹下西路悅安居|元朗|public|元朗||大樹下西路
+善樓|The Good House,船灣善樓,前余東旋學校,汀角路善樓|大埔|public|船灣||汀角路
+樂善村|Lok Sin Village,黃魚灘樂善村,船灣樂善村,大埔樂善村|大埔|public|船灣
+恒攸新苑|Hang Yau Court,真善路過渡性房屋,牛潭尾恒攸新苑|元朗|public|牛潭尾||真善路
+博愛昇平村|Pok Oi Sing Ping Village,打鼓嶺坪輋路過渡性房屋,坪輋昇平村|北區|public|打鼓嶺||坪輋路
+光廈|Light House Yau Tong,油塘光廈,東源街1號光廈|觀塘|public|油塘||東源街1號
+流浮東寓|Lau Fau Tung Yu,流浮‧東寓,流浮山過渡性房屋|元朗|public|流浮山
 `.trim();
 

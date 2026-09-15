@@ -127,7 +127,7 @@ export const DISTRICT_GUIDES: Guide[] = [
       {
         heading: "常見屋苑入口",
         paragraphs: [
-          "公屋：[天耀邨](/estates/tin-yiu)、[天瑞邨](/estates/tin-shui)、[天華邨](/estates/tin-wah)、[天恒邨](/estates/tin-heng)、[天恩邨](/estates/tin-yan)、[天逸邨](/estates/tin-yat)。居屋：[天盛苑](/estates/tin-shing-court)、[天富苑](/estates/tin-fu-court)、[天頌苑](/estates/tin-chung-court)。私樓：[嘉湖山莊](/estates/kingswood-villas)、[俊宏軒](/estates/central-park-towers)。",
+          "公屋：[天耀邨](/estates/tin-yiu)、[天瑞邨](/estates/tin-shui)、[天華邨](/estates/tin-wah)、[天恒邨](/estates/tin-heng)、[天恩邨](/estates/tin-yan)、[天逸邨](/estates/tin-yat)。居屋：[天盛苑](/estates/tin-shing-court)、[天富苑](/estates/tin-fu-court)、[天頌苑](/estates/tin-chung-court)。私樓：[嘉湖山莊](/estates/kingswood-villas)、[俊宏軒](/estates/grandeur-terrace)。",
           "屋苑頁列出適用樓類計劃。指定屋苑閃購如果有，只會喺搜該屋苑時出現，**唔入**上面摘要表。點用屋苑名見 [齊Quote 點用屋苑篩](/guides/estate-filter)。全部見 [屋苑目錄](/estates)。",
         ],
       },

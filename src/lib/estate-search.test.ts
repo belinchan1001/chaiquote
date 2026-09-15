@@ -359,10 +359,10 @@ describe("matchKnownEstate / classifyAddress", () => {
     assert.equal(estate("茶果嶺村")?.housing, "village");
     assert.equal(estate("鯉魚門村")?.housing, "village");
     assert.equal(estate("三家村")?.housing, "village");
-    assert.equal(estate("俊宏軒")?.housing, "public");
+    assert.equal(estate("俊宏軒")?.housing, "private");
     assert.equal(estate("俊宏軒")?.street, "天瑞路88號");
-    assert.equal(estate("雅寧苑")?.housing, "public");
-    assert.equal(estate("高翔苑")?.housing, "public");
+    assert.equal(estate("雅寧苑")?.housing, "hos");
+    assert.equal(estate("高翔苑")?.housing, "hos");
     assert.equal(estate("栢慧豪園")?.housing, "private");
     assert.equal(estate("慧景軒")?.housing, "private");
     assert.equal(estate("峻然")?.housing, "hos");
@@ -973,6 +973,7 @@ describe("housing type audit 2026", () => {
       "穗禾苑",
       "錦豐苑",
       "英明苑",
+      "高翔苑",
       "景泰苑",
       "悅湖山莊",
       "盛緻苑",

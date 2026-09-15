@@ -90,7 +90,7 @@ export const VILLAGE_RAW = `
 屯門新圍|Tuen Mun San Wai|屯門|village|屯門
 紫田村|Tsz Tin Tsuen|屯門|village|屯門
 良田村|Leung Tin Tsuen|屯門|village|屯門
-福亨村|Fuk Hang Tsuen|屯門|village|屯門
+福亨村|Fuk Hang Tsuen,屯門福亨村,福亨村上|屯門|village|屯門
 麒麟圍|Kei Lun Wai|屯門|village|屯門
 順風圍|Shun Fung Wai|屯門|village|屯門
 屯門新慶村|Tuen Mun San Hing Tsuen|屯門|village|屯門
@@ -135,11 +135,11 @@ export const VILLAGE_RAW = `
 蓮澳|Lin Au|大埔|village|林村
 麻布尾|Ma Po Mei|大埔|village|林村
 犁壁山|Lai Pek Shan|大埔|village|大埔
-蕉徑|Tsiu Keng|北區|village|粉嶺
+蕉徑|Tsiu Keng,上水蕉徑,蕉徑村|北區|village|粉嶺
 禾坑|Wo Hang|北區|village|沙頭角
 蓮麻坑|Lin Ma Hang|北區|village|沙頭角
 谷埔|Kuk Po|北區|village|沙頭角
-馬草壟|Ma Tso Lung|北區|village|古洞
+馬草壟|Ma Tso Lung,馬草壠,上水馬草壠,馬草壠村|北區|village|古洞
 莆上村|Po Sheung Tsuen|北區|village|上水
 坪原|Ping Yuen|北區|village|打鼓嶺
 坪洋|Ping Yeung|北區|village|打鼓嶺
@@ -160,7 +160,7 @@ export const VILLAGE_RAW = `
 安樂村|On Lok Tsuen|北區|village|粉嶺
 掃管埔|So Kwun Po|北區|village|上水
 馬屎埔|Ma Shi Po|北區|village|上水
-料壆|Liu Pok|北區|village|上水
+料壆|Liu Pok,上水料壆,料壆村|北區|village|上水
 麻雀嶺|Ma Chak Hang|北區|village|粉嶺
 北潭凹|Pak Tam Au|西貢|village|西貢北
 糧船灣|Leung Shuen Wan,High Island|西貢|village|西貢
@@ -618,6 +618,18 @@ export const VILLAGE_RAW = `
 昂坪村|Ngong Ping Village,大嶼山昂坪村,昂坪|離島|village|昂坪
 蓮陽|Lin Yeung,沙頭角蓮陽|北區|village|沙頭角
 鹽寮下|Yim Liu Ha,沙頭角鹽寮下|北區|village|沙頭角
+雞嶺|Kai Leng,粉嶺雞嶺,雞嶺村|北區|village|粉嶺
+松柏朗|Chung Pak Long,粉嶺松柏朗,松柏朗村|北區|village|粉嶺
+唐公嶺|Tong Kung Leng,上水唐公嶺,唐公嶺村|北區|village|上水
+蓮塘尾|Lin Tong Mei,上水蓮塘尾,蓮塘尾村|北區|village|上水
+長瀝|Cheung Lek,上水長瀝,長瀝村|北區|village|上水
+大頭嶺|Tai Tau Leng,上水大頭嶺,大頭嶺村|北區|village|上水
+和合石|Wo Hop Shek,粉嶺和合石,和合石村|北區|village|粉嶺
+崇謙堂|Shung Him Tong,粉嶺崇謙堂,崇謙堂村|北區|village|粉嶺
+鶴藪|Hok Tau,粉嶺鶴藪,鶴藪村|北區|village|粉嶺
+輋下|Tse Ha,粉嶺輋下,輋下村|北區|village|粉嶺
+慶徑石|Hing Keng Shek,西貢慶徑石,慶徑石村|西貢|village|西貢
+稔樹灣|Nim Shue Wan,大嶼山稔樹灣,愉景灣稔樹灣|離島|village|愉景灣
 `.trim();
 
 

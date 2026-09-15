@@ -38,6 +38,7 @@ export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "彩石邨", group: "其他地區" },
   { name: "安楹苑", group: "其他地區" },
   { name: "上然", group: "大埔" },
+  { name: "富蝶邨", group: "大埔" },
   { name: "攸壆路簡約公屋", group: "新界" },
   { name: "彩興路簡約公屋", group: "九龍" },
   { name: "彩園路簡約公屋", group: "新界" },
@@ -95,6 +96,17 @@ export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "One Stanley", group: "港島" },
   { name: "Mount Pokfulam", group: "港島" },
   { name: "滿．意", group: "其他地區" },
+  { name: "恒莆新苑", group: "新界" },
+  { name: "路德會雙魚薈", group: "新界" },
+  { name: "新田部屋", group: "新界" },
+  { name: "路德會七星薈", group: "新界" },
+  { name: "悅安居", group: "新界" },
+  { name: "恒攸新苑", group: "新界" },
+  { name: "流浮東寓", group: "新界" },
+  { name: "善樓", group: "大埔" },
+  { name: "樂善村", group: "大埔" },
+  { name: "博愛昇平村", group: "其他地區" },
+  { name: "光廈", group: "九龍" },
 ];
 
 export const NEW_INTAKE_NAMES = new Set(NEW_INTAKE.map((item) => item.name));

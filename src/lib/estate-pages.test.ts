@@ -150,6 +150,14 @@ describe("estate SEO pages", () => {
     assert.equal(getEstatePage("the-beverly-hills")?.estate.name, "比華利山花園");
     assert.equal(getEstatePage("symphony-bay")?.estate.housing, "private");
     assert.equal(getEstatePage("pierhead-garden")?.estate.housing, "private");
+    assert.equal(ESTATES.find((item) => item.name === "煥然壹居")?.housing, "hos");
+    assert.equal(ESTATES.find((item) => item.name === "煥然懿居")?.housing, "hos");
+    assert.equal(getEstatePage("greenfield-garden")?.estate.name, "翠怡花園");
+    assert.equal(getEstatePage("tivoli-garden")?.estate.name, "宏福花園");
+    assert.equal(getEstatePage("tsing-yi-garden")?.estate.name, "青怡花園");
+    assert.equal(ESTATES.find((item) => item.name === "翠林花園")?.district, "屯門");
+    assert.equal(isNewIntakeEstate("富蝶邨"), true);
+    assert.equal(isNewIntakeEstate("悅安居"), true);
     assert.equal(getEstatePage("pierhead-garden")?.estate.name, "海翠花園");
     assert.equal(getEstatePage("villa-athena")?.estate.name, "雅典居");
     assert.equal(getEstatePage("ocean-view")?.estate.name, "海典灣");
