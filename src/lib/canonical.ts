@@ -89,9 +89,9 @@ export type SeoCopy = {
 };
 
 export const HOME_SEO = {
-  title: "齊Quote｜香港寬頻同手機月費比較",
+  title: "齊Quote｜香港寬頻報價、電訊報價",
   description:
-    "一次過比較香港光纖、5G 家居、商業寬頻同手機計劃，可按公屋、居屋、私樓或村屋篩選。所列月費僅供參考，實際價格、覆蓋同安裝以電訊商確認為準。",
+    "一次過比較香港寬頻報價同電訊報價，涵蓋光纖、5G 家居、商業同手機計劃，可按公屋、居屋、私樓或村屋篩選。所列月費僅供參考，實際價格、覆蓋同安裝以電訊商確認為準。",
 } as const satisfies SeoCopy;
 
 export const HOME_SEO_TITLE = HOME_SEO.title;
@@ -107,31 +107,31 @@ export const PRIVACY_SEO = {
 } as const satisfies SeoCopy;
 
 export const GUIDES_SEO = {
-  title: "齊Quote｜寬頻同手機攻略",
+  title: "齊Quote｜寬頻報價同手機攻略",
   description:
-    "齊Quote 寬頻同手機攻略：點揀光纖、5G 家居、手機同商業寬頻，以及轉台、月費同覆蓋注意事項。內容僅供參考，實際條款同安裝以電訊商確認為準。",
+    "齊Quote 寬頻報價同手機攻略：點揀光纖、5G 家居、手機同商業寬頻，以及轉台、月費同覆蓋注意事項。內容僅供參考，實際條款同安裝以電訊商確認為準。",
 } as const satisfies SeoCopy;
 
 export const CATEGORY_SEO: Record<Category, SeoCopy> = {
   broadband: {
-    title: "齊Quote｜光纖寬頻比較",
+    title: "齊Quote｜光纖寬頻報價",
     description:
-      "比較香港光纖寬頻參考月費，涵蓋公屋、居屋、私樓同村屋光纖計劃，並可按地區同樓類篩選。所列月費僅供參考，實際價格、覆蓋同安裝以電訊商確認為準。",
+      "一次過比較香港光纖寬頻報價，涵蓋公屋、居屋、私樓同村屋光纖計劃，並可按地區同樓類篩選。所列月費僅供參考，實際價格、覆蓋同安裝以電訊商確認為準。",
   },
   home5g: {
-    title: "齊Quote｜5G 家居寬頻比較",
+    title: "齊Quote｜5G 家居寬頻報價",
     description:
-      "比較香港 5G 家居寬頻參考月費，適合未有光纖或想免拉線嘅地址，可按樓類同地區篩選。所列月費僅供參考，實際速度、覆蓋同安裝以電訊商確認為準。",
+      "一次過比較香港 5G 家居寬頻報價，適合未有光纖或想免拉線嘅地址，可按樓類同地區篩選。所列月費僅供參考，實際速度、覆蓋同安裝以電訊商確認為準。",
   },
   mobile: {
-    title: "齊Quote｜手機月費比較",
+    title: "齊Quote｜手機月費報價",
     description:
-      "比較香港 5G／4.5G 手機月費同攜號轉台優惠，列出數據、合約期同通話分鐘。所列月費僅供參考，實際月費、數據用量同轉台條款以電訊商確認為準。",
+      "一次過比較香港 5G／4.5G 手機月費同攜號轉台報價，列出數據、合約期同通話分鐘。所列月費僅供參考，實際月費、數據用量同轉台條款以電訊商確認為準。",
   },
   business: {
-    title: "齊Quote｜商業寬頻比較",
+    title: "齊Quote｜商業寬頻報價",
     description:
-      "比較香港商業寬頻參考月費，適合店舖、寫字樓同工作室，列出速度同合約期。所列月費僅供參考，實際價格、覆蓋、固定 IP 同安裝以電訊商確認為準。",
+      "一次過比較香港商業寬頻報價，適合店舖、寫字樓同工作室，列出速度同合約期。所列月費僅供參考，實際價格、覆蓋、固定 IP 同安裝以電訊商確認為準。",
   },
 };
 
@@ -228,6 +228,7 @@ export function homeJsonLd() {
         "@type": "Organization",
         "@id": `${SITE.url}/#organization`,
         name: SITE.name,
+        alternateName: ["齊Quote寬頻報價", "齊Quote電訊報價"],
         url: SITE.url,
         logo: { "@type": "ImageObject", url: `${SITE.url}/icon-512.png` },
         email: SITE.leadEmail,
@@ -241,6 +242,7 @@ export function homeJsonLd() {
         name: SITE.name,
         url: SITE.url,
         inLanguage: "zh-HK",
+        alternateName: ["齊Quote寬頻報價", "齊Quote電訊報價"],
         description: HOME_SEO.description,
         publisher: { "@id": `${SITE.url}/#organization` },
       },

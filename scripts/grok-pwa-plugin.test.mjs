@@ -171,7 +171,7 @@ test("pages without a document og:image still use the site card", () => {
 test("twitter:image always matches og:image for default and document cards", () => {
   const site = { title: "齊Quote", card: "custom", image: "/og.jpg" };
   const homepage = isolatedHead(
-    `<html><head><title>齊Quote｜香港寬頻同手機月費比較</title><meta name="description" content="一次過比較香港光纖、5G 家居、商業同手機計劃。所列月費僅供參考，實際以電訊商確認為準。"><meta property="og:url" content="https://www.chaiquote.hk/"></head></html>`,
+    `<html><head><title>齊Quote｜香港寬頻報價、電訊報價</title><meta name="description" content="一次過比較香港寬頻報價同電訊報價。所列月費僅供參考，實際以電訊商確認為準。"><meta property="og:url" content="https://www.chaiquote.hk/"></head></html>`,
     { host: "www.chaiquote.hk", site },
   );
   assert.match(homepage, /property="og:image" content="https:\/\/www\.chaiquote\.hk\/og\.jpg"/);
@@ -200,23 +200,23 @@ test("twitter:image always matches og:image for default and document cards", () 
 });
 
 test("document title and description win over site.json for share tags", () => {
-  const title = "齊Quote｜香港寬頻同手機月費比較";
+  const title = "齊Quote｜香港寬頻報價、電訊報價";
   const description =
-    "一次過比較香港光纖、5G 家居、商業同手機計劃。所列月費僅供參考，實際以電訊商確認為準。";
+    "一次過比較香港寬頻報價同電訊報價。所列月費僅供參考，實際以電訊商確認為準。";
   const html = `<html><head><title>${title}</title><meta name="description" content="${description}"><meta property="og:title" content="齊Quote"><meta property="og:description" content="old"><meta property="og:url" content="https://www.chaiquote.hk/"></head></html>`;
   const out = isolatedHead(html, {
     host: "www.chaiquote.hk",
     site: { title: "齊Quote", card: "custom", image: "/og.jpg" },
   });
-  assert.match(out, /property="og:title" content="齊Quote｜香港寬頻同手機月費比較"/);
+  assert.match(out, /property="og:title" content="齊Quote｜香港寬頻報價、電訊報價"/);
   assert.match(
     out,
-    /property="og:description" content="一次過比較香港光纖、5G 家居、商業同手機計劃。所列月費僅供參考，實際以電訊商確認為準。"/,
+    /property="og:description" content="一次過比較香港寬頻報價同電訊報價。所列月費僅供參考，實際以電訊商確認為準。"/,
   );
-  assert.match(out, /name="twitter:title" content="齊Quote｜香港寬頻同手機月費比較"/);
+  assert.match(out, /name="twitter:title" content="齊Quote｜香港寬頻報價、電訊報價"/);
   assert.match(
     out,
-    /name="twitter:description" content="一次過比較香港光纖、5G 家居、商業同手機計劃。所列月費僅供參考，實際以電訊商確認為準。"/,
+    /name="twitter:description" content="一次過比較香港寬頻報價同電訊報價。所列月費僅供參考，實際以電訊商確認為準。"/,
   );
   assert.match(out, /property="og:url" content="https:\/\/www\.chaiquote\.hk\/"/);
   assert.match(out, /name="apple-mobile-web-app-title" content="齊Quote"/);

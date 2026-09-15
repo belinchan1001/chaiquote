@@ -47,7 +47,17 @@ export function BrandLockup({
       )}
     >
       <LogoMark variant={variant} className={markClassName} />
-      <span>{SITE.name}</span>
+      <span className="flex min-w-0 flex-col leading-none">
+        <span>{SITE.name}</span>
+        <span
+          className={cn(
+            "mt-[0.18em] whitespace-nowrap font-sans text-[0.62em] font-medium tracking-wide",
+            variant === "reverse" ? "text-primary-foreground/75" : "text-muted",
+          )}
+        >
+          {SITE.searchHint}
+        </span>
+      </span>
     </span>
   );
 }
@@ -60,7 +70,7 @@ export function Logo({
   onPrimary?: boolean;
 }) {
   return (
-    <Link to="/" className={className} aria-label={SITE.name}>
+    <Link to="/" className={className} aria-label={`${SITE.name} ${SITE.searchHint}`}>
       <BrandLockup variant={onPrimary ? "reverse" : "color"} />
     </Link>
   );

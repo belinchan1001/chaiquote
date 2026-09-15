@@ -1,9 +1,10 @@
 export const SITE = {
   name: "齊Quote",
   tagline: "搵寬頻唔使四圍問",
+  searchHint: "寬頻報價",
   url: "https://www.chaiquote.hk",
   description:
-    "齊Quote 係獨立電訊比較平台，一次過比較香港家居寬頻、5G 家居、商業寬頻同手機計劃。所列月費僅供參考。",
+    "齊Quote 係獨立電訊比較平台，提供香港寬頻報價同電訊報價，一次過比較家居寬頻、5G 家居、商業寬頻同手機計劃。所列月費僅供參考，實際以電訊商確認為準。",
   /** Catalogue stamp shown on the homepage hero as YYYY-MM-DD. */
   updated: "2026-09-15",
   phoneDisplay: "9862 2444",

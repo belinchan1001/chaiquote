@@ -390,29 +390,29 @@ describe("locked page share titles and descriptions", () => {
   const CLAIM_WORDS = ["最抵", "最低", "最平"] as const;
   const LOCKED = {
     "/": {
-      title: "齊Quote｜香港寬頻同手機月費比較",
+      title: "齊Quote｜香港寬頻報價、電訊報價",
       description:
-        "一次過比較香港光纖、5G 家居、商業寬頻同手機計劃，可按公屋、居屋、私樓或村屋篩選。所列月費僅供參考，實際價格、覆蓋同安裝以電訊商確認為準。",
+        "一次過比較香港寬頻報價同電訊報價，涵蓋光纖、5G 家居、商業同手機計劃，可按公屋、居屋、私樓或村屋篩選。所列月費僅供參考，實際價格、覆蓋同安裝以電訊商確認為準。",
     },
     "/plans?cat=broadband": {
-      title: "齊Quote｜光纖寬頻比較",
+      title: "齊Quote｜光纖寬頻報價",
       description:
-        "比較香港光纖寬頻參考月費，涵蓋公屋、居屋、私樓同村屋光纖計劃，並可按地區同樓類篩選。所列月費僅供參考，實際價格、覆蓋同安裝以電訊商確認為準。",
+        "一次過比較香港光纖寬頻報價，涵蓋公屋、居屋、私樓同村屋光纖計劃，並可按地區同樓類篩選。所列月費僅供參考，實際價格、覆蓋同安裝以電訊商確認為準。",
     },
     "/plans?cat=home5g": {
-      title: "齊Quote｜5G 家居寬頻比較",
+      title: "齊Quote｜5G 家居寬頻報價",
       description:
-        "比較香港 5G 家居寬頻參考月費，適合未有光纖或想免拉線嘅地址，可按樓類同地區篩選。所列月費僅供參考，實際速度、覆蓋同安裝以電訊商確認為準。",
+        "一次過比較香港 5G 家居寬頻報價，適合未有光纖或想免拉線嘅地址，可按樓類同地區篩選。所列月費僅供參考，實際速度、覆蓋同安裝以電訊商確認為準。",
     },
     "/plans?cat=mobile": {
-      title: "齊Quote｜手機月費比較",
+      title: "齊Quote｜手機月費報價",
       description:
-        "比較香港 5G／4.5G 手機月費同攜號轉台優惠，列出數據、合約期同通話分鐘。所列月費僅供參考，實際月費、數據用量同轉台條款以電訊商確認為準。",
+        "一次過比較香港 5G／4.5G 手機月費同攜號轉台報價，列出數據、合約期同通話分鐘。所列月費僅供參考，實際月費、數據用量同轉台條款以電訊商確認為準。",
     },
     "/plans?cat=business": {
-      title: "齊Quote｜商業寬頻比較",
+      title: "齊Quote｜商業寬頻報價",
       description:
-        "比較香港商業寬頻參考月費，適合店舖、寫字樓同工作室，列出速度同合約期。所列月費僅供參考，實際價格、覆蓋、固定 IP 同安裝以電訊商確認為準。",
+        "一次過比較香港商業寬頻報價，適合店舖、寫字樓同工作室，列出速度同合約期。所列月費僅供參考，實際價格、覆蓋、固定 IP 同安裝以電訊商確認為準。",
     },
     "/about": {
       title: "齊Quote｜關於我們",
@@ -423,9 +423,9 @@ describe("locked page share titles and descriptions", () => {
       description: "了解齊Quote 點樣收集同使用查核報價所需資料，以及你嘅查閱同改正權。",
     },
     "/guides": {
-      title: "齊Quote｜寬頻同手機攻略",
+      title: "齊Quote｜寬頻報價同手機攻略",
       description:
-        "齊Quote 寬頻同手機攻略：點揀光纖、5G 家居、手機同商業寬頻，以及轉台、月費同覆蓋注意事項。內容僅供參考，實際條款同安裝以電訊商確認為準。",
+        "齊Quote 寬頻報價同手機攻略：點揀光纖、5G 家居、手機同商業寬頻，以及轉台、月費同覆蓋注意事項。內容僅供參考，實際條款同安裝以電訊商確認為準。",
     },
   } as const;
 
@@ -643,11 +643,13 @@ describe("home JSON-LD", () => {
     const org = ld["@graph"].find((node) => node["@type"] === "Organization");
     assert.ok(org);
     assert.equal(org.name, SITE.name);
+    assert.deepEqual(org.alternateName, ["齊Quote寬頻報價", "齊Quote電訊報價"]);
     assert.equal(org.url, SITE.url);
     assert.equal(org.email, SITE.leadEmail);
     const site = ld["@graph"].find((node) => node["@type"] === "WebSite");
     assert.ok(site);
     assert.equal(site.inLanguage, "zh-HK");
+    assert.deepEqual(site.alternateName, ["齊Quote寬頻報價", "齊Quote電訊報價"]);
     assert.equal(site.publisher?.["@id"], `${SITE.url}/#organization`);
     const faq = ld["@graph"].find((node) => node["@type"] === "FAQPage");
     assert.ok(faq);
@@ -661,6 +663,19 @@ describe("home JSON-LD", () => {
     assert.match(home, /homeJsonLd\(\)/);
     assert.match(canonical, /export function homeJsonLd/);
     assert.doesNotMatch(home, /from "@\/lib\/seo"/);
+  });
+});
+
+describe("brand search hint", () => {
+  it("keeps 寬頻報價 next to the lockup name without changing the mark", () => {
+    assert.equal(SITE.searchHint, "寬頻報價");
+    assert.match(SITE.description, /寬頻報價/);
+    assert.match(SITE.description, /電訊報價/);
+    const logo = readFileSync(join(ROOT, "src/components/logo.tsx"), "utf8");
+    assert.match(logo, /SITE\.searchHint/);
+    assert.match(logo, /aria-label=\{`\$\{SITE\.name\} \$\{SITE\.searchHint\}`\}/);
+    assert.match(logo, /<LogoMark variant=\{variant\}/);
+    assert.doesNotMatch(logo, /電訊報價/);
   });
 });
 
