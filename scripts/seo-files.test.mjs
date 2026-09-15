@@ -15,15 +15,26 @@ test("vite config disables TanStack Start's built-in sitemap writer", () => {
 test("vercel.json 301s only the production vercel.app host to www.chaiquote.hk", () => {
   const vercel = JSON.parse(readFileSync(join(ROOT, "vercel.json"), "utf8"));
   const redirects = vercel.redirects ?? [];
-  assert.ok(redirects.length >= 1);
-  for (const rule of redirects) {
+  const hostRedirects = redirects.filter((rule) => rule.has?.[0]?.type === "host");
+  assert.ok(hostRedirects.length >= 1);
+  for (const rule of hostRedirects) {
     assert.equal(rule.statusCode, 301);
     assert.equal(rule.destination, "https://www.chaiquote.hk/$1");
     assert.equal(rule.has?.[0]?.type, "host");
     assert.match(rule.has?.[0]?.value ?? "", /^((www\.)?chaiquote\.vercel\.app)$/);
     assert.doesNotMatch(rule.has?.[0]?.value ?? "", /^\*\.vercel\.app$/);
   }
-  assert.ok(redirects.some((rule) => rule.has?.[0]?.value === "chaiquote.vercel.app"));
+  assert.ok(hostRedirects.some((rule) => rule.has?.[0]?.value === "chaiquote.vercel.app"));
+});
+
+test("vercel.json 301s bare /plans to the broadband hub, not a 307 rewrite", () => {
+  const vercel = JSON.parse(readFileSync(join(ROOT, "vercel.json"), "utf8"));
+  const rule = (vercel.redirects ?? []).find((item) => item.source === "/plans");
+  assert.ok(rule);
+  assert.equal(rule.statusCode, 301);
+  assert.equal(rule.destination, "/plans?cat=broadband");
+  assert.equal(rule.missing?.[0]?.type, "query");
+  assert.equal(rule.missing?.[0]?.key, "cat");
 });
 
 test("root head emits a per-route canonical, not a hardcoded homepage", () => {

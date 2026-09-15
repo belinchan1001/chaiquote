@@ -1,4 +1,4 @@
-import { ESTATES, type Estate } from "./estates.ts";
+import { ESTATES, parentEstate, type Estate } from "./estates.ts";
 import { NETVIGATOR_ONLY_ESTATES } from "./estate-new-intake.ts";
 import { filterPlans, matchesHousing, PLANS, type Housing, type Plan } from "./plans.ts";
 import { DISTRICTS } from "./site.ts";
@@ -356,14 +356,21 @@ function indexableEstateNames(): Set<string> {
 const INDEXABLE_ESTATE_NAMES = indexableEstateNames();
 
 /**
- * Sitemap / indexable estate pages only.
+ * Sitemap / indexable estate pages.
  *
- * Empty/thin = no broadband and no home5g, or only the generic 樓類 catalogue
- * (same cards as every other public / HOS / private / village estate). Those
- * `/estates/:slug` routes stay on the site; they are omitted from the sitemap
- * until they list estate-specific plans.
+ * Indexed when either:
+ * 1. First-batch flagship estates (`ESTATE_PAGE_NAMES`) — unique name, district
+ *    and housing copy, linked from homepage 熱門. These are not doorway pages.
+ * 2. The estate lists broadband / home5g cards that differ from the generic
+ *    樓類 catalogue (exclusive `onlyEstates` offers or a provider lock).
+ *
+ * Related 座／樓／閣 stay on the site but stay noindex unless they themselves
+ * appear in `onlyEstates`. Other generic catalogue rows stay noindex so Google
+ * does not see 1,800 near-duplicate 樓類 templates.
  */
 export function isIndexableEstatePage(page: EstatePage): boolean {
+  if (parentEstate(page.estate)) return false;
+  if ((ESTATE_PAGE_NAMES as readonly string[]).includes(page.estate.name)) return true;
   return INDEXABLE_ESTATE_NAMES.has(page.estate.name);
 }
 

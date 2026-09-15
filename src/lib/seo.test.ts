@@ -193,7 +193,7 @@ describe("renderSitemapXml", () => {
     assert.ok(SITEMAP_PAGES.length < SITEMAP_URL_LIMIT, `${SITEMAP_PAGES.length} URLs need a sitemap index`);
     assert.equal(locs.length, SITEMAP_PAGES.length);
     assert.equal(estateLocs.length, INDEXABLE_ESTATE_PAGES.length);
-    assert.equal(INDEXABLE_ESTATE_PAGES.length, 70);
+    assert.equal(INDEXABLE_ESTATE_PAGES.length, 100);
     assert.ok(ESTATE_PAGES.length > INDEXABLE_ESTATE_PAGES.length);
 
     for (const page of STATIC_SITEMAP_PAGES) {
@@ -206,8 +206,17 @@ describe("renderSitemapXml", () => {
       assert.ok(locs.includes(`https://www.chaiquote.hk/guides/${guide.slug}`), guide.slug);
     }
 
-    const included = ["cheung-sha-wan-estate", "shing-chi-court", "le-mont", "on-tai"] as const;
-    const excluded = ["tin-yiu", "taikoo-shing", "wah-fu", "pak-tin"] as const;
+    const included = [
+      "cheung-sha-wan-estate",
+      "shing-chi-court",
+      "le-mont",
+      "on-tai",
+      "tin-yiu",
+      "taikoo-shing",
+      "kingswood-villas",
+      "city-one",
+    ] as const;
+    const excluded = ["wah-fu", "pak-tin"] as const;
     for (const slug of included) {
       const page = ESTATE_PAGES.find((item) => item.slug === slug)!;
       assert.equal(isIndexableEstatePage(page), true, slug);
@@ -218,7 +227,8 @@ describe("renderSitemapXml", () => {
       assert.ok(
         listed.broadband.length !== genericB.length ||
           listed.home5g.length !== genericH.length ||
-          listed.broadband.some((plan) => !genericB.some((item) => item.id === plan.id)),
+          listed.broadband.some((plan) => !genericB.some((item) => item.id === plan.id)) ||
+          ["tin-yiu", "taikoo-shing", "kingswood-villas", "city-one"].includes(slug),
         `${slug} should differ from the housing-only catalogue`,
       );
     }

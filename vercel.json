@@ -5,6 +5,12 @@
   "regions": ["hkg1"],
   "redirects": [
     {
+      "source": "/plans",
+      "missing": [{ "type": "query", "key": "cat" }],
+      "destination": "/plans?cat=broadband",
+      "statusCode": 301
+    },
+    {
       "source": "/(.*)",
       "has": [{ "type": "host", "value": "chaiquote.vercel.app" }],
       "destination": "https://www.chaiquote.hk/$1",

@@ -64,7 +64,7 @@ describe("estate SEO pages", () => {
     assert.match(estateSeoTitle(tinYiu.estate), /天耀邨寬頻比較｜公屋｜齊Quote/);
   });
 
-  it("adds the directory and only estate pages with unique applicable plans", () => {
+  it("indexes flagship and exclusive-plan estate pages, not every catalogue row", () => {
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/estates"));
     const sitemapPaths = new Set(SITEMAP_PAGES.map((page) => page.path));
     const estateUrls = SITEMAP_PAGES.filter((page) => page.path.startsWith("/estates/"));
@@ -76,6 +76,11 @@ describe("estate SEO pages", () => {
         page.slug,
       );
     }
+    assert.equal(isIndexableEstatePage(getEstatePage("tin-yiu")!), true);
+    assert.equal(isIndexableEstatePage(getEstatePage("taikoo-shing")!), true);
+    assert.equal(isIndexableEstatePage(getEstatePage("kingswood-villas")!), true);
+    assert.equal(isIndexableEstatePage(getEstatePage("city-one")!), true);
+    assert.equal(isIndexableEstatePage(getEstatePage("wah-fu")!), false);
     assert.doesNotMatch(
       SITEMAP_PAGES.map((page) => page.path).join("\n"),
       /\/estates\/.*\?/,
