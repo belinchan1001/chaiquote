@@ -192,6 +192,15 @@ describe("estate SEO pages", () => {
     assert.equal(isNewIntakeEstate("滿．意"), true);
     assert.equal(isNewIntakeEstate("恒苑"), false);
     assert.equal(isNewIntakeEstate("錦河邨"), false);
+    assert.equal(isNewIntakeEstate("華第"), true);
+    assert.equal(isNewIntakeEstate("吉喆"), true);
+    assert.equal(isNewIntakeEstate("THE BOUNDARY"), true);
+    assert.equal(isNewIntakeEstate("北都滙"), false);
+    assert.equal(isNewIntakeEstate("皇都"), false);
+    assert.equal(getEstatePage("cadenza-sheung-shui")?.estate.name, "華第");
+    assert.equal(getEstatePage("33-catchick-street")?.estate.name, "吉喆");
+    assert.equal(getEstatePage("the-boundary")?.estate.name, "THE BOUNDARY");
+    assert.equal(getEstatePage("northern-hub-kwu-tung")?.estate.coverageCheck, true);
     assert.equal(getEstatePage("sierra-terrace")?.estate.name, "樂嶺軒");
     assert.equal(getEstatePage("the-monet")?.estate.housing, "private");
     assert.equal(getEstatePage("mount-broadcast")?.estate.name, "博峯");

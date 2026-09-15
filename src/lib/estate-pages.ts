@@ -280,6 +280,21 @@ const SLUG_FALLBACK: Record<string, string> = {
   博愛昇平村: "pok-oi-sing-ping",
   光廈: "light-house-yau-tong",
   流浮東寓: "lau-fau-tung-yu",
+  華第: "cadenza-sheung-shui",
+  尚柏: "the-parkland-yuen-long",
+  連方: "bondlane",
+  吉喆: "33-catchick-street",
+  "THE BOUNDARY": "the-boundary",
+  名鑽: "diamond-ho-man-tin",
+  "Upper Central": "upper-central",
+  "One Wood Road": "one-wood-road",
+  "Elize Park": "elize-park",
+  恒珀: "hang-park-cheung-sha-wan",
+  隆敍: "lung-hsu-ho-man-tin",
+  北都滙: "northern-hub-kwu-tung",
+  "33清水灣": "33-clear-water-bay",
+  "Victoria Blossom": "victoria-blossom",
+  映匯: "hung-hom-the-hampton",
 };
 
 function requireEstate(name: string): Estate {

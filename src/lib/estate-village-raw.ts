@@ -626,10 +626,26 @@ export const VILLAGE_RAW = `
 大頭嶺|Tai Tau Leng,上水大頭嶺,大頭嶺村|北區|village|上水
 和合石|Wo Hop Shek,粉嶺和合石,和合石村|北區|village|粉嶺
 崇謙堂|Shung Him Tong,粉嶺崇謙堂,崇謙堂村|北區|village|粉嶺
-鶴藪|Hok Tau,粉嶺鶴藪,鶴藪村|北區|village|粉嶺
+鶴藪|Hok Tau,粉嶺鶴藪,鶴藪村,鶴藪圍|北區|village|粉嶺
 輋下|Tse Ha,粉嶺輋下,輋下村|北區|village|粉嶺
 慶徑石|Hing Keng Shek,西貢慶徑石,慶徑石村|西貢|village|西貢
 稔樹灣|Nim Shue Wan,大嶼山稔樹灣,愉景灣稔樹灣|離島|village|愉景灣
+礦山村|Kwong Shan Tsuen,屯門礦山|屯門|village|屯門
+聯安新村|Luen On San Tsuen,屯門聯安新村|屯門|village|屯門
+順豐圍|Shun Fung Wai,屯門順豐圍|屯門|village|屯門
+屯門新村|Tuen Mun San Tsuen|屯門|village|屯門
+和平新村|Wo Ping San Tsuen,屯門和平新村|屯門|village|屯門
+長埔村|Cheung Po Tsuen,八鄉長埔|元朗|village|八鄉
+唐人新村|Tong Yan San Tsuen,屏山唐人新村|元朗|village|屏山
+下白泥村|Ha Pak Nai,廈村下白泥|元朗|village|廈村
+厦村市|Ha Tsuen Shi,廈村市|元朗|village|廈村
+和生圍|Wo Shang Wai,新田和生圍|元朗|village|新田
+黃坭墩|Wong Nai Tun,十八鄉黃坭墩|元朗|village|十八鄉
+榕樹凹|Yung Shue Au,沙頭角榕樹凹|北區|village|沙頭角
+虎地排|Fu Tei Pai,粉嶺虎地排|北區|village|粉嶺
+龜頭嶺|Kwai Tau Leng,粉嶺龜頭嶺|北區|village|粉嶺
+流水响|Lau Shui Heung,粉嶺流水响|北區|village|粉嶺
+小坑新村|Siu Hang San Tsuen,粉嶺小坑新村|北區|village|粉嶺
 `.trim();
 
 

@@ -107,6 +107,15 @@ export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "樂善村", group: "大埔" },
   { name: "博愛昇平村", group: "其他地區" },
   { name: "光廈", group: "九龍" },
+  { name: "華第", group: "新界" },
+  { name: "吉喆", group: "港島" },
+  { name: "THE BOUNDARY", group: "九龍" },
+  { name: "名鑽", group: "九龍" },
+  { name: "Upper Central", group: "港島" },
+  { name: "One Wood Road", group: "港島" },
+  { name: "Elize Park", group: "九龍" },
+  { name: "恒珀", group: "九龍" },
+  { name: "隆敍", group: "九龍" },
 ];
 
 export const NEW_INTAKE_NAMES = new Set(NEW_INTAKE.map((item) => item.name));

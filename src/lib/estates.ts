@@ -225,7 +225,7 @@ const RAW = `
 耀安邨|耀安,Yiu On|沙田|public|馬鞍山
 恆安邨|恆安,Heng On|沙田|public|馬鞍山
 錦英苑|錦英,Kam Ying Court|沙田|hos|馬鞍山
-富安花園|富安,Chevalier Garden|沙田|private|馬鞍山
+富安花園|富安,Chevalier Garden|沙田|hos|馬鞍山
 大埔中心|大埔中心,Tai Po Centre|大埔|private
 太和邨|太和,Tai Wo|大埔|public
 富亨邨|富亨,Fu Heng|大埔|public
@@ -273,7 +273,7 @@ const RAW = `
 匯景花園|匯景,Sceneway Garden|觀塘|private
 德福花園|德福,Telford Gardens|觀塘|private
 淘大花園|淘大,Amoy Gardens|觀塘|private
-麗晶花園|麗晶,Richland Gardens|觀塘|private
+麗晶花園|麗晶,Richland Gardens|觀塘|hos
 宏緻苑|宏緻,Wang Chi Court|觀塘|hos|九龍灣
 富緻閣|富緻,Fu Chi House,宏緻苑富緻閣|觀塘|hos|九龍灣
 喜緻閣|喜緻,Hei Chi House,宏緻苑喜緻閣|觀塘|hos|九龍灣
@@ -376,7 +376,7 @@ YOHO Midtown|YOHO Midtown|元朗|private
 安楹苑|安楹,On Ying Court|觀塘|hos
 安樺苑|安樺,On Wah Court|觀塘|hos
 安麗苑|安麗,On Lai Court|觀塘|hos
-康山花園|康山,Kornhill Gardens|東區|private
+康山花園|康山,Kornhill Gardens|東區|hos
 天水圍天華|天華|元朗|public|天水圍
 馬灣|馬灣,Ma Wan|荃灣|village|馬灣
 井欄樹村|井欄樹,Tseng Lan Shue|西貢|village

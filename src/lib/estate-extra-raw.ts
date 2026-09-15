@@ -92,7 +92,7 @@ export const EXTRA_RAW = `
 海裕閣|Hoi Yu House,海富苑海裕閣|油尖旺|public|大角咀||海庭道2號
 海韻閣|Hoi Wan House,海富苑海韻閣|油尖旺|public|大角咀||海庭道2號
 海欣閣|Hoi Yan House,海富苑海欣閣|油尖旺|public|大角咀||海庭道2號
-海寧閣|Hoi Ning House,海富苑海寧閣|油尖旺|public|大角咀||海庭道2號
+海寧閣|Hoi Ning House,海富苑海寧閣|油尖旺|hos|大角咀||海庭道2號
 富榮花園|富榮,Charming Garden|油尖旺|hos
 柏景灣|Park Avenue|油尖旺|private
 帝柏海灣|Imperial Cullinan Bay,海庭道18號帝柏海灣|油尖旺|private|||海庭道18號
@@ -191,7 +191,7 @@ export const EXTRA_RAW = `
 高賢閣|高賢,Ko Yin House,高宏苑高賢閣,高宏苑B座|觀塘|hos|油塘||欣榮街131號
 高曦苑|高曦,Ko Hei Court|觀塘|hos
 曉麗苑|曉麗,Hiu Lai Court|觀塘|hos
-油塘中心|Yau Tong Centre|觀塘|private
+油塘中心|Yau Tong Centre|觀塘|hos
 半島東|The East|觀塘|private
 半島豪庭|Peninsula Heights|觀塘|private
 曦臺|The Spectacle|觀塘|private
@@ -233,8 +233,8 @@ export const EXTRA_RAW = `
 兆邦苑|兆邦,Siu Pong Court|屯門|hos
 兆湖苑|兆湖,Siu Wu Court|屯門|hos
 興貴苑|興貴,Hing Kwai Court|屯門|hos
-富健花園|Venice Gardens|屯門|private
-龍門居|Lung Mun Oasis|屯門|private
+富健花園|Venice Gardens|屯門|hos
+龍門居|Lung Mun Oasis|屯門|hos
 海翠花園|海翠,Pierhead Garden|屯門|private|||湖翠路168-236號
 啟豐園|Richland Garden Tuen Mun,Kai Fung Garden|屯門|private|||湖翠路138號
 豐景園|Botania Villa|屯門|private
@@ -328,13 +328,13 @@ export const EXTRA_RAW = `
 嵐岸|Sausalito|沙田|private
 海典灣|Ocean View|沙田|private|馬鞍山||保泰街1號
 雅典居|Villa Athena|沙田|private|馬鞍山||西沙路600號
-福安花園|Fok On Garden|沙田|private
-富輝花園|Fu Fai Garden|沙田|private
+福安花園|Fok On Garden|沙田|hos
+富輝花園|Fu Fai Garden|沙田|hos
 海柏花園|海栢花園,Bayshore Towers,Baycrest|沙田|private|馬鞍山||西沙路608號
 雅濤居|Villa Concerto|沙田|private
 泓碧|St. Moritz|沙田|private
 雲海|The Mediterranean MOS|沙田|private
-富寶花園|Saddle Ridge Garden|沙田|private
+富寶花園|Saddle Ridge Garden|沙田|hos
 雍明苑|雍明,Yung Ming Court|西貢|hos
 和明苑|和明,Wo Ming Court|西貢|hos
 欣明苑|欣明,Yan Ming Court|西貢|hos
@@ -612,7 +612,7 @@ NAPA掃管笏|NAPA|屯門|private
 OMA掃管笏|OMA OMA|屯門|private
 南浪海灣|South Wave Bay|屯門|private
 嘉悅半島|Peninsula East Tuen Mun|屯門|private
-翠寧花園|Tsui Ning Garden|屯門|private
+翠寧花園|Tsui Ning Garden|屯門|hos
 豪景花園|Hong King Garden|屯門|private
 盈豐園|Hanford Garden|屯門|private
 春和海景花園|Spring Seaview Terrace|屯門|private
@@ -838,7 +838,7 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 瑜一|In One,何文田瑜一,忠孝街1號瑜一,何文田站瑜一|九龍城|private|何文田||忠孝街1號
 華富中邨|Wah Fu Central Estate,華樂徑公屋,薄扶林華富中,華富邨華樂徑|南區|public|薄扶林|覆蓋需查核
 麗玥苑|麗玥,Lai Yuet Court,白田麗玥苑|深水埗|hos|白田|覆蓋需查核
-皇都|State Pavilia,北角皇都,英皇道277號皇都|東區|private|北角||英皇道277-291號
+皇都|State Pavilia,北角皇都,英皇道277號皇都|東區|private|北角|覆蓋需查核|英皇道277-291號
 攸壆路簡約公屋|攸壆路項目,Yau Pok Road LPH,元朗攸壆路簡約公屋,簡約公屋攸壆路,攸壆路18號|元朗|public|錦繡花園||攸壆路18號
 彩興路簡約公屋|彩興路項目,Choi Hing Road LPH,牛頭角彩興路簡約公屋,簡約公屋彩興路|觀塘|public|平山||彩興路23號
 彩園路簡約公屋|彩園路項目,Choi Yuen Road LPH,上水彩園路簡約公屋,簡約公屋彩園路|北區|public|上水||彩園路
@@ -915,5 +915,20 @@ Deep Water South|DEEP WATER SOUTH,港島南岸第6期,港島南岸第6A期,港�
 博愛昇平村|Pok Oi Sing Ping Village,打鼓嶺坪輋路過渡性房屋,坪輋昇平村|北區|public|打鼓嶺||坪輋路
 光廈|Light House Yau Tong,油塘光廈,東源街1號光廈|觀塘|public|油塘||東源街1號
 流浮東寓|Lau Fau Tung Yu,流浮‧東寓,流浮山過渡性房屋|元朗|public|流浮山
+華第|Cadenza,粉錦公路333號華第,上水華第,華第1期|北區|private|上水||粉錦公路333號
+尚柏|The Parkland,大旗嶺266號,元朗尚柏|元朗|private|大棠||大旗嶺266號
+連方|Bondlane,連方I,連方II,Bondlane I,Bondlane II,醫局街233號連方|深水埗|private|長沙灣||醫局街233號
+吉喆|33 Catchick Street,吉席街33號,堅尼地城吉喆|中西區|private|堅尼地城||吉席街33號
+THE BOUNDARY|The Boundary,界限街2C號,大角咀THE BOUNDARY|油尖旺|private|大角咀||界限街2C號
+名鑽|何文田名鑽|九龍城|private|何文田
+Upper Central|西半山Upper Central|中西區|private|西半山
+One Wood Road|灣仔One Wood Road,活道1號|灣仔|private|灣仔||活道1號
+Elize Park|旺角Elize Park|油尖旺|private|旺角
+恒珀|Hang Park,長沙灣恒珀,長沙灣恆珀,恆珀|深水埗|private|長沙灣
+隆敍|何文田隆敍,隆叙|九龍城|private|何文田
+北都滙|Northern Hub,古洞北都滙,古洞北北都滙|北區|private|古洞|覆蓋需查核
+33清水灣|33 Clear Water Bay,清水灣道33號,牛池灣33清水灣|黃大仙|private|牛池灣|覆蓋需查核|清水灣道33號
+Victoria Blossom|維港花,啟德Victoria Blossom,承豐道16號|九龍城|private|啟德|覆蓋需查核|承豐道16號
+映匯|紅磡映匯,黃埔街映匯|九龍城|private|紅磡|覆蓋需查核|黃埔街
 `.trim();
 
