@@ -667,15 +667,15 @@ describe("home JSON-LD", () => {
 });
 
 describe("brand search hint", () => {
-  it("keeps 寬頻報價 next to the lockup name without changing the mark", () => {
-    assert.equal(SITE.searchHint, "寬頻報價");
+  it("keeps 電訊報價 next to the lockup name without changing the mark", () => {
+    assert.equal(SITE.searchHint, "電訊報價");
     assert.match(SITE.description, /寬頻報價/);
     assert.match(SITE.description, /電訊報價/);
     const logo = readFileSync(join(ROOT, "src/components/logo.tsx"), "utf8");
     assert.match(logo, /SITE\.searchHint/);
     assert.match(logo, /aria-label=\{`\$\{SITE\.name\} \$\{SITE\.searchHint\}`\}/);
     assert.match(logo, /<LogoMark variant=\{variant\}/);
-    assert.doesNotMatch(logo, /電訊報價/);
+    assert.doesNotMatch(logo, /寬頻報價/);
   });
 });
 
