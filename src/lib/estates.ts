@@ -286,8 +286,8 @@ const RAW = `
 啟盈苑|啟盈,Kai Ying Court|九龍城|hos|啟德
 啟陽苑|啟陽,Kai Yeung Court|九龍城|hos|啟德|覆蓋需查核|沐和街8號
 天水圍嘉湖山莊|嘉湖,嘉湖山莊,Kingswood Villas|元朗|private|天水圍
-俊宏軒|俊宏軒,Central Park Towers|元朗|private|天水圍
-慧景軒|慧景軒,Central Park|元朗|private|天水圍
+俊宏軒|俊宏,Grandeur Terrace,天水圍俊宏軒,天瑞路88號俊宏軒|元朗|public|天水圍||天瑞路88號
+慧景軒|慧景,Vianni Cove,天水圍慧景軒,天葵路33號慧景軒|元朗|private|天水圍||天葵路33號
 YOHO Town|YOHO,Yoho Town,元朗YOHO|元朗|private
 YOHO Midtown|YOHO Midtown|元朗|private
 加州花園|加州花園,Palm Springs|元朗|private
@@ -367,7 +367,7 @@ YOHO Midtown|YOHO Midtown|元朗|private
 平田邨|平田,Ping Tin|觀塘|public
 油塘邨|油塘,Yau Tong Estate|觀塘|public
 油麗邨|油麗,Yau Lai|觀塘|public
-高翔苑|高翔,Ko Cheung Court|觀塘|hos
+高翔苑|高翔,Ko Cheung Court,油塘高翔苑|觀塘|public|油塘||高超道32號
 康華苑|康華,Hong Wah Court|觀塘|hos
 鯉魚門邨|鯉魚門,Lei Yue Mun Estate|觀塘|public
 鯉安苑|居屋鯉安苑,Lei On Court|觀塘|hos

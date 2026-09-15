@@ -125,10 +125,10 @@ describe("locked acceptance checks", () => {
       assert.doesNotMatch(text, /有得裝/);
     }
     const messages = readFileSync(join(ROOT, "src/lib/messages.ts"), "utf8");
-    assert.match(messages, /coverageCheck: "覆蓋需查核"/);
+    assert.match(messages, /coverageCheck: "覆蓋要查核"/);
     assert.match(messages, /僅供參考/);
     assert.match(messages, /查核報價/);
-    assert.match(messages, /noisePlaceHint: "呢類地點多半唔適合申請，請 WhatsApp 查核報價"/);
+    assert.match(messages, /noisePlaceHint: "呢類地點多半唔適合申請，請 WhatsApp 查核報價。"/);
     const suggest = readFileSync(join(ROOT, "src/components/estate-suggest.tsx"), "utf8");
     assert.match(suggest, /coverageCheck/);
     assert.match(suggest, /noisePlaceHint/);
@@ -346,8 +346,34 @@ describe("matchKnownEstate / classifyAddress", () => {
     assert.equal(estate("兆隆苑")?.housing, "hos");
     assert.equal(estate("新圍苑")?.housing, "hos");
     assert.equal(estate("景峰花園")?.housing, "hos");
-    assert.equal(estate("芊紅居")?.housing, "hos");
+    assert.equal(estate("芊紅居")?.housing, "private");
     assert.equal(estate("景新臺")?.housing, "hos");
+    assert.equal(estate("海富苑")?.housing, "public");
+    assert.equal(estate("海泰閣")?.housing, "public");
+    assert.equal(classifyAddress("海富苑").housing, "public");
+    assert.equal(estate("灝然")?.housing, "hos");
+    assert.equal(estate("朗然")?.housing, "hos");
+    assert.equal(estate("叡璟")?.housing, "private");
+    assert.equal(estate("PORTO")?.housing, "private");
+    assert.equal(estate("Deep Water South")?.housing, "private");
+    assert.equal(estate("茶果嶺村")?.housing, "village");
+    assert.equal(estate("鯉魚門村")?.housing, "village");
+    assert.equal(estate("三家村")?.housing, "village");
+    assert.equal(estate("俊宏軒")?.housing, "public");
+    assert.equal(estate("俊宏軒")?.street, "天瑞路88號");
+    assert.equal(estate("雅寧苑")?.housing, "public");
+    assert.equal(estate("高翔苑")?.housing, "public");
+    assert.equal(estate("栢慧豪園")?.housing, "private");
+    assert.equal(estate("慧景軒")?.housing, "private");
+    assert.equal(estate("峻然")?.housing, "hos");
+    assert.equal(estate("聚然")?.housing, "hos");
+    assert.equal(matchKnownEstate("Central Park Towers")?.name, "栢慧豪園");
+    assert.equal(matchKnownEstate("Grandeur Terrace")?.name, "俊宏軒");
+    assert.equal(matchKnownEstate("Vianni Cove")?.name, "慧景軒");
+    assert.equal(searchEstates("海富苑", 8)[0]?.name, "海富苑");
+    assert.equal(searchEstates("灝然", 8)[0]?.name, "灝然");
+    assert.equal(searchEstates("栢慧豪園", 8)[0]?.name, "栢慧豪園");
+    assert.equal(searchEstates("俊宏軒", 8)[0]?.name, "俊宏軒");
     assert.equal(estate("浩景臺")?.housing, "hos");
     assert.equal(estate("樂啟軒")?.housing, "hos");
     assert.equal(searchEstates("坪麗苑", 4)[0]?.housing, "hos");
@@ -554,10 +580,10 @@ describe("locked copy", () => {
       assert.doesNotMatch(text, /有得裝/);
     }
     const messages = readFileSync(join(ROOT, "src/lib/messages.ts"), "utf8");
-    assert.match(messages, /coverageCheck: "覆蓋需查核"/);
+    assert.match(messages, /coverageCheck: "覆蓋要查核"/);
     assert.match(messages, /僅供參考/);
     assert.match(messages, /查核報價/);
-    assert.match(messages, /noisePlaceHint: "呢類地點多半唔適合申請，請 WhatsApp 查核報價"/);
+    assert.match(messages, /noisePlaceHint: "呢類地點多半唔適合申請，請 WhatsApp 查核報價。"/);
   });
 });
 
@@ -947,7 +973,6 @@ describe("housing type audit 2026", () => {
       "穗禾苑",
       "錦豐苑",
       "英明苑",
-      "高翔苑",
       "景泰苑",
       "悅湖山莊",
       "盛緻苑",

@@ -261,12 +261,12 @@ describe("renderSitemapXml", () => {
     const lastmods = [...xml.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((match) => match[1]);
     const allowed = new Set<string>();
     const siteStamp = siteDataLastmod();
-    assert.equal(siteStamp, "2026-09-15");
-    assert.equal(SITE.updated, "2026-09-15");
-    assert.equal(siteDataLastmod("2026-09-15"), "2026-09-15");
+    assert.equal(siteStamp, "2026-09-16");
+    assert.equal(SITE.updated, "2026-09-16");
+    assert.equal(siteDataLastmod("2026-09-16"), "2026-09-16");
     assert.equal(siteDataLastmod("not-a-date"), undefined);
     assert.equal(siteDataLastmod("2026年9月"), "2026-09");
-    assert.equal(siteDataLastmod("2026年9月15日"), "2026-09-15");
+    assert.equal(siteDataLastmod("2026年9月16日"), "2026-09-16");
     if (siteStamp) allowed.add(siteStamp);
     for (const guide of GUIDES) {
       for (const date of [guide.modified, guide.published]) {
@@ -280,10 +280,10 @@ describe("renderSitemapXml", () => {
 
     assert.equal(sitemapLastmod("/guides/fiber"), "2026-09-10");
     assert.equal(sitemapLastmod("/guides/port-in"), "2026-09-06");
-    assert.equal(sitemapLastmod("/"), "2026-09-15");
+    assert.equal(sitemapLastmod("/"), "2026-09-16");
     assert.match(xml, /\/guides\/fiber<\/loc><lastmod>2026-09-10<\/lastmod>/);
     assert.match(xml, /\/guides\/port-in<\/loc><lastmod>2026-09-06<\/lastmod>/);
-    assert.match(xml, /www\.chaiquote\.hk\/<\/loc><lastmod>2026-09-15<\/lastmod>/);
+    assert.match(xml, /www\.chaiquote\.hk\/<\/loc><lastmod>2026-09-16<\/lastmod>/);
 
     const src = readFileSync(join(ROOT, "src/lib/seo.ts"), "utf8");
     assert.doesNotMatch(src, /Date\.now/);

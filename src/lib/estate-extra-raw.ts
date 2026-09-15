@@ -86,7 +86,13 @@ export const EXTRA_RAW = `
 深水灣道|Deep Water Bay Road|南區|private
 赤柱廣場|Stanley Plaza Residences|南區|private
 駿發花園|駿發,Prosperous Garden,油麻地駿發花園|油尖旺|hos|油麻地
-海富苑|海富,Hoi Fu Court|油尖旺|hos
+海富苑|海富,Hoi Fu Court,大角咀海富苑|油尖旺|public|大角咀||海庭道2號
+海嵐閣|Hoi Lan House,海富苑海嵐閣|油尖旺|public|大角咀||海庭道2號
+海泰閣|Hoi Tai House,海富苑海泰閣|油尖旺|public|大角咀||海庭道2號
+海裕閣|Hoi Yu House,海富苑海裕閣|油尖旺|public|大角咀||海庭道2號
+海韻閣|Hoi Wan House,海富苑海韻閣|油尖旺|public|大角咀||海庭道2號
+海欣閣|Hoi Yan House,海富苑海欣閣|油尖旺|public|大角咀||海庭道2號
+海寧閣|Hoi Ning House,海富苑海寧閣|油尖旺|public|大角咀||海庭道2號
 富榮花園|富榮,Charming Garden|油尖旺|hos
 柏景灣|Park Avenue|油尖旺|private
 帝柏海灣|Imperial Cullinan Bay,海庭道18號帝柏海灣|油尖旺|private|||海庭道18號
@@ -362,7 +368,7 @@ export const EXTRA_RAW = `
 長貴邨|長貴,Cheung Kwai Estate|離島|public
 銀灣邨|銀灣,Ngan Wan Estate|離島|public
 金坪邨|金坪,Kam Peng Estate|離島|public
-雅寧苑|雅寧,Nga Ning Court|離島|hos
+雅寧苑|雅寧,Nga Ning Court,長洲雅寧苑|離島|public|長洲||長洲山頂道西
 東環|Century Link|離島|private|東涌
 昇薈|The Visionary|離島|private|東涌
 裕泰苑|Yu Tai Court|離島|hos
@@ -424,7 +430,7 @@ export const EXTRA_RAW = `
 大嶼山長沙|Cheung Sha Lantau|離島|village
 大嶼山塘福|Tong Fuk|離島|village
 大嶼山梅窩銀灣|Ngan Wan Mui Wo|離島|private
-大澳龍田邨|龍田邨,Lung Tin Estate|離島|public
+大澳龍田邨|龍田邨,Lung Tin Estate,大澳龍田|離島|public|大澳||大澳道80號
 天水圍嘉湖翠湖居|Chestwood Court|元朗|private
 天水圍嘉湖樂湖居|Locwood Court|元朗|private
 天水圍嘉湖賞湖居|Sherwood Court|元朗|private
@@ -507,7 +513,6 @@ export const EXTRA_RAW = `
 漁映樓|漁映,Yue Ying Lau,Yu Ying House,田灣漁映樓,石排灣道33號|南區|public|田灣||石排灣道33號
 康達閣|Hong Tat Court Block|東區|public
 康智閣|Hong Chi Court Block|東區|public
-海嵐閣|Hoi Nam Court|油尖旺|public
 愛蝶灣|愛蝶,Aldrich Garden|東區|hos
 富欣花園|Cheerful Garden|東區|hos
 宏德居|宏德,Walton Estate,Wang Tak Residence|東區|hos
@@ -535,7 +540,7 @@ export const EXTRA_RAW = `
 彩禾苑|Choi Wo Court|沙田|hos
 錦駿苑|Kam Chun Court|沙田|hos
 錦柏苑|錦柏,Kam Pak Court|沙田|hos|馬鞍山
-雲疊花園|雲疊,雲叠花園,Carado Garden|沙田|hos
+雲疊花園|雲疊,雲叠花園,Carado Garden,大圍雲疊花園|沙田|hos|大圍||田心街20-30號
 富嘉花園|Grandway Garden|沙田|hos
 海福花園|Holford Gardens|沙田|hos
 綠怡雅苑|綠怡,Greenhill Villa,Greenya Court|沙田|hos
@@ -825,8 +830,8 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 兆隆苑|兆隆,Siu Lung Court|屯門|hos
 新圍苑|新圍苑,San Wai Court|屯門|hos
 景峰花園|景峰,Prime View Garden|屯門|hos
-芊紅居|Hibiscus Park,葵芳芊紅居|葵青|hos
-景新臺|Kingston Terrace,屯門景新臺|屯門|hos
+芊紅居|Hibiscus Park,葵芳芊紅居,興盛路91號芊紅居|葵青|private|葵芳||興盛路91號
+景新臺|Kingston Terrace,屯門景新臺,景新徑2號景新臺|屯門|hos|屯門新墟||景新徑2號
 樂啟軒|Delight Terrace,啟德樂啟軒,沐縉街樂啟軒,樂啟都匯樂啟軒|九龍城|hos|啟德|覆蓋需查核|沐縉街2號
 樂啟樓|Delight Tower,啟德樂啟樓,樂啟都匯樂啟樓|九龍城|public|啟德|覆蓋需查核
 樂真樓|Lok Chun Lau,啟德樂真樓,樂啟都匯樂真樓,樂真樓第一座,樂真樓第二座|九龍城|public|啟德|覆蓋需查核
@@ -889,5 +894,13 @@ Mount Pokfulam|薄扶林Mount Pokfulam,薄扶林新盤Mount Pokfulam|南區|priv
 皇璇|STATE RESIDENCE,北角皇璇,熙和街1號皇璇|東區|private|北角|覆蓋需查核|熙和街1號
 滿．意|ONE TOSCANA,滿‧意,愉景灣滿．意,意濤,Toscana Discovery Bay,滿．意2期,ONE TOSCANA 2|離島|private|愉景灣
 太子道西233號|233 Prince Edward Road West,何文田太子道西233號|九龍城|private|何文田||太子道西233號
+灝然|Hao Yin,The Hemera Anderson,安達臣灝然,安達臣道灝然,房協灝然,觀塘灝然|觀塘|hos|安達臣|覆蓋需查核|安達臣道
+朗然|Hemma Amber,安達臣朗然,安禧街18號朗然,房協朗然,觀塘朗然|觀塘|hos|安達臣||安禧街18號
+叡璟|THE STERLING,叡璟I,叡璟II,叡璟1期,叡璟2期,The Sterling I,The Sterling II,長沙灣叡璟,發祥街西8號叡璟|深水埗|private|長沙灣|覆蓋需查核|發祥街西8號
+PORTO|Porto,鴨脷洲PORTO,平瀾街9號PORTO,平瀾街PORTO,Ap Lei Chau PORTO|南區|private|鴨脷洲||平瀾街9號
+Deep Water South|DEEP WATER SOUTH,港島南岸第6期,港島南岸第6A期,港島南岸第6B期,Mont Blue,Grande Blanc,MONT BLUE,GRANDE BLANC,黃竹坑Deep Water South|南區|private|黃竹坑||香葉道11號
+栢慧豪園|栢慧,柏慧豪園,Central Park Towers,栢慧豪廷,Central Park,天水圍栢慧豪園,天恩路2號栢慧豪園|元朗|private|天水圍||天恩路2號
+峻然|Hemma Emerald,安達臣峻然,安達臣道峻然,房協峻然,觀塘峻然|觀塘|hos|安達臣|覆蓋需查核|安禧街
+聚然|Hemma Fab,粉嶺聚然,馬會道聚然,馬會道288號聚然,房協聚然|北區|hos|粉嶺|覆蓋需查核|馬會道288號
 `.trim();
 

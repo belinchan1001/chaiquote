@@ -603,6 +603,21 @@ export const VILLAGE_RAW = `
 沙頭角墟|Sha Tau Kok Market,沙頭角市,沙頭角墟市|北區|village|沙頭角
 梧桐河村|Ng Tung River Village,梧桐河,梧桐河上水|北區|village|上水
 長洲高山村|Ko Shan Tsuen Cheung Chau,長洲高山,高山村長洲|離島|village|長洲
+茶果嶺村|Cha Kwo Ling Village,茶果嶺,觀塘茶果嶺村|觀塘|village|茶果嶺
+鯉魚門村|Lei Yue Mun Village,鯉魚門舊村,油塘鯉魚門村|觀塘|village|鯉魚門
+三家村|Sam Ka Tsuen,油塘三家村,鯉魚門三家村|觀塘|village|油塘
+西貢井頭|Hang Tau Sai Kung,西貢井頭村,井頭西貢|西貢|village|西貢
+泰衡圍|Tai Hang Wai,錦田泰衡圍|元朗|village|錦田
+沙螺洞|Sha Lo Tung,大埔沙螺洞|大埔|village|大埔
+新娘潭|Bride's Pool,大埔新娘潭|大埔|village|大埔
+貝澳舊村|Pui O Old Village,大嶼山貝澳舊村|離島|village|貝澳
+長沙上村|Cheung Sha Upper Village,南大嶼長沙上村,大嶼山長沙上村|離島|village|長沙
+長沙下村|Cheung Sha Lower Village,南大嶼長沙下村,大嶼山長沙下村|離島|village|長沙
+銀礦灣|Silvermine Bay,梅窩銀礦灣,大嶼山銀礦灣|離島|village|梅窩
+羌山|Keung Shan,大嶼山羌山,大澳羌山|離島|village|大澳
+昂坪村|Ngong Ping Village,大嶼山昂坪村,昂坪|離島|village|昂坪
+蓮陽|Lin Yeung,沙頭角蓮陽|北區|village|沙頭角
+鹽寮下|Yim Liu Ha,沙頭角鹽寮下|北區|village|沙頭角
 `.trim();
 
 
