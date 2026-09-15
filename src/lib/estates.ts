@@ -518,15 +518,25 @@ export function isRelatedBlock(child: Estate, parent: Estate): boolean {
 }
 
 const RELATED_BLOCKS = new Map<string, Estate[]>();
+const PARENT_OF_BLOCK = new Map<string, Estate>();
 for (const parent of ESTATES) {
   if (!isCatalogueParent(parent)) continue;
   const children = ESTATES.filter((child) => isRelatedBlock(child, parent));
   if (children.length) RELATED_BLOCKS.set(parent.name, children);
+  for (const child of children) {
+    if (!PARENT_OF_BLOCK.has(child.name)) PARENT_OF_BLOCK.set(child.name, parent);
+  }
 }
 
 export function relatedBlocks(parent: Estate | string): Estate[] {
   const name = typeof parent === "string" ? parent : parent.name;
   return RELATED_BLOCKS.get(name) ?? [];
+}
+
+/** Parent 邨／苑 for a 樓／閣 row. Undefined when the row is itself a catalogue parent. */
+export function parentEstate(child: Estate | string): Estate | undefined {
+  const name = typeof child === "string" ? child : child.name;
+  return PARENT_OF_BLOCK.get(name);
 }
 
 const ALL_ESTATE_NEEDLES = [...new Set(ESTATES.flatMap(estateNeedles))].sort(

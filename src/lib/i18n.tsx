@@ -66,7 +66,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    document.documentElement.lang = locale === "en" ? "en" : "zh-Hant";
+    document.documentElement.lang = locale === "en" ? "en" : "zh-HK";
   }, [locale]);
 
   useEffect(() => {

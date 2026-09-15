@@ -4,9 +4,10 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { SITE, FAQ } from "./site.ts";
-import { filterPlans, getPlan, PLANS } from "./plans.ts";
+import { filterPlans, getPlan, isListedPlan, PLANS } from "./plans.ts";
 import { GUIDES, getGuide } from "./guides.ts";
 import { ESTATE_PAGES, INDEXABLE_ESTATE_PAGES, estatePlans, isIndexableEstatePage } from "./estate-pages.ts";
+import { parentEstate } from "./estates.ts";
 import {
   ABOUT_SEO,
   canonicalRedirectLocation,
@@ -160,6 +161,8 @@ describe("renderSitemapXml", () => {
     assert.doesNotMatch(xml, /housing=/);
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/plans?cat=broadband"));
     assert.ok(SITEMAP_PAGES.every((page) => page.path !== "/plans"));
+    assert.ok(SITEMAP_PAGES.every((page) => page.path !== "/quote"));
+    assert.ok(STATIC_SITEMAP_PAGES.every((page) => page.path !== "/quote"));
     for (const plan of PLANS.filter((item) => !item.onlyEstates?.length && !item.staffOffer)) {
       assert.ok(
         SITEMAP_PAGES.some((page) => page.path === `/plans/${plan.id}`),
@@ -190,7 +193,7 @@ describe("renderSitemapXml", () => {
     assert.ok(SITEMAP_PAGES.length < SITEMAP_URL_LIMIT, `${SITEMAP_PAGES.length} URLs need a sitemap index`);
     assert.equal(locs.length, SITEMAP_PAGES.length);
     assert.equal(estateLocs.length, INDEXABLE_ESTATE_PAGES.length);
-    assert.equal(INDEXABLE_ESTATE_PAGES.length, 84);
+    assert.equal(INDEXABLE_ESTATE_PAGES.length, 70);
     assert.ok(ESTATE_PAGES.length > INDEXABLE_ESTATE_PAGES.length);
 
     for (const page of STATIC_SITEMAP_PAGES) {
@@ -229,6 +232,14 @@ describe("renderSitemapXml", () => {
       assert.equal(listed.broadband.length, genericB.length, slug);
       assert.equal(listed.home5g.length, genericH.length, slug);
     }
+
+    const block = ESTATE_PAGES.find((item) => item.slug === "long-chung-house");
+    assert.ok(block);
+    assert.equal(isIndexableEstatePage(block), false);
+    assert.equal(parentEstate(block.estate)?.name, "朗天苑");
+    assert.equal(locs.includes("https://www.chaiquote.hk/estates/long-chung-house"), false);
+    assert.ok(INDEXABLE_ESTATE_PAGES.some((item) => item.estate.name === "朗天苑"));
+    assert.ok(INDEXABLE_ESTATE_PAGES.every((item) => !parentEstate(item.estate)));
 
     for (const word of CLAIM_WORDS) {
       assert.equal(xml.includes(word), false, word);
@@ -281,6 +292,7 @@ describe("renderRobotsTxt", () => {
     assert.match(robots, /Disallow: \/offers\//);
     assert.match(robots, /Disallow: \/__grok\//);
     assert.match(robots, /Disallow: \/api\//);
+    assert.doesNotMatch(robots, /Disallow: \/quote/);
     assert.match(robots, /Sitemap: https:\/\/www\.chaiquote\.hk\/sitemap\.xml/);
     assert.doesNotMatch(robots, /vercel\.app/);
   });
@@ -346,6 +358,9 @@ describe("404 document head", () => {
     assert.match(root, /documentFallbackTitle\(matches\)/);
     assert.match(root, /documentRobots\(matches\)/);
     assert.match(root, /notFoundDoc \? NOT_FOUND_SEO\.description/);
+    assert.match(root, /notFoundDoc \? \[\] : \[\{ property: "og:url"/);
+    assert.match(root, /notFoundDoc \? \[\] : \[\{ rel: "canonical"/);
+    assert.match(root, /lang="zh-HK"/);
     assert.match(root, /notFoundComponent: NotFound/);
     assert.doesNotMatch(root, /name:\s*"robots",\s*content:\s*"index,follow"/);
     assert.doesNotMatch(root, /name:\s*"robots",\s*content:\s*"noindex/);
@@ -359,8 +374,12 @@ describe("404 document head", () => {
     assert.match(estate, /if \(!loaderData\) return notFoundHead\(\)/);
     assert.match(estate, /isIndexableEstatePage/);
     assert.match(estate, /noindex,follow/);
+    assert.match(estate, /parentEstate/);
+    assert.match(estate, /getEstatePageByName/);
     assert.match(estate, /estateJsonLd/);
     assert.match(readFileSync(join(ROOT, "src/routes/compare.tsx"), "utf8"), /noindex,follow/);
+    assert.match(readFileSync(join(ROOT, "src/routes/quote.tsx"), "utf8"), /noindex,follow/);
+    assert.match(readFileSync(join(ROOT, "src/routes/brand.tsx"), "utf8"), /noindex,follow/);
     assert.match(readFileSync(join(ROOT, "src/routes/index.tsx"), "utf8"), /shareHead\(HOME_SEO/);
     assert.match(readFileSync(join(ROOT, "src/routes/index.tsx"), "utf8"), /homeJsonLd\(\)/);
     assert.doesNotMatch(readFileSync(join(ROOT, "src/routes/index.tsx"), "utf8"), /from "@\/lib\/seo"/);
@@ -373,23 +392,27 @@ describe("locked page share titles and descriptions", () => {
     "/": {
       title: "齊Quote｜香港寬頻同手機月費比較",
       description:
-        "一次過比較香港光纖、5G 家居、商業寬頻同手機計劃。所列月費僅供參考，實際以電訊商確認為準。",
+        "一次過比較香港光纖、5G 家居、商業寬頻同手機計劃，可按公屋、居屋、私樓或村屋篩選。所列月費僅供參考，實際價格、覆蓋同安裝以電訊商確認為準。",
     },
     "/plans?cat=broadband": {
       title: "齊Quote｜光纖寬頻比較",
-      description: "比較香港家居光纖參考月費同優惠。實際價格、覆蓋同安裝以電訊商確認為準。",
+      description:
+        "比較香港光纖寬頻參考月費，涵蓋公屋、居屋、私樓同村屋光纖計劃，並可按地區同樓類篩選。所列月費僅供參考，實際價格、覆蓋同安裝以電訊商確認為準。",
     },
     "/plans?cat=home5g": {
       title: "齊Quote｜5G 家居寬頻比較",
-      description: "比較香港 5G 家居寬頻參考月費。所列月費僅供參考，實際以電訊商確認為準。",
+      description:
+        "比較香港 5G 家居寬頻參考月費，適合未有光纖或想免拉線嘅地址，可按樓類同地區篩選。所列月費僅供參考，實際速度、覆蓋同安裝以電訊商確認為準。",
     },
     "/plans?cat=mobile": {
       title: "齊Quote｜手機月費比較",
-      description: "比較香港手機月費參考計劃。所列月費僅供參考，實際以電訊商確認為準。",
+      description:
+        "比較香港 5G／4.5G 手機月費同攜號轉台優惠，列出數據、合約期同通話分鐘。所列月費僅供參考，實際月費、數據用量同轉台條款以電訊商確認為準。",
     },
     "/plans?cat=business": {
       title: "齊Quote｜商業寬頻比較",
-      description: "比較香港商業寬頻參考月費。實際價格同條款以電訊商確認為準。",
+      description:
+        "比較香港商業寬頻參考月費，適合店舖、寫字樓同工作室，列出速度同合約期。所列月費僅供參考，實際價格、覆蓋、固定 IP 同安裝以電訊商確認為準。",
     },
     "/about": {
       title: "齊Quote｜關於我們",
@@ -401,7 +424,8 @@ describe("locked page share titles and descriptions", () => {
     },
     "/guides": {
       title: "齊Quote｜寬頻同手機攻略",
-      description: "點揀光纖、5G 家居、手機同商業寬頻。內容僅供參考，實際以電訊商確認為準。",
+      description:
+        "齊Quote 寬頻同手機攻略：點揀光纖、5G 家居、手機同商業寬頻，以及轉台、月費同覆蓋注意事項。內容僅供參考，實際條款同安裝以電訊商確認為準。",
     },
   } as const;
 
@@ -435,6 +459,9 @@ describe("locked page share titles and descriptions", () => {
         assert.equal(page.title.includes(word), false, `${page.path} title has ${word}`);
         assert.equal(page.description.includes(word), false, `${page.path} description has ${word}`);
       }
+      if (page.path === "/about" || page.path === "/privacy") continue;
+      assert.ok(page.description.length >= 70, `${page.path} ${page.description.length}`);
+      assert.ok(page.description.length <= 155, `${page.path} ${page.description.length}`);
     }
   });
 
@@ -489,9 +516,30 @@ describe("plan SEO copy", () => {
     assert.equal(planJsonLd(sample)["@type"], "Product");
     assert.equal(planJsonLd(sample).offers.price, 98);
     assert.equal(planJsonLd(sample).offers.priceCurrency, "HKD");
-    assert.equal(planJsonLd(sample).offers.priceValidUntil, "2026-09-30");
+    assert.equal("priceValidUntil" in planJsonLd(sample).offers, false);
+    assert.equal("availability" in planJsonLd(sample).offers, false);
     assert.equal(planJsonLd(sample).offers.url, canonicalUrl(`/plans/${sample.id}`));
     assert.equal(planJsonLd(sample).image, `${SITE.url}/images/providers/hkbn.png`);
+  });
+
+  it("adds 合約期 when the plan name omits 個月 so twin Netvigator titles stay unique", () => {
+    const twins = [
+      ["netvigator-ftth-1000-private-36m-198", "netvigator-ftth-1000-specified-24m-198"],
+      ["netvigator-ftth-1000-private-24m", "netvigator-ftth-1000-exclusive-36m-186"],
+      ["netvigator-ftth-2500-private-24m", "netvigator-ftth-2500-exclusive-36m-244"],
+    ] as const;
+    for (const [a, b] of twins) {
+      const pa = getPlan(a);
+      const pb = getPlan(b);
+      assert.ok(pa && pb, `${a} ${b}`);
+      assert.equal(pa.name, pb.name);
+      assert.notEqual(pa.contractMonths, pb.contractMonths);
+      assert.notEqual(planSeoTitle(pa), planSeoTitle(pb));
+      assert.match(planSeoTitle(pa), new RegExp(`${pa.contractMonths}個月`));
+      assert.match(planSeoTitle(pb), new RegExp(`${pb.contractMonths}個月`));
+    }
+    const titles = PLANS.filter(isListedPlan).map(planSeoTitle);
+    assert.equal(new Set(titles).size, titles.length);
   });
 });
 
@@ -509,7 +557,8 @@ describe("plan JSON-LD product image", () => {
       assert.equal(image, planJsonLdImage(plan));
       assert.equal(ld.offers.price, plan.monthlyFee);
       assert.equal(ld.offers.priceCurrency, "HKD");
-      assert.equal(ld.offers.priceValidUntil, "2026-09-30");
+      assert.equal("priceValidUntil" in ld.offers, false);
+      assert.equal("availability" in ld.offers, false);
       assert.equal(ld.offers.url, canonicalUrl(`/plans/${plan.id}`));
 
       const json = JSON.stringify(ld);
@@ -633,8 +682,11 @@ describe("estate JSON-LD and robots", () => {
     const src = readFileSync(join(ROOT, "src/routes/estates_.$slug.tsx"), "utf8");
     assert.match(src, /isIndexableEstatePage\(page\)/);
     assert.match(src, /noindex,follow/);
+    assert.match(src, /parentEstate/);
+    assert.match(src, /getEstatePageByName/);
     assert.match(src, /estateJsonLd\(page\)/);
     assert.equal(siteOfferValidUntil(), "2026-09-30");
     assert.equal(siteOfferValidUntil("not-a-date"), undefined);
+    assert.match(readFileSync(join(ROOT, "src/lib/i18n.tsx"), "utf8"), /zh-HK/);
   });
 });

@@ -1,5 +1,5 @@
-import { ESTATES, relatedBlocks, type Estate } from "./estates.ts";
-import { isNetvigatorOnlyEstate, NETVIGATOR_ONLY_ESTATES } from "./estate-new-intake.ts";
+import { ESTATES, type Estate } from "./estates.ts";
+import { NETVIGATOR_ONLY_ESTATES } from "./estate-new-intake.ts";
 import { filterPlans, matchesHousing, PLANS, type Housing, type Plan } from "./plans.ts";
 import { DISTRICTS } from "./site.ts";
 
@@ -330,9 +330,10 @@ export function estatePlans(estate: Estate): { broadband: Plan[]; home5g: Plan[]
 
 /**
  * Estates whose listed broadband / home5g cards differ from the generic 樓類
- * catalogue: exclusive `onlyEstates` offers (plus related 座／樓／閣) or a
- * provider lock such as 上然. Built from those lists so sitemap generation
- * does not call `estatePlans` once per catalogue row.
+ * catalogue: exclusive `onlyEstates` offers, or a provider lock such as 上然.
+ * Related 座／樓／閣 stay on the site but are omitted from the sitemap unless
+ * they themselves appear in `onlyEstates`. Built from those lists so sitemap
+ * generation does not call `estatePlans` once per catalogue row.
  */
 function indexableEstateNames(): Set<string> {
   const names = new Set<string>();
@@ -340,21 +341,14 @@ function indexableEstateNames(): Set<string> {
     if (plan.staffOffer) continue;
     if (plan.category !== "broadband" && plan.category !== "home5g") continue;
     if (!plan.onlyEstates?.length) continue;
-    const unlocked = new Set<string>(plan.onlyEstates);
     for (const name of plan.onlyEstates) {
-      for (const child of relatedBlocks(name)) unlocked.add(child.name);
-    }
-    for (const name of unlocked) {
       const estate = ESTATES.find((item) => item.name === name);
       if (estate && !matchesHousing(plan, estate.housing)) continue;
       names.add(name);
     }
   }
   for (const seed of NETVIGATOR_ONLY_ESTATES) {
-    for (const estate of ESTATES) {
-      if (estate.name !== seed && !estate.name.startsWith(seed)) continue;
-      if (isNetvigatorOnlyEstate(estate.name)) names.add(estate.name);
-    }
+    if (ESTATES.some((item) => item.name === seed)) names.add(seed);
   }
   return names;
 }

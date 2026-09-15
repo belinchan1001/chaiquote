@@ -11,12 +11,14 @@ import {
   estateSeoDescription,
   estateSeoTitle,
   getEstatePage,
+  getEstatePageByName,
   isIndexableEstatePage,
   nearbyEstatePages,
   relatedGuideSlug,
 } from "@/lib/estate-pages";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { canonicalUrl, notFoundHead } from "@/lib/canonical";
+import { parentEstate } from "@/lib/estates";
 import { estateJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 import { isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
@@ -36,16 +38,19 @@ export const Route = createFileRoute("/estates_/$slug")({
     const description = estateSeoDescription(estate);
     const url = canonicalUrl(estatePagePath(page));
     const indexable = isIndexableEstatePage(page);
+    const parent = !indexable ? parentEstate(estate) : undefined;
+    const parentPage = parent ? getEstatePageByName(parent.name) : undefined;
+    const canonicalHref = parentPage ? canonicalUrl(estatePagePath(parentPage)) : url;
     return {
       meta: [
         { title },
         { name: "description", content: description },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
-        { property: "og:url", content: url },
+        { property: "og:url", content: canonicalHref },
         ...(indexable ? [] : [{ name: "robots", content: "noindex,follow" }]),
       ],
-      links: [{ rel: "canonical", href: url }],
+      links: [{ rel: "canonical", href: canonicalHref }],
     };
   },
 });

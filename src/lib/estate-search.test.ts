@@ -15,6 +15,7 @@ import {
   isRelatedBlock,
   shouldDropAsNoise,
   matchKnownEstate,
+  parentEstate,
   relatedBlocks,
   searchEstates,
 } from "./estates.ts";
@@ -445,6 +446,11 @@ describe("related blocks in suggest (anti-cross)", () => {
     assert.equal(isRelatedBlock(estate("康東樓")!, estate("東頭邨")!), true);
     assert.equal(isRelatedBlock(estate("興東樓")!, estate("興東邨")!), false);
     assert.equal(isRelatedBlock(estate("逸東樓")!, estate("東涌逸東邨")!), false);
+
+    assert.equal(parentEstate("康東樓")?.name, "東頭邨");
+    assert.equal(parentEstate("彩楊閣")?.name, "彩明苑");
+    assert.equal(parentEstate("東頭邨"), undefined);
+    assert.equal(parentEstate("東頭村"), undefined);
   });
 
   it("1) search 東頭邨 → parent first, then its 樓 children", () => {

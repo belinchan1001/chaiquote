@@ -5,7 +5,6 @@
   <url><loc>https://www.chaiquote.hk/plans?cat=home5g</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.chaiquote.hk/plans?cat=mobile</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.chaiquote.hk/plans?cat=business</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.chaiquote.hk/quote</loc><lastmod>2026-09-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/guides</loc><lastmod>2026-09-15</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.chaiquote.hk/estates</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.chaiquote.hk/about</loc><lastmod>2026-09-15</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
@@ -38,13 +37,7 @@
   <url><loc>https://www.chaiquote.hk/estates/siu-chui-court</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/wang-fu-court</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/long-tin-court</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/long-chung-house</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/long-tao-house</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/long-heng-house</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/wang-chi-court</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/fu-chi-house</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/hei-chi-house</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/sung-chi-house</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/shing-chi-court</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/kai-yuet-court</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/kai-yan-court</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
@@ -64,8 +57,6 @@
   <url><loc>https://www.chaiquote.hk/estates/kai-chuen-court</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/hiu-yan-estate</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/ko-wang-court</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/ko-lai-house</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/ko-yin-house</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/tivoli-garden</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/moon-tin-estate</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/hung-fuk-estate</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
@@ -95,12 +86,6 @@
   <url><loc>https://www.chaiquote.hk/estates/olympic-avenue-lph</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/sheung-on-street-lph</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/le-mont</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/le-mont-tower-1</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/le-mont-tower-2</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/le-mont-tower-3</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/le-mont-tower-5</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/le-mont-tower-6</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/le-mont-tower-7</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/po-ting-home</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/yin-ting-home</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates/yan-oi-house</loc><lastmod>2026-09-15</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>

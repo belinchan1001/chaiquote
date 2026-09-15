@@ -40,7 +40,12 @@ export const Route = createFileRoute("/quote")({
     plan: typeof search.plan === "string" ? search.plan : undefined,
   }),
   component: QuotePage,
-  head: () => ({ meta: [{ title: `留低電話 · ${SITE.name}` }] }),
+  head: () => ({
+    meta: [
+      { title: `留低電話 · ${SITE.name}` },
+      { name: "robots", content: "noindex,follow" },
+    ],
+  }),
 });
 
 function QuotePage() {

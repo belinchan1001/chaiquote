@@ -9,7 +9,10 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/brand")({
   component: BrandGuide,
   head: () => ({
-    meta: [{ title: `品牌指引 · ${SITE.name}` }],
+    meta: [
+      { title: `品牌指引 · ${SITE.name}` },
+      { name: "robots", content: "noindex,follow" },
+    ],
   }),
 });
 

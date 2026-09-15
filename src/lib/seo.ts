@@ -127,7 +127,6 @@ export const STATIC_SITEMAP_PAGES: readonly SitemapPage[] = [
   { path: "/plans?cat=home5g", changefreq: "weekly", priority: "0.8" },
   { path: "/plans?cat=mobile", changefreq: "weekly", priority: "0.8" },
   { path: "/plans?cat=business", changefreq: "weekly", priority: "0.7" },
-  { path: "/quote", changefreq: "monthly", priority: "0.6" },
   { path: "/guides", changefreq: "monthly", priority: "0.7" },
   { path: "/estates", changefreq: "weekly", priority: "0.8" },
   { path: "/about", changefreq: "monthly", priority: "0.5" },
@@ -194,7 +193,8 @@ export function planSeoTitle(plan: Plan): string {
   const provider = PROVIDER_MAP[plan.providerId].name;
   const speed = planSpeedLabel(plan);
   const mid = speed ? `${provider} ${speed}` : provider;
-  return `${plan.name}｜${mid}｜月費 ${formatFee(plan.monthlyFee)}｜齊Quote`;
+  const term = /個月/.test(plan.name) ? "" : `｜${plan.contractMonths}個月`;
+  return `${plan.name}｜${mid}${term}｜月費 ${formatFee(plan.monthlyFee)}｜齊Quote`;
 }
 
 export function planSeoDescription(plan: Plan): string {
@@ -238,8 +238,6 @@ export function planJsonLd(plan: Plan) {
       "@type": "Offer",
       price: plan.monthlyFee,
       priceCurrency: "HKD",
-      priceValidUntil: siteOfferValidUntil(),
-      availability: "https://schema.org/InStock",
       url: canonicalUrl(`/plans/${plan.id}`),
     },
     additionalProperty: [

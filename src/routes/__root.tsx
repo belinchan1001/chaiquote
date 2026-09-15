@@ -38,10 +38,10 @@ export const Route = createRootRoute({
         { name: "mobile-web-app-capable", content: "yes" },
         { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
         { name: "robots", content: documentRobots(matches) },
-        { property: "og:url", content: pageUrl },
+        ...(notFoundDoc ? [] : [{ property: "og:url", content: pageUrl }]),
       ],
       links: [
-        { rel: "canonical", href: pageUrl },
+        ...(notFoundDoc ? [] : [{ rel: "canonical", href: pageUrl }]),
         { rel: "icon", href: "/favicon.ico", sizes: "48x48" },
         { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
         { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32.png" },
@@ -97,7 +97,7 @@ function PageShell() {
 
 function RootLayout() {
   return (
-    <html lang="zh-Hant" className="antialiased" suppressHydrationWarning>
+    <html lang="zh-HK" className="antialiased" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
