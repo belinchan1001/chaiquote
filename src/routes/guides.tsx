@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
 import { GUIDE_CATEGORY_META } from "@/lib/guide-articles";
-import { GUIDES, getGuide, guideCopy } from "@/lib/guides";
+import { GUIDES, getGuide, guideCopy, guideManuscriptDates, type Guide } from "@/lib/guides";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { GUIDES_SEO, canonicalUrl, shareHead } from "@/lib/canonical";
 
@@ -10,6 +10,22 @@ export const Route = createFileRoute("/guides")({
   component: GuidesPage,
   head: () => shareHead(GUIDES_SEO, canonicalUrl("/guides")),
 });
+
+
+function GuideCardDate({ guide }: { guide: Guide }) {
+  const { t } = useI18n();
+  const { published, modified } = guideManuscriptDates(guide);
+  const date = published
+    ? modified
+      ? t("manuscriptUpdated", { published, modified })
+      : t("manuscriptDate", { date: published })
+    : null;
+  return (
+    <p className="mt-3 text-xs text-subtle">
+      {date ? `${date} · ${t("minutesRead", { n: guide.minutes })}` : t("minutesRead", { n: guide.minutes })}
+    </p>
+  );
+}
 
 function GuidesPage() {
   const { t, locale } = useI18n();
@@ -110,7 +126,7 @@ function GuidesPage() {
                       >
                         <p className="font-semibold">{copy.title}</p>
                         <p className="mt-1 flex-1 text-sm leading-relaxed text-muted">{copy.excerpt}</p>
-                        <p className="mt-3 text-xs text-subtle">{t("minutesRead", { n: guide.minutes })}</p>
+                        <GuideCardDate guide={guide} />
                         <p className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-accent">
                           {t("seeDetail")}
                           <ArrowRight className="size-4" />

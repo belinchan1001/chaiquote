@@ -62,7 +62,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "公屋、居屋、私樓、村屋點分",
         paragraphs: [
-          "公屋同埋居屋多數有指定批量價，選擇相對集中，記住用對應樓類去篩，唔好用私樓價去估公屋。想知分別可睇 [公屋同居屋有咩分別](/guides/public-vs-hos)。站內列出嘅 1000M 例子見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)。公屋例子：[天耀邨](/estates/tin-yiu)。",
+          "公屋同居屋多數有指定批量價，選擇相對集中，記住用對應樓類去篩，唔好用私樓價去估公屋。想知分別可睇 [公屋同居屋有咩分別](/guides/public-vs-hos)。站內列出嘅 1000M 例子見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)。公屋例子：[天耀邨](/estates/tin-yiu)。",
           "私樓選擇通常多啲，合約期、路由器、家居電話組合都較密，例如 [太古城](/estates/taikoo-shing)。站內列出嘅 1000M 例子見 [私樓 1000M 參考月費](/guides/private-1000-fees)。村屋係另一批計劃，月費同安裝環境都可以同屋邨差好遠，詳情見 [村屋寬頻點算](/guides/village)。村屋光纖月費例子見 [村屋光纖月費](/guides/village-fees)。",
         ],
         table: {
@@ -206,8 +206,8 @@ export const GUIDE_ARTICLES: Guide[] = [
     ],
     faq: [
       {
-        q: "公屋同居屋光纖月費會唔會不同？",
-        a: "會。公屋同埋居屋多數有指定批量價，選擇相對集中，唔好用私樓價去估公屋。每個屋邨／屋苑合約都可能唔同，篩選時分開揀，申請時填齊屋苑名稱。詳見 [公屋同居屋有咩分別](/guides/public-vs-hos)。",
+        q: "公屋同居屋光纖月費會唔會唔同？",
+        a: "會。公屋同居屋多數有指定批量價，選擇相對集中，唔好用私樓價去估公屋。每個屋邨／屋苑合約都可能唔同，篩選時分開揀，申請時填齊屋苑名稱。詳見 [公屋同居屋有咩分別](/guides/public-vs-hos)。",
       },
       {
         q: "一般家庭 1000M 光纖夠唔夠？",
@@ -319,7 +319,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "數據上限同速度",
         paragraphs: [
           "部分計劃有高速數據上限，用完會降速或者降低優先權。繁忙時間、附近用戶多、室內擺位差，體感都會變。廣告上嘅「最高速度」唔等於你屋企每個鐘都係嗰個數。",
-          "比較時一齊睇：月費、合約、高速 GB、包定租路由器、冷靜期。詳情見 [月費以外](/guides/contract-fees)。",
+          "比較時一齊睇：月費、合約、高速數據用量、包定租路由器、冷靜期。詳情見 [月費以外](/guides/contract-fees)。",
         ],
       },
       {
@@ -433,7 +433,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         q: "5G 家居有冇數據上限？",
-        a: "部分計劃有高速 GB，用完會降速或降低優先權。比較時一齊睇月費、合約同路由器係包定租。實際條款以電訊商確認為準。",
+        a: "部分計劃有高速數據用量，用完會降速或降低優先權。比較時一齊睇月費、合約同路由器係包定租。實際條款以電訊商確認為準。",
       },
       {
         q: "村屋可唔可以申請 5G 家居？",
@@ -904,11 +904,11 @@ export const GUIDE_ARTICLES: Guide[] = [
     minutes: 7,
     category: "fiber",
     seoTitle: "公屋寬頻同居屋有咩分別｜齊Quote",
-    h1: "公屋同埋居屋，寬頻價錢會唔會不同？",
+    h1: "公屋同居屋，寬頻價錢會唔會唔同？",
     description:
-      "公屋同埋居屋寬頻多數分開報價。同樣 1000M 都可能唔同計劃。先揀樓類，實際覆蓋以電訊商確認。",
-    title: "公屋同埋居屋，寬頻價錢會唔會不同？",
-    excerpt: "多數會不同。批量合約同指定計劃，令公屋、居屋唔好共用一張價。",
+      "公屋同居屋寬頻多數分開報價。同樣 1000M 都可能唔同計劃。先揀樓類，實際覆蓋以電訊商確認。",
+    title: "公屋同居屋，寬頻價錢會唔會唔同？",
+    excerpt: "多數會唔同。批量合約同指定計劃，令公屋、居屋唔好共用一張價。",
     titleEn: "Do public housing and HOS pay different broadband fees?",
     excerptEn: "Usually yes. Carriers often file separate bulk plans.",
     descriptionEn: "Public housing and HOS broadband are usually quoted separately. Pick the right housing type; coverage is confirmed by the carrier.",
@@ -926,9 +926,9 @@ export const GUIDE_ARTICLES: Guide[] = [
     ],
     body: [
       {
-        heading: "結論：多數會不同",
+        heading: "結論：多數會唔同",
         paragraphs: [
-          "會。公屋同埋居屋即使都係「1000M 光纖」，電訊商好多時用唔同計劃代碼、合約期同批量價。所以齊Quote 要你揀樓類：公屋頁唔應該見到只限私樓嘅價，居屋亦唔好用公屋價去對。",
+          "會。公屋同居屋即使都係「1000M 光纖」，電訊商好多時用唔同計劃代碼、合約期同批量價。所以齊Quote 要你揀樓類：公屋頁唔應該見到只限私樓嘅價，居屋亦唔好用公屋價去對。",
           "呢個分別唔等於邊種樓一定平啲。個別屋苑、申請期、有冇指定供應商，都會令參考月費唔同。頁上數字只係市場記錄，唔係你地址嘅確認價。",
         ],
       },

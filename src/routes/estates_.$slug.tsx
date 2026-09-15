@@ -64,7 +64,7 @@ function EstatePage() {
   const inquiry = { estate: estate.name, housing: estate.housing, district: estate.district };
   const ready = useHydrateDesk();
   const setInquiry = useDesk((s) => s.setInquiry);
-  const { t } = useI18n();
+  const { t, updated } = useI18n();
   usePageTitle(estateSeoTitle(estate));
   const broadbandPreview = broadband.slice(0, 4);
   const home5gPreview = home5g.slice(0, 3);
@@ -88,6 +88,7 @@ function EstatePage() {
         {estate.area ? ` · ${estate.area}` : ""} · {housing}
       </p>
       <h1 className="mt-2 text-title font-semibold">{`${estate.name}寬頻比較｜${housing}｜齊Quote`}</h1>
+      <p className="mt-2 text-xs text-subtle">{t("dataUpdated", { date: updated })}</p>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{estateIntro(estate)}</p>
       {isNetvigatorOnlyEstate(estate.name) ? (
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{t("plansNetvigatorOnlyNote")}</p>

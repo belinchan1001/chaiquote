@@ -206,3 +206,17 @@ describe("trust/compliance copy", () => {
     assert.equal((compare.match(/t\("backToPlans"\)/g) ?? []).length, 3);
   });
 });
+
+describe("date stamps", () => {
+  it("pins homepage 資料更新 YYYY-MM-DD and split 稿件日期 / 資料更新 labels", () => {
+    const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    assert.equal(quoted(messages, "hkUpdated")[0], "香港 · 資料更新 {date}");
+    assert.equal(quoted(messages, "dataUpdated")[0], "資料更新 {date}");
+    assert.equal(quoted(messages, "manuscriptDate")[0], "稿件日期 {date}");
+    assert.equal(quoted(messages, "manuscriptUpdated")[0], "稿件日期 {published} · 更新 {modified}");
+    assert.equal(quoted(messages, "hkUpdated")[1], "Hong Kong · Updated {date}");
+    assert.equal(quoted(messages, "dataUpdated")[1], "Data updated {date}");
+    assert.equal(quoted(messages, "manuscriptDate")[1], "Published {date}");
+    assert.doesNotMatch(quoted(messages, "hkUpdated")[0], /年|月|日/);
+  });
+});

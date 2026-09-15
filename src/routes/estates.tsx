@@ -73,7 +73,7 @@ function EstatesIndexPage() {
   const [newIntakeFilter, setNewIntakeFilter] = useState(false);
   const navigate = useNavigate();
   const setInquiry = useDesk((s) => s.setInquiry);
-  const { t, housingLabel } = useI18n();
+  const { t, housingLabel, updated } = useI18n();
   usePageTitle(TITLE);
   const url = canonicalUrl("/estates");
   const districtGroups = newIntakeFilter ? NEW_INTAKE_GROUPS : groups;
@@ -198,6 +198,7 @@ function EstatesIndexPage() {
         </ol>
       </nav>
       <h1 className="mt-6 text-title font-semibold">香港屋苑寬頻比較</h1>
+      <p className="mt-2 text-xs text-subtle">{t("dataUpdated", { date: updated })}</p>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{t("estatesDirLead")}</p>
       <p className="mt-2 text-sm font-medium">{t("estatesIndexCount", { n: ESTATES.length })}</p>
 
