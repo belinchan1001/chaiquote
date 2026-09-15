@@ -19,7 +19,7 @@ import {
   type PlansSearch,
   type SpeedMbps,
 } from "@/lib/plans";
-import { addressHitValue } from "@/lib/address-search";
+import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { isHkbnFlashEstate, isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
 import { compactSearch, parsePlansSearch, planListReplayKey } from "@/lib/search";
 import { CATEGORY_SEO, plansCategoryPath, canonicalUrl, shareHead } from "@/lib/canonical";
@@ -248,6 +248,7 @@ function PlansPage() {
   if (search.estate) active.push({ key: "estate", label: search.estate, search: { ...search, estate: undefined } });
 
   const shown = rows.slice(0, visible);
+  const showCoverageCheck = Boolean(search.estate && matchKnownEstate(search.estate)?.coverageCheck);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
@@ -256,7 +257,9 @@ function PlansPage() {
         <h1 className="text-title font-semibold">{categoryLabel(search.cat)}</h1>
         <p className="text-sm text-muted" aria-live="polite">
           {t("foundPlans", { n: rows.length })}
-          <span className="mt-1 block text-xs text-subtle sm:mt-0 sm:ml-2 sm:inline">{t("coverageCheck")}</span>
+          {showCoverageCheck ? (
+            <span className="mt-1 block text-xs text-subtle sm:mt-0 sm:ml-2 sm:inline">{t("coverageCheck")}</span>
+          ) : null}
         </p>
       </div>
 

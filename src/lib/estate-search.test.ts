@@ -138,6 +138,7 @@ describe("locked acceptance checks", () => {
     }
     const plans = readFileSync(join(ROOT, "src/routes/plans.tsx"), "utf8");
     assert.match(plans, /coverageCheck/);
+    assert.match(plans, /matchKnownEstate\(search\.estate\)\?\.coverageCheck/);
     const pwa = readFileSync(join(ROOT, "src/lib/pwa.ts"), "utf8");
     assert.match(pwa, /僅供參考/);
     assert.match(pwa, /查核報價/);

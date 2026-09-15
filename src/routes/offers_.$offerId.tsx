@@ -37,10 +37,7 @@ function StaffOfferPage() {
       <p className="text-xs font-medium tracking-wider text-accent">{t("staffOfferTitle")}</p>
       <h1 className="mt-2 text-title font-semibold">{staffOfferLabel(offerId, locale)}</h1>
       <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted">{t("staffOfferLead")}</p>
-      <p className="mt-2 text-sm text-muted">
-        {t("foundPlans", { n: plans.length })}
-        <span className="mt-1 block text-xs text-subtle sm:mt-0 sm:ml-2 sm:inline">{t("coverageCheck")}</span>
-      </p>
+      <p className="mt-2 text-sm text-muted">{t("foundPlans", { n: plans.length })}</p>
       <ul className="mt-6 grid list-none gap-4 p-0 sm:grid-cols-2">
         {plans.map((plan) => (
           <li key={plan.id}>
