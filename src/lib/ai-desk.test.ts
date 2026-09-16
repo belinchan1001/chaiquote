@@ -297,8 +297,10 @@ describe("AI desk safety", () => {
 
     assert.match(entry, /import \{ LogoMarkLooking \} from "@\/components\/logo-mark-looking"/);
     assert.match(entry, /<LogoMarkLooking className="!size-5" \/>/);
+    assert.match(entry, /size="sm"/);
     assert.doesNotMatch(entry, /Sparkles/);
     assert.doesNotMatch(entry, /<LogoMark[\s/>]/);
+    assert.doesNotMatch(entry, /<LogoMarkLooking[^>]*(?:size-full|w-full|h-full|object-)/);
     assert.match(entry, /plan-card-shine ai-filter-shine/);
     assert.match(entry, /<span className="foil" aria-hidden="true" \/>/);
     assert.match(entry, /aria-expanded=\{aiOpen\}/);
@@ -339,7 +341,10 @@ describe("AI desk safety", () => {
 
     assert.match(header, /import \{ LogoMarkLooking \} from "@\/components\/logo-mark-looking"/);
     assert.match(header, /<LogoMarkLooking className="!size-5" \/>/);
+    assert.match(header, /size="sm"/);
+    assert.match(header, /max-sm:h-11 max-sm:px-2 sm:px-3/);
     assert.doesNotMatch(header, /Sparkles/);
+    assert.doesNotMatch(header, /<LogoMarkLooking[^>]*(?:size-full|w-full|h-full|object-)/);
     assert.match(header, /<Logo className="shrink-0" \/>/);
     assert.match(header, /aria-expanded=\{aiOpen\}/);
     assert.match(header, /aria-label=\{`\$\{t\("aiStaff"\)\}（\$\{t\("aiBeta"\)\}）`\}/);
@@ -357,6 +362,9 @@ describe("AI desk safety", () => {
 
     assert.match(staff, /import \{ LogoMarkLooking \} from "@\/components\/logo-mark-looking"/);
     assert.match(staff, /<LogoMarkLooking className="size-7" \/>/);
+    assert.match(staff, /flex size-11 items-center justify-center bg-accent/);
+    assert.match(staff, /flex items-center gap-3 bg-primary px-4 py-3/);
+    assert.doesNotMatch(staff, /<LogoMarkLooking[^>]*(?:size-full|w-full|h-full|object-)/);
     assert.doesNotMatch(staff, /Sparkles/);
     assert.match(staff, /<X className="size-4" \/>/);
     assert.match(staff, /const closeAi = useDesk\(\(s\) => s\.closeAi\)/);
