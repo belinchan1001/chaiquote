@@ -4,7 +4,8 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { formatFee, getPlan, type Plan } from "./plans.ts";
-import { planLine, quoteAsk, quoteMessage, QUICK_REPLIES } from "./whatsapp.ts";
+import { SITE } from "./site.ts";
+import { planLine, quoteAsk, quoteMessage, quoteWhatsappE164, QUICK_REPLIES, whatsappHref } from "./whatsapp.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const ASK_MOBILE = "請幫我核對新號碼上台優惠／攜號轉台優惠。";
@@ -100,6 +101,7 @@ describe("WhatsApp quote prefill closing line", () => {
     const staff = readFileSync(join(here, "../components/ai-staff.tsx"), "utf8");
     const src = readFileSync(join(here, "whatsapp.ts"), "utf8");
     assert.match(quote, /quoteMessage\(selected, inquiry \?\? stored, locale\)/);
+    assert.match(quote, /quoteWhatsappE164\(selected\)/);
     assert.match(widget, /quoteMessage\(plans, inquiry, locale\)/);
     assert.match(staff, /quoteMessage\(/);
     assert.match(src, /category === "mobile"/);
@@ -110,5 +112,28 @@ describe("WhatsApp quote prefill closing line", () => {
     assert.ok(mobileQuick);
     assert.equal(mobileQuick.text.includes("覆蓋"), false);
     assert.equal(mobileQuick.textEn.toLowerCase().includes("coverage"), false);
+  });
+});
+
+describe("HKT plan-card WhatsApp routing", () => {
+  it("sends Netvigator, CSL and Netvigator business quotes to 5436 3004", () => {
+    const netvigator = plan("netvigator-ftth-1000-private-36m");
+    const csl = plan("csl-5g-20-108-24m");
+    const biz = plan("netvigator-biz-1000");
+    assert.equal(quoteWhatsappE164([netvigator]), SITE.hktWhatsappE164);
+    assert.equal(quoteWhatsappE164([csl]), SITE.hktWhatsappE164);
+    assert.equal(quoteWhatsappE164([biz]), SITE.hktWhatsappE164);
+    assert.equal(quoteWhatsappE164([netvigator, csl]), SITE.hktWhatsappE164);
+    assert.match(whatsappHref("你好", quoteWhatsappE164([netvigator])), /phone=85254363004/);
+  });
+
+  it("keeps other plan cards and generic quotes on the desk number", () => {
+    const hkbn = plan("hkbn-ftth-1000-36m-98");
+    const mixed = [plan("netvigator-ftth-1000-private-36m"), hkbn];
+    assert.equal(quoteWhatsappE164([]), SITE.whatsappE164);
+    assert.equal(quoteWhatsappE164([hkbn]), SITE.whatsappE164);
+    assert.equal(quoteWhatsappE164(mixed), SITE.whatsappE164);
+    assert.match(whatsappHref("你好"), /phone=85263099966/);
+    assert.doesNotMatch(whatsappHref("你好"), /54363004/);
   });
 });

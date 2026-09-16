@@ -3,6 +3,7 @@ import {
   HOUSING_LABEL,
   PROVIDER_MAP,
   formatFee,
+  isHktPlan,
   type Category,
   type Housing,
   type Plan,
@@ -20,9 +21,17 @@ export function withBrandTag(text: string) {
   return `${BRAND_TAG}\n${body}`;
 }
 
-export function whatsappHref(text: string) {
+export function quoteWhatsappE164(plans: Plan[] = []) {
+  return plans.length > 0 && plans.every(isHktPlan) ? SITE.hktWhatsappE164 : SITE.whatsappE164;
+}
+
+export function quoteWhatsappDisplay(plans: Plan[] = []) {
+  return plans.length > 0 && plans.every(isHktPlan) ? SITE.hktPhoneDisplay : SITE.phoneDisplay;
+}
+
+export function whatsappHref(text: string, phone = SITE.whatsappE164) {
   const params = new URLSearchParams({
-    phone: SITE.whatsappE164,
+    phone,
     text: withBrandTag(text),
     type: "phone_number",
     app_absent: "0",

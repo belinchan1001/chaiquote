@@ -9,6 +9,8 @@ export const SITE = {
   updated: "2026-09-16",
   phoneDisplay: "6309 9966",
   whatsappE164: "85263099966",
+  hktPhoneDisplay: "5436 3004",
+  hktWhatsappE164: "85254363004",
   leadEmail: "info@chaiquote.hk",
 } as const;
 

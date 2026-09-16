@@ -9,7 +9,7 @@ import { fallbackReply, plansForAiCards, QUESTION_CHIPS, retrievePlansForAsk } f
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
 import { formatFee } from "@/lib/plans";
-import { quoteMessage, whatsappHref } from "@/lib/whatsapp";
+import { quoteMessage, quoteWhatsappE164, whatsappHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 type Bubble = { id: string; from: "biz" | "me"; text: string; planIds?: string[] };
@@ -241,6 +241,7 @@ export function AiStaffPanel() {
                           inquiry,
                           locale,
                         ),
+                        quoteWhatsappE164(plansForAiCards(bubble.planIds)),
                       )}
                       target="_blank"
                       rel="noopener noreferrer"
