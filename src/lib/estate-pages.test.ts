@@ -201,6 +201,9 @@ describe("estate SEO pages", () => {
     assert.equal(isNewIntakeEstate("雲向"), false);
     assert.equal(isNewIntakeEstate("滶蘊"), false);
     assert.equal(isNewIntakeEstate("海瑅灣"), false);
+    assert.equal(isNewIntakeEstate("澐璟"), true);
+    assert.equal(isNewIntakeEstate("凱柏峰"), true);
+    assert.equal(isNewIntakeEstate("曉柏峰"), true);
     assert.equal(isNewIntakeEstate("北都滙"), false);
     assert.equal(isNewIntakeEstate("皇都"), false);
     assert.equal(getEstatePage("cadenza-sheung-shui")?.estate.name, "華第");
@@ -211,6 +214,10 @@ describe("estate SEO pages", () => {
     assert.equal(getEstatePage("one-innovale")?.estate.name, "One Innovale");
     assert.equal(getEstatePage("cloudview")?.estate.coverageCheck, true);
     assert.equal(getEstatePage("pavilia-rosa")?.estate.coverageCheck, true);
+    assert.equal(getEstatePage("pano-harbour")?.estate.name, "澐璟");
+    assert.equal(getEstatePage("hoi-pak-fung")?.estate.name, "凱柏峰");
+    assert.equal(getEstatePage("the-paddington")?.estate.name, "曉柏峰");
+    assert.equal(getEstatePage("nam-wan-court")?.estate.housing, "hos");
     assert.equal(getEstatePage("northern-hub-kwu-tung")?.estate.coverageCheck, true);
     assert.equal(getEstatePage("sierra-terrace")?.estate.name, "樂嶺軒");
     assert.equal(getEstatePage("the-monet")?.estate.housing, "private");

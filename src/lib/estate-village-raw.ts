@@ -34,7 +34,7 @@ export const VILLAGE_RAW = `
 洪水橋鍾屋村|Hung Shui Kiu Chung Uk Tsuen|元朗|village|洪水橋
 錦田北圍|Kam Tin Pak Wai,北圍|元朗|village|錦田
 泰康圍|Tai Hong Wai|元朗|village|錦田
-高埔|Ko Po,錦田高埔|元朗|village|錦田
+高埔|Ko Po,錦田高埔,高埔村,錦田高埔村|元朗|village|錦田
 長莆|Cheung Po,錦田長莆|元朗|village|錦田
 沙埔村|Sha Po Tsuen|元朗|village|錦田
 錦田石湖圍|Kam Tin Shek Wu Wai|元朗|village|錦田
@@ -148,7 +148,7 @@ export const VILLAGE_RAW = `
 香園圍|Heung Yuen Wai|北區|village|打鼓嶺
 松園下|Chung Yuen Ha|北區|village|粉嶺
 塘坑|Tong Hang,粉嶺塘坑|北區|village|粉嶺
-萊洞|Loi Tung,萊洞村,沙頭角萊洞|北區|village|沙頭角
+萊洞|Loi Tung,萊洞村,沙頭角萊洞,萊洞南,萊洞北|北區|village|沙頭角
 鴨麻埔|Ap Tam Po|北區|village|沙頭角
 南涌|Nam Chung|北區|village|沙頭角
 三椏|Sam A|北區|village|沙頭角
@@ -386,7 +386,7 @@ export const VILLAGE_RAW = `
 山咀|Shan Tsui|北區|village|沙頭角
 雞谷樹下|Kai Kuk Shue Ha|北區|village|沙頭角
 馬灣大街村東|Ma Wan Main Street Village East|荃灣|village|馬灣
-稔埔村|Nim Po Tsuen|離島|village|梅窩
+稔埔村|Nim Po Tsuen,梅窩稔埔村,大嶼山稔埔|離島|village|梅窩
 馬灣漁民村|Ma Wan Fishermen|荃灣|village|馬灣
 高莆|Ko Po|北區|village|沙頭角
 石橋頭村|Shek Kiu Tau|北區|village|沙頭角
@@ -459,7 +459,7 @@ export const VILLAGE_RAW = `
 塘坑東村|Tong Hang Tung Chuen|北區|village|粉嶺
 木棉頭|Muk Min Tau|北區|village|沙頭角
 下香園|Ha Heung Yuen|北區|village|打鼓嶺
-大地塘|Tai Tei Tong|離島|village|梅窩
+大地塘|Tai Tei Tong,梅窩大地塘,大地塘村|離島|village|梅窩
 上村 - 張屋村|Sheung Tsuen - Cheung Uk Tsuen,張屋村|元朗|village|八鄉
 馬料|Ma Niu Village|沙田|village|火炭
 上村 - 曾屋村|Sheung Tsuen - Tsang Uk Tsuen,曾屋村|元朗|village|八鄉
@@ -653,7 +653,7 @@ export const VILLAGE_RAW = `
 營盤|Ying Pun,上水營盤,上水營盤村|北區|village|上水
 新田西鎮圍|Sai Chun Wai,西鎮圍,新田西鎮|元朗|village|新田
 鹽田仔|Yim Tin Tsai Tai Po,大埔鹽田仔,船灣鹽田仔|大埔|village|船灣
-西貢鹽田仔|Yim Tin Tsai Sai Kung,西貢鹽田仔村|西貢|village|西貢
+西貢鹽田仔|Yim Tin Tsai Sai Kung,西貢鹽田仔村,鹽田梓,西貢鹽田梓,鹽田梓島,鹽田梓村|西貢|village|西貢
 萬角咀|Man Kok Tsui,大嶼山萬角咀|離島|village|大澳
 鱟殼灣|Hau Hok Wan,大嶼山鱟殼灣|離島|village|大澳
 鴉山村|A Shan Tsuen,鴉山|大埔|village|大埔
@@ -820,6 +820,7 @@ export const VILLAGE_RAW = `
 下禾輋村|Ha Wo Che Tsuen,下禾輋|沙田|village|沙田
 上禾輋村|Sheung Wo Che Tsuen,上禾輋|沙田|village|沙田
 西貢南山村|Nam Shan Tsuen Sai Kung,南山村西貢|西貢|village|西貢
+飛鵝山村|Fei Ngo Shan Village,飛鵝山,飛鵝山道村屋,飛鵝山村屋|黃大仙|village|飛鵝山
 `.trim();
 
 

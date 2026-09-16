@@ -119,6 +119,9 @@ export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "Elize Park", group: "九龍" },
   { name: "恒珀", group: "九龍" },
   { name: "隆敍", group: "九龍" },
+  { name: "澐璟", group: "九龍" },
+  { name: "曉柏峰", group: "九龍" },
+  { name: "凱柏峰", group: "新界" },
 ];
 
 export const NEW_INTAKE_NAMES = new Set(NEW_INTAKE.map((item) => item.name));

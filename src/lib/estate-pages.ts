@@ -305,6 +305,14 @@ const SLUG_FALLBACK: Record<string, string> = {
   映居: "tai-kok-tsui-ying-kui",
   芊御: "garden-regency",
   瑧玥: "grand-austin-bohemian",
+  南灣苑: "nam-wan-court",
+  澐璟: "pano-harbour",
+  擎海: "king-hoi-yau-tong",
+  凱柏峰: "hoi-pak-fung",
+  曉柏峰: "the-paddington",
+  "KOKO Reserve": "koko-reserve",
+  順利邨道簡約公屋: "shun-lee-tsuen-road-lph",
+  竹園道簡約公屋: "chuk-yuen-road-lph",
 };
 
 function requireEstate(name: string): Estate {
