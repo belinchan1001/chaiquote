@@ -8,7 +8,8 @@ export const SITE = {
   /** Catalogue stamp shown on the homepage hero as YYYY-MM-DD. */
   updated: "2026-09-16",
   phoneDisplay: "6309 9966",
-  whatsappE164: "85263099966",  leadEmail: "info@chaiquote.hk",
+  whatsappE164: "85263099966",
+  leadEmail: "info@chaiquote.hk",
 } as const;
 
 /** Locked compliance copy. Do not invent a personal legal name. */
