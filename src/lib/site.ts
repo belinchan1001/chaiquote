@@ -11,6 +11,8 @@ export const SITE = {
   whatsappE164: "85263099966",
   hktPhoneDisplay: "5436 3004",
   hktWhatsappE164: "85254363004",
+  hkbnPhoneDisplay: "9664 2675",
+  hkbnWhatsappE164: "85296642675",
   leadEmail: "info@chaiquote.hk",
 } as const;
 

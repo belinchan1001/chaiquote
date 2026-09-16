@@ -128,12 +128,25 @@ describe("HKT plan-card WhatsApp routing", () => {
   });
 
   it("keeps other plan cards and generic quotes on the desk number", () => {
-    const hkbn = plan("hkbn-ftth-1000-36m-98");
-    const mixed = [plan("netvigator-ftth-1000-private-36m"), hkbn];
+    const three = plan("three-45g-10-58");
+    const mixed = [plan("netvigator-ftth-1000-private-36m"), plan("hkbn-ftth-1000-36m-98")];
     assert.equal(quoteWhatsappE164([]), SITE.whatsappE164);
-    assert.equal(quoteWhatsappE164([hkbn]), SITE.whatsappE164);
+    assert.equal(quoteWhatsappE164([three]), SITE.whatsappE164);
     assert.equal(quoteWhatsappE164(mixed), SITE.whatsappE164);
     assert.match(whatsappHref("你好"), /phone=85263099966/);
-    assert.doesNotMatch(whatsappHref("你好"), /54363004/);
+    assert.doesNotMatch(whatsappHref("你好"), /54363004|96642675/);
+  });
+});
+
+describe("HKBN plan-card WhatsApp routing", () => {
+  it("sends HKBN fibre, mobile and business quotes to 9664 2675", () => {
+    const fibre = plan("hkbn-ftth-1000-36m-98");
+    const mobile = plan("hkbn-5g-30");
+    const biz = plan("hkbn-biz-1000");
+    assert.equal(quoteWhatsappE164([fibre]), SITE.hkbnWhatsappE164);
+    assert.equal(quoteWhatsappE164([mobile]), SITE.hkbnWhatsappE164);
+    assert.equal(quoteWhatsappE164([biz]), SITE.hkbnWhatsappE164);
+    assert.equal(quoteWhatsappE164([fibre, mobile, biz]), SITE.hkbnWhatsappE164);
+    assert.match(whatsappHref("你好", quoteWhatsappE164([fibre])), /phone=85296642675/);
   });
 });

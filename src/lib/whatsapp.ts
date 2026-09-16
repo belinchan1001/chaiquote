@@ -22,11 +22,17 @@ export function withBrandTag(text: string) {
 }
 
 export function quoteWhatsappE164(plans: Plan[] = []) {
-  return plans.length > 0 && plans.every(isHktPlan) ? SITE.hktWhatsappE164 : SITE.whatsappE164;
+  if (!plans.length) return SITE.whatsappE164;
+  if (plans.every(isHktPlan)) return SITE.hktWhatsappE164;
+  if (plans.every((plan) => plan.providerId === "hkbn")) return SITE.hkbnWhatsappE164;
+  return SITE.whatsappE164;
 }
 
 export function quoteWhatsappDisplay(plans: Plan[] = []) {
-  return plans.length > 0 && plans.every(isHktPlan) ? SITE.hktPhoneDisplay : SITE.phoneDisplay;
+  if (!plans.length) return SITE.phoneDisplay;
+  if (plans.every(isHktPlan)) return SITE.hktPhoneDisplay;
+  if (plans.every((plan) => plan.providerId === "hkbn")) return SITE.hkbnPhoneDisplay;
+  return SITE.phoneDisplay;
 }
 
 export function whatsappHref(text: string, phone = SITE.whatsappE164) {
