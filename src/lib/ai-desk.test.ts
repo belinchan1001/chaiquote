@@ -202,11 +202,11 @@ describe("AI desk safety", () => {
     const desk = readFileSync(join(here, "ai-desk.ts"), "utf8");
     const widget = readFileSync(join(here, "../components/whatsapp-widget.tsx"), "utf8");
 
-    assert.equal(quoted(messages, "aiStaffLead")[0], "講屋苑或想要咩，幫你收窄站內計劃");
+    assert.equal(quoted(messages, "aiStaffLead")[0], "講屋苑或想要咩，幫你收窄站內嘅計劃");
     assert.match(quoted(messages, "aiStaffLead")[1] ?? "", /narrow the plans listed on this site/);
     assert.equal(quoted(messages, "aiBeta")[0], "測試版");
     assert.equal(quoted(messages, "aiBeta")[1], "Beta");
-    assert.equal(quoted(messages, "aiWelcome")[0], "講屋苑或想要咩，對到就列俾你。價錢喺卡片，以電訊商確認為準。");
+    assert.equal(quoted(messages, "aiWelcome")[0], "講屋苑或想要咩，對到就列俾你睇。價錢喺卡片，以電訊商確認為準。");
     assert.match(quoted(messages, "aiWelcome")[1] ?? "", /carrier confirms the final terms/);
     assert.equal(quoted(messages, "aiWelcomeTrial")[0], "功能試用中，結果僅供參考");
     assert.match(quoted(messages, "aiWelcomeTrial")[1] ?? "", /on trial/);

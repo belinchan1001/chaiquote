@@ -157,7 +157,7 @@ export const LOCKED_PAGE_SEO = [
  */
 export const NOT_FOUND_SEO = {
   title: "搵唔到呢頁｜齊Quote",
-  description: "呢個計劃或者教學可能已經唔喺度。",
+  description: "呢個計劃或者攻略可能已經唔喺度。",
   robots: "noindex,follow",
 } as const satisfies SeoCopy & { robots: "noindex,follow" };
 

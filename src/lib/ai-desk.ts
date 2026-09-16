@@ -293,7 +293,7 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
   {
     id: "official",
     re: /官網|官方|係咪電訊|chaiquote.*(carrier|official)|independent/i,
-    zh: "齊Quote 唔係電訊商官網，係獨立比較網站。覆蓋、安裝期同實際條款以電訊商確認為準。要核實可以 WhatsApp 查核報價。",
+    zh: "齊Quote 唔係電訊商官網，係獨立比較網站。覆蓋、安裝期同實際條款以電訊商確認為準。想確認可以 WhatsApp 查核報價。",
     en: "ChaiQuote is not a carrier website. It is an independent comparison site. Coverage, install dates and terms are confirmed by the carrier. Use WhatsApp to check a quote.",
     attach: false,
   },
@@ -307,7 +307,7 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
   {
     id: "village",
     re: /村屋|丁屋|village house/i,
-    zh: "村屋光纖現時主要由香港寬頻、HGC 及網上行提供指定計劃；公屋、居屋及私人樓計劃一般不適用。尚未有光纖可一併比較 5G 家居。實際覆蓋須核對門牌。",
+    zh: "村屋光纖而家主要由香港寬頻、HGC 同網上行提供指定計劃；公屋、居屋同私樓計劃一般唔適用。未有光纖可以一併比較 5G 家居。實際覆蓋要核對門牌。",
     en: "Village fibre is mainly from HKBN, HGC and Netvigator on designated plans. Public, HOS and private plans usually do not apply. If there is no fibre yet, compare 5G home. Coverage must be checked against the address.",
     attach: true,
   },

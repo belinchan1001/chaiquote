@@ -335,7 +335,7 @@ describe("404 document head", () => {
 
   it("uses 搵唔到呢頁 copy and noindex,follow — never the homepage title", () => {
     assert.equal(NOT_FOUND_SEO.title, "搵唔到呢頁｜齊Quote");
-    assert.equal(NOT_FOUND_SEO.description, "呢個計劃或者教學可能已經唔喺度。");
+    assert.equal(NOT_FOUND_SEO.description, "呢個計劃或者攻略可能已經唔喺度。");
     assert.equal(NOT_FOUND_SEO.robots, "noindex,follow");
     assert.equal(INDEXABLE_ROBOTS, "index,follow");
     assert.notEqual(NOT_FOUND_SEO.title, HOME_SEO.title);
@@ -345,7 +345,7 @@ describe("404 document head", () => {
 
     const messages = readFileSync(join(ROOT, "src/lib/messages.ts"), "utf8");
     assert.match(messages, /notFound: "搵唔到呢頁"/);
-    assert.match(messages, /notFoundLead: "呢個計劃或者教學可能已經唔喺度。"/);
+    assert.match(messages, /notFoundLead: "呢個計劃或者攻略可能已經唔喺度。"/);
   });
 
   it("marks only not-found matches noindex,follow; 200 matches stay index,follow", () => {
