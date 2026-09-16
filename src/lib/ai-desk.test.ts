@@ -317,7 +317,7 @@ describe("AI desk safety", () => {
     assert.match(logo, /<circle cx="20\.5" cy="13\.5" r="1\.7"/);
     assert.doesNotMatch(logo, /logo-mark-looking|@keyframes|animateTransform/);
     assert.match(header, /<Logo className="shrink-0" \/>/);
-    assert.doesNotMatch(header, /LogoMarkLooking/);
+    assert.match(header, /<LogoMarkLooking \/>/);
 
     assert.match(css, /@keyframes logo-mark-look/);
     assert.match(css, /@keyframes logo-mark-blink/);
@@ -331,6 +331,22 @@ describe("AI desk safety", () => {
       css,
       /prefers-reduced-motion:\s*reduce[\s\S]*\.logo-mark-looking-blink[\s\S]*animation:\s*none !important/,
     );
+  });
+
+  it("replaces the header AI staff Sparkles with the same looking logo mark", () => {
+    const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
+    const logo = readFileSync(join(here, "../components/logo.tsx"), "utf8");
+
+    assert.match(header, /import \{ LogoMarkLooking \} from "@\/components\/logo-mark-looking"/);
+    assert.match(header, /<LogoMarkLooking \/>/);
+    assert.doesNotMatch(header, /Sparkles/);
+    assert.match(header, /<Logo className="shrink-0" \/>/);
+    assert.match(header, /aria-expanded=\{aiOpen\}/);
+    assert.match(header, /aria-label=\{`\$\{t\("aiStaff"\)\}（\$\{t\("aiBeta"\)\}）`\}/);
+    assert.match(header, /toggleAi\(\)/);
+    assert.doesNotMatch(header, /plan-card-shine|ai-filter-shine|className="foil"/);
+
+    assert.doesNotMatch(logo, /logo-mark-looking|@keyframes|animateTransform/);
   });
 
   it("allows HK$ only on mini-cards; chat body and catalogue stay fee-free", () => {

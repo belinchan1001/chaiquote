@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, Sparkles, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { AiBetaMark } from "@/components/ai-staff";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
+import { LogoMarkLooking } from "@/components/logo-mark-looking";
 import { LangToggle } from "@/components/lang-toggle";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
@@ -76,7 +77,7 @@ export function SiteHeader() {
                 toggleAi();
               }}
             >
-              <Sparkles />
+              <LogoMarkLooking />
               <span className="sm:hidden">{t("aiStaffTiny")}</span>
               <span className="hidden sm:inline lg:hidden">{t("aiStaffShort")}</span>
               <span className="hidden lg:inline">{t("aiStaff")}</span>
