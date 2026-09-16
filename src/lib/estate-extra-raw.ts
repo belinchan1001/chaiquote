@@ -487,7 +487,7 @@ export const EXTRA_RAW = `
 將軍澳天晉II|The Wings II|西貢|private
 屯門星堤|The Pier|屯門|private
 屯門小欖村|Siu Lam Village|屯門|village
-屯門小秀村|Siu Sau Village|屯門|village
+屯門小秀村|Siu Sau Village,小秀,屯門小秀,小秀村|屯門|village
 屯門掃管笏村|So Kwun Wat Village|屯門|village
 屯門青山灣|Castle Peak Bay Residences|屯門|private
 豪廷峰|The Merton|中西區|private
@@ -681,12 +681,12 @@ KOKO Hills|KOKO Hills|觀塘|private
 屯門泥圍|Nai Wai,泥圍,泥圍村|屯門|village
 屯門鍾屋村|Chung Uk Tsuen,鍾屋村屯門,屯門鍾屋|屯門|village
 荃灣青龍頭|Tsing Lung Tau|荃灣|village
-西貢北港|Pak Kong Sai Kung|西貢|village
+西貢北港|Pak Kong Sai Kung,Pak Kong,北港村,西貢北港村|西貢|village
 西貢壁屋|Pik Uk|西貢|village
 西貢大埔仔|Tai Po Tsai Sai Kung|西貢|village
 沙田小瀝源|Siu Lek Yuen|沙田|village
 大嶼山昂坪|Ngong Ping|離島|village
-大嶼山石壁|Shek Pik|離島|village
+大嶼山石壁|Shek Pik,石壁村,南大嶼石壁,大嶼山石壁村|離島|village
 東涌馬灣涌|Ma Wan Chung Tung Chung,馬灣涌,東涌馬灣涌村|離島|village
 蒲台島|Po Toi|離島|village
 聯和墟|Luen Wo Hui|北區|village
@@ -708,7 +708,7 @@ KOKO Hills|KOKO Hills|觀塘|private
 廈村羅衡圍|Lo Uk Tsuen Ha Tsuen|元朗|village
 屯門青磚圍|Tsing Chuen Wai|屯門|village
 屯門屯子圍|Tuen Tsz Wai,屯子圍|屯門|village
-屯門大欖涌|Tai Lam Chung,大欖涌村|屯門|village
+屯門大欖涌|Tai Lam Chung,大欖涌村,大欖,屯門大欖,屯門大欖涌村|屯門|village
 西貢馬游塘|Ma Yau Tong|西貢|village
 西貢北圍|Pak Wai Sai Kung|西貢|village
 沙田排頭|Pai Tau|沙田|village
@@ -742,9 +742,9 @@ KOKO Hills|KOKO Hills|觀塘|private
 地利根德閣|Tregunter Towers|中西區|private
 慧景臺|Wisdom Court Midlevels|中西區|private
 裕興苑|裕興,Yu Hing Court|離島|hos|東涌
-恆光街項目|恆光街簡約公屋,Hang Kwong Street LPH,馬鞍山恆光街,簡約公屋恆光街項目|沙田|public|馬鞍山
-青福里項目|青福里簡約公屋,Tsing Fuk Lane LPH,屯門青福里,簡約公屋青福里項目|屯門|public
-欣寶路項目|欣寶路簡約公屋,Yan Po Road LPH,屯門欣寶路,簡約公屋欣寶路項目|屯門|public
+恆光街項目|恆光街簡約公屋,Hang Kwong Street LPH,馬鞍山恆光街,簡約公屋恆光街項目|沙田|public|馬鞍山||恆光街
+青福里項目|青福里簡約公屋,Tsing Fuk Lane LPH,屯門青福里,簡約公屋青福里項目|屯門|public|屯門||青福里
+欣寶路項目|欣寶路簡約公屋,Yan Po Road LPH,屯門欣寶路,簡約公屋欣寶路項目|屯門|public|屯門||欣寶路
 鴻鵠臺|鴻鵠,Hung Woo Terrace|觀塘|public
 柏傲莊III|The Pavilia Farm III,Pavilia Farm 3,柏傲莊 III|沙田|private|大圍
 101 Kings Road|英皇道101號,炮台山101 Kings Road|東區|private|炮台山||英皇道101號
@@ -763,8 +763,8 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 富雅花園|富雅,Elegance Garden Tai Po|大埔|hos
 日出康城第12期|LOHAS Park Phase 12,LP12,康城第12期,Grand Seasons,日出康城12C期,LP12C,康城Grand Seasons,Park Seasons,日出康城12B期,LP12B,康城Park Seasons|西貢|private|將軍澳
 古雋邨|古雋,Kwu Chun Estate|北區|public|古洞
-世運道簡約公屋|世運道項目,Olympic Avenue LPH,宋皇臺站簡約公屋,宋皇臺簡約公屋,啟德世運道簡約公屋,世運道簡約公屋啟德站|九龍城|public|啟德
-柴灣常安街簡約公屋|常安街簡約公屋,Sheung On Street LPH,柴灣常安街|東區|public
+世運道簡約公屋|世運道項目,Olympic Avenue LPH,宋皇臺站簡約公屋,宋皇臺簡約公屋,啟德世運道簡約公屋,世運道簡約公屋啟德站|九龍城|public|啟德||世運道
+柴灣常安街簡約公屋|常安街簡約公屋,Sheung On Street LPH,柴灣常安街,常安簡約公屋|東區|public|柴灣||常安街
 南灣花園|South Bay Garden,南灣苑|南區|private|赤柱||南灣坊33號
 高爾夫御苑|高爾夫．御苑,Eden Manor|北區|private|古洞||青山公路－古洞段88號
 高爾夫景園|Golf Parkview|北區|private|古洞||青山公路－古洞段83號
@@ -796,7 +796,7 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 悅海華庭|Marina Habitat,鴨脷洲悅海華庭|南區|hos
 悅庭軒|Bel Air Heights,黃大仙悅庭軒|黃大仙|hos
 雅景臺|Park Belvedere,沙田雅景臺|沙田|hos
-晴碧花園|Sunshine Grove,馬鞍山晴碧|沙田|hos
+晴碧花園|Sunshine Grove,沙田晴碧,圓洲角晴碧,得怡街6號晴碧|沙田|hos|圓洲角||得怡街6號
 叠翠軒|The Pinnacle,將軍澳叠翠軒|西貢|hos
 美樂花園|Melody Garden,屯門美樂花園|屯門|hos
 寶石大廈|Bo Shek Mansion,荃灣寶石大廈,沙咀道328號|荃灣|hos|荃灣||沙咀道328號
@@ -894,7 +894,7 @@ Mount Pokfulam|薄扶林Mount Pokfulam,薄扶林新盤Mount Pokfulam|南區|priv
 皇璇|STATE RESIDENCE,北角皇璇,熙和街1號皇璇|東區|private|北角|覆蓋需查核|熙和街1號
 滿．意|ONE TOSCANA,滿‧意,愉景灣滿．意,意濤,Toscana Discovery Bay,滿．意2期,ONE TOSCANA 2|離島|private|愉景灣
 太子道西233號|233 Prince Edward Road West,何文田太子道西233號|九龍城|private|何文田||太子道西233號
-灝然|Hao Yin,The Hemera Anderson,安達臣灝然,安達臣道灝然,房協灝然,觀塘灝然|觀塘|hos|安達臣|覆蓋需查核|安達臣道
+灝然|Hao Yin,The Hemera Anderson,安達臣灝然,安達臣道灝然,房協灝然,觀塘灝然,安禧街灝然|觀塘|hos|安達臣|覆蓋需查核|安禧街
 朗然|Hemma Amber,安達臣朗然,安禧街18號朗然,房協朗然,觀塘朗然|觀塘|hos|安達臣||安禧街18號
 叡璟|THE STERLING,叡璟I,叡璟II,叡璟1期,叡璟2期,The Sterling I,The Sterling II,長沙灣叡璟,發祥街西8號叡璟|深水埗|private|長沙灣|覆蓋需查核|發祥街西8號
 PORTO|Porto,鴨脷洲PORTO,平瀾街9號PORTO,平瀾街PORTO,Ap Lei Chau PORTO|南區|private|鴨脷洲||平瀾街9號
@@ -929,6 +929,16 @@ Elize Park|旺角Elize Park|油尖旺|private|旺角
 北都滙|Northern Hub,古洞北都滙,古洞北北都滙|北區|private|古洞|覆蓋需查核
 33清水灣|33 Clear Water Bay,清水灣道33號,牛池灣33清水灣|黃大仙|private|牛池灣|覆蓋需查核|清水灣道33號
 Victoria Blossom|維港花,啟德Victoria Blossom,承豐道16號|九龍城|private|啟德|覆蓋需查核|承豐道16號
-映匯|紅磡映匯,黃埔街映匯|九龍城|private|紅磡|覆蓋需查核|黃埔街
+映匯|CHESTER II,The Hampton,紅磡映匯,黃埔街映匯,黃埔街28號映匯|九龍城|private|紅磡|覆蓋需查核|黃埔街28號
+瑜意|Zendo House,ZENDO HOUSE,尖沙咀瑜意,德興街8號瑜意,佐敦瑜意|油尖旺|private|尖沙咀||德興街8號
+薈淳|CONNEXT,Connext,黃大仙薈淳,飛鳳街33號薈淳,慈雲山薈淳|黃大仙|private|黃大仙||飛鳳街33號
+One Innovale|ONE INNOVALE,粉嶺One Innovale,馬適路8號One Innovale,粉嶺馬適路8號|北區|private|粉嶺||馬適路8號
+雲向|CLOUDVIEW,Cloudview,粉嶺雲向,粉錦公路663號雲向,上水雲向|北區|private|粉嶺|覆蓋需查核|粉錦公路663號
+滶蘊|PAVILIA ROSA,Pavilia Rosa,九龍塘滶蘊,玫瑰街28號滶蘊,石硤尾滶蘊|九龍城|private|九龍塘|覆蓋需查核|玫瑰街28號
+海瑅灣|LA MIRABELLE,海瑅灣I,海瑅灣II,海瑅灣1期,海瑅灣2期,LA MIRABELLE I,LA MIRABELLE II,日出康城海瑅灣,康城海瑅灣|西貢|private|將軍澳|覆蓋需查核|康城路1號
+Palo Springs|Palo Springs Sheung Shui,上水Palo Springs,鄉梓路23號Palo Springs|北區|private|上水|覆蓋需查核|鄉梓路23號
+映居|大角咀映居,埃華街3號映居,埃華街映居|油尖旺|private|大角咀|覆蓋需查核|埃華街3號
+芊御|Garden Regency,Garden REGENCY,元朗芊御,錦田芊御,映河路1A號芊御|元朗|private|錦田|覆蓋需查核|映河路1A號
+瑧玥|GRAND AUSTIN BOHEMIAN,Grand Austin Bohemian,尖沙咀瑧玥|油尖旺|private|尖沙咀|覆蓋需查核
 `.trim();
 

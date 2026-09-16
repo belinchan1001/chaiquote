@@ -695,6 +695,6 @@ describe("guide manuscript dates vs catalogue stamp", () => {
       assert.match(src, /t\("dataUpdated", \{ date: updated \}\)/);
     }
     assert.match(home, /t\("hkUpdated", \{ date: updated \}\)/);
-    assert.equal(SITE.updated, "2026-09-16");
+    assert.equal(SITE.updated, "2026-09-17");
   });
 });

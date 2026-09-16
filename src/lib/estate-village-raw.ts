@@ -229,7 +229,7 @@ export const VILLAGE_RAW = `
 芝麻灣|Chi Ma Wan|離島|village|大嶼山
 䃟石灣|San Shek Wan|離島|village|大嶼山
 蘆荻灣|Lo Tik Wan|離島|village|南丫島
-模達灣|Mo Tat Wan|離島|village|南丫島
+模達灣|Mo Tat Wan,模達,南丫模達,南丫島模達,南丫島模達灣|離島|village|南丫島
 東涌莫家|Tung Chung Mok Ka,莫家|離島|village|東涌
 下嶺皮|Ha Ling Pei|離島|village|東涌
 長洲西灣|Cheung Chau Sai Wan|離島|village|長洲
@@ -351,7 +351,7 @@ export const VILLAGE_RAW = `
 梅窩鹿地塘|Luk Tei Tong,鹿地塘|離島|village|梅窩
 長洲東灣|Cheung Chau Tung Wan,長洲東灣村|離島|village|長洲
 坪洲南灣|Peng Chau Nam Wan,坪洲南灣村|離島|village|坪洲
-大嶼山水口|Shui Hau,水口村,水口大嶼山|離島|village|大嶼山
+大嶼山水口|Shui Hau,水口村,水口大嶼山,南大嶼水口|離島|village|大嶼山
 小瀝源村|Siu Lek Yuen Village,小瀝源舊村|沙田|village|小瀝源
 沙田圍村|Sha Tin Wai Village,沙田圍舊村|沙田|village|沙田圍
 藍地村|Lam Tei Tsuen,屯門藍地村|屯門|village|藍地
@@ -646,6 +646,25 @@ export const VILLAGE_RAW = `
 龜頭嶺|Kwai Tau Leng,粉嶺龜頭嶺|北區|village|粉嶺
 流水响|Lau Shui Heung,粉嶺流水响|北區|village|粉嶺
 小坑新村|Siu Hang San Tsuen,粉嶺小坑新村|北區|village|粉嶺
+和合石新村|Wo Hop Shek San Tsuen,粉嶺和合石新村|北區|village|粉嶺
+東閣圍|Tung Kok Wai,粉嶺東閣圍|北區|village|粉嶺
+永寧圍|Wing Ning Wai,粉嶺永寧圍|北區|village|粉嶺
+馬笏圍|Ma Wat Wai,粉嶺馬笏圍,粉嶺馬笏村|北區|village|粉嶺
+靈山村|Ling Shan Tsuen,粉嶺靈山村|北區|village|粉嶺
+和興村|Wo Hing Tsuen,粉嶺和興村|北區|village|粉嶺
+亞媽笏|A Ma Wat,沙頭角亞媽笏|北區|village|沙頭角
+鳳坑|Fung Hang,沙頭角鳳坑,沙頭角鳳坑村|北區|village|沙頭角
+鎖羅盆|So Lo Pun,沙頭角鎖羅盆|北區|village|沙頭角
+犁頭石|Lai Tau Shek,沙頭角犁頭石|北區|village|沙頭角
+橫山脚|Wang Shan Keuk,沙頭角橫山脚|北區|village|沙頭角
+牛屎湖|Ngau Shi Wu,沙頭角牛屎湖|北區|village|沙頭角
+西流江|Sai Lau Kong,沙頭角西流江|北區|village|沙頭角
+營盤|Ying Pun,上水營盤,上水營盤村|北區|village|上水
+新田西鎮圍|Sai Chun Wai,西鎮圍,新田西鎮|元朗|village|新田
+鹽田仔|Yim Tin Tsai Tai Po,大埔鹽田仔,船灣鹽田仔|大埔|village|船灣
+西貢鹽田仔|Yim Tin Tsai Sai Kung,西貢鹽田仔村|西貢|village|西貢
+萬角咀|Man Kok Tsui,大嶼山萬角咀|離島|village|大澳
+鱟殼灣|Hau Hok Wan,大嶼山鱟殼灣|離島|village|大澳
 `.trim();
 
 

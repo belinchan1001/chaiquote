@@ -295,6 +295,16 @@ const SLUG_FALLBACK: Record<string, string> = {
   "33清水灣": "33-clear-water-bay",
   "Victoria Blossom": "victoria-blossom",
   映匯: "hung-hom-the-hampton",
+  瑜意: "zendo-house",
+  薈淳: "connext",
+  "One Innovale": "one-innovale",
+  雲向: "cloudview",
+  滶蘊: "pavilia-rosa",
+  海瑅灣: "la-mirabelle",
+  "Palo Springs": "palo-springs",
+  映居: "tai-kok-tsui-ying-kui",
+  芊御: "garden-regency",
+  瑧玥: "grand-austin-bohemian",
 };
 
 function requireEstate(name: string): Estate {
