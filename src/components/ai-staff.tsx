@@ -184,7 +184,7 @@ export function AiStaffPanel() {
         >
           <div className="flex items-center gap-3 bg-primary px-4 py-3 text-primary-foreground">
             <span className="flex size-11 items-center justify-center bg-accent text-accent-foreground">
-              <LogoMarkLooking className="size-5" />
+              <LogoMarkLooking className="size-7" />
             </span>
             <div className="min-w-0 flex-1">
               <p className="flex min-w-0 items-baseline gap-1.5">

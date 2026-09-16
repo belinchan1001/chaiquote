@@ -77,7 +77,7 @@ export function SiteHeader() {
                 toggleAi();
               }}
             >
-              <LogoMarkLooking />
+              <LogoMarkLooking className="!size-5" />
               <span className="sm:hidden">{t("aiStaffTiny")}</span>
               <span className="hidden sm:inline lg:hidden">{t("aiStaffShort")}</span>
               <span className="hidden lg:inline">{t("aiStaff")}</span>

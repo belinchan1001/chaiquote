@@ -32,7 +32,7 @@ export function AiFilterEntry({ className }: { className?: string }) {
           className="shadow-none"
           onClick={toggleAi}
         >
-          <LogoMarkLooking />
+          <LogoMarkLooking className="!size-5" />
           {t("aiEntryCta")}
         </Button>
       </div>
