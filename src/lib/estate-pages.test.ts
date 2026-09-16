@@ -178,6 +178,7 @@ describe("estate SEO pages", () => {
     assert.equal(isNewIntakeEstate("上然第6座"), true);
     assert.equal(isNewIntakeEstate("上然第7座"), true);
     assert.equal(isNewIntakeEstate("樂嶺軒"), true);
+    assert.equal(isNewIntakeEstate("樂嶺樓"), true);
     assert.equal(isNewIntakeEstate("盛頤居"), true);
     assert.equal(isNewIntakeEstate("高宏苑"), true);
     assert.equal(isNewIntakeEstate("清濤苑"), true);
@@ -276,6 +277,8 @@ describe("estate SEO pages", () => {
     for (const id of ids) assert.equal(unlocked.includes(id), true, id);
     assert.equal(estateUnlocksPlan("盛緻苑", HKBN_INTAKE_OFFER_ESTATES), true);
     assert.equal(estateUnlocksPlan("宋皇臺站簡約公屋", HKBN_INTAKE_OFFER_ESTATES), true);
+    assert.equal(estateUnlocksPlan("樂嶺樓", HKBN_INTAKE_OFFER_ESTATES), true);
+    assert.equal(estateUnlocksPlan("健茵樓", HKBN_INTAKE_OFFER_ESTATES), true);
     assert.equal(estateUnlocksPlan("天耀邨", HKBN_INTAKE_OFFER_ESTATES), false);
     assert.equal(estateUnlocksPlan(undefined, HKBN_INTAKE_OFFER_ESTATES), false);
     assert.equal(isNewIntakeEstate("朗天苑"), true);

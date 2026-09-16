@@ -286,7 +286,7 @@ const RAW = `
 啟盈苑|啟盈,Kai Ying Court|九龍城|hos|啟德
 啟陽苑|啟陽,Kai Yeung Court|九龍城|hos|啟德|覆蓋需查核|沐和街8號
 天水圍嘉湖山莊|嘉湖,嘉湖山莊,Kingswood Villas|元朗|private|天水圍
-俊宏軒|俊宏,Grandeur Terrace,天水圍俊宏軒,天瑞路88號俊宏軒|元朗|private|天水圍||天瑞路88號
+俊宏軒|俊宏,Grandeur Terrace,天水圍俊宏軒,天瑞路88號俊宏軒|元朗|public|天水圍||天瑞路88號
 慧景軒|慧景,Vianni Cove,天水圍慧景軒,天葵路33號慧景軒|元朗|private|天水圍||天葵路33號
 YOHO Town|YOHO,Yoho Town,元朗YOHO|元朗|private
 YOHO Midtown|YOHO Midtown|元朗|private

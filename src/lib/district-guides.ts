@@ -106,7 +106,7 @@ export const DISTRICT_GUIDES: Guide[] = [
       {
         heading: "天水圍唔係一區一價",
         paragraphs: [
-          "搜「天水圍寬頻」見到嘅，多數仍然要先分樓類。天耀邨、天瑞邨、天華邨係公屋；天盛苑、天富苑、天頌苑係居屋；嘉湖山莊、俊宏軒、慧景軒係私樓。同一條 1000M，三種樓類計劃可以完全唔同。",
+          "搜「天水圍寬頻」見到嘅，多數仍然要先分樓類。天耀邨、天瑞邨、天華邨、俊宏軒係公屋；天盛苑、天富苑、天頌苑係居屋；嘉湖山莊、慧景軒係私樓。同一條 1000M，三種樓類計劃可以完全唔同。",
           "齊Quote 資料庫將天水圍地址歸入元朗區。下列月費係**站內列出**例子，**僅供參考**，唔代表你座樓一定有。呢張表**唔係排名**。覆蓋同安裝以電訊商確認為準。",
         ],
       },
@@ -127,7 +127,7 @@ export const DISTRICT_GUIDES: Guide[] = [
       {
         heading: "常見屋苑入口",
         paragraphs: [
-          "公屋：[天耀邨](/estates/tin-yiu)、[天瑞邨](/estates/tin-shui)、[天華邨](/estates/tin-wah)、[天恒邨](/estates/tin-heng)、[天恩邨](/estates/tin-yan)、[天逸邨](/estates/tin-yat)。居屋：[天盛苑](/estates/tin-shing-court)、[天富苑](/estates/tin-fu-court)、[天頌苑](/estates/tin-chung-court)。私樓：[嘉湖山莊](/estates/kingswood-villas)、[俊宏軒](/estates/grandeur-terrace)。",
+          "公屋：[天耀邨](/estates/tin-yiu)、[天瑞邨](/estates/tin-shui)、[天華邨](/estates/tin-wah)、[天恒邨](/estates/tin-heng)、[天恩邨](/estates/tin-yan)、[天逸邨](/estates/tin-yat)、[俊宏軒](/estates/grandeur-terrace)。居屋：[天盛苑](/estates/tin-shing-court)、[天富苑](/estates/tin-fu-court)、[天頌苑](/estates/tin-chung-court)。私樓：[嘉湖山莊](/estates/kingswood-villas)。",
           "屋苑頁列出適用樓類計劃。指定屋苑閃購如果有，只會喺搜該屋苑時出現，**唔入**上面摘要表。點用屋苑名見 [齊Quote 點用屋苑篩](/guides/estate-filter)。全部見 [屋苑目錄](/estates)。",
         ],
       },

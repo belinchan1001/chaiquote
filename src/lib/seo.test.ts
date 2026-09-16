@@ -208,7 +208,7 @@ describe("renderSitemapXml", () => {
     assert.ok(SITEMAP_PAGES.length < SITEMAP_URL_LIMIT, `${SITEMAP_PAGES.length} URLs need a sitemap index`);
     assert.equal(locs.length, SITEMAP_PAGES.length);
     assert.equal(estateLocs.length, INDEXABLE_ESTATE_PAGES.length);
-    assert.equal(INDEXABLE_ESTATE_PAGES.length, 100);
+    assert.equal(INDEXABLE_ESTATE_PAGES.length, 101);
     assert.ok(ESTATE_PAGES.length > INDEXABLE_ESTATE_PAGES.length);
 
     for (const page of STATIC_SITEMAP_PAGES) {
@@ -264,6 +264,8 @@ describe("renderSitemapXml", () => {
     assert.equal(parentEstate(block.estate)?.name, "朗天苑");
     assert.equal(locs.includes("https://www.chaiquote.hk/estates/long-chung-house"), false);
     assert.ok(INDEXABLE_ESTATE_PAGES.some((item) => item.estate.name === "朗天苑"));
+    assert.ok(INDEXABLE_ESTATE_PAGES.some((item) => item.estate.name === "樂嶺樓"));
+    assert.ok(INDEXABLE_ESTATE_PAGES.every((item) => item.estate.name !== "健茵樓"));
     assert.ok(INDEXABLE_ESTATE_PAGES.every((item) => !parentEstate(item.estate)));
 
     for (const word of CLAIM_WORDS) {

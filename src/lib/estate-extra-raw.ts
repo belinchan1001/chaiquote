@@ -169,7 +169,9 @@ export const EXTRA_RAW = `
 翠屏南邨|翠屏南,翠屏(南)邨,翠屏（南）邨,Tsui Ping South Estate|觀塘|public
 雲漢邨|雲漢,Wan Hon Estate|觀塘|public
 和樂邨|和樂,Wo Lok Estate|觀塘|public
-曉茵邨|曉茵,Hiu Yan Estate|觀塘|public
+曉茵邨|曉茵,Hiu Yan Estate|觀塘|public|秀茂坪||曉明街9號
+健茵樓|Kin Yan House,Hiu Kin House,曉茵邨健茵樓,曉茵邨第1座|觀塘|public|秀茂坪||曉明街9號
+滿茵樓|Mun Yan House,Hiu Mun House,曉茵邨滿茵樓,曉茵邨第2座|觀塘|public|秀茂坪||曉明街9號
 樂華北邨|樂華北,Lok Wah North Estate|觀塘|public
 樂華南邨|樂華南,Lok Wah South Estate|觀塘|public
 觀塘花園大廈|玉蓮臺,Kwun Tong Garden Estate|觀塘|public
@@ -762,7 +764,7 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 荷李活華庭|Hollywood Terrace|中西區|private|||荷李活道123號
 富雅花園|富雅,Elegance Garden Tai Po|大埔|hos
 日出康城第12期|LOHAS Park Phase 12,LP12,康城第12期,Grand Seasons,日出康城12C期,LP12C,康城Grand Seasons,Park Seasons,日出康城12B期,LP12B,康城Park Seasons|西貢|private|將軍澳
-古雋邨|古雋,Kwu Chun Estate|北區|public|古洞
+古雋邨|古雋,Kwu Chun Estate,古洞北古雋邨|北區|public|古洞
 世運道簡約公屋|世運道項目,Olympic Avenue LPH,宋皇臺站簡約公屋,宋皇臺簡約公屋,啟德世運道簡約公屋,世運道簡約公屋啟德站|九龍城|public|啟德||世運道
 柴灣常安街簡約公屋|常安街簡約公屋,Sheung On Street LPH,柴灣常安街,常安簡約公屋|東區|public|柴灣||常安街
 南灣花園|South Bay Garden,南灣苑|南區|private|赤柱||南灣坊33號

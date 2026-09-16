@@ -512,38 +512,29 @@ export const VILLAGE_RAW = `
 大嶼山長沙|Cheung Sha Lantau,長沙嶼南,上長沙,下長沙,南大嶼長沙|離島|village|南大嶼
 新田舊村|San Tin Kau Tsuen|元朗|village|新田
 沙田田心村|Tin Sam Tai Wai,大圍田心村,田心村大圍|沙田|village|大圍
-禾寮坑|Wo Liu Hang,火炭禾寮坑|沙田|village|火炭
-山尾村|Shan Mei Tsuen,火炭山尾|沙田|village|火炭
 拔子窩|Pat Tsz Wo|沙田|village|火炭
 香粉寮|Heung Fan Liu,大圍香粉寮|沙田|village|大圍
 積存圍|Chik Chuen Wai,大圍積存圍|沙田|village|大圍
 南丫北角村|Pak Kok Village,南丫島北角村|離島|village|南丫
 南丫模達灣|Mo Tat Wan,模達村|離島|village|南丫
-長洲西灣|Cheung Chau Sai Wan,西灣長洲|離島|village|長洲
-稔灣|Nim Wan,稔灣村|元朗|village|流浮山
 白泥|Pak Nai,白泥村,流浮山白泥|元朗|village|流浮山
 蝦尾新村|Ha Mei San Tsuen,天水圍蝦尾|元朗|village|天水圍
 山廈村|Shan Ha Tsuen,十八鄉山廈|元朗|village|十八鄉
-粉嶺樓|Fanling Lau,粉嶺樓村|北區|village|粉嶺
 古洞北村|Kwu Tung North Village|北區|village|古洞
 十四鄉黃竹灣|Wong Chuk Wan Sai Sha,西沙黃竹灣|大埔|village|西貢北
 井頭村大埔|Tseng Tau Tai Po,大埔井頭村|大埔|village|汀角
 馬鞍山村|Ma On Shan Tsuen,馬鞍山舊村|沙田|village|馬鞍山
 烏溪沙村|Wu Kai Sha Village,烏溪沙舊村|沙田|village|馬鞍山
 大埔頭老圍|Tai Po Tau Lo Wai|大埔|village|大埔
-大埔頭水圍|Tai Po Tau Shui Wai|大埔|village|大埔
 古洞南|Kwu Tung South|北區|village|古洞
 沙頭角南涌|Nam Chung,南涌村|北區|village|沙頭角
 鹿頸村|Luk Keng Village,鹿頸|北區|village|沙頭角
 荔枝窩|Lai Chi Wo|北區|village|沙頭角
 吉澳|Kat O,吉澳村|北區|village|沙頭角
-鴨洲|Ap Chau|北區|village|沙頭角
 大嶼山塘福村|Tong Fuk Village|離島|village|南大嶼
 大嶼山貝澳老圍|Pui O Lo Wai,貝澳老圍|離島|village|貝澳
 東涌塱塢|Lam Che,東涌塱塢村|離島|village|東涌
-東涌莫家|Mok Ka,東涌莫家村|離島|village|東涌
 東涌黃家|Wong Ka Wai,東涌黃家圍|離島|village|東涌
-青龍頭村|Tsing Lung Tau Village|荃灣|village|青龍頭
 深井舊村|Sham Tseng Kau Tsuen|荃灣|village|深井
 汀九村|Ting Kau Village|荃灣|village|汀九
 葵涌九華徑上村|Kau Wa Keng Upper Village|葵青|village|葵涌
@@ -665,6 +656,170 @@ export const VILLAGE_RAW = `
 西貢鹽田仔|Yim Tin Tsai Sai Kung,西貢鹽田仔村|西貢|village|西貢
 萬角咀|Man Kok Tsui,大嶼山萬角咀|離島|village|大澳
 鱟殼灣|Hau Hok Wan,大嶼山鱟殼灣|離島|village|大澳
+鴉山村|A Shan Tsuen,鴉山|大埔|village|大埔
+張屋地村|Cheung Uk Tei,張屋地|大埔|village|大埔
+涌尾新村|Chung Mei San Tsuen,涌尾|大埔|village|大埔
+涌背新村|Chung Pui San Tsuen,涌背|大埔|village|大埔
+大埔鍾屋村|Tai Po Chung Uk Tsuen,鍾屋村大埔|大埔|village|大埔
+蝦地下村|Ha Tei Ha,蝦地下|大埔|village|大埔
+下黃宜坳村|Ha Wong Yi Au,下黃宜坳|大埔|village|大埔
+坑下莆村|Hang Ha Po,坑下莆|大埔|village|大埔
+金竹排新村|Kam Chuk Pai San Tsuen,金竹排|大埔|village|大埔
+聯益漁村|Luen Yick Fishermen Village,聯益|大埔|village|大埔
+龍丫排村|Lung A Pai,龍丫排|大埔|village|大埔
+馬窩村|Ma Wo Tsuen,馬窩|大埔|village|大埔
+坪朗村|Ping Long Tsuen,坪朗|大埔|village|大埔
+坪山仔村|Ping Shan Tsai,坪山仔|大埔|village|大埔
+半山洲村|Pun Shan Chau,半山洲|大埔|village|大埔
+新頭角村|San Tau Kok,新頭角|大埔|village|大埔
+新塘村|San Tong Tsuen,大埔新塘|大埔|village|大埔
+新屋家村|San Uk Ka,新屋家|大埔|village|大埔
+沙螺洞張屋村|Sha Lo Tung Cheung Uk,沙螺洞張屋|大埔|village|大埔
+沙螺洞李屋村|Sha Lo Tung Lee Uk,沙螺洞李屋|大埔|village|大埔
+石鼓壟村|Shek Ku Lung,石鼓壟|大埔|village|大埔
+上黃宜坳村|Sheung Wong Yi Au,上黃宜坳|大埔|village|大埔
+船灣陳屋村|Shuen Wan Chan Uk,船灣陳屋|大埔|village|大埔
+船灣詹屋村|Shuen Wan Chim Uk,船灣詹屋|大埔|village|大埔
+船灣李屋村|Shuen Wan Lei Uk,船灣李屋|大埔|village|大埔
+水窩村|Shui Wo Tsuen,水窩|大埔|village|大埔
+小滘新村|Siu Kau San Tsuen,小滘|大埔|village|大埔
+小菴山村|Siu Om Shan,小菴山|大埔|village|大埔
+打鐵印村|Ta Tit Yan,打鐵印|大埔|village|大埔
+泰亨鄉|Tai Hang Village Tai Po,泰亨|大埔|village|大埔
+大滘新村|Tai Kau San Tsuen,大滘|大埔|village|大埔
+大芒輋村|Tai Mong Che,大芒輋|大埔|village|大埔
+大菴山村|Tai Om Shan,大菴山|大埔|village|大埔
+大埔尾村|Tai Po Mei,大埔尾|大埔|village|大埔
+桃源洞村|To Yuen Tung,桃源洞|大埔|village|大埔
+塘上村|Tong Sheung Tsuen,塘上|大埔|village|大埔
+運頭角村|Wan Tau Kok,運頭角|大埔|village|大埔
+橫嶺頭新村|Wang Leng Tau San Tsuen,橫嶺頭|大埔|village|大埔
+黃魚灘村|Wong Yue Tan,黃魚灘|大埔|village|大埔
+燕岩村|Yin Ngam,燕岩|大埔|village|大埔
+魚角村|Yu Kok,魚角|大埔|village|大埔
+元墩下村|Yuen Tun Ha,元墩下|大埔|village|大埔
+圍頭村|Wai Tau Tsuen,大埔圍頭|大埔|village|大埔
+樟木頭村|Cheung Muk Tau,西貢北樟木頭|大埔|village|西貢北
+嶂上村|Cheung Sheung,嶂上|大埔|village|西貢北
+海下村|Hoi Ha Tsuen,海下|大埔|village|西貢北
+企嶺下老圍|Kei Ling Ha Lo Wai,企嶺下老圍村|大埔|village|西貢北
+企嶺下新圍|Kei Ling Ha San Wai,企嶺下新圍村|大埔|village|西貢北
+官坑村|Kwun Hang,官坑|大埔|village|西貢北
+南山洞村|Nam Shan Tung,南山洞|大埔|village|西貢北
+白沙澳村|Pak Sha O,白沙澳|大埔|village|西貢北
+平洲洲尾村|Tung Ping Chau Chau Mei,東平洲洲尾|大埔|village|西貢北
+平洲洲頭村|Tung Ping Chau Chau Tau,東平洲洲頭|大埔|village|西貢北
+平洲奶頭村|Tung Ping Chau Nai Tau,東平洲奶頭|大埔|village|西貢北
+平洲沙頭村|Tung Ping Chau Sha Tau,東平洲沙頭|大埔|village|西貢北
+平洲大塘村|Tung Ping Chau Tai Tong,東平洲大塘|大埔|village|西貢北
+西徑村|Sai Keng,西徑|大埔|village|西貢北
+西貢北沙頭村|Sai Kung North Sha Tau,沙頭村西貢北|大埔|village|西貢北
+大灘村|Tai Tan,大灘|大埔|village|西貢北
+塔門漁民村|Tap Mun Fishermen Village,塔門漁民|大埔|village|西貢北
+土瓜坪村|To Kwa Peng,土瓜坪|大埔|village|西貢北
+東心淇村|Tung Sam Kei,東心淇|大埔|village|西貢北
+黃竹塱村|Wong Chuk Long,黃竹塱|大埔|village|西貢北
+深灣村|Sham Wan Tsuen,西貢北深灣|大埔|village|西貢北
+屯門鍾屋村|Tuen Mun Chung Uk Tsuen,鍾屋村屯門|屯門|village|屯門
+小欖村|Siu Lam Tsuen,小欖|屯門|village|屯門
+大欖涌村|Tai Lam Chung,大欖涌|屯門|village|屯門
+青磚圍|Tsing Chuen Wai,屯門青磚圍|屯門|village|屯門
+屯門舊墟村|Tuen Mun Kau Hui,舊墟村|屯門|village|屯門
+屯門新墟村|Tuen Mun San Hui Village,新墟村|屯門|village|屯門
+三聖墟|Sam Shing Hui,屯門三聖墟|屯門|village|屯門
+橫台山下新屋村|Wang Toi Shan Ha San Uk,橫台山下新屋|元朗|village|八鄉
+南坑排|Nam Hang Pai,十八鄉南坑排|元朗|village|十八鄉
+山貝涌口|Shan Pui Chung Hau,山貝涌口村|元朗|village|十八鄉
+大旗嶺|Tai Kei Leng,十八鄉大旗嶺|元朗|village|十八鄉
+屏山灰窯村|Ping Shan Fui Yiu,屏山灰窯|元朗|village|屏山
+石埗村|Shek Po Tsuen,屏山石埗|元朗|village|屏山
+明德堂|Ming Tak Tong,新田明德堂|元朗|village|新田
+上水坑頭村|Sheung Shui Hang Tau,坑頭村上水|北區|village|上水
+上水金錢村|Kam Tsin Tsuen,金錢村上水,金錢|北區|village|上水
+上水營盤村|Ying Pun Tsuen,營盤村上水|北區|village|上水
+週田村|Chow Tin Tsuen,打鼓嶺週田|北區|village|打鼓嶺
+鳳坑村|Fung Hang,沙頭角鳳坑|北區|village|沙頭角
+鹹坑尾|Ham Hang Mei,沙頭角鹹坑尾|北區|village|沙頭角
+蛤塘村|Kap Tong,沙頭角蛤塘|北區|village|沙頭角
+九担租|Kau Tam Tso,沙頭角九担租|北區|village|沙頭角
+崗下村|Kong Ha,沙頭角崗下|北區|village|沙頭角
+犂頭石|Lai Tau Shek,沙頭角犂頭石|北區|village|沙頭角
+苗田村|Miu Tin,沙頭角苗田|北區|village|沙頭角
+沙頭角梅子林|Mui Tsz Lam Sha Tau Kok,梅子林沙頭角|北區|village|沙頭角
+山嘴村|Shan Tsui,沙頭角山嘴|北區|village|沙頭角
+石涌凹|Shek Chung Au,沙頭角石涌凹|北區|village|沙頭角
+大洲渡|Tai Chau To,沙頭角大洲渡|北區|village|沙頭角
+沙頭角大朗|Tai Long Sha Tau Kok,大朗沙頭角|北區|village|沙頭角
+七木橋|Chat Muk Kiu,沙頭角七木橋|北區|village|沙頭角
+嶺咀村|Leng Tsui,粉嶺嶺咀|北區|village|粉嶺
+龍躍頭|Lung Yeuk Tau,粉嶺龍躍頭|北區|village|粉嶺
+麻笏村|Ma Wat Tsuen,粉嶺麻笏|北區|village|粉嶺
+西貢灰窯下|Sai Kung Fui Yiu Ha,灰窯下西貢|西貢|village|西貢
+界咸村|Kai Ham,西貢界咸|西貢|village|西貢
+爛泥灣|Lan Nai Wan,西貢爛泥灣|西貢|village|西貢
+浪茄村|Long Ke,西貢浪茄|西貢|village|西貢
+浪徑村|Long Keng,西貢浪徑|西貢|village|西貢
+麻南笏|Ma Nam Wat,西貢麻南笏|西貢|village|西貢
+蠻窩村|Man Wo,西貢蠻窩|西貢|village|西貢
+昂窩村|Nga Wo,西貢昂窩|西貢|village|西貢
+北港村|Pak Kong,西貢北港|西貢|village|西貢
+北港坳|Pak Kong Au,西貢北港坳|西貢|village|西貢
+白腊村|Pak Lap,西貢白腊|西貢|village|西貢
+北潭村|Pak Tam,西貢北潭|西貢|village|西貢
+壁屋村|Pik Uk,西貢壁屋|西貢|village|西貢
+坪墩村|Ping Tun,西貢坪墩|西貢|village|西貢
+西貢西灣村|Sai Wan Tsuen Sai Kung,西灣村西貢|西貢|village|西貢
+沙咀新村|Sha Tsui San Tsuen,西貢沙咀|西貢|village|西貢
+蛇頭村|She Tau,西貢蛇頭|西貢|village|西貢
+石坑村|Shek Hang,西貢石坑|西貢|village|西貢
+上窯村|Sheung Yiu,西貢上窯|西貢|village|西貢
+打蠔墩|Ta Ho Tun,西貢打蠔墩|西貢|village|西貢
+大藍湖|Tai Lam Wu,西貢大藍湖|西貢|village|西貢
+西貢大浪村|Tai Long Tsuen Sai Kung,大浪村西貢|西貢|village|西貢
+大腦村|Tai Nou,西貢大腦|西貢|village|西貢
+大埗仔村|Tai Po Tsai Sai Kung,大埗仔西貢|西貢|village|西貢
+氹笏村|Tam Wat,西貢氹笏|西貢|village|西貢
+鐵鉗坑|Tit Kim Hang,西貢鐵鉗坑|西貢|village|西貢
+鯽魚湖|Tsik Wu,西貢鯽魚湖|西貢|village|西貢
+早禾坑|Tso Wo Hang,西貢早禾坑|西貢|village|西貢
+屋場村|Uk Teng,西貢屋場|西貢|village|西貢
+禾寮村|Wo Liu,西貢禾寮|西貢|village|西貢
+窩美村|Wo Mei,西貢窩美|西貢|village|西貢
+黃竹山新村|Wong Chuk Shan San Tsuen,黃竹山|西貢|village|西貢
+黃麖仔|Wong Keng Tsai,西貢黃麖仔|西貢|village|西貢
+黃毛應|Wong Mo Ying,西貢黃毛應|西貢|village|西貢
+黃宜洲|Wong Yi Chau,西貢黃宜洲|西貢|village|西貢
+阿公灣|A Kung Wan,坑口阿公灣|西貢|village|坑口
+竹角村|Chuk Kok,坑口竹角|西貢|village|坑口
+斧頭洲|Fu Tau Chau,坑口斧頭洲|西貢|village|坑口
+坑口下洋村|Ha Yeung Hang Hau,下洋村坑口|西貢|village|坑口
+馬游塘村|Ma Yau Tong,馬游塘|西貢|village|坑口
+坑口上洋村|Sheung Yeung,上洋村坑口|西貢|village|坑口
+大坑口村|Tai Hang Hau,大坑口|西貢|village|坑口
+大埔仔村|Tai Po Tsai Hang Hau,大埔仔坑口|西貢|village|坑口
+田下環|Tin Ha Wan,坑口田下環|西貢|village|坑口
+將軍澳村|Tseung Kwan O Village,將軍澳舊村|西貢|village|坑口
+魷魚灣村|Yau Yue Wan,魷魚灣|西貢|village|坑口
+坳背灣村|Au Pui Wan,沙田坳背灣|沙田|village|沙田
+赤坭坪村|Chek Nai Ping,赤坭坪|沙田|village|沙田
+長瀝尾村|Cheung Lek Mei,長瀝尾|沙田|village|沙田
+芙蓉泌村|Fu Yung Pei,芙蓉泌|沙田|village|沙田
+顯田村|Hin Tin Tsuen,顯田|沙田|village|沙田
+河瀝背村|Ho Lek Pui,河瀝背|沙田|village|沙田
+落路下村|Lok Lo Ha,落路下|沙田|village|沙田
+茅笪村|Mau Tat,沙田茅笪|沙田|village|沙田
+茂草岩村|Mau Tso Ngam,茂草岩|沙田|village|沙田
+沙田梅子林村|Mui Tsz Lam Sha Tin,梅子林沙田|沙田|village|沙田
+十二笏村|Sap Yi Wat,十二笏|沙田|village|沙田
+石壟仔村|Shek Lung Tsai,石壟仔|沙田|village|沙田
+大南寮村|Tai Nam Liu,大南寮|沙田|village|沙田
+大水坑村|Tai Shui Hang Tsuen,大水坑|沙田|village|沙田
+作壆坑村|Tso Pui Hang,作壆坑|沙田|village|沙田
+黃泥頭村|Wong Nai Tau,黃泥頭|沙田|village|沙田
+沙田王屋村|Wong Uk Tsuen Sha Tin,王屋村沙田|沙田|village|沙田
+下禾輋村|Ha Wo Che Tsuen,下禾輋|沙田|village|沙田
+上禾輋村|Sheung Wo Che Tsuen,上禾輋|沙田|village|沙田
+西貢南山村|Nam Shan Tsuen Sai Kung,南山村西貢|西貢|village|西貢
 `.trim();
 
 

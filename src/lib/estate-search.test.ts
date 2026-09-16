@@ -308,6 +308,8 @@ describe("matchKnownEstate / classifyAddress", () => {
     assert.ok(ESTATES.filter((item) => item.housing === "village").length >= 300);
     assert.equal(searchEstates("水邊圍", 8)[0]?.name, "水邊圍邨");
     assert.equal(searchEstates("水邊圍", 8)[0]?.housing, "public");
+    assert.equal(searchEstates("三聖", 8)[0]?.name, "三聖邨");
+    assert.equal(searchEstates("三聖墟", 8)[0]?.name, "三聖墟");
   });
 
   it("covers HA public phases and missing HOS / Housing Society courts", () => {
@@ -370,8 +372,18 @@ describe("matchKnownEstate / classifyAddress", () => {
     assert.equal(estate("茶果嶺村")?.housing, "village");
     assert.equal(estate("鯉魚門村")?.housing, "village");
     assert.equal(estate("三家村")?.housing, "village");
-    assert.equal(estate("俊宏軒")?.housing, "private");
+    assert.equal(estate("俊宏軒")?.housing, "public");
     assert.equal(estate("俊宏軒")?.street, "天瑞路88號");
+    assert.equal(classifyAddress("俊宏軒").housing, "public");
+    assert.equal(estate("曉茵邨")?.street, "曉明街9號");
+    assert.equal(estate("曉茵邨")?.housing, "public");
+    assert.equal(matchKnownEstate("健茵樓")?.name, "健茵樓");
+    assert.equal(matchKnownEstate("健茵樓")?.housing, "public");
+    assert.equal(parentEstate("健茵樓")?.name, "曉茵邨");
+    assert.equal(parentEstate("滿茵樓")?.name, "曉茵邨");
+    assert.equal(estate("將軍澳村")?.housing, "village");
+    assert.equal(estate("小欖村")?.housing, "village");
+    assert.equal(estate("海下村")?.housing, "village");
     assert.equal(estate("雅寧苑")?.housing, "hos");
     assert.equal(estate("高翔苑")?.housing, "hos");
     assert.equal(estate("栢慧豪園")?.housing, "private");
@@ -489,6 +501,8 @@ describe("related blocks in suggest (anti-cross)", () => {
     assert.equal(parentEstate("彩楊閣")?.name, "彩明苑");
     assert.equal(parentEstate("東頭邨"), undefined);
     assert.equal(parentEstate("東頭村"), undefined);
+    assert.equal(parentEstate("健茵樓")?.name, "曉茵邨");
+    assert.equal(relatedBlocks("曉茵邨").map((item) => item.name).sort().join(","), "健茵樓,滿茵樓");
   });
 
   it("1) search 東頭邨 → parent first, then its 樓 children", () => {
@@ -1047,6 +1061,7 @@ describe("housing type audit 2026", () => {
       "元州邨",
       "家維邨",
       "麗瑤邨",
+      "俊宏軒",
     ];
     for (const name of publicEstates) {
       assert.equal(estate(name)?.housing, "public", name);
