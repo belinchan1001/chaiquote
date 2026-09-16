@@ -206,7 +206,7 @@ describe("HKBN senior 5G HK–Mainland plans", () => {
       assert.equal(row.category, "mobile");
       assert.equal(row.freeMonths, 0);
       assert.equal(row.contractMonths, 24);
-      assert.equal(row.voice, "每月 100 分鐘中國內地通話");
+      assert.equal(row.voice, "本地通話無限；每月 100 分鐘中國內地通話");
       assert.equal(row.network, "5G（中國移動香港）");
       assert.equal(row.install, "不適用");
       assert.equal(row.housing, "all");

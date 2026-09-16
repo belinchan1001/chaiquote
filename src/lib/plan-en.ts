@@ -851,6 +851,7 @@ const BEST_FOR: [string, string][] = [
   ["15GB 中國內地及香港兩地共享數據", "15GB Mainland China and Hong Kong shared data"],
   ["30GB 中國內地及香港兩地共享數據", "30GB Mainland China and Hong Kong shared data"],
   ["每月 100 分鐘中國內地通話", "100 Mainland China call minutes/month"],
+  ["本地通話無限；每月 100 分鐘中國內地通話", "Unlimited local calls; 100 Mainland China call minutes/month"],
   ["適合重用量、短片用戶", "For heavy use and short-video users"],
   ["適合極重用量或家庭熱點", "For very heavy use or a home hotspot"],
   ["適合要副卡、不受 s/ash 一人一計劃限制", "For extra SIMs without the s/ash one-plan-per-user rule"],

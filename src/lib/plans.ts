@@ -153,6 +153,7 @@ const PERKS_HKBN_ELDER = [
   "可加購 OMRON 歐姆龍心房顫動藍牙手臂式血壓計 HEM-7383T1，每月 HK$40（須預繳 HK$240）",
 ];
 const PORT_HKBN_ELDER = "攜號轉台可豁免每月行政費 HK$18";
+const VOICE_HKBN_ELDER = "本地通話無限；每月 100 分鐘中國內地通話";
 const PREPAID_HGC_300 = "須預繳 HK$300";
 const PREPAID_HKBN_200 = "須預繳 HK$200，第 1 至第 4 個月每月從預繳費用中扣減月費 HK$50";
 const PREPAID_HKBN_200_REBATE = "須預繳 HK$200，第 1 至第 4 個月每月回贈 HK$50";
@@ -3393,7 +3394,7 @@ export const PLANS: Plan[] = [
     contractMonths: 24,
     dataGb: 15,
     highSpeedGb: 15,
-    voice: "每月 100 分鐘中國內地通話",
+    voice: VOICE_HKBN_ELDER,
     roaming: "15GB 中國內地及香港兩地共享數據",
     install: "不適用",
     housing: "all",
@@ -3415,7 +3416,7 @@ export const PLANS: Plan[] = [
     contractMonths: 24,
     dataGb: 30,
     highSpeedGb: 30,
-    voice: "每月 100 分鐘中國內地通話",
+    voice: VOICE_HKBN_ELDER,
     roaming: "30GB 中國內地及香港兩地共享數據",
     install: "不適用",
     housing: "all",
