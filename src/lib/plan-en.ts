@@ -69,6 +69,8 @@ const EXACT: Record<string, string> = {
     "Prepaid HK$3,600; HK$150 rebate/month in months 1–24",
   "此流動通訊計劃使用 3香港網絡。客戶須承諾最短合約期 24 個月。所有優惠及服務受條款及細則約束。":
     "This mobile plan uses the 3HK network. Minimum 24-month contract. All offers and services are subject to terms.",
+  "須年滿 60 歲並出示身份證。此流動通訊計劃使用中國移動香港網絡。香港寬頻現有客戶適用以下月費；非現有客戶以原價為準。客戶須承諾最短合約期 24 個月。實際月費、數據用量及申請資格以電訊商確認為準。":
+    "Must be 60 or above with Hong Kong ID. This mobile plan uses the CMHK network. HKBN existing-customer monthly fees apply below; others pay the original price. Minimum 24-month contract. Monthly fee, data and eligibility are confirmed by the carrier.",
 };
 
 const PHRASES: [string, string][] = [
@@ -328,6 +330,8 @@ const PHRASES: [string, string][] = [
   ["長者 5G 10GB（24 個月）", "Elderly 5G 10GB (24 months)"],
   ["長者 5G 30GB（24 個月）", "Elderly 5G 30GB (24 months)"],
   ["長者 5G 10GB（中港 2 用，24 個月）", "Elderly 5G 10GB (HK–Mainland dual-use, 24 months)"],
+  ["長者 5G 15GB 中港共享（24 個月）", "Elderly 5G 15GB HK–Mainland shared (24 months)"],
+  ["長者 5G 30GB 中港共享（24 個月）", "Elderly 5G 30GB HK–Mainland shared (24 months)"],
   ["移動 42Mbps 10+5GB", "CMHK 42Mbps 10+5GB"],
   ["低用量 42Mbps 3GB", "Light-use 42Mbps 3GB"],
   ["低用量 21Mbps 3+3GB", "Light-use 21Mbps 3+3GB"],
@@ -835,6 +839,18 @@ const BEST_FOR: [string, string][] = [
   ["適合 60 歲或以上、想用 5G 的長者", "For age 60+ who want 5G"],
   ["適合 60 歲或以上、用量接近一般大眾的長者", "For age 60+ with typical data use"],
   ["適合 60 歲或以上、經常過關探親之長者", "For age 60+ who often cross the border to visit family"],
+  ["適合 60 歲或以上、現用香港寬頻、需要較多中港共享數據之長者", "For age 60+ HKBN customers who need more HK–Mainland shared data"],
+  ["適合 60 歲或以上、現用香港寬頻、需要中港共享數據之長者", "For age 60+ HKBN customers who need HK–Mainland shared data"],
+  ["長者專屬，須年滿 60 歲並出示身份證", "Senior exclusive; must be 60 or above with Hong Kong ID"],
+  ["原價每月 HK$99；香港寬頻現有客戶每月 HK$79", "Original HK$99/month; HKBN existing customers HK$79/month"],
+  ["原價每月 HK$129；香港寬頻現有客戶每月 HK$109", "Original HK$129/month; HKBN existing customers HK$109/month"],
+  ["24 個月 HKBN SAFE", "24 months HKBN SAFE"],
+  ["12 個月 myTV SUPER 基本版（智能電視版）", "12 months myTV SUPER basic (smart TV)"],
+  ["可加購 OMRON 歐姆龍心房顫動藍牙手臂式血壓計 HEM-7383T1，每月 HK$40（須預繳 HK$240）", "Optional OMRON AFib Bluetooth arm blood pressure monitor HEM-7383T1 at HK$40/month (HK$240 prepaid)"],
+  ["攜號轉台可豁免每月行政費 HK$18", "Port-in can waive HK$18 admin/month"],
+  ["15GB 中國內地及香港兩地共享數據", "15GB Mainland China and Hong Kong shared data"],
+  ["30GB 中國內地及香港兩地共享數據", "30GB Mainland China and Hong Kong shared data"],
+  ["每月 100 分鐘中國內地通話", "100 Mainland China call minutes/month"],
   ["適合重用量、短片用戶", "For heavy use and short-video users"],
   ["適合極重用量或家庭熱點", "For very heavy use or a home hotspot"],
   ["適合要副卡、不受 s/ash 一人一計劃限制", "For extra SIMs without the s/ash one-plan-per-user rule"],

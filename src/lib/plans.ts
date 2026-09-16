@@ -143,6 +143,16 @@ const LIMITS_SMARTONE_FAMILY =
 const LIMITS_SMARTONE_HANDSET =
   "出機上台。實際手機型號、禮券、保養及月費以電訊商確認為準。";
 const PERK_HKBN_PORT = "攜號轉台適用";
+const LIMITS_HKBN_ELDER_60 =
+  "須年滿 60 歲並出示身份證。此流動通訊計劃使用中國移動香港網絡。香港寬頻現有客戶適用以下月費；非現有客戶以原價為準。客戶須承諾最短合約期 24 個月。實際月費、數據用量及申請資格以電訊商確認為準。";
+const PERKS_HKBN_ELDER = [
+  "長者專屬，須年滿 60 歲並出示身份證",
+  "24 個月 HKBN SAFE",
+  "12 個月 myTV SUPER 基本版（智能電視版）",
+  "每月行政費 HK$18",
+  "可加購 OMRON 歐姆龍心房顫動藍牙手臂式血壓計 HEM-7383T1，每月 HK$40（須預繳 HK$240）",
+];
+const PORT_HKBN_ELDER = "攜號轉台可豁免每月行政費 HK$18";
 const PREPAID_HGC_300 = "須預繳 HK$300";
 const PREPAID_HKBN_200 = "須預繳 HK$200，第 1 至第 4 個月每月從預繳費用中扣減月費 HK$50";
 const PREPAID_HKBN_200_REBATE = "須預繳 HK$200，第 1 至第 4 個月每月回贈 HK$50";
@@ -3372,6 +3382,50 @@ export const PLANS: Plan[] = [
     latestOffer: true,
     quotePick: true,
     bestFor: "適合符合學生或年青人資格之用戶",
+  },
+  {
+    id: "hkbn-5g-elder-15-79",
+    providerId: "hkbn",
+    category: "mobile",
+    name: "長者 5G 15GB 中港共享（24 個月）",
+    monthlyFee: 79,
+    freeMonths: 0,
+    contractMonths: 24,
+    dataGb: 15,
+    highSpeedGb: 15,
+    voice: "每月 100 分鐘中國內地通話",
+    roaming: "15GB 中國內地及香港兩地共享數據",
+    install: "不適用",
+    housing: "all",
+    network: "5G（中國移動香港）",
+    perks: ["原價每月 HK$99；香港寬頻現有客戶每月 HK$79", ...PERKS_HKBN_ELDER],
+    portInPerk: PORT_HKBN_ELDER,
+    limits: LIMITS_HKBN_ELDER_60,
+    hot: true,
+    latestOffer: true,
+    bestFor: "適合 60 歲或以上、現用香港寬頻、需要中港共享數據之長者",
+  },
+  {
+    id: "hkbn-5g-elder-30-109",
+    providerId: "hkbn",
+    category: "mobile",
+    name: "長者 5G 30GB 中港共享（24 個月）",
+    monthlyFee: 109,
+    freeMonths: 0,
+    contractMonths: 24,
+    dataGb: 30,
+    highSpeedGb: 30,
+    voice: "每月 100 分鐘中國內地通話",
+    roaming: "30GB 中國內地及香港兩地共享數據",
+    install: "不適用",
+    housing: "all",
+    network: "5G（中國移動香港）",
+    perks: ["原價每月 HK$129；香港寬頻現有客戶每月 HK$109", ...PERKS_HKBN_ELDER],
+    portInPerk: PORT_HKBN_ELDER,
+    limits: LIMITS_HKBN_ELDER_60,
+    hot: true,
+    latestOffer: true,
+    bestFor: "適合 60 歲或以上、現用香港寬頻、需要較多中港共享數據之長者",
   },
   {
     id: "hkbn-45g-20",

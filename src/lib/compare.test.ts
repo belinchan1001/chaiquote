@@ -137,7 +137,7 @@ describe("HKBN student/youth 5G 30GB", () => {
     assert.equal(youth.quotePick, true);
     assert.deepEqual(
       PLANS.filter((p) => p.latestOffer).map((p) => p.id),
-      ["hkbn-ftth-1000-24m-199-mobile", "icable-ftth-1000-48m-58", "cmhk-5g-limited-50-129", "cmhk-5g-limited-100-149", "cmhk-5g-limited-60-98-youth", "cmhk-5g-limited-4places-50-149", "cmhk-5g-limited-4places-50-209", "hkbn-5g-30-78-youth"],
+      ["hkbn-ftth-1000-24m-199-mobile", "icable-ftth-1000-48m-58", "cmhk-5g-limited-50-129", "cmhk-5g-limited-100-149", "cmhk-5g-limited-60-98-youth", "cmhk-5g-limited-4places-50-149", "cmhk-5g-limited-4places-50-209", "hkbn-5g-30-78-youth", "hkbn-5g-elder-15-79", "hkbn-5g-elder-30-109"],
     );
     assert.deepEqual(
       PLANS.filter((p) => p.quotePick).map((p) => p.id),
@@ -186,7 +186,7 @@ describe("HKBN student/youth 5G 30GB", () => {
     const hkbnMobile = PLANS.filter((p) => p.category === "mobile" && p.providerId === "hkbn");
     assert.equal(hkbnMobile.filter((p) => p.id === "hkbn-5g-30-78-youth").length, 1);
     assert.ok(hkbnMobile.length >= 10);
-    assert.ok(hkbnMobile.every((p) => /3,?000/.test(p.voice ?? "")));
+    assert.ok(hkbnMobile.filter((p) => !p.id.startsWith("hkbn-5g-elder")).every((p) => /3,?000/.test(p.voice ?? "")));
 
     assert.equal(toEnglish(youth.name), "5G 30GB Local (incl. monthly 3GB Mainland China & Macau)");
     assert.equal(toEnglish(youth.fupNote ?? ""), "Thereafter local unlimited, speed not exceeding 1Mbps");
@@ -194,6 +194,46 @@ describe("HKBN student/youth 5G 30GB", () => {
     assert.equal(toEnglish(youth.roaming ?? ""), "Monthly 3GB Mainland China & Macau during contract period");
     assert.equal(toEnglish(youth.perks[0]), "Student or youth exclusive, must meet eligibility");
     assert.equal(toEnglish(youth.bestFor), "Suitable for users meeting student or youth eligibility");
+  });
+});
+
+describe("HKBN senior 5G HK–Mainland plans", () => {
+  it("adds 60+ exclusive 15GB $79 and 30GB $109 cards on the CMHK network", () => {
+    const fifteen = plan("hkbn-5g-elder-15-79");
+    const thirty = plan("hkbn-5g-elder-30-109");
+    for (const row of [fifteen, thirty]) {
+      assert.equal(row.providerId, "hkbn");
+      assert.equal(row.category, "mobile");
+      assert.equal(row.freeMonths, 0);
+      assert.equal(row.contractMonths, 24);
+      assert.equal(row.voice, "每月 100 分鐘中國內地通話");
+      assert.equal(row.network, "5G（中國移動香港）");
+      assert.equal(row.install, "不適用");
+      assert.equal(row.housing, "all");
+      assert.equal(row.portInPerk, "攜號轉台可豁免每月行政費 HK$18");
+      assert.equal(row.hot, true);
+      assert.equal(row.latestOffer, true);
+      assert.match(row.limits ?? "", /年滿 60 歲/);
+      assert.match(row.limits ?? "", /中國移動香港網絡/);
+      assert.match(row.limits ?? "", /身份證/);
+      assert.ok(row.perks.includes("長者專屬，須年滿 60 歲並出示身份證"));
+      assert.ok(row.perks.includes("24 個月 HKBN SAFE"));
+      assert.ok(row.perks.includes("12 個月 myTV SUPER 基本版（智能電視版）"));
+      assert.ok(row.perks.includes("每月行政費 HK$18"));
+      assert.ok(row.perks.some((perk) => perk.includes("HEM-7383T1") && perk.includes("HK$40") && perk.includes("HK$240")));
+    }
+    assert.equal(fifteen.name, "長者 5G 15GB 中港共享（24 個月）");
+    assert.equal(fifteen.monthlyFee, 79);
+    assert.equal(fifteen.dataGb, 15);
+    assert.equal(fifteen.roaming, "15GB 中國內地及香港兩地共享數據");
+    assert.ok(fifteen.perks.includes("原價每月 HK$99；香港寬頻現有客戶每月 HK$79"));
+    assert.equal(thirty.name, "長者 5G 30GB 中港共享（24 個月）");
+    assert.equal(thirty.monthlyFee, 109);
+    assert.equal(thirty.dataGb, 30);
+    assert.equal(thirty.roaming, "30GB 中國內地及香港兩地共享數據");
+    assert.ok(thirty.perks.includes("原價每月 HK$129；香港寬頻現有客戶每月 HK$109"));
+    assert.equal(toEnglish(fifteen.name), "Elderly 5G 15GB HK–Mainland shared (24 months)");
+    assert.equal(toEnglish(thirty.name), "Elderly 5G 30GB HK–Mainland shared (24 months)");
   });
 });
 
