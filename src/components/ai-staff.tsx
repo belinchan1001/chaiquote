@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Sparkles, X } from "lucide-react";
+import { X } from "lucide-react";
+import { LogoMarkLooking } from "@/components/logo-mark-looking";
 import { ProviderMark } from "@/components/provider-mark";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -183,7 +184,7 @@ export function AiStaffPanel() {
         >
           <div className="flex items-center gap-3 bg-primary px-4 py-3 text-primary-foreground">
             <span className="flex size-11 items-center justify-center bg-accent text-accent-foreground">
-              <Sparkles className="size-5" />
+              <LogoMarkLooking className="size-5" />
             </span>
             <div className="min-w-0 flex-1">
               <p className="flex min-w-0 items-baseline gap-1.5">

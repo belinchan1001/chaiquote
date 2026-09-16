@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-/** Decorative LogoMark for AI CTAs. Site header lockup Logo / LogoMark stays static. */
+/** Decorative LogoMark for AI CTAs and panel chrome. Site header lockup Logo / LogoMark stays static. */
 export function LogoMarkLooking({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 32 32" className={cn("logo-mark-looking", className)} aria-hidden="true">

@@ -349,6 +349,26 @@ describe("AI desk safety", () => {
     assert.doesNotMatch(logo, /logo-mark-looking|@keyframes|animateTransform/);
   });
 
+  it("replaces the AI panel chrome Sparkles with the same looking logo mark", () => {
+    const staff = readFileSync(join(here, "../components/ai-staff.tsx"), "utf8");
+    const entry = readFileSync(join(here, "../components/ai-filter-entry.tsx"), "utf8");
+    const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
+    const logo = readFileSync(join(here, "../components/logo.tsx"), "utf8");
+
+    assert.match(staff, /import \{ LogoMarkLooking \} from "@\/components\/logo-mark-looking"/);
+    assert.match(staff, /<LogoMarkLooking className="size-5" \/>/);
+    assert.doesNotMatch(staff, /Sparkles/);
+    assert.match(staff, /<X className="size-4" \/>/);
+    assert.match(staff, /const closeAi = useDesk\(\(s\) => s\.closeAi\)/);
+    assert.match(staff, /onClick=\{closeAi\}/);
+    assert.doesNotMatch(staff, /plan-card-shine|ai-filter-shine|className="foil"/);
+
+    assert.match(entry, /<LogoMarkLooking \/>/);
+    assert.match(header, /<LogoMarkLooking \/>/);
+    assert.match(header, /<Logo className="shrink-0" \/>/);
+    assert.doesNotMatch(logo, /logo-mark-looking|@keyframes|animateTransform/);
+  });
+
   it("allows HK$ only on mini-cards; chat body and catalogue stay fee-free", () => {
     const found = retrievePlansForAsk({ message: "村屋 1000M 光纖" });
     const shuffled = [...found.plans.map((plan) => plan.id)].reverse();
