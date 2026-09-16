@@ -288,6 +288,51 @@ describe("AI desk safety", () => {
     assert.doesNotMatch(root, /AiFilterEntry/);
   });
 
+  it("replaces the AI filter Sparkles with a looking logo mark and keeps foil + toggle", () => {
+    const entry = readFileSync(join(here, "../components/ai-filter-entry.tsx"), "utf8");
+    const looking = readFileSync(join(here, "../components/logo-mark-looking.tsx"), "utf8");
+    const logo = readFileSync(join(here, "../components/logo.tsx"), "utf8");
+    const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
+    const css = readFileSync(join(here, "../styles.css"), "utf8");
+
+    assert.match(entry, /import \{ LogoMarkLooking \} from "@\/components\/logo-mark-looking"/);
+    assert.match(entry, /<LogoMarkLooking \/>/);
+    assert.doesNotMatch(entry, /Sparkles/);
+    assert.doesNotMatch(entry, /<LogoMark[\s/>]/);
+    assert.match(entry, /plan-card-shine ai-filter-shine/);
+    assert.match(entry, /<span className="foil" aria-hidden="true" \/>/);
+    assert.match(entry, /aria-expanded=\{aiOpen\}/);
+    assert.match(entry, /aria-label=\{t\("aiEntryCta"\)\}/);
+    assert.match(entry, /onClick=\{toggleAi\}/);
+    assert.doesNotMatch(entry, /Product|aggregateRating|shipping|return policy/i);
+
+    assert.match(looking, /aria-hidden="true"/);
+    assert.match(looking, /cx="11\.5" cy="13\.5" r="1\.7"/);
+    assert.match(looking, /cx="20\.5" cy="13\.5" r="1\.7"/);
+    assert.match(looking, /logo-mark-looking-eyes/);
+    assert.match(looking, /logo-mark-looking-blink/);
+    assert.doesNotMatch(looking, /role="img"|aria-label/);
+
+    assert.match(logo, /<circle cx="11\.5" cy="13\.5" r="1\.7"/);
+    assert.match(logo, /<circle cx="20\.5" cy="13\.5" r="1\.7"/);
+    assert.doesNotMatch(logo, /logo-mark-looking|@keyframes|animateTransform/);
+    assert.match(header, /<Logo className="shrink-0" \/>/);
+    assert.doesNotMatch(header, /LogoMarkLooking/);
+
+    assert.match(css, /@keyframes logo-mark-look/);
+    assert.match(css, /@keyframes logo-mark-blink/);
+    assert.match(css, /\.logo-mark-looking-eyes[\s\S]*animation:\s*logo-mark-look 10s/);
+    assert.match(css, /\.logo-mark-looking-blink[\s\S]*animation:\s*logo-mark-blink 7\.5s/);
+    assert.match(
+      css,
+      /prefers-reduced-motion:\s*reduce[\s\S]*\.logo-mark-looking-eyes[\s\S]*animation:\s*none !important/,
+    );
+    assert.match(
+      css,
+      /prefers-reduced-motion:\s*reduce[\s\S]*\.logo-mark-looking-blink[\s\S]*animation:\s*none !important/,
+    );
+  });
+
   it("allows HK$ only on mini-cards; chat body and catalogue stay fee-free", () => {
     const found = retrievePlansForAsk({ message: "村屋 1000M 光纖" });
     const shuffled = [...found.plans.map((plan) => plan.id)].reverse();

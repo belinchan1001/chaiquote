@@ -130,6 +130,14 @@ describe("light UX motion polish", () => {
       css,
       /prefers-reduced-motion:\s*reduce[\s\S]*\.share-success-toast-mark::after[\s\S]*content:\s*none !important/,
     );
+    assert.match(
+      css,
+      /prefers-reduced-motion:\s*reduce[\s\S]*\.logo-mark-looking-eyes[\s\S]*animation:\s*none !important/,
+    );
+    assert.match(
+      css,
+      /prefers-reduced-motion:\s*reduce[\s\S]*\.logo-mark-looking-blink[\s\S]*animation:\s*none !important/,
+    );
   });
 
   it("does not add heavy homepage motion, count-up, or autoplay", () => {

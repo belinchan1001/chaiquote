@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Sparkles } from "lucide-react";
+import { LogoMarkLooking } from "@/components/logo-mark-looking";
 import { Button } from "@/components/ui/button";
 import { useDesk } from "@/lib/desk";
 import { registerFoilCard } from "@/lib/foil-scroll";
@@ -32,7 +32,7 @@ export function AiFilterEntry({ className }: { className?: string }) {
           className="shadow-none"
           onClick={toggleAi}
         >
-          <Sparkles />
+          <LogoMarkLooking />
           {t("aiEntryCta")}
         </Button>
       </div>

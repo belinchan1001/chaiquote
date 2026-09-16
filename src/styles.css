@@ -132,7 +132,9 @@
   .action-done,
   .share-success-toast-mark,
   .share-success-toast-mark::before,
-  .share-success-toast-mark::after {
+  .share-success-toast-mark::after,
+  .logo-mark-looking-eyes,
+  .logo-mark-looking-blink {
     animation: none !important;
     transform: none !important;
   }
@@ -626,6 +628,63 @@
     }
     100% {
       transform: translateX(420%);
+    }
+  }
+
+  .logo-mark-looking {
+    overflow: visible;
+  }
+
+  .logo-mark-looking-eyes {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: logo-mark-look 10s ease-in-out infinite;
+  }
+
+  .logo-mark-looking-blink {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: logo-mark-blink 7.5s ease-in-out infinite;
+  }
+
+  @keyframes logo-mark-look {
+    0%,
+    12% {
+      transform: translate(0, 0);
+    }
+    20%,
+    28% {
+      transform: translate(-16%, 0);
+    }
+    36%,
+    44% {
+      transform: translate(16%, 0);
+    }
+    52%,
+    60% {
+      transform: translate(0, -38%);
+    }
+    68%,
+    76% {
+      transform: translate(0, 38%);
+    }
+    84%,
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+
+  /* One lid close per cycle — not a double blink. */
+  @keyframes logo-mark-blink {
+    0%,
+    40%,
+    46%,
+    100% {
+      transform: scaleY(1);
+    }
+    42.5%,
+    43.5% {
+      transform: scaleY(0.08);
     }
   }
 
