@@ -21,9 +21,17 @@ export const Route = createFileRoute("/")({
         ...(seo.links ?? []),
         {
           rel: "preload",
+          href: "/images/hero-home-768.webp",
+          as: "image",
+          type: "image/webp",
+          media: "(max-width: 767px)",
+        },
+        {
+          rel: "preload",
           href: "/images/hero-home.webp",
           as: "image",
           type: "image/webp",
+          media: "(min-width: 768px)",
         },
       ],
     };
@@ -77,7 +85,11 @@ function Home() {
       <JsonLd data={homeJsonLd()} />
       <section className="relative overflow-hidden">
         <picture>
-          <source srcSet="/images/hero-home.webp" type="image/webp" />
+          <source
+            srcSet="/images/hero-home-768.webp 768w, /images/hero-home.webp 1280w"
+            type="image/webp"
+            sizes="100vw"
+          />
           <img
             src="/images/hero-home.jpg"
             alt=""

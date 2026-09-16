@@ -19,11 +19,14 @@ describe("homepage first-load images", () => {
   it("keeps hero + category files small and serves WebP with a JPEG fallback", () => {
     const home = src("../routes/index.tsx");
 
-    assert.match(home, /srcSet="\/images\/hero-home\.webp"/);
+    assert.match(home, /srcSet="\/images\/hero-home-768\.webp 768w, \/images\/hero-home\.webp 1280w"/);
     assert.match(home, /src="\/images\/hero-home\.jpg"/);
     assert.match(home, /fetchPriority="high"/);
     assert.match(home, /rel: "preload"/);
+    assert.match(home, /href: "\/images\/hero-home-768\.webp"/);
     assert.match(home, /href: "\/images\/hero-home\.webp"/);
+    assert.match(home, /media: "\(max-width: 767px\)"/);
+    assert.match(home, /sizes="100vw"/);
     assert.doesNotMatch(home.slice(home.indexOf("hero-home.jpg"), home.indexOf("hero-home.jpg") + 400), /loading="lazy"/);
 
     assert.match(home, /srcSet=\{item\.webp\}/);
@@ -35,6 +38,7 @@ describe("homepage first-load images", () => {
     const assets = [
       ["public/images/hero-home.jpg", 90_000],
       ["public/images/hero-home.webp", 70_000],
+      ["public/images/hero-home-768.webp", 35_000],
       ["public/images/cat-broadband.jpg", 50_000],
       ["public/images/cat-broadband.webp", 40_000],
       ["public/images/cat-home5g.jpg", 45_000],
@@ -81,6 +85,7 @@ describe("homepage first-load images", () => {
     assert.match(vercel, /\/images\/\(\.\*\)/);
     assert.match(vercel, /max-age=2592000/);
     assert.match(vercel, /X-Content-Type-Options/);
+    assert.match(vercel, /Strict-Transport-Security/);
     assert.match(cache, /s-maxage=3600/);
     assert.match(cache, /CDN-Cache-Control/);
     assert.match(cache, /Vercel-CDN-Cache-Control/);
@@ -97,5 +102,13 @@ describe("homepage first-load images", () => {
     assert.match(dir, /return collapseGroups \? \(/);
     assert.match(dir, /<details/);
     assert.match(dir, /href=\{\`\/estates\/\$\{page\.slug\}\`\}/);
+  });
+
+  it("keeps the first-visit tour off until after LCP and skips crawlers", () => {
+    const tour = src("../components/first-visit-tour.tsx");
+    assert.match(tour, /TOUR_DELAY_MS = 4000/);
+    assert.match(tour, /BOT_UA/);
+    assert.match(tour, /addEventListener\("load", arm/);
+    assert.doesNotMatch(tour, /setTimeout\(\(\) => setOpen\(true\), 400\)/);
   });
 });

@@ -129,6 +129,21 @@ describe("canonicalRedirectLocation", () => {
     );
   });
 
+  it("301s the apex host to www with path and query", () => {
+    assert.equal(
+      canonicalRedirectLocation(new URL("https://chaiquote.hk/privacy")),
+      "https://www.chaiquote.hk/privacy",
+    );
+    assert.equal(
+      canonicalRedirectLocation(new URL("https://chaiquote.hk/plans?cat=broadband")),
+      "https://www.chaiquote.hk/plans?cat=broadband",
+    );
+    assert.equal(
+      canonicalRedirectLocation(new URL("https://www.chaiquote.hk/privacy"), "chaiquote.hk"),
+      "https://www.chaiquote.hk/privacy",
+    );
+  });
+
   it("leaves preview *.vercel.app, localhost, and the official host alone", () => {
     assert.equal(isLegacyProductionHost("chaiquote-git-foo-songbill.vercel.app"), false);
     assert.equal(isLegacyProductionHost("www.chaiquote.hk"), false);

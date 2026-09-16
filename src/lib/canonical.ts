@@ -49,8 +49,11 @@ export function canonicalRedirectLocation(
   requestUrl: URL,
   hostHeader?: string | null,
 ): string | null {
-  if (!isLegacyProductionHost(hostHeader ?? requestUrl.host)) return null;
-  return `${DEFAULT_SEO_ORIGIN}${requestUrl.pathname}${requestUrl.search}`;
+  const host = requestHostname(hostHeader ?? requestUrl.host);
+  if (host === "chaiquote.hk" || isLegacyProductionHost(hostHeader ?? requestUrl.host)) {
+    return `${DEFAULT_SEO_ORIGIN}${requestUrl.pathname}${requestUrl.search}`;
+  }
+  return null;
 }
 
 export function seoOrigin(origin: string = DEFAULT_SEO_ORIGIN): string {

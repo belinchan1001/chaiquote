@@ -1,7 +1,8 @@
 /**
- * 301 production traffic on the old Vercel alias to the official www host.
+ * 301 production traffic on the apex and the old Vercel alias to www.
  * Preview deployments use *.vercel.app (or project-git-*.vercel.app) and
- * must keep serving locally — only the exact production alias is redirected.
+ * must keep serving locally — only chaiquote.hk and the exact production
+ * alias are redirected.
  */
 import { canonicalRedirectLocation } from "../../src/lib/seo";
 

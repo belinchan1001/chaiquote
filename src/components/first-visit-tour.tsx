@@ -8,6 +8,9 @@ import { cn } from "@/lib/utils";
 import type { MessageKey } from "@/lib/messages";
 
 const TOUR_KEY = "chaiquote-tour-done";
+/** Keep the overlay off until LCP has a chance to be the hero, not this dialog. */
+const TOUR_DELAY_MS = 4000;
+const BOT_UA = /bot|crawl|spider|google|bing|yandex|baidu|duckduck/i;
 
 const STEPS = [
   { title: "tour1Title", text: "tour1Text", icon: MapPin },
@@ -27,8 +30,22 @@ export function FirstVisitTour() {
     } catch {
       return;
     }
-    const timer = window.setTimeout(() => setOpen(true), 400);
-    return () => window.clearTimeout(timer);
+    if (BOT_UA.test(navigator.userAgent)) return;
+
+    let timer = 0;
+    function arm() {
+      const elapsed = performance.now();
+      timer = window.setTimeout(() => setOpen(true), Math.max(0, TOUR_DELAY_MS - elapsed));
+    }
+    if (document.readyState === "complete") {
+      arm();
+    } else {
+      window.addEventListener("load", arm, { once: true });
+    }
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("load", arm);
+    };
   }, []);
 
   useEffect(() => {
