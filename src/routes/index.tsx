@@ -55,7 +55,7 @@ function Home() {
       ["villageFibre", cheapestVillageBroadbandPlan()],
     ] as const
   ).flatMap(([label, plan]) => (plan ? [{ label, plan }] : []));
-  const { t, updated } = useI18n();
+  const { t } = useI18n();
   usePageTitle(HOME_SEO.title);
   const categories: {
     to: "/guides/$slug";
@@ -104,13 +104,8 @@ function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/50 to-primary/25" />
         <div className="relative mx-auto grid max-w-6xl gap-5 px-4 py-7 lg:grid-cols-2 lg:gap-8 lg:py-14">
           <div className="page-enter text-primary-foreground">
-            <p className="text-xs font-medium tracking-widest text-primary-foreground/75">
-              {t("hkUpdated", { date: updated })}
-            </p>
-            <h1 className="mt-2 font-display text-display font-semibold leading-none tracking-tight sm:mt-3">
+            <h1 className="font-display text-display font-semibold leading-none tracking-tight">
               {t("heroTitle1")}
-              <br />
-              {t("heroTitle2")}
             </h1>
             <p className="mt-3 max-w-lg text-sm text-primary-foreground/80 sm:mt-5 sm:text-lead">{t("heroLead")}</p>
             <div className="mt-8 hidden gap-6 text-sm text-primary-foreground/75 sm:flex">

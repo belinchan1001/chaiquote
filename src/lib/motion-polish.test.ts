@@ -44,6 +44,14 @@ describe("light UX motion polish", () => {
     assert.match(chips, /useChipArm/);
     assert.match(chips, /duration-75/);
     assert.match(chips, /onClick=\{chip\.arm\}/);
+    assert.match(chips, /chipInputClass/);
+    assert.match(chips, /chipRowClass/);
+    assert.match(chips, /px-3\.5/);
+    assert.match(chips, /focus-visible:ring-2/);
+    assert.match(chips, /focus-visible:ring-ring/);
+    assert.match(search, /chipInputClass/);
+    assert.match(search, /chipClass\(false\)/);
+    assert.doesNotMatch(search, /has-\[:checked\]:bg-primary has-\[:checked\]:text-primary-foreground"/);
     assert.match(providers, /useChipArm/);
     assert.match(css, /\.chip-press\s*\{[^}]*transform 90ms ease-out/);
     assert.match(css, /\.chip-press:active\s*\{[^}]*transform:\s*scale\(0\.97\)/);
@@ -150,7 +158,7 @@ describe("light UX motion polish", () => {
     assert.doesNotMatch(detail, /countUp|CountUp|autoplay/);
     assert.doesNotMatch(css, /@keyframes (banner|count-?up|price-up|card-pop)/);
     assert.doesNotMatch(css, /animation:[^;]*infinite[^;]*plan-detail/);
-    assert.match(home, /srcSet="\/images\/hero-home\.webp"/);
+    assert.match(home, /srcSet="\/images\/hero-home-768\.webp 768w, \/images\/hero-home\.webp 1280w"/);
     assert.match(home, /fetchPriority="high"/);
   });
 });

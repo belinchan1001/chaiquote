@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Link } from "@tanstack/react-router";
 import { ProviderLogo } from "@/components/provider-mark";
-import { chipClass, useChipArm } from "@/components/filter-link";
+import { chipClass, chipRowClass, useChipArm } from "@/components/filter-link";
 import { useI18n } from "@/lib/i18n";
 import {
   PROVIDERS,
@@ -43,7 +43,7 @@ export function ProviderFilter({
   return (
     <fieldset>
       <legend className="text-xs font-medium tracking-wider text-muted">{t("providers")}</legend>
-      <div className="mt-2 flex flex-wrap gap-2">
+      <div className={chipRowClass}>
         <ProviderChip
           selected={!value}
           search={search}
@@ -112,7 +112,7 @@ function ProviderChip({
 
   if (disabled) {
     return (
-      <span className={cn(chipClass(false), "cursor-not-allowed gap-2 px-3 opacity-40")}>{inner}</span>
+      <span className={cn(chipClass(false), "cursor-not-allowed gap-2 opacity-40")}>{inner}</span>
     );
   }
 
@@ -122,7 +122,7 @@ function ProviderChip({
         type="button"
         aria-pressed={chip.selected}
         onClick={() => onChange(provider)}
-        className={cn(chipClass(chip.selected), "gap-2 px-3")}
+        className={cn(chipClass(chip.selected), "gap-2")}
       >
         {inner}
       </button>
@@ -138,7 +138,7 @@ function ProviderChip({
       search={compactSearch({ ...search, cat: search.cat, provider })}
       aria-current={chip.selected ? "page" : undefined}
       aria-label={ariaLabel ?? label}
-      className={cn(chipClass(chip.selected), "gap-2 px-3")}
+      className={cn(chipClass(chip.selected), "gap-2")}
       onClick={chip.arm}
     >
       {inner}

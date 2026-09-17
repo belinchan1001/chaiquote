@@ -118,6 +118,18 @@ describe("homepage first-load images", () => {
     assert.doesNotMatch(home, /line-clamp/);
     assert.match(home, /<PlanCard key=\{plan\.id\} plan=\{plan\} \/>/);
     assert.doesNotMatch(home, /className="plan"/);
+
+    const chips = src("../components/filter-link.tsx");
+    const panel = src("../components/search-panel.tsx");
+    const plans = src("../routes/plans.tsx");
+    assert.match(chips, /bg-surface text-fg hover:bg-border/);
+    assert.match(chips, /bg-primary text-primary-foreground/);
+    assert.doesNotMatch(chips, /#[0-9a-fA-F]{3,8}/);
+    assert.match(panel, /chipInputClass/);
+    assert.match(panel, /chipRowClass/);
+    assert.match(plans, /chipRowClass/);
+    assert.match(plans, /rounded-lg border border-border bg-card p-3\.5 shadow-\[var\(--shadow-home\)\]/);
+    assert.match(panel, /rounded-lg border border-border bg-card p-3\.5 shadow-\[var\(--shadow-home\)\]/);
   });
 
   it("keeps the first-visit tour off until after LCP and skips crawlers", () => {
