@@ -5,6 +5,7 @@ import { useDesk, type Inquiry } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
 import type { Plan } from "@/lib/plans";
 import { quoteMessage, quoteWhatsappDisplay, quoteWhatsappE164, whatsappHref } from "@/lib/whatsapp";
+import { trackWaClick } from "@/lib/track-client";
 import { cn } from "@/lib/utils";
 
 export function QuoteLink({
@@ -46,6 +47,12 @@ export function QuoteLink({
         target="_blank"
         rel="noopener noreferrer"
         aria-label={label}
+        onClick={() =>
+          trackWaClick({
+            planIds: selected.map((item) => item.id),
+            waPhone: quoteWhatsappE164(selected),
+          })
+        }
       >
         <WhatsAppIcon />
         {children ?? <span className="truncate">{label}</span>}
