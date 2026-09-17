@@ -1,4 +1,4 @@
-import { recordSiteEvent } from "@/lib/track.server";
+import { recordSiteEvent } from "@/lib/track-fn";
 import { inferTrackSource, type TrackEventName, type TrackPayload } from "@/lib/track";
 
 export function trackEvent(input: TrackPayload) {
