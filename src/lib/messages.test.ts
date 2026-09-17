@@ -240,6 +240,7 @@ describe("trust/compliance copy", () => {
 describe("date stamps", () => {
   it("pins homepage 資料更新 YYYY-MM-DD and split 稿件日期 / 資料更新 labels", () => {
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
     assert.equal(quoted(messages, "hkUpdated")[0], "香港 · 資料更新 {date}");
     assert.equal(
       quoted(messages, "headerStrip")[0],
@@ -249,6 +250,8 @@ describe("date stamps", () => {
     assert.match(header, /t\("headerStrip", \{ date: updated \}\)/);
     assert.match(header, /text-fg/);
     assert.doesNotMatch(header, /headerStrip[\s\S]*text-subtle/);
+    assert.doesNotMatch(home, /t\("hkUpdated"/);
+    assert.doesNotMatch(home, /headerStrip/);
     assert.equal(quoted(messages, "dataUpdated")[0], "資料更新 {date}");
     assert.equal(quoted(messages, "manuscriptDate")[0], "稿件日期 {date}");
     assert.equal(quoted(messages, "manuscriptUpdated")[0], "稿件日期 {published} · 更新 {modified}");

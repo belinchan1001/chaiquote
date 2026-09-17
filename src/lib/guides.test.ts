@@ -694,7 +694,9 @@ describe("guide manuscript dates vs catalogue stamp", () => {
     for (const src of [plans, plan, estates, estate]) {
       assert.match(src, /t\("dataUpdated", \{ date: updated \}\)/);
     }
-    assert.match(home, /t\("hkUpdated", \{ date: updated \}\)/);
+    assert.doesNotMatch(home, /t\("hkUpdated"/);
+    assert.doesNotMatch(home, /t\("headerStrip"/);
+    assert.doesNotMatch(home, /t\("dataUpdated"/);
     assert.equal(SITE.updated, "2026-09-17");
   });
 });
