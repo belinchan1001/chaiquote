@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { PlanCard } from "@/components/plan-card";
+import { PageBackButton } from "@/components/page-back";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import { ProviderFilter } from "@/components/provider-filter";
@@ -253,6 +254,7 @@ function PlansPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
+      <PageBackButton />
       <p className="text-xs font-medium tracking-wider text-accent">{t("filterPlans")}</p>
       <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>

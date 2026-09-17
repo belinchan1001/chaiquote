@@ -176,6 +176,7 @@ export const MESSAGES = {
     notFound: "搵唔到呢頁",
     notFoundLead: "呢個計劃或者攻略可能已經唔喺度。",
     backHome: "返去首頁",
+    backPrev: "返回",
     tour1Title: "第一步：講你住邊",
     tour1Text:
       "輸入屋苑、大廈或街道。系統會判斷公屋、居屋、私人樓或村屋，再撳「睇啱我嘅計劃」，就只睇啱你地址嘅月費。",
@@ -590,6 +591,7 @@ export const MESSAGES = {
     notFound: "Page not found",
     notFoundLead: "This plan or guide may have been removed.",
     backHome: "Back to home",
+    backPrev: "Back",
     tour1Title: "1. Tell us where you live",
     tour1Text:
       "Enter your estate, building or street. We detect public housing, HOS, private or village house. Tap See matching plans to view the right fees.",
