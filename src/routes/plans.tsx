@@ -24,6 +24,8 @@ import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { isHkbnFlashEstate, isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
 import { compactSearch, parsePlansSearch, planListReplayKey } from "@/lib/search";
 import { CATEGORY_SEO, plansCategoryPath, canonicalUrl, shareHead } from "@/lib/canonical";
+import { categoryJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
 import { bringPlanListIntoView, isPlanListInView, watchPlanListInView } from "@/lib/plan-list-fade";
 import {
   CATEGORY_OPTIONS,
@@ -254,6 +256,7 @@ function PlansPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
+      <JsonLd data={categoryJsonLd(search.cat)} />
       <PageBackButton />
       <p className="text-xs font-medium tracking-wider text-accent">{t("filterPlans")}</p>
       <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">

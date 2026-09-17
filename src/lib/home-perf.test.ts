@@ -40,6 +40,7 @@ describe("homepage first-load images", () => {
     assert.match(css, /\.photo-strip-card img\s*\{[^}]*aspect-ratio:\s*16\s*\/\s*11/);
     assert.match(src("../components/provider-mark.tsx"), /loading="lazy"/);
     assert.match(src("../components/provider-mark.tsx"), /hkbn\.webp/);
+    assert.doesNotMatch(src("../components/provider-mark.tsx"), /sr-only/);
 
     const assets = [
       ["public/images/hero-home.jpg", 90_000],

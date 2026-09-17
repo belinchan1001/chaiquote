@@ -1,4 +1,4 @@
-import { formatFee, isListedPlan, PLANS, PROVIDER_MAP, type Housing, type Plan, type ProviderId } from "./plans.ts";
+import { formatFee, isListedPlan, PLANS, PROVIDER_MAP, type Category, type Housing, type Plan, type ProviderId } from "./plans.ts";
 import { INDEXABLE_ESTATE_PAGES, estatePagePath, estateSeoDescription, estateSeoTitle, type EstatePage } from "./estate-pages.ts";
 import { GUIDES, getGuide, type Guide } from "./guides.ts";
 import { guideTopicImage } from "./guide-media.ts";
@@ -243,6 +243,46 @@ export function planJsonLd(plan: Plan) {
     additionalProperty: [
       { "@type": "PropertyValue", name: "合約期", value: `${plan.contractMonths}個月` },
       { "@type": "PropertyValue", name: "樓類", value: planHousingLabel(plan) },
+    ],
+  };
+}
+
+/** Category hub graph. Plans listing imports this; homepage must keep using canonical.ts. */
+export function categoryJsonLd(cat: Category) {
+  const seo = CATEGORY_SEO[cat];
+  const url = canonicalUrl(plansCategoryPath(cat));
+  const plans = PLANS.filter((plan) => isListedPlan(plan) && plan.category === cat);
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${url}#webpage`,
+        name: seo.title,
+        description: seo.description,
+        url,
+        inLanguage: "zh-HK",
+        isPartOf: { "@id": `${SITE.url}/#website` },
+        mainEntity: { "@id": `${url}#list` },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${url}#list`,
+        numberOfItems: plans.length,
+        itemListElement: plans.map((plan, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          url: canonicalUrl(`/plans/${plan.id}`),
+          name: plan.name,
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "首頁", item: canonicalUrl("/") },
+          { "@type": "ListItem", position: 2, name: seo.title.replace(/^齊Quote｜/, ""), item: url },
+        ],
+      },
     ],
   };
 }

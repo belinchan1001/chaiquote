@@ -27,6 +27,7 @@ import {
   NOT_FOUND_SEO,
   notFoundHead,
   PRIVACY_SEO,
+  plansCategoryPath,
   guideJsonLd,
   estateJsonLd,
   planJsonLd,
@@ -39,6 +40,7 @@ import {
   seoOrigin,
   shareHead,
   homeJsonLd,
+  categoryJsonLd,
   siteDataLastmod,
   siteOfferValidUntil,
   sitemapLastmod,
@@ -679,6 +681,12 @@ describe("home JSON-LD", () => {
     assert.equal(site.inLanguage, "zh-HK");
     assert.deepEqual(site.alternateName, ["齊Quote寬頻報價", "齊Quote電訊報價"]);
     assert.equal(site.publisher?.["@id"], `${SITE.url}/#organization`);
+    assert.equal(site.potentialAction?.["@type"], "SearchAction");
+    assert.equal(
+      site.potentialAction?.target?.urlTemplate,
+      "https://www.chaiquote.hk/plans?q={search_term_string}",
+    );
+    assert.equal(site.potentialAction?.["query-input"], "required name=search_term_string");
     const faq = ld["@graph"].find((node) => node["@type"] === "FAQPage");
     assert.ok(faq);
     const questions = faq.mainEntity as { name: string }[];
@@ -691,6 +699,40 @@ describe("home JSON-LD", () => {
     assert.match(home, /homeJsonLd\(\)/);
     assert.match(canonical, /export function homeJsonLd/);
     assert.doesNotMatch(home, /from "@\/lib\/seo"/);
+  });
+});
+
+describe("category JSON-LD", () => {
+  it("emits CollectionPage, ItemList and breadcrumbs for each hub", () => {
+    const cats = ["broadband", "home5g", "mobile", "business"] as const;
+    for (const cat of cats) {
+      const ld = categoryJsonLd(cat);
+      const types = ld["@graph"].map((node) => node["@type"]);
+      assert.deepEqual(types.sort(), ["BreadcrumbList", "CollectionPage", "ItemList"].sort());
+      const page = ld["@graph"].find((node) => node["@type"] === "CollectionPage");
+      const list = ld["@graph"].find((node) => node["@type"] === "ItemList");
+      const crumbs = ld["@graph"].find((node) => node["@type"] === "BreadcrumbList");
+      assert.equal(page?.name, CATEGORY_SEO[cat].title);
+      assert.equal(page?.url, canonicalUrl(plansCategoryPath(cat)));
+      assert.equal(page?.inLanguage, "zh-HK");
+      const expected = PLANS.filter((plan) => isListedPlan(plan) && plan.category === cat);
+      assert.equal(list?.numberOfItems, expected.length);
+      assert.ok(expected.length > 0, cat);
+      const items = list?.itemListElement as { url: string; name: string; position: number }[];
+      assert.equal(items[0]?.position, 1);
+      assert.equal(items[0]?.url, canonicalUrl(`/plans/${expected[0]!.id}`));
+      assert.equal(items[0]?.name, expected[0]!.name);
+      assert.equal(items.at(-1)?.position, expected.length);
+      const crumbItems = crumbs?.itemListElement as { name: string; item: string }[];
+      assert.equal(crumbItems[0]?.item, "https://www.chaiquote.hk/");
+      assert.equal(crumbItems[1]?.item, canonicalUrl(plansCategoryPath(cat)));
+      assert.equal(crumbItems[1]?.name, CATEGORY_SEO[cat].title.replace(/^齊Quote｜/, ""));
+      const json = JSON.stringify(ld);
+      assert.doesNotMatch(json, /AggregateRating|aggregateRating|priceValidUntil|availability/);
+    }
+    const src = readFileSync(join(ROOT, "src/routes/plans.tsx"), "utf8");
+    assert.match(src, /categoryJsonLd\(search\.cat\)/);
+    assert.match(src, /from "@\/lib\/seo"/);
   });
 });
 

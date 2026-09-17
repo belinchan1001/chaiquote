@@ -248,6 +248,14 @@ export function homeJsonLd() {
         alternateName: ["齊Quote寬頻報價", "齊Quote電訊報價"],
         description: HOME_SEO.description,
         publisher: { "@id": `${SITE.url}/#organization` },
+        potentialAction: {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: `${SITE.url}/plans?q={search_term_string}`,
+          },
+          "query-input": "required name=search_term_string",
+        },
       },
       {
         "@type": "FAQPage",

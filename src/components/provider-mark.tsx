@@ -20,7 +20,6 @@ export function ProviderLogo({
   id: ProviderId;
   size?: "sm" | "md" | "lg";
 }) {
-  const provider = PROVIDER_MAP[id];
   const logo = LOGO[id];
   return (
     <span
@@ -45,7 +44,6 @@ export function ProviderLogo({
           decoding="async"
         />
       </picture>
-      <span className="sr-only">{provider.name}</span>
     </span>
   );
 }
