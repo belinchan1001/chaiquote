@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Logo } from "@/components/logo";
 import { useI18n } from "@/lib/i18n";
 import { SITE } from "@/lib/site";
+import { trackWaClick } from "@/lib/track-client";
 
 export function SiteFooter() {
   const { t, updated } = useI18n();
@@ -18,6 +19,7 @@ export function SiteFooter() {
               target="_blank"
               rel="noopener noreferrer"
               className="underline-offset-4 hover:underline"
+              onClick={() => trackWaClick({ source: "footer", waPhone: SITE.whatsappE164 })}
             >
               WhatsApp {SITE.phoneDisplay}
             </a>
