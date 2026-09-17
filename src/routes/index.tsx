@@ -144,7 +144,7 @@ function Home() {
                 <Link
                   to="/plans/$planId"
                   params={{ planId: item.plan.id }}
-                  className="group flex h-full min-h-[5.5rem] flex-col rounded-lg bg-card px-3.5 py-3 shadow-[var(--shadow-home-tile)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
+                  className="group flex h-full min-h-[5.5rem] flex-col rounded-lg border border-border bg-card px-3.5 py-3 shadow-[var(--shadow-home-tile)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
                 >
                   <p className="text-[11px] font-semibold tracking-wider text-muted">{t(item.label)}</p>
                   <p className="mt-1 font-display text-lg font-semibold tracking-tight tabular-nums text-primary">
@@ -166,7 +166,7 @@ function Home() {
           {categories.map((item) => (
             <div
               key={item.label}
-              className="flex h-full flex-col overflow-hidden rounded-lg bg-card shadow-[var(--shadow-home-tile)]"
+              className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card shadow-[var(--shadow-home-tile)]"
             >
               <Link to={item.to} params={{ slug: item.slug }} className="group flex min-h-0 flex-1 flex-col">
                 <picture>
@@ -236,7 +236,7 @@ function Home() {
 
       <section className="border-t border-border">
         <div className="mx-auto max-w-3xl px-4 py-8 sm:py-10">
-          <div className="rounded-lg bg-card p-4 shadow-[var(--shadow-home)] sm:p-5">
+          <div className="rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-home)] sm:p-5">
             <h2 className="home-section-title">{t("faqTitle")}</h2>
             <div className="mt-3 divide-y divide-border">
               {faqs.map((item) => (

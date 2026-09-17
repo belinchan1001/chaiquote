@@ -51,10 +51,10 @@
     0px 0px 0px 1px rgba(21, 87, 196, 0.22),
     0px 12px 28px -14px rgba(21, 87, 196, 0.28);
   --shadow-home:
-    0px 0px 0px 1px var(--color-border),
+    0px 0px 0px 1px #d7e3f5,
     0px 8px 24px -10px rgba(21, 87, 196, 0.12);
   --shadow-home-tile:
-    0px 0px 0px 1px var(--color-border),
+    0px 0px 0px 1px #d7e3f5,
     0px 4px 12px -6px rgba(21, 87, 196, 0.08);
 
   --ease-out-smooth: cubic-bezier(0.22, 1, 0.36, 1);
