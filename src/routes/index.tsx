@@ -106,8 +106,6 @@ function Home() {
           <div className="page-enter text-primary-foreground">
             <h1 className="font-display text-display font-semibold leading-none tracking-tight">
               {t("heroTitle1")}
-              <br />
-              {t("heroTitle2")}
             </h1>
             <p className="mt-3 max-w-lg text-sm text-primary-foreground/80 sm:mt-5 sm:text-lead">{t("heroLead")}</p>
             <div className="mt-8 hidden gap-6 text-sm text-primary-foreground/75 sm:flex">

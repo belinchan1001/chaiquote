@@ -237,6 +237,21 @@ describe("trust/compliance copy", () => {
   });
 });
 
+describe("homepage hero title", () => {
+  it("keeps a one-line 搵寬頻唔使四圍問 title with no joining comma or second sentence", () => {
+    const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+    assert.equal(quoted(messages, "heroTitle1")[0], "搵寬頻唔使四圍問");
+    assert.equal(quoted(messages, "heroTitle1")[1], "Stop shopping around for broadband");
+    assert.equal(quoted(messages, "heroLead")[0], "輸入你住邊，即刻比較各大電訊商而家嘅月費同優惠。");
+    assert.match(home, /t\("heroTitle1"\)/);
+    assert.match(home, /t\("heroLead"/);
+    assert.doesNotMatch(home, /heroTitle2/);
+    assert.doesNotMatch(quoted(messages, "heroTitle1")[0], /，|。/);
+    assert.doesNotMatch(messages, /heroTitle2:/);
+  });
+});
+
 describe("date stamps", () => {
   it("pins homepage 資料更新 YYYY-MM-DD and split 稿件日期 / 資料更新 labels", () => {
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
