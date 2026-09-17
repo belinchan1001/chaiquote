@@ -15,6 +15,8 @@
   --color-ring: #1557c4;
   --color-hot: #d61f4a;
   --color-hot-foreground: #fff7f8;
+  --color-signal-good: #22c55e;
+  --color-signal-bad: #ef4444;
   --color-intake: #ea580c;
   --color-intake-foreground: #fff7ed;
   --color-flash: #c9a227;
@@ -78,6 +80,22 @@
   }
 }
 
+@keyframes esports-glow-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--esports-glow) 52%, transparent),
+      0 0 10px 1px color-mix(in srgb, var(--esports-glow) 44%, transparent),
+      0 0 22px 0 color-mix(in srgb, var(--esports-glow) 24%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--esports-glow) 78%, transparent),
+      0 0 16px 3px color-mix(in srgb, var(--esports-glow) 62%, transparent),
+      0 0 30px 2px color-mix(in srgb, var(--esports-glow) 34%, transparent);
+  }
+}
+
 @layer base {
   html {
     -webkit-font-smoothing: antialiased;
@@ -132,6 +150,7 @@
   .plan-card-shine::before,
   .plan-card-shine > .foil,
   .chip-press,
+  .esports-line-chip,
   .wa-pulse::after,
   .ai-overlay,
   .ai-panel,
@@ -186,6 +205,7 @@
   .ai-overlay,
   .ai-panel,
   .chip-press,
+  .esports-line-chip,
   .action-hot,
   .action-apply {
     transition: none !important;
@@ -314,6 +334,62 @@
   .chip-press:not([aria-current="page"]):active {
     background-color: var(--color-primary);
     color: var(--color-primary-foreground);
+  }
+  .chip-press.esports-line-chip:active,
+  .chip-press.esports-line-chip:not([aria-current="page"]):active {
+    background-color: #111318;
+    color: #f4fff6;
+  }
+
+  .esports-line-chip {
+    --esports-glow: var(--color-signal-good);
+    position: relative;
+    overflow: visible;
+    background: #111318;
+    color: #f4fff6;
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--esports-glow) 52%, transparent),
+      0 0 10px 1px color-mix(in srgb, var(--esports-glow) 44%, transparent),
+      0 0 22px 0 color-mix(in srgb, var(--esports-glow) 24%, transparent);
+    animation: esports-glow-pulse 1.8s ease-in-out infinite;
+    transition:
+      transform 90ms ease-out,
+      background-color 80ms ease-out,
+      color 160ms ease-out,
+      box-shadow 160ms ease-out;
+  }
+  .esports-line-chip[data-armed="true"] {
+    --esports-glow: var(--color-signal-bad);
+    color: #fff5f5;
+  }
+  .esports-line-chip .signal-bars {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 0.9em;
+  }
+  .esports-line-chip .signal-bars span {
+    display: block;
+    width: 3px;
+    border-radius: 1px;
+    background: #3f4651;
+  }
+  .esports-line-chip .signal-bars span:nth-child(1) {
+    height: 42%;
+  }
+  .esports-line-chip .signal-bars span:nth-child(2) {
+    height: 68%;
+  }
+  .esports-line-chip .signal-bars span:nth-child(3) {
+    height: 100%;
+  }
+  .esports-line-chip:not([data-armed="true"]) .signal-bars span:nth-child(1) {
+    background: var(--color-signal-good);
+    box-shadow: 0 0 6px var(--color-signal-good);
+  }
+  .esports-line-chip[data-armed="true"] .signal-bars span {
+    background: var(--color-signal-bad);
+    box-shadow: 0 0 6px var(--color-signal-bad);
   }
 
   .wa-pulse {

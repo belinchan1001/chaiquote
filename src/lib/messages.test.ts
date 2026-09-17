@@ -51,6 +51,18 @@ describe("trust/compliance copy", () => {
     assert.doesNotMatch(enLead, EN_CLAIM);
   });
 
+  it("renames the gaming shortcut to 電競神線 and keeps 2500M+ fibre filter", () => {
+    const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    const search = readFileSync(join(here, "../components/search-panel.tsx"), "utf8");
+    const [zh, en] = quoted(messages, "shortcutGaming");
+    assert.equal(zh, "電競神線");
+    assert.equal(en, "Esports fibre");
+    assert.match(search, /esports-line-chip/);
+    assert.match(search, /minSpeed:\s*2500/);
+    assert.match(search, /data-armed/);
+    assert.doesNotMatch(search, /高速打機首選/);
+  });
+
   it("shows the no-commission line on about and in the footer", () => {
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
     const about = readFileSync(join(here, "../routes/about.tsx"), "utf8");

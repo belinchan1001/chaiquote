@@ -1,4 +1,4 @@
-import { useId, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { AiFilterEntry } from "@/components/ai-filter-entry";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,42 @@ import { useI18n } from "@/lib/i18n";
 import type { Housing } from "@/lib/plans";
 import { cn } from "@/lib/utils";
 import type { MessageKey } from "@/lib/messages";
+
+function EsportsLineChip() {
+  const navigate = useNavigate();
+  const { t } = useI18n();
+  const [armed, setArmed] = useState(false);
+  const timer = useRef(0);
+  const search = { cat: "broadband" as const, minSpeed: 2500, sort: "speed" as const };
+
+  useEffect(() => () => window.clearTimeout(timer.current), []);
+
+  return (
+    <Link
+      to="/plans"
+      search={search}
+      aria-pressed={armed}
+      data-armed={armed ? "true" : "false"}
+      className="esports-line-chip chip-press inline-flex h-11 items-center gap-1.5 rounded-full px-3.5 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+      onClick={(event) => {
+        if (armed) return;
+        event.preventDefault();
+        setArmed(true);
+        const wait = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 280;
+        timer.current = window.setTimeout(() => {
+          void navigate({ to: "/plans", search });
+        }, wait);
+      }}
+    >
+      <span>{t("shortcutGaming")}</span>
+      <span className="signal-bars" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </span>
+    </Link>
+  );
+}
 
 function RadioChip({
   name,
@@ -75,7 +111,6 @@ export function SearchPanel() {
   const shortcuts = [
     { label: t("shortcutExpiry"), search: { cat: "mobile" as const, portIn: true } },
     { label: t("shortcutCheap"), search: { cat: "broadband" as const, maxFee: 120 } },
-    { label: t("shortcutGaming"), search: { cat: "broadband" as const, sort: "speed" as const } },
   ];
 
   function remember(next: { estate?: string; housing?: string; district?: string }) {
@@ -283,6 +318,7 @@ export function SearchPanel() {
             {item.label}
           </Link>
         ))}
+        <EsportsLineChip />
       </div>
       <Button type="submit" size="lg" className="action-apply order-5 mt-5 w-full sm:order-8 sm:mt-6 sm:w-auto">
         {t("autoFilter")}

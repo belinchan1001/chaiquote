@@ -38,7 +38,7 @@ export const DISCLAIMER = [
 export const SHORTCUTS = [
   { label: "就到期轉台", search: { cat: "mobile" as const, portIn: true } },
   { label: "平價入門", search: { cat: "broadband" as const, maxFee: 120 } },
-  { label: "高速打機首選", search: { cat: "broadband" as const, sort: "speed" as const } },
+  { label: "電競神線", search: { cat: "broadband" as const, minSpeed: 2500, sort: "speed" as const } },
 ] as const;
 
 export const CALL_WINDOWS = [

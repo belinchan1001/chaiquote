@@ -237,6 +237,16 @@ describe("HKBN senior 5G HK–Mainland plans", () => {
   });
 });
 
+describe("電競神線 shortcut", () => {
+  it("keeps only fibre plans at 2500M or faster", () => {
+    const rows = filterPlans({ cat: "broadband", minSpeed: 2500, sort: "speed" });
+    assert.ok(rows.length > 0);
+    assert.ok(rows.every((row) => row.category === "broadband"));
+    assert.ok(rows.every((row) => (row.speedMbps ?? 0) >= 2500));
+    assert.equal(rows.some((row) => (row.speedMbps ?? 0) < 2500), false);
+  });
+});
+
 describe("HKBN 5G 30GB + 4GB $98", () => {
   it("keeps the $98 poster extras on the 24-month 30GB plan", () => {
     const row = plan("hkbn-5g-30");
