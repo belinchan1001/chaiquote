@@ -171,6 +171,12 @@ describe("trust/compliance copy", () => {
     assert.match(enHome5g, /No cabling/);
     assert.match(enMobile, /Greater Bay Area/);
     assert.match(enBusiness, /1000M/);
+
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+    const blurb = home.slice(home.indexOf("t(item.text)"), home.indexOf("t(item.text)") + 80);
+    assert.match(home, /t\(item\.text\)/);
+    assert.doesNotMatch(blurb, /line-clamp/);
+    assert.doesNotMatch(home, /line-clamp-3/);
   });
 
   it("pins homepage 或睇攻略文章 under 去格價 and the four guide hubs", () => {
@@ -235,6 +241,14 @@ describe("date stamps", () => {
   it("pins homepage 資料更新 YYYY-MM-DD and split 稿件日期 / 資料更新 labels", () => {
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
     assert.equal(quoted(messages, "hkUpdated")[0], "香港 · 資料更新 {date}");
+    assert.equal(
+      quoted(messages, "headerStrip")[0],
+      "資料更新：{date}　｜　本站無向電訊商收取佣金或廣告費；列出月費僅供參考，以電訊商確認為準。",
+    );
+    const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
+    assert.match(header, /t\("headerStrip", \{ date: updated \}\)/);
+    assert.match(header, /text-fg/);
+    assert.doesNotMatch(header, /headerStrip[\s\S]*text-subtle/);
     assert.equal(quoted(messages, "dataUpdated")[0], "資料更新 {date}");
     assert.equal(quoted(messages, "manuscriptDate")[0], "稿件日期 {date}");
     assert.equal(quoted(messages, "manuscriptUpdated")[0], "稿件日期 {published} · 更新 {modified}");

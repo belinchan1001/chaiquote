@@ -636,7 +636,7 @@ test("renders the 齊Quote manifest on the production host", () => {
   assert.equal(manifest.scope, "https://www.chaiquote.hk/");
   assert.equal(manifest.display, "standalone");
   assert.equal(manifest.theme_color, "#1557C4");
-  assert.equal(manifest.background_color, "#EEF4FB");
+  assert.equal(manifest.background_color, "#F4F8FF");
   const sizes = manifest.icons.map((icon) => icon.sizes);
   assert.ok(sizes.includes("192x192"));
   assert.ok(sizes.includes("512x512"));

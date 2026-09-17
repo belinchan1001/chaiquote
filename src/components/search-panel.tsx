@@ -113,12 +113,12 @@ export function SearchPanel() {
     <form
       method="get"
       action="/plans"
-      className="group/search relative z-10 flex flex-col overflow-visible rounded-2xl bg-card p-4 shadow-[var(--shadow-border)] sm:p-6"
+      className="group/search relative z-10 flex flex-col overflow-visible rounded-lg border border-border bg-card p-3.5 shadow-[var(--shadow-home)] sm:p-5"
       onSubmit={onSubmit}
     >
       <div className="order-1">
-        <p className="text-sm font-medium">{t("searchTitle")}</p>
-        <p className="mt-1 hidden text-xs text-muted sm:block">{t("searchLead")}</p>
+        <p className="text-base font-semibold tracking-tight">{t("searchTitle")}</p>
+        <p className="mt-1 hidden text-xs leading-normal text-muted sm:block">{t("searchLead")}</p>
       </div>
       <div className="order-2 mt-4 space-y-2 sm:mt-5">
         <label htmlFor="estate-search" className="text-xs font-medium tracking-wider text-muted">

@@ -21,7 +21,7 @@ export function SiteHeader() {
   const compareCount = useDesk((s) => s.compare.length);
   const aiOpen = useDesk((s) => s.aiOpen);
   const toggleAi = useDesk((s) => s.toggleAi);
-  const { t } = useI18n();
+  const { t, updated } = useI18n();
 
   const links: { to: "/plans" | "/guides" | "/about" | "/estates"; labelKey: MessageKey; search?: { cat: "broadband" | "home5g" | "mobile" | "business" } }[] = [
     { to: "/plans", labelKey: "navFibre", search: { cat: "broadband" } },
@@ -97,6 +97,9 @@ export function SiteHeader() {
           </Button>
         </div>
       </div>
+      <p className="border-t border-border bg-bg px-3 py-1.5 text-[11px] font-medium leading-snug text-fg sm:px-4">
+        <span className="mx-auto block max-w-6xl">{t("headerStrip", { date: updated })}</span>
+      </p>
       <div className={cn("sheet-fold border-t border-border bg-bg lg:hidden", open && "open")}>
         <div className="sheet-fold-inner">
           <nav className="flex flex-col px-4 py-4">

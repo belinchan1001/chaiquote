@@ -11,7 +11,7 @@ export const CHAIQUOTE_APP_NAME = "齊Quote";
 export const CHAIQUOTE_APP_DESCRIPTION =
   "香港寬頻／手機月費參考比較，WhatsApp 查核報價";
 export const CHAIQUOTE_THEME_COLOR = "#1557C4";
-export const CHAIQUOTE_BACKGROUND_COLOR = "#EEF4FB";
+export const CHAIQUOTE_BACKGROUND_COLOR = "#F4F8FF";
 export const CHAIQUOTE_START_URL = "https://www.chaiquote.hk/";
 export const CHAIQUOTE_SCOPE = "https://www.chaiquote.hk/";
 export const OG_SERVICE_URL_DEFAULT = "https://og.grok.me";
