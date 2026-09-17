@@ -313,6 +313,8 @@ const SLUG_FALLBACK: Record<string, string> = {
   "KOKO Reserve": "koko-reserve",
   順利邨道簡約公屋: "shun-lee-tsuen-road-lph",
   竹園道簡約公屋: "chuk-yuen-road-lph",
+  柏瓏: "grand-mayfair",
+  "UNI Residence": "uni-residence",
 };
 
 function requireEstate(name: string): Estate {

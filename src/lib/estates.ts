@@ -384,9 +384,9 @@ YOHO Midtown|YOHO Midtown|元朗|private
 荃灣新村|荃灣新村|荃灣|village
 白田壩村|白田壩,Pak Tin Pa|荃灣|village
 馬閃排|馬閃排,Ma Sim Pai|荃灣|village
-海壩東北台|海壩東北,Hoi Pa,Hoi Pa Village Northeast Terrace,荃灣海壩東北台|荃灣|village
+海壩東北台|海壩東北,海壩(東北台),Hoi Pa,Hoi Pa Village Northeast Terrace,荃灣海壩東北台|荃灣|village
 西樓角|西樓角,Sai Lau Kok|荃灣|village
-海壩南台|海壩南台,Hoi Pa Village South Terrace,荃灣海壩南台,荃灣海壩村|荃灣|village
+海壩南台|海壩南台,海壩(南台),Hoi Pa Village South Terrace,荃灣海壩南台,荃灣海壩村,荃灣海壩|荃灣|village
 下洋新村|下洋新村,Ha Yeung San Tsuen|西貢|village
 大坳門|大坳門,Tai Au Mun|西貢|village
 `.trim();

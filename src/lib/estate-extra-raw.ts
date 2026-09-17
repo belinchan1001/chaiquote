@@ -717,7 +717,7 @@ KOKO Hills|KOKO Hills|觀塘|private
 大圍銅鑼灣山|Causeway Hill Tai Wai|沙田|village
 東涌鄉|Tung Chung Village|離島|village
 梅窩大蠔|Tai Ho Mui Wo|離島|village
-分流|Fan Lau|離島|village
+分流|Fan Lau,汾流,大嶼山分流,大嶼山汾流|離島|village
 沙螺灣|Sha Lo Wan|離島|village
 喜靈洲|Hei Ling Chau|離島|village
 珺瓏灣|Emerald Bay So Kwun Wat|屯門|private
@@ -748,14 +748,14 @@ KOKO Hills|KOKO Hills|觀塘|private
 青福里項目|青福里簡約公屋,Tsing Fuk Lane LPH,屯門青福里,簡約公屋青福里項目|屯門|public|屯門||青福里
 欣寶路項目|欣寶路簡約公屋,Yan Po Road LPH,屯門欣寶路,簡約公屋欣寶路項目|屯門|public|屯門|覆蓋需查核|欣寶路
 鴻鵠臺|鴻鵠,Hung Woo Terrace,牛頭角鴻鵠臺,定安街鴻鵠臺|觀塘|public|牛頭角||定安街
-柏傲莊III|The Pavilia Farm III,Pavilia Farm 3,柏傲莊 III|沙田|private|大圍
+柏傲莊III|The Pavilia Farm III,Pavilia Farm 3,柏傲莊 III,車公廟路18號柏傲莊|沙田|private|大圍||車公廟路18號
 101 Kings Road|英皇道101號,炮台山101 Kings Road|東區|private|炮台山||英皇道101號
-Belgravia Place I|Belgravia Place,Belgravia Place 1|深水埗|private
+Belgravia Place I|Belgravia Place,Belgravia Place 1,Belgravia Place II,Belgravia Place 2,巴域街1號Belgravia Place,長沙灣Belgravia Place|深水埗|private|長沙灣||巴域街1號
 Blue Coast I & II|Blue Coast,Blue Coast I,Blue Coast II,港島南岸Blue Coast,港島南岸3B期,港島南岸3C期|南區|private|黃竹坑||香葉道11號
-Finnie|Finnie Quarry Bay|東區|private|鰂魚涌
-Miami Quay II|Miami Quay,Miami Quay 2|九龍城|private|啟德
+Finnie|Finnie Quarry Bay,芬尼街9號Finnie,鰂魚涌Finnie|東區|private|鰂魚涌||芬尼街9號
+Miami Quay II|Miami Quay,Miami Quay 2,Miami Quay I,Miami Quay 1,啟德Miami Quay,承豐道23號|九龍城|private|啟德||承豐道23號
 One Central Place|中環 One Central Place|中西區|private
-Spring Garden|Spring Garden Wan Chai|灣仔|private
+Spring Garden|Spring Garden Wan Chai,春園街38號Spring Garden,灣仔Spring Garden|灣仔|private|灣仔||春園街38號
 The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 樂嶺都匯|Casa Sierra,Lok Ling Hub,粉嶺樂嶺都匯,樂嶺都匯粉嶺|北區|public|粉嶺||百和路72號
 朗日峰|Flora,Long Yat Peak|元朗|private|十八鄉||大棠路111號
@@ -919,7 +919,7 @@ Deep Water South|DEEP WATER SOUTH,港島南岸第6期,港島南岸第6A期,港�
 流浮東寓|Lau Fau Tung Yu,流浮‧東寓,流浮山過渡性房屋|元朗|public|流浮山
 華第|Cadenza,粉錦公路333號華第,上水華第,華第1期|北區|private|上水||粉錦公路333號
 尚柏|The Parkland,大旗嶺266號,元朗尚柏|元朗|private|大棠||大旗嶺266號
-連方|Bondlane,連方I,連方II,Bondlane I,Bondlane II,醫局街233號連方|深水埗|private|長沙灣||醫局街233號
+連方|Bondlane,連方I,連方II,Bondlane I,Bondlane II,醫局街233號連方,海壇街268號連方,海壇街連方II|深水埗|private|長沙灣||海壇街268號
 吉喆|33 Catchick Street,吉席街33號,堅尼地城吉喆|中西區|private|堅尼地城||吉席街33號
 THE BOUNDARY|The Boundary,界限街2C號,大角咀THE BOUNDARY|油尖旺|private|大角咀||界限街2C號
 名鑽|何文田名鑽|九龍城|private|何文田
@@ -928,7 +928,7 @@ One Wood Road|灣仔One Wood Road,活道1號|灣仔|private|灣仔||活道1號
 Elize Park|旺角Elize Park|油尖旺|private|旺角
 恒珀|Hang Park,長沙灣恒珀,長沙灣恆珀,恆珀|深水埗|private|長沙灣
 隆敍|何文田隆敍,隆叙|九龍城|private|何文田
-北都滙|Northern Hub,古洞北都滙,古洞北北都滙|北區|private|古洞|覆蓋需查核
+北都滙|North Innovale,Northern Hub,古洞北都滙,古洞北北都滙,鄉梓路25號北都滙,古洞鄉梓路北都滙,香梓路25號北都滙|北區|private|古洞||鄉梓路25號
 33清水灣|33 Clear Water Bay,清水灣道33號,牛池灣33清水灣|黃大仙|private|牛池灣|覆蓋需查核|清水灣道33號
 Victoria Blossom|維港花,啟德Victoria Blossom,承豐道16號|九龍城|private|啟德|覆蓋需查核|承豐道16號
 映匯|CHESTER II,The Hampton,紅磡映匯,黃埔街映匯,黃埔街28號映匯|九龍城|private|紅磡|覆蓋需查核|黃埔街28號
@@ -938,16 +938,18 @@ One Innovale|ONE INNOVALE,粉嶺One Innovale,馬適路8號One Innovale,粉嶺馬
 雲向|CLOUDVIEW,Cloudview,粉嶺雲向,粉錦公路663號雲向,上水雲向|北區|private|粉嶺|覆蓋需查核|粉錦公路663號
 滶蘊|PAVILIA ROSA,Pavilia Rosa,九龍塘滶蘊,玫瑰街28號滶蘊,石硤尾滶蘊|九龍城|private|九龍塘|覆蓋需查核|玫瑰街28號
 海瑅灣|LA MIRABELLE,海瑅灣I,海瑅灣II,海瑅灣1期,海瑅灣2期,LA MIRABELLE I,LA MIRABELLE II,日出康城海瑅灣,康城海瑅灣,康城路1號海瑅灣|西貢|private|將軍澳|覆蓋需查核|康城路1號
-Palo Springs|Palo Springs Sheung Shui,上水Palo Springs,鄉梓路23號Palo Springs|北區|private|上水|覆蓋需查核|鄉梓路23號
-映居|大角咀映居,埃華街3號映居,埃華街映居|油尖旺|private|大角咀|覆蓋需查核|埃華街3號
+Palo Springs|Palo Springs Sheung Shui,PARK SILICON,Park Silicon,上水Palo Springs,古洞Palo Springs,鄉梓路23號Palo Springs,鄉梓路23號Park Silicon|北區|private|上水|覆蓋需查核|鄉梓路23號
+映居|大角咀映居,旺角映居,埃華街3號映居,埃華街映居,Ivy Street 3|油尖旺|private|大角咀||埃華街3號
 芊御|Garden Regency,Garden REGENCY,元朗芊御,錦田芊御,映河路1A號芊御,The YOHO 芊御|元朗|private|錦田|覆蓋需查核|映河路1A號
 瑧玥|GRAND AUSTIN BOHEMIAN,Grand Austin Bohemian,尖沙咀瑧玥|油尖旺|private|尖沙咀|覆蓋需查核
 南灣苑|Nam Wan Court,鴨脷洲南灣苑,利東邨南灣苑|南區|hos|鴨脷洲
 澐璟|Pano Harbour,PANO HARBOUR,啟德澐璟,承富里2號澐璟,澐璟1座,澐璟2座,澐璟3A座,澐璟3B座,澐璟5座,澐璟6座,澐璟8座|九龍城|private|啟德||承富里2號
-擎海|擎海I,擎海II,油塘擎海,東源街擎海|觀塘|private|油塘|覆蓋需查核|東源街
+擎海|擎海I,擎海II,油塘擎海,東源街擎海,東源街15號擎海,King Hoi|觀塘|private|油塘||東源街15號
 凱柏峰|Villa Garda,VILLA GARDA,凱柏峰I,凱柏峰II,凱柏峰III,The LOHAS 凱柏峰,康城凱柏峰,康城路1號凱柏峰|西貢|private|將軍澳||康城路1號
 KOKO Reserve|KOKO RESERVE,藍田KOKO Reserve,高嶺道8號KOKO Reserve|觀塘|private|藍田|覆蓋需查核|高嶺道8號
 曉柏峰|The Paddington,THE PADDINGTON,長沙灣曉柏峰,西洋菜北街456號曉柏峰,石硤尾曉柏峰|深水埗|private|長沙灣||西洋菜北街456號
+柏瓏|Grand Mayfair,柏瓏I,柏瓏II,柏瓏III,Grand Mayfair I,Grand Mayfair II,Grand Mayfair III,錦河路29號柏瓏,錦田柏瓏,錦上路柏瓏|元朗|private|錦田||錦河路29號
+UNI Residence|UNI Residences,Uni Residence,顯和里7號UNI Residence,沙田UNI Residence,顯和里UNI,沙田顯和里|沙田|private|沙田||顯和里7號
 順利邨道簡約公屋|順利邨道項目,Shun Lee Tsuen Road LPH,觀塘順利邨道簡約公屋,簡約公屋順利邨道,迦密梁省德學校簡約公屋|觀塘|public|順利|覆蓋需查核|順利邨道
 竹園道簡約公屋|竹園道項目,Chuk Yuen Road LPH,黃大仙竹園道簡約公屋,簡約公屋竹園道,浸信會天虹小學簡約公屋|黃大仙|public|竹園|覆蓋需查核|竹園道
 `.trim();

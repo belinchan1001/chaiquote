@@ -210,7 +210,7 @@ describe("renderSitemapXml", () => {
     assert.ok(SITEMAP_PAGES.length < SITEMAP_URL_LIMIT, `${SITEMAP_PAGES.length} URLs need a sitemap index`);
     assert.equal(locs.length, SITEMAP_PAGES.length);
     assert.equal(estateLocs.length, INDEXABLE_ESTATE_PAGES.length);
-    assert.equal(INDEXABLE_ESTATE_PAGES.length, 101);
+    assert.equal(INDEXABLE_ESTATE_PAGES.length, 102);
     assert.ok(ESTATE_PAGES.length > INDEXABLE_ESTATE_PAGES.length);
 
     for (const page of STATIC_SITEMAP_PAGES) {
@@ -280,13 +280,13 @@ describe("renderSitemapXml", () => {
     const lastmods = [...xml.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((match) => match[1]);
     const allowed = new Set<string>();
     const siteStamp = siteDataLastmod();
-    assert.equal(siteStamp, "2026-09-17");
-    assert.equal(SITE.updated, "2026-09-17");
+    assert.equal(siteStamp, "2026-09-18");
+    assert.equal(SITE.updated, "2026-09-18");
+    assert.equal(siteDataLastmod("2026-09-18"), "2026-09-18");
     assert.equal(siteDataLastmod("2026-09-17"), "2026-09-17");
-    assert.equal(siteDataLastmod("2026-09-16"), "2026-09-16");
     assert.equal(siteDataLastmod("not-a-date"), undefined);
     assert.equal(siteDataLastmod("2026年9月"), "2026-09");
-    assert.equal(siteDataLastmod("2026年9月17日"), "2026-09-17");
+    assert.equal(siteDataLastmod("2026年9月18日"), "2026-09-18");
     if (siteStamp) allowed.add(siteStamp);
     for (const guide of GUIDES) {
       for (const date of [guide.modified, guide.published]) {
@@ -300,10 +300,10 @@ describe("renderSitemapXml", () => {
 
     assert.equal(sitemapLastmod("/guides/fiber"), "2026-09-10");
     assert.equal(sitemapLastmod("/guides/port-in"), "2026-09-06");
-    assert.equal(sitemapLastmod("/"), "2026-09-17");
+    assert.equal(sitemapLastmod("/"), "2026-09-18");
     assert.match(xml, /\/guides\/fiber<\/loc><lastmod>2026-09-10<\/lastmod>/);
     assert.match(xml, /\/guides\/port-in<\/loc><lastmod>2026-09-06<\/lastmod>/);
-    assert.match(xml, /www\.chaiquote\.hk\/<\/loc><lastmod>2026-09-17<\/lastmod>/);
+    assert.match(xml, /www\.chaiquote\.hk\/<\/loc><lastmod>2026-09-18<\/lastmod>/);
 
     const src = readFileSync(join(ROOT, "src/lib/seo.ts"), "utf8");
     assert.doesNotMatch(src, /Date\.now/);

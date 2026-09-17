@@ -122,6 +122,13 @@ export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "澐璟", group: "九龍" },
   { name: "曉柏峰", group: "九龍" },
   { name: "凱柏峰", group: "新界" },
+  { name: "連方", group: "九龍" },
+  { name: "北都滙", group: "新界" },
+  { name: "映居", group: "九龍" },
+  { name: "擎海", group: "九龍" },
+  { name: "朗然", group: "九龍" },
+  { name: "柏瓏", group: "新界" },
+  { name: "UNI Residence", group: "新界" },
 ];
 
 export const NEW_INTAKE_NAMES = new Set(NEW_INTAKE.map((item) => item.name));
@@ -173,6 +180,7 @@ export const HKBN_INTAKE_OFFER_ESTATES = [
   "啟欣苑",
   "驥華苑",
   "啟鑽苑",
+  "朗然",
 ] as const;
 
 /** Netvigator fibre for a subset of new-move-in estates (blocks inherit the parent). */

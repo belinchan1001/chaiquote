@@ -821,6 +821,10 @@ export const VILLAGE_RAW = `
 上禾輋村|Sheung Wo Che Tsuen,上禾輋|沙田|village|沙田
 西貢南山村|Nam Shan Tsuen Sai Kung,南山村西貢|西貢|village|西貢
 飛鵝山村|Fei Ngo Shan Village,飛鵝山,飛鵝山道村屋,飛鵝山村屋|黃大仙|village|飛鵝山
+十塱|Shap Long,十塱村,大嶼山十塱,芝麻灣十塱|離島|village|大嶼山
+東涌舊碼頭|Tung Chung Old Pier,東涌舊碼頭村,東涌碼頭|離島|village|東涌
+牙鷹洲|Nga Ying Chau,牙鷹洲村,青衣牙鷹洲|葵青|village|青衣
+荃灣南灣|Tsuen Wan Nam Wan,荃灣南灣村,南灣荃灣|荃灣|village|荃灣
 `.trim();
 
 
