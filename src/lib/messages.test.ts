@@ -149,6 +149,30 @@ describe("trust/compliance copy", () => {
     assert.match(detail, staffThenDisclaimer);
   });
 
+  it("locks homepage category blurbs to the launch copy", () => {
+    const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    const [zhFibre, enFibre] = quoted(messages, "catFibreText");
+    const [zhHome5g, enHome5g] = quoted(messages, "catHome5gText");
+    const [zhMobile, enMobile] = quoted(messages, "catMobileText");
+    const [zhBusiness, enBusiness] = quoted(messages, "catBusinessText");
+
+    assert.equal(
+      zhFibre,
+      "家居光纖由約 1000M 起，適用樓類包括公屋／居屋／私樓／村屋；月費同安裝費以計劃卡為準。",
+    );
+    assert.equal(zhHome5g, "免拉線入屋，適合未有光纖或想快裝；實際速度視現場訊號。");
+    assert.equal(zhMobile, "4G／5G 本地同大灣區數據計劃；攜號轉台同學生優惠另見計劃卡。");
+    assert.equal(zhBusiness, "店舖／寫字樓參考月費由約 1000M 起；實際安裝同報價要向銷售確認。");
+
+    for (const blurb of [zhFibre, zhHome5g, zhMobile, zhBusiness]) {
+      assert.equal(blurb.includes("僅供參考"), false, "card blurb must not carry the footer disclaimer");
+    }
+    assert.match(enFibre, /about 1000M/);
+    assert.match(enHome5g, /No cabling/);
+    assert.match(enMobile, /Greater Bay Area/);
+    assert.match(enBusiness, /1000M/);
+  });
+
   it("pins homepage 或睇攻略文章 under 去格價 and the four guide hubs", () => {
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
     const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
