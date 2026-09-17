@@ -9,6 +9,8 @@ export const MESSAGES = {
       "齊Quote 係獨立電訊比較平台，一次過比較香港家居寬頻、5G 家居、商業寬頻同手機計劃。所列月費僅供參考。",
     updatedPrefix: "價錢更新：",
     hkUpdated: "香港 · 資料更新 {date}",
+    headerStrip:
+      "資料更新：{date}　｜　本站無向電訊商收取佣金或廣告費；列出月費僅供參考，以電訊商確認為準。",
     dataUpdated: "資料更新 {date}",
     manuscriptDate: "稿件日期 {date}",
     manuscriptUpdated: "稿件日期 {published} · 更新 {modified}",
@@ -416,6 +418,8 @@ export const MESSAGES = {
       "ChaiQuote is an independent telecom comparison site for Hong Kong home fibre, 5G home, business broadband and mobile plans. Fees are for reference only.",
     updatedPrefix: "Prices updated: ",
     hkUpdated: "Hong Kong · Updated {date}",
+    headerStrip:
+      "Data updated: {date} ｜ This site does not take commission or advertising fees from carriers; listed monthly fees are for reference only and are confirmed by the carrier.",
     dataUpdated: "Data updated {date}",
     manuscriptDate: "Published {date}",
     manuscriptUpdated: "Published {published} · Updated {modified}",
