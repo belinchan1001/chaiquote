@@ -53,8 +53,9 @@ describe("guide topic images", () => {
       assert.ok(image, slug);
       assert.equal(image.src, `/images/${TOPIC_FILE[slug]}.jpg`);
       assert.equal(image.webp, `/images/${TOPIC_FILE[slug]}.webp`);
-      assert.equal(image.width, 1280);
-      assert.equal(image.height, 720);
+      const [width, height] = slug === "fiber-vs-5g" ? [1280, 720] : [1200, 630];
+      assert.equal(image.width, width);
+      assert.equal(image.height, height);
       assert.equal(guideShareImagePath(slug), image.src);
       assert.ok(getGuide(slug), slug);
     }
@@ -69,11 +70,11 @@ describe("guide topic images", () => {
 
   it("ships compressed jpg + webp under public/images", () => {
     const assets = [
-      ["public/images/guide-port-in.jpg", 90_000],
+      ["public/images/guide-port-in.jpg", 95_000],
       ["public/images/guide-port-in.webp", 70_000],
-      ["public/images/guide-fiber.jpg", 110_000],
+      ["public/images/guide-fiber.jpg", 125_000],
       ["public/images/guide-fiber.webp", 70_000],
-      ["public/images/guide-village.jpg", 140_000],
+      ["public/images/guide-village.jpg", 155_000],
       ["public/images/guide-village.webp", 100_000],
       ["public/images/guide-choose.jpg", 100_000],
       ["public/images/guide-choose.webp", 70_000],
@@ -116,9 +117,12 @@ describe("guide topic images", () => {
     assert.match(page, /guideTopicImage\(guide\.slug\)/);
     assert.match(page, /property:\s*"og:image"/);
     assert.match(page, /name:\s*"twitter:image"/);
-    assert.match(page, /<picture>/);
+    assert.match(page, /photo-strip mt-6/);
     assert.match(page, /type="image\/webp"/);
     assert.match(page, /loading="lazy"/);
+    const css = src("../styles.css");
+    assert.match(css, /\.photo-strip img\s*\{[^}]*object-position:\s*top/);
+    assert.match(src("../routes/guides.tsx"), /photo-strip photo-strip-tile/);
     assert.doesNotMatch(page, /guide-home5g|guide-mobile|guide-business/);
   });
 
