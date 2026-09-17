@@ -273,7 +273,7 @@ const RAW = `
 匯景花園|匯景,Sceneway Garden|觀塘|private
 德福花園|德福,Telford Gardens|觀塘|private
 淘大花園|淘大,Amoy Gardens|觀塘|private
-麗晶花園|麗晶,Richland Gardens|觀塘|hos
+麗晶花園|麗晶,Richland Gardens|觀塘|private
 宏緻苑|宏緻,Wang Chi Court|觀塘|hos|九龍灣
 富緻閣|富緻,Fu Chi House,宏緻苑富緻閣|觀塘|hos|九龍灣
 喜緻閣|喜緻,Hei Chi House,宏緻苑喜緻閣|觀塘|hos|九龍灣

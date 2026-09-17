@@ -543,6 +543,9 @@ export const VILLAGE_RAW = `
 青衣大王下村|Tai Wong Ha Tsuen|葵青|village|青衣
 青衣涌美村|Chung Mei Tsuen Tsing Yi|葵青|village|青衣
 青衣南灣村|Nam Wan Tsuen Tsing Yi|葵青|village|青衣
+青衣鹽田角村|Yim Tin Kok Tsuen,青衣鹽田角,鹽田角新村|葵青|village|青衣
+青衣藍田村|Lam Tin Tsuen Tsing Yi,青衣藍田,藍田新村青衣|葵青|village|青衣
+青衣楓樹窩村|Fung Shue Wo Tsuen,青衣楓樹窩,楓樹窩新村|葵青|village|青衣
 洪水橋田心|Hung Shui Kiu Tin Sam,洪水橋田心村|元朗|village|洪水橋
 屏山坑尾村|Hang Mei Tsuen,屏山坑尾|元朗|village|屏山
 屏山坑頭村|Hang Tau Tsuen,屏山坑頭|元朗|village|屏山

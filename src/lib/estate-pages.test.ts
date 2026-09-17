@@ -207,10 +207,15 @@ describe("estate SEO pages", () => {
     assert.equal(isNewIntakeEstate("北都滙"), true);
     assert.equal(isNewIntakeEstate("連方"), true);
     assert.equal(isNewIntakeEstate("映居"), true);
-    assert.equal(isNewIntakeEstate("擎海"), true);
-    assert.equal(isNewIntakeEstate("朗然"), true);
+    assert.equal(isNewIntakeEstate("擎海"), false);
+    assert.equal(isNewIntakeEstate("朗然"), false);
     assert.equal(isNewIntakeEstate("柏瓏"), true);
     assert.equal(isNewIntakeEstate("UNI Residence"), true);
+    assert.equal(isNewIntakeEstate("飛揚"), true);
+    assert.equal(isNewIntakeEstate("凱和山"), true);
+    assert.equal(isNewIntakeEstate("晉環"), true);
+    assert.equal(isNewIntakeEstate("揚海"), true);
+    assert.equal(isNewIntakeEstate("蔚藍東岸"), true);
     assert.equal(isNewIntakeEstate("皇都"), false);
     assert.equal(getEstatePage("cadenza-sheung-shui")?.estate.name, "華第");
     assert.equal(getEstatePage("33-catchick-street")?.estate.name, "吉喆");
@@ -227,6 +232,10 @@ describe("estate SEO pages", () => {
     assert.equal(getEstatePage("northern-hub-kwu-tung")?.estate.coverageCheck, undefined);
     assert.equal(getEstatePage("northern-hub-kwu-tung")?.estate.street, "鄉梓路25號");
     assert.equal(getEstatePage("grand-mayfair")?.estate.name, "柏瓏");
+    assert.equal(getEstatePage("grand-jete")?.estate.name, "飛揚");
+    assert.equal(getEstatePage("mori-so-kwun-wat")?.estate.name, "凱和山");
+    assert.equal(getEstatePage("la-splendeur")?.estate.name, "晉環");
+    assert.equal(getEstatePage("montego-bay")?.estate.name, "蔚藍東岸");
     assert.equal(getEstatePage("uni-residence")?.estate.name, "UNI Residence");
     assert.equal(getEstatePage("bondlane")?.estate.street, "海壇街268號");
     assert.equal(getEstatePage("hemma-amber")?.estate.housing, "hos");

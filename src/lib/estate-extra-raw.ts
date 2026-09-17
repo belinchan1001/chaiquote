@@ -608,8 +608,8 @@ Parkside將軍澳|The Parkside TKO|西貢|private
 海韻臺|Rhine Terrace|荃灣|private
 邁亞美海灣|Miami Beach Towers|屯門|private
 上源|Le Pont|屯門|private
-飛揚|The Arcadia So Kwun Wat|屯門|private
-凱和山|Kai Wo Shan|屯門|private
+飛揚|The Arcadia So Kwun Wat,Grand Jete,GRAND JETE,飛揚2期,Grand Jete Phase 2,青山公路大欖段170號飛揚|屯門|private|掃管笏||青山公路－大欖段170號
+凱和山|Kai Wo Shan,MORI,Mori So Kwun Wat,管翠路18號凱和山|屯門|private|掃管笏||管翠路18號
 NAPA掃管笏|NAPA|屯門|private
 OMA掃管笏|OMA OMA|屯門|private
 南浪海灣|South Wave Bay|屯門|private
@@ -746,7 +746,7 @@ KOKO Hills|KOKO Hills|觀塘|private
 裕興苑|裕興,Yu Hing Court|離島|hos|東涌
 恆光街項目|恆光街簡約公屋,Hang Kwong Street LPH,馬鞍山恆光街,簡約公屋恆光街項目|沙田|public|馬鞍山|覆蓋需查核|恆光街
 青福里項目|青福里簡約公屋,Tsing Fuk Lane LPH,屯門青福里,簡約公屋青福里項目|屯門|public|屯門||青福里
-欣寶路項目|欣寶路簡約公屋,Yan Po Road LPH,屯門欣寶路,簡約公屋欣寶路項目|屯門|public|屯門|覆蓋需查核|欣寶路
+欣寶路項目|欣寶路簡約公屋,Yan Po Road LPH,屯門欣寶路,簡約公屋欣寶路項目|屯門|public|屯門||欣寶路
 鴻鵠臺|鴻鵠,Hung Woo Terrace,牛頭角鴻鵠臺,定安街鴻鵠臺|觀塘|public|牛頭角||定安街
 柏傲莊III|The Pavilia Farm III,Pavilia Farm 3,柏傲莊 III,車公廟路18號柏傲莊|沙田|private|大圍||車公廟路18號
 101 Kings Road|英皇道101號,炮台山101 Kings Road|東區|private|炮台山||英皇道101號
@@ -754,7 +754,7 @@ Belgravia Place I|Belgravia Place,Belgravia Place 1,Belgravia Place II,Belgravia
 Blue Coast I & II|Blue Coast,Blue Coast I,Blue Coast II,港島南岸Blue Coast,港島南岸3B期,港島南岸3C期|南區|private|黃竹坑||香葉道11號
 Finnie|Finnie Quarry Bay,芬尼街9號Finnie,鰂魚涌Finnie|東區|private|鰂魚涌||芬尼街9號
 Miami Quay II|Miami Quay,Miami Quay 2,Miami Quay I,Miami Quay 1,啟德Miami Quay,承豐道23號|九龍城|private|啟德||承豐道23號
-One Central Place|中環 One Central Place|中西區|private
+One Central Place|中環 One Central Place,卑利街23號,卑利街25號,結志街33號,Gage Street One Central Place|中西區|private|中環||卑利街23及25號
 Spring Garden|Spring Garden Wan Chai,春園街38號Spring Garden,灣仔Spring Garden|灣仔|private|灣仔||春園街38號
 The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 樂嶺都匯|Casa Sierra,Lok Ling Hub,粉嶺樂嶺都匯,樂嶺都匯粉嶺|北區|public|粉嶺||百和路72號
@@ -868,11 +868,11 @@ NOVO LAND|Novo Land,NOVO LAND 1A,NOVO LAND 1B,NOVO LAND 1C,NOVO LAND 2A,NOVO LAN
 應天|21 Borrett Road,21 Borrett Road Phase 2,波老道21號|中西區|private|西半山||波老道21號
 璟南|VELE,鴨脷洲海旁道18號,Ap Lei Chau VELE|南區|private|鴨脷洲||鴨脷洲海旁道18號
 Beacon Peak|Beacon Peak 1,畢架山Beacon Peak|深水埗|private|畢架山
-尚岸|The Shore TM,屯門尚岸|屯門|private
+尚岸|The Shore TM,The Wave TM,屯門尚岸,青霞里8號尚岸|屯門|private|屯門||青霞里8號
 維港灣畔|Victoria Voyage,維港・灣畔,維港灣畔第2B期|九龍城|private|啟德||承豐道18號
 海德園|THE HEADLAND RESIDENCES,海德園第二期,柴灣常安街99號|東區|private|柴灣||常安街99號
 邑庭居|Yap Ting Terraced Home,將軍澳邑庭居|西貢|public|將軍澳
-Miami Quay I|Miami Quay 1,啟德Miami Quay I|九龍城|private|啟德
+Miami Quay I|Miami Quay 1,啟德Miami Quay I,承豐道23號Miami Quay I|九龍城|private|啟德||承豐道23號
 柏傲莊I|The Pavilia Farm I,Pavilia Farm 1,柏傲莊 1期|沙田|private|大圍
 柏傲莊II|The Pavilia Farm II,Pavilia Farm 2,柏傲莊 2期|沙田|private|大圍
 華富北邨|Wah Fu North Estate,華景街公屋,華溢邨,薄扶林華富北|南區|public|薄扶林|覆蓋需查核
@@ -944,11 +944,11 @@ Palo Springs|Palo Springs Sheung Shui,PARK SILICON,Park Silicon,上水Palo Sprin
 瑧玥|GRAND AUSTIN BOHEMIAN,Grand Austin Bohemian,尖沙咀瑧玥|油尖旺|private|尖沙咀|覆蓋需查核
 南灣苑|Nam Wan Court,鴨脷洲南灣苑,利東邨南灣苑|南區|hos|鴨脷洲
 澐璟|Pano Harbour,PANO HARBOUR,啟德澐璟,承富里2號澐璟,澐璟1座,澐璟2座,澐璟3A座,澐璟3B座,澐璟5座,澐璟6座,澐璟8座|九龍城|private|啟德||承富里2號
-擎海|擎海I,擎海II,油塘擎海,東源街擎海,東源街15號擎海,King Hoi|觀塘|private|油塘||東源街15號
+擎海|擎海I,擎海II,油塘擎海,東源街擎海,東源街15號擎海,King Hoi|觀塘|private|油塘|覆蓋需查核|東源街15號
 凱柏峰|Villa Garda,VILLA GARDA,凱柏峰I,凱柏峰II,凱柏峰III,The LOHAS 凱柏峰,康城凱柏峰,康城路1號凱柏峰|西貢|private|將軍澳||康城路1號
 KOKO Reserve|KOKO RESERVE,藍田KOKO Reserve,高嶺道8號KOKO Reserve|觀塘|private|藍田|覆蓋需查核|高嶺道8號
 曉柏峰|The Paddington,THE PADDINGTON,長沙灣曉柏峰,西洋菜北街456號曉柏峰,石硤尾曉柏峰|深水埗|private|長沙灣||西洋菜北街456號
-柏瓏|Grand Mayfair,柏瓏I,柏瓏II,柏瓏III,Grand Mayfair I,Grand Mayfair II,Grand Mayfair III,錦河路29號柏瓏,錦田柏瓏,錦上路柏瓏|元朗|private|錦田||錦河路29號
+柏瓏|Grand Mayfair,GRAND MAYFAIR,柏瓏I,柏瓏II,柏瓏III,柏瓏1期,柏瓏2期,柏瓏3期,Grand Mayfair I,Grand Mayfair II,Grand Mayfair III,錦河路29號柏瓏,錦田柏瓏,錦上路柏瓏|元朗|private|錦田||錦河路29號
 UNI Residence|UNI Residences,Uni Residence,顯和里7號UNI Residence,沙田UNI Residence,顯和里UNI,沙田顯和里|沙田|private|沙田||顯和里7號
 順利邨道簡約公屋|順利邨道項目,Shun Lee Tsuen Road LPH,觀塘順利邨道簡約公屋,簡約公屋順利邨道,迦密梁省德學校簡約公屋|觀塘|public|順利|覆蓋需查核|順利邨道
 竹園道簡約公屋|竹園道項目,Chuk Yuen Road LPH,黃大仙竹園道簡約公屋,簡約公屋竹園道,浸信會天虹小學簡約公屋|黃大仙|public|竹園|覆蓋需查核|竹園道
