@@ -104,6 +104,22 @@ describe("homepage first-load images", () => {
     assert.match(dir, /href=\{\`\/estates\/\$\{page\.slug\}\`\}/);
   });
 
+  it("keeps the trial-period paper tokens and unclamped category blurbs", () => {
+    const css = src("../styles.css");
+    const home = src("../routes/index.tsx");
+    assert.match(css, /--color-bg: #f4f8ff;/);
+    assert.match(css, /--color-surface: #eaf2ff;/);
+    assert.match(css, /--color-fg: #0f274f;/);
+    assert.match(css, /--color-muted: #5b6b86;/);
+    assert.match(css, /--color-border: #d7e3f5;/);
+    assert.match(css, /--color-primary: #1557c4;/);
+    assert.match(css, /--color-accent: #00a8c5;/);
+    assert.match(home, /t\(item\.text\)/);
+    assert.doesNotMatch(home, /line-clamp/);
+    assert.match(home, /<PlanCard key=\{plan\.id\} plan=\{plan\} \/>/);
+    assert.doesNotMatch(home, /className="plan"/);
+  });
+
   it("keeps the first-visit tour off until after LCP and skips crawlers", () => {
     const tour = src("../components/first-visit-tour.tsx");
     assert.match(tour, /TOUR_DELAY_MS = 4000/);

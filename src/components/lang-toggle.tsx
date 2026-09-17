@@ -21,7 +21,7 @@ export function LangToggle({ className }: { className?: string }) {
       role="radiogroup"
       aria-label={t("langAria")}
       className={cn(
-        "relative grid h-11 w-[5.75rem] grid-cols-2 rounded-full bg-surface p-[3px] shadow-[inset_0_0_0_1px_rgba(12,34,72,0.12),0_1px_2px_rgba(12,34,72,0.08)] transition-transform duration-150 ease-out active:scale-[0.96]",
+        "relative grid h-11 w-[5.75rem] grid-cols-2 rounded-full bg-surface p-[3px] shadow-[inset_0_0_0_1px_rgba(15,39,79,0.12),0_1px_2px_rgba(15,39,79,0.08)] transition-transform duration-150 ease-out active:scale-[0.96]",
         className,
       )}
     >

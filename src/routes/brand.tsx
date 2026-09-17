@@ -19,8 +19,8 @@ export const Route = createFileRoute("/brand")({
 const COLORS = [
   { name: "電訊藍", token: "bg-primary", fg: "text-primary-foreground", hex: "#1557C4", use: "主色、標誌底、按鈕" },
   { name: "訊號青", token: "bg-accent", fg: "text-accent-foreground", hex: "#00A8C5", use: "引號疊色、重點" },
-  { name: "墨水色", token: "bg-fg", fg: "text-primary-foreground", hex: "#0C2248", use: "標題、內文" },
-  { name: "紙底", token: "bg-bg", fg: "text-fg", hex: "#EEF4FB", use: "頁面底" },
+  { name: "墨水色", token: "bg-fg", fg: "text-primary-foreground", hex: "#0F274F", use: "標題、內文" },
+  { name: "紙底", token: "bg-bg", fg: "text-fg", hex: "#F4F8FF", use: "頁面底" },
   { name: "卡片白", token: "bg-card", fg: "text-fg", hex: "#FFFFFF", use: "卡片、反白標誌底" },
 ] as const;
 

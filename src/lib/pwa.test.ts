@@ -110,7 +110,7 @@ describe("renderWebManifest for www.chaiquote.hk", () => {
     assert.equal(manifest.display, "standalone");
     assert.deepEqual(manifest.display_override, ["standalone", "minimal-ui"]);
     assert.equal(manifest.theme_color, "#1557C4");
-    assert.equal(manifest.background_color, "#EEF4FB");
+    assert.equal(manifest.background_color, "#F4F8FF");
     const sizes = new Set(manifest.icons.map((icon: { sizes: string }) => icon.sizes));
     assert.ok(sizes.has("192x192"));
     assert.ok(sizes.has("512x512"));

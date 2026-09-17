@@ -171,6 +171,12 @@ describe("trust/compliance copy", () => {
     assert.match(enHome5g, /No cabling/);
     assert.match(enMobile, /Greater Bay Area/);
     assert.match(enBusiness, /1000M/);
+
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+    const blurb = home.slice(home.indexOf("t(item.text)"), home.indexOf("t(item.text)") + 80);
+    assert.match(home, /t\(item\.text\)/);
+    assert.doesNotMatch(blurb, /line-clamp/);
+    assert.doesNotMatch(home, /line-clamp-3/);
   });
 
   it("pins homepage 或睇攻略文章 under 去格價 and the four guide hubs", () => {

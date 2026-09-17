@@ -102,7 +102,7 @@ function Home() {
         </picture>
         <div className="absolute inset-0 bg-primary/55" />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/50 to-primary/25" />
-        <div className="relative mx-auto grid max-w-6xl gap-6 px-4 py-8 lg:grid-cols-2 lg:gap-10 lg:py-16">
+        <div className="relative mx-auto grid max-w-6xl gap-5 px-4 py-7 lg:grid-cols-2 lg:gap-8 lg:py-14">
           <div className="page-enter text-primary-foreground">
             <p className="text-xs font-medium tracking-widest text-primary-foreground/75">
               {t("hkUpdated", { date: updated })}
@@ -132,25 +132,25 @@ function Home() {
         </div>
       </section>
 
-      <section className="border-b border-border bg-card">
-        <div className="mx-auto max-w-6xl px-4 py-6">
+      <section className="border-b border-border">
+        <div className="mx-auto max-w-6xl px-4 py-6 sm:py-7">
           <div>
-            <h2 className="font-semibold">{t("bestPicksTitle")}</h2>
-            <p className="mt-1 text-xs text-muted">{t("bestPicksLead")}</p>
+            <h2 className="home-section-title">{t("bestPicksTitle")}</h2>
+            <p className="home-section-lead">{t("bestPicksLead")}</p>
           </div>
-          <ul className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <ul className="mt-3 grid grid-cols-2 gap-3 lg:grid-cols-4">
             {bestPicks.map((item) => (
-              <li key={item.label}>
+              <li key={item.label} className="min-h-0">
                 <Link
                   to="/plans/$planId"
                   params={{ planId: item.plan.id }}
-                  className="group flex h-full min-h-11 flex-col justify-center rounded-xl bg-bg px-4 py-3 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
+                  className="group flex h-full min-h-[5.5rem] flex-col rounded-lg bg-card px-3.5 py-3 shadow-[var(--shadow-home-tile)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
                 >
-                  <p className="text-xs font-medium tracking-wider text-muted">{t(item.label)}</p>
-                  <p className="mt-1 font-display text-lg font-semibold tabular-nums">
+                  <p className="text-[11px] font-semibold tracking-wider text-muted">{t(item.label)}</p>
+                  <p className="mt-1 font-display text-lg font-semibold tracking-tight tabular-nums text-primary">
                     {t("fromFee", { fee: formatFee(item.plan.monthlyFee) })}
                   </p>
-                  <p className="mt-2 text-xs font-medium text-accent">
+                  <p className="mt-auto pt-2 text-[11px] font-semibold text-accent">
                     {t("bestPicksCta")}
                     <ArrowRight className="ml-1 inline size-3.5 transition-transform duration-150 group-hover:translate-x-0.5" />
                   </p>
@@ -161,14 +161,14 @@ function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-12">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           {categories.map((item) => (
             <div
               key={item.label}
-              className="overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border)]"
+              className="flex h-full flex-col overflow-hidden rounded-lg bg-card shadow-[var(--shadow-home-tile)]"
             >
-              <Link to={item.to} params={{ slug: item.slug }} className="group block">
+              <Link to={item.to} params={{ slug: item.slug }} className="group flex min-h-0 flex-1 flex-col">
                 <picture>
                   <source srcSet={item.webp} type="image/webp" />
                   <img
@@ -178,23 +178,23 @@ function Home() {
                     height={600}
                     loading="lazy"
                     decoding="async"
-                    className="h-40 w-full object-cover outline outline-1 -outline-offset-1 outline-fg/10"
+                    className="aspect-[16/10] h-auto w-full object-cover outline outline-1 -outline-offset-1 outline-fg/10"
                   />
                 </picture>
-                <div className="p-5 pb-2">
-                  <p className="font-medium">
+                <div className="flex flex-1 flex-col gap-1.5 p-3 pb-2 sm:p-3.5">
+                  <p className="text-sm font-semibold">
                     {t(item.label)}
                     <ArrowRight className="ml-1 inline size-4 opacity-0 transition-[opacity,transform] duration-150 group-hover:translate-x-0.5 group-hover:opacity-100" />
                   </p>
-                  <p className="mt-1 text-sm text-muted">{t(item.text)}</p>
+                  <p className="text-xs leading-normal text-muted">{t(item.text)}</p>
                 </div>
               </Link>
-              <div className="px-5 pb-5 text-sm">
+              <div className="mt-auto px-3 pb-3 text-xs sm:px-3.5 sm:pb-3.5">
                 <p>
                   <Link
                     to="/plans"
                     search={{ cat: item.planCat }}
-                    className="text-accent underline-offset-4 hover:underline"
+                    className="font-semibold text-accent underline-offset-4 hover:underline"
                   >
                     {t("goCompare")}
                   </Link>
@@ -215,17 +215,17 @@ function Home() {
       </section>
 
       <section className="bg-surface">
-        <div className="mx-auto max-w-6xl px-4 py-12">
+        <div className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
           <div>
-            <h2 className="text-title font-semibold">{t("featuredTitle")}</h2>
-            <p className="mt-2 text-sm text-muted">{t("featuredLead")}</p>
+            <h2 className="home-section-title">{t("featuredTitle")}</h2>
+            <p className="home-section-lead">{t("featuredLead")}</p>
           </div>
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
+          <div className="mt-5 grid gap-3 md:grid-cols-2">
             {featured.map((plan) => (
               <PlanCard key={plan.id} plan={plan} />
             ))}
           </div>
-          <Button asChild size="lg" className="mt-8 w-full sm:w-auto">
+          <Button asChild size="lg" className="mt-6 w-full sm:w-auto">
             <Link to="/plans" search={{ cat: "broadband" }}>
               {t("seeAllPlans")}
               <ArrowRight className="size-4" />
@@ -234,19 +234,21 @@ function Home() {
         </div>
       </section>
 
-      <section className="border-t border-border bg-card">
-        <div className="mx-auto max-w-3xl px-4 py-12">
-          <h2 className="text-title font-semibold">{t("faqTitle")}</h2>
-          <div className="mt-6 divide-y divide-border">
-            {faqs.map((item) => (
-              <details key={item.q} className="group py-4">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-base font-medium">
-                  {t(item.q)}
-                  <span className="text-subtle transition-transform duration-150 group-open:rotate-45">+</span>
-                </summary>
-                <p className="mt-3 text-sm leading-relaxed text-muted">{t(item.a, { phone: SITE.phoneDisplay, email: SITE.leadEmail })}</p>
-              </details>
-            ))}
+      <section className="border-t border-border">
+        <div className="mx-auto max-w-3xl px-4 py-8 sm:py-10">
+          <div className="rounded-lg bg-card p-4 shadow-[var(--shadow-home)] sm:p-5">
+            <h2 className="home-section-title">{t("faqTitle")}</h2>
+            <div className="mt-3 divide-y divide-border">
+              {faqs.map((item) => (
+                <details key={item.q} className="group py-2.5 first:pt-0 last:pb-0">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-left text-sm font-semibold">
+                    {t(item.q)}
+                    <span className="text-muted transition-transform duration-150 group-open:rotate-45">+</span>
+                  </summary>
+                  <p className="mt-2 text-xs leading-relaxed text-muted">{t(item.a, { phone: SITE.phoneDisplay, email: SITE.leadEmail })}</p>
+                </details>
+              ))}
+            </div>
           </div>
         </div>
       </section>
