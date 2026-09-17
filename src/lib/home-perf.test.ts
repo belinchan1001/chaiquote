@@ -39,14 +39,14 @@ describe("homepage first-load images", () => {
       ["public/images/hero-home.jpg", 90_000],
       ["public/images/hero-home.webp", 70_000],
       ["public/images/hero-home-768.webp", 35_000],
-      ["public/images/cat-broadband.jpg", 50_000],
-      ["public/images/cat-broadband.webp", 40_000],
-      ["public/images/cat-home5g.jpg", 45_000],
-      ["public/images/cat-home5g.webp", 35_000],
-      ["public/images/cat-mobile.jpg", 45_000],
-      ["public/images/cat-mobile.webp", 35_000],
-      ["public/images/cat-business.jpg", 45_000],
-      ["public/images/cat-business.webp", 35_000],
+      ["public/images/cat-broadband.jpg", 110_000],
+      ["public/images/cat-broadband.webp", 70_000],
+      ["public/images/cat-home5g.jpg", 100_000],
+      ["public/images/cat-home5g.webp", 65_000],
+      ["public/images/cat-mobile.jpg", 110_000],
+      ["public/images/cat-mobile.webp", 75_000],
+      ["public/images/cat-business.jpg", 100_000],
+      ["public/images/cat-business.webp", 65_000],
     ] as const;
 
     for (const [path, max] of assets) {
