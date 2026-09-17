@@ -65,10 +65,10 @@ export const MESSAGES = {
     bestPicksTitle: "齊Quote 精選計劃",
     bestPicksLead: "每個服務類型，由本站現有參考計劃入面揀月費較低嘅一條；唔代表全港最平，實際以電訊商確認為準。",
     bestPicksCta: "睇計劃",
-    catFibreText: "1000M 至 10000M，公屋／居屋／私樓／村屋",
-    catHome5gText: "免拉線，速度睇現場訊號",
-    catMobileText: "4G／5G，大灣區數據",
-    catBusinessText: "店舖同寫字樓，1000M 起",
+    catFibreText: "家居光纖由約 1000M 起，適用樓類包括公屋／居屋／私樓／村屋；月費同安裝費以計劃卡為準。",
+    catHome5gText: "免拉線入屋，適合未有光纖或想快裝；實際速度視現場訊號。",
+    catMobileText: "4G／5G 本地同大灣區數據計劃；攜號轉台同學生優惠另見計劃卡。",
+    catBusinessText: "店舖／寫字樓參考月費由約 1000M 起；實際安裝同報價要向銷售確認。",
     featuredTitle: "入門價一覽",
     featuredLead: "四條常見起步計劃。覆蓋同月費，申請時再確認。",
     seeAllPlans: "睇晒所有計劃",
@@ -473,10 +473,14 @@ export const MESSAGES = {
     bestPicksLead:
       "Each category picks a lower monthly fee from the site’s current reference plans. This is not a claim that these are Hong Kong’s lowest. The carrier confirms the final terms.",
     bestPicksCta: "See plan",
-    catFibreText: "1000M to 10000M for public housing, HOS, private and village homes",
-    catHome5gText: "No cabling. Speed depends on the signal on site.",
-    catMobileText: "4G/5G, Greater Bay Area data",
-    catBusinessText: "Shops and offices, from 1000M",
+    catFibreText:
+      "Home fibre from about 1000M. Housing types include public housing / HOS / private / village houses. Monthly and install fees follow the plan card.",
+    catHome5gText:
+      "No cabling into the home. Suitable if fibre is not available or you want a faster install. Actual speed depends on the on-site signal.",
+    catMobileText:
+      "4G/5G local and Greater Bay Area data plans. Number porting and student offers are on the plan cards.",
+    catBusinessText:
+      "Shop/office reference monthly fees from about 1000M. Confirm actual install and quote with sales.",
     featuredTitle: "Starter prices",
     featuredLead: "Four common starter plans. Coverage and fees are confirmed when you apply.",
     seeAllPlans: "See all plans",
