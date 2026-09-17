@@ -96,6 +96,22 @@
   }
 }
 
+@keyframes esports-card-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--esports-glow) 42%, transparent),
+      0 0 10px 1px color-mix(in srgb, var(--esports-glow) 28%, transparent),
+      0 0 22px 0 color-mix(in srgb, var(--esports-glow) 12%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--esports-glow) 88%, transparent),
+      0 0 16px 3px color-mix(in srgb, var(--esports-glow) 58%, transparent),
+      0 0 36px 2px color-mix(in srgb, var(--esports-glow) 32%, transparent);
+  }
+}
+
 @layer base {
   html {
     -webkit-font-smoothing: antialiased;
@@ -167,6 +183,10 @@
   .share-success-toast-mark::before,
   .share-success-toast-mark::after {
     content: none !important;
+  }
+
+  .plan-card-esports {
+    animation: none !important;
   }
 
   .plan-list > *,
@@ -409,6 +429,21 @@
   .esports-line-chip[data-armed="true"] .signal-bars span {
     background: var(--color-signal-bad);
     box-shadow: 0 0 6px var(--color-signal-bad);
+  }
+
+  .plan-card-esports {
+    --esports-glow: var(--color-signal-bad);
+    overflow: visible;
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--esports-glow) 42%, transparent),
+      0 0 10px 1px color-mix(in srgb, var(--esports-glow) 28%, transparent),
+      0 0 22px 0 color-mix(in srgb, var(--esports-glow) 12%, transparent);
+    animation: esports-card-glow 3s ease-in-out infinite;
+  }
+  .plan-list-esports {
+    overflow: visible;
+    padding: 12px 8px 20px;
+    gap: 1.5rem;
   }
 
   .wa-pulse {
@@ -813,13 +848,26 @@
     --foil-y: 42%;
     --foil-opacity: 0.12;
   }
+  .plan-card-shine.plan-card-esports {
+    animation:
+      quote-pick-shine 4.8s linear infinite,
+      esports-card-glow 3s ease-in-out infinite;
+  }
 
   @media (pointer: coarse) {
     .plan-card-shine {
       animation: none;
     }
+    .plan-card-shine.plan-card-esports {
+      animation: esports-card-glow 3s ease-in-out infinite;
+    }
     .plan-card-shine.ai-filter-shine {
       animation: quote-pick-shine 4.8s linear infinite;
+    }
+    .plan-card-shine.plan-card-esports.ai-filter-shine {
+      animation:
+        quote-pick-shine 4.8s linear infinite,
+        esports-card-glow 3s ease-in-out infinite;
     }
   }
 

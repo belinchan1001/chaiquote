@@ -58,6 +58,7 @@ export function parsePlansSearch(search: Record<string, unknown>): PlansSearch {
     q: typeof search.q === "string" && search.q.length ? search.q : undefined,
     estate: typeof search.estate === "string" && search.estate.length ? search.estate : undefined,
     intake: asFlag(search.intake) ? true : undefined,
+    esports: asFlag(search.esports) ? true : undefined,
   };
 }
 

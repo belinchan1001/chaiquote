@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { Bookmark, GitCompareArrows } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PlanBadges } from "@/components/plan-badges";
@@ -35,6 +35,16 @@ export function PlanCard({ plan }: { plan: Plan }) {
   const inSaved = saved.includes(plan.id);
   const avg = averageFee(plan);
   const { t, tx, categoryLabel } = useI18n();
+  const esportsGlow = useRouterState({
+    select: (s) => {
+      try {
+        const flag = new URL(s.location.href, "https://quote.local").searchParams.get("esports");
+        return flag === "1" || flag === "true";
+      } catch {
+        return false;
+      }
+    },
+  });
 
   useEffect(() => {
     if (!plan.quotePick) return;
@@ -47,7 +57,10 @@ export function PlanCard({ plan }: { plan: Plan }) {
     <article
       ref={shineRef}
       className={cn(
-        "relative flex flex-col rounded-xl bg-card p-5 pb-12 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
+        "relative flex flex-col rounded-xl bg-card p-5 pb-12",
+        esportsGlow
+          ? "plan-card-esports"
+          : "shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
         plan.quotePick && "plan-card-shine",
       )}
     >

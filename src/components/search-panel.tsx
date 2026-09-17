@@ -18,7 +18,7 @@ function EsportsLineChip() {
   const { t } = useI18n();
   const [armed, setArmed] = useState(false);
   const timer = useRef(0);
-  const search = { cat: "broadband" as const, minSpeed: 2500, sort: "speed" as const };
+  const search = { cat: "broadband" as const, minSpeed: 2500, sort: "speed" as const, esports: true as const };
 
   useEffect(() => () => window.clearTimeout(timer.current), []);
 

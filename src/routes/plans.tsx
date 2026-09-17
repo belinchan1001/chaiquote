@@ -69,6 +69,7 @@ function catPatch(search: PlansSearch, cat: Category): PlansSearch {
     portIn: undefined,
     housing: cat === "mobile" ? undefined : search.housing,
     intake: cat === "broadband" ? search.intake : undefined,
+    esports: undefined,
   };
 }
 
@@ -514,9 +515,9 @@ function PlansPage() {
           <div
             ref={listRef}
             className={
-              listEntering
+              (listEntering
                 ? "plan-list plan-list-enter mt-8 grid gap-4 md:grid-cols-2"
-                : "plan-list mt-8 grid gap-4 md:grid-cols-2"
+                : "plan-list mt-8 grid gap-4 md:grid-cols-2") + (search.esports ? " plan-list-esports" : "")
             }
           >
             {shown.map((plan) => (

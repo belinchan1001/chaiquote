@@ -3685,6 +3685,7 @@ export type PlansSearch = {
   sort?: "fee" | "avg" | "speed" | "data";
   saved?: boolean;
   intake?: boolean;
+  esports?: boolean;
 };
 
 export function averageFee(plan: Plan) {
