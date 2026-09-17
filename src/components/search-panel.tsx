@@ -4,6 +4,7 @@ import { AiFilterEntry } from "@/components/ai-filter-entry";
 import { Button } from "@/components/ui/button";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
+import { chipClass, chipInputClass, chipRowClass } from "@/components/filter-link";
 import { compactSearch, parsePlansSearch } from "@/lib/search";
 import { useDesk } from "@/lib/desk";
 import { addressHitValue } from "@/lib/address-search";
@@ -28,11 +29,7 @@ function RadioChip({
   children: ReactNode;
 }) {
   return (
-    <label
-      className={cn(
-        "chip-press inline-flex h-11 min-w-11 cursor-pointer items-center justify-center rounded-full bg-surface px-4 text-sm font-medium transition-[background-color,color] duration-75 ease-out has-[:checked]:bg-primary has-[:checked]:text-primary-foreground",
-      )}
-    >
+    <label className={chipInputClass()}>
       <input
         type="radio"
         name={name}
@@ -170,7 +167,7 @@ export function SearchPanel() {
       </div>
       <fieldset className="order-3 mt-4 sm:mt-5">
         <legend className="text-xs font-medium tracking-wider text-muted">{t("wantWhat")}</legend>
-        <div className="mt-2 flex flex-wrap gap-2">
+        <div className={chipRowClass}>
           {categories.map((option) => (
             <RadioChip key={option.id} name="cat" value={option.id} defaultChecked={option.id === "broadband"}>
               {t(option.label)}
@@ -181,7 +178,7 @@ export function SearchPanel() {
 
       <fieldset className="order-4 mt-4 sm:mt-5">
         <legend className="text-xs font-medium tracking-wider text-muted">{t("housingType")}</legend>
-        <div className="mt-2 flex flex-wrap gap-2 pb-1">
+        <div className={cn(chipRowClass, "pb-1")}>
           <RadioChip name="housing" value="" checked={housing === ""} onChange={setHousing}>
             {t("any")}
           </RadioChip>
@@ -202,7 +199,7 @@ export function SearchPanel() {
       <input id={moreId} type="checkbox" className="peer/more sr-only" tabIndex={-1} aria-hidden />
       <label
         htmlFor={moreId}
-        className="order-7 mt-1 flex h-11 cursor-pointer items-center text-sm font-medium text-muted sm:hidden peer-checked/more:[&_.more-plus]:rotate-45"
+        className="order-7 mt-1 flex h-11 cursor-pointer items-center rounded-md px-1 text-sm font-medium text-muted outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg sm:hidden peer-checked/more:[&_.more-plus]:rotate-45"
       >
         {t("moreFilters")}
         <span className="more-plus ml-2 text-subtle transition-transform duration-150">+</span>
@@ -212,7 +209,7 @@ export function SearchPanel() {
         <fieldset className="soft-fold fold-fibre">
           <div className="soft-fold-inner">
             <legend className="text-xs font-medium tracking-wider text-muted">{t("netSpeed")}</legend>
-            <div className="mt-2 flex flex-wrap gap-2 pb-1">
+            <div className={cn(chipRowClass, "pb-1")}>
               <RadioChip name="speed" value="" defaultChecked>
                 {t("any")}
               </RadioChip>
@@ -228,7 +225,7 @@ export function SearchPanel() {
         <fieldset className="soft-fold fold-unless-mobile">
           <div className="soft-fold-inner">
             <legend className="text-xs font-medium tracking-wider text-muted">{t("mobileNet")}</legend>
-            <div className="mt-2 flex flex-wrap gap-2 pb-1">
+            <div className={cn(chipRowClass, "pb-1")}>
               <RadioChip name="generation" value="" defaultChecked>
                 {t("anyNetwork")}
               </RadioChip>
@@ -238,7 +235,7 @@ export function SearchPanel() {
               <RadioChip name="generation" value="5g">
                 {t("gen5")}
               </RadioChip>
-              <label className="chip-press inline-flex h-11 cursor-pointer items-center rounded-full bg-surface px-4 text-sm font-medium transition-[background-color,color] duration-75 ease-out has-[:checked]:bg-primary has-[:checked]:text-primary-foreground">
+              <label className={chipInputClass()}>
                 <input type="checkbox" name="gba" value="1" className="sr-only" />
                 {t("gba")}
               </label>
@@ -247,7 +244,7 @@ export function SearchPanel() {
         </fieldset>
 
         <details className="group">
-          <summary className="flex h-11 cursor-pointer list-none items-center text-sm font-medium text-muted">
+          <summary className="flex h-11 cursor-pointer list-none items-center rounded-md px-1 text-sm font-medium text-muted outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg">
             {t("advancedBudget")}
             <span className="ml-2 text-subtle transition-transform duration-150 group-open:rotate-45">+</span>
           </summary>
@@ -256,7 +253,7 @@ export function SearchPanel() {
               <div className="mt-4 space-y-4 pb-1">
                 <fieldset>
                   <legend className="text-xs font-medium tracking-wider text-muted">{t("monthlyBudget")}</legend>
-                  <div className="mt-2 flex flex-wrap gap-2">
+                  <div className={chipRowClass}>
                     {budgets.map((option) => (
                       <RadioChip
                         key={option.maxFee ?? "any"}
@@ -281,7 +278,7 @@ export function SearchPanel() {
             key={item.label}
             to="/plans"
             search={item.search}
-            className="chip-press inline-flex h-11 items-center rounded-full bg-surface px-4 text-sm font-medium transition-[background-color] duration-75 ease-out hover:bg-border"
+            className={chipClass(false)}
           >
             {item.label}
           </Link>

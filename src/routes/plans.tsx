@@ -5,7 +5,7 @@ import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import { ProviderFilter } from "@/components/provider-filter";
 import { AiFilterEntry } from "@/components/ai-filter-entry";
-import { FilterLink } from "@/components/filter-link";
+import { chipRowClass, FilterLink } from "@/components/filter-link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
@@ -278,7 +278,7 @@ function PlansPage() {
             to="/plans"
             search={resetSearch}
             resetScroll={false}
-            className="inline-flex h-11 items-center px-3 text-sm text-muted underline-offset-4 hover:underline"
+            className="inline-flex h-11 items-center rounded-full px-3.5 text-sm text-muted underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
           >
             {t("clearAll")}
           </Link>
@@ -318,7 +318,7 @@ function PlansPage() {
 
       <AiFilterEntry className="mt-6" />
 
-      <div className="mt-3 space-y-4 rounded-xl bg-card p-4 shadow-[var(--shadow-border)] sm:p-5">
+      <div className="mt-3 space-y-4 rounded-lg border border-border bg-card p-3.5 shadow-[var(--shadow-home)] sm:p-5">
         <div className="space-y-2">
           <label htmlFor="plans-estate" className="text-xs font-medium tracking-wider text-muted">
             {t("estateLabel")}
@@ -362,7 +362,7 @@ function PlansPage() {
         </div>
         <fieldset>
           <legend className="text-xs font-medium tracking-wider text-muted">{t("planType")}</legend>
-          <div className="mt-2 flex flex-wrap gap-2">
+          <div className={chipRowClass}>
             {CATEGORY_OPTIONS.map((option) => (
               <FilterLink
                 key={option.id}
@@ -378,7 +378,7 @@ function PlansPage() {
         {showHousing ? (
           <fieldset>
             <legend className="text-xs font-medium tracking-wider text-muted">{t("housingKind")}</legend>
-            <div className="mt-2 flex flex-wrap gap-2">
+            <div className={chipRowClass}>
               <FilterLink selected={!search.housing} search={{ ...search, housing: undefined }}>
                 {t("any")}
               </FilterLink>
@@ -406,7 +406,7 @@ function PlansPage() {
         {showSpeed ? (
           <fieldset>
             <legend className="text-xs font-medium tracking-wider text-muted">{t("netSpeed")}</legend>
-            <div className="mt-2 flex flex-wrap gap-2">
+            <div className={chipRowClass}>
               <FilterLink selected={!search.speed} search={{ ...search, speed: undefined }}>
                 {t("any")}
               </FilterLink>
@@ -426,7 +426,7 @@ function PlansPage() {
         {showMobile ? (
           <fieldset>
             <legend className="text-xs font-medium tracking-wider text-muted">{t("mobileNet")}</legend>
-            <div className="mt-2 flex flex-wrap gap-2">
+            <div className={chipRowClass}>
               <FilterLink selected={!search.generation} search={{ ...search, generation: undefined }}>
                 {t("anyNetwork")}
               </FilterLink>
@@ -486,8 +486,8 @@ function PlansPage() {
               resetScroll={false}
               className={
                 search.saved
-                  ? "inline-flex h-11 flex-1 items-center justify-center rounded-md bg-accent px-4 text-sm font-medium text-accent-foreground"
-                  : "inline-flex h-11 flex-1 items-center justify-center rounded-md border border-border bg-card px-4 text-sm font-medium"
+                  ? "inline-flex h-11 flex-1 items-center justify-center rounded-md bg-accent px-4 text-sm font-medium text-accent-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+                  : "inline-flex h-11 flex-1 items-center justify-center rounded-md border border-border bg-card px-4 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
               }
             >
               {search.saved ? t("savedNow") : t("savedOnly")}

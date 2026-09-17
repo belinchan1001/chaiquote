@@ -281,7 +281,7 @@ describe("AI desk safety", () => {
     assert.match(home, /<SearchPanel \/>/);
     assert.match(search, /<AiFilterEntry className="pt-1" \/>/);
     assert.match(plans, /<AiFilterEntry className="mt-6" \/>/);
-    assert.match(plans, /mt-3 space-y-4 rounded-xl bg-card/);
+    assert.match(plans, /mt-3 space-y-4 rounded-lg border border-border bg-card/);
     assert.match(header, /<span className="sm:hidden">\{t\("aiStaffTiny"\)\}<\/span>/);
     assert.match(root, /<DeferredWhatsApp \/>/);
     assert.match(root, /<AiStaffPanel \/>/);
