@@ -32,6 +32,12 @@ describe("homepage first-load images", () => {
     assert.match(home, /srcSet=\{item\.webp\}/);
     assert.match(home, /loading="lazy"/);
     assert.match(home, /webp: "\/images\/cat-broadband\.webp"/);
+    assert.match(home, /photo-strip photo-strip-card/);
+    assert.doesNotMatch(home, /aspect-\[16\/10\]/);
+    const css = src("../styles.css");
+    assert.match(css, /\.photo-strip\s*\{[^}]*display:\s*block/);
+    assert.match(css, /\.photo-strip img\s*\{[^}]*object-position:\s*top/);
+    assert.match(css, /\.photo-strip-card img\s*\{[^}]*aspect-ratio:\s*16\s*\/\s*11/);
     assert.match(src("../components/provider-mark.tsx"), /loading="lazy"/);
     assert.match(src("../components/provider-mark.tsx"), /hkbn\.webp/);
 
@@ -39,13 +45,13 @@ describe("homepage first-load images", () => {
       ["public/images/hero-home.jpg", 90_000],
       ["public/images/hero-home.webp", 70_000],
       ["public/images/hero-home-768.webp", 35_000],
-      ["public/images/cat-broadband.jpg", 110_000],
+      ["public/images/cat-broadband.jpg", 140_000],
       ["public/images/cat-broadband.webp", 70_000],
-      ["public/images/cat-home5g.jpg", 100_000],
+      ["public/images/cat-home5g.jpg", 130_000],
       ["public/images/cat-home5g.webp", 65_000],
-      ["public/images/cat-mobile.jpg", 110_000],
+      ["public/images/cat-mobile.jpg", 145_000],
       ["public/images/cat-mobile.webp", 75_000],
-      ["public/images/cat-business.jpg", 100_000],
+      ["public/images/cat-business.jpg", 130_000],
       ["public/images/cat-business.webp", 65_000],
     ] as const;
 

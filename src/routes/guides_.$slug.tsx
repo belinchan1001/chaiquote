@@ -171,7 +171,7 @@ function GuidePage() {
       <h1 className="mt-2 text-title font-semibold">{copy.h1}</h1>
       <p className="mt-3 text-base leading-relaxed text-muted">{copy.excerpt}</p>
       {topicImage ? (
-        <picture>
+        <picture className="photo-strip mt-6">
           <source srcSet={topicImage.webp} type="image/webp" />
           <img
             src={topicImage.src}
@@ -180,7 +180,7 @@ function GuidePage() {
             height={topicImage.height}
             loading="lazy"
             decoding="async"
-            className="mt-6 w-full rounded-xl object-cover outline outline-1 -outline-offset-1 outline-fg/10"
+            className="rounded-xl outline outline-1 -outline-offset-1 outline-fg/10"
           />
         </picture>
       ) : null}

@@ -214,6 +214,25 @@
 }
 
 @layer components {
+  /* Card / topic photos: kill the inline <img> baseline seam; crop from the top. */
+  .photo-strip {
+    display: block;
+    line-height: 0;
+  }
+  .photo-strip img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+  .photo-strip-card img {
+    aspect-ratio: 16 / 11;
+    height: auto;
+  }
+  .photo-strip-tile img {
+    height: 10.5rem;
+  }
+
   section.estate-dir-group {
     content-visibility: auto;
     contain-intrinsic-size: auto 320px;

@@ -164,7 +164,7 @@ function Home() {
               className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card shadow-[var(--shadow-home-tile)]"
             >
               <Link to={item.to} params={{ slug: item.slug }} className="group flex min-h-0 flex-1 flex-col">
-                <picture>
+                <picture className="photo-strip photo-strip-card">
                   <source srcSet={item.webp} type="image/webp" />
                   <img
                     src={item.src}
@@ -173,7 +173,7 @@ function Home() {
                     height={600}
                     loading="lazy"
                     decoding="async"
-                    className="aspect-[16/10] h-auto w-full object-cover outline outline-1 -outline-offset-1 outline-fg/10"
+                    className="outline outline-1 -outline-offset-1 outline-fg/10"
                   />
                 </picture>
                 <div className="flex flex-1 flex-col gap-1.5 p-3 pb-2 sm:p-3.5">

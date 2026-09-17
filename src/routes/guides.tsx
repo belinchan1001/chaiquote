@@ -73,7 +73,7 @@ function GuidesPage() {
               className="flex h-full flex-col overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
             >
               <Link to="/guides/$slug" params={{ slug: cat.slug }} className="group flex min-h-11 flex-1 flex-col">
-                <picture>
+                <picture className="photo-strip photo-strip-tile">
                   <source srcSet={cat.image.replace(/\.jpg$/, ".webp")} type="image/webp" />
                   <img
                     src={cat.image}
@@ -82,7 +82,7 @@ function GuidesPage() {
                     height={600}
                     loading="lazy"
                     decoding="async"
-                    className="h-36 w-full object-cover outline outline-1 -outline-offset-1 outline-fg/10"
+                    className="outline outline-1 -outline-offset-1 outline-fg/10"
                   />
                 </picture>
                 <div className="flex flex-1 flex-col p-4">
