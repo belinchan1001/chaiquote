@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { useDesk } from "@/lib/desk";
-import { compact, ESTATES } from "@/lib/estates";
-import { estatePagesByDistrict, estateSelectTarget, ESTATE_PAGES, INDEXABLE_ESTATE_PAGES } from "@/lib/estate-pages";
+import { compact, estateDisplayName, ESTATES, placeDisplayName } from "@/lib/estates";
+import { estatePagesByDistrict, estateSelectTarget, ESTATE_PAGES, getEstatePage, INDEXABLE_ESTATE_PAGES } from "@/lib/estate-pages";
 import { isNewIntakeEstate, NEW_INTAKE_NAMES, newIntakeGroups } from "@/lib/estate-new-intake";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { compactSearch, parsePlansSearch } from "@/lib/search";
@@ -38,6 +38,11 @@ const POPULAR_ESTATES = [
   { slug: "city-one", name: "沙田第一城" },
   { slug: "taikoo-shing", name: "太古城" },
 ] as const;
+
+function popularLabel(slug: string, fallback: string, locale: "zh" | "en") {
+  const page = getEstatePage(slug);
+  return page ? estateDisplayName(page.estate, locale) : fallback;
+}
 
 export const Route = createFileRoute("/estates")({
   component: EstatesIndexPage,
@@ -267,7 +272,7 @@ function EstatesIndexPage() {
                 params={{ slug: item.slug }}
                 className="text-accent underline-offset-4 hover:underline"
               >
-                {item.name}
+                {popularLabel(item.slug, item.name, locale)}
               </Link>
             </span>
           ))}
@@ -286,9 +291,9 @@ function EstatesIndexPage() {
                 href={`/estates/${page.slug}`}
                 className="estate-dir-card flex h-full min-h-11 flex-col justify-center rounded-xl bg-card px-2.5 py-2 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
               >
-                <p className="text-sm font-medium leading-snug">{page.estate.name}</p>
+                <p className="text-sm font-medium leading-snug">{estateDisplayName(page.estate, locale)}</p>
                 <p className="mt-0.5 text-xs text-muted">
-                  {page.estate.district} · {housingLabel(page.estate.housing)}
+                  {placeDisplayName(page.estate.district, locale)} · {housingLabel(page.estate.housing)}
                 </p>
               </a>
             </li>
@@ -356,7 +361,7 @@ function EstatesIndexPage() {
           <option value="">{t("allDistricts")}</option>
           {districtGroups.map((group) => (
             <option key={group.district} value={group.district}>
-              {group.district}（{group.pages.length}）
+              {placeDisplayName(group.district, locale)}（{group.pages.length}）
             </option>
           ))}
         </Select>
@@ -371,7 +376,7 @@ function EstatesIndexPage() {
                 activeDistrict === group.district ? "bg-primary text-primary-foreground" : "bg-card shadow-[var(--shadow-border)]",
               )}
             >
-              {group.district}
+              {placeDisplayName(group.district, locale)}
               <span className="ml-1 tabular-nums text-xs opacity-70">{group.pages.length}</span>
             </button>
           ))}
@@ -383,7 +388,7 @@ function EstatesIndexPage() {
         {t("estatesShowing", { n: visibleCount })}
         {newIntakeFilter ? ` · ${t("estatesNewIntake")}` : ""}
         {housingFilter ? ` · ${housingLabel(housingFilter)}` : ""}
-        {activeDistrict ? ` · ${activeDistrict}` : ""}
+        {activeDistrict ? ` · ${placeDisplayName(activeDistrict, locale)}` : ""}
       </p>
       {collapseGroups ? <p className="mt-1 text-sm text-muted">{t("estatesBrowseHint")}</p> : null}
       {hasFilter ? (
@@ -401,7 +406,7 @@ function EstatesIndexPage() {
           visible.map((group) => {
             const heading = (
               <>
-                {group.district}
+                {placeDisplayName(group.district, locale)}
                 <span className="ml-2 text-sm font-normal tabular-nums text-muted">{group.pages.length}</span>
               </>
             );
@@ -413,7 +418,7 @@ function EstatesIndexPage() {
                       href={`/estates/${page.slug}`}
                       className="estate-dir-card flex h-full min-h-11 flex-col justify-center rounded-xl bg-card px-2.5 py-2 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
                     >
-                      <p className="text-sm font-medium leading-snug">{page.estate.name}</p>
+                      <p className="text-sm font-medium leading-snug">{estateDisplayName(page.estate, locale)}</p>
                       <p className="mt-0.5 text-xs text-muted">
                         {housingLabel(page.estate.housing)}
                         {isNewIntakeEstate(page.estate.name) ? ` · ${t("estatesNewIntakeTag")}` : ""}

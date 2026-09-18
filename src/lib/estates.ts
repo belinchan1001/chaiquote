@@ -451,6 +451,29 @@ const NON_ESTATE_NEEDLES = NON_ESTATE_RAW.split("\n").flatMap((line) => {
     .filter((s) => s.length >= 2);
 });
 
+const PLACE_ENGLISH = new Map<string, string>();
+for (const line of NON_ESTATE_RAW.split("\n")) {
+  const [name, aliasStr] = line.split("|");
+  if (!name) continue;
+  const english = (aliasStr ?? "")
+    .split(",")
+    .map((item) => item.trim())
+    .find((alias) => looksEnglish(alias));
+  if (english) PLACE_ENGLISH.set(name, english);
+}
+
+/** English for a district / area / place only when the catalogue already has one. */
+export function placeEnglishName(place: string): string | undefined {
+  const named = ESTATES.find((estate) => estate.name === place);
+  if (named) return estateEnglishName(named);
+  return PLACE_ENGLISH.get(place);
+}
+
+export function placeDisplayName(place: string, locale: Locale = "zh") {
+  if (locale === "en") return placeEnglishName(place) || place;
+  return place;
+}
+
 export function isNonEstatePlace(query: string): boolean {
   const q = compact(query);
   if (!q) return false;
@@ -709,11 +732,18 @@ export function estateStreet(estate: Estate) {
   return estate.street?.trim() || "";
 }
 
+function looksEnglish(value: string) {
+  return /[A-Za-z]/.test(value) && value.replace(/[^A-Za-z]/g, "").length >= 3;
+}
+
 /** First catalogue alias that looks like an English name. Do not invent one. */
 export function estateEnglishName(estate: Estate): string | undefined {
-  return estate.aliases.find(
-    (alias) => /[A-Za-z]/.test(alias) && alias.replace(/[^A-Za-z]/g, "").length >= 3,
-  );
+  return estate.aliases.find((alias) => looksEnglish(alias));
+}
+
+export function estateDisplayName(estate: Estate, locale: Locale = "zh") {
+  if (locale === "en") return estateEnglishName(estate) || estate.name;
+  return estate.name;
 }
 
 const HOUSING_MESSAGE: Record<Housing, MessageKey> = {
@@ -724,7 +754,7 @@ const HOUSING_MESSAGE: Record<Housing, MessageKey> = {
 };
 
 export function estateLabel(estate: Estate, locale: Locale = "zh") {
-  const place = estate.area ?? estate.district;
+  const place = placeDisplayName(estate.area ?? estate.district, locale);
   const type = locale === "en" ? MESSAGES.en[HOUSING_MESSAGE[estate.housing]] : MESSAGES.zh[HOUSING_MESSAGE[estate.housing]];
   const check = estate.coverageCheck ? " · 覆蓋需查核" : "";
   return `${place} · ${type}${check}`;

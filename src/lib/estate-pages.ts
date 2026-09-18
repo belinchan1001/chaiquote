@@ -1,4 +1,4 @@
-import { ESTATES, estateEnglishName, parentEstate, type Estate } from "./estates.ts";
+import { ESTATES, estateDisplayName, estateEnglishName, parentEstate, placeDisplayName, type Estate } from "./estates.ts";
 import { NETVIGATOR_ONLY_ESTATES } from "./estate-new-intake.ts";
 import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
 import { filterPlans, matchesHousing, PLANS, type Housing, type Plan } from "./plans.ts";
@@ -395,10 +395,13 @@ export function estateSeoDescription(estate: Estate): string {
 }
 
 export function estateIntro(estate: Estate, locale: Locale = "zh"): string {
-  const place = estate.area ? `${estate.district}（${estate.area}）` : estate.district;
+  const name = estateDisplayName(estate, locale);
+  const district = placeDisplayName(estate.district, locale);
+  const area = estate.area ? placeDisplayName(estate.area, locale) : "";
+  const place = area ? `${district}（${area}）` : district;
   const street = estate.street ? `${estate.street}，` : "";
   const check = estate.coverageCheck ? "此地址覆蓋需另行查核。" : "";
-  return `${estate.name}位於${street}${place}，樓類為${estateHousingLabel(estate.housing, locale)}。${check}實際覆蓋同安裝期以電訊商確認為準。`.replace(/\s+/g, " ");
+  return `${name}位於${street}${place}，樓類為${estateHousingLabel(estate.housing, locale)}。${check}實際覆蓋同安裝期以電訊商確認為準。`.replace(/\s+/g, " ");
 }
 
 export function estatePlans(estate: Estate): { broadband: Plan[]; home5g: Plan[] } {
