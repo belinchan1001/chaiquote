@@ -19,12 +19,7 @@ import { cn } from "@/lib/utils";
 const TITLE = "香港屋苑寬頻比較｜齊Quote";
 const DESCRIPTION = `按地區瀏覽香港${ESTATES.length}個屋苑寬頻比較，資料庫同首頁搜尋一樣。每個屋苑可睇適用樓類計劃。實際覆蓋同安裝期以電訊商確認為準。`;
 
-const HOUSING_FALLBACK: { id: Housing; label: string }[] = [
-  { id: "public", label: "公屋" },
-  { id: "hos", label: "居屋" },
-  { id: "private", label: "私樓" },
-  { id: "village", label: "村屋" },
-];
+const HOUSING_IDS: Housing[] = ["public", "hos", "private", "village"];
 
 const HOUSING_COUNTS: Record<Housing, number> = {
   public: ESTATES.filter((item) => item.housing === "public").length,
@@ -241,17 +236,17 @@ function EstatesIndexPage() {
             >
               {t("any")}
             </button>
-            {HOUSING_FALLBACK.map((item) => (
+            {HOUSING_IDS.map((id) => (
               <button
-                key={item.id}
+                key={id}
                 type="button"
-                onClick={() => setHousingFilter((current) => (current === item.id ? "" : item.id))}
+                onClick={() => setHousingFilter((current) => (current === id ? "" : id))}
                 className={cn(
                   "chip-press inline-flex h-11 items-center rounded-full px-4 text-sm font-medium",
-                  housingFilter === item.id ? "bg-primary text-primary-foreground" : "bg-surface",
+                  housingFilter === id ? "bg-primary text-primary-foreground" : "bg-surface",
                 )}
               >
-                {housingLabel(item.id)}
+                {housingLabel(id)}
               </button>
             ))}
           </div>
@@ -331,20 +326,20 @@ function EstatesIndexPage() {
           <p className="text-[11px] font-medium tracking-wider text-accent">{t("estatesNewIntakeTag")}</p>
           <p className="mt-0.5 font-display text-base font-semibold tabular-nums sm:text-lg">{NEW_INTAKE_COUNT}</p>
         </button>
-        {HOUSING_FALLBACK.map((item) => (
+        {HOUSING_IDS.map((id) => (
           <button
-            key={item.id}
+            key={id}
             type="button"
             onClick={() => {
-              setHousingFilter((current) => (current === item.id ? "" : item.id));
+              setHousingFilter((current) => (current === id ? "" : id));
             }}
             className={cn(
               "rounded-xl bg-card px-3 py-3 text-left shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
-              housingFilter === item.id && "ring-2 ring-primary",
+              housingFilter === id && "ring-2 ring-primary",
             )}
           >
-            <p className="text-[11px] font-medium tracking-wider text-muted">{housingLabel(item.id)}</p>
-            <p className="mt-0.5 font-display text-base font-semibold tabular-nums sm:text-lg">{HOUSING_COUNTS[item.id]}</p>
+            <p className="text-[11px] font-medium tracking-wider text-muted">{housingLabel(id)}</p>
+            <p className="mt-0.5 font-display text-base font-semibold tabular-nums sm:text-lg">{HOUSING_COUNTS[id]}</p>
           </button>
         ))}
       </div>

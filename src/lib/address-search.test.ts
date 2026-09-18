@@ -13,8 +13,10 @@ import {
   localAddressHits,
   searchAddresses,
 } from "./address-search.ts";
-import { estateEnglishName, ESTATES } from "./estates.ts";
+import { estateEnglishName, estateLabel, ESTATES } from "./estates.ts";
+import { estateHousingLabel } from "./estate-pages.ts";
 import { MESSAGES } from "./messages.ts";
+import { inquiryLines } from "./whatsapp.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
 
@@ -120,11 +122,38 @@ describe("locale-aware address display", () => {
     assert.doesNotMatch(src, /hit\.housing === "public"\s*\?\s*"公屋"/);
   });
 
+  it("localizes estate type labels on en and keeps zh catalogue wording", () => {
+    assert.equal(estateHousingLabel("public", "zh"), "公屋");
+    assert.equal(estateHousingLabel("hos", "zh"), "居屋");
+    assert.equal(estateHousingLabel("private", "zh"), "私樓");
+    assert.equal(estateHousingLabel("village", "zh"), "村屋");
+    assert.equal(estateHousingLabel("public", "en"), "Public housing");
+    assert.equal(estateHousingLabel("hos", "en"), "HOS");
+    assert.equal(estateHousingLabel("private", "en"), "Private");
+    assert.equal(estateHousingLabel("village", "en"), "Village house");
+
+    const meiTung = estate("美東樓")!;
+    assert.match(estateLabel(meiTung, "zh"), /公屋/);
+    assert.match(estateLabel(meiTung, "en"), /Public housing/);
+    assert.doesNotMatch(estateLabel(meiTung, "en"), /公屋|居屋|私樓|私人樓|村屋/);
+
+    const wa = inquiryLines({ housing: "public", estate: "Tin Yiu" }, "en").join("\n");
+    assert.match(wa, /Public housing/);
+    assert.doesNotMatch(wa, /公屋/);
+    assert.match(inquiryLines({ housing: "public" }, "zh").join("\n"), /公屋/);
+  });
+
   it("suggest UI reads locale-aware name / label / value", () => {
     const suggest = readFileSync(join(ROOT, "src/components/estate-suggest.tsx"), "utf8");
     assert.match(suggest, /addressHitName\(hit, locale\)/);
     assert.match(suggest, /addressHitLabel\(hit, locale\)/);
     assert.match(suggest, /addressHitValue\(hit, locale\)/);
+    const estatePage = readFileSync(join(ROOT, "src/routes/estates_.$slug.tsx"), "utf8");
+    assert.match(estatePage, /estateHousingLabel\(estate\.housing, locale\)/);
+    assert.match(estatePage, /estateIntro\(estate, locale\)/);
+    const dir = readFileSync(join(ROOT, "src/routes/estates.tsx"), "utf8");
+    assert.match(dir, /housingLabel\(/);
+    assert.doesNotMatch(dir, /label: "公屋"/);
   });
 });
 

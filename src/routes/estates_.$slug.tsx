@@ -60,11 +60,11 @@ function EstatePage() {
   const { estate } = page;
   const { broadband, home5g } = estatePlans(estate);
   const nearby = nearbyEstatePages(estate);
-  const housing = estateHousingLabel(estate.housing);
+  const housing = estateHousingLabel(estate.housing, locale);
   const inquiry = { estate: estate.name, housing: estate.housing, district: estate.district };
   const ready = useHydrateDesk();
   const setInquiry = useDesk((s) => s.setInquiry);
-  const { t, updated } = useI18n();
+  const { t, locale, updated } = useI18n();
   usePageTitle(estateSeoTitle(estate));
   const broadbandPreview = broadband.slice(0, 4);
   const home5gPreview = home5g.slice(0, 3);
@@ -89,7 +89,7 @@ function EstatePage() {
       </p>
       <h1 className="mt-2 text-title font-semibold">{`${estate.name}寬頻比較｜${housing}｜齊Quote`}</h1>
       <p className="mt-2 text-xs text-subtle">{t("dataUpdated", { date: updated })}</p>
-      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{estateIntro(estate)}</p>
+      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{estateIntro(estate, locale)}</p>
       {isNetvigatorOnlyEstate(estate.name) ? (
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{t("plansNetvigatorOnlyNote")}</p>
       ) : null}

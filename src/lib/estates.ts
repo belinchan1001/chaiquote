@@ -1,5 +1,6 @@
 import type { Housing } from "@/lib/plans";
 import { EXTRA_RAW } from "./estate-extra-raw.ts";
+import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
 import { VILLAGE_RAW } from "./estate-village-raw.ts";
 import { toTraditional } from "./zh-s2t.ts";
 
@@ -715,16 +716,16 @@ export function estateEnglishName(estate: Estate): string | undefined {
   );
 }
 
-export function estateLabel(estate: Estate) {
+const HOUSING_MESSAGE: Record<Housing, MessageKey> = {
+  public: "housingPublic",
+  hos: "housingHos",
+  private: "housingPrivate",
+  village: "housingVillage",
+};
+
+export function estateLabel(estate: Estate, locale: Locale = "zh") {
   const place = estate.area ?? estate.district;
-  const type =
-    estate.housing === "public"
-      ? "公屋"
-      : estate.housing === "hos"
-        ? "居屋"
-        : estate.housing === "village"
-          ? "村屋"
-          : "私人樓";
+  const type = locale === "en" ? MESSAGES.en[HOUSING_MESSAGE[estate.housing]] : MESSAGES.zh[HOUSING_MESSAGE[estate.housing]];
   const check = estate.coverageCheck ? " · 覆蓋需查核" : "";
   return `${place} · ${type}${check}`;
 }
