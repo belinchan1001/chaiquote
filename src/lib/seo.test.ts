@@ -11,6 +11,7 @@ import { parentEstate } from "./estates.ts";
 import {
   ABOUT_SEO,
   canonicalRedirectLocation,
+  plansCatRedirectLocation,
   canonicalUrl,
   canonicalUrlFromMatches,
   CATEGORY_SEO,
@@ -155,6 +156,43 @@ describe("canonicalRedirectLocation", () => {
       null,
     );
     assert.equal(canonicalRedirectLocation(new URL("https://www.chaiquote.hk/privacy")), null);
+  });
+});
+
+describe("plansCatRedirectLocation", () => {
+  it("adds cat=broadband without dropping sitelinks q or estate", () => {
+    assert.equal(
+      plansCatRedirectLocation(new URL("https://www.chaiquote.hk/plans")),
+      "/plans?cat=broadband",
+    );
+    assert.equal(
+      plansCatRedirectLocation(new URL("https://www.chaiquote.hk/plans/")),
+      "/plans?cat=broadband",
+    );
+    const withQ = plansCatRedirectLocation(
+      new URL("https://www.chaiquote.hk/plans?q=%E5%A4%A9%E8%80%80%E9%82%A8"),
+    );
+    assert.ok(withQ);
+    const qUrl = new URL(withQ, "https://www.chaiquote.hk");
+    assert.equal(qUrl.pathname, "/plans");
+    assert.equal(qUrl.searchParams.get("cat"), "broadband");
+    assert.equal(qUrl.searchParams.get("q"), "天耀邨");
+    const withEstate = plansCatRedirectLocation(
+      new URL("https://www.chaiquote.hk/plans?estate=%E5%A4%AA%E5%8F%A4%E5%9F%8E"),
+    );
+    assert.ok(withEstate);
+    const estateUrl = new URL(withEstate, "https://www.chaiquote.hk");
+    assert.equal(estateUrl.searchParams.get("cat"), "broadband");
+    assert.equal(estateUrl.searchParams.get("estate"), "太古城");
+    assert.equal(
+      plansCatRedirectLocation(new URL("https://www.chaiquote.hk/plans?cat=home5g")),
+      null,
+    );
+    assert.equal(
+      plansCatRedirectLocation(new URL("https://www.chaiquote.hk/plans?cat=broadband&q=hkbn")),
+      null,
+    );
+    assert.equal(plansCatRedirectLocation(new URL("https://www.chaiquote.hk/guides")), null);
   });
 });
 
@@ -550,6 +588,21 @@ describe("plan SEO copy", () => {
     assert.equal("availability" in planJsonLd(sample).offers, false);
     assert.equal(planJsonLd(sample).offers.url, canonicalUrl(`/plans/${sample.id}`));
     assert.equal(planJsonLd(sample).image, `${SITE.url}/images/providers/hkbn.png`);
+  });
+
+  it("treats sitelinks q as an estate filter when the query is a known estate", () => {
+    const viaQ = filterPlans({ cat: "broadband", q: "天耀邨" });
+    const viaEstate = filterPlans({ cat: "broadband", estate: "天耀邨", housing: "public" });
+    assert.ok(viaQ.length > 0);
+    assert.deepEqual(
+      viaQ.map((row) => row.id),
+      viaEstate.map((row) => row.id),
+    );
+    const hkbn = filterPlans({ cat: "broadband", q: "hkbn" });
+    assert.ok(hkbn.length > 0);
+    assert.ok(hkbn.every((row) => row.providerId === "hkbn"));
+    const emptyBlob = filterPlans({ cat: "broadband", q: "xyzzy-no-such-plan" });
+    assert.equal(emptyBlob.length, 0);
   });
 
   it("adds 合約期 when the plan name omits 個月 so twin Netvigator titles stay unique", () => {
