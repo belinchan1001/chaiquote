@@ -104,9 +104,10 @@ describe("estate SEO pages", () => {
     const dir = readFileSync(join(here, "../routes/estates.tsx"), "utf8");
     assert.doesNotMatch(home, /HOME_ESTATE_SLUGS/);
     assert.doesNotMatch(home, /estatesDirTitle/);
-    assert.match(panel, /熱門：/);
+    assert.match(panel, /searchPopularLabel/);
     assert.match(panel, /tin-yiu/);
-    assert.match(panel, /全部屋苑/);
+    assert.match(panel, /searchAllEstates/);
+    assert.match(panel, /estateDisplayName/);
     assert.match(dir, /estate-dir-q/);
     assert.match(dir, /香港屋苑寬頻比較/);
     assert.match(dir, /href=\{\`\/estates\/\$\{page\.slug\}\`\}/);

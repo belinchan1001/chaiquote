@@ -15,7 +15,7 @@ import {
 } from "./address-search.ts";
 import { districtDisplayName, districtEnglishName } from "./district-names.ts";
 import { estateDisplayName, estateEnglishName, estateLabel, ESTATES, placeDisplayName, placeEnglishName } from "./estates.ts";
-import { estateHousingLabel, estateIntro, estatePagePath, estateSeoTitle, getEstatePage } from "./estate-pages.ts";
+import { estateHousingLabel, estateIntro, estatePagePath, estatePageTitle, estateSeoTitle, getEstatePage } from "./estate-pages.ts";
 import { MESSAGES } from "./messages.ts";
 import { inquiryLines } from "./whatsapp.ts";
 
@@ -136,9 +136,20 @@ describe("locale-aware address display", () => {
     assert.equal(placeDisplayName("啟德", "zh"), "啟德");
     assert.equal(placeDisplayName("天水圍", "en"), "天水圍");
     assert.match(estateIntro(tinYiu, "zh"), /^天耀邨位於/);
-    assert.match(estateIntro(tinYiu, "en"), /^Tin Yiu位於/);
-    assert.match(estateIntro(tinYiu, "en"), /Yuen Long（天水圍）/);
     assert.match(estateIntro(tinYiu, "zh"), /元朗（天水圍）/);
+    assert.match(estateIntro(tinYiu, "zh"), /樓類為公屋/);
+    assert.match(estateIntro(tinYiu, "zh"), /實際覆蓋同安裝期以電訊商確認為準/);
+    assert.match(estateIntro(tinYiu, "en"), /^Tin Yiu is in /);
+    assert.match(estateIntro(tinYiu, "en"), /Yuen Long \(天水圍\)/);
+    assert.match(estateIntro(tinYiu, "en"), /Housing type is Public housing/);
+    assert.match(estateIntro(tinYiu, "en"), /Coverage and install dates are confirmed by the carrier/);
+    assert.doesNotMatch(estateIntro(tinYiu, "en"), /位於|樓類為|實際覆蓋/);
+    assert.equal(estatePageTitle(tinYiu, "zh"), "天耀邨寬頻比較｜公屋｜齊Quote");
+    assert.equal(estatePageTitle(tinYiu, "en"), "Tin Yiu broadband comparison | Public housing | 齊Quote");
+    const yoho = estate("YOHO Midtown")!;
+    assert.equal(estatePageTitle(yoho, "zh"), "YOHO Midtown寬頻比較｜私樓｜齊Quote");
+    assert.equal(estatePageTitle(yoho, "en"), "YOHO Midtown broadband comparison | Private | 齊Quote");
+    assert.doesNotMatch(estatePageTitle(yoho, "en"), /寬頻比較|私樓/);
   });
 
   it("localizes estate type labels on en and keeps zh catalogue wording", () => {
@@ -170,8 +181,12 @@ describe("locale-aware address display", () => {
     const estatePage = readFileSync(join(ROOT, "src/routes/estates_.$slug.tsx"), "utf8");
     assert.match(estatePage, /estateHousingLabel\(estate\.housing, locale\)/);
     assert.match(estatePage, /estateIntro\(estate, locale\)/);
-    assert.match(estatePage, /estateDisplayName\(estate, locale\)/);
+    assert.match(estatePage, /estatePageTitle\(estate, locale\)/);
+    assert.match(estatePage, /estateDisplayName\(/);
     assert.match(estatePage, /placeDisplayName\(estate\.district, locale\)/);
+    assert.match(estatePage, /t\("estateFibreTitle"/);
+    assert.match(estatePage, /t\("estateHome5gTitle"\)/);
+    assert.doesNotMatch(estatePage, /適用\{housing\}光纖計劃|睇晒適用/);
     const dir = readFileSync(join(ROOT, "src/routes/estates.tsx"), "utf8");
     assert.match(dir, /housingLabel\(/);
     assert.match(dir, /housingLabel\(id\)/);
@@ -220,11 +235,43 @@ describe("locale-aware address display", () => {
     assert.equal(getEstatePage("kingswood-villas")?.estate.name, "天水圍嘉湖山莊");
     assert.equal(getEstatePage("taikoo-shing")?.estate.name, "太古城");
     assert.match(estateSeoTitle(tinYiu.estate), /^天耀邨寬頻比較｜公屋｜齊Quote$/);
+    assert.equal(estatePageTitle(tinYiu.estate, "zh"), estateSeoTitle(tinYiu.estate));
     const pages = readFileSync(join(ROOT, "src/lib/estate-pages.ts"), "utf8");
     assert.match(pages, /function slugFromEstate\(estate: Estate\)/);
     assert.doesNotMatch(pages, /slugFromEstate\([^)]*locale/);
     assert.match(pages, /export function estateSeoTitle\(estate: Estate\): string/);
     assert.doesNotMatch(pages, /estateSeoTitle\([^)]*locale/);
+  });
+
+  it("localizes homepage popular estates and estate-page chrome on en only", () => {
+    const messages = readFileSync(join(ROOT, "src/lib/messages.ts"), "utf8");
+    const panel = readFileSync(join(ROOT, "src/components/search-panel.tsx"), "utf8");
+    assert.equal(MESSAGES.zh.searchPopularLabel, "熱門：");
+    assert.equal(MESSAGES.en.searchPopularLabel, "Popular: ");
+    assert.equal(MESSAGES.zh.searchAllEstates, "全部屋苑");
+    assert.equal(MESSAGES.en.searchAllEstates, "All estates");
+    assert.equal(MESSAGES.zh.estateTitle, "{name}寬頻比較｜{housing}｜齊Quote");
+    assert.equal(MESSAGES.en.estateTitle, "{name} broadband comparison | {housing} | 齊Quote");
+    assert.equal(MESSAGES.zh.estateFibreTitle, "適用{housing}光纖計劃");
+    assert.equal(MESSAGES.en.estateFibreTitle, "{housing} fibre plans");
+    assert.equal(MESSAGES.zh.estateHome5gTitle, "5G 家居寬頻");
+    assert.equal(MESSAGES.en.estateHome5gTitle, "5G home broadband");
+    assert.match(panel, /searchPopularLabel/);
+    assert.match(panel, /searchAllEstates/);
+    assert.match(panel, /popularEstateName/);
+    assert.match(panel, /estateDisplayName/);
+    assert.doesNotMatch(panel, /熱門：/);
+    assert.doesNotMatch(panel, /全部屋苑/);
+
+    const kingswood = getEstatePage("kingswood-villas")!;
+    const cityOne = getEstatePage("city-one")!;
+    const taikoo = getEstatePage("taikoo-shing")!;
+    assert.equal(estateDisplayName(kingswood.estate, "en"), "Kingswood Villas");
+    assert.equal(estateDisplayName(cityOne.estate, "en"), "City One");
+    assert.equal(estateDisplayName(taikoo.estate, "en"), "Taikoo Shing");
+    assert.equal(estateDisplayName(kingswood.estate, "zh"), "天水圍嘉湖山莊");
+    assert.match(messages, /searchPopularLabel: "熱門："/);
+    assert.match(messages, /searchPopularLabel: "Popular: "/);
   });
 });
 
