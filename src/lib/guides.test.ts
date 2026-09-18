@@ -260,7 +260,7 @@ describe("village-onsite guide", () => {
     assert.match(panel, /parsePlansSearch/);
     assert.match(panel, /moreFilters/);
     assert.match(panel, /peer\/more/);
-    assert.match(panel, /熱門：/);
+    assert.match(panel, /searchPopularLabel/);
     const housingAt = panel.indexOf('t("housingType")');
     const moreAt = panel.indexOf("peer/more");
     assert.ok(housingAt > 0 && housingAt < moreAt, "housing type must sit above more-filters on the homepage");

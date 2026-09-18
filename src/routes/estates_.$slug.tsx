@@ -7,6 +7,7 @@ import {
   estateHousingLabel,
   estateIntro,
   estatePagePath,
+  estatePageTitle,
   estatePlans,
   estateSeoDescription,
   estateSeoTitle,
@@ -62,10 +63,9 @@ function EstatePage() {
   const nearby = nearbyEstatePages(estate);
   const { t, locale, updated } = useI18n();
   const housing = estateHousingLabel(estate.housing, locale);
-  const displayName = estateDisplayName(estate, locale);
   const displayDistrict = placeDisplayName(estate.district, locale);
   const displayArea = estate.area ? placeDisplayName(estate.area, locale) : "";
-  const pageTitle = `${displayName}寬頻比較｜${housing}｜齊Quote`;
+  const pageTitle = estatePageTitle(estate, locale);
   const inquiry = { estate: estate.name, housing: estate.housing, district: estate.district };
   const ready = useHydrateDesk();
   const setInquiry = useDesk((s) => s.setInquiry);
@@ -102,8 +102,8 @@ function EstatePage() {
       </div>
 
       <section className="mt-10">
-        <h2 className="text-lg font-semibold">適用{housing}光纖計劃</h2>
-        <p className="mt-1 text-sm text-muted">只列出適用{housing}嘅參考月費，並連去原本計劃頁。</p>
+        <h2 className="text-lg font-semibold">{t("estateFibreTitle", { housing })}</h2>
+        <p className="mt-1 text-sm text-muted">{t("estateFibreLead", { housing })}</p>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {broadbandPreview.map((plan) => (
             <PlanCard key={plan.id} plan={plan} />
@@ -116,15 +116,15 @@ function EstatePage() {
             className="text-accent underline-offset-4 hover:underline"
           >
             {broadband.length > broadbandPreview.length
-              ? `睇晒適用${housing}光纖計劃（${broadband.length}）`
-              : `睇晒適用${housing}光纖計劃`}
+              ? t("estateFibreSeeAllN", { housing, n: broadband.length })
+              : t("estateFibreSeeAll", { housing })}
           </Link>
         </p>
       </section>
 
       <section className="mt-12">
-        <h2 className="text-lg font-semibold">5G 家居寬頻</h2>
-        <p className="mt-1 text-sm text-muted">免拉線隨插即用，實際速度視訊號而定。</p>
+        <h2 className="text-lg font-semibold">{t("estateHome5gTitle")}</h2>
+        <p className="mt-1 text-sm text-muted">{t("estateHome5gLead")}</p>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {home5gPreview.map((plan) => (
             <PlanCard key={plan.id} plan={plan} />
@@ -137,7 +137,7 @@ function EstatePage() {
               search={{ cat: "home5g", housing: estate.housing, estate: estate.name }}
               className="text-accent underline-offset-4 hover:underline"
             >
-              睇晒 5G 家居計劃（{home5g.length}）
+              {t("estateHome5gSeeAllN", { n: home5g.length })}
             </Link>
           </p>
         ) : null}

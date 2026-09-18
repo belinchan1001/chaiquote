@@ -8,10 +8,25 @@ import { chipClass, chipInputClass, chipRowClass } from "@/components/filter-lin
 import { compactSearch, parsePlansSearch } from "@/lib/search";
 import { useDesk } from "@/lib/desk";
 import { addressHitValue } from "@/lib/address-search";
+import { getEstatePage } from "@/lib/estate-pages";
+import { estateDisplayName } from "@/lib/estates";
 import { useI18n } from "@/lib/i18n";
 import type { Housing } from "@/lib/plans";
 import { cn } from "@/lib/utils";
-import type { MessageKey } from "@/lib/messages";
+import type { Locale, MessageKey } from "@/lib/messages";
+
+const POPULAR_ESTATES = [
+  { slug: "tin-yiu", zh: "天耀邨" },
+  { slug: "kingswood-villas", zh: "嘉湖山莊" },
+  { slug: "city-one", zh: "沙田第一城" },
+  { slug: "taikoo-shing", zh: "太古城" },
+] as const;
+
+function popularEstateName(slug: string, zh: string, locale: Locale) {
+  if (locale !== "en") return zh;
+  const page = getEstatePage(slug);
+  return page ? estateDisplayName(page.estate, "en") : zh;
+}
 
 function EsportsLineChip() {
   const navigate = useNavigate();
@@ -177,25 +192,22 @@ export function SearchPanel() {
         />
         <HousingGuessNote query={estate} applied={(housing || undefined) as Housing | undefined} />
         <p className="text-sm text-muted">
-          熱門：
-          <Link to="/estates/$slug" params={{ slug: "tin-yiu" }} className="text-accent underline-offset-4 hover:underline">
-            天耀邨
-          </Link>
-          <span className="px-1.5 text-subtle">·</span>
-          <Link to="/estates/$slug" params={{ slug: "kingswood-villas" }} className="text-accent underline-offset-4 hover:underline">
-            嘉湖山莊
-          </Link>
-          <span className="px-1.5 text-subtle">·</span>
-          <Link to="/estates/$slug" params={{ slug: "city-one" }} className="text-accent underline-offset-4 hover:underline">
-            沙田第一城
-          </Link>
-          <span className="px-1.5 text-subtle">·</span>
-          <Link to="/estates/$slug" params={{ slug: "taikoo-shing" }} className="text-accent underline-offset-4 hover:underline">
-            太古城
-          </Link>
+          {t("searchPopularLabel")}
+          {POPULAR_ESTATES.map((item, index) => (
+            <span key={item.slug}>
+              {index > 0 ? <span className="px-1.5 text-subtle">·</span> : null}
+              <Link
+                to="/estates/$slug"
+                params={{ slug: item.slug }}
+                className="text-accent underline-offset-4 hover:underline"
+              >
+                {popularEstateName(item.slug, item.zh, locale)}
+              </Link>
+            </span>
+          ))}
           <span className="px-1.5 text-subtle">·</span>
           <Link to="/estates" className="text-accent underline-offset-4 hover:underline">
-            全部屋苑
+            {t("searchAllEstates")}
           </Link>
         </p>
         <AiFilterEntry className="pt-1" />

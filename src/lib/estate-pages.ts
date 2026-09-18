@@ -394,14 +394,34 @@ export function estateSeoDescription(estate: Estate): string {
   return `${estate.name}位於${street}${place}，樓類為${estateHousingLabel(estate.housing)}。以下只列出適用該樓類的參考計劃。實際覆蓋同安裝期以電訊商確認為準。`;
 }
 
+function fillMessage(locale: Locale, key: MessageKey, vars: Record<string, string | number>) {
+  return (MESSAGES[locale][key] ?? MESSAGES.zh[key]).replace(
+    /\{(\w+)\}/g,
+    (_, name: string) => String(vars[name] ?? `{${name}}`),
+  );
+}
+
+export function estatePageTitle(estate: Estate, locale: Locale = "zh"): string {
+  return fillMessage(locale, "estateTitle", {
+    name: estateDisplayName(estate, locale),
+    housing: estateHousingLabel(estate.housing, locale),
+  });
+}
+
 export function estateIntro(estate: Estate, locale: Locale = "zh"): string {
   const name = estateDisplayName(estate, locale);
   const district = placeDisplayName(estate.district, locale);
   const area = estate.area ? placeDisplayName(estate.area, locale) : "";
-  const place = area ? `${district}（${area}）` : district;
-  const street = estate.street ? `${estate.street}，` : "";
-  const check = estate.coverageCheck ? "此地址覆蓋需另行查核。" : "";
-  return `${name}位於${street}${place}，樓類為${estateHousingLabel(estate.housing, locale)}。${check}實際覆蓋同安裝期以電訊商確認為準。`.replace(/\s+/g, " ");
+  const place = area ? (locale === "en" ? `${district} (${area})` : `${district}（${area}）`) : district;
+  const street = estate.street ? (locale === "en" ? `${estate.street}, ` : `${estate.street}，`) : "";
+  const check = estate.coverageCheck ? MESSAGES[locale].estateIntroCoverageCheck : "";
+  return fillMessage(locale, "estateIntroText", {
+    name,
+    street,
+    place,
+    housing: estateHousingLabel(estate.housing, locale),
+    check,
+  }).replace(/\s+/g, " ");
 }
 
 export function estatePlans(estate: Estate): { broadband: Plan[]; home5g: Plan[] } {
