@@ -103,7 +103,7 @@ const RAW = `
 家維邨|家維,Ka Wai|九龍城|public
 馬頭圍邨|馬頭圍,Ma Tau Wai|九龍城|public
 樂民新村|樂民,Lok Man|九龍城|public
-彩虹道邨|彩虹道|黃大仙|public
+彩虹道邨|彩虹道,Choi Hung Road Estate|黃大仙|public
 大坑東邨|大坑東,Tai Hang Tung|深水埗|public
 大坑西邨|大坑西,大坑西新邨,Tai Hang Sai|深水埗|public
 梨木樹邨|梨木樹,梨木樹一邨,梨木樹二邨,Lei Muk Shue|荃灣|public
@@ -280,7 +280,7 @@ const RAW = `
 富緻閣|富緻,Fu Chi House,宏緻苑富緻閣|觀塘|hos|九龍灣
 喜緻閣|喜緻,Hei Chi House,宏緻苑喜緻閣|觀塘|hos|九龍灣
 崇緻閣|崇緻,Sung Chi House,宏緻苑崇緻閣|觀塘|hos|九龍灣
-盛緻苑|盛緻,Shing Chi Court|觀塘|hos|九龍灣
+盛緻苑|盛緻,Shing Chi Court|觀塘|hos|九龍灣||宏照道3號
 景泰苑|景泰,King Tai Court|黃大仙|hos
 啟德1號|ONE KAI TAK,One Kai Tak,啟德一號|九龍城|private|啟德
 啟悅苑|啟悅,Kai Yuet Court|九龍城|hos|啟德||沐和街2號
@@ -379,7 +379,7 @@ YOHO Midtown|YOHO Midtown|元朗|private
 安樺苑|安樺,On Wah Court|觀塘|hos
 安麗苑|安麗,On Lai Court|觀塘|hos
 康山花園|康山,Kornhill Gardens|東區|hos
-天水圍天華|天華|元朗|public|天水圍
+天水圍天華|天華,Tin Wah|元朗|public|天水圍
 馬灣|馬灣,Ma Wan|荃灣|village|馬灣
 井欄樹村|井欄樹,Tseng Lan Shue|西貢|village
 木棉下村|木棉下,Muk Min Ha|荃灣|village

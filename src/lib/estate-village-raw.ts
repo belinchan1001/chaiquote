@@ -42,7 +42,7 @@ export const VILLAGE_RAW = `
 祠堂村|Tsz Tong Tsuen,錦田祠堂村|元朗|village|錦田
 錢崗村|Chin Hang Tsuen|元朗|village|錦田
 錦田南圍|Kam Tin Nam Wai|元朗|village|錦田
-元崗|Yuen Kong|元朗|village|八鄉
+元崗|Yuen Kong,元崗村,Yuen Kong Tsuen|元朗|village|八鄉
 元崗新村|Yuen Kong San Tsuen|元朗|village|八鄉
 金錢圍|Kam Tsin Wai|元朗|village|八鄉
 吳家村|Ng Ka Tsuen|元朗|village|八鄉
@@ -60,7 +60,7 @@ export const VILLAGE_RAW = `
 馬田村|Ma Tin Tsuen|元朗|village|十八鄉
 馬田心|Ma Tin Sham|元朗|village|十八鄉
 深涌|Sham Chung,十八鄉深涌,深涌村|元朗|village|十八鄉
-攸潭尾|Yau Tam Mei,攸潭美,攸潭美一,攸潭美二,Yau Tam Mei (1),Yau Tam Mei (2)|元朗|village|凹頭
+攸潭尾|Yau Tam Mei,攸潭美,攸潭美一,攸潭美二,攸潭美(一),攸潭美(二),Yau Tam Mei (1),Yau Tam Mei (2)|元朗|village|凹頭
 崇正新村|Shung Ching San Tsuen|元朗|village|十八鄉
 十八鄉楊屋村|Shap Pat Heung Yeung Uk Tsuen|元朗|village|十八鄉
 紅棗田|Hung Tso Tin,紅棗田村|元朗|village|十八鄉
@@ -81,7 +81,7 @@ export const VILLAGE_RAW = `
 英龍圍|Ying Lung Wai|元朗|village|十八鄉
 忠心圍|Chung Sam Wai|元朗|village|十八鄉
 蕃田|Fan Tin,Fan Tin Tsuen,蕃田村,新田蕃田|元朗|village|新田
-洲頭|Chau Tau|元朗|village|新田
+洲頭|Chau Tau,洲頭村,Chau Tau Tsuen|元朗|village|新田
 米埔村|Mai Po Tsuen|元朗|village|米埔
 米埔新村|Mai Po San Tsuen|元朗|village|米埔
 米埔隴|Mai Po Loong|元朗|village|米埔
@@ -90,7 +90,7 @@ export const VILLAGE_RAW = `
 屯門新圍|Tuen Mun San Wai|屯門|village|屯門
 紫田村|Tsz Tin Tsuen|屯門|village|屯門
 良田村|Leung Tin Tsuen|屯門|village|屯門
-福亨村|Fuk Hang Tsuen,屯門福亨村,福亨村上|屯門|village|屯門
+福亨村|Fuk Hang Tsuen,屯門福亨村,福亨村上,福亨村(上),Fuk Hang Tsuen Sheung|屯門|village|屯門
 麒麟圍|Kei Lun Wai|屯門|village|屯門
 順風圍|Shun Fung Wai|屯門|village|屯門
 屯門新慶村|Tuen Mun San Hing Tsuen|屯門|village|屯門

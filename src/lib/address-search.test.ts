@@ -47,17 +47,17 @@ describe("locale-aware address display", () => {
     assert.doesNotMatch(addressHitLabel(hit, "en"), /公屋|居屋|村屋|私人樓/);
   });
 
-  it("falls back to Chinese when English fields are missing", () => {
+  it("uses Choi Hung Road Estate as the English name for 彩虹道邨", () => {
     const row = estate("彩虹道邨");
     assert.ok(row);
-    assert.equal(estateEnglishName(row), undefined);
+    assert.equal(estateEnglishName(row), "Choi Hung Road Estate");
 
     const hit = localAddressHits("彩虹道邨")[0];
     assert.ok(hit);
     assert.equal(hit.name, "彩虹道邨");
-    assert.equal(hit.nameEN, undefined);
-    assert.equal(addressHitName(hit, "en"), "彩虹道邨");
-    assert.equal(addressHitValue(hit, "en"), addressHitValue(hit, "zh"));
+    assert.equal(hit.nameEN, "Choi Hung Road Estate");
+    assert.equal(addressHitName(hit, "en"), "Choi Hung Road Estate");
+    assert.equal(addressHitName(hit, "zh"), "彩虹道邨");
   });
 
   it("prefers gov nameEN / addressEN / districtEN on en, and ZH on zh", () => {
@@ -128,7 +128,7 @@ describe("locale-aware address display", () => {
     const tinYiu = estate("天耀邨")!;
     assert.equal(estateDisplayName(tinYiu, "zh"), "天耀邨");
     assert.equal(estateDisplayName(tinYiu, "en"), "Tin Yiu");
-    assert.equal(estateDisplayName(estate("彩虹道邨")!, "en"), "彩虹道邨");
+    assert.equal(estateDisplayName(estate("彩虹道邨")!, "en"), "Choi Hung Road Estate");
     assert.equal(placeDisplayName("元朗", "en"), "Yuen Long");
     assert.equal(placeDisplayName("元朗", "zh"), "元朗");
     assert.equal(placeEnglishName("啟德"), "Kai Tak");

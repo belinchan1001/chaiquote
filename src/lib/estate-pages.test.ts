@@ -260,7 +260,15 @@ describe("estate SEO pages", () => {
     assert.equal(getEstatePage("upper-central")?.estate.street, "堅道48號");
     assert.equal(getEstatePage("diamond-ho-man-tin")?.estate.name, "名鑽");
     assert.ok(getEstatePage("diamond-ho-man-tin")?.estate.aliases.includes("One Princeton"));
+    assert.ok(getEstatePage("lung-hsu-ho-man-tin")?.estate.aliases.includes("Terra"));
     assert.equal(getEstatePage("lung-hsu-ho-man-tin")?.estate.street, "太子道西296號");
+    assert.equal(getEstatePage("grand-jete")?.estate.aliases[0], "Grand Jete");
+    assert.equal(getEstatePage("mori-so-kwun-wat")?.estate.aliases[0], "MORI");
+    assert.equal(getEstatePage("la-splendeur")?.estate.aliases[0], "La Splendeur");
+    assert.ok(getEstatePage("choi-hung-road")?.estate.aliases.includes("Choi Hung Road Estate"));
+    assert.equal(getEstatePage("shing-chi-court")?.estate.street, "宏照道3號");
+    assert.equal(getEstatePage("chun-tung-estate")?.estate.coverageCheck, undefined);
+    assert.equal(getEstatePage("fung-wong-leng-estate")?.estate.street, "馬適路");
     assert.equal(getEstatePage("bondlane")?.estate.street, "海壇街268號");
     assert.equal(getEstatePage("hemma-amber")?.estate.housing, "hos");
     assert.equal(getEstatePage("sierra-terrace")?.estate.name, "樂嶺軒");
