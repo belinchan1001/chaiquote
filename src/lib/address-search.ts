@@ -1,3 +1,4 @@
+import { districtEnglishName } from "./district-names.ts";
 import {
   allowGovHitForQuery,
   classifyAddress,
@@ -96,7 +97,7 @@ export function addressHitAddress(hit: AddressHit, locale: Locale = "zh") {
 }
 
 export function addressHitDistrict(hit: AddressHit, locale: Locale = "zh") {
-  return pickLocalized(hit.district, hit.districtEN, locale);
+  return pickLocalized(hit.district, hit.districtEN || districtEnglishName(hit.district), locale);
 }
 
 export function addressHitFromGov(row: GovRow): AddressHit | null {
