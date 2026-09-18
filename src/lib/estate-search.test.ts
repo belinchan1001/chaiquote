@@ -7,6 +7,7 @@ import {
   allowGovHitForQuery,
   classifyAddress,
   ESTATES,
+  estateEnglishName,
   estateLabel,
   estateStreet,
   isBareHousingTypeQuery,
@@ -1351,6 +1352,29 @@ describe("search query tails, simplified, english", () => {
     assert.equal(isNewIntakeEstate("晉環"), true);
     assert.equal(isNewIntakeEstate("揚海"), true);
     assert.equal(isNewIntakeEstate("蔚藍東岸"), true);
+    assert.equal(isNewIntakeEstate("天瀧"), true);
+    assert.equal(isNewIntakeEstate("天御"), true);
+    assert.equal(isNewIntakeEstate("幸薈"), true);
+    assert.equal(isNewIntakeEstate("映匯"), false);
+    assert.equal(isNewIntakeEstate("柏景峰"), false);
+    assert.equal(estate("天瀧")?.street, "承豐道22號");
+    assert.equal(matchKnownEstate("The Knightsbridge")?.name, "天瀧");
+    assert.equal(estate("天御")?.street, "衛城道8號");
+    assert.equal(matchKnownEstate("THE LEGACY")?.name, "天御");
+    assert.equal(estate("幸薈")?.street, "青山道439號");
+    assert.equal(matchKnownEstate("Soyo Square")?.name, "幸薈");
+    assert.equal(estate("柏景峰")?.coverageCheck, true);
+    assert.equal(matchKnownEstate("One Park Place")?.name, "柏景峰");
+    assert.equal(matchKnownEstate("花語海")?.name, "Victoria Blossom");
+    assert.equal(estate("御景園")?.street, "公園南路25號");
+    assert.equal(estateEnglishName(estate("御景園")!), "Scenic Gardens");
+    assert.equal(estate("啟德1號")?.area, "啟德");
+    assert.equal(estateEnglishName(estate("啟德1號")!), "ONE KAI TAK");
+    assert.equal(isNewIntakeEstate("啟陽苑"), false);
+    assert.equal(isNewIntakeEstate("影輝苑"), false);
+    assert.equal(isNewIntakeEstate("匯熙苑"), false);
+    assert.equal(isNewIntakeEstate("朗風苑"), false);
+    assert.equal(isNewIntakeEstate("裕豐苑"), false);
     assert.equal(matchKnownEstate("Grand Jete")?.name, "飛揚");
     assert.equal(estate("飛揚")?.street, "青山公路－大欖段170號");
     assert.equal(matchKnownEstate("MORI")?.name, "凱和山");

@@ -621,7 +621,7 @@ OMA掃管笏|OMA OMA|屯門|private
 四季豪園|Seasons Palace|元朗|private
 棕櫚泉|Palm Springs Yuen Long|元朗|private
 Grand YOHO|Grand YOHO|元朗|private
-YOHO West|YOHO West,YOHO WEST,Yoho West,Yoho West Parkside,天恩路1號|元朗|private|天水圍||天恩路1號
+YOHO West|YOHO West,YOHO WEST,Yoho West,Yoho West Parkside,YOHO WEST PARKSIDE,YOHO West Parkside,Parkside 天水圍,天恩路1號,天恩路1號YOHO West|元朗|private|天水圍||天恩路1號
 河畔花園|Shatin Riverside|沙田|private
 花園城|Garden Rivera Tai Wai|沙田|private
 蔚景園|Wai King Garden|沙田|private
@@ -922,15 +922,15 @@ Deep Water South|DEEP WATER SOUTH,港島南岸第6期,港島南岸第6A期,港�
 連方|Bondlane,連方I,連方II,Bondlane I,Bondlane II,醫局街233號連方,海壇街268號連方,海壇街連方II|深水埗|private|長沙灣||海壇街268號
 吉喆|33 Catchick Street,吉席街33號,堅尼地城吉喆|中西區|private|堅尼地城||吉席街33號
 THE BOUNDARY|The Boundary,界限街2C號,大角咀THE BOUNDARY|油尖旺|private|大角咀||界限街2C號
-名鑽|何文田名鑽|九龍城|private|何文田
-Upper Central|西半山Upper Central|中西區|private|西半山
-One Wood Road|灣仔One Wood Road,活道1號|灣仔|private|灣仔||活道1號
-Elize Park|旺角Elize Park|油尖旺|private|旺角
+名鑽|One Princeton,ONE PRINCETON,何文田名鑽,太子道西266號名鑽|九龍城|private|何文田||太子道西266號
+Upper Central|UPPER CENTRAL,西半山Upper Central,堅道48號Upper Central|中西區|private|西半山||堅道48號
+One Wood Road|灣仔One Wood Road,活道1號,Wood Road 1|灣仔|private|灣仔||活道1號
+Elize Park|旺角Elize Park,ELIZE PARK,Elize PARK,洗衣街181號Elize Park|油尖旺|private|旺角||洗衣街181號
 恒珀|Hang Park,長沙灣恒珀,長沙灣恆珀,恆珀|深水埗|private|長沙灣
-隆敍|何文田隆敍,隆叙|九龍城|private|何文田
+隆敍|Lung Hsu,LUNG HSU,何文田隆敍,隆叙,太子道西296號隆敍|九龍城|private|何文田||太子道西296號
 北都滙|North Innovale,Northern Hub,古洞北都滙,古洞北北都滙,鄉梓路25號北都滙,古洞鄉梓路北都滙,香梓路25號北都滙|北區|private|古洞||鄉梓路25號
 33清水灣|33 Clear Water Bay,清水灣道33號,牛池灣33清水灣|黃大仙|private|牛池灣|覆蓋需查核|清水灣道33號
-Victoria Blossom|維港花,啟德Victoria Blossom,承豐道16號|九龍城|private|啟德|覆蓋需查核|承豐道16號
+Victoria Blossom|花語海,維港花,啟德Victoria Blossom,承豐道16號花語海|九龍城|private|啟德|覆蓋需查核|承豐道16號
 映匯|CHESTER II,The Hampton,紅磡映匯,黃埔街映匯,黃埔街28號映匯|九龍城|private|紅磡|覆蓋需查核|黃埔街28號
 瑜意|Zendo House,ZENDO HOUSE,尖沙咀瑜意,德興街8號瑜意,佐敦瑜意|油尖旺|private|尖沙咀||德興街8號
 薈淳|CONNEXT,Connext,黃大仙薈淳,飛鳳街33號薈淳,慈雲山薈淳|黃大仙|private|黃大仙||飛鳳街33號
@@ -952,5 +952,13 @@ KOKO Reserve|KOKO RESERVE,藍田KOKO Reserve,高嶺道8號KOKO Reserve|觀塘|pr
 UNI Residence|UNI Residences,Uni Residence,顯和里7號UNI Residence,沙田UNI Residence,顯和里UNI,沙田顯和里|沙田|private|沙田||顯和里7號
 順利邨道簡約公屋|順利邨道項目,Shun Lee Tsuen Road LPH,觀塘順利邨道簡約公屋,簡約公屋順利邨道,迦密梁省德學校簡約公屋|觀塘|public|順利|覆蓋需查核|順利邨道
 竹園道簡約公屋|竹園道項目,Chuk Yuen Road LPH,黃大仙竹園道簡約公屋,簡約公屋竹園道,浸信會天虹小學簡約公屋|黃大仙|public|竹園|覆蓋需查核|竹園道
+天瀧|The Knightsbridge,THE KNIGHTSBRIDGE,啟德天瀧,承豐道22號天瀧,Harbour Mansion 天瀧|九龍城|private|啟德||承豐道22號
+天御|THE LEGACY,The Legacy,天御2期,天御第2期,衛城道8號天御,西半山天御|中西區|private|西半山||衛城道8號
+woodis|WOODIS,Woodis Wan Chai,活道15號woodis,灣仔woodis,活道15號|灣仔|private|灣仔|覆蓋需查核|活道15號
+the MVP|THE MVP,The MVP,般咸道24號the MVP,般咸道28號the MVP,般咸道30號the MVP,西半山the MVP|中西區|private|西半山|覆蓋需查核|般咸道24-30號
+瑧博|HOUSE MUSE,House Muse,九龍城瑧博,衙前塱道3號瑧博,宋皇臺瑧博|九龍城|private|九龍城|覆蓋需查核|衙前塱道3號
+幸薈|Soyo Square,SOYO SQUARE,SOYO Square,長沙灣幸薈,青山道439號幸薈|深水埗|private|長沙灣||青山道439號
+柏景峰|One Park Place,ONE PARK PLACE,油塘柏景峰,高雅里8號柏景峰,高超道32號柏景峰|觀塘|private|油塘|覆蓋需查核|高雅里8號
+長洲南氹|Nam Tam Wan,長洲南氹灣,南氹灣,Cheung Chau Nam Tam|離島|village|長洲
 `.trim();
 

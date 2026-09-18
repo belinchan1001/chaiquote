@@ -76,7 +76,7 @@ export const SITEMAP_URL_LIMIT = 50_000;
 const W3C_LASTMOD = /^\d{4}(?:-\d{2}(?:-\d{2})?)?$/;
 
 /**
- * SITE.updated is a catalogue stamp (`2026-09-18`, `2026年9月18日`, or `2026年9月`).
+ * SITE.updated is a catalogue stamp (`2026-09-19`, `2026年9月19日`, or `2026年9月`).
  * Convert documented forms to W3C `YYYY-MM` / `YYYY-MM-DD`.
  * Do not invent a clock date.
  */

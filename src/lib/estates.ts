@@ -166,7 +166,7 @@ const RAW = `
 朗風苑|朗風,Long Fung Court|元朗|hos|屏山|覆蓋需查核|朗風街18號
 匯熙苑|匯熙,Wui Hei Court|元朗|hos|錦田|覆蓋需查核|錦義路1號
 御豪山莊|Park Royale|元朗|private|朗屏||公園北路38號
-御景園|御景園|元朗|private|屏山
+御景園|Scenic Gardens,公園南路25號御景園,元朗御景園|元朗|private|朗屏||公園南路25號
 朗逸豪園|朗逸豪園,Park Villa Ping Shan|元朗|private|屏山
 綠悅|綠悅,The Greenery|元朗|private|屏山
 天晉|天晉,The Wings|西貢|private|將軍澳
@@ -282,7 +282,7 @@ const RAW = `
 崇緻閣|崇緻,Sung Chi House,宏緻苑崇緻閣|觀塘|hos|九龍灣
 盛緻苑|盛緻,Shing Chi Court|觀塘|hos|九龍灣
 景泰苑|景泰,King Tai Court|黃大仙|hos
-啟德1號|啟德1號|九龍城|private
+啟德1號|ONE KAI TAK,One Kai Tak,啟德一號|九龍城|private|啟德
 啟悅苑|啟悅,Kai Yuet Court|九龍城|hos|啟德||沐和街2號
 啟欣苑|啟欣,Kai Yan Court|九龍城|hos|啟德||沐禮街6號
 啟盈苑|啟盈,Kai Ying Court|九龍城|hos|啟德
@@ -312,7 +312,7 @@ YOHO Midtown|YOHO Midtown|元朗|private
 大窩口邨|大窩口,Tai Wo Hau|葵青|public
 葵翠邨|葵翠,Kwai Tsui|葵青|public
 葵聯邨|葵聯,Kwai Luen|葵青|public
-長亨|長亨邨|葵青|public
+長亨|長亨邨,Cheung Hang|葵青|public
 青衣城|青衣城,Maritime Square|葵青|private
 灝景灣|灝景灣,Villa Esplanada|葵青|private
 藍澄灣|藍澄灣,Rambler Crest|葵青|private
@@ -349,7 +349,7 @@ YOHO Midtown|YOHO Midtown|元朗|private
 西貢匡湖居|匡湖居,Marina Cove|西貢|private
 西貢澳南|澳南,Ao Nan|西貢|village
 清水灣|清水灣,Clear Water Bay|西貢|private
-坑口村|坑口村|西貢|village
+坑口村|Hang Hau Village,坑口舊村|西貢|village
 南圍|南圍,Nam Wai|西貢|village
 蠔涌|蠔涌,Ho Chung|西貢|village
 大網仔|大網仔,Tai Mong Tsai|西貢|village
@@ -383,7 +383,7 @@ YOHO Midtown|YOHO Midtown|元朗|private
 馬灣|馬灣,Ma Wan|荃灣|village|馬灣
 井欄樹村|井欄樹,Tseng Lan Shue|西貢|village
 木棉下村|木棉下,Muk Min Ha|荃灣|village
-荃灣新村|荃灣新村|荃灣|village
+荃灣新村|Tsuen Wan San Tsuen|荃灣|village
 白田壩村|白田壩,Pak Tin Pa|荃灣|village
 馬閃排|馬閃排,Ma Sim Pai|荃灣|village
 海壩東北台|海壩東北,海壩(東北台),Hoi Pa,Hoi Pa Village Northeast Terrace,荃灣海壩東北台|荃灣|village

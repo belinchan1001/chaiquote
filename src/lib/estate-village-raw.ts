@@ -828,6 +828,7 @@ export const VILLAGE_RAW = `
 東涌舊碼頭|Tung Chung Old Pier,東涌舊碼頭村,東涌碼頭|離島|village|東涌
 牙鷹洲|Nga Ying Chau,牙鷹洲村,青衣牙鷹洲|葵青|village|青衣
 荃灣南灣|Tsuen Wan Nam Wan,荃灣南灣村,南灣荃灣|荃灣|village|荃灣
+長洲南氹灣村|Nam Tam Wan Village,長洲南氹村|離島|village|長洲
 `.trim();
 
 

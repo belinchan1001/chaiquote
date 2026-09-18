@@ -86,6 +86,7 @@ const SLUG_FALLBACK: Record<string, string> = {
   朗風苑: "long-fung-court",
   匯熙苑: "wui-hei-court",
   影輝苑: "ying-fai-court",
+  御景園: "scenic-gardens",
   啟德1號: "kai-tak-1",
   啟陽苑: "kai-yeung-court",
   長亨: "cheung-hang-block",
@@ -327,6 +328,14 @@ const SLUG_FALLBACK: Record<string, string> = {
   竹園道簡約公屋: "chuk-yuen-road-lph",
   柏瓏: "grand-mayfair",
   "UNI Residence": "uni-residence",
+  天瀧: "the-knightsbridge",
+  天御: "the-legacy",
+  woodis: "woodis",
+  "the MVP": "the-mvp",
+  瑧博: "house-muse",
+  長洲南氹: "nam-tam-wan",
+  幸薈: "soyo-square",
+  柏景峰: "one-park-place",
 };
 
 function requireEstate(name: string): Estate {
