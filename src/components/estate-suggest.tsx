@@ -153,7 +153,11 @@ export function EstateSuggest({
           className="popover-in absolute z-50 mt-1 max-h-80 w-full overflow-y-auto rounded-xl bg-card py-1 shadow-[var(--shadow-border-hover)]"
         >
           {results.length ? (
-            results.map((hit, i) => (
+            results.map((hit, i) => {
+              const subtitle = [addressHitLabel(hit, locale) || t("hk"), hit.coverageCheck ? t("coverageCheck") : ""]
+                .filter(Boolean)
+                .join(" · ");
+              return (
               <li key={hit.key} role="option" aria-selected={i === active}>
                 <button
                   type="button"
@@ -173,14 +177,11 @@ export function EstateSuggest({
                       </span>
                     ) : null}
                   </span>
-                  <span className="text-xs text-muted">
-                    {[addressHitLabel(hit, locale) || t("hk"), hit.coverageCheck ? t("coverageCheck") : ""]}
-                      .filter(Boolean)
-                      .join(" · ")}
-                  </span>
+                  <span className="text-xs text-muted">{subtitle}</span>
                 </button>
               </li>
-            ))
+              );
+            })
           ) : (
             <li className="px-3 py-3 text-sm text-muted">
               {isImpracticalPlace(value)
