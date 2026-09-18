@@ -247,7 +247,7 @@ describe("locale-aware address display", () => {
     const messages = readFileSync(join(ROOT, "src/lib/messages.ts"), "utf8");
     const panel = readFileSync(join(ROOT, "src/components/search-panel.tsx"), "utf8");
     assert.equal(MESSAGES.zh.searchPopularLabel, "熱門：");
-    assert.equal(MESSAGES.en.searchPopularLabel, "Popular:");
+    assert.equal(MESSAGES.en.searchPopularLabel, "Popular: ");
     assert.equal(MESSAGES.zh.searchAllEstates, "全部屋苑");
     assert.equal(MESSAGES.en.searchAllEstates, "All estates");
     assert.equal(MESSAGES.zh.estateTitle, "{name}寬頻比較｜{housing}｜齊Quote");
@@ -271,7 +271,7 @@ describe("locale-aware address display", () => {
     assert.equal(estateDisplayName(taikoo.estate, "en"), "Taikoo Shing");
     assert.equal(estateDisplayName(kingswood.estate, "zh"), "天水圍嘉湖山莊");
     assert.match(messages, /searchPopularLabel: "熱門："/);
-    assert.match(messages, /searchPopularLabel: "Popular:"/);
+    assert.match(messages, /searchPopularLabel: "Popular: "/);
   });
 });
 

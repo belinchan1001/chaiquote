@@ -515,7 +515,7 @@ export const MESSAGES = {
     estatesPlansCta: "See matching plans",
     estatesOrHousing: "Or pick housing type",
     estatesPopular: "Popular",
-    searchPopularLabel: "Popular:",
+    searchPopularLabel: "Popular: ",
     searchAllEstates: "All estates",
     estateTitle: "{name} broadband comparison | {housing} | 齊Quote",
     estateIntroText:
