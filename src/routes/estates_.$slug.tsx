@@ -60,11 +60,11 @@ function EstatePage() {
   const { estate } = page;
   const { broadband, home5g } = estatePlans(estate);
   const nearby = nearbyEstatePages(estate);
+  const { t, locale, updated } = useI18n();
   const housing = estateHousingLabel(estate.housing, locale);
   const inquiry = { estate: estate.name, housing: estate.housing, district: estate.district };
   const ready = useHydrateDesk();
   const setInquiry = useDesk((s) => s.setInquiry);
-  const { t, locale, updated } = useI18n();
   usePageTitle(estateSeoTitle(estate));
   const broadbandPreview = broadband.slice(0, 4);
   const home5gPreview = home5g.slice(0, 3);
