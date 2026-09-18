@@ -13,6 +13,7 @@ import {
   localAddressHits,
   searchAddresses,
 } from "./address-search.ts";
+import { districtDisplayName, districtEnglishName } from "./district-names.ts";
 import { estateDisplayName, estateEnglishName, estateLabel, ESTATES, placeDisplayName, placeEnglishName } from "./estates.ts";
 import { estateHousingLabel, estateIntro, estatePagePath, estateSeoTitle, getEstatePage } from "./estate-pages.ts";
 import { MESSAGES } from "./messages.ts";
@@ -95,7 +96,8 @@ describe("locale-aware address display", () => {
     assert.equal(hit.districtEN, undefined);
     assert.equal(addressHitName(hit, "en"), "測試無英文邨");
     assert.equal(addressHitAddress(hit, "en"), "測試路88號");
-    assert.equal(addressHitDistrict(hit, "en"), "沙田");
+    assert.equal(addressHitDistrict(hit, "en"), "Sha Tin");
+    assert.equal(addressHitDistrict(hit, "zh"), "沙田");
     assert.equal(addressHitValue(hit, "en"), "測試無英文邨, 測試路88號");
   });
 
@@ -127,14 +129,16 @@ describe("locale-aware address display", () => {
     assert.equal(estateDisplayName(tinYiu, "zh"), "天耀邨");
     assert.equal(estateDisplayName(tinYiu, "en"), "Tin Yiu");
     assert.equal(estateDisplayName(estate("彩虹道邨")!, "en"), "彩虹道邨");
-    assert.equal(placeDisplayName("元朗", "en"), "元朗");
+    assert.equal(placeDisplayName("元朗", "en"), "Yuen Long");
     assert.equal(placeDisplayName("元朗", "zh"), "元朗");
     assert.equal(placeEnglishName("啟德"), "Kai Tak");
     assert.equal(placeDisplayName("啟德", "en"), "Kai Tak");
     assert.equal(placeDisplayName("啟德", "zh"), "啟德");
+    assert.equal(placeDisplayName("天水圍", "en"), "天水圍");
     assert.match(estateIntro(tinYiu, "zh"), /^天耀邨位於/);
     assert.match(estateIntro(tinYiu, "en"), /^Tin Yiu位於/);
-    assert.match(estateIntro(tinYiu, "en"), /元朗（天水圍）/);
+    assert.match(estateIntro(tinYiu, "en"), /Yuen Long（天水圍）/);
+    assert.match(estateIntro(tinYiu, "zh"), /元朗（天水圍）/);
   });
 
   it("localizes estate type labels on en and keeps zh catalogue wording", () => {
@@ -175,6 +179,38 @@ describe("locale-aware address display", () => {
     assert.match(dir, /estateDisplayName\(/);
     assert.match(dir, /placeDisplayName\(/);
     assert.doesNotMatch(dir, /label: "公屋"/);
+  });
+
+  it("maps official districts on estate cards, index chips, and address search", () => {
+    const meiTung = estate("美東樓")!;
+    assert.equal(meiTung.district, "黃大仙");
+    assert.equal(meiTung.area, undefined);
+    assert.equal(placeDisplayName(meiTung.district, "en"), "Wong Tai Sin");
+    assert.equal(placeDisplayName(meiTung.district, "zh"), "黃大仙");
+    assert.equal(districtEnglishName("觀塘"), "Kwun Tong");
+    assert.equal(districtDisplayName("九龍城", "en"), "Kowloon City");
+
+    const local = localAddressHits("美東樓")[0];
+    assert.ok(local);
+    assert.equal(local.district, "黃大仙");
+    assert.equal(addressHitDistrict(local, "en"), "Wong Tai Sin");
+    assert.equal(addressHitDistrict(local, "zh"), "黃大仙");
+    assert.match(addressHitLabel(local, "en"), /Wong Tai Sin/);
+    assert.doesNotMatch(addressHitLabel(local, "en"), /黃大仙/);
+    assert.match(addressHitLabel(local, "zh"), /黃大仙/);
+
+    const tinYiuHit = localAddressHits("天耀")[0];
+    assert.ok(tinYiuHit);
+    assert.equal(tinYiuHit.district, "天水圍");
+    assert.equal(addressHitDistrict(tinYiuHit, "en"), "天水圍");
+
+    const dir = readFileSync(join(ROOT, "src/routes/estates.tsx"), "utf8");
+    assert.match(dir, /placeDisplayName\(page\.estate\.district, locale\)/);
+    assert.match(dir, /placeDisplayName\(group\.district, locale\)/);
+    const suggest = readFileSync(join(ROOT, "src/components/estate-suggest.tsx"), "utf8");
+    assert.match(suggest, /addressHitLabel\(hit, locale\)/);
+    const search = readFileSync(join(ROOT, "src/lib/address-search.ts"), "utf8");
+    assert.match(search, /districtEnglishName\(hit\.district\)/);
   });
 
   it("does not change slugs or sitemap copy this round", () => {

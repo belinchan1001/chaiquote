@@ -1,4 +1,5 @@
 import type { Housing } from "@/lib/plans";
+import { districtEnglishName } from "./district-names.ts";
 import { EXTRA_RAW } from "./estate-extra-raw.ts";
 import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
 import { VILLAGE_RAW } from "./estate-village-raw.ts";
@@ -462,11 +463,11 @@ for (const line of NON_ESTATE_RAW.split("\n")) {
   if (english) PLACE_ENGLISH.set(name, english);
 }
 
-/** English for a district / area / place only when the catalogue already has one. */
+/** English for a district / area / place only when a known map or catalogue alias exists. */
 export function placeEnglishName(place: string): string | undefined {
   const named = ESTATES.find((estate) => estate.name === place);
   if (named) return estateEnglishName(named);
-  return PLACE_ENGLISH.get(place);
+  return PLACE_ENGLISH.get(place) ?? districtEnglishName(place);
 }
 
 export function placeDisplayName(place: string, locale: Locale = "zh") {
