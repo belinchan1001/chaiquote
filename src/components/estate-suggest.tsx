@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode 
 import { Input } from "@/components/ui/input";
 import {
   addressHitLabel,
+  addressHitName,
   addressHitValue,
   isImpracticalPlace,
   localAddressHits,
@@ -58,7 +59,7 @@ export function EstateSuggest({
   const [loading, setLoading] = useState(false);
   const local = localAddressHits(value);
   const results = value.trim().length >= 2 && remote.length ? remote : local;
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   useEffect(() => {
     setActive(0);
@@ -99,7 +100,7 @@ export function EstateSuggest({
   }, []);
 
   function pick(hit: AddressHit) {
-    onChange(addressHitValue(hit));
+    onChange(addressHitValue(hit, locale));
     onSelect?.(hit);
     setOpen(false);
   }
@@ -152,7 +153,11 @@ export function EstateSuggest({
           className="popover-in absolute z-50 mt-1 max-h-80 w-full overflow-y-auto rounded-xl bg-card py-1 shadow-[var(--shadow-border-hover)]"
         >
           {results.length ? (
-            results.map((hit, i) => (
+            results.map((hit, i) => {
+              const subtitle = [addressHitLabel(hit, locale) || t("hk"), hit.coverageCheck ? t("coverageCheck") : ""]
+                .filter(Boolean)
+                .join(" · ");
+              return (
               <li key={hit.key} role="option" aria-selected={i === active}>
                 <button
                   type="button"
@@ -165,21 +170,18 @@ export function EstateSuggest({
                   onClick={() => pick(hit)}
                 >
                   <span className="flex flex-wrap items-center gap-1.5">
-                    <span className="font-medium">{highlightName(hit.name, value)}</span>
+                    <span className="font-medium">{highlightName(addressHitName(hit, locale), value)}</span>
                     {hit.newIntake ? (
                       <span className="inline-flex h-5 shrink-0 items-center rounded-full bg-accent/15 px-1.5 text-[10px] font-medium text-accent">
                         {t("estatesNewIntakeTag")}
                       </span>
                     ) : null}
                   </span>
-                  <span className="text-xs text-muted">
-                    {[addressHitLabel(hit) || t("hk"), hit.coverageCheck ? t("coverageCheck") : ""]
-                      .filter(Boolean)
-                      .join(" · ")}
-                  </span>
+                  <span className="text-xs text-muted">{subtitle}</span>
                 </button>
               </li>
-            ))
+              );
+            })
           ) : (
             <li className="px-3 py-3 text-sm text-muted">
               {isImpracticalPlace(value)

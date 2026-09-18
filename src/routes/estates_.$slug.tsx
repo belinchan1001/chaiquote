@@ -18,7 +18,7 @@ import {
 } from "@/lib/estate-pages";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { canonicalUrl, notFoundHead } from "@/lib/canonical";
-import { parentEstate } from "@/lib/estates";
+import { estateDisplayName, parentEstate, placeDisplayName } from "@/lib/estates";
 import { estateJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 import { isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
@@ -60,12 +60,16 @@ function EstatePage() {
   const { estate } = page;
   const { broadband, home5g } = estatePlans(estate);
   const nearby = nearbyEstatePages(estate);
-  const housing = estateHousingLabel(estate.housing);
+  const { t, locale, updated } = useI18n();
+  const housing = estateHousingLabel(estate.housing, locale);
+  const displayName = estateDisplayName(estate, locale);
+  const displayDistrict = placeDisplayName(estate.district, locale);
+  const displayArea = estate.area ? placeDisplayName(estate.area, locale) : "";
+  const pageTitle = `${displayName}寬頻比較｜${housing}｜齊Quote`;
   const inquiry = { estate: estate.name, housing: estate.housing, district: estate.district };
   const ready = useHydrateDesk();
   const setInquiry = useDesk((s) => s.setInquiry);
-  const { t, updated } = useI18n();
-  usePageTitle(estateSeoTitle(estate));
+  usePageTitle(pageTitle);
   const broadbandPreview = broadband.slice(0, 4);
   const home5gPreview = home5g.slice(0, 3);
 
@@ -84,12 +88,12 @@ function EstatePage() {
         香港屋苑寬頻比較
       </Link>
       <p className="mt-6 text-xs font-medium tracking-wider text-muted">
-        {estate.district}
-        {estate.area ? ` · ${estate.area}` : ""} · {housing}
+        {displayDistrict}
+        {displayArea ? ` · ${displayArea}` : ""} · {housing}
       </p>
-      <h1 className="mt-2 text-title font-semibold">{`${estate.name}寬頻比較｜${housing}｜齊Quote`}</h1>
+      <h1 className="mt-2 text-title font-semibold">{pageTitle}</h1>
       <p className="mt-2 text-xs text-subtle">{t("dataUpdated", { date: updated })}</p>
-      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{estateIntro(estate)}</p>
+      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{estateIntro(estate, locale)}</p>
       {isNetvigatorOnlyEstate(estate.name) ? (
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{t("plansNetvigatorOnlyNote")}</p>
       ) : null}
@@ -149,7 +153,7 @@ function EstatePage() {
                 params={{ slug: item.slug }}
                 className="inline-flex h-11 items-center rounded-full bg-surface px-3 text-sm"
               >
-                {item.estate.name}
+                {estateDisplayName(item.estate, locale)}
               </Link>
             </li>
           ))}

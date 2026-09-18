@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { useDesk } from "@/lib/desk";
-import { compact, ESTATES } from "@/lib/estates";
-import { estatePagesByDistrict, estateSelectTarget, ESTATE_PAGES, INDEXABLE_ESTATE_PAGES } from "@/lib/estate-pages";
+import { compact, estateDisplayName, ESTATES, placeDisplayName } from "@/lib/estates";
+import { estatePagesByDistrict, estateSelectTarget, ESTATE_PAGES, getEstatePage, INDEXABLE_ESTATE_PAGES } from "@/lib/estate-pages";
 import { isNewIntakeEstate, NEW_INTAKE_NAMES, newIntakeGroups } from "@/lib/estate-new-intake";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { compactSearch, parsePlansSearch } from "@/lib/search";
@@ -19,12 +19,7 @@ import { cn } from "@/lib/utils";
 const TITLE = "香港屋苑寬頻比較｜齊Quote";
 const DESCRIPTION = `按地區瀏覽香港${ESTATES.length}個屋苑寬頻比較，資料庫同首頁搜尋一樣。每個屋苑可睇適用樓類計劃。實際覆蓋同安裝期以電訊商確認為準。`;
 
-const HOUSING_FALLBACK: { id: Housing; label: string }[] = [
-  { id: "public", label: "公屋" },
-  { id: "hos", label: "居屋" },
-  { id: "private", label: "私樓" },
-  { id: "village", label: "村屋" },
-];
+const HOUSING_IDS: Housing[] = ["public", "hos", "private", "village"];
 
 const HOUSING_COUNTS: Record<Housing, number> = {
   public: ESTATES.filter((item) => item.housing === "public").length,
@@ -43,6 +38,11 @@ const POPULAR_ESTATES = [
   { slug: "city-one", name: "沙田第一城" },
   { slug: "taikoo-shing", name: "太古城" },
 ] as const;
+
+function popularLabel(slug: string, fallback: string, locale: "zh" | "en") {
+  const page = getEstatePage(slug);
+  return page ? estateDisplayName(page.estate, locale) : fallback;
+}
 
 export const Route = createFileRoute("/estates")({
   component: EstatesIndexPage,
@@ -73,7 +73,7 @@ function EstatesIndexPage() {
   const [newIntakeFilter, setNewIntakeFilter] = useState(false);
   const navigate = useNavigate();
   const setInquiry = useDesk((s) => s.setInquiry);
-  const { t, housingLabel, updated } = useI18n();
+  const { t, housingLabel, updated, locale } = useI18n();
   usePageTitle(TITLE);
   const url = canonicalUrl("/estates");
   const districtGroups = newIntakeFilter ? NEW_INTAKE_GROUPS : groups;
@@ -215,7 +215,7 @@ function EstatesIndexPage() {
             placeholder={t("estatePlaceholder")}
             onSelect={(hit) => {
               const nextHousing = hit.housing ?? resolvedHousing(hit.name) ?? "";
-              const nextEstate = addressHitValue(hit);
+              const nextEstate = addressHitValue(hit, locale);
               if (nextHousing) setHousing(nextHousing);
               if (hit.district) setDistrict(hit.district);
               setEstate(nextEstate);
@@ -241,17 +241,17 @@ function EstatesIndexPage() {
             >
               {t("any")}
             </button>
-            {HOUSING_FALLBACK.map((item) => (
+            {HOUSING_IDS.map((id) => (
               <button
-                key={item.id}
+                key={id}
                 type="button"
-                onClick={() => setHousingFilter((current) => (current === item.id ? "" : item.id))}
+                onClick={() => setHousingFilter((current) => (current === id ? "" : id))}
                 className={cn(
                   "chip-press inline-flex h-11 items-center rounded-full px-4 text-sm font-medium",
-                  housingFilter === item.id ? "bg-primary text-primary-foreground" : "bg-surface",
+                  housingFilter === id ? "bg-primary text-primary-foreground" : "bg-surface",
                 )}
               >
-                {housingLabel(item.id)}
+                {housingLabel(id)}
               </button>
             ))}
           </div>
@@ -272,7 +272,7 @@ function EstatesIndexPage() {
                 params={{ slug: item.slug }}
                 className="text-accent underline-offset-4 hover:underline"
               >
-                {item.name}
+                {popularLabel(item.slug, item.name, locale)}
               </Link>
             </span>
           ))}
@@ -291,9 +291,9 @@ function EstatesIndexPage() {
                 href={`/estates/${page.slug}`}
                 className="estate-dir-card flex h-full min-h-11 flex-col justify-center rounded-xl bg-card px-2.5 py-2 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
               >
-                <p className="text-sm font-medium leading-snug">{page.estate.name}</p>
+                <p className="text-sm font-medium leading-snug">{estateDisplayName(page.estate, locale)}</p>
                 <p className="mt-0.5 text-xs text-muted">
-                  {page.estate.district} · {housingLabel(page.estate.housing)}
+                  {placeDisplayName(page.estate.district, locale)} · {housingLabel(page.estate.housing)}
                 </p>
               </a>
             </li>
@@ -331,20 +331,20 @@ function EstatesIndexPage() {
           <p className="text-[11px] font-medium tracking-wider text-accent">{t("estatesNewIntakeTag")}</p>
           <p className="mt-0.5 font-display text-base font-semibold tabular-nums sm:text-lg">{NEW_INTAKE_COUNT}</p>
         </button>
-        {HOUSING_FALLBACK.map((item) => (
+        {HOUSING_IDS.map((id) => (
           <button
-            key={item.id}
+            key={id}
             type="button"
             onClick={() => {
-              setHousingFilter((current) => (current === item.id ? "" : item.id));
+              setHousingFilter((current) => (current === id ? "" : id));
             }}
             className={cn(
               "rounded-xl bg-card px-3 py-3 text-left shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
-              housingFilter === item.id && "ring-2 ring-primary",
+              housingFilter === id && "ring-2 ring-primary",
             )}
           >
-            <p className="text-[11px] font-medium tracking-wider text-muted">{housingLabel(item.id)}</p>
-            <p className="mt-0.5 font-display text-base font-semibold tabular-nums sm:text-lg">{HOUSING_COUNTS[item.id]}</p>
+            <p className="text-[11px] font-medium tracking-wider text-muted">{housingLabel(id)}</p>
+            <p className="mt-0.5 font-display text-base font-semibold tabular-nums sm:text-lg">{HOUSING_COUNTS[id]}</p>
           </button>
         ))}
       </div>
@@ -361,7 +361,7 @@ function EstatesIndexPage() {
           <option value="">{t("allDistricts")}</option>
           {districtGroups.map((group) => (
             <option key={group.district} value={group.district}>
-              {group.district}（{group.pages.length}）
+              {placeDisplayName(group.district, locale)}（{group.pages.length}）
             </option>
           ))}
         </Select>
@@ -376,7 +376,7 @@ function EstatesIndexPage() {
                 activeDistrict === group.district ? "bg-primary text-primary-foreground" : "bg-card shadow-[var(--shadow-border)]",
               )}
             >
-              {group.district}
+              {placeDisplayName(group.district, locale)}
               <span className="ml-1 tabular-nums text-xs opacity-70">{group.pages.length}</span>
             </button>
           ))}
@@ -388,7 +388,7 @@ function EstatesIndexPage() {
         {t("estatesShowing", { n: visibleCount })}
         {newIntakeFilter ? ` · ${t("estatesNewIntake")}` : ""}
         {housingFilter ? ` · ${housingLabel(housingFilter)}` : ""}
-        {activeDistrict ? ` · ${activeDistrict}` : ""}
+        {activeDistrict ? ` · ${placeDisplayName(activeDistrict, locale)}` : ""}
       </p>
       {collapseGroups ? <p className="mt-1 text-sm text-muted">{t("estatesBrowseHint")}</p> : null}
       {hasFilter ? (
@@ -406,7 +406,7 @@ function EstatesIndexPage() {
           visible.map((group) => {
             const heading = (
               <>
-                {group.district}
+                {placeDisplayName(group.district, locale)}
                 <span className="ml-2 text-sm font-normal tabular-nums text-muted">{group.pages.length}</span>
               </>
             );
@@ -418,7 +418,7 @@ function EstatesIndexPage() {
                       href={`/estates/${page.slug}`}
                       className="estate-dir-card flex h-full min-h-11 flex-col justify-center rounded-xl bg-card px-2.5 py-2 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
                     >
-                      <p className="text-sm font-medium leading-snug">{page.estate.name}</p>
+                      <p className="text-sm font-medium leading-snug">{estateDisplayName(page.estate, locale)}</p>
                       <p className="mt-0.5 text-xs text-muted">
                         {housingLabel(page.estate.housing)}
                         {isNewIntakeEstate(page.estate.name) ? ` · ${t("estatesNewIntakeTag")}` : ""}

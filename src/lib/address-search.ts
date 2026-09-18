@@ -2,6 +2,7 @@ import {
   allowGovHitForQuery,
   classifyAddress,
   compact,
+  estateEnglishName,
   estateStreet,
   guessHousing,
   isImpracticalPlace,
@@ -9,10 +10,11 @@ import {
   searchEstates,
   type Estate,
   type HousingGuess,
-} from "@/lib/estates";
-import type { Housing } from "@/lib/plans";
+} from "./estates.ts";
+import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
+import type { Housing } from "./plans.ts";
 import { isNewIntakeEstate } from "./estate-new-intake.ts";
-import { toTraditional } from "@/lib/zh-s2t";
+import { toTraditional } from "./zh-s2t.ts";
 
 export { classifyAddress, isImpracticalPlace, matchKnownEstate };
 export type { HousingGuess };
@@ -28,19 +30,29 @@ export type AddressHit = {
   name: string;
   address: string;
   district: string;
+  nameEN?: string;
+  addressEN?: string;
+  districtEN?: string;
   housing?: Housing;
   source: "local" | "gov";
   coverageCheck?: boolean;
   newIntake?: boolean;
 };
 
-type GovRow = {
+export type GovRow = {
   nameZH?: string;
   nameEN?: string;
   addressZH?: string;
   addressEN?: string;
   districtZH?: string;
   districtEN?: string;
+};
+
+const HOUSING_MESSAGE: Record<Housing, MessageKey> = {
+  public: "housingPublic",
+  hos: "housingHos",
+  private: "housingPrivate",
+  village: "housingVillage",
 };
 
 function tidy(value: string) {
@@ -53,6 +65,7 @@ function fromLocal(estate: Estate): AddressHit {
     name: estate.name,
     address: estateStreet(estate),
     district: estate.area ?? estate.district,
+    nameEN: estateEnglishName(estate),
     housing: estate.housing,
     source: "local",
     coverageCheck: estate.coverageCheck,
@@ -66,22 +79,59 @@ export function localAddressHits(query: string, limit = LOCAL_SUGGEST_LIMIT): Ad
     .map(fromLocal);
 }
 
-function fromGov(row: GovRow): AddressHit | null {
-  const name = tidy(row.nameZH || row.nameEN || "");
+function pickLocalized(zh: string, en: string | undefined, locale: Locale) {
+  if (locale === "en") {
+    const english = tidy(en || "");
+    if (english) return english;
+  }
+  return tidy(zh || en || "");
+}
+
+export function addressHitName(hit: AddressHit, locale: Locale = "zh") {
+  return pickLocalized(hit.name, hit.nameEN, locale);
+}
+
+export function addressHitAddress(hit: AddressHit, locale: Locale = "zh") {
+  return pickLocalized(hit.address, hit.addressEN, locale);
+}
+
+export function addressHitDistrict(hit: AddressHit, locale: Locale = "zh") {
+  return pickLocalized(hit.district, hit.districtEN, locale);
+}
+
+export function addressHitFromGov(row: GovRow): AddressHit | null {
+  const nameZH = tidy(row.nameZH || "");
+  const nameEN = tidy(row.nameEN || "");
+  const name = nameZH || nameEN;
   if (!name) return null;
-  const address = tidy(row.addressZH || "");
-  const district = tidy(row.districtZH || "");
-  const known = matchKnownEstate(name, address);
+  const addressZH = tidy(row.addressZH || "");
+  const addressEN = tidy(row.addressEN || "");
+  const districtZH = tidy(row.districtZH || "");
+  const districtEN = tidy(row.districtEN || "");
+  const matchHay = [nameEN && nameEN !== nameZH ? nameEN : "", addressZH, addressEN].filter(Boolean).join(" ");
+  const known = matchKnownEstate(nameZH || nameEN, matchHay);
   return {
-    key: `gov:${compact(name + address + district)}`,
+    key: `gov:${compact(name + addressZH + districtZH)}`,
     name,
-    address,
-    district: known?.district || district,
-    housing: known?.housing ?? guessHousing(name, address),
+    address: addressZH,
+    district: known?.district || districtZH,
+    nameEN: nameEN || (known ? estateEnglishName(known) : undefined),
+    addressEN: addressEN || undefined,
+    districtEN: districtEN || undefined,
+    housing: known?.housing ?? guessHousing(nameZH || nameEN, [addressZH, addressEN].filter(Boolean).join(" ")),
     source: "gov",
     coverageCheck: known?.coverageCheck,
     newIntake: isNewIntakeEstate(known?.name ?? name) || undefined,
   };
+}
+
+function addressHitDedupKeys(hit: AddressHit) {
+  const known = matchKnownEstate(hit.name, hit.address);
+  return [...new Set([hit.name, hit.nameEN, known?.name].filter(Boolean).map((value) => compact(value!)))];
+}
+
+function startsWithQuery(hit: AddressHit, compactQ: string) {
+  return [hit.name, hit.nameEN].some((value) => value && compact(value).startsWith(compactQ));
 }
 
 export async function searchAddresses(query: string, signal?: AbortSignal): Promise<AddressHit[]> {
@@ -91,7 +141,7 @@ export async function searchAddresses(query: string, signal?: AbortSignal): Prom
   const cached = RESULT_CACHE.get(cacheKey);
   if (cached) return cached;
   const local = localAddressHits(q);
-  const seen = new Set(local.map((hit) => compact(hit.name)));
+  const seen = new Set(local.flatMap(addressHitDedupKeys));
 
   try {
     const res = await fetch(`${GOV_SEARCH}?q=${encodeURIComponent(toTraditional(q))}`, { signal });
@@ -101,19 +151,22 @@ export async function searchAddresses(query: string, signal?: AbortSignal): Prom
     const compactQ = compact(q);
     const gov: AddressHit[] = [];
     for (const row of rows) {
-      const hit = fromGov(row);
+      const hit = addressHitFromGov(row);
       if (!hit) continue;
-      if (!allowGovHitForQuery(q, hit.name, hit.address)) continue;
+      const matchName = [hit.name, hit.nameEN].filter(Boolean).join(" ");
+      const matchAddress = [hit.address, hit.addressEN].filter(Boolean).join(" ");
+      if (!allowGovHitForQuery(q, matchName, matchAddress)) continue;
       if (isImpracticalPlace(hit.name, hit.address)) continue;
-      const nameKey = compact(hit.name);
-      if (seen.has(nameKey) || seen.has(hit.key)) continue;
-      seen.add(nameKey);
+      if (hit.nameEN && isImpracticalPlace(hit.nameEN, hit.addressEN ?? "")) continue;
+      const keys = addressHitDedupKeys(hit);
+      if (keys.some((key) => seen.has(key)) || seen.has(hit.key)) continue;
+      for (const key of keys) seen.add(key);
       seen.add(hit.key);
       gov.push(hit);
     }
     gov.sort((a, b) => {
-      const as = compact(a.name).startsWith(compactQ) ? 1 : 0;
-      const bs = compact(b.name).startsWith(compactQ) ? 1 : 0;
+      const as = startsWithQuery(a, compactQ) ? 1 : 0;
+      const bs = startsWithQuery(b, compactQ) ? 1 : 0;
       return bs - as;
     });
     const cap = Math.max(12, local.length + GOV_EXTRA);
@@ -126,21 +179,15 @@ export async function searchAddresses(query: string, signal?: AbortSignal): Prom
   }
 }
 
-export function addressHitLabel(hit: AddressHit) {
-  const type =
-    hit.housing === "public"
-      ? "公屋"
-      : hit.housing === "hos"
-        ? "居屋"
-        : hit.housing === "village"
-          ? "村屋"
-          : hit.housing === "private"
-            ? "私人樓"
-            : "";
-  const bits = [hit.district, hit.address, type].filter(Boolean);
+export function addressHitLabel(hit: AddressHit, locale: Locale = "zh") {
+  const type = hit.housing ? MESSAGES[locale][HOUSING_MESSAGE[hit.housing]] : "";
+  const bits = [addressHitDistrict(hit, locale), addressHitAddress(hit, locale), type].filter(Boolean);
   return bits.join(" · ");
 }
 
-export function addressHitValue(hit: AddressHit) {
-  return hit.address ? `${hit.name}，${hit.address}` : hit.name;
+export function addressHitValue(hit: AddressHit, locale: Locale = "zh") {
+  const name = addressHitName(hit, locale);
+  const address = addressHitAddress(hit, locale);
+  if (!address) return name;
+  return locale === "en" ? `${name}, ${address}` : `${name}，${address}`;
 }

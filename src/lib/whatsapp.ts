@@ -1,6 +1,5 @@
 import {
   CATEGORY_LABEL,
-  HOUSING_LABEL,
   PROVIDER_MAP,
   formatFee,
   isHktPlan,
@@ -10,8 +9,15 @@ import {
 } from "./plans.ts";
 import { SITE } from "./site.ts";
 import type { Inquiry } from "./desk.ts";
-import type { Locale } from "./messages.ts";
+import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
 import { toEnglishLazy } from "./plan-en-lazy.ts";
+
+const HOUSING_MESSAGE: Record<Housing, MessageKey> = {
+  public: "housingPublic",
+  hos: "housingHos",
+  private: "housingPrivate",
+  village: "housingVillage",
+};
 
 const BRAND_TAG = `【${SITE.name}】`;
 
@@ -55,8 +61,10 @@ export function planLine(plan: Plan, locale: Locale = "zh") {
 
 function housingLabel(value?: string, locale: Locale = "zh") {
   if (!value) return "";
-  const label = value in HOUSING_LABEL ? HOUSING_LABEL[value as Housing] : value;
-  return locale === "en" ? toEnglishLazy(label) : label;
+  if (value === "public" || value === "hos" || value === "private" || value === "village") {
+    return MESSAGES[locale][HOUSING_MESSAGE[value]];
+  }
+  return locale === "en" ? toEnglishLazy(value) : value;
 }
 
 export function inquiryLines(inquiry?: Partial<Inquiry> | null, locale: Locale = "zh") {
