@@ -56,6 +56,24 @@ export function canonicalRedirectLocation(
   return null;
 }
 
+/**
+ * 301 `/plans` without `cat` onto the broadband hub.
+ * Keep `q` / `estate` / other params — a vercel.json destination that already
+ * contains `?cat=` would drop them and empty Google sitelinks search.
+ */
+export function plansCatRedirectLocation(url: URL): string | null {
+  const path = url.pathname.replace(/\/+$/, "") || "/";
+  if (path !== "/plans") return null;
+  const cat = url.searchParams.get("cat");
+  if (cat === "broadband" || cat === "home5g" || cat === "mobile" || cat === "business") {
+    return null;
+  }
+  const next = new URL(url.href);
+  next.pathname = "/plans";
+  next.searchParams.set("cat", "broadband");
+  return `${next.pathname}${next.search}`;
+}
+
 export function seoOrigin(origin: string = DEFAULT_SEO_ORIGIN): string {
   const host = origin.replace(/\/+$/, "");
   if (host === "https://chaiquote.hk" || host === "http://chaiquote.hk") {

@@ -27,14 +27,16 @@ test("vercel.json 301s only the production vercel.app host to www.chaiquote.hk",
   assert.ok(hostRedirects.some((rule) => rule.has?.[0]?.value === "chaiquote.vercel.app"));
 });
 
-test("vercel.json 301s bare /plans to the broadband hub, not a 307 rewrite", () => {
+test("bare /plans 301 keeps sitelinks q via middleware, not a vercel.json query rewrite", () => {
   const vercel = JSON.parse(readFileSync(join(ROOT, "vercel.json"), "utf8"));
   const rule = (vercel.redirects ?? []).find((item) => item.source === "/plans");
-  assert.ok(rule);
-  assert.equal(rule.statusCode, 301);
-  assert.equal(rule.destination, "/plans?cat=broadband");
-  assert.equal(rule.missing?.[0]?.type, "query");
-  assert.equal(rule.missing?.[0]?.key, "cat");
+  assert.equal(rule, undefined);
+  const middleware = readFileSync(join(ROOT, "server/middleware/plans-cat.ts"), "utf8");
+  const canonical = readFileSync(join(ROOT, "src/lib/canonical.ts"), "utf8");
+  assert.match(middleware, /plansCatRedirectLocation/);
+  assert.match(middleware, /status:\s*301/);
+  assert.match(canonical, /export function plansCatRedirectLocation/);
+  assert.match(canonical, /searchParams\.set\("cat", "broadband"\)/);
 });
 
 test("root head emits a per-route canonical, not a hardcoded homepage", () => {
