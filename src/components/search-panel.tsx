@@ -87,7 +87,7 @@ export function SearchPanel() {
   const [housing, setHousing] = useState("");
   const [district, setDistrict] = useState("");
   const moreId = useId();
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   const categories: { id: "broadband" | "mobile" | "business" | "home5g"; label: MessageKey }[] = [
     { id: "broadband", label: "catBroadband" },
@@ -164,7 +164,7 @@ export function SearchPanel() {
           placeholder={t("estatePlaceholder")}
           onSelect={(hit) => {
             const nextHousing = hit.housing ?? resolvedHousing(hit.name) ?? "";
-            const nextEstate = addressHitValue(hit);
+            const nextEstate = addressHitValue(hit, locale);
             if (nextHousing) setHousing(nextHousing);
             if (hit.district) setDistrict(hit.district);
             setEstate(nextEstate);

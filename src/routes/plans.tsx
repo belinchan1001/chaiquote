@@ -93,7 +93,7 @@ function PlansPage() {
   const listRef = useRef<HTMLDivElement>(null);
   const replayKey = planListReplayKey(search);
   const prevReplayKey = useRef(replayKey);
-  const { t, providerName, categoryLabel, housingLabel, updated } = useI18n();
+  const { t, providerName, categoryLabel, housingLabel, updated, locale } = useI18n();
   usePageTitle(CATEGORY_SEO[search.cat].title);
 
   useEffect(() => {
@@ -339,12 +339,12 @@ function PlansPage() {
                   ? search.housing
                   : item.housing ?? resolvedHousing(item.name) ?? search.housing;
               setInquiry({
-                estate: addressHitValue(item),
+                estate: addressHitValue(item, locale),
                 housing: housing ?? "",
                 district: item.district,
               });
               patch({
-                estate: addressHitValue(item),
+                estate: addressHitValue(item, locale),
                 housing,
               });
             }}

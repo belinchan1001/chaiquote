@@ -55,7 +55,7 @@ function QuotePage() {
   const addQuote = useDesk((s) => s.addQuote);
   const inquiry = useDesk((s) => s.inquiry);
   const setInquiry = useDesk((s) => s.setInquiry);
-  const { t, tx, categoryLabel } = useI18n();
+  const { t, tx, categoryLabel, locale } = useI18n();
   usePageTitle(`${t("quoteTitle")} · ${SITE.name}`);
 
   const preselected = useMemo(() => {
@@ -222,7 +222,7 @@ function QuotePage() {
               value={estate}
               onChange={setEstate}
               onSelect={(item) => {
-                const nextEstate = addressHitValue(item);
+                const nextEstate = addressHitValue(item, locale);
                 const nextHousing = item.housing ?? housing;
                 setEstate(nextEstate);
                 if (item.housing) setHousing(item.housing);

@@ -73,7 +73,7 @@ function EstatesIndexPage() {
   const [newIntakeFilter, setNewIntakeFilter] = useState(false);
   const navigate = useNavigate();
   const setInquiry = useDesk((s) => s.setInquiry);
-  const { t, housingLabel, updated } = useI18n();
+  const { t, housingLabel, updated, locale } = useI18n();
   usePageTitle(TITLE);
   const url = canonicalUrl("/estates");
   const districtGroups = newIntakeFilter ? NEW_INTAKE_GROUPS : groups;
@@ -215,7 +215,7 @@ function EstatesIndexPage() {
             placeholder={t("estatePlaceholder")}
             onSelect={(hit) => {
               const nextHousing = hit.housing ?? resolvedHousing(hit.name) ?? "";
-              const nextEstate = addressHitValue(hit);
+              const nextEstate = addressHitValue(hit, locale);
               if (nextHousing) setHousing(nextHousing);
               if (hit.district) setDistrict(hit.district);
               setEstate(nextEstate);

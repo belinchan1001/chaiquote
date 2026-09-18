@@ -708,6 +708,13 @@ export function estateStreet(estate: Estate) {
   return estate.street?.trim() || "";
 }
 
+/** First catalogue alias that looks like an English name. Do not invent one. */
+export function estateEnglishName(estate: Estate): string | undefined {
+  return estate.aliases.find(
+    (alias) => /[A-Za-z]/.test(alias) && alias.replace(/[^A-Za-z]/g, "").length >= 3,
+  );
+}
+
 export function estateLabel(estate: Estate) {
   const place = estate.area ?? estate.district;
   const type =

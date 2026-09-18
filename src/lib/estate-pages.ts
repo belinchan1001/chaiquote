@@ -1,4 +1,4 @@
-import { ESTATES, parentEstate, type Estate } from "./estates.ts";
+import { ESTATES, estateEnglishName, parentEstate, type Estate } from "./estates.ts";
 import { NETVIGATOR_ONLY_ESTATES } from "./estate-new-intake.ts";
 import { filterPlans, matchesHousing, PLANS, type Housing, type Plan } from "./plans.ts";
 import { DISTRICTS } from "./site.ts";
@@ -62,7 +62,7 @@ export type EstatePage = {
 function slugFromEstate(estate: Estate): string {
   const fallback = SLUG_FALLBACK[estate.name];
   if (fallback) return fallback;
-  const english = estate.aliases.find((alias) => /[A-Za-z]/.test(alias) && alias.replace(/[^A-Za-z]/g, "").length >= 3);
+  const english = estateEnglishName(estate);
   const raw = english ?? estate.name;
   const slug = raw
     .toLowerCase()
