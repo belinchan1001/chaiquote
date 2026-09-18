@@ -14,7 +14,7 @@ import {
   searchAddresses,
 } from "./address-search.ts";
 import { estateDisplayName, estateEnglishName, estateLabel, ESTATES, placeDisplayName, placeEnglishName } from "./estates.ts";
-import { estateHousingLabel, estateIntro } from "./estate-pages.ts";
+import { estateHousingLabel, estateIntro, estatePagePath, estateSeoTitle, getEstatePage } from "./estate-pages.ts";
 import { MESSAGES } from "./messages.ts";
 import { inquiryLines } from "./whatsapp.ts";
 
@@ -170,9 +170,25 @@ describe("locale-aware address display", () => {
     assert.match(estatePage, /placeDisplayName\(estate\.district, locale\)/);
     const dir = readFileSync(join(ROOT, "src/routes/estates.tsx"), "utf8");
     assert.match(dir, /housingLabel\(/);
+    assert.match(dir, /housingLabel\(id\)/);
+    assert.match(dir, /housingLabel\(page\.estate\.housing\)/);
     assert.match(dir, /estateDisplayName\(/);
     assert.match(dir, /placeDisplayName\(/);
     assert.doesNotMatch(dir, /label: "公屋"/);
+  });
+
+  it("does not change slugs or sitemap copy this round", () => {
+    const tinYiu = getEstatePage("tin-yiu");
+    assert.ok(tinYiu);
+    assert.equal(estatePagePath(tinYiu), "/estates/tin-yiu");
+    assert.equal(getEstatePage("kingswood-villas")?.estate.name, "天水圍嘉湖山莊");
+    assert.equal(getEstatePage("taikoo-shing")?.estate.name, "太古城");
+    assert.match(estateSeoTitle(tinYiu.estate), /^天耀邨寬頻比較｜公屋｜齊Quote$/);
+    const pages = readFileSync(join(ROOT, "src/lib/estate-pages.ts"), "utf8");
+    assert.match(pages, /function slugFromEstate\(estate: Estate\)/);
+    assert.doesNotMatch(pages, /slugFromEstate\([^)]*locale/);
+    assert.match(pages, /export function estateSeoTitle\(estate: Estate\): string/);
+    assert.doesNotMatch(pages, /estateSeoTitle\([^)]*locale/);
   });
 });
 
