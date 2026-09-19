@@ -5,7 +5,9 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   allowGovHitForQuery,
+  allowSuggestHitForQuery,
   classifyAddress,
+  compact,
   ESTATES,
   estateEnglishName,
   estateLabel,
@@ -1418,3 +1420,78 @@ describe("search query tails, simplified, english", () => {
     assert.equal(estate("Palo Springs")?.coverageCheck, true);
   });
 });
+
+describe("Yoho suggest ranking (阿祺 locked case)", () => {
+  it("Yoho / yoho lists only the YOHO series, never 朗城匯 or 芊御", () => {
+    for (const query of ["Yoho", "yoho", "YOHO"]) {
+      const hits = searchEstates(query, 24);
+      const hitNames = hits.map((item) => item.name);
+      assert.ok(hitNames.includes("YOHO Town"), query);
+      assert.ok(hitNames.includes("YOHO Midtown"), query);
+      assert.ok(hitNames.includes("YOHO West"), query);
+      assert.ok(hitNames.includes("Grand YOHO"), query);
+      assert.ok(!hitNames.includes("朗城匯"), query);
+      assert.ok(!hitNames.includes("芊御"), query);
+      assert.ok(!hitNames.includes("峻巒"), query);
+      assert.ok(hits.every((item) => allowSuggestHitForQuery(query, item.name)), query);
+    }
+  });
+
+  it("still finds YOHO Hub / 朗城匯 / 朗城滙 and 芊御 on specific queries", () => {
+    assert.equal(estate("朗城匯")?.aliases.includes("YOHO Hub"), true);
+    assert.equal(estate("芊御")?.aliases.includes("The YOHO 芊御"), true);
+    assert.equal(names("YOHO Hub")[0], "朗城匯");
+    assert.equal(names("The Yoho Hub")[0], "朗城匯");
+    assert.equal(names("朗城匯")[0], "朗城匯");
+    assert.equal(names("朗城滙")[0], "朗城匯");
+    assert.equal(names("芊御")[0], "芊御");
+    assert.equal(names("The YOHO 芊御")[0], "芊御");
+    assert.equal(matchKnownEstate("YOHO Hub")?.name, "朗城匯");
+    assert.equal(matchKnownEstate("朗城匯")?.name, "朗城匯");
+    assert.equal(matchKnownEstate("朗城滙")?.name, "朗城匯");
+    assert.equal(matchKnownEstate("The YOHO 芊御")?.name, "芊御");
+    assert.equal(matchKnownEstate("Yoho")?.name, "YOHO Town");
+  });
+});
+
+describe("phase 1 search ranking and filters", () => {
+  it("prioritises 太古城 for 太古 and mixed CJK/EN / fullwidth input", () => {
+    assert.equal(names("太古")[0], "太古城");
+    assert.equal(names("太古 Shing")[0], "太古城");
+    assert.equal(names("Ｔａｉｋｏｏ Ｓｈｉｎｇ")[0], "太古城");
+    assert.equal(compact("Ｔａｉｋｏｏ"), "taikoo");
+    assert.equal(compact("朗城滙"), compact("朗城匯"));
+  });
+
+  it("expands Rd/St tails without reopening 長沙灣道 → 長沙灣邨", () => {
+    assert.equal(names("Choi Hung Rd")[0], "彩虹道邨");
+    assert.ok(!names("Choi Hung Rd").includes("彩虹邨"));
+    assert.notEqual(matchKnownEstate("長沙灣道")?.name, "長沙灣邨");
+    assert.notEqual(matchKnownEstate("Cheung Sha Wan Rd")?.name, "長沙灣邨");
+    assert.notEqual(matchKnownEstate("Cheung Sha Wan Road")?.name, "長沙灣邨");
+    assert.equal(isHkbnFlashEstate("長沙灣道"), false);
+    assert.equal(estateUnlocksPlan("長沙灣道", HKBN_FLASH_OFFER_ESTATES), false);
+    assert.equal(isHkbnFlashEstate("用呢個名稱繼續"), false);
+    assert.equal(estateUnlocksPlan("長沙灣道", HKBN_FLASH_OFFER_ESTATES), false);
+    assert.equal(matchKnownEstate("長沙灣邨")?.name, "長沙灣邨");
+    assert.equal(isHkbnFlashEstate("長沙灣邨"), true);
+  });
+
+  it("does not drop village houses or tong lau", () => {
+    for (const name of ["東頭村", "劉氏村屋", "馬灣漁民村屋1號", "永樂唐樓", "協成唐樓", "官涌唐樓"]) {
+      assert.equal(isImpracticalPlace(name), false, name);
+    }
+    assert.equal(classifyAddress("東頭村").housing, "village");
+    assert.equal(searchEstates("東頭村", 8)[0]?.name, "東頭村");
+  });
+
+  it("drops more non-residential gov-style names without touching 中心／廣場 estates", () => {
+    for (const name of ["太古站", "太古小學", "天耀社區中心", "港鐵太古站", "Henley Park停車場", "Tai Koo Station"]) {
+      assert.equal(isImpracticalPlace(name), true, name);
+    }
+    assert.equal(isImpracticalPlace("將軍澳中心"), false);
+    assert.equal(isImpracticalPlace("大埔廣場"), false);
+    assert.equal(isImpracticalPlace("廟街"), false);
+  });
+});
+

@@ -419,8 +419,10 @@ export const ESTATES: Estate[] = `${RAW}\n${EXTRA_RAW}\n${VILLAGE_RAW}`
 
 export function compact(value: string) {
   return toTraditional(value)
-    .replace(/[\s\-'’_.]/g, "")
+    .replace(/滙/g, "匯")
+    .replace(/[\s\-'’_.．]/g, "")
     .replace(/[０-９]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xff10 + 48))
+    .replace(/[Ａ-Ｚａ-ｚ]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0))
     .toLowerCase();
 }
 
@@ -497,7 +499,7 @@ function estateNeedles(estate: Estate): string[] {
  * Full 邨／苑／村／樓／閣 names may still sit in a street named after them (東頭村道).
  */
 const ROAD_HEAD =
-  /^(?:道|路|街|里|巷|坊|徑|公路|大道|大街|road|street|lane|path|drive|avenue)/;
+  /^(?:道|路|街|里|巷|坊|徑|公路|大道|大街|road|street|lane|path|drive|avenue|rd(?![a-z])|st(?![a-z])|ave(?![a-z])|dr(?![a-z])|ln(?![a-z]))/;
 const COMPLETE_PLACE_TAIL = /[邨苑村樓閣]$/;
 const NEEDLE_IS_ROAD = /(?:道|路|街|里|巷|坊|徑)$/;
 
@@ -576,10 +578,30 @@ function longestHit(candidates: string[], query: string): string | undefined {
 const BLOCK_TAIL =
   /(?:第?(?:\d+|[a-z])[座期室號棟樓層]|[a-z]\d*座|(?:phase|block|tower|estate|court|houses?|gardens?|villas?)\d*)$/;
 
+/** Rd/St/Ave tails only — never strip Road back to an area alias (長沙灣道 class). */
+const STREET_ABBREV_TAILS = [
+  ["rd", "road"],
+  ["st", "street"],
+  ["ave", "avenue"],
+  ["dr", "drive"],
+  ["ln", "lane"],
+] as const;
+
+function expandStreetAbbrevs(q: string): string[] {
+  if (!q) return [];
+  const extra: string[] = [];
+  for (const [short, full] of STREET_ABBREV_TAILS) {
+    if (q.length > short.length + 2 && q.endsWith(short) && !q.endsWith(full)) {
+      extra.push(`${q.slice(0, -short.length)}${full}`);
+    }
+  }
+  return extra;
+}
+
 function searchKeys(query: string): string[] {
   const q = compact(query);
   if (!q) return [];
-  const keys = [q];
+  const keys = [q, ...expandStreetAbbrevs(q)];
   let stripped = q.replace(/[，,、.。/\\]/g, "");
   if (stripped.length >= 2 && stripped !== q) keys.push(stripped);
   let prev = "";
@@ -602,9 +624,65 @@ function canContainAlias(alias: string) {
   return alias.length >= 4 || (alias.length >= 3 && /[邨苑村樓閣園莊城灣庭居]$/.test(alias));
 }
 
+/** YOHO Town / Midtown / West / Grand YOHO — not Hub / Mall / 芊御 marketing tags. */
+function isYohoSeriesName(nameCompact: string): boolean {
+  if (nameCompact === "grandyoho" || nameCompact.startsWith("grandyoho")) return true;
+  if (!nameCompact.startsWith("yoho")) return false;
+  const rest = nameCompact.slice(4);
+  return rest === "" || /^(town|midtown|west|parkside)/.test(rest);
+}
+
+/**
+ * Bare `yoho` must not match Hub-only / The YOHO 芊御 aliases.
+ * Full 「YOHO Hub」 / 「朗城匯」 queries still score via exact alias / name.
+ */
+export function allowSuggestHitForQuery(query: string, name: string, nameEN = ""): boolean {
+  const q = compact(query);
+  if (q !== "yoho") return true;
+  return isYohoSeriesName(compact(name)) || isYohoSeriesName(compact(nameEN));
+}
+
+/** Short English stems must not mid-string match (yoho ⊂ theyoho芊御). */
+function allowLooseAliasInclude(alias: string, q: string): boolean {
+  if (!/^[a-z0-9]+$/.test(q) || q.length > 4) return true;
+  return alias.startsWith(q);
+}
+
+function cjkHead(value: string): string {
+  const match = value.match(/^[\u4e00-\u9fff]{2,}/);
+  return match?.[0] ?? "";
+}
+
+const HOT_ESTATE_NAMES = new Set([
+  "太古城",
+  "天耀邨",
+  "天水圍嘉湖山莊",
+  "沙田第一城",
+  "YOHO Town",
+  "YOHO Midtown",
+  "YOHO West",
+  "Grand YOHO",
+  "黃埔花園",
+  "美孚新邨",
+]);
+
+function hotEstateBoost(estate: Estate, q: string): number {
+  if (!q || !HOT_ESTATE_NAMES.has(estate.name)) return 0;
+  const name = compact(estate.name);
+  if (name.startsWith(q) || name.includes(q)) return 120;
+  if (estate.aliases.some((alias) => {
+    const key = compact(alias);
+    return key === q || key.startsWith(q);
+  })) {
+    return 120;
+  }
+  return 0;
+}
+
 function scoreAgainstQuery(estate: Estate, q: string): number {
   if (!q) return 0;
   const name = compact(estate.name);
+  if (q === "yoho" && !isYohoSeriesName(name)) return 0;
   const aliases = estate.aliases.map(compact);
   const extras = [estate.area ?? "", estate.district].map(compact);
   const street = compact(estate.street ?? "");
@@ -621,8 +699,10 @@ function scoreAgainstQuery(estate: Estate, q: string): number {
     return !needleEmbeddedInRoad(alias, q.slice(alias.length));
   });
   if (aliasHead.length) return 780 + Math.max(...aliasHead.map((alias) => alias.length));
+  const qCjk = cjkHead(q);
+  if (qCjk.length >= 2 && name.startsWith(qCjk)) return 680 + name.length;
   if (name.includes(q)) return 400 + name.length;
-  const aliasIncl = aliases.filter((alias) => alias.includes(q));
+  const aliasIncl = aliases.filter((alias) => alias.includes(q) && allowLooseAliasInclude(alias, q));
   if (aliasIncl.length) return 300 + (longestHit(aliasIncl, q)?.length ?? 0);
   if (extras.some((extra) => extra === q)) return 150;
   if (extras.some((extra) => extra.startsWith(q) || extra.includes(q))) return 100;
@@ -663,7 +743,11 @@ function uniqueRankedEstate(query: string): Estate | undefined {
 
 export function searchEstates(query: string, limit = 8): Estate[] {
   if (isBareHousingTypeQuery(query)) return [];
-  const ranked = rankEstates(query).map((row) => row.estate);
+  const q = compact(query);
+  const ranked = rankEstates(query)
+    .map((row) => ({ estate: row.estate, score: row.score + hotEstateBoost(row.estate, q) }))
+    .sort((a, b) => b.score - a.score || a.estate.name.localeCompare(b.estate.name, "zh-Hant"))
+    .map((row) => row.estate);
   const out: Estate[] = [];
   const seen = new Set<string>();
 
@@ -840,6 +924,28 @@ const FACILITY_NOISE = [
   "巴士站",
   "電車站",
   "港鐵站",
+  "港鐵",
+  "地鐵站",
+  "火車站",
+  "進出口",
+  "社區中心",
+  "CommunityCentre",
+  "遊樂場",
+  "Playground",
+  "圖書館",
+  "體育館",
+  "游泳池",
+  "醫院",
+  "Hospital",
+  "診所",
+  "戲院",
+  "Cinema",
+  "賓館",
+  "GuestHouse",
+  "超級市場",
+  "Supermarket",
+  "停車場",
+  "CarPark",
   "智郵",
   "郵政局",
   "幼稚園",
@@ -885,6 +991,8 @@ const COMMERCIAL_POI_NOISE = [
   "工廈",
   "酒店",
   "Hotel",
+  "MTR",
+  "Station",
 ].sort((a, b) => b.length - a.length);
 
 const NOISE_TOKENS = [...FACILITY_NOISE, ...COMMERCIAL_POI_NOISE, ...AMBIGUOUS_NOISE].sort(
@@ -935,9 +1043,23 @@ export function shouldDropAsNoise(name: string, knownName?: string): boolean {
   return true;
 }
 
+/** Short 「太古站」POIs. Keep catalogue aliases that only mention a station (啟德站). */
+function isBareTransitStation(name: string, knownName?: string): boolean {
+  const title = name.replace(/\s+/g, "").trim();
+  if (!/站$/.test(title) && !/station$/i.test(title.replace(/\s+/g, ""))) return false;
+  if (knownName) {
+    const titleKey = compact(title);
+    const knownKey = compact(knownName);
+    if (titleKey === knownKey || titleKey.startsWith(knownKey)) return false;
+  }
+  const compactTitle = compact(title);
+  return compactTitle.length <= 6 || (/站$/.test(title) && title.length <= 4);
+}
+
 /** Catalogue longest-match, then {@link shouldDropAsNoise}. */
 export function isImpracticalPlace(name: string, address = ""): boolean {
   const known = matchKnownEstate(name, address);
   const knownName = known && HOUSING_VALUES.includes(known.housing) ? known.name : undefined;
-  return shouldDropAsNoise(name, knownName);
+  if (shouldDropAsNoise(name, knownName)) return true;
+  return isBareTransitStation(name, knownName);
 }
