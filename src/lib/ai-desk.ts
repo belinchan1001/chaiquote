@@ -18,14 +18,19 @@ import {
 } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
 import {
+  currentIdFromLabel,
   currentLabel,
   currentOptions,
+  expiryIdFromLabel,
   expiryLabel,
   needLabel,
   serviceTypeLabel,
   targetLabel,
+  toPortInSearch,
   type CurrentId,
+  type FibreSpeedId,
   type InquiryQuote,
+  type MobileNeedId,
 } from "./port-in.ts";
 
 export const AI_MONTHLY_BUDGET_HKD = 200;
@@ -206,10 +211,10 @@ export function detectMobileNeed(message: string) {
   return undefined;
 }
 
-export function detectCurrentProvider(message: string): CurrentId | undefined {
+export function detectCurrentProvider(message: string, loose = false): CurrentId | undefined {
   if (/新號碼/.test(message)) return "none";
   if (/新開戶|無用緊|未有寬頻|未裝寬頻/.test(message)) return "none";
-  if (!/用緊|而家用|現用|而家係|轉台|到期|約滿/.test(message)) return undefined;
+  if (!loose && !/用緊|而家用|現用|而家係|轉台|到期|約滿/.test(message)) return undefined;
   return detectProvider(message);
 }
 
@@ -243,7 +248,12 @@ export type FilterParse = {
   gaming: boolean;
 };
 
-export function parseFilterState(input: { message: string; estate?: string; housing?: string }): FilterParse {
+export function parseFilterState(input: {
+  message: string;
+  estate?: string;
+  housing?: string;
+  looseCurrent?: boolean;
+}): FilterParse {
   const message = input.message.trim().slice(0, AI_MAX_MESSAGE_CHARS);
   const villageIntent = isVillageHousingIntent(message);
   const estateRow = resolveEstate(message, villageIntent ? undefined : input.estate);
@@ -254,7 +264,7 @@ export function parseFilterState(input: { message: string; estate?: string; hous
       ? (input.housing as Housing)
       : estateRow?.housing ?? guessed.housing;
   const cat = detectCategory(message);
-  const current = detectCurrentProvider(message);
+  const current = detectCurrentProvider(message, Boolean(input.looseCurrent));
   const target = detectTargetProvider(message);
   const exclude = current && current !== "none" && current !== "other" ? current : undefined;
   const esports = detectEsportsLine(message);
@@ -280,6 +290,7 @@ export function retrievePlansForAsk(input: {
   estate?: string;
   housing?: string;
   exclude?: ProviderId;
+  looseCurrent?: boolean;
 }): AiRetrieveResult {
   const parsed = parseFilterState(input);
   const exclude = parsed.exclude ?? input.exclude;
@@ -340,6 +351,86 @@ export function inquiryFromAiParse(
     esports: parsed.esports,
     source: "ai",
   };
+}
+
+export function mergeFilterParse(
+  parsed: FilterParse,
+  previous?: {
+    estate?: string;
+    housing?: string;
+    currentProvider?: string;
+    expiry?: string;
+  },
+  prior?: FilterParse,
+): FilterParse {
+  const current = parsed.current || currentIdFromLabel(previous?.currentProvider ?? "") || prior?.current;
+  const expiry = parsed.expiry || expiryIdFromLabel(previous?.expiry ?? "") || prior?.expiry;
+  const estate = parsed.estate || previous?.estate || prior?.estate;
+  const housing =
+    parsed.housing ||
+    prior?.housing ||
+    ((["public", "hos", "private", "village"] as Housing[]).includes(previous?.housing as Housing)
+      ? (previous?.housing as Housing)
+      : undefined);
+  const exclude = current && current !== "none" && current !== "other" ? current : undefined;
+  return {
+    ...parsed,
+    cat: prior?.cat && parsed.cat === "broadband" && !parsed.speed && !parsed.esports && !parsed.estate
+      ? prior.cat
+      : parsed.cat,
+    current,
+    expiry,
+    estate,
+    housing,
+    exclude,
+    target: parsed.target ?? prior?.target,
+    speed: parsed.speed ?? prior?.speed,
+    mobileNeed: parsed.mobileNeed ?? prior?.mobileNeed,
+    esports: parsed.esports || Boolean(prior?.esports),
+    gaming: parsed.gaming || Boolean(prior?.gaming),
+  };
+}
+
+export function intakeGap(parsed: FilterParse): "current" | "expiry" | null {
+  if (!parsed.current) return "current";
+  if (!parsed.expiry) return "expiry";
+  return null;
+}
+
+export function shouldHoldForIntake(message: string, parsed: FilterParse) {
+  if (matchKnowledge(message) && isQuestionIntent(message) && !parsed.current) return false;
+  if (!isFilterIntent(message) && !parsed.estate && !parsed.current && !parsed.speed && !parsed.expiry) {
+    return false;
+  }
+  return Boolean(intakeGap(parsed));
+}
+
+export function portInInputFromParse(
+  parsed: FilterParse,
+  previous?: { estate?: string; housing?: string },
+) {
+  const fibreSpeed: FibreSpeedId | "" = parsed.cat === "broadband" ? needIdFromParse(parsed) as FibreSpeedId : "";
+  const businessSpeed = parsed.cat === "business" ? needIdFromParse(parsed) : "";
+  const mobileNeed = (parsed.mobileNeed ?? "") as MobileNeedId | "";
+  return {
+    cat: parsed.cat,
+    estate: parsed.estate || previous?.estate,
+    housing: parsed.housing,
+    current: parsed.current ?? "",
+    target: (parsed.target ?? "all") as const,
+    fibreSpeed,
+    businessSpeed: businessSpeed as "any" | "1000" | "dedicated" | "",
+    mobileNeed,
+    esports: parsed.esports,
+    expiry: parsed.expiry ?? "",
+  };
+}
+
+export function plansSearchFromAiParse(
+  parsed: FilterParse,
+  previous?: { estate?: string; housing?: string },
+) {
+  return toPortInSearch(portInInputFromParse(parsed, previous));
 }
 
 export function plansForAiCards(ids: string[]) {

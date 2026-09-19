@@ -151,6 +151,12 @@ export function expiryLabel(id: ExpiryId | "") {
   return EXPIRY_OPTIONS.find((item) => item.id === id)?.label ?? "";
 }
 
+export function expiryIdFromLabel(label: string): ExpiryId | "" {
+  const trimmed = label.trim();
+  if (!trimmed) return "";
+  return EXPIRY_OPTIONS.find((item) => item.label === trimmed)?.id ?? "";
+}
+
 export function needLabel(cat: Category, id: string, esports = false) {
   if (esports) return "電競神線 2.5G+";
   if (cat === "mobile") return MOBILE_NEEDS.find((item) => item.id === id)?.label ?? "";

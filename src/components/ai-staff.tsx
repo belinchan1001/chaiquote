@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { LogoMarkLooking } from "@/components/logo-mark-looking";
 import { ProviderMark } from "@/components/provider-mark";
@@ -7,15 +7,35 @@ import { AiBetaMark } from "@/components/ai-beta-mark";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { askAiDesk } from "@/lib/ai-ask";
-import { fallbackReply, inquiryFromAiParse, plansForAiCards, QUESTION_CHIPS, retrievePlansForAsk } from "@/lib/ai-desk";
+import {
+  fallbackReply,
+  inquiryFromAiParse,
+  mergeFilterParse,
+  plansForAiCards,
+  plansSearchFromAiParse,
+  QUESTION_CHIPS,
+  retrievePlansForAsk,
+  shouldHoldForIntake,
+  type FilterParse,
+} from "@/lib/ai-desk";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
-import { formatFee } from "@/lib/plans";
-import { portInQuoteFromInquiry, type InquiryQuote } from "@/lib/port-in";
+import { formatFee, type Category } from "@/lib/plans";
+import { currentOptions, EXPIRY_OPTIONS, portInQuoteFromInquiry, type InquiryQuote } from "@/lib/port-in";
+import { compactSearch } from "@/lib/search";
+import { filterPlans } from "@/lib/plan-filter";
 import { quoteWhatsappE164, whatsappHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
-type Bubble = { id: string; from: "biz" | "me"; text: string; planIds?: string[]; quote?: InquiryQuote };
+type Bubble = {
+  id: string;
+  from: "biz" | "me";
+  text: string;
+  planIds?: string[];
+  quote?: InquiryQuote;
+  ask?: "current" | "expiry";
+  askCat?: Category;
+};
 
 const SESSION_KEY = "chaiquote-ai-session";
 const AI_CLOSE_MS = 180;
@@ -68,9 +88,11 @@ function sessionId() {
 
 export function AiStaffPanel() {
   const panelId = useId();
+  const navigate = useNavigate();
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
+  const sessionParse = useRef<FilterParse | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
   useHydrateDesk();
   const open = useDesk((s) => s.aiOpen);
@@ -108,13 +130,52 @@ export function AiStaffPanel() {
     setBubbles((prev) => [...prev, { id: mineId, from: "me", text: trimmed }]);
     setDraft("");
     setBusy(true);
+    const waitingCurrent = inquiry.source === "ai" && !inquiry.currentProvider;
     const local = retrievePlansForAsk({
       message: trimmed,
       estate: inquiry.estate,
       housing: inquiry.housing,
+      looseCurrent: waitingCurrent,
     });
-    const quote = local.parsed ? inquiryFromAiParse(local.parsed, inquiry) : { ...inquiry, source: "ai" as const };
+    const merged = local.parsed
+      ? mergeFilterParse(local.parsed, inquiry, sessionParse.current ?? undefined)
+      : local.parsed;
+    if (merged) sessionParse.current = merged;
+    const quote = merged ? inquiryFromAiParse(merged, inquiry) : { ...inquiry, source: "ai" as const };
     setInquiry(quote);
+    if (merged && shouldHoldForIntake(trimmed, merged)) {
+      const ask = !merged.current ? "current" : "expiry";
+      setBubbles((prev) => [
+        ...prev,
+        {
+          id: `${mineId}-ai`,
+          from: "biz",
+          text: t(ask === "current" ? "aiAskCurrent" : "aiAskExpiry"),
+          quote,
+          ask,
+          askCat: merged.cat,
+        },
+      ]);
+      setBusy(false);
+      return;
+    }
+    if (merged && !shouldHoldForIntake(trimmed, merged)) {
+      const search = compactSearch(plansSearchFromAiParse(merged, inquiry));
+      const localIds = filterPlans(search)
+        .slice(0, 3)
+        .map((plan) => plan.id);
+      if (localIds.length) {
+        const localReply = fallbackReply(true, locale);
+        setBubbles((prev) => [
+          ...prev,
+          { id: `${mineId}-ai`, from: "biz", text: localReply, planIds: localIds, quote },
+        ]);
+        setBusy(false);
+        closeAi();
+        void navigate({ to: "/plans", search });
+        return;
+      }
+    }
     const localIds = local.plans.slice(0, 3).map((plan) => plan.id);
     const localReply = fallbackReply(localIds.length > 0, locale);
     try {
@@ -215,6 +276,23 @@ export function AiStaffPanel() {
                 >
                   {bubble.text}
                 </p>
+                {bubble.ask ? (
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {(bubble.ask === "current" && bubble.askCat
+                      ? currentOptions(bubble.askCat)
+                      : EXPIRY_OPTIONS
+                    ).map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        className="h-11 rounded-full bg-card px-3 text-sm font-medium shadow-[var(--shadow-border)]"
+                        onClick={() => void sendToAi(item.label)}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
                 {bubble.planIds?.length ? (
                   <div className="mt-2 space-y-2">
                     {plansForAiCards(bubble.planIds).map((plan) => (

@@ -1,6 +1,14 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { inquiryFromAiParse, parseFilterState, retrievePlansForAsk } from "./ai-desk.ts";
+import {
+  inquiryFromAiParse,
+  mergeFilterParse,
+  parseFilterState,
+  plansSearchFromAiParse,
+  retrievePlansForAsk,
+  shouldHoldForIntake,
+} from "./ai-desk.ts";
+import { compactSearch } from "./search.ts";
 import { portInQuoteFromInquiry } from "./port-in.ts";
 
 describe("AI filter parse", () => {
@@ -61,5 +69,40 @@ describe("AI filter parse", () => {
     const text = portInQuoteFromInquiry(inquiry, { name: "5G 無限", monthlyFee: 98 });
     assert.match(text, /現時電訊商：新號碼 \(新號碼\)/);
     assert.match(text, /篩選方式：AI 智能推薦/);
+  });
+
+  it("holds plan cards until current carrier and expiry are known, then writes the same /plans search", () => {
+    const first = parseFilterState({ message: "太古城 1000M 光纖" });
+    assert.equal(first.estate, "太古城");
+    assert.equal(first.current, undefined);
+    assert.equal(shouldHoldForIntake("太古城 1000M 光纖", first), true);
+    const afterCurrent = mergeFilterParse(
+      parseFilterState({ message: "香港寬頻", looseCurrent: true }),
+      inquiryFromAiParse(first),
+      first,
+    );
+    assert.equal(afterCurrent.current, "hkbn");
+    assert.equal(afterCurrent.estate, "太古城");
+    assert.equal(afterCurrent.speed, 1000);
+    assert.equal(shouldHoldForIntake("香港寬頻", afterCurrent), true);
+    const complete = mergeFilterParse(
+      parseFilterState({ message: "下個月到期" }),
+      inquiryFromAiParse(afterCurrent),
+      afterCurrent,
+    );
+    assert.equal(complete.current, "hkbn");
+    assert.equal(complete.expiry, "1m");
+    assert.equal(shouldHoldForIntake("下個月到期", complete), false);
+    const search = compactSearch(plansSearchFromAiParse(complete));
+    assert.equal(search.cat, "broadband");
+    assert.equal(search.estate, "太古城");
+    assert.equal(search.exclude, "hkbn");
+    assert.equal(search.expiry, "1m");
+    assert.equal(search.minSpeed, 1000);
+  });
+
+  it("does not block FAQ chips that are not a port-in filter", () => {
+    const parsed = parseFilterState({ message: "村屋有冇光纖？" });
+    assert.equal(shouldHoldForIntake("村屋有冇光纖？", parsed), false);
   });
 });
