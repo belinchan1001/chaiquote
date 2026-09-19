@@ -12,6 +12,7 @@ import {
   assertCatalogueWriteAllowed,
   checkMessagesFile,
   checkMessagesSource,
+  messagesCataloguePlugin,
   parseCheckMessagesArgs,
   parseLocaleTables,
 } from "./check-messages.mjs";
@@ -65,6 +66,19 @@ test("the restored #102 catalogue on disk passes the floor", () => {
     assert.ok(parsed.locales.zh.keys.includes(key), `zh missing ${key}`);
     assert.ok(parsed.locales.en.keys.includes(key), `en missing ${key}`);
   }
+});
+
+test("喪簡 gate: missing en table OR a massive key drop fails the check", () => {
+  const missingEn = checkMessagesSource(WIPED_CATALOGUE);
+  assert.equal(missingEn.ok, false);
+  assert.ok(missingEn.errors.some((error) => /locale table "en" is missing/.test(error)));
+  assert.ok(missingEn.errors.some((error) => /locale table "zh" has 4 keys/.test(error)));
+  assert.equal(missingEn.counts.zh, 4);
+  assert.equal(missingEn.counts.en, 0);
+
+  const crashedCount = checkMessagesSource(tinyCatalogue({ includeEn: true, enKeys: 3 }));
+  assert.equal(crashedCount.ok, false);
+  assert.ok(crashedCount.errors.some((error) => /locale table "en" has 3 keys/.test(error)));
 });
 
 test("intentionally emptying en fails the check (local dry-run of the 2026-09-19 wipe)", () => {
@@ -123,13 +137,25 @@ test("CLI exits 0 against the repo catalogue", () => {
   assert.match(run.stdout, /ok/);
 });
 
-test("npm test, npm build, and Vercel build all run the catalogue floor", () => {
+test("Vite production build hook refuses a missing en table so a wipe cannot ship", () => {
+  const dir = mkdtempSync(join(tmpdir(), "check-messages-vite-"));
+  const candidate = join(dir, "messages.ts");
+  writeFileSync(candidate, WIPED_CATALOGUE);
+  const plugin = messagesCataloguePlugin(candidate);
+  assert.equal(plugin.apply, "build");
+  assert.throws(() => plugin.buildStart(), /locale table "en" is missing/);
+  assert.doesNotThrow(() => messagesCataloguePlugin(DEFAULT_MESSAGES_PATH).buildStart());
+});
+
+test("npm test, npm build, Vite, and Vercel all run the catalogue floor", () => {
   const pkg = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8"));
   const vercel = JSON.parse(readFileSync(join(ROOT, "vercel.json"), "utf8"));
+  const vite = readFileSync(join(ROOT, "vite.config.ts"), "utf8");
   assert.equal(pkg.scripts["check:messages"], "node scripts/check-messages.mjs");
   assert.match(pkg.scripts.test, /check-messages\.mjs/);
   assert.match(pkg.scripts.build, /check-messages\.mjs/);
   assert.match(vercel.buildCommand, /check-messages\.mjs/);
+  assert.match(vite, /messagesCataloguePlugin\(\)/);
   const workflow = readFileSync(join(ROOT, ".github/workflows/messages-catalogue.yml"), "utf8");
   assert.match(workflow, /node scripts\/check-messages\.mjs/);
 });

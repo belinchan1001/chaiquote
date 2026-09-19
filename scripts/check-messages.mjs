@@ -324,6 +324,25 @@ export function checkMessagesFile(filePath = DEFAULT_MESSAGES_PATH) {
   return checkMessagesSource(source);
 }
 
+/**
+ * Vite production-build hook. Vercel runs `vite build`; if Daily copy reverts
+ * the vercel.json prefix, this still refuses a missing `en` table or a wipe.
+ */
+export function messagesCataloguePlugin(filePath = DEFAULT_MESSAGES_PATH) {
+  return {
+    name: "chaiquote:messages-catalogue",
+    apply: "build",
+    buildStart() {
+      const result = checkMessagesFile(filePath);
+      if (!result.ok) {
+        throw new Error(
+          `[check-messages] catalogue below floor — refusing production build:\n${result.errors.join("\n")}`,
+        );
+      }
+    },
+  };
+}
+
 function formatReport(result, filePath) {
   const lines = [
     `[check-messages] ${filePath}`,
