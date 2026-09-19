@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { askAiDesk } from "@/lib/ai-ask";
 import {
+  detectCategoryHint,
   fallbackReply,
   inquiryFromAiParse,
   mergeFilterParse,
@@ -20,11 +21,14 @@ import {
 } from "@/lib/ai-desk";
 import { useDesk, useHydrateDesk, type Inquiry } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
-import { formatFee, type Category } from "@/lib/plans";
+import { formatFee, type Category, type Housing } from "@/lib/plans";
 import {
   currentOptions,
   EXPIRY_OPTIONS,
+  expiryIdFromLabel,
   portInQuoteFromInquiry,
+  serviceTypeLabel,
+  type CurrentId,
   type InquiryQuote,
 } from "@/lib/port-in";
 import type { MessageKey } from "@/lib/messages";
@@ -39,8 +43,6 @@ type Bubble = {
   text: string;
   planIds?: string[];
   quote?: InquiryQuote;
-  ask?: "current" | "expiry";
-  askCat?: Category;
 };
 
 const SESSION_KEY = "chaiquote-ai-session";
@@ -92,46 +94,153 @@ function sessionId() {
   }
 }
 
-const SLOT_KEYS = [
-  { id: "serviceType", label: "aiSlotService" },
-  { id: "estate", label: "aiSlotEstate" },
-  { id: "currentProvider", label: "aiSlotCurrent" },
-  { id: "expiry", label: "aiSlotExpiry" },
+const GUIDE_STEPS = [
+  { id: "serviceType", n: 1, label: "aiSlotService" },
+  { id: "currentProvider", n: 2, label: "aiSlotCurrent" },
+  { id: "expiry", n: 3, label: "aiSlotExpiry" },
 ] as const;
+
+type GuideStep = "service" | "current" | "expiry" | "estate";
+
+const SERVICE_CHIPS: { cat: Category; key: MessageKey }[] = [
+  { cat: "broadband", key: "catBroadband" },
+  { cat: "mobile", key: "catMobile" },
+  { cat: "home5g", key: "catHome5g" },
+  { cat: "business", key: "catBusiness" },
+];
+
+function categoryFromInquiry(inquiry: Inquiry): Category {
+  const label = inquiry.serviceType;
+  if (label.includes("手機") || /mobile/i.test(label)) return "mobile";
+  if (label.includes("商業") || /business/i.test(label)) return "business";
+  if (label.includes("5G") || /home/i.test(label)) return "home5g";
+  return "broadband";
+}
+
+function nextGuideStep(inquiry: Inquiry): GuideStep | null {
+  if (!inquiry.serviceType.trim()) return "service";
+  if (!inquiry.currentProvider.trim()) return "current";
+  if (!inquiry.expiry.trim()) return "expiry";
+  if (categoryFromInquiry(inquiry) === "broadband" && !inquiry.estate.trim()) return "estate";
+  return null;
+}
+
+function askKey(step: GuideStep): MessageKey {
+  if (step === "current") return "aiAskCurrent";
+  if (step === "expiry") return "aiAskExpiry";
+  if (step === "estate") return "aiAskEstate";
+  return "aiAskService";
+}
+
+function draftKey(step: GuideStep | null): MessageKey {
+  if (step === "current") return "aiDraftCurrent";
+  if (step === "expiry") return "aiDraftExpiry";
+  if (step === "estate") return "aiDraftEstate";
+  if (step === "service") return "aiDraftService";
+  return "aiDraft";
+}
+
+function blankGuide(from?: Inquiry): Inquiry {
+  return {
+    estate: from?.estate ?? "",
+    housing: from?.housing ?? "",
+    district: from?.district ?? "",
+    block: from?.block ?? "",
+    currentProvider: "",
+    targetProvider: "",
+    expiry: "",
+    need: "",
+    serviceType: "",
+    esports: false,
+    source: "ai",
+  };
+}
+
+function clearGuideField(guide: Inquiry, id: (typeof GUIDE_STEPS)[number]["id"]): Inquiry {
+  if (id === "serviceType") {
+    return { ...guide, serviceType: "", currentProvider: "", need: "", esports: false };
+  }
+  if (id === "currentProvider") return { ...guide, currentProvider: "" };
+  return { ...guide, expiry: "" };
+}
+
+function housingFromInquiry(inquiry: Inquiry): Housing | undefined {
+  return (["public", "hos", "private", "village"] as Housing[]).includes(inquiry.housing as Housing)
+    ? (inquiry.housing as Housing)
+    : undefined;
+}
+
+function parseFromGuide(guide: Inquiry): FilterParse {
+  const cat = categoryFromInquiry(guide);
+  const current = currentOptions(cat).find((item) => item.label === guide.currentProvider)?.id as CurrentId | undefined;
+  const expiry = expiryIdFromLabel(guide.expiry) || undefined;
+  return {
+    cat,
+    current,
+    exclude: current && current !== "none" && current !== "other" ? current : undefined,
+    expiry,
+    estate: guide.estate || undefined,
+    housing: housingFromInquiry(guide),
+    esports: guide.esports,
+    gaming: guide.esports,
+  };
+}
 
 function IntakeProgress({
   inquiry,
   t,
+  onClear,
 }: {
   inquiry: Inquiry;
   t: (key: MessageKey, vars?: Record<string, string | number>) => string;
+  onClear: (id: (typeof GUIDE_STEPS)[number]["id"]) => void;
 }) {
-  const slots = SLOT_KEYS.map((slot) => ({
-    id: slot.id,
-    label: t(slot.label),
-    value: inquiry[slot.id].trim(),
-  }));
-  const missing = slots.filter((slot) => !slot.value).map((slot) => slot.label);
+  const step = nextGuideStep(inquiry);
+  const missing = GUIDE_STEPS.filter((item) => !inquiry[item.id].trim()).map((item) => t(item.label));
+  const currentN = step === "current" ? 2 : step === "expiry" || step === "estate" ? 3 : step === "service" ? 1 : 4;
   return (
     <div className="border-t border-primary-foreground/15 px-4 pb-3">
-      <ul className="flex flex-wrap gap-1.5">
-        {slots.map((slot) => (
-          <li
-            key={slot.id}
-            className={cn(
-              "max-w-[9.5rem] truncate rounded-full px-2 py-0.5 text-[11px] leading-5",
-              slot.value
-                ? "bg-primary-foreground/15 text-primary-foreground"
-                : "bg-primary-foreground/5 text-primary-foreground/55",
-            )}
-          >
-            {slot.value || slot.label}
-          </li>
-        ))}
-      </ul>
-      <p className="mt-1.5 text-[11px] leading-snug text-primary-foreground/70">
+      <p className="mb-2 text-xs font-medium leading-snug text-primary-foreground">{t("aiAutoFilter")}</p>
+      <p className="mb-2 text-[11px] text-primary-foreground/70">
         {missing.length ? t("aiStillNeed", { items: missing.join("、") }) : t("aiReady")}
+        {step ? ` · ${t("aiNowStep", { n: Math.min(currentN, 3) })}` : ""}
       </p>
+      <ol className="grid grid-cols-3 gap-1.5">
+        {GUIDE_STEPS.map((item) => {
+          const value = inquiry[item.id].trim();
+          const active =
+            (item.id === "serviceType" && step === "service") ||
+            (item.id === "currentProvider" && step === "current") ||
+            (item.id === "expiry" && (step === "expiry" || step === "estate"));
+          return (
+            <li key={item.id}>
+              <button
+                type="button"
+                disabled={!value}
+                aria-label={value ? t("aiClearStep", { label: t(item.label) }) : undefined}
+                onClick={() => onClear(item.id)}
+                className={cn(
+                  "w-full rounded-lg px-2 py-1.5 text-center",
+                  value
+                    ? "bg-primary-foreground/15 text-primary-foreground"
+                    : active
+                      ? "bg-accent text-accent-foreground"
+                      : "bg-primary-foreground/5 text-primary-foreground/55",
+                )}
+              >
+                <p className="text-[10px] leading-none opacity-80">
+                  {item.n}. {t(item.label)}
+                </p>
+                <p className="mt-1 flex items-center justify-center gap-0.5 truncate text-[11px] font-medium leading-tight">
+                  <span className="min-w-0 truncate">{value || "—"}</span>
+                  {value ? <span aria-hidden="true">×</span> : null}
+                </p>
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+      <p className="mt-1.5 text-[11px] leading-snug text-primary-foreground/70">{t("aiTapToClear")}</p>
     </div>
   );
 }
@@ -142,23 +251,26 @@ export function AiStaffPanel() {
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
+  const [guide, setGuide] = useState<Inquiry>(() => blankGuide());
   const sessionParse = useRef<FilterParse | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
   useHydrateDesk();
   const open = useDesk((s) => s.aiOpen);
   const closeAi = useDesk((s) => s.closeAi);
-  const { mounted, shown } = useAiPresence(open);
   const inquiry = useDesk((s) => s.inquiry);
   const setInquiry = useDesk((s) => s.setInquiry);
+  const { mounted, shown } = useAiPresence(open);
   const { t, locale, tx } = useI18n();
-  const asking = [...bubbles].reverse().find((bubble) => bubble.from === "biz")?.ask;
 
   useEffect(() => {
+    if (!open) return;
+    sessionParse.current = null;
+    setGuide(blankGuide(inquiry));
     setBubbles([
       { id: "a1", from: "biz", text: aiWelcomeCopy(t) },
       { id: "a2", from: "biz", text: t("aiHint") },
     ]);
-  }, [locale, t]);
+  }, [open, locale, t]);
 
   useEffect(() => {
     if (!open) return;
@@ -174,58 +286,86 @@ export function AiStaffPanel() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, closeAi]);
 
-  async function sendToAi(text: string) {
+  function goToPlans(next: Inquiry, parsed: FilterParse) {
+    sessionParse.current = parsed;
+    setInquiry(next);
+    const search = compactSearch(plansSearchFromAiParse(parsed, next));
+    const localIds = filterPlans(search)
+      .slice(0, 3)
+      .map((plan) => plan.id);
+    closeAi();
+    void navigate({ to: "/plans", search });
+    return localIds;
+  }
+
+  async function sendToAi(text: string, opts?: { silent?: boolean; snap?: Inquiry }) {
     const trimmed = text.trim();
     if (!trimmed || busy) return;
+    const snap = opts?.snap ?? guide;
     const mineId = `${Date.now()}`;
-    setBubbles((prev) => [...prev, { id: mineId, from: "me", text: trimmed }]);
+    if (!opts?.silent) {
+      setBubbles((prev) => [...prev, { id: mineId, from: "me", text: trimmed }]);
+    }
     setDraft("");
     setBusy(true);
-    const waitingCurrent = inquiry.source === "ai" && !inquiry.currentProvider;
+    const waitingCurrent = snap.source === "ai" && !snap.currentProvider;
     const local = retrievePlansForAsk({
       message: trimmed,
-      estate: inquiry.estate,
-      housing: inquiry.housing,
+      estate: snap.estate,
+      housing: snap.housing,
       looseCurrent: waitingCurrent,
     });
     const merged = local.parsed
-      ? mergeFilterParse(local.parsed, inquiry, sessionParse.current ?? undefined)
+      ? mergeFilterParse(local.parsed, snap, sessionParse.current ?? undefined)
       : local.parsed;
+    if (merged && !detectCategoryHint(trimmed) && !snap.serviceType) {
+      merged.cat = sessionParse.current?.cat ?? merged.cat;
+    }
+    if (merged && !snap.serviceType && !detectCategoryHint(trimmed) && merged.cat === "broadband" && !sessionParse.current?.cat) {
+      merged.cat = "broadband";
+    }
     if (merged) sessionParse.current = merged;
-    const quote = merged ? inquiryFromAiParse(merged, inquiry) : { ...inquiry, source: "ai" as const };
-    setInquiry(quote);
-    if (merged && shouldHoldForIntake(trimmed, merged)) {
-      const ask = !merged.current ? "current" : "expiry";
+    let quote: Inquiry = merged
+      ? {
+          ...snap,
+          ...inquiryFromAiParse(merged, snap),
+          block: snap.block,
+          source: "ai",
+        }
+      : { ...snap, source: "ai" };
+    if (!snap.serviceType && !detectCategoryHint(trimmed)) {
+      quote = { ...quote, serviceType: "" };
+    }
+    if (nextGuideStep(snap) === "estate" && !quote.estate.trim()) {
+      quote = { ...quote, estate: trimmed };
+    }
+    setGuide(quote);
+    const still = nextGuideStep(quote);
+    const isQuestion =
+      /[？?]/.test(trimmed) || QUESTION_CHIPS.some((item) => item.zh === trimmed || item.en === trimmed);
+    if (still && !opts?.silent && !isQuestion) {
+      setBubbles((prev) => [...prev, { id: `${mineId}-ai`, from: "biz", text: t(askKey(still)) }]);
+      setBusy(false);
+      return;
+    }
+    if (merged && !shouldHoldForIntake(trimmed, merged) && !still) {
+      const localIds = goToPlans(quote, merged);
+      const localReply = fallbackReply(localIds.length > 0, locale);
       setBubbles((prev) => [
         ...prev,
-        {
-          id: `${mineId}-ai`,
-          from: "biz",
-          text: t(ask === "current" ? "aiAskCurrent" : "aiAskExpiry"),
-          quote,
-          ask,
-          askCat: merged.cat,
-        },
+        { id: `${mineId}-ai`, from: "biz", text: localReply, planIds: localIds, quote },
       ]);
       setBusy(false);
       return;
     }
-    if (merged && !shouldHoldForIntake(trimmed, merged)) {
-      const search = compactSearch(plansSearchFromAiParse(merged, inquiry));
-      const localIds = filterPlans(search)
-        .slice(0, 3)
-        .map((plan) => plan.id);
-      if (localIds.length) {
-        const localReply = fallbackReply(true, locale);
-        setBubbles((prev) => [
-          ...prev,
-          { id: `${mineId}-ai`, from: "biz", text: localReply, planIds: localIds, quote },
-        ]);
-        setBusy(false);
-        closeAi();
-        void navigate({ to: "/plans", search });
-        return;
-      }
+    if (merged && shouldHoldForIntake(trimmed, merged) && !isQuestion) {
+      const ask = !merged.current ? "current" : "expiry";
+      setBubbles((prev) => [
+        ...prev,
+        { id: `${mineId}-ai`, from: "biz", text: t(ask === "current" ? "aiAskCurrent" : "aiAskExpiry"), quote },
+      ]);
+      setBusy(false);
+      return;
     }
     const localIds = local.plans.slice(0, 3).map((plan) => plan.id);
     const localReply = fallbackReply(localIds.length > 0, locale);
@@ -233,8 +373,8 @@ export function AiStaffPanel() {
       const result = await askAiDesk({
         data: {
           message: trimmed,
-          estate: inquiry.estate,
-          housing: inquiry.housing,
+          estate: snap.estate,
+          housing: snap.housing,
           locale,
           sessionId: sessionId(),
         },
@@ -264,6 +404,43 @@ export function AiStaffPanel() {
       setBusy(false);
     }
   }
+
+  function pickGuide(spoken: string, patch: Partial<Inquiry>) {
+    if (busy) return;
+    const next: Inquiry = { ...guide, ...patch, source: "ai" };
+    setGuide(next);
+    sessionParse.current = parseFromGuide(next);
+    setBubbles((prev) => [...prev, { id: `${Date.now()}`, from: "me", text: spoken }]);
+    const step = nextGuideStep(next);
+    if (step) {
+      setBubbles((prev) => [...prev, { id: `${Date.now()}-ai`, from: "biz", text: t(askKey(step)) }]);
+      return;
+    }
+    const parsed = parseFromGuide(next);
+    const localIds = goToPlans(next, parsed);
+    setBubbles((prev) => [
+      ...prev,
+      {
+        id: `${Date.now()}-ai`,
+        from: "biz",
+        text: fallbackReply(localIds.length > 0, locale),
+        planIds: localIds,
+        quote: next,
+      },
+    ]);
+  }
+
+  function clearStep(id: (typeof GUIDE_STEPS)[number]["id"]) {
+    if (busy) return;
+    setGuide((prev) => {
+      const next = clearGuideField(prev, id);
+      sessionParse.current = next.serviceType ? parseFromGuide(next) : null;
+      return next;
+    });
+  }
+
+  const guideStep = nextGuideStep(guide);
+  const guideCat = categoryFromInquiry(guide);
 
   if (!mounted) return null;
 
@@ -314,7 +491,7 @@ export function AiStaffPanel() {
               <X className="size-4" />
             </button>
             </div>
-            <IntakeProgress inquiry={inquiry} t={t} />
+            <IntakeProgress inquiry={guide} t={t} onClear={clearStep} />
           </div>
 
           <div className="min-h-0 flex-1 space-y-3 overflow-y-auto bg-surface px-4 py-4">
@@ -330,23 +507,6 @@ export function AiStaffPanel() {
                 >
                   {bubble.text}
                 </p>
-                {bubble.ask ? (
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {(bubble.ask === "current" && bubble.askCat
-                      ? currentOptions(bubble.askCat)
-                      : EXPIRY_OPTIONS
-                    ).map((item) => (
-                      <button
-                        key={item.id}
-                        type="button"
-                        className="h-11 rounded-full bg-card px-3 text-sm font-medium shadow-[var(--shadow-border)]"
-                        onClick={() => void sendToAi(item.label)}
-                      >
-                        {item.label}
-                      </button>
-                    ))}
-                  </div>
-                ) : null}
                 {bubble.planIds?.length ? (
                   <div className="mt-2 space-y-2">
                     {plansForAiCards(bubble.planIds).map((plan) => (
@@ -366,7 +526,7 @@ export function AiStaffPanel() {
                         </Link>
                         <a
                           href={whatsappHref(
-                            portInQuoteFromInquiry(bubble.quote ?? inquiry, plan),
+                            portInQuoteFromInquiry(bubble.quote ?? guide, plan),
                             quoteWhatsappE164([plan]),
                           )}
                           target="_blank"
@@ -385,10 +545,7 @@ export function AiStaffPanel() {
             {busy ? (
               <p className="bg-card px-3 py-2 text-sm text-muted shadow-[var(--shadow-border)]">{t("aiThinking")}</p>
             ) : null}
-            <details
-              className="rounded-lg bg-card px-3 shadow-[var(--shadow-border)]"
-              open={!asking}
-            >
+            <details className="rounded-lg bg-card px-3 shadow-[var(--shadow-border)]">
               <summary className="flex h-11 cursor-pointer list-none items-center text-sm font-medium">
                 {t("aiFaqMore")}
               </summary>
@@ -408,6 +565,45 @@ export function AiStaffPanel() {
             <div ref={endRef} />
           </div>
 
+          {guideStep ? (
+            <div className="border-t border-border bg-surface px-3 py-2">
+              <p className="text-sm font-medium text-fg">{t(askKey(guideStep))}</p>
+              <p className="text-[11px] text-muted">{t("aiCoach")}</p>
+              {guideStep !== "estate" ? (
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {(guideStep === "service"
+                    ? SERVICE_CHIPS.map((item) => ({ id: item.cat, label: t(item.key) }))
+                    : guideStep === "current"
+                      ? currentOptions(guideCat)
+                      : EXPIRY_OPTIONS
+                  ).map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className="h-11 rounded-full bg-card px-3 text-sm font-medium shadow-[var(--shadow-border)]"
+                      onClick={() => {
+                        if (guideStep === "service") {
+                          const cat = item.id as Category;
+                          pickGuide(t(SERVICE_CHIPS.find((row) => row.cat === cat)?.key ?? "catBroadband"), {
+                            serviceType: serviceTypeLabel(cat),
+                          });
+                          return;
+                        }
+                        if (guideStep === "current") {
+                          pickGuide(item.label, { currentProvider: item.label });
+                          return;
+                        }
+                        pickGuide(item.label, { expiry: item.label });
+                      }}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+
           <form
             className="flex gap-2 border-t border-border bg-card p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]"
             onSubmit={(e) => {
@@ -418,8 +614,8 @@ export function AiStaffPanel() {
             <Input
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
-              placeholder={t("aiDraft")}
-              aria-label={t("aiDraft")}
+              placeholder={t(draftKey(guideStep))}
+              aria-label={t(draftKey(guideStep))}
               className="flex-1"
               disabled={busy}
             />

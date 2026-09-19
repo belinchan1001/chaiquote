@@ -148,11 +148,15 @@ export function toCatalogPlan(plan: Plan): AiCatalogPlan {
   };
 }
 
-export function detectCategory(message: string): Category {
+export function detectCategoryHint(message: string): Category | undefined {
   for (const row of CATEGORY_HINTS) {
     if (row.re.test(message)) return row.cat;
   }
-  return "broadband";
+  return undefined;
+}
+
+export function detectCategory(message: string): Category {
+  return detectCategoryHint(message) ?? "broadband";
 }
 
 export function detectSpeed(message: string) {

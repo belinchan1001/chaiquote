@@ -408,10 +408,14 @@ describe("AI desk safety", () => {
 
     assert.match(staff, /function IntakeProgress/);
     assert.match(staff, /t\("aiStillNeed"/);
+    assert.match(staff, /t\("aiAutoFilter"\)/);
+    assert.match(staff, /t\("aiTapToClear"\)/);
     assert.match(staff, /t\("aiFaqMore"\)/);
     assert.match(staff, /QUESTION_CHIPS\.map/);
+    assert.match(staff, /blankGuide/);
     assert.equal(quoted(messages, "aiSlotCurrent")[0], "現用台");
     assert.equal(quoted(messages, "aiFaqMore")[0], "常見問題");
+    assert.equal(quoted(messages, "aiAutoFilter")[0], "答齊篩選條件，AI 會自動篩選計劃。");
 
     assert.match(entry, /plan-card-shine ai-filter-shine ai-entry-pulse/);
     assert.match(entry, /aiOpen && "is-open"/);
