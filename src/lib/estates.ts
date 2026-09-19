@@ -1,6 +1,7 @@
 import type { Housing } from "@/lib/plans";
 import { districtEnglishName } from "./district-names.ts";
 import { EXTRA_RAW } from "./estate-extra-raw.ts";
+import { PRH_BLOCKS_RAW } from "./estate-prh-blocks-raw.ts";
 import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
 import { VILLAGE_RAW } from "./estate-village-raw.ts";
 import { toTraditional } from "./zh-s2t.ts";
@@ -404,7 +405,7 @@ YOHO Midtown|YOHO Midtown|元朗|private
 大坳門|大坳門,Tai Au Mun|西貢|village
 `.trim();
 
-export const ESTATES: Estate[] = `${RAW}\n${EXTRA_RAW}\n${VILLAGE_RAW}`
+export const ESTATES: Estate[] = `${RAW}\n${EXTRA_RAW}\n${PRH_BLOCKS_RAW}\n${VILLAGE_RAW}`
   .split("\n")
   .map((line) => line.trim())
   .filter(Boolean)
@@ -543,6 +544,7 @@ export function isCatalogueParent(estate: Estate): boolean {
  * 「東頭邨康東樓」→ 東頭邨; 「東頭」must not attach 東頭村 to 東頭邨 blocks.
  * 樂富邨 blocks (宏康樓…樂泰樓) come from HA PRH stock `ha_prhs_h` (Wong Tai Sin),
  * not guessed names — keep the 「邨名××樓」alias so relatedBlocks can attach them.
+ * Bulk PRH 樓／閣 rows live in estate-prh-blocks-raw.ts (scripts/sync-prh-blocks.mjs).
  */
 export function isRelatedBlock(child: Estate, parent: Estate): boolean {
   if (child.name === parent.name || parent.housing === "village") return false;
