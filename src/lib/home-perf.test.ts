@@ -146,4 +146,21 @@ describe("homepage first-load images", () => {
     assert.match(tour, /addEventListener\("load", arm/);
     assert.doesNotMatch(tour, /setTimeout\(\(\) => setOpen\(true\), 400\)/);
   });
+
+  it("does not download the estate catalogue until the address field is used", () => {
+    const home = src("../routes/index.tsx");
+    const lazy = src("../components/lazy-estate-suggest.tsx");
+    const plans = src("../routes/plans.tsx");
+    const service = src("../components/service-search.tsx");
+
+    assert.doesNotMatch(home, /from "@\/components\/search-panel"/);
+    assert.doesNotMatch(home, /from "@\/components\/estate-suggest"/);
+    assert.match(home, /lazy\(\(\) =>\s*import\("@\/components\/search-panel"\)/);
+    assert.match(service, /LazyEstateSuggest/);
+    assert.match(plans, /LazyEstateSuggest/);
+    assert.doesNotMatch(plans, /from "@\/components\/estate-suggest"/);
+    assert.match(lazy, /onFocus=\{\(\) => setActive\(true\)\}/);
+    assert.doesNotMatch(lazy, /requestIdleCallback/);
+    assert.doesNotMatch(lazy, /setTimeout\(start, 2500\)/);
+  });
 });

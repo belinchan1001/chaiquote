@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, startTransition } from "react";
 import { PlanCard } from "@/components/plan-card";
 import { PageBackButton } from "@/components/page-back";
 import { AiFilterEntry } from "@/components/ai-filter-entry";
-import { EstateSuggest } from "@/components/estate-suggest";
+import { LazyEstateSuggest as EstateSuggest } from "@/components/lazy-estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import { Chip, IntakeFields } from "@/components/intake-fields";
 import { FilterLink, chipRowClass } from "@/components/filter-link";
