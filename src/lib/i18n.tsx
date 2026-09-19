@@ -47,6 +47,53 @@ function fill(template: string, vars?: Record<string, string | number>) {
   return template.replace(/\{(\w+)\}/g, (_, key: string) => String(vars[key] ?? `{${key}}`));
 }
 
+function translate(locale: Locale, key: MessageKey, vars?: Record<string, string | number>) {
+  const table = MESSAGES[locale] ?? MESSAGES.zh;
+  return fill(table[key] ?? MESSAGES.zh[key] ?? key, vars);
+}
+
+function createI18nValue(locale: Locale, setLocale: (locale: Locale) => void): I18nValue {
+  function t(key: MessageKey, vars?: Record<string, string | number>) {
+    return translate(locale, key, vars);
+  }
+  function tx(text: string) {
+    if (locale === "zh" || !text) return text;
+    return toEnglishLazy(text);
+  }
+  function providerName(id: ProviderId) {
+    const provider = PROVIDER_MAP[id];
+    return locale === "en" ? provider.nameEn : provider.name;
+  }
+  function categoryLabel(id: Category) {
+    return t(CATEGORY_KEYS[id]);
+  }
+  function housingLabel(id: Housing) {
+    return t(HOUSING_KEYS[id]);
+  }
+  function housingList(housing: Housing[] | "all") {
+    if (housing === "all") return t("any");
+    return housing.map(housingLabel).join(locale === "en" ? ", " : "、");
+  }
+  function callWindowLabel(id: string) {
+    return CALL_WINDOW_KEYS[id] ? t(CALL_WINDOW_KEYS[id]) : id;
+  }
+  return {
+    locale,
+    setLocale,
+    t,
+    tx,
+    providerName,
+    categoryLabel,
+    housingLabel,
+    housingList,
+    callWindowLabel,
+    updated: SITE.updated,
+  };
+}
+
+/** zh-only fallback for chrome that can render outside I18nProvider (root error / 404). */
+const FALLBACK_I18N = createI18nValue("zh", () => {});
+
 function readStored(): Locale {
   try {
     const value = localStorage.getItem(STORAGE_KEY);
@@ -105,51 +152,14 @@ export function I18nProvider({ children }: { children: ReactNode }) {
         setLocaleState(next);
       });
     }
-    function t(key: MessageKey, vars?: Record<string, string | number>) {
-      return fill(MESSAGES[locale][key] ?? MESSAGES.zh[key] ?? key, vars);
-    }
-    function tx(text: string) {
-      if (locale === "zh" || !text) return text;
-      return toEnglishLazy(text);
-    }
-    function providerName(id: ProviderId) {
-      const provider = PROVIDER_MAP[id];
-      return locale === "en" ? provider.nameEn : provider.name;
-    }
-    function categoryLabel(id: Category) {
-      return t(CATEGORY_KEYS[id]);
-    }
-    function housingLabel(id: Housing) {
-      return t(HOUSING_KEYS[id]);
-    }
-    function housingList(housing: Housing[] | "all") {
-      if (housing === "all") return t("any");
-      return housing.map(housingLabel).join(locale === "en" ? ", " : "、");
-    }
-    function callWindowLabel(id: string) {
-      return CALL_WINDOW_KEYS[id] ? t(CALL_WINDOW_KEYS[id]) : id;
-    }
-    return {
-      locale,
-      setLocale,
-      t,
-      tx,
-      providerName,
-      categoryLabel,
-      housingLabel,
-      housingList,
-      callWindowLabel,
-      updated: SITE.updated,
-    };
+    return createI18nValue(locale, setLocale);
   }, [locale, enReady]);
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }
 
 export function useI18n() {
-  const ctx = useContext(I18nContext);
-  if (!ctx) throw new Error("useI18n must be used within I18nProvider");
-  return ctx;
+  return useContext(I18nContext) ?? FALLBACK_I18N;
 }
 
 export function usePageTitle(title: string) {
