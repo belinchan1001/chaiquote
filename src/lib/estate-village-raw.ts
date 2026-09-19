@@ -850,6 +850,9 @@ export const VILLAGE_RAW = `
 梅窩黃蜂田|Wong Fung Tin,黃蜂田,梅窩黃蜂田|離島|village|梅窩
 坪洲圍仔|Wai Tsai Peng Chau,坪洲圍仔村,圍仔坪洲|離島|village|坪洲
 坪洲老圍|Lo Wai Peng Chau,坪洲老圍村,老圍坪洲|離島|village|坪洲
+長洲大菜園|Tai Choi Yuen,大菜園,長洲大菜園路,Tai Choi Yuen Cheung Chau|離島|village|長洲
+長洲中興|Chung Hing Cheung Chau,長洲中興街,中興街長洲,長洲中興新街|離島|village|長洲
+花坪|Fa Peng,花坪村,馬灣花坪,大嶼山花坪,Fa Peng Lantau|荃灣|village|馬灣
 `.trim();
 
 

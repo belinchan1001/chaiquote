@@ -834,9 +834,9 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 景峰花園|景峰,Prime View Garden|屯門|hos
 芊紅居|Hibiscus Park,葵芳芊紅居,興盛路91號芊紅居|葵青|private|葵芳||興盛路91號
 景新臺|Kingston Terrace,屯門景新臺,景新徑2號景新臺|屯門|hos|屯門新墟||景新徑2號
-樂啟軒|Delight Terrace,啟德樂啟軒,沐縉街樂啟軒,樂啟都匯樂啟軒|九龍城|hos|啟德|覆蓋需查核|沐縉街2號
-樂啟樓|Delight Tower,啟德樂啟樓,樂啟都匯樂啟樓|九龍城|public|啟德|覆蓋需查核
-樂真樓|Lok Chun Lau,啟德樂真樓,樂啟都匯樂真樓,樂真樓第一座,樂真樓第二座|九龍城|public|啟德|覆蓋需查核
+樂啟軒|Delight Terrace,Casa Delight,樂啟都匯,啟德樂啟軒,沐縉街樂啟軒,樂啟都匯樂啟軒,沐縉街2號樂啟軒|九龍城|hos|啟德|覆蓋需查核|沐縉街2號
+樂啟樓|Delight Tower,啟德樂啟樓,樂啟都匯樂啟樓,沐縉街2號樂啟樓|九龍城|public|啟德|覆蓋需查核|沐縉街2號
+樂真樓|Lok Chun Lau,啟德樂真樓,樂啟都匯樂真樓,樂真樓第一座,樂真樓第二座,沐縉街2號樂真樓|九龍城|public|啟德|覆蓋需查核|沐縉街2號
 瑜一|In One,何文田瑜一,忠孝街1號瑜一,何文田站瑜一|九龍城|private|何文田||忠孝街1號
 華富中邨|Wah Fu Central Estate,華樂徑公屋,薄扶林華富中,華富邨華樂徑|南區|public|薄扶林|覆蓋需查核
 麗玥苑|麗玥,Lai Yuet Court,長沙灣麗玥苑,東京街3號麗玥苑,麗玥苑麗滿閣,麗玥苑麗淳閣,麗玥苑麗濤閣|深水埗|hos|長沙灣|覆蓋需查核|東京街3號
@@ -884,7 +884,7 @@ The Monet|The Monet,龍庭里8號,九龍塘The Monet,Lung Ting Lane|九龍城|pr
 柏蔚森|The Pavilia Forest,THE PAVILIA FOREST,柏蔚森I,柏蔚森II,柏蔚森III,柏蔚森1期,柏蔚森2期,柏蔚森3期,啟德柏蔚森|九龍城|private|啟德||承景街2號
 尚逸|Des Voeux W Residence,Des Voeux W,西營盤尚逸,德輔道西328號尚逸|中西區|private|西營盤||德輔道西328號
 泓璟|ONE LIBERTY,何文田泓璟,自由道1B號泓璟|九龍城|private|何文田||自由道1B號
-恒苑|Hang Yuen,長洲恒苑,高山村43號,長洲高山村43號|離島|village|長洲
+恒苑|Hang Yuen,長洲恒苑,高山村43號,長洲高山村43號|離島|village|長洲||高山村43號
 滶晨|Deep Water Pavilia,Deep Water Pavilia I,Deep Water Pavilia II,滶晨I,滶晨II,滶晨1期,滶晨2期,港島南岸第5期,港島南岸第5A期,港島南岸第5B期,The Southside Phase 5|南區|private|黃竹坑||香葉道11號
 欣雅苑|Yan Nga Court,大埔欣雅苑,頌雅路9號欣雅苑|大埔|hos|大埔|覆蓋需查核|頌雅路9號
 曉雅苑|Hiu Nga Court,大埔曉雅苑,頌雅路7號曉雅苑|大埔|hos|大埔|覆蓋需查核|頌雅路7號
@@ -973,5 +973,7 @@ the MVP|THE MVP,The MVP,般咸道24號the MVP,般咸道28號the MVP,般咸道30�
 嘉居天后|KABITAT TIN HAU,KABITAT·Tin Hau,嘉居‧天后,嘉居·天后,嘉居・天后,北角嘉居天后,天后嘉居,英皇道33號嘉居,英皇道33號|東區|private|北角|覆蓋需查核|英皇道33號
 堅尼地道33號|33 Kennedy Road,33 Kennedy Rd,33 KENNEDY ROAD,灣仔堅尼地道33號|灣仔|private|灣仔||堅尼地道33號
 太子壹號|ONE EDWARD,One Edward,Upper Prince,旺角太子壹號,基隆街1號太子壹號,基隆街1號|油尖旺|private|旺角||基隆街1號
+Coasto|COASTO,鴨脷洲Coasto,惠風街1號Coasto,惠風街Coasto,利東Coasto|南區|private|鴨脷洲||惠風街1號
+高臨|TOPSIDE RESIDENCES,Topside Residences,Topside Residence,佐敦高臨,彌敦道350號高臨,彌敦道高臨,油麻地高臨|油尖旺|private|佐敦||彌敦道350號
 `.trim();
 

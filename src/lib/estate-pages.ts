@@ -360,6 +360,11 @@ const SLUG_FALLBACK: Record<string, string> = {
   嘉居天后: "kabitat-tin-hau",
   堅尼地道33號: "33-kennedy-road",
   太子壹號: "one-edward",
+  Coasto: "coasto",
+  高臨: "topside-residences",
+  長洲大菜園: "tai-choi-yuen-cheung-chau",
+  長洲中興: "chung-hing-cheung-chau",
+  花坪: "fa-peng-ma-wan",
 };
 
 function requireEstate(name: string): Estate {
