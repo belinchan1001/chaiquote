@@ -1133,8 +1133,8 @@ describe("search query tails, simplified, english", () => {
     assert.equal(names("荃灣中心A座")[0], "荃灣中心");
     assert.equal(names("嘉湖山莊1期")[0], "天水圍嘉湖山莊");
     assert.equal(names("黃埔花園3期")[0], "黃埔花園");
-    assert.equal(names("天耀邨耀豐樓")[0], "天耀邨");
-    assert.equal(names("華富邨華安樓")[0], "華富邨");
+    assert.equal(names("天耀邨耀豐樓")[0], "天耀邨耀豐樓");
+    assert.equal(names("華富邨華安樓")[0], "華安樓");
   });
 
   it("finds estates from simplified and English full names", () => {
@@ -1524,7 +1524,8 @@ describe("phase 2 Lok Fu catalogue blocks (HA PRH stock)", () => {
     }
     assert.equal(blocks.length, LOK_FU_HA_BLOCKS.length);
     for (const invented of ["康樓", "樂樓", "順樓", "達樓", "逸樓", "旭樓", "樂安樓", "樂智樓", "樂和樓", "樂禧樓", "樂逸樓", "樂旺樓"]) {
-      assert.equal(estate(invented), undefined, invented);
+      assert.equal(blocks.includes(invented), false, invented);
+      assert.notEqual(parentEstate(invented)?.name, "樂富邨", invented);
     }
     assert.equal(matchKnownEstate("樂泰樓")?.name, "樂泰樓");
     assert.equal(matchKnownEstate("樂富邨樂泰樓")?.name, "樂泰樓");
@@ -1546,4 +1547,52 @@ describe("phase 2 Lok Fu catalogue blocks (HA PRH stock)", () => {
     assert.equal(relatedBlocks("東頭村").length, 0);
   });
 });
+
+function sourcedBlockNames(parent) {
+  return relatedBlocks(parent).flatMap((item) => [item.name, ...item.aliases]);
+}
+
+describe("HA PRH bulk catalogue blocks", () => {
+  it("keeps sourced 樂富邨 blocks and still does not add 樂民 as a short alias", () => {
+    const blocks = relatedBlocks("樂富邨").map((item) => item.name);
+    assert.ok(blocks.includes("樂泰樓"));
+    assert.equal(blocks.length, 11);
+    assert.equal(matchKnownEstate("樂民")?.name, "樂民新村");
+    assert.equal(estate("樂泰樓")?.aliases.includes("樂民"), false);
+    assert.equal(estate("樂民樓")?.aliases.includes("樂民"), false);
+  });
+
+  it("links HA blocks on 天耀邨 / 尚德邨 / 水泉澳邨 for Phase 2 step 2", () => {
+    assert.ok(sourcedBlockNames("天耀邨").some((name) => name.includes("耀豐樓")));
+    assert.ok(sourcedBlockNames("天耀邨").some((name) => name.includes("耀盛樓")));
+    assert.equal(parentEstate("天耀邨耀豐樓")?.name, "天耀邨");
+    assert.equal(parentEstate("華安樓")?.name, "華富邨");
+    assert.equal(parentEstate("尚智樓")?.name, "尚德邨");
+    assert.equal(estate("天耀邨")?.housing, "public");
+    assert.ok(relatedBlocks("天耀邨").length >= 8);
+    assert.ok(relatedBlocks("天耀邨").every((item) => item.housing === "public"));
+    assert.ok(relatedBlocks("尚德邨").some((item) => item.name === "尚智樓" || item.aliases.includes("尚德邨尚智樓")));
+    assert.ok(relatedBlocks("水泉澳邨").some((item) => item.name === "清泉樓" || item.aliases.includes("水泉澳邨清泉樓")));
+    assert.equal(blockStepKindName("天耀邨"), "catalogue");
+    assert.equal(blockStepKindName("尚德邨"), "catalogue");
+    assert.equal(blockStepKindName("YOHO Town"), "lookup");
+  });
+
+  it("does not invent skipped estate names or attach 東頭村 / Yoho / 嘉湖", () => {
+    assert.equal(relatedBlocks("東頭村").length, 0);
+    assert.equal(relatedBlocks("YOHO Town").length, 0);
+    assert.equal(relatedBlocks("天水圍嘉湖山莊").length, 0);
+    assert.equal(relatedBlocks("彩明苑").every((item) => item.housing === "hos"), true);
+    assert.equal(estate("彩富閣"), undefined);
+    assert.equal(searchEstates("嘉湖山莊1期", 8)[0]?.name, "天水圍嘉湖山莊");
+  });
+});
+
+function blockStepKindName(name) {
+  const row = estate(name);
+  if (!row) return undefined;
+  if (parentEstate(row)) return "none";
+  if (relatedBlocks(row).length) return "catalogue";
+  return "lookup";
+}
 

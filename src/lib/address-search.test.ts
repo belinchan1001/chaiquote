@@ -536,6 +536,20 @@ describe("phase 2 site-wide parent → block step", () => {
     assert.ok(blockStepHits(catalogue, extras).some((hit) => hit.blockRef && hit.name === "示範座"));
   });
 
+  it("opens catalogue step 2 for other HA-matched PRH estates", () => {
+    const tinYiu = localAddressHits("天耀邨").find((hit) => hit.name === "天耀邨");
+    const sheungTak = localAddressHits("尚德邨").find((hit) => hit.name === "尚德邨");
+    assert.ok(tinYiu);
+    assert.ok(sheungTak);
+    assert.equal(blockStepKind(tinYiu), "catalogue");
+    assert.equal(blockStepKind(sheungTak), "catalogue");
+    const tinYiuBlocks = catalogueBlockHits(tinYiu).map((hit) => hit.name);
+    const sheungTakBlocks = catalogueBlockHits(sheungTak).map((hit) => hit.name);
+    assert.ok(tinYiuBlocks.some((name) => name.includes("耀豐樓") || name === "耀豐樓"));
+    assert.ok(sheungTakBlocks.includes("尚智樓") || sheungTakBlocks.includes("尚德邨尚智樓"));
+    assert.equal(blockStepKind(localAddressHits("YOHO Town")[0]), "lookup");
+  });
+
   it("does not treat YOHO siblings or Hub as YOHO Town blocks", () => {
     const yoho = localAddressHits("YOHO Town")[0]!;
     const midtown = localAddressHits("YOHO Midtown")[0]!;
