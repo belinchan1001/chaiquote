@@ -9,6 +9,8 @@ import {
   guessHousing,
   isImpracticalPlace,
   matchKnownEstate,
+  parentEstate,
+  relatedBlocks,
   searchEstates,
   type Estate,
   type HousingGuess,
@@ -43,6 +45,8 @@ export type AddressHit = {
   source: "local" | "gov";
   coverageCheck?: boolean;
   newIntake?: boolean;
+  /** Gov-suggested block/building — UI must say 僅供參考／覆蓋另查. */
+  blockRef?: boolean;
 };
 
 export type GovRow = {
@@ -271,4 +275,100 @@ export function addressHitValue(hit: AddressHit, locale: Locale = "zh") {
   const address = addressHitAddress(hit, locale);
   if (!address) return name;
   return locale === "en" ? `${name}, ${address}` : `${name}，${address}`;
+}
+
+const BUILDING_MARK = /[樓閣座]|大廈|house|block|tower|building/i;
+
+export function isBuildingLikeName(name: string): boolean {
+  return BUILDING_MARK.test(name);
+}
+
+export function knownEstateForHit(hit: AddressHit): Estate | undefined {
+  return matchKnownEstate(hit.name, hit.address);
+}
+
+/** Already a 樓／閣 catalogue child — finalize, do not open another block step. */
+export function isCatalogueBlockHit(hit: AddressHit): boolean {
+  const known = knownEstateForHit(hit);
+  return Boolean(known && parentEstate(known));
+}
+
+export type BlockStepKind = "none" | "catalogue" | "lookup";
+
+/**
+ * Site-wide parent → block/building. Catalogue children open step 2 immediately.
+ * Parents with no catalogue blocks look up map.gov / ALS; empty results skip step 2.
+ */
+export function blockStepKind(hit: AddressHit): BlockStepKind {
+  const known = knownEstateForHit(hit);
+  if (known && parentEstate(known)) return "none";
+  if (known && relatedBlocks(known).length) return "catalogue";
+  return "lookup";
+}
+
+export function catalogueBlockHits(hit: AddressHit): AddressHit[] {
+  const known = knownEstateForHit(hit);
+  if (!known || parentEstate(known)) return [];
+  return relatedBlocks(known).map(fromLocal);
+}
+
+function displayDedupKeys(hit: AddressHit): string[] {
+  return [...new Set([hit.name, hit.nameEN].filter(Boolean).map((value) => compact(value!)).filter((key) => key.length >= 2))];
+}
+
+function catalogueNameKey(hit: AddressHit): string | undefined {
+  /** Name only — an address that mentions the parent must not collapse the child onto the estate. */
+  return matchKnownEstate(hit.name, "")?.name;
+}
+
+export function isGovChildBlock(parent: AddressHit, child: AddressHit): boolean {
+  if (child.key === parent.key) return false;
+  const parentNames = displayDedupKeys(parent);
+  if (displayDedupKeys(child).some((key) => parentNames.includes(key))) return false;
+  if (!isBuildingLikeName(child.name) && !isBuildingLikeName(child.nameEN ?? "")) return false;
+  if (isImpracticalPlace(child.name, child.address)) return false;
+  if (child.nameEN && isImpracticalPlace(child.nameEN, child.addressEN ?? "")) return false;
+  const childHay = compact(`${child.name}${child.nameEN ?? ""}${child.address}${child.addressEN ?? ""}`);
+  if (!parentNames.some((key) => childHay.includes(key))) return false;
+  if (!allowSuggestHitForQuery(parent.name, child.name, child.nameEN ?? "")) return false;
+  return true;
+}
+
+export function labelGovBlockHit(hit: AddressHit): AddressHit {
+  return { ...hit, blockRef: true, coverageCheck: true };
+}
+
+export function collectGovChildBlocks(parent: AddressHit, hits: AddressHit[], catalogue: AddressHit[] = []): AddressHit[] {
+  const seen = new Set<string>([parent.key, ...displayDedupKeys(parent)]);
+  for (const hit of catalogue) {
+    seen.add(hit.key);
+    for (const key of displayDedupKeys(hit)) seen.add(key);
+    const known = catalogueNameKey(hit);
+    if (known) seen.add(compact(known));
+  }
+  const parentKnown = catalogueNameKey(parent);
+  const out: AddressHit[] = [];
+  for (const hit of hits) {
+    if (!isGovChildBlock(parent, hit)) continue;
+    const keys = [...displayDedupKeys(hit), hit.key];
+    const known = catalogueNameKey(hit);
+    if (known && known !== parentKnown) keys.push(compact(known));
+    if (keys.some((key) => seen.has(key))) continue;
+    out.push(labelGovBlockHit(hit));
+    for (const key of keys) seen.add(key);
+  }
+  return out;
+}
+
+export async function lookupParentBlocks(
+  parent: AddressHit,
+  signal?: AbortSignal,
+): Promise<{ catalogue: AddressHit[]; gov: AddressHit[] }> {
+  const catalogue = catalogueBlockHits(parent);
+  const hits = await searchAddresses(parent.name, signal);
+  return { catalogue, gov: collectGovChildBlocks(parent, hits, catalogue) };
+}
+
+export function blockStepHits(catalogue: AddressHit[], gov: AddressHit[]): AddressHit[] {
+  return [...catalogue, ...gov];
 }

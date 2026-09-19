@@ -12,7 +12,14 @@ import {
   addressHitName,
   addressHitSubtitle,
   addressHitValue,
+  blockStepHits,
+  blockStepKind,
+  catalogueBlockHits,
+  collectGovChildBlocks,
+  isCatalogueBlockHit,
+  isGovChildBlock,
   isHongKongPlace,
+  labelGovBlockHit,
   localAddressHits,
   searchAddresses,
 } from "./address-search.ts";
@@ -294,6 +301,14 @@ describe("phase 1 address suggest UX and filters", () => {
     );
     assert.equal(MESSAGES.zh.searchContinueTyped, "用呢個名稱繼續");
     assert.equal(MESSAGES.en.searchContinueTyped, "Continue with this name");
+    assert.equal(MESSAGES.zh.searchSkipBlock, "只用邨／屋苑／街名繼續");
+    assert.equal(MESSAGES.en.searchSkipBlock, "Continue with this estate or street name");
+    assert.equal(MESSAGES.zh.searchBlockRef, "僅供參考／覆蓋另查");
+    assert.equal(MESSAGES.en.searchBlockRef, "For reference / coverage checked separately");
+    assert.equal(MESSAGES.zh.searchPickBlock, "揀座數或大廈");
+    assert.equal(MESSAGES.en.searchPickBlock, "Choose a block or building");
+    assert.equal(MESSAGES.zh.searchingBlocks, "睇下有冇座數…");
+    assert.equal(MESSAGES.en.searchingBlocks, "Checking for blocks…");
     assert.equal(MESSAGES.zh.waQuote, "WhatsApp 查核報價");
     assert.equal(MESSAGES.en.waQuote, "Check quote on WhatsApp");
     assert.equal(MESSAGES.zh.searchPopularLabel, "熱門：");
@@ -302,10 +317,14 @@ describe("phase 1 address suggest UX and filters", () => {
       MESSAGES.zh.estatePlaceholder,
       MESSAGES.zh.noExactAddr,
       MESSAGES.zh.searchContinueTyped,
+      MESSAGES.zh.searchSkipBlock,
+      MESSAGES.zh.searchBlockRef,
       MESSAGES.zh.waQuote,
       MESSAGES.en.estatePlaceholder,
       MESSAGES.en.noExactAddr,
       MESSAGES.en.searchContinueTyped,
+      MESSAGES.en.searchSkipBlock,
+      MESSAGES.en.searchBlockRef,
       MESSAGES.en.waQuote,
     ]) {
       assert.doesNotMatch(text, /最平|保證|官方|cheapest|guaranteed|official/i);
@@ -317,12 +336,22 @@ describe("phase 1 address suggest UX and filters", () => {
     const suggest = readFileSync(join(ROOT, "src/components/estate-suggest.tsx"), "utf8");
     assert.match(suggest, /ADDRESS_SEARCH_DEBOUNCE_MS/);
     assert.match(suggest, /searchContinueTyped/);
+    assert.match(suggest, /searchSkipBlock/);
+    assert.match(suggest, /searchBlockRef/);
+    assert.match(suggest, /searchingBlocks/);
     assert.match(suggest, /QuoteLink/);
     assert.match(suggest, /keepTypedName/);
+    assert.match(suggest, /skipParentName/);
+    assert.match(suggest, /blockStepKind/);
+    assert.match(suggest, /lookupParentBlocks/);
+    assert.match(suggest, /lookupGen/);
+    assert.match(suggest, /if \(gen !== lookupGen\.current\) return;/);
     assert.doesNotMatch(suggest, /matchKnownEstate/);
-    assert.match(suggest, /function keepTypedName\(\) \{\n    dismissKeyboard\(\);/);
+    assert.match(suggest, /function keepTypedName\(\) \{\n    clearBlockFlow\(\);\n    dismissKeyboard\(\);/);
+    assert.match(suggest, /function skipParentName\(\) \{\n    if \(!blockStep\) return;\n    finalize\(blockStep\.parent\);/);
+    assert.match(suggest, /if \(!next\.length\) \{\n          finalize\(hit\);/);
     assert.match(suggest, /min-h-11/);
-    assert.match(suggest, /40dvh|max-h-\[min/);
+    assert.match(suggest, /40dvh|45dvh|max-h-\[min/);
     assert.match(suggest, /inputRef\.current\?\.blur/);
 
     const hit = localAddressHits("天耀")[0]!;
@@ -425,5 +454,105 @@ describe("address search still accepts Chinese or English queries", () => {
     } finally {
       globalThis.fetch = originalFetch;
     }
+  });
+});
+
+describe("phase 2 site-wide parent → block step", () => {
+  it("opens catalogue step 2 for 樂富邨 and treats 樂泰樓 as a leaf", () => {
+    const parent = localAddressHits("樂富邨").find((hit) => hit.name === "樂富邨");
+    const block = localAddressHits("樂泰樓").find((hit) => hit.name === "樂泰樓");
+    assert.ok(parent);
+    assert.ok(block);
+    assert.equal(blockStepKind(parent), "catalogue");
+    assert.equal(blockStepKind(block), "none");
+    assert.equal(isCatalogueBlockHit(block), true);
+    assert.equal(isCatalogueBlockHit(parent), false);
+    const children = catalogueBlockHits(parent);
+    assert.ok(children.some((hit) => hit.name === "樂泰樓"));
+    assert.ok(children.every((hit) => hit.source === "local" && !hit.blockRef));
+    assert.equal(blockStepHits(children, []).some((hit) => hit.name === "樂泰樓"), true);
+  });
+
+  it("looks up streets / villages / YOHO instead of forcing an empty block sheet", () => {
+    const village = localAddressHits("東頭村")[0];
+    const yoho = localAddressHits("YOHO Town")[0];
+    const street = addressHitFromGov({
+      nameZH: "長沙灣道",
+      nameEN: "Cheung Sha Wan Road",
+      addressZH: "深水埗",
+      addressEN: "Sham Shui Po",
+      districtZH: "深水埗",
+      districtEN: "Sham Shui Po",
+    });
+    assert.ok(village);
+    assert.ok(yoho);
+    assert.ok(street);
+    assert.equal(blockStepKind(village), "lookup");
+    assert.equal(blockStepKind(yoho), "lookup");
+    assert.equal(blockStepKind(street), "lookup");
+    assert.equal(catalogueBlockHits(village).length, 0);
+    assert.equal(catalogueBlockHits(street).length, 0);
+    assert.equal(catalogueBlockHits(yoho).length, 0);
+  });
+
+  it("labels map.gov children 僅供參考 and ignores the parent / junk / sibling estates", () => {
+    const parent = localAddressHits("樂富邨").find((hit) => hit.name === "樂富邨")!;
+    const catalogue = catalogueBlockHits(parent);
+    const govParent = addressHitFromGov({
+      nameZH: "樂富邨",
+      nameEN: "Lok Fu Estate",
+      districtZH: "黃大仙",
+    })!;
+    const govBlock = addressHitFromGov({
+      nameZH: "示範座",
+      nameEN: "Demo House",
+      addressZH: "樂富邨",
+      districtZH: "黃大仙",
+    })!;
+    const mall = addressHitFromGov({
+      nameZH: "樂富廣場",
+      nameEN: "Lok Fu Place",
+      addressZH: "樂富邨",
+      districtZH: "黃大仙",
+    })!;
+    const carpark = addressHitFromGov({
+      nameZH: "樂富邨停車場",
+      nameEN: "Lok Fu Estate Car Park",
+      addressZH: "樂富邨",
+      districtZH: "黃大仙",
+    })!;
+    assert.equal(isGovChildBlock(parent, govParent), false);
+    assert.equal(isGovChildBlock(parent, govBlock), true);
+    assert.equal(isGovChildBlock(parent, mall), false);
+    assert.equal(isGovChildBlock(parent, carpark), false);
+    const labelled = labelGovBlockHit(govBlock);
+    assert.equal(labelled.blockRef, true);
+    assert.equal(labelled.coverageCheck, true);
+    const extras = collectGovChildBlocks(parent, [govParent, govBlock, mall, carpark, ...catalogue], catalogue);
+    assert.equal(extras.length, 1);
+    assert.equal(extras[0]?.name, "示範座");
+    assert.equal(extras[0]?.blockRef, true);
+    assert.ok(blockStepHits(catalogue, extras).some((hit) => hit.name === "樂泰樓"));
+    assert.ok(blockStepHits(catalogue, extras).some((hit) => hit.blockRef && hit.name === "示範座"));
+  });
+
+  it("does not treat YOHO siblings or Hub as YOHO Town blocks", () => {
+    const yoho = localAddressHits("YOHO Town")[0]!;
+    const midtown = localAddressHits("YOHO Midtown")[0]!;
+    const hub = addressHitFromGov({
+      nameZH: "朗城匯",
+      nameEN: "YOHO Hub",
+      addressZH: "元朗",
+      districtZH: "元朗",
+    })!;
+    const tower = addressHitFromGov({
+      nameZH: "YOHO Town 第2座",
+      nameEN: "YOHO Town Tower 2",
+      addressZH: "元朗YOHO Town",
+      districtZH: "元朗",
+    })!;
+    assert.equal(isGovChildBlock(yoho, midtown), false);
+    assert.equal(isGovChildBlock(yoho, hub), false);
+    assert.equal(isGovChildBlock(yoho, tower), true);
   });
 });

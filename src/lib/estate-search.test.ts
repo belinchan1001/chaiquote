@@ -1495,3 +1495,55 @@ describe("phase 1 search ranking and filters", () => {
   });
 });
 
+describe("phase 2 Lok Fu catalogue blocks (HA PRH stock)", () => {
+  const LOK_FU_HA_BLOCKS = [
+    "宏康樓",
+    "宏樂樓",
+    "宏順樓",
+    "宏達樓",
+    "宏逸樓",
+    "宏旭樓",
+    "樂東樓",
+    "樂民樓",
+    "樂謙樓",
+    "樂翠樓",
+    "樂泰樓",
+  ] as const;
+
+  it("links sourced 樂富邨 blocks including 樂泰樓, and does not invent old names", () => {
+    assert.equal(estate("樂富邨")?.housing, "public");
+    assert.equal(parentEstate("樂富邨"), undefined);
+    const blocks = relatedBlocks("樂富邨").map((item) => item.name);
+    for (const name of LOK_FU_HA_BLOCKS) {
+      assert.ok(blocks.includes(name), name);
+      assert.equal(estate(name)?.housing, "public", name);
+      assert.equal(estate(name)?.district, "黃大仙", name);
+      assert.ok(estate(name)?.aliases.includes(`樂富邨${name}`), name);
+      assert.equal(parentEstate(name)?.name, "樂富邨", name);
+      assert.equal(isRelatedBlock(estate(name)!, estate("樂富邨")!), true, name);
+    }
+    assert.equal(blocks.length, LOK_FU_HA_BLOCKS.length);
+    for (const invented of ["康樓", "樂樓", "順樓", "達樓", "逸樓", "旭樓", "樂安樓", "樂智樓", "樂和樓", "樂禧樓", "樂逸樓", "樂旺樓"]) {
+      assert.equal(estate(invented), undefined, invented);
+    }
+    assert.equal(matchKnownEstate("樂泰樓")?.name, "樂泰樓");
+    assert.equal(matchKnownEstate("樂富邨樂泰樓")?.name, "樂泰樓");
+    assert.equal(matchKnownEstate("Lok Tai House")?.name, "樂泰樓");
+    assert.equal(searchEstates("樂富邨", 24)[0]?.name, "樂富邨");
+    assert.ok(searchEstates("樂富邨", 24).some((item) => item.name === "樂泰樓"));
+    assert.equal(searchEstates("樂泰樓")[0]?.name, "樂泰樓");
+    assert.equal(matchKnownEstate("樂民")?.name, "樂民新村");
+    assert.notEqual(matchKnownEstate("樂民")?.name, "樂民樓");
+    assert.equal(matchKnownEstate("樂民樓")?.name, "樂民樓");
+  });
+
+  it("does not change flash unlock / matchKnownEstate road rules", () => {
+    assert.notEqual(matchKnownEstate("長沙灣道")?.name, "長沙灣邨");
+    assert.equal(isHkbnFlashEstate("長沙灣道"), false);
+    assert.equal(estateUnlocksPlan("長沙灣道", HKBN_FLASH_OFFER_ESTATES), false);
+    assert.equal(matchKnownEstate("長沙灣邨")?.name, "長沙灣邨");
+    assert.equal(isHkbnFlashEstate("長沙灣邨"), true);
+    assert.equal(relatedBlocks("東頭村").length, 0);
+  });
+});
+
