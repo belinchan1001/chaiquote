@@ -10,6 +10,7 @@ import { fallbackReply, plansForAiCards, QUESTION_CHIPS, retrievePlansForAsk } f
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
 import { formatFee } from "@/lib/plans";
+import { portInQuoteFromInquiry, shouldUsePortInQuote } from "@/lib/port-in";
 import { quoteMessage, quoteWhatsappE164, whatsappHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -237,11 +238,13 @@ export function AiStaffPanel() {
                     <p className="text-xs text-muted">{t("aiFeeNote")}</p>
                     <a
                       href={whatsappHref(
-                        quoteMessage(
-                          plansForAiCards(bubble.planIds),
-                          inquiry,
-                          locale,
-                        ),
+                        shouldUsePortInQuote(inquiry)
+                          ? portInQuoteFromInquiry(inquiry, plansForAiCards(bubble.planIds)[0])
+                          : quoteMessage(
+                              plansForAiCards(bubble.planIds),
+                              inquiry,
+                              locale,
+                            ),
                         quoteWhatsappE164(plansForAiCards(bubble.planIds)),
                       )}
                       target="_blank"

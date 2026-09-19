@@ -2,10 +2,11 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { PlanCard } from "@/components/plan-card";
 import { SearchPanel } from "@/components/search-panel";
+import { ServiceSearch } from "@/components/service-search";
 import { Button } from "@/components/ui/button";
 import { ESTATES } from "@/lib/estates";
 import { PLANS, formatFee, getPlan, cheapestPlan, cheapestVillageBroadbandPlan } from "@/lib/plans";
-import { SITE } from "@/lib/site";
+import { HOME_SEARCH_V2, SITE } from "@/lib/site";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import type { MessageKey } from "@/lib/messages";
 import { HOME_SEO, canonicalUrl, homeJsonLd, shareHead } from "@/lib/canonical";
@@ -123,7 +124,7 @@ function Home() {
               </p>
             </div>
           </div>
-          <SearchPanel />
+          {HOME_SEARCH_V2 ? <ServiceSearch /> : <SearchPanel />}
         </div>
       </section>
 

@@ -15,6 +15,7 @@ import {
   type Housing,
   type Plan,
   type ProviderId,
+  type SpeedMbps,
 } from "./plans.ts";
 
 export const AI_MONTHLY_BUDGET_HKD = 200;
@@ -67,6 +68,7 @@ export type AiRetrieveResult = {
   housing?: Housing;
   category: Category;
   plans: AiCatalogPlan[];
+  parsed?: FilterParse;
 };
 
 export function tokensToUsd(inputTokens: number, outputTokens: number) {
@@ -179,11 +181,41 @@ export function resolveEstate(message: string, inquiryEstate?: string): Estate |
   return searchEstates(estateMessage, 1)[0];
 }
 
-export function retrievePlansForAsk(input: {
-  message: string;
+
+export function detectCurrentProvider(message: string): ProviderId | undefined {
+  if (!/用緊|而家用|現用|而家係|轉台|到期|約滿/.test(message)) return undefined;
+  return detectProvider(message);
+}
+
+export function detectExpiry(message: string): "1m" | "2-3m" | "4-6m" | "6m+" | undefined {
+  if (/下個月|一個月內|1個月|就到期|急單|即將到期/.test(message)) return "1m";
+  if (/兩個月|2\s*-\s*3|兩三個月|兩至三/.test(message)) return "2-3m";
+  if (/四個月|4\s*-\s*6|四至六/.test(message)) return "4-6m";
+  if (/半年|唔清楚|不清楚|未到期/.test(message)) return "6m+";
+  return undefined;
+}
+
+export function detectGaming(message: string) {
+  return /電競神線|電競|打機|低延遲/.test(message);
+}
+
+export function detectEsportsLine(message: string) {
+  return /電競神線|2\.5\s*g|2500\s*m/.test(message);
+}
+
+export type FilterParse = {
+  cat: Category;
+  current?: ProviderId;
+  exclude?: ProviderId;
+  expiry?: "1m" | "2-3m" | "4-6m" | "6m+";
   estate?: string;
-  housing?: string;
-}): AiRetrieveResult {
+  housing?: Housing;
+  speed?: SpeedMbps;
+  esports: boolean;
+  gaming: boolean;
+};
+
+export function parseFilterState(input: { message: string; estate?: string; housing?: string }): FilterParse {
   const message = input.message.trim().slice(0, AI_MAX_MESSAGE_CHARS);
   const villageIntent = isVillageHousingIntent(message);
   const estateRow = resolveEstate(message, villageIntent ? undefined : input.estate);
@@ -193,27 +225,48 @@ export function retrievePlansForAsk(input: {
     : (["public", "hos", "private", "village"] as Housing[]).includes(input.housing as Housing)
       ? (input.housing as Housing)
       : estateRow?.housing ?? guessed.housing;
-  const category = detectCategory(message);
-  const speed =
-    category === "broadband" || category === "business" ? detectSpeed(message) : undefined;
-  const provider = detectProvider(message);
-  const base = {
-    cat: category,
-    estate: estateRow?.name ?? (villageIntent ? undefined : input.estate),
+  const cat = detectCategory(message);
+  const current = detectCurrentProvider(message);
+  const esports = detectEsportsLine(message);
+  const speed = cat === "broadband" || cat === "business" ? detectSpeed(message) : undefined;
+  return {
+    cat,
+    current,
+    exclude: current,
+    expiry: detectExpiry(message),
+    estate: estateRow?.name ?? (villageIntent ? undefined : input.estate || undefined),
     housing,
-    provider,
-  } as const;
-  let rows = filterPlans({ ...base, speed });
-  if (!rows.length && speed) rows = filterPlans(base);
-  if (!rows.length && provider) {
-    rows = filterPlans({ cat: category, estate: base.estate, housing });
-  }
+    speed: esports ? undefined : (speed as SpeedMbps | undefined),
+    esports,
+    gaming: detectGaming(message),
+  };
+}
+
+export function retrievePlansForAsk(input: {
+  message: string;
+  estate?: string;
+  housing?: string;
+  exclude?: ProviderId;
+}): AiRetrieveResult {
+  const parsed = parseFilterState(input);
+  const exclude = parsed.exclude ?? input.exclude;
+  const base = {
+    cat: parsed.cat,
+    estate: parsed.estate,
+    housing: parsed.housing,
+    exclude,
+    minSpeed: parsed.esports ? 2500 : undefined,
+    esports: parsed.esports ? true : undefined,
+  };
+  let rows = filterPlans({ ...base, speed: parsed.speed });
+  if (!rows.length && parsed.speed) rows = filterPlans(base);
   const ranked = [...rows].sort((a, b) => averageFee(a) - averageFee(b));
   return {
-    estate: estateRow?.name,
-    housing,
-    category,
+    estate: parsed.estate,
+    housing: parsed.housing,
+    category: parsed.cat,
     plans: ranked.slice(0, AI_MAX_PLANS).map(toCatalogPlan),
+    parsed: { ...parsed, exclude, current: parsed.current ?? exclude },
   };
 }
 

@@ -4,6 +4,7 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { useDesk, type Inquiry } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
 import type { Plan } from "@/lib/plans";
+import { portInQuoteFromInquiry, shouldUsePortInQuote } from "@/lib/port-in";
 import { quoteMessage, quoteWhatsappDisplay, quoteWhatsappE164, whatsappHref } from "@/lib/whatsapp";
 import { trackWaClick } from "@/lib/track-client";
 import { cn } from "@/lib/utils";
@@ -43,7 +44,12 @@ export function QuoteLink({
       className={cn("min-w-0", pulse === "header" && "wa-pulse wa-pulse-header", className)}
     >
       <a
-        href={whatsappHref(quoteMessage(selected, inquiry ?? stored, locale), quoteWhatsappE164(selected))}
+        href={whatsappHref(
+          shouldUsePortInQuote(inquiry ?? stored)
+            ? portInQuoteFromInquiry(inquiry ?? stored, selected[0])
+            : quoteMessage(selected, inquiry ?? stored, locale),
+          quoteWhatsappE164(selected),
+        )}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={label}

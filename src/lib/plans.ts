@@ -3687,7 +3687,15 @@ export type PlansSearch = {
   saved?: boolean;
   intake?: boolean;
   esports?: boolean;
+  exclude?: ProviderId;
+  expiry?: "1m" | "2-3m" | "4-6m" | "6m+";
 };
+
+export const ESPORTS_LINE_MIN_SPEED = 2500;
+
+export function isEsportsLine(plan: Plan) {
+  return plan.category === "broadband" && (plan.speedMbps ?? 0) >= ESPORTS_LINE_MIN_SPEED;
+}
 
 export function averageFee(plan: Plan) {
   const rebate = plan.rebate ?? 0;
@@ -3783,6 +3791,7 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
       const data = plan.dataGb ?? plan.highSpeedGb ?? (plan.fupNote ? 0 : 9999);
       if (data < search.minData) return false;
     }
+    if (search.exclude && plan.providerId === search.exclude) return false;
     if (search.provider && plan.providerId !== search.provider) return false;
     if (search.portIn && !plan.portInPerk) return false;
     if (search.generation && planGeneration(plan) !== search.generation) return false;

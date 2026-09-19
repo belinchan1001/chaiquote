@@ -14,6 +14,7 @@ const PROVIDERS: ProviderId[] = [
 ];
 const SPEEDS: SpeedMbps[] = [200, 500, 1000, 2000, 2500, 5000, 10000];
 const GENERATIONS: Generation[] = ["4g", "5g"];
+const EXPIRY: NonNullable<PlansSearch["expiry"]>[] = ["1m", "2-3m", "4-6m", "6m+"];
 
 function asFlag(value: unknown) {
   return value === true || value === 1 || value === "1" || value === "true";
@@ -31,9 +32,11 @@ function isSort(value: unknown): value is NonNullable<PlansSearch["sort"]> {
 export function parsePlansSearch(search: Record<string, unknown>): PlansSearch {
   const cat = CATS.includes(search.cat as Category) ? (search.cat as Category) : "broadband";
   const housing = HOUSING.includes(search.housing as Housing) ? (search.housing as Housing) : undefined;
-  const provider = PROVIDERS.includes(search.provider as ProviderId)
+  const providerRaw = PROVIDERS.includes(search.provider as ProviderId)
     ? (search.provider as ProviderId)
     : undefined;
+  const exclude = PROVIDERS.includes(search.exclude as ProviderId) ? (search.exclude as ProviderId) : undefined;
+  const provider = providerRaw && providerRaw !== exclude ? providerRaw : undefined;
   const speedNum = asNumber(search.speed);
   const speed = SPEEDS.includes(speedNum as SpeedMbps) ? (speedNum as SpeedMbps) : undefined;
   const generation = GENERATIONS.includes(search.generation as Generation)
@@ -59,6 +62,10 @@ export function parsePlansSearch(search: Record<string, unknown>): PlansSearch {
     estate: typeof search.estate === "string" && search.estate.length ? search.estate : undefined,
     intake: asFlag(search.intake) ? true : undefined,
     esports: asFlag(search.esports) ? true : undefined,
+    exclude,
+    expiry: EXPIRY.includes(search.expiry as NonNullable<PlansSearch["expiry"]>)
+      ? (search.expiry as NonNullable<PlansSearch["expiry"]>)
+      : undefined,
   };
 }
 
@@ -78,11 +85,23 @@ export function compactSearch(search: PlansSearch): PlansSearch {
     ...(search.q ? { q: search.q } : {}),
     ...(search.estate ? { estate: search.estate } : {}),
     ...(search.intake ? { intake: true } : {}),
+    ...(search.esports ? { esports: true } : {}),
+    ...(search.exclude ? { exclude: search.exclude } : {}),
+    ...(search.expiry ? { expiry: search.expiry } : {}),
     ...(search.sort && search.sort !== "fee" ? { sort: search.sort } : {}),
   };
 }
 
 /** Identity for replaying card fade-up: estate, housing, speed, provider, intake. */
 export function planListReplayKey(search: PlansSearch) {
-  return [search.estate ?? "", search.housing ?? "", search.speed ?? "", search.provider ?? "", search.intake ? "1" : ""].join("|");
+  return [
+    search.estate ?? "",
+    search.housing ?? "",
+    search.speed ?? "",
+    search.minSpeed ?? "",
+    search.provider ?? "",
+    search.exclude ?? "",
+    search.esports ? "1" : "",
+    search.intake ? "1" : "",
+  ].join("|");
 }

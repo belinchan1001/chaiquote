@@ -16,6 +16,9 @@ export const SITE = {
   leadEmail: "info@chaiquote.hk",
 } as const;
 
+/** Preview: new port-in intake on the homepage. Set false to restore the previous search panel. */
+export const HOME_SEARCH_V2 = true;
+
 /** Locked compliance copy. Do not invent a personal legal name. */
 export const LEGAL = {
   controllerKind: "個人獨立營運",
@@ -40,6 +43,13 @@ export const SHORTCUTS = [
   { label: "平價入門", search: { cat: "broadband" as const, maxFee: 120 } },
   { label: "電競神線", search: { cat: "broadband" as const, minSpeed: 2500, sort: "speed" as const } },
 ] as const;
+
+export const ESPORTS_LINE_SEARCH = {
+  cat: "broadband" as const,
+  minSpeed: 2500,
+  sort: "speed" as const,
+  esports: true as const,
+};
 
 export const CALL_WINDOWS = [
   { id: "anytime", label: "隨時都可以" },

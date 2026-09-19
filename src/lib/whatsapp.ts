@@ -41,7 +41,7 @@ export function quoteWhatsappDisplay(plans: Plan[] = []) {
   return SITE.phoneDisplay;
 }
 
-export function whatsappHref(text: string, phone = SITE.whatsappE164) {
+export function whatsappHref(text: string, phone: string = SITE.whatsappE164) {
   const params = new URLSearchParams({
     phone,
     text: withBrandTag(text),

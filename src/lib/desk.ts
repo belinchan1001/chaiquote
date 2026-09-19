@@ -11,9 +11,29 @@ export type Inquiry = {
   estate: string;
   housing: string;
   district: string;
+  block: string;
+  currentProvider: string;
+  targetProvider: string;
+  expiry: string;
+  need: string;
+  serviceType: string;
+  esports: boolean;
+  source: "filter" | "ai";
 };
 
-const EMPTY_INQUIRY: Inquiry = { estate: "", housing: "", district: "" };
+const EMPTY_INQUIRY: Inquiry = {
+  estate: "",
+  housing: "",
+  district: "",
+  block: "",
+  currentProvider: "",
+  targetProvider: "",
+  expiry: "",
+  need: "",
+  serviceType: "",
+  esports: false,
+  source: "filter",
+};
 
 function readList(key: string): string[] {
   try {
@@ -37,6 +57,14 @@ function readInquiry(): Inquiry {
       estate: typeof parsed.estate === "string" ? parsed.estate : "",
       housing: typeof parsed.housing === "string" ? parsed.housing : "",
       district: typeof parsed.district === "string" ? parsed.district : "",
+      block: typeof parsed.block === "string" ? parsed.block : "",
+      currentProvider: typeof parsed.currentProvider === "string" ? parsed.currentProvider : "",
+      targetProvider: typeof parsed.targetProvider === "string" ? parsed.targetProvider : "",
+      expiry: typeof parsed.expiry === "string" ? parsed.expiry : "",
+      need: typeof parsed.need === "string" ? parsed.need : "",
+      serviceType: typeof parsed.serviceType === "string" ? parsed.serviceType : "",
+      esports: parsed.esports === true,
+      source: parsed.source === "ai" ? "ai" : "filter",
     };
   } catch {
     return EMPTY_INQUIRY;

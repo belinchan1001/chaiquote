@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, startTransition } from "react";
 import { PlanCard } from "@/components/plan-card";
 import { PageBackButton } from "@/components/page-back";
+import { AiFilterEntry } from "@/components/ai-filter-entry";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
-import { ProviderFilter } from "@/components/provider-filter";
-import { AiFilterEntry } from "@/components/ai-filter-entry";
-import { chipRowClass, FilterLink } from "@/components/filter-link";
+import { Chip, IntakeFields } from "@/components/intake-fields";
+import { FilterLink } from "@/components/filter-link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
@@ -15,10 +15,8 @@ import { useI18n, usePageTitle } from "@/lib/i18n";
 import {
   filterPlans,
   type Category,
-  type Generation,
   type Housing,
   type PlansSearch,
-  type SpeedMbps,
 } from "@/lib/plans";
 import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { isHkbnFlashEstate, isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
@@ -27,12 +25,18 @@ import { CATEGORY_SEO, plansCategoryPath, canonicalUrl, shareHead } from "@/lib/
 import { categoryJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 import { bringPlanListIntoView, isPlanListInView, watchPlanListInView } from "@/lib/plan-list-fade";
+import { CATEGORY_OPTIONS } from "@/lib/site";
 import {
-  CATEGORY_OPTIONS,
-  GENERATION_OPTIONS,
-  HOUSING_OPTIONS,
-  SPEED_OPTIONS,
-} from "@/lib/site";
+  currentLabel,
+  currentOptions,
+  expiryLabel,
+  fromPortInSearch,
+  isTargetConflict,
+  mergePortInSearch,
+  serviceTypeLabel,
+  targetLabel,
+  targetOptions,
+} from "@/lib/port-in";
 import type { MessageKey } from "@/lib/messages";
 
 const PAGE_SIZE = 12;
@@ -42,13 +46,6 @@ const CAT_KEYS: Record<Category, MessageKey> = {
   mobile: "catMobile",
   home5g: "catHome5gLong",
   business: "catBusiness",
-};
-
-const HOUSING_KEYS: Record<Housing, MessageKey> = {
-  public: "housingPublic",
-  hos: "housingHos",
-  private: "housingPrivate",
-  village: "housingVillage",
 };
 
 export const Route = createFileRoute("/plans")({
@@ -61,19 +58,23 @@ export const Route = createFileRoute("/plans")({
 });
 
 function catPatch(search: PlansSearch, cat: Category): PlansSearch {
-  return {
-    ...search,
-    cat,
-    minSpeed: undefined,
-    minData: undefined,
-    speed: undefined,
-    generation: undefined,
-    gba: undefined,
-    portIn: undefined,
-    housing: cat === "mobile" ? undefined : search.housing,
-    intake: cat === "broadband" ? search.intake : undefined,
-    esports: undefined,
-  };
+  const intake = fromPortInSearch({ ...search, cat });
+  const currentOk = currentOptions(cat).some((item) => item.id === intake.current);
+  const targetOk = targetOptions(cat).some((item) => item.id === intake.target);
+  return compactSearch(
+    mergePortInSearch(search, {
+      cat,
+      estate: search.estate,
+      housing: search.housing,
+      current: currentOk ? intake.current : "",
+      target: targetOk ? intake.target : "all",
+      expiry: intake.expiry,
+      fibreSpeed: cat === "broadband" ? "any" : "",
+      businessSpeed: cat === "business" ? "any" : "",
+      mobileNeed: "",
+      esports: false,
+    }),
+  );
 }
 
 function PlansPage() {
@@ -83,9 +84,8 @@ function PlansPage() {
   const saved = useDesk((s) => s.saved);
   const setInquiry = useDesk((s) => s.setInquiry);
   const rows = filterPlans(search, saved);
-  const showHousing = search.cat !== "mobile";
-  const showSpeed = search.cat === "broadband" || search.cat === "business";
-  const showMobile = search.cat === "mobile";
+  const showHousing = search.cat === "broadband" || search.cat === "home5g";
+  const intake = fromPortInSearch(search);
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [estateDraft, setEstateDraft] = useState(search.estate ?? "");
   const [qDraft, setQDraft] = useState(search.q ?? "");
@@ -93,7 +93,7 @@ function PlansPage() {
   const listRef = useRef<HTMLDivElement>(null);
   const replayKey = planListReplayKey(search);
   const prevReplayKey = useRef(replayKey);
-  const { t, providerName, categoryLabel, housingLabel, updated, locale } = useI18n();
+  const { t, providerName, categoryLabel, housingLabel, updated } = useI18n();
   usePageTitle(CATEGORY_SEO[search.cat].title);
 
   useEffect(() => {
@@ -109,12 +109,28 @@ function PlansPage() {
   }, [search.q]);
 
   useEffect(() => {
-    if (!search.estate && !search.housing) return;
+    if (
+      !search.estate &&
+      !search.housing &&
+      !search.exclude &&
+      !search.expiry &&
+      !search.esports &&
+      !search.provider
+    )
+      return;
+    const fromIntake = Boolean(search.exclude || search.expiry || search.esports || search.provider);
     setInquiry({
       estate: search.estate ?? "",
       housing: search.housing ?? "",
+      ...(search.exclude ? { currentProvider: currentLabel(search.exclude) } : {}),
+      ...(fromIntake
+        ? { targetProvider: search.provider ? targetLabel(search.provider) : "" }
+        : {}),
+      ...(search.expiry ? { expiry: expiryLabel(search.expiry) } : {}),
+      ...(search.esports ? { esports: true } : {}),
+      ...(fromIntake ? { serviceType: serviceTypeLabel(search.cat) } : {}),
     });
-  }, [search.estate, search.housing, setInquiry]);
+  }, [search.estate, search.housing, search.exclude, search.provider, search.expiry, search.esports, search.cat, setInquiry]);
 
   useEffect(() => {
     const next = estateDraft.trim();
@@ -192,18 +208,20 @@ function PlansPage() {
   }, [replayKey, rows.length]);
 
   function patch(next: Partial<PlansSearch>) {
-    void navigate({
-      resetScroll: false,
-      search: (prev) => {
-        const merged = { ...prev, ...next };
-        if (
-          merged.provider &&
-          filterPlans({ ...merged, provider: merged.provider }, saved).length === 0
-        ) {
-          merged.provider = undefined;
-        }
-        return compactSearch(merged);
-      },
+    startTransition(() => {
+      void navigate({
+        resetScroll: false,
+        search: (prev) => {
+          const merged = { ...prev, ...next, esports: next.esports || undefined };
+          if (
+            merged.provider &&
+            filterPlans({ ...merged, provider: merged.provider }, saved).length === 0
+          ) {
+            merged.provider = undefined;
+          }
+          return compactSearch(merged);
+        },
+      });
     });
     if (next.estate !== undefined || next.housing !== undefined) {
       setInquiry({
@@ -211,6 +229,31 @@ function PlansPage() {
         housing: (next.housing ?? search.housing) ?? "",
       });
     }
+  }
+
+  function applyIntake(next: Partial<ReturnType<typeof fromPortInSearch>> & { housing?: Housing | ""; estate?: string }) {
+    const merged = { ...intake, ...next };
+    if (merged.current && isTargetConflict(merged.current, merged.target)) merged.target = "all";
+    const housingValue = showHousing ? (next.housing !== undefined ? next.housing : search.housing) : undefined;
+    startTransition(() => {
+      void navigate({
+        resetScroll: false,
+        search: compactSearch(
+          mergePortInSearch(search, {
+            cat: search.cat,
+            estate: next.estate !== undefined ? next.estate : search.estate,
+            housing: housingValue || undefined,
+            current: merged.current,
+            target: merged.target,
+            expiry: merged.expiry,
+            fibreSpeed: merged.fibreSpeed,
+            businessSpeed: merged.businessSpeed,
+            mobileNeed: merged.mobileNeed,
+            esports: merged.esports,
+          }),
+        ),
+      });
+    });
   }
 
   const resetSearch = compactSearch({ cat: search.cat });
@@ -229,6 +272,26 @@ function PlansPage() {
   if (search.speed) {
     active.push({ key: "speed", label: `${search.speed}M`, search: { ...search, speed: undefined } });
   }
+  if (search.esports) {
+    active.push({
+      key: "esports",
+      label: t("shortcutGaming"),
+      search: { ...search, esports: undefined, minSpeed: undefined },
+    });
+  } else if (search.minSpeed) {
+    active.push({
+      key: "minSpeed",
+      label: `${search.minSpeed}M+`,
+      search: { ...search, minSpeed: undefined },
+    });
+  }
+  if (search.expiry) {
+    active.push({
+      key: "expiry",
+      label: expiryLabel(search.expiry),
+      search: { ...search, expiry: undefined },
+    });
+  }
   if (search.generation) {
     active.push({
       key: "gen",
@@ -244,12 +307,19 @@ function PlansPage() {
   if (search.provider) {
     active.push({
       key: "prov",
-      label: providerName(search.provider),
+      label: t("intakeTargetChip", { name: providerName(search.provider) }),
       search: { ...search, provider: undefined },
     });
   }
   if (search.saved) active.push({ key: "saved", label: t("savedOnly"), search: { ...search, saved: undefined } });
   if (search.estate) active.push({ key: "estate", label: search.estate, search: { ...search, estate: undefined } });
+  if (search.exclude) {
+    active.push({
+      key: "exclude",
+      label: t("intakeExcludeChip", { name: providerName(search.exclude) }),
+      search: { ...search, exclude: undefined },
+    });
+  }
 
   const shown = rows.slice(0, visible);
   const showCoverageCheck = Boolean(search.estate && matchKnownEstate(search.estate)?.coverageCheck);
@@ -272,6 +342,19 @@ function PlansPage() {
         </p>
       </div>
 
+      {search.exclude && search.provider ? (
+        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
+          {t("intakeTargetNote", {
+            current: providerName(search.exclude),
+            target: providerName(search.provider),
+          })}
+        </p>
+      ) : search.exclude ? (
+        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
+          {t("intakeExcludeNote", { name: providerName(search.exclude) })}
+        </p>
+      ) : null}
+
       {active.length ? (
         <div className="mt-4 flex flex-wrap items-center gap-2">
           {active.map((chip) => (
@@ -284,7 +367,7 @@ function PlansPage() {
             to="/plans"
             search={resetSearch}
             resetScroll={false}
-            className="inline-flex h-11 items-center rounded-full px-3.5 text-sm text-muted underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+            className="inline-flex h-11 items-center px-3 text-sm text-muted underline-offset-4 hover:underline"
           >
             {t("clearAll")}
           </Link>
@@ -324,51 +407,42 @@ function PlansPage() {
 
       <AiFilterEntry className="mt-6" />
 
-      <div className="mt-3 space-y-4 rounded-lg border border-border bg-card p-3.5 shadow-[var(--shadow-home)] sm:p-5">
+      <div className="mt-3 space-y-4 rounded-xl bg-card p-4 shadow-[var(--shadow-border)] sm:p-5">
         <div className="space-y-2">
           <label htmlFor="plans-estate" className="text-xs font-medium tracking-wider text-muted">
-            {t("estateLabel")}
+            {search.cat === "broadband" ? t("estateLabel") : t("intakeAddressOptional")}
           </label>
           <EstateSuggest
             id="plans-estate"
             value={estateDraft}
             onChange={setEstateDraft}
             onSelect={(item) => {
-              const housing =
-                search.cat === "mobile"
-                  ? search.housing
-                  : item.housing ?? resolvedHousing(item.name) ?? search.housing;
+              const housing = showHousing
+                ? item.housing ?? resolvedHousing(item.name) ?? search.housing
+                : undefined;
               setInquiry({
-                estate: addressHitValue(item, locale),
+                estate: addressHitValue(item),
                 housing: housing ?? "",
                 district: item.district,
               });
               patch({
-                estate: addressHitValue(item, locale),
+                estate: addressHitValue(item),
                 housing,
               });
             }}
           />
           {showHousing ? <HousingGuessNote query={estateDraft} applied={search.housing} /> : null}
-          {showHousing ? (
-            <Button
-              type="button"
-              className="action-apply w-full sm:w-auto"
-              onClick={() => {
-                const next = resolvedHousing(estateDraft, search.housing);
-                patch({
-                  housing: search.cat === "mobile" ? search.housing : next,
-                  estate: estateDraft.trim() || undefined,
-                });
-              }}
-            >
-              {t("autoFilter")}
-            </Button>
-          ) : null}
+          <p className="text-xs text-muted">
+            {search.cat === "business"
+              ? t("intakeAddressOptionalHintBiz")
+              : search.cat === "broadband"
+                ? t("intakeAddressHint")
+                : t("intakeAddressOptionalHint")}
+          </p>
         </div>
         <fieldset>
           <legend className="text-xs font-medium tracking-wider text-muted">{t("planType")}</legend>
-          <div className={chipRowClass}>
+          <div className="mt-2 flex flex-wrap gap-2">
             {CATEGORY_OPTIONS.map((option) => (
               <FilterLink
                 key={option.id}
@@ -381,84 +455,32 @@ function PlansPage() {
           </div>
         </fieldset>
 
-        {showHousing ? (
-          <fieldset>
-            <legend className="text-xs font-medium tracking-wider text-muted">{t("housingKind")}</legend>
-            <div className={chipRowClass}>
-              <FilterLink selected={!search.housing} search={{ ...search, housing: undefined }}>
-                {t("any")}
-              </FilterLink>
-              {HOUSING_OPTIONS.map((option) => (
-                <FilterLink
-                  key={option.id}
-                  selected={search.housing === option.id}
-                  search={{ ...search, housing: option.id as Housing }}
-                >
-                  {t(HOUSING_KEYS[option.id])}
-                </FilterLink>
-              ))}
-              {search.cat === "broadband" ? (
-                <FilterLink
-                  selected={!!search.intake}
-                  search={{ ...search, intake: search.intake ? undefined : true }}
-                >
-                  {t("estatesNewIntakeTag")}
-                </FilterLink>
-              ) : null}
-            </div>
-          </fieldset>
-        ) : null}
-
-        {showSpeed ? (
-          <fieldset>
-            <legend className="text-xs font-medium tracking-wider text-muted">{t("netSpeed")}</legend>
-            <div className={chipRowClass}>
-              <FilterLink selected={!search.speed} search={{ ...search, speed: undefined }}>
-                {t("any")}
-              </FilterLink>
-              {SPEED_OPTIONS.map((option) => (
-                <FilterLink
-                  key={option.speed}
-                  selected={search.speed === option.speed}
-                  search={{ ...search, speed: option.speed as SpeedMbps }}
-                >
-                  {option.label}
-                </FilterLink>
-              ))}
-            </div>
-          </fieldset>
-        ) : null}
-
-        {showMobile ? (
-          <fieldset>
-            <legend className="text-xs font-medium tracking-wider text-muted">{t("mobileNet")}</legend>
-            <div className={chipRowClass}>
-              <FilterLink selected={!search.generation} search={{ ...search, generation: undefined }}>
-                {t("anyNetwork")}
-              </FilterLink>
-              {GENERATION_OPTIONS.map((option) => (
-                <FilterLink
-                  key={option.id}
-                  selected={search.generation === option.id}
-                  search={{ ...search, generation: option.id as Generation }}
-                >
-                  {option.id === "5g" ? t("gen5") : t("gen45")}
-                </FilterLink>
-              ))}
-              <FilterLink selected={!!search.gba} search={{ ...search, gba: search.gba ? undefined : true }}>
-                {t("gba")}
-              </FilterLink>
-              <FilterLink
-                selected={!!search.portIn}
-                search={{ ...search, portIn: search.portIn ? undefined : true }}
-              >
-                {t("portIn")}
-              </FilterLink>
-            </div>
-          </fieldset>
-        ) : null}
-
-        <ProviderFilter search={search} value={search.provider} savedIds={saved} />
+        <IntakeFields
+          cat={search.cat}
+          housing={search.housing ?? ""}
+          onHousing={(id) => applyIntake({ housing: id })}
+          current={intake.current}
+          onCurrent={(id) => applyIntake({ current: id })}
+          target={intake.target}
+          onTarget={(id) => applyIntake({ target: id })}
+          expiry={intake.expiry}
+          onExpiry={(id) => applyIntake({ expiry: id })}
+          fibreSpeed={intake.fibreSpeed}
+          onFibreSpeed={(id) => applyIntake({ fibreSpeed: id, esports: false })}
+          businessSpeed={intake.businessSpeed}
+          onBusinessSpeed={(id) => applyIntake({ businessSpeed: id })}
+          mobileNeed={intake.mobileNeed}
+          onMobileNeed={(id) => applyIntake({ mobileNeed: id })}
+          esports={intake.esports}
+          onEsports={(next) => applyIntake({ esports: next, fibreSpeed: next ? "2500" : "any" })}
+          extraHousing={
+            search.cat === "broadband" ? (
+              <Chip selected={!!search.intake} onSelect={() => patch({ intake: search.intake ? undefined : true })}>
+                {t("estatesNewIntakeTag")}
+              </Chip>
+            ) : null
+          }
+        />
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <label className="block text-xs text-muted">
@@ -492,8 +514,8 @@ function PlansPage() {
               resetScroll={false}
               className={
                 search.saved
-                  ? "inline-flex h-11 flex-1 items-center justify-center rounded-md bg-accent px-4 text-sm font-medium text-accent-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
-                  : "inline-flex h-11 flex-1 items-center justify-center rounded-md border border-border bg-card px-4 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+                  ? "inline-flex h-11 flex-1 items-center justify-center rounded-md bg-accent px-4 text-sm font-medium text-accent-foreground"
+                  : "inline-flex h-11 flex-1 items-center justify-center rounded-md border border-border bg-card px-4 text-sm font-medium"
               }
             >
               {search.saved ? t("savedNow") : t("savedOnly")}
