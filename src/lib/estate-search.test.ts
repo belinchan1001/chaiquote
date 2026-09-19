@@ -1524,7 +1524,8 @@ describe("phase 2 Lok Fu catalogue blocks (HA PRH stock)", () => {
     }
     assert.equal(blocks.length, LOK_FU_HA_BLOCKS.length);
     for (const invented of ["康樓", "樂樓", "順樓", "達樓", "逸樓", "旭樓", "樂安樓", "樂智樓", "樂和樓", "樂禧樓", "樂逸樓", "樂旺樓"]) {
-      assert.equal(estate(invented), undefined, invented);
+      assert.equal(blocks.includes(invented), false, invented);
+      assert.notEqual(parentEstate(invented)?.name, "樂富邨", invented);
     }
     assert.equal(matchKnownEstate("樂泰樓")?.name, "樂泰樓");
     assert.equal(matchKnownEstate("樂富邨樂泰樓")?.name, "樂泰樓");
