@@ -22,6 +22,7 @@ import {
   relatedBlocks,
   searchEstates,
 } from "./estates.ts";
+import { ESTATE_COUNT } from "./estate-count.ts";
 import { toTraditional } from "./zh-s2t.ts";
 import {
   HKBN_FLASH_OFFER_ESTATES,
@@ -40,6 +41,12 @@ function estate(name: string) {
 function names(query: string) {
   return searchEstates(query, 12).map((item) => item.name);
 }
+
+describe("homepage estate count", () => {
+  it("matches the live catalogue length", () => {
+    assert.equal(ESTATE_COUNT, ESTATES.length);
+  });
+});
 
 describe("locked acceptance checks", () => {
   it("1) 東頭村 → village; 東頭邨 → public; searching one must not mis-label the other", () => {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
-import { AiBetaMark } from "@/components/ai-staff";
+import { AiBetaMark } from "@/components/ai-beta-mark";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
 import { LogoMarkLooking } from "@/components/logo-mark-looking";

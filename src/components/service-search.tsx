@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { useNavigate } from "@tanstack/react-router";
 import { Building2, Signal, Smartphone, Wifi, X } from "lucide-react";
 import { AiFilterEntry } from "@/components/ai-filter-entry";
-import { EstateSuggest } from "@/components/estate-suggest";
+import { LazyEstateSuggest as EstateSuggest } from "@/components/lazy-estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import { IntakeFields } from "@/components/intake-fields";
 import { Button } from "@/components/ui/button";

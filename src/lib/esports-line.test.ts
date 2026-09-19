@@ -7,10 +7,10 @@ import { compactSearch, parsePlansSearch } from "./search.ts";
 import { ESPORTS_LINE_SEARCH } from "./site.ts";
 import {
   ESPORTS_LINE_MIN_SPEED,
-  filterPlans,
   getPlan,
   isEsportsLine,
 } from "./plans.ts";
+import { filterPlans } from "./plan-filter.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 

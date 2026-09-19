@@ -4,7 +4,8 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ESTATES, matchKnownEstate, searchEstates } from "./estates.ts";
-import { filterPlans, getPlan } from "./plans.ts";
+import { getPlan } from "./plans.ts";
+import { filterPlans } from "./plan-filter.ts";
 import {
   ESTATE_PAGES,
   estateIntro,

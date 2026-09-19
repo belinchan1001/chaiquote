@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { filterPlans } from "./plans.ts";
+import { filterPlans } from "./plan-filter.ts";
 import {
   addressRequired,
   currentOptions,

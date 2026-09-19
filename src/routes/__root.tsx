@@ -1,14 +1,11 @@
 import { createRootRoute, HeadContent, Link, Outlet, Scripts } from "@tanstack/react-router";
+import { lazy, Suspense } from "react";
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { CompareBar } from "@/components/compare-bar";
 import { NavProgress } from "@/components/nav-progress";
 import { DeferredWhatsApp } from "@/components/whatsapp-widget";
-import { AiStaffPanel } from "@/components/ai-staff";
-import { FirstVisitTour } from "@/components/first-visit-tour";
-import { PwaInstallTip } from "@/components/pwa-install-tip";
 import { PwaServiceWorker } from "@/components/pwa-service-worker";
 import { I18nProvider, useI18n, usePageTitle } from "@/lib/i18n";
 import { AppErrorComponent } from "@/lib/error-component";
@@ -22,6 +19,15 @@ import {
   isNotFoundDocument,
 } from "@/lib/canonical";
 import appCss from "../styles.css?url";
+
+const CompareBar = lazy(() => import("@/components/compare-bar").then((mod) => ({ default: mod.CompareBar })));
+const PwaInstallTip = lazy(() =>
+  import("@/components/pwa-install-tip").then((mod) => ({ default: mod.PwaInstallTip })),
+);
+const AiStaffPanel = lazy(() => import("@/components/ai-staff").then((mod) => ({ default: mod.AiStaffPanel })));
+const FirstVisitTour = lazy(() =>
+  import("@/components/first-visit-tour").then((mod) => ({ default: mod.FirstVisitTour })),
+);
 
 export const Route = createRootRoute({
   head: ({ matches }) => {
@@ -124,11 +130,13 @@ function RootLayout() {
               <PageShell />
               <SiteFooter />
             </div>
-            <CompareBar />
-            <PwaInstallTip />
+            <Suspense fallback={null}>
+              <CompareBar />
+              <PwaInstallTip />
+              <AiStaffPanel />
+              <FirstVisitTour />
+            </Suspense>
             <DeferredWhatsApp />
-            <AiStaffPanel />
-            <FirstVisitTour />
           </AuthProvider>
         </I18nProvider>
         <Scripts />

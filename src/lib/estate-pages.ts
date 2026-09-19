@@ -1,7 +1,8 @@
 import { ESTATES, estateDisplayName, estateEnglishName, parentEstate, placeDisplayName, type Estate } from "./estates.ts";
 import { NETVIGATOR_ONLY_ESTATES } from "./estate-new-intake.ts";
 import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
-import { filterPlans, matchesHousing, PLANS, type Housing, type Plan } from "./plans.ts";
+import { matchesHousing, PLANS, type Housing, type Plan } from "./plans.ts";
+import { filterPlans } from "./plan-filter.ts";
 import { DISTRICTS } from "./site.ts";
 
 /** First-batch SEO estate pages. Their slugs stay stable. */

@@ -5,10 +5,10 @@ import { chipClass, chipRowClass, useChipArm } from "@/components/filter-link";
 import { useI18n } from "@/lib/i18n";
 import {
   PROVIDERS,
-  filterPlans,
   type PlansSearch,
   type ProviderId,
 } from "@/lib/plans";
+import { filterPlans } from "@/lib/plan-filter";
 import { compactSearch } from "@/lib/search";
 import { cn } from "@/lib/utils";
 

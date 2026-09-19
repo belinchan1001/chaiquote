@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { LogoMarkLooking } from "@/components/logo-mark-looking";
 import { ProviderMark } from "@/components/provider-mark";
+import { AiBetaMark } from "@/components/ai-beta-mark";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { askAiDesk } from "@/lib/ai-ask";
@@ -51,14 +52,7 @@ export function aiWelcomeCopy(t: (key: "aiWelcome" | "aiWelcomeTrial") => string
   return `${t("aiWelcome")}\n${t("aiWelcomeTrial")}`;
 }
 
-export function AiBetaMark({ className }: { className?: string }) {
-  const { t } = useI18n();
-  return (
-    <span className={cn("text-[10px] font-normal leading-none tracking-normal opacity-80", className)}>
-      {t("aiBeta")}
-    </span>
-  );
-}
+export { AiBetaMark };
 
 function sessionId() {
   try {

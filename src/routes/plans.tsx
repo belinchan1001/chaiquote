@@ -6,18 +6,14 @@ import { AiFilterEntry } from "@/components/ai-filter-entry";
 import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import { Chip, IntakeFields } from "@/components/intake-fields";
-import { FilterLink } from "@/components/filter-link";
+import { FilterLink, chipRowClass } from "@/components/filter-link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import {
-  filterPlans,
-  type Category,
-  type Housing,
-  type PlansSearch,
-} from "@/lib/plans";
+import { type Category, type Housing, type PlansSearch } from "@/lib/plans";
+import { filterPlans } from "@/lib/plan-filter";
 import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { isHkbnFlashEstate, isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
 import { compactSearch, parsePlansSearch, planListReplayKey } from "@/lib/search";
@@ -356,7 +352,7 @@ function PlansPage() {
       ) : null}
 
       {active.length ? (
-        <div className="mt-4 flex flex-wrap items-center gap-2">
+        <div className={chipRowClass}>
           {active.map((chip) => (
             <FilterLink key={chip.key} selected={false} search={chip.search}>
               {chip.label}
@@ -407,7 +403,7 @@ function PlansPage() {
 
       <AiFilterEntry className="mt-6" />
 
-      <div className="mt-3 space-y-4 rounded-xl bg-card p-4 shadow-[var(--shadow-border)] sm:p-5">
+      <div className="mt-3 space-y-4 rounded-lg border border-border bg-card p-3.5 shadow-[var(--shadow-home)] sm:p-5">
         <div className="space-y-2">
           <label htmlFor="plans-estate" className="text-xs font-medium tracking-wider text-muted">
             {search.cat === "broadband" ? t("estateLabel") : t("intakeAddressOptional")}

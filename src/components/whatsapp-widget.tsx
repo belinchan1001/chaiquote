@@ -204,7 +204,7 @@ export function DeferredWhatsApp() {
   const lifted = compare.length > 0;
   const { t } = useI18n();
   useEffect(() => {
-    const timer = window.setTimeout(() => setReady(true), 1);
+    const timer = window.setTimeout(() => setReady(true), 1800);
     return () => window.clearTimeout(timer);
   }, []);
   if (!ready) {

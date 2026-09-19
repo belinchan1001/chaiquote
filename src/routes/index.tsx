@@ -4,7 +4,7 @@ import { PlanCard } from "@/components/plan-card";
 import { SearchPanel } from "@/components/search-panel";
 import { ServiceSearch } from "@/components/service-search";
 import { Button } from "@/components/ui/button";
-import { ESTATES } from "@/lib/estates";
+import { ESTATE_COUNT } from "@/lib/estate-count";
 import { PLANS, formatFee, getPlan, cheapestPlan, cheapestVillageBroadbandPlan } from "@/lib/plans";
 import { HOME_SEARCH_V2, SITE } from "@/lib/site";
 import { useI18n, usePageTitle } from "@/lib/i18n";
@@ -97,7 +97,6 @@ function Home() {
             width={1280}
             height={720}
             fetchPriority="high"
-            decoding="async"
             className="absolute inset-0 size-full object-cover"
           />
         </picture>
@@ -119,7 +118,7 @@ function Home() {
                 {t("statPlansUnit")}
               </p>
               <p className="flex items-baseline gap-1.5">
-                <span className="font-display text-lg font-semibold tabular-nums text-primary-foreground">{ESTATES.length}</span>
+                <span className="font-display text-lg font-semibold tabular-nums text-primary-foreground">{ESTATE_COUNT}</span>
                 {t("statEstatesUnit")}
               </p>
             </div>
@@ -210,7 +209,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="bg-surface">
+      <section className="home-below-fold bg-surface">
         <div className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
           <div>
             <h2 className="home-section-title">{t("featuredTitle")}</h2>
@@ -230,7 +229,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="border-t border-border">
+      <section className="home-below-fold border-t border-border">
         <div className="mx-auto max-w-3xl px-4 py-8 sm:py-10">
           <div className="rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-home)] sm:p-5">
             <h2 className="home-section-title">{t("faqTitle")}</h2>

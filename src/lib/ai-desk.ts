@@ -9,7 +9,6 @@ import {
   PLANS,
   PROVIDER_MAP,
   averageFee,
-  filterPlans,
   getPlan,
   type Category,
   type Housing,
@@ -17,6 +16,7 @@ import {
   type ProviderId,
   type SpeedMbps,
 } from "./plans.ts";
+import { filterPlans } from "./plan-filter.ts";
 
 export const AI_MONTHLY_BUDGET_HKD = 200;
 export const HKD_PER_USD = 7.8;
