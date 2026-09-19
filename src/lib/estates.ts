@@ -83,7 +83,18 @@ const RAW = `
 茂東樓|茂東,Mau Tung House,東頭邨茂東樓|黃大仙|public
 盛東樓|盛東,Shing Tung House,東頭邨盛東樓|黃大仙|public
 東頭村|東頭村,Tung Tau Village,Tung Tau Tsuen,元朗東頭村,十八鄉東頭村|元朗|village|十八鄉
-樂富邨|樂富,Lok Fu|黃大仙|public
+樂富邨|樂富,Lok Fu,Lok Fu Estate|黃大仙|public
+宏康樓|Wang Hong House,樂富邨宏康樓|黃大仙|public
+宏樂樓|Wang Lok House,樂富邨宏樂樓|黃大仙|public
+宏順樓|Wang Shun House,樂富邨宏順樓|黃大仙|public
+宏達樓|Wang Tat House,樂富邨宏達樓|黃大仙|public
+宏逸樓|Wang Yat House,樂富邨宏逸樓|黃大仙|public
+宏旭樓|Wang Yuk House,樂富邨宏旭樓|黃大仙|public
+樂東樓|Lok Tung House,樂富邨樂東樓|黃大仙|public
+樂民樓|Lok Man House,樂富邨樂民樓|黃大仙|public
+樂謙樓|Lok Him House,樂富邨樂謙樓|黃大仙|public
+樂翠樓|Lok Tsui House,樂富邨樂翠樓|黃大仙|public
+樂泰樓|Lok Tai House,樂富邨樂泰樓|黃大仙|public
 彩雲邨|彩雲,彩雲一邨,彩雲二邨,Choi Wan|黃大仙|public
 橫頭磡邨|橫頭磡,Wang Tau Hom|黃大仙|public
 石硤尾邨|石硤尾,Shek Kip Mei|深水埗|public
@@ -530,6 +541,8 @@ export function isCatalogueParent(estate: Estate): boolean {
 /**
  * Link 樓／閣 rows to a parent using the parent's full catalogue name only.
  * 「東頭邨康東樓」→ 東頭邨; 「東頭」must not attach 東頭村 to 東頭邨 blocks.
+ * 樂富邨 blocks (宏康樓…樂泰樓) come from HA PRH stock `ha_prhs_h` (Wong Tai Sin),
+ * not guessed names — keep the 「邨名××樓」alias so relatedBlocks can attach them.
  */
 export function isRelatedBlock(child: Estate, parent: Estate): boolean {
   if (child.name === parent.name || parent.housing === "village") return false;

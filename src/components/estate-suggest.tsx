@@ -6,8 +6,12 @@ import {
   addressHitName,
   addressHitSubtitle,
   addressHitValue,
+  blockStepHits,
+  blockStepKind,
+  catalogueBlockHits,
   isImpracticalPlace,
   localAddressHits,
+  lookupParentBlocks,
   searchAddresses,
   type AddressHit,
 } from "@/lib/address-search";
@@ -45,6 +49,12 @@ function highlightName(name: string, query: string): ReactNode {
   return name;
 }
 
+type BlockStep = {
+  parent: AddressHit;
+  catalogue: AddressHit[];
+  gov: AddressHit[];
+};
+
 export function EstateSuggest({
   id,
   value,
@@ -69,18 +79,22 @@ export function EstateSuggest({
   const [remoteFor, setRemoteFor] = useState("");
   const [loading, setLoading] = useState(false);
   const [awaiting, setAwaiting] = useState(false);
+  const [blockStep, setBlockStep] = useState<BlockStep | null>(null);
+  const [lookupPending, setLookupPending] = useState(false);
   const local = localAddressHits(value);
   const query = value.trim();
   const remoteFresh = remoteFor === query;
   const results = query.length >= 2 && remoteFresh && remote.length ? remote : local;
   const busy = loading || awaiting || (query.length >= 2 && !remoteFresh);
   const { t, locale } = useI18n();
+  const stepBlocks = blockStep ? blockStepHits(blockStep.catalogue, blockStep.gov) : [];
 
   useEffect(() => {
     setActive(0);
-  }, [value]);
+  }, [value, blockStep, lookupPending]);
 
   useEffect(() => {
+    if (blockStep || lookupPending) return;
     const q = value.trim();
     if (q.length < 2) {
       setRemote([]);
@@ -109,7 +123,7 @@ export function EstateSuggest({
       window.clearTimeout(timer);
       ac.abort();
     };
-  }, [value]);
+  }, [value, blockStep, lookupPending]);
 
   useEffect(() => {
     function onDoc(e: MouseEvent) {
@@ -124,18 +138,110 @@ export function EstateSuggest({
     inputRef.current?.blur();
   }
 
-  function pick(hit: AddressHit) {
+  function clearBlockFlow() {
+    setBlockStep(null);
+    setLookupPending(false);
+  }
+
+  function finalize(hit: AddressHit) {
     onChange(addressHitValue(hit, locale));
     onSelect?.(hit);
+    clearBlockFlow();
     dismissKeyboard();
   }
 
   /** Keep the typed name. Do not call onSelect (no flash-deal unlock). */
   function keepTypedName() {
+    clearBlockFlow();
     dismissKeyboard();
   }
 
+  /** Confirm the selected parent only — never rematch the typed query. */
+  function skipParentName() {
+    if (!blockStep) return;
+    finalize(blockStep.parent);
+  }
+
+  function showCatalogueStep(hit: AddressHit) {
+    const catalogue = catalogueBlockHits(hit);
+    if (!catalogue.length) {
+      finalize(hit);
+      return;
+    }
+    onChange(addressHitValue(hit, locale));
+    inputRef.current?.blur();
+    setLookupPending(false);
+    setBlockStep({ parent: hit, catalogue, gov: [] });
+    setOpen(true);
+    const ac = new AbortController();
+    void lookupParentBlocks(hit, ac.signal)
+      .then(({ gov }) => {
+        setBlockStep((current) => (current && current.parent.key === hit.key ? { ...current, gov } : current));
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+      });
+  }
+
+  function pick(hit: AddressHit) {
+    const kind = blockStepKind(hit);
+    if (kind === "none") {
+      finalize(hit);
+      return;
+    }
+    if (kind === "catalogue") {
+      showCatalogueStep(hit);
+      return;
+    }
+    onChange(addressHitValue(hit, locale));
+    inputRef.current?.blur();
+    setLookupPending(true);
+    setBlockStep(null);
+    setOpen(true);
+    const ac = new AbortController();
+    void lookupParentBlocks(hit, ac.signal)
+      .then(({ catalogue, gov }) => {
+        const next = blockStepHits(catalogue, gov);
+        if (!next.length) {
+          finalize(hit);
+          return;
+        }
+        setLookupPending(false);
+        setBlockStep({ parent: hit, catalogue, gov });
+        setOpen(true);
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        finalize(hit);
+      });
+  }
+
+  const listLength = blockStep ? stepBlocks.length + 1 : results.length;
+
   function onKeyDown(e: KeyboardEvent<HTMLInputElement>) {
+    if (lookupPending) {
+      if (e.key === "Escape") {
+        setLookupPending(false);
+        setOpen(false);
+      }
+      return;
+    }
+    if (blockStep) {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setActive((i) => (i + 1) % Math.max(listLength, 1));
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setActive((i) => (i - 1 + listLength) % Math.max(listLength, 1));
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        if (active >= stepBlocks.length) skipParentName();
+        else if (stepBlocks[active]) finalize(stepBlocks[active]);
+      } else if (e.key === "Escape") {
+        setOpen(false);
+      }
+      return;
+    }
     if (!open && (e.key === "ArrowDown" || e.key === "ArrowUp") && results.length) {
       setOpen(true);
       return;
@@ -155,7 +261,41 @@ export function EstateSuggest({
     }
   }
 
-  const showList = open && value.trim().length > 0;
+  const showList = open && (value.trim().length > 0 || Boolean(blockStep) || lookupPending);
+
+  function hitButton(hit: AddressHit, i: number, queryText: string, refLabel = false) {
+    const subtitle = [
+      addressHitSubtitle(hit, locale) || t("hk"),
+      hit.coverageCheck ? t("coverageCheck") : "",
+      refLabel || hit.blockRef ? t("searchBlockRef") : "",
+    ]
+      .filter(Boolean)
+      .join(" · ");
+    return (
+      <li key={hit.key} role="option" aria-selected={i === active}>
+        <button
+          type="button"
+          className={cn(
+            "flex min-h-11 w-full flex-col items-start justify-center px-3 py-2 text-left text-sm",
+            i === active && "bg-surface",
+          )}
+          onMouseDown={(e) => e.preventDefault()}
+          onMouseEnter={() => setActive(i)}
+          onClick={() => finalize(hit)}
+        >
+          <span className="flex flex-wrap items-center gap-1.5">
+            <span className="font-medium">{highlightName(addressHitName(hit, locale), queryText)}</span>
+            {hit.newIntake ? (
+              <span className="inline-flex h-5 shrink-0 items-center rounded-full bg-accent/15 px-1.5 text-[10px] font-medium text-accent">
+                {t("estatesNewIntakeTag")}
+              </span>
+            ) : null}
+          </span>
+          <span className="text-xs text-muted">{subtitle}</span>
+        </button>
+      </li>
+    );
+  }
 
   return (
     <div ref={rootRef} className="relative">
@@ -171,6 +311,7 @@ export function EstateSuggest({
         value={value}
         placeholder={placeholder ?? t("estatePlaceholder")}
         onChange={(e) => {
+          clearBlockFlow();
           onChange(e.target.value);
           setOpen(true);
         }}
@@ -181,38 +322,65 @@ export function EstateSuggest({
         <ul
           id={listId}
           role="listbox"
-          className="popover-in absolute z-50 mt-1 max-h-[min(16rem,40dvh)] w-full overflow-y-auto rounded-xl bg-card py-1 shadow-[var(--shadow-border-hover)] sm:max-h-80"
+          className={cn(
+            "popover-in absolute z-50 mt-1 w-full overflow-y-auto rounded-xl bg-card py-1 shadow-[var(--shadow-border-hover)] sm:max-h-80",
+            blockStep ? "max-h-[min(20rem,45dvh)]" : "max-h-[min(16rem,40dvh)]",
+          )}
         >
-          {results.length ? (
-            results.map((hit, i) => {
-              const subtitle = [addressHitSubtitle(hit, locale) || t("hk"), hit.coverageCheck ? t("coverageCheck") : ""]
-                .filter(Boolean)
-                .join(" · ");
-              return (
-                <li key={hit.key} role="option" aria-selected={i === active}>
-                  <button
-                    type="button"
-                    className={cn(
-                      "flex min-h-11 w-full flex-col items-start justify-center px-3 py-2 text-left text-sm",
-                      i === active && "bg-surface",
-                    )}
-                    onMouseDown={(e) => e.preventDefault()}
-                    onMouseEnter={() => setActive(i)}
-                    onClick={() => pick(hit)}
-                  >
-                    <span className="flex flex-wrap items-center gap-1.5">
-                      <span className="font-medium">{highlightName(addressHitName(hit, locale), value)}</span>
-                      {hit.newIntake ? (
-                        <span className="inline-flex h-5 shrink-0 items-center rounded-full bg-accent/15 px-1.5 text-[10px] font-medium text-accent">
-                          {t("estatesNewIntakeTag")}
-                        </span>
-                      ) : null}
-                    </span>
-                    <span className="text-xs text-muted">{subtitle}</span>
-                  </button>
-                </li>
-              );
-            })
+          {lookupPending ? (
+            <li className="px-3 py-3 text-sm text-muted">{t("searchingBlocks")}</li>
+          ) : blockStep ? (
+            <>
+              <li className="px-3 py-2 text-xs text-muted">{t("searchPickBlock")}</li>
+              {stepBlocks.map((hit, i) => hitButton(hit, i, addressHitName(blockStep.parent, locale), hit.blockRef))}
+              <li role="option" aria-selected={active === stepBlocks.length}>
+                <button
+                  type="button"
+                  className={cn(
+                    "inline-flex min-h-11 w-full items-center px-3 text-left text-sm font-medium text-accent outline-none hover:bg-surface focus-visible:ring-2 focus-visible:ring-ring",
+                    active === stepBlocks.length && "bg-surface",
+                  )}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onMouseEnter={() => setActive(stepBlocks.length)}
+                  onClick={skipParentName}
+                >
+                  {t("searchSkipBlock")}
+                </button>
+              </li>
+            </>
+          ) : results.length ? (
+            <>
+              {results.map((hit, i) => {
+                const subtitle = [addressHitSubtitle(hit, locale) || t("hk"), hit.coverageCheck ? t("coverageCheck") : ""]
+                  .filter(Boolean)
+                  .join(" · ");
+                return (
+                  <li key={hit.key} role="option" aria-selected={i === active}>
+                    <button
+                      type="button"
+                      className={cn(
+                        "flex min-h-11 w-full flex-col items-start justify-center px-3 py-2 text-left text-sm",
+                        i === active && "bg-surface",
+                      )}
+                      onMouseDown={(e) => e.preventDefault()}
+                      onMouseEnter={() => setActive(i)}
+                      onClick={() => pick(hit)}
+                    >
+                      <span className="flex flex-wrap items-center gap-1.5">
+                        <span className="font-medium">{highlightName(addressHitName(hit, locale), value)}</span>
+                        {hit.newIntake ? (
+                          <span className="inline-flex h-5 shrink-0 items-center rounded-full bg-accent/15 px-1.5 text-[10px] font-medium text-accent">
+                            {t("estatesNewIntakeTag")}
+                          </span>
+                        ) : null}
+                      </span>
+                      <span className="text-xs text-muted">{subtitle}</span>
+                    </button>
+                  </li>
+                );
+              })}
+              {loading ? <li className="px-3 py-2 text-xs text-subtle">{t("fillingAddr")}</li> : null}
+            </>
           ) : (
             <li className="px-3 py-3 text-sm text-muted">
               {isImpracticalPlace(value) ? (
@@ -231,19 +399,12 @@ export function EstateSuggest({
                     >
                       {t("searchContinueTyped")}
                     </button>
-                    <QuoteLink
-                      inquiry={{ estate: value.trim() }}
-                      size="sm"
-                      className="min-h-11 w-full"
-                    />
+                    <QuoteLink inquiry={{ estate: value.trim() }} size="sm" className="min-h-11 w-full" />
                   </div>
                 </div>
               )}
             </li>
           )}
-          {loading && results.length ? (
-            <li className="px-3 py-2 text-xs text-subtle">{t("fillingAddr")}</li>
-          ) : null}
         </ul>
       ) : null}
     </div>
