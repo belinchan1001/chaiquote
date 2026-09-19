@@ -4,12 +4,15 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  ADDRESS_SEARCH_DEBOUNCE_MS,
   addressHitAddress,
   addressHitDistrict,
   addressHitFromGov,
   addressHitLabel,
   addressHitName,
+  addressHitSubtitle,
   addressHitValue,
+  isHongKongPlace,
   localAddressHits,
   searchAddresses,
 } from "./address-search.ts";
@@ -176,7 +179,7 @@ describe("locale-aware address display", () => {
   it("suggest UI reads locale-aware name / label / value", () => {
     const suggest = readFileSync(join(ROOT, "src/components/estate-suggest.tsx"), "utf8");
     assert.match(suggest, /addressHitName\(hit, locale\)/);
-    assert.match(suggest, /addressHitLabel\(hit, locale\)/);
+    assert.match(suggest, /addressHitSubtitle\(hit, locale\)/);
     assert.match(suggest, /addressHitValue\(hit, locale\)/);
     const estatePage = readFileSync(join(ROOT, "src/routes/estates_.$slug.tsx"), "utf8");
     assert.match(estatePage, /estateHousingLabel\(estate\.housing, locale\)/);
@@ -223,7 +226,7 @@ describe("locale-aware address display", () => {
     assert.match(dir, /placeDisplayName\(page\.estate\.district, locale\)/);
     assert.match(dir, /placeDisplayName\(group\.district, locale\)/);
     const suggest = readFileSync(join(ROOT, "src/components/estate-suggest.tsx"), "utf8");
-    assert.match(suggest, /addressHitLabel\(hit, locale\)/);
+    assert.match(suggest, /addressHitSubtitle\(hit, locale\)/);
     const search = readFileSync(join(ROOT, "src/lib/address-search.ts"), "utf8");
     assert.match(search, /districtEnglishName\(hit\.district\)/);
   });
@@ -272,6 +275,118 @@ describe("locale-aware address display", () => {
     assert.equal(estateDisplayName(kingswood.estate, "zh"), "天水圍嘉湖山莊");
     assert.match(messages, /searchPopularLabel: "熱門："/);
     assert.match(messages, /searchPopularLabel: "Popular: "/);
+  });
+});
+
+describe("phase 1 address suggest UX and filters", () => {
+  it("locks 細蚊 placeholder / loading / empty / continue copy and reuses waQuote", () => {
+    assert.equal(MESSAGES.zh.estatePlaceholder, "例：太古城、YOHO Town、長沙灣道");
+    assert.equal(MESSAGES.en.estatePlaceholder, "e.g. Taikoo Shing, YOHO Town, Cheung Sha Wan Road");
+    assert.equal(MESSAGES.zh.searchingAddr, "搜緊香港地址…");
+    assert.equal(MESSAGES.en.searchingAddr, "Searching Hong Kong addresses…");
+    assert.equal(
+      MESSAGES.zh.noExactAddr,
+      "搵唔到相似地址。你可以繼續用呢個名稱睇計劃，或者 WhatsApp 查核覆蓋。",
+    );
+    assert.equal(
+      MESSAGES.en.noExactAddr,
+      "No similar address found. You can keep this name to browse plans, or WhatsApp us to check coverage.",
+    );
+    assert.equal(MESSAGES.zh.searchContinueTyped, "用呢個名稱繼續");
+    assert.equal(MESSAGES.en.searchContinueTyped, "Continue with this name");
+    assert.equal(MESSAGES.zh.waQuote, "WhatsApp 查核報價");
+    assert.equal(MESSAGES.en.waQuote, "Check quote on WhatsApp");
+    assert.equal(MESSAGES.zh.searchPopularLabel, "熱門：");
+    assert.equal(MESSAGES.en.searchPopularLabel, "Popular: ");
+    for (const text of [
+      MESSAGES.zh.estatePlaceholder,
+      MESSAGES.zh.noExactAddr,
+      MESSAGES.zh.searchContinueTyped,
+      MESSAGES.zh.waQuote,
+      MESSAGES.en.estatePlaceholder,
+      MESSAGES.en.noExactAddr,
+      MESSAGES.en.searchContinueTyped,
+      MESSAGES.en.waQuote,
+    ]) {
+      assert.doesNotMatch(text, /最平|保證|官方|cheapest|guaranteed|official/i);
+    }
+  });
+
+  it("keeps debounce at 300ms, locale-independent cache, and district · housing subtitle", () => {
+    assert.equal(ADDRESS_SEARCH_DEBOUNCE_MS, 300);
+    const suggest = readFileSync(join(ROOT, "src/components/estate-suggest.tsx"), "utf8");
+    assert.match(suggest, /ADDRESS_SEARCH_DEBOUNCE_MS/);
+    assert.match(suggest, /searchContinueTyped/);
+    assert.match(suggest, /QuoteLink/);
+    assert.match(suggest, /keepTypedName/);
+    assert.doesNotMatch(suggest, /matchKnownEstate/);
+    assert.match(suggest, /function keepTypedName\(\) \{\n    dismissKeyboard\(\);/);
+    assert.match(suggest, /min-h-11/);
+    assert.match(suggest, /40dvh|max-h-\[min/);
+    assert.match(suggest, /inputRef\.current\?\.blur/);
+
+    const hit = localAddressHits("天耀")[0]!;
+    assert.match(addressHitSubtitle(hit, "zh"), /公屋/);
+    assert.match(addressHitSubtitle(hit, "en"), /Public housing/);
+    assert.doesNotMatch(addressHitSubtitle(hit, "zh"), /，/);
+    assert.equal(isHongKongPlace("東區"), true);
+    assert.equal(isHongKongPlace("Eastern District"), true);
+    assert.equal(isHongKongPlace("London", "United Kingdom", "Somewhere"), false);
+  });
+
+  it("Yoho local hits stay in-series; cache is not keyed by locale", async () => {
+    const yoho = localAddressHits("Yoho");
+    const names = yoho.map((hit) => hit.name);
+    assert.ok(names.includes("YOHO Town"));
+    assert.ok(names.includes("YOHO Midtown"));
+    assert.ok(names.includes("YOHO West"));
+    assert.ok(names.includes("Grand YOHO"));
+    assert.ok(!names.includes("朗城匯"));
+    assert.ok(!names.includes("芊御"));
+
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = (async () =>
+      ({
+        ok: true,
+        json: async () => [
+          {
+            nameZH: "朗城匯",
+            nameEN: "YOHO Hub",
+            addressZH: "元朗",
+            addressEN: "Yuen Long",
+            districtZH: "元朗",
+            districtEN: "Yuen Long",
+          },
+          {
+            nameZH: "芊御",
+            nameEN: "The YOHO Garden Regency",
+            addressZH: "錦田",
+            addressEN: "Kam Tin",
+            districtZH: "元朗",
+            districtEN: "Yuen Long",
+          },
+          {
+            nameZH: "倫敦",
+            nameEN: "London",
+            addressZH: "United Kingdom",
+            addressEN: "United Kingdom",
+            districtZH: "London",
+            districtEN: "London",
+          },
+        ],
+      }) as Response) as typeof fetch;
+    try {
+      const first = await searchAddresses("Yoho");
+      const second = await searchAddresses("Yoho");
+      assert.equal(first, second);
+      const names = first.map((hit) => hit.name);
+      assert.ok(names.includes("YOHO Town"));
+      assert.ok(!names.includes("朗城匯"));
+      assert.ok(!names.includes("芊御"));
+      assert.ok(!first.some((hit) => hit.district === "London"));
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
   });
 });
 
