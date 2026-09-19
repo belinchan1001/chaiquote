@@ -354,6 +354,7 @@ const SLUG_FALLBACK: Record<string, string> = {
   梅窩黃蜂田: "wong-fung-tin-mui-wo",
   坪洲圍仔: "wai-tsai-peng-chau",
   坪洲老圍: "lo-wai-peng-chau",
+  半山名滙: "upper-manor",
 };
 
 function requireEstate(name: string): Estate {

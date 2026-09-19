@@ -251,7 +251,7 @@ export const VILLAGE_RAW = `
 錫降村|Sik Kong Tsuen|元朗|village|廈村
 祥降圍|Cheung Kong Wai Ha Tsuen|元朗|village|廈村
 長江村|Cheung Kong Tsuen Pat Heung|元朗|village|八鄉
-八鄉竹坑|Pat Heung Chuk Hang,竹坑|元朗|village|八鄉
+八鄉竹坑|Pat Heung Chuk Hang,竹坑,竹坑村,Chuk Hang,Chuk Hang Tsuen,八鄉竹坑村|元朗|village|八鄉
 下輋|Ha Tse|元朗|village|八鄉
 上輋|Sheung Tse|元朗|village|八鄉
 八鄉梁屋村|Pat Heung Leung Uk Tsuen|元朗|village|八鄉

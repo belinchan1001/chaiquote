@@ -1375,6 +1375,7 @@ describe("search query tails, simplified, english", () => {
     assert.equal(isNewIntakeEstate("天瀧"), true);
     assert.equal(isNewIntakeEstate("天御"), true);
     assert.equal(isNewIntakeEstate("幸薈"), true);
+    assert.equal(isNewIntakeEstate("半山名滙"), true);
     assert.equal(isNewIntakeEstate("映匯"), false);
     assert.equal(isNewIntakeEstate("柏景峰"), false);
     assert.equal(estate("天瀧")?.street, "承豐道22號");
@@ -1383,6 +1384,16 @@ describe("search query tails, simplified, english", () => {
     assert.equal(matchKnownEstate("THE LEGACY")?.name, "天御");
     assert.equal(estate("幸薈")?.street, "青山道439號");
     assert.equal(matchKnownEstate("Soyo Square")?.name, "幸薈");
+    assert.equal(estate("半山名滙")?.housing, "private");
+    assert.equal(estate("半山名滙")?.street, "高街6號");
+    assert.equal(matchKnownEstate("UPPER MANOR")?.name, "半山名滙");
+    assert.equal(matchKnownEstate("高街6號")?.name, "半山名滙");
+    assert.equal(searchEstates("竹坑村", 4)[0]?.name, "八鄉竹坑");
+    assert.equal(estate("八鄉竹坑")?.housing, "village");
+    assert.equal(estate("天璽天")?.street, "協調道10號");
+    assert.equal(matchKnownEstate("Cullinan Sky II")?.name, "天璽天");
+    assert.equal(matchKnownEstate("The Reserve")?.name, "黃金海灣");
+    assert.equal(estateEnglishName(estate("尚逸")!), "Des Voeux W Residence");
     assert.equal(estate("柏景峰")?.coverageCheck, true);
     assert.equal(matchKnownEstate("One Park Place")?.name, "柏景峰");
     assert.equal(matchKnownEstate("花語海")?.name, "Victoria Blossom");

@@ -322,6 +322,7 @@ describe("renderSitemapXml", () => {
     assert.equal(siteStamp, "2026-09-20");
     assert.equal(SITE.updated, "2026-09-20");
     assert.equal(siteDataLastmod("2026-09-20"), "2026-09-20");
+    assert.equal(siteDataLastmod("2026-09-19"), "2026-09-19");
     assert.equal(siteDataLastmod("2026-09-18"), "2026-09-18");
     assert.equal(siteDataLastmod("not-a-date"), undefined);
     assert.equal(siteDataLastmod("2026年9月"), "2026-09");

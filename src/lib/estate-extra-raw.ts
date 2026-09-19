@@ -86,7 +86,7 @@ export const EXTRA_RAW = `
 深水灣道|Deep Water Bay Road|南區|private
 赤柱廣場|Stanley Plaza Residences|南區|private
 駿發花園|駿發,Prosperous Garden,油麻地駿發花園|油尖旺|hos|油麻地
-海富苑|海富,Hoi Fu Court,大角咀海富苑|油尖旺|public|大角咀||海庭道2號
+海富苑|海富,Hoi Fu Court,大角咀海富苑,海寧閣,Hoi Ning House|油尖旺|public|大角咀||海庭道2號
 海嵐閣|Hoi Lan House,海富苑海嵐閣|油尖旺|public|大角咀||海庭道2號
 海泰閣|Hoi Tai House,海富苑海泰閣|油尖旺|public|大角咀||海庭道2號
 海裕閣|Hoi Yu House,海富苑海裕閣|油尖旺|public|大角咀||海庭道2號
@@ -848,7 +848,7 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 彩石里簡約公屋|彩石里項目,Choi Shek Lane LPH,九龍灣彩石里簡約公屋,簡約公屋彩石里|觀塘|public|九龍灣||彩石里
 青發街簡約公屋|青發街項目,Tsing Fat Street LPH,屯門青發街簡約公屋,小欖樂安排簡約公屋,簡約公屋青發街|屯門|public|小欖||青發街
 Sierra Sea|Sierra Sea,西沙Sierra Sea,十四鄉Sierra Sea,Sierra Sea 1期,Sierra Sea 2期,西沙海映路|大埔|private|西貢北||海映路8號
-黃金海灣|Gold Coast Bay,黃金海灣意嵐,黃金海灣珀岸,意嵐,珀岸,The Uppland,THE UPPLAND,THE RESERVE,The Reserve,Gold Coast Bay The Uppland,Gold Coast Bay The Reserve|屯門|private|青山灣||青山公路－青山灣段18號
+黃金海灣|Gold Coast Bay,The Reserve,THE RESERVE,Gold Coast Bay The Reserve,Gold Coast Bay The Uppland,黃金海灣意嵐,黃金海灣珀岸,黃金海灣‧珀岸,黃金海灣·珀岸,意嵐,珀岸,The Uppland,THE UPPLAND|屯門|private|青山灣||青山公路－青山灣段18號
 Double Coast|Double Coast I,Double Coast II,Double Coast III,Double Coast 3,啟德Double Coast,啟德Double Coast III|九龍城|private|啟德||承豐道19號
 海盈山|La Montagne,海盈山第4A期,海盈山第4B期,港島南岸海盈山|南區|private|黃竹坑||香葉道11號
 逸瓏灣|Mayfair By The Sea,逸瓏灣I,逸瓏灣1期,逸瓏灣一期,白石角逸瓏灣|大埔|private|白石角
@@ -862,7 +862,7 @@ NOVO LAND|Novo Land,NOVO LAND 1A,NOVO LAND 1B,NOVO LAND 1C,NOVO LAND 2A,NOVO LAN
 滙都|High Park,滙都I,滙都II,High Park I,High Park II,洪水橋滙都,洪安里1號|元朗|private|洪水橋||洪安里1號
 維港雙鑽|維港・雙鑽,Grand Victoria Kai Tak,啟德維港雙鑽|九龍城|private|啟德
 天璽海|天璽・海,Cullinan Harbour,天璽海第2B期|九龍城|private|啟德||承豐道26號
-天璽天|天璽・天,Cullinan Sky,啟德天璽天|九龍城|private|啟德
+天璽天|天璽・天,Cullinan Sky,Cullinan Sky I,Cullinan Sky II,天璽天I,天璽天II,天璽・天II,啟德天璽天,協調道10號天璽天|九龍城|private|啟德||協調道10號
 啟德海灣|KT Marina,啟德海灣1,啟德海灣2,KT Marina 1,KT Marina 2,承豐道15號|九龍城|private|啟德||承豐道15號
 壹沐|HIGHWOOD,壹沐第2期,HIGHWOOD Phase 2,土瓜灣道70號|九龍城|private|土瓜灣||土瓜灣道70號
 應天|21 Borrett Road,21 Borrett Road Phase 2,波老道21號|中西區|private|西半山||波老道21號
@@ -870,7 +870,7 @@ NOVO LAND|Novo Land,NOVO LAND 1A,NOVO LAND 1B,NOVO LAND 1C,NOVO LAND 2A,NOVO LAN
 Beacon Peak|Beacon Peak 1,畢架山Beacon Peak|深水埗|private|畢架山
 尚岸|The Shore TM,The Wave TM,屯門尚岸,青霞里8號尚岸|屯門|private|屯門||青霞里8號
 維港灣畔|Victoria Voyage,維港・灣畔,維港灣畔第2B期|九龍城|private|啟德||承豐道18號
-海德園|THE HEADLAND RESIDENCES,海德園第二期,柴灣常安街99號|東區|private|柴灣||常安街99號
+海德園|THE HEADLAND RESIDENCES,The Headland Residences,海德園第一期,海德園第二期,柴灣常安街99號|東區|private|柴灣||常安街99號
 邑庭居|Yap Ting Terraced Home,將軍澳邑庭居|西貢|public|將軍澳
 Miami Quay I|Miami Quay 1,啟德Miami Quay I,承豐道23號Miami Quay I|九龍城|private|啟德||承豐道23號
 柏傲莊I|The Pavilia Farm I,Pavilia Farm 1,柏傲莊 1期|沙田|private|大圍
@@ -882,7 +882,7 @@ The Monet|The Monet,龍庭里8號,九龍塘The Monet,Lung Ting Lane|九龍城|pr
 博峯|Mount Broadcast,廣播道79號,九龍塘博峯|九龍城|private|九龍塘||廣播道79號
 錦河邨|Kam Ho Estate,錦田南公屋,錦田南1號用地公屋|元朗|public|錦田|覆蓋需查核
 柏蔚森|The Pavilia Forest,THE PAVILIA FOREST,柏蔚森I,柏蔚森II,柏蔚森III,柏蔚森1期,柏蔚森2期,柏蔚森3期,啟德柏蔚森|九龍城|private|啟德||承景街2號
-尚逸|Des Voeux W,西營盤尚逸,德輔道西328號尚逸|中西區|private|西營盤||德輔道西328號
+尚逸|Des Voeux W Residence,Des Voeux W,西營盤尚逸,德輔道西328號尚逸|中西區|private|西營盤||德輔道西328號
 泓璟|ONE LIBERTY,何文田泓璟,自由道1B號泓璟|九龍城|private|何文田||自由道1B號
 恒苑|Hang Yuen,長洲恒苑,高山村43號,長洲高山村43號|離島|village|長洲
 滶晨|Deep Water Pavilia,Deep Water Pavilia I,Deep Water Pavilia II,滶晨I,滶晨II,滶晨1期,滶晨2期,港島南岸第5期,港島南岸第5A期,港島南岸第5B期,The Southside Phase 5|南區|private|黃竹坑||香葉道11號
@@ -959,6 +959,7 @@ the MVP|THE MVP,The MVP,般咸道24號the MVP,般咸道28號the MVP,般咸道30�
 瑧博|HOUSE MUSE,House Muse,九龍城瑧博,衙前塱道3號瑧博,宋皇臺瑧博|九龍城|private|九龍城|覆蓋需查核|衙前塱道3號
 幸薈|Soyo Square,SOYO SQUARE,SOYO Square,長沙灣幸薈,青山道439號幸薈|深水埗|private|長沙灣||青山道439號
 柏景峰|One Park Place,ONE PARK PLACE,油塘柏景峰,高雅里8號柏景峰,高超道32號柏景峰|觀塘|private|油塘|覆蓋需查核|高雅里8號
+半山名滙|UPPER MANOR,Upper Manor,半山名匯,高街6號半山名滙,西營盤半山名滙,高街6號|中西區|private|西營盤||高街6號
 長洲南氹|Nam Tam Wan,長洲南氹灣,南氹灣,Cheung Chau Nam Tam|離島|village|長洲
 南灣|Larvotto,鴨脷洲南灣,玉桂山南灣,鴨脷洲海旁道8號南灣,鴨脷洲海旁道8號|南區|private|鴨脷洲||鴨脷洲海旁道8號
 形瑨|Lime Spark,LIME SPARK,荃灣形瑨,橫窩仔街21號形瑨,橫窩仔街形瑨,荃灣橫窩仔街21號|荃灣|private|荃灣|覆蓋需查核|橫窩仔街21號

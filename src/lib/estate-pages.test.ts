@@ -225,6 +225,7 @@ describe("estate SEO pages", () => {
     assert.equal(isNewIntakeEstate("天瀧"), true);
     assert.equal(isNewIntakeEstate("天御"), true);
     assert.equal(isNewIntakeEstate("幸薈"), true);
+    assert.equal(isNewIntakeEstate("半山名滙"), true);
     assert.equal(isNewIntakeEstate("映匯"), false);
     assert.equal(isNewIntakeEstate("woodis"), false);
     assert.equal(isNewIntakeEstate("the MVP"), false);
@@ -262,6 +263,9 @@ describe("estate SEO pages", () => {
     assert.equal(getEstatePage("the-legacy")?.estate.name, "天御");
     assert.equal(getEstatePage("soyo-square")?.estate.name, "幸薈");
     assert.equal(getEstatePage("soyo-square")?.estate.street, "青山道439號");
+    assert.equal(getEstatePage("upper-manor")?.estate.name, "半山名滙");
+    assert.equal(getEstatePage("upper-manor")?.estate.street, "高街6號");
+    assert.equal(getEstatePage("upper-manor")?.estate.housing, "private");
     assert.equal(getEstatePage("one-park-place")?.estate.coverageCheck, true);
     assert.equal(getEstatePage("scenic-gardens")?.estate.name, "御景園");
     assert.equal(getEstatePage("scenic-gardens")?.estate.street, "公園南路25號");
