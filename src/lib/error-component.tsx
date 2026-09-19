@@ -1,9 +1,9 @@
 import type { ErrorComponentProps } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { TriangleAlert } from "lucide-react";
-import { useI18n } from "@/lib/i18n";
+import { I18nProvider, useI18n } from "@/lib/i18n";
 
-export function AppErrorComponent({ error }: ErrorComponentProps) {
+function AppErrorInner({ error }: ErrorComponentProps) {
   const { t } = useI18n();
   return (
     <div className="mx-auto flex min-h-[60vh] max-w-lg flex-col items-center justify-center px-4 py-20 text-center">
@@ -17,5 +17,14 @@ export function AppErrorComponent({ error }: ErrorComponentProps) {
         {t("backHome")}
       </Link>
     </div>
+  );
+}
+
+/** defaultErrorComponent replaces the root layout, so it must carry its own provider. */
+export function AppErrorComponent(props: ErrorComponentProps) {
+  return (
+    <I18nProvider>
+      <AppErrorInner {...props} />
+    </I18nProvider>
   );
 }

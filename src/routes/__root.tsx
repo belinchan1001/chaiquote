@@ -11,6 +11,7 @@ import { FirstVisitTour } from "@/components/first-visit-tour";
 import { PwaInstallTip } from "@/components/pwa-install-tip";
 import { PwaServiceWorker } from "@/components/pwa-service-worker";
 import { I18nProvider, useI18n, usePageTitle } from "@/lib/i18n";
+import { AppErrorComponent } from "@/lib/error-component";
 import { SITE } from "@/lib/site";
 import { PWA } from "@/lib/pwa";
 import {
@@ -56,10 +57,11 @@ export const Route = createRootRoute({
     };
   },
   notFoundComponent: NotFound,
+  errorComponent: AppErrorComponent,
   component: RootLayout,
 });
 
-function NotFound() {
+function NotFoundInner() {
   const { t } = useI18n();
   usePageTitle(`${t("notFound")}｜${SITE.name}`);
   return (
@@ -70,6 +72,15 @@ function NotFound() {
         {t("backHome")}
       </Link>
     </div>
+  );
+}
+
+/** Global 404 can replace the root layout, so it must carry its own provider. */
+function NotFound() {
+  return (
+    <I18nProvider>
+      <NotFoundInner />
+    </I18nProvider>
   );
 }
 

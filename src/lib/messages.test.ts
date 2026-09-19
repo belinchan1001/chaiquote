@@ -288,3 +288,29 @@ describe("date stamps", () => {
     assert.doesNotMatch(quoted(messages, "hkUpdated")[0], /年|月|日/);
   });
 });
+
+describe("i18n catalogue and error chrome", () => {
+  it("keeps both zh and en tables so EN UI cannot crash on missing MESSAGES.en", () => {
+    const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    assert.match(messages, /export type MessageKey = keyof \(typeof MESSAGES\)\["zh"\]/);
+    assert.equal(quoted(messages, "heroTitle1")[0], "搵寬頻唔使四圍問");
+    assert.equal(quoted(messages, "heroTitle1")[1], "Stop shopping around for broadband");
+    assert.equal(quoted(messages, "errorTitle")[0], "呢頁暫時出咗問題");
+    assert.match(quoted(messages, "errorTitle")[1] ?? "", /This page .+ working right now/);
+    assert.equal(quoted(messages, "notFound")[0], "搵唔到呢頁");
+    assert.equal(quoted(messages, "searchPopularLabel")[1], "Popular: ");
+    assert.match(messages, /\ben:\s*\{/);
+    assert.doesNotMatch(messages, /useI18n must be used within I18nProvider/);
+  });
+
+  it("wraps root 404 and default error chrome in I18nProvider", () => {
+    const root = readFileSync(join(here, "../routes/__root.tsx"), "utf8");
+    const error = readFileSync(join(here, "error-component.tsx"), "utf8");
+    const i18n = readFileSync(join(here, "i18n.tsx"), "utf8");
+    assert.match(root, /errorComponent: AppErrorComponent/);
+    assert.match(root, /function NotFound\(\) \{[\s\S]*<I18nProvider>[\s\S]*<NotFoundInner \/>/);
+    assert.match(error, /<I18nProvider>[\s\S]*<AppErrorInner/);
+    assert.match(i18n, /FALLBACK_I18N/);
+    assert.doesNotMatch(i18n, /throw new Error\("useI18n must be used within I18nProvider"\)/);
+  });
+});
