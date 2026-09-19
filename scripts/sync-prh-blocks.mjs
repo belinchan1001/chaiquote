@@ -8,6 +8,7 @@
  *
  * Re-runs replace src/lib/estate-prh-blocks-raw.ts from HA + hand-maintained
  * RAW only. Existing Lok Fu / 東頭 rows are not copied or wiped.
+ * Village RAW is read only so we do not collide with 村屋 names — never written.
  */
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";

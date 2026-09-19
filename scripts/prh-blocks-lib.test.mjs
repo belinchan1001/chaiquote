@@ -74,6 +74,30 @@ LOK FU ESTATE,樂富邨,WONG TAI SIN,黃大仙,KOWLOON,九龍,LOK MAN HOUSE,樂�
   assert.equal(estates[0].blocks.get("樂泰樓").englishName, "LOK TAI HOUSE");
 });
 
+test("village / hos / private rows are never PRH parents or inserted housing", () => {
+  const village = {
+    name: "東頭村",
+    aliases: ["東頭村", "Tung Tau Village"],
+    district: "元朗",
+    housing: "village",
+  };
+  assert.equal(isPrhCatalogueParent(village), false);
+  assert.equal(isPrhCatalogueParent({ name: "彩明苑", housing: "hos" }), false);
+  assert.equal(isPrhCatalogueParent({ name: "天水圍嘉湖山莊", housing: "private" }), false);
+  const plan = planPrhInserts({
+    existingRows: [...PARENTS, village],
+    parents: PARENTS.filter(isPrhCatalogueParent),
+    haEstates: [
+      ha("東頭村", "TUNG TAU VILLAGE", [{ zh: "示範樓", en: "DEMO HOUSE" }]),
+      ha("樂富邨", "LOK FU ESTATE", [{ zh: "樂謙樓", en: "LOK HIM HOUSE" }]),
+    ],
+  });
+  assert.equal(plan.inserts.some((row) => row.parent === "東頭村" || row.housing === "village"), false);
+  assert.equal(plan.skippedHaEstates.some((item) => item.haEstate === "東頭村"), true);
+  assert.ok(plan.inserts.every((row) => row.housing === "public"));
+  assert.equal(plan.inserts.some((row) => row.haBlock === "樂謙樓"), true);
+});
+
 test("match HA names to catalogue parents without force-matching 居屋 / 軒", () => {
   assert.equal(findPrhParent(ha("樂富邨", "LOK FU ESTATE", []), PRH_PARENTS).how, "exact-zh");
   assert.equal(findPrhParent(ha("天耀一邨", "TIN YIU (1) ESTATE", []), PRH_PARENTS).parent.name, "天耀邨");

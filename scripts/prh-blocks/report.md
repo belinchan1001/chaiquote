@@ -15,6 +15,7 @@ Same family as #105 Lok Fu (`ha_prhs_h`, `estate_chinese_name` / `chinese_name_o
 2. No short CJK aliases (avoids 樂民 / 樂翠 collisions). English is added only when that compact key is unique.
 3. Flash-unlock and hierarchical skip logic are unchanged.
 4. Hand-maintained Lok Fu / 東頭 / 美東 / 曉茵 / 海富 rows are not rewritten.
+5. 村屋 / 居屋 / private are out of scope (阿祺 / 老總). Parents must be public 邨／苑. `estate-village-raw.ts` is read-only for name collision checks.
 
 ## Counts
 
