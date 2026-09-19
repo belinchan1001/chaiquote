@@ -22,7 +22,7 @@ export const VILLAGE_RAW = `
 廈村新屋村|Ha Tsuen San Uk Tsuen,新屋村|元朗|village|廈村
 沙橋|Sha Kiu,廈村沙橋|元朗|village|廈村
 巷尾村|Hong Mei Tsuen|元朗|village|廈村
-廈村新慶村|Ha Tsuen San Hing Tsuen|元朗|village|廈村
+廈村新慶村|Ha Tsuen San Hing Tsuen,San Hing Tsuen,新慶村,廈村新慶|元朗|village|廈村
 鳳降村|Fung Kong Tsuen|元朗|village|廈村
 李屋村|Lee Uk Tsuen,廈村李屋|元朗|village|廈村
 廈村田心村|Ha Tsuen Tin Sam Tsuen,田心村|元朗|village|廈村

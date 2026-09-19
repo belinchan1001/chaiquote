@@ -1,4 +1,4 @@
-import { ESTATES, estateDisplayName, estateEnglishName, parentEstate, placeDisplayName, type Estate } from "./estates.ts";
+import { ESTATES, estateDisplayName, estateEnglishName, firstEnglishAlias, parentEstate, placeDisplayName, type Estate } from "./estates.ts";
 import { NETVIGATOR_ONLY_ESTATES } from "./estate-new-intake.ts";
 import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
 import { matchesHousing, PLANS, type Housing, type Plan } from "./plans.ts";
@@ -71,7 +71,7 @@ export type EstatePage = {
 function slugFromEstate(estate: Estate): string {
   const fallback = SLUG_FALLBACK[estate.name];
   if (fallback) return fallback;
-  const english = estateEnglishName(estate);
+  const english = firstEnglishAlias(estate);
   const raw = english ?? estate.name;
   const slug = raw
     .toLowerCase()
@@ -362,6 +362,9 @@ const SLUG_FALLBACK: Record<string, string> = {
   太子壹號: "one-edward",
   Coasto: "coasto",
   高臨: "topside-residences",
+  泰峯: "uptown-east",
+  薈鳴: "phoenext",
+  西貢海傍街: "sai-kung-town",
   長洲大菜園: "tai-choi-yuen-cheung-chau",
   長洲中興: "chung-hing-cheung-chau",
   花坪: "fa-peng-ma-wan",

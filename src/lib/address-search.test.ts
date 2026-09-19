@@ -39,19 +39,19 @@ describe("locale-aware address display", () => {
   it("uses estate English aliases for EN name and keeps ZH unchanged", () => {
     const tinYiu = estate("天耀邨");
     assert.ok(tinYiu);
-    assert.equal(estateEnglishName(tinYiu), "Tin Yiu");
+    assert.equal(estateEnglishName(tinYiu), "Tin Yiu Estate");
 
     const zhHits = localAddressHits("天耀");
     const enHits = localAddressHits("Tin Yiu");
     assert.equal(zhHits[0]?.name, "天耀邨");
     assert.equal(enHits[0]?.name, "天耀邨");
-    assert.equal(zhHits[0]?.nameEN, "Tin Yiu");
+    assert.equal(zhHits[0]?.nameEN, "Tin Yiu Estate");
 
     const hit = zhHits[0]!;
     assert.equal(addressHitName(hit, "zh"), "天耀邨");
-    assert.equal(addressHitName(hit, "en"), "Tin Yiu");
+    assert.equal(addressHitName(hit, "en"), "Tin Yiu Estate");
     assert.equal(addressHitValue(hit, "zh"), "天耀邨");
-    assert.equal(addressHitValue(hit, "en"), "Tin Yiu");
+    assert.equal(addressHitValue(hit, "en"), "Tin Yiu Estate");
     assert.match(addressHitLabel(hit, "zh"), /公屋/);
     assert.match(addressHitLabel(hit, "en"), /Public housing/);
     assert.doesNotMatch(addressHitLabel(hit, "en"), /公屋|居屋|村屋|私人樓/);
@@ -118,8 +118,8 @@ describe("locale-aware address display", () => {
       districtZH: "元朗",
     });
     assert.ok(hit);
-    assert.equal(hit.nameEN, "Tin Yiu");
-    assert.equal(addressHitName(hit, "en"), "Tin Yiu");
+    assert.equal(hit.nameEN, "Tin Yiu Estate");
+    assert.equal(addressHitName(hit, "en"), "Tin Yiu Estate");
     assert.equal(addressHitAddress(hit, "en"), "天水圍");
   });
 
@@ -137,7 +137,7 @@ describe("locale-aware address display", () => {
   it("uses catalogue English names on en and keeps Chinese when missing", () => {
     const tinYiu = estate("天耀邨")!;
     assert.equal(estateDisplayName(tinYiu, "zh"), "天耀邨");
-    assert.equal(estateDisplayName(tinYiu, "en"), "Tin Yiu");
+    assert.equal(estateDisplayName(tinYiu, "en"), "Tin Yiu Estate");
     assert.equal(estateDisplayName(estate("彩虹道邨")!, "en"), "Choi Hung Road Estate");
     assert.equal(placeDisplayName("元朗", "en"), "Yuen Long");
     assert.equal(placeDisplayName("元朗", "zh"), "元朗");
@@ -149,13 +149,13 @@ describe("locale-aware address display", () => {
     assert.match(estateIntro(tinYiu, "zh"), /元朗（天水圍）/);
     assert.match(estateIntro(tinYiu, "zh"), /樓類為公屋/);
     assert.match(estateIntro(tinYiu, "zh"), /實際覆蓋同安裝期以電訊商確認為準/);
-    assert.match(estateIntro(tinYiu, "en"), /^Tin Yiu is in /);
+    assert.match(estateIntro(tinYiu, "en"), /^Tin Yiu Estate is in /);
     assert.match(estateIntro(tinYiu, "en"), /Yuen Long \(天水圍\)/);
     assert.match(estateIntro(tinYiu, "en"), /Housing type is Public housing/);
     assert.match(estateIntro(tinYiu, "en"), /Coverage and install dates are confirmed by the carrier/);
     assert.doesNotMatch(estateIntro(tinYiu, "en"), /位於|樓類為|實際覆蓋/);
     assert.equal(estatePageTitle(tinYiu, "zh"), "天耀邨寬頻比較｜公屋｜齊Quote");
-    assert.equal(estatePageTitle(tinYiu, "en"), "Tin Yiu broadband comparison | Public housing | 齊Quote");
+    assert.equal(estatePageTitle(tinYiu, "en"), "Tin Yiu Estate broadband comparison | Public housing | 齊Quote");
     const yoho = estate("YOHO Midtown")!;
     assert.equal(estatePageTitle(yoho, "zh"), "YOHO Midtown寬頻比較｜私樓｜齊Quote");
     assert.equal(estatePageTitle(yoho, "en"), "YOHO Midtown broadband comparison | Private | 齊Quote");

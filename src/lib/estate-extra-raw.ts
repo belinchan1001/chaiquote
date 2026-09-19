@@ -47,20 +47,20 @@ export const EXTRA_RAW = `
 東霖苑|東霖,Tung Lam Court|東區|hos
 東旭苑|東旭,Tung Yuk Court|東區|hos
 東駿苑|東駿,Tung Chun Court|東區|hos
-蝶翠苑|蝶翠,Tip Chui Court|東區|hos
+蝶翠苑|蝶翠,Tip Chui Court,Dip Tsui Court|東區|hos
 驥華苑|驥華,Kei Wah Court,北角驥華苑|東區|hos|北角||電照街9號
-山翠苑|山翠,Shan Chui Court|東區|hos
-杏翠苑|杏翠,Hang Chui Court|東區|hos
-佳翠苑|佳翠,Kai Chui Court|東區|hos
-怡翠苑|怡翠,Yee Chui Court|東區|hos
+山翠苑|山翠,Shan Chui Court,Shan Tsui Court|東區|hos
+杏翠苑|杏翠,Hang Chui Court,Hang Tsui Court|東區|hos
+佳翠苑|佳翠,Kai Chui Court,Kai Tsui Court|東區|hos
+怡翠苑|怡翠,Yee Chui Court,Yee Tsui Court|東區|hos
 悅翠苑|悅翠,Yuet Chui Court|東區|hos
-茵翠苑|茵翠,Yan Chui Court|東區|hos
-景翠苑|景翠,King Chui Court|東區|hos
-曉翠苑|曉翠,Hiu Chui Court|東區|hos
-康翠臺|康翠,Hong Chui Terrace|東區|hos
-樂翠臺|樂翠,Lok Chui Terrace|東區|hos
+茵翠苑|茵翠,Yan Chui Court,Yan Tsui Court|東區|hos
+景翠苑|景翠,King Chui Court,King Tsui Court|東區|hos
+曉翠苑|曉翠,Hiu Chui Court,Hiu Tsui Court|東區|hos
+康翠臺|康翠,Hong Chui Terrace,Greenwood Terrace|東區|hos
+樂翠臺|樂翠,Lok Chui Terrace,Neptune Terrace|東區|hos
 樂軒臺|樂軒,Lok Hin Terrace|東區|hos
-富怡花園|富怡,Fu Yee Garden|東區|hos
+富怡花園|富怡,Fu Yee Garden,Cheerful Garden|東區|hos
 富景花園|富景,Fullview Garden|東區|hos
 逸樺園|Les Saisons|東區|private
 新翠花園|New Jade Garden|東區|private
@@ -71,7 +71,7 @@ export const EXTRA_RAW = `
 漁光村|漁光,Yue Kwong Chuen|南區|public
 馬坑邨|馬坑,Ma Hang Estate|南區|public
 雅濤閣|雅濤,Nga Tao Court,Broadview Court|南區|hos
-鴻福苑|鴻福,Hung Fook Court|南區|hos
+鴻福苑|鴻福,Hung Fook Court,Hung Fuk Court|南區|hos
 嘉隆苑|嘉隆,Ka Lung Court|南區|hos
 漁暉苑|漁暉,Yue Fai Court|南區|hos
 漁安苑|漁安,Yue On Court|南區|hos
@@ -126,10 +126,10 @@ export const EXTRA_RAW = `
 常樂邨|常樂,Sheung Lok Estate|九龍城|public
 啟晴邨|啟晴,Kai Ching Estate|九龍城|public
 德朗邨|德朗,Tak Long Estate|九龍城|public
-冠暉苑|冠暉,Koon Fai Court|九龍城|hos
-冠德苑|冠德,Koon Tak Court|九龍城|hos
-冠熹苑|冠熹,Koon Hei Court|九龍城|hos
-冠山苑|冠山,Koon Shan Court,土瓜灣冠山苑|九龍城|hos|馬頭角||高山道60號
+冠暉苑|冠暉,Koon Fai Court,Kwun Fai Court|九龍城|hos
+冠德苑|冠德,Koon Tak Court,Kwun Tak Court|九龍城|hos
+冠熹苑|冠熹,Koon Hei Court,Kwun Hei Court|九龍城|hos
+冠山苑|冠山,Koon Shan Court,Kwun Shan Court,土瓜灣冠山苑|九龍城|hos|馬頭角||高山道60號
 欣圖軒|欣圖,Yan Tu Court|九龍城|hos
 俊民苑|俊民,Chun Man Court|九龍城|hos
 煥然壹居|De Novo,煥然壹居啟德,沐翠街3號|九龍城|hos|啟德||沐翠街3號
@@ -163,10 +163,10 @@ export const EXTRA_RAW = `
 慈安苑|慈安,Tsz On Court|黃大仙|hos
 慈愛苑|慈愛,Tsz Oi Court|黃大仙|hos
 宏景花園|宏景,Grand View Garden|黃大仙|hos
-嘉峰臺|嘉峰臺,Ka Fung Terrace|黃大仙|hos
+嘉峰臺|嘉峰臺,Ka Fung Terrace,Kingsford Terrace|黃大仙|hos
 現崇山|The Latitude|黃大仙|private
-翠屏北邨|翠屏北,翠屏(北)邨,翠屏（北）邨,Tsui Ping North Estate|觀塘|public
-翠屏南邨|翠屏南,翠屏(南)邨,翠屏（南）邨,Tsui Ping South Estate|觀塘|public
+翠屏北邨|翠屏北,翠屏(北)邨,翠屏（北）邨,Tsui Ping North Estate,Tsui Ping (North) Estate|觀塘|public
+翠屏南邨|翠屏南,翠屏(南)邨,翠屏（南）邨,Tsui Ping South Estate,Tsui Ping (South) Estate|觀塘|public
 雲漢邨|雲漢,Wan Hon Estate|觀塘|public
 和樂邨|和樂,Wo Lok Estate|觀塘|public
 曉茵邨|曉茵,Hiu Yan Estate|觀塘|public|秀茂坪||曉明街9號
@@ -235,7 +235,7 @@ export const EXTRA_RAW = `
 兆邦苑|兆邦,Siu Pong Court|屯門|hos
 兆湖苑|兆湖,Siu Wu Court|屯門|hos|屯門|覆蓋需查核|龍門路75號
 興貴苑|興貴,Hing Kwai Court|屯門|hos
-富健花園|Venice Gardens|屯門|hos
+富健花園|Venice Gardens,Glorious Garden|屯門|hos
 龍門居|Lung Mun Oasis|屯門|hos
 海翠花園|海翠,Pierhead Garden|屯門|private|||湖翠路168-236號
 啟豐園|Richland Garden Tuen Mun,Kai Fung Garden|屯門|private|||湖翠路138號
@@ -259,7 +259,7 @@ export const EXTRA_RAW = `
 山水盈|The Woodlands|元朗|private
 朗庭園|Grand Del Sol|元朗|private
 暉明邨|暉明,Fai Ming Estate|北區|public
-皇后山邨|皇后山,Queen's Hill Estate|北區|public
+皇后山邨|皇后山,Queen's Hill Estate,Queens Hill Estate|北區|public
 華心邨|華心,Wah Sum Estate|北區|public
 祥龍圍邨|祥龍圍,Cheung Lung Wai Estate|北區|public
 寶石湖邨|寶石湖,Po Shek Wu Estate|北區|public
@@ -305,17 +305,17 @@ export const EXTRA_RAW = `
 豐和邨|豐和,Fung Wo Estate|沙田|public
 顯耀邨|顯耀,Hin Yiu Estate|沙田|public
 駿洋邨|駿洋,Chun Yeung Estate|沙田|public
-愉城苑|愉城,Yu Shing Court|沙田|hos
-愉田苑|愉田,Yu Tin Court|沙田|hos
+愉城苑|愉城,Yu Shing Court,Yue Shing Court|沙田|hos
+愉田苑|愉田,Yu Tin Court,Yue Tin Court|沙田|hos
 愉翠苑|愉翠,Yu Chui Court|沙田|hos
 愉德苑|愉德,Yu Tak Court|沙田|hos
 康林苑|康林,Hong Lam Court|沙田|hos
-美城苑|美城,Mei Shing Court|沙田|hos
+美城苑|美城,Mei Shing Court,May Shing Court|沙田|hos
 美松苑|美松,Mei Chung Court|沙田|hos
 美盈苑|美盈,Mei Ying Court|沙田|hos
 美柏苑|美柏,Mei Pak Court|沙田|hos
 嘉田苑|嘉田,Ka Tin Court|沙田|hos
-嘉徑苑|嘉徑,Ka King Court|沙田|hos
+嘉徑苑|嘉徑,Ka King Court,Ka Keng Court|沙田|hos
 嘉順苑|嘉順,Ka Shun Court|沙田|hos
 景田苑|景田,King Tin Court|沙田|hos
 錦暉苑|錦暉,Kam Fai Court|沙田|hos
@@ -507,8 +507,8 @@ export const EXTRA_RAW = `
 沙頭角邨|Sha Tau Kok Estate|北區|public
 葵興邨|Kwai Hing Estate|葵青|public
 華荔邨|Wah Lai Estate|葵青|public
-高盛臺|Ko Shing Terrace|葵青|public
-青逸軒|Ching Yat Hin|葵青|public
+高盛臺|Ko Shing Terrace,High Prosperity Terrace|葵青|public
+青逸軒|Ching Yat Hin,Easeful Court|葵青|public
 滿樂大廈|Moon Lok Dai Ha|荃灣|public
 茵怡花園|Verbena Heights|西貢|hos
 翠塘花園|Tsui Tong Garden,Lakeside Garden,西貢翠塘花園|西貢|hos|西貢
@@ -516,17 +516,17 @@ export const EXTRA_RAW = `
 康達閣|Hong Tat Court Block|東區|public
 康智閣|Hong Chi Court Block|東區|public
 愛蝶灣|愛蝶,Aldrich Garden|東區|hos
-富欣花園|Cheerful Garden|東區|hos
+富欣花園|Cheerful Garden,Harmony Garden|東區|hos
 宏德居|宏德,Walton Estate,Wang Tak Residence|東區|hos
 啟翔苑|啟翔,Kai Cheung Court,鑽石山啟翔苑,龍蟠街啟翔苑|黃大仙|hos|鑽石山
-鳳鑽苑|Fung Chun Court|黃大仙|hos
+鳳鑽苑|Fung Chun Court,Fung Chuen Court|黃大仙|hos
 鳳禮苑|Fung Lai Court|黃大仙|hos
 盈福苑|Ying Fuk Court|黃大仙|hos
 翠竹花園|Tsui Chuk Garden|黃大仙|hos
 新麗花園|Sun Lai Garden|黃大仙|hos
 鑽石山啟德花園|Kai Tak Garden Diamond Hill|黃大仙|hos
 寶珮苑|Po Pui Court|觀塘|hos
-安基苑|On Kai Court|觀塘|hos
+安基苑|On Kai Court,On Kay Court|觀塘|hos
 祥和苑|Cheung Wo Court|觀塘|hos
 振華苑|Chun Wah Court|觀塘|hos
 啟泰苑|Kai Tai Court|觀塘|hos
@@ -547,13 +547,13 @@ export const EXTRA_RAW = `
 海福花園|Holford Gardens|沙田|hos
 綠怡雅苑|綠怡,Greenhill Villa,Greenya Court|沙田|hos
 昭明苑|Chiu Ming Court,坑口昭明苑|西貢|hos|坑口||昭信路11號
-富康花園|Beverly Garden TKO|西貢|hos
+富康花園|Beverly Garden TKO,Beverly Garden|西貢|hos
 富寧花園|Fu Ning Garden|西貢|hos
 翠嶺峰|Mount Verdant|西貢|hos
 清濤苑|清濤,Ching Tao Court|北區|hos|上水||清曉路1號
 景盛苑|King Shing Court|北區|hos
 旭埔苑|Yuk Po Court|北區|hos
-榮福中心|Wing Fuk Centre|北區|hos
+榮福中心|Wing Fuk Centre,Wing Fok Centre|北區|hos
 彩蒲苑|Choi Po Court|北區|hos
 嘉盛苑|Ka Shing Court|北區|hos
 安盛苑|On Shing Court|北區|hos
@@ -650,7 +650,7 @@ YOHO West|YOHO West,YOHO WEST,Yoho West,Yoho West Parkside,YOHO WEST PARKSIDE,YO
 樂融軒|Harmony Place|東區|private
 峻峰花園|King Court Shau Kei Wan|東區|private
 皓日|The Holborn|觀塘|private
-泰峯|The Quayside|觀塘|private
+泰峯|Uptown East,UPTOWN EAST,九龍灣泰峯,觀塘泰峯,觀塘道55號泰峯,觀塘道55號|觀塘|private|九龍灣||觀塘道55號
 KOKO Hills|KOKO Hills|觀塘|private
 蔚藍東岸|Montego Bay,MONTEGO BAY,油塘蔚藍東岸,崇信街18號蔚藍東岸|觀塘|private|油塘||崇信街18號
 親海駅|The Coastline Yau Tong|觀塘|private
@@ -762,7 +762,7 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 朗天峰|Hava,Long Tin Peak|元朗|private|十八鄉||十八鄉路39號
 朗屏8號|The Spectra,朗屏站上蓋|元朗|private|朗屏||朗屏路8號
 荷李活華庭|Hollywood Terrace|中西區|private|||荷李活道123號
-富雅花園|富雅,Elegance Garden Tai Po|大埔|hos
+富雅花園|富雅,Elegance Garden Tai Po,Elegance Garden|大埔|hos
 日出康城第12期|LOHAS Park Phase 12,LP12,康城第12期,Grand Seasons,日出康城12C期,LP12C,康城Grand Seasons,Park Seasons,日出康城12B期,LP12B,康城Park Seasons|西貢|private|將軍澳
 古雋邨|古雋,Kwu Chun Estate,古洞北古雋邨|北區|public|古洞
 世運道簡約公屋|世運道項目,Olympic Avenue LPH,宋皇臺站簡約公屋,宋皇臺簡約公屋,啟德世運道簡約公屋,世運道簡約公屋啟德站,世運道第二期,世運道第2期,世運道簡約公屋第二期,世運道第一期,世運道一期|九龍城|public|啟德||世運道
@@ -809,7 +809,7 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 尚翠苑|Sheung Chui Court,荃灣尚翠苑|荃灣|hos
 青俊苑|Ching Chun Court,青衣青俊苑|葵青|hos
 尚文苑|Sheung Man Court,荃灣尚文苑|荃灣|hos
-天利苑|Tin Lai Court,東涌天利苑|離島|hos
+天利苑|Tin Lai Court,Tin Lee Court,東涌天利苑|離島|hos
 銀河苑|Ngan Ho Court,東涌銀河苑|離島|hos
 銀蔚苑|Ngan Wai Court,東涌銀蔚苑|離島|hos
 綠悠雅苑|Greenview Villa,青衣綠悠雅苑|葵青|hos
@@ -975,5 +975,6 @@ the MVP|THE MVP,The MVP,般咸道24號the MVP,般咸道28號the MVP,般咸道30�
 太子壹號|ONE EDWARD,One Edward,Upper Prince,旺角太子壹號,基隆街1號太子壹號,基隆街1號|油尖旺|private|旺角||基隆街1號
 Coasto|COASTO,鴨脷洲Coasto,惠風街1號Coasto,惠風街Coasto,利東Coasto|南區|private|鴨脷洲||惠風街1號
 高臨|TOPSIDE RESIDENCES,Topside Residences,Topside Residence,佐敦高臨,彌敦道350號高臨,彌敦道高臨,油麻地高臨|油尖旺|private|佐敦||彌敦道350號
+薈鳴|Phoenext,PHOENEXT,黃大仙薈鳴,鳴鳳街28號薈鳴,鳴鳳街28號|黃大仙|private|黃大仙||鳴鳳街28號
 `.trim();
 

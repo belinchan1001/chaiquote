@@ -48,6 +48,9 @@ describe("estate SEO pages", () => {
     assert.equal(names.size, ESTATES.length);
     assert.equal(getEstatePage("tin-yiu")?.estate.name, "天耀邨");
     assert.equal(getEstatePage("wah-fu")?.estate.name, "華富邨");
+    assert.equal(getEstatePage("uptown-east")?.estate.name, "泰峯");
+    assert.equal(getEstatePage("phoenext")?.estate.name, "薈鳴");
+    assert.equal(getEstatePage("sai-kung-town")?.estate.name, "西貢海傍街");
     assert.equal(SKIPPED_ESTATE_REQUESTS.some((item) => item.query === "將軍澳廣場"), true);
     assert.equal(SKIPPED_ESTATE_REQUESTS.some((item) => item.query === "荔景"), true);
   });

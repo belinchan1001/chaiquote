@@ -25,38 +25,38 @@ function isKnownHousing(value: string): value is Housing {
 }
 
 const RAW = `
-華富邨|華富,華富一邨,華富二邨,Wah Fu|南區|public
-華貴邨|華貴,Wah Kwai|南區|public
-利東邨|利東,Lei Tung|南區|public
-石排灣邨|石排灣,Shek Pai Wan|南區|public
+華富邨|華富,華富一邨,華富二邨,Wah Fu,Wah Fu Estate|南區|public
+華貴邨|華貴,Wah Kwai,Wah Kwai Estate|南區|public
+利東邨|利東,Lei Tung,Lei Tung Estate|南區|public
+石排灣邨|石排灣,Shek Pai Wan,Shek Pai Wan Estate|南區|public
 鴨脷洲邨|鴨脷洲,Ap Lei Chau Estate|南區|public
-漁灣邨|漁灣,Yue Wan|東區|public
-小西灣邨|小西灣,Siu Sai Wan|東區|public
-興東邨|興東,Hing Tung|東區|public
-愛東邨|愛東,Oi Tung|東區|public
-興華邨|興華,興華一邨,興華二邨,Hing Wah|東區|public
+漁灣邨|漁灣,Yue Wan,Yue Wan Estate|東區|public
+小西灣邨|小西灣,Siu Sai Wan,Siu Sai Wan Estate|東區|public
+興東邨|興東,Hing Tung,Hing Tung Estate|東區|public
+愛東邨|愛東,Oi Tung,Oi Tung Estate|東區|public
+興華邨|興華,興華一邨,興華二邨,Hing Wah,Hing Wah Estate|東區|public
 柴灣邨|柴灣,Chai Wan Estate|東區|public
 健康村|北角健康村,Healthy Village|東區|public
-模範邨|模範,Model Housing|東區|public
+模範邨|模範,Model Housing,Model Housing Estate|東區|public
 西環邨|西環,Sai Wan Estate|中西區|public
 觀塘邨|觀塘,Kwun Tong Estate|觀塘|public
-秀茂坪邨|秀茂坪,Sau Mau Ping|觀塘|public
-秀茂坪南邨|秀茂坪南,Sau Mau Ping South|觀塘|public
-順天邨|順天,Shun Tin|觀塘|public
-順安邨|順安,Shun On|觀塘|public
-牛頭角上邨|牛頭角上,Upper Ngau Tau Kok|觀塘|public
-牛頭角下邨|牛頭角下,Lower Ngau Tau Kok|觀塘|public
-彩霞邨|彩霞,Choi Ha|觀塘|public
-啟業邨|啟業,Kai Yip|觀塘|public
-坪石邨|坪石,Ping Shek|觀塘|public
-彩虹邨|彩虹,Choi Hung|黃大仙|public
-黃大仙下邨|黃大仙下,黃大仙下（一）邨,黃大仙下邨一區,黃大仙下二邨,黃大仙下（二）邨,黃大仙下(二)邨,Lower Wong Tai Sin|黃大仙|public
-黃大仙上邨|黃大仙上,Upper Wong Tai Sin|黃大仙|public
-竹園北邨|竹園北,Chuk Yuen North|黃大仙|public
-竹園南邨|竹園南,Chuk Yuen South|黃大仙|public
+秀茂坪邨|秀茂坪,Sau Mau Ping,Sau Mau Ping Estate|觀塘|public
+秀茂坪南邨|秀茂坪南,Sau Mau Ping South,Sau Mau Ping (South) Estate|觀塘|public
+順天邨|順天,Shun Tin,Shun Tin Estate|觀塘|public
+順安邨|順安,Shun On,Shun On Estate|觀塘|public
+牛頭角上邨|牛頭角上,Upper Ngau Tau Kok,Upper Ngau Tau Kok Estate|觀塘|public
+牛頭角下邨|牛頭角下,Lower Ngau Tau Kok,Lower Ngau Tau Kok Estate|觀塘|public
+彩霞邨|彩霞,Choi Ha,Choi Ha Estate|觀塘|public
+啟業邨|啟業,Kai Yip,Kai Yip Estate|觀塘|public
+坪石邨|坪石,Ping Shek,Ping Shek Estate|觀塘|public
+彩虹邨|彩虹,Choi Hung,Choi Hung Estate|黃大仙|public
+黃大仙下邨|黃大仙下,黃大仙下（一）邨,黃大仙下邨一區,黃大仙下二邨,黃大仙下（二）邨,黃大仙下(二)邨,Lower Wong Tai Sin,Lower Wong Tai Sin Estate|黃大仙|public
+黃大仙上邨|黃大仙上,Upper Wong Tai Sin,Upper Wong Tai Sin Estate|黃大仙|public
+竹園北邨|竹園北,Chuk Yuen North,Chuk Yuen (North) Estate|黃大仙|public
+竹園南邨|竹園南,Chuk Yuen South,Chuk Yuen South Estate|黃大仙|public
 慈雲山邨|慈雲山,Tsz Wan Shan|黃大仙|public
-慈樂邨|慈樂,Tsz Lok|黃大仙|public
-東頭邨|東頭,東頭二邨,東頭(二)邨,東頭（二）邨,Tung Tau,Tung Tau II Estate|黃大仙|public
+慈樂邨|慈樂,Tsz Lok,Tsz Lok Estate|黃大仙|public
+東頭邨|東頭,東頭二邨,東頭(二)邨,東頭（二）邨,Tung Tau,Tung Tau Estate,Tung Tau II Estate|黃大仙|public
 美東邨|美東,Mei Tung,Mei Tung Estate|黃大仙|public
 東匯邨|東匯,Tung Wui,Tung Wui Estate|黃大仙|public
 美東樓|美東樓,Mei Tung House,美東邨美東樓,東頭邨美東樓|黃大仙|public||check
@@ -96,71 +96,71 @@ const RAW = `
 樂謙樓|Lok Him House,樂富邨樂謙樓|黃大仙|public
 樂翠樓|Lok Tsui House,樂富邨樂翠樓|黃大仙|public
 樂泰樓|Lok Tai House,樂富邨樂泰樓|黃大仙|public
-彩雲邨|彩雲,彩雲一邨,彩雲二邨,Choi Wan|黃大仙|public
-橫頭磡邨|橫頭磡,Wang Tau Hom|黃大仙|public
-石硤尾邨|石硤尾,Shek Kip Mei|深水埗|public
-白田邨|白田,Pak Tin|深水埗|public
-李鄭屋邨|李鄭屋,Lei Cheng Uk|深水埗|public
-蘇屋邨|蘇屋,So Uk|深水埗|public
+彩雲邨|彩雲,彩雲一邨,彩雲二邨,Choi Wan,Choi Wan Estate|黃大仙|public
+橫頭磡邨|橫頭磡,Wang Tau Hom,Wang Tau Hom Estate|黃大仙|public
+石硤尾邨|石硤尾,Shek Kip Mei,Shek Kip Mei Estate|深水埗|public
+白田邨|白田,Pak Tin,Pak Tin Estate|深水埗|public
+李鄭屋邨|李鄭屋,Lei Cheng Uk,Lei Cheng Uk Estate|深水埗|public
+蘇屋邨|蘇屋,So Uk,So Uk Estate|深水埗|public
 長沙灣邨|長沙灣,Cheung Sha Wan Estate|深水埗|public
-南山邨|南山,Nam Shan|深水埗|public
-麗閣邨|麗閣,Lai Kok|深水埗|public
-海麗邨|海麗,Hoi Lai|深水埗|public
-海達邨|海達,Hoi Tat|深水埗|public
-富昌邨|富昌,Fu Cheong|深水埗|public
-元州邨|元州,Un Chau|深水埗|public
+南山邨|南山,Nam Shan,Nam Shan Estate|深水埗|public
+麗閣邨|麗閣,Lai Kok,Lai Kok Estate|深水埗|public
+海麗邨|海麗,Hoi Lai,Hoi Lai Estate|深水埗|public
+海達邨|海達,Hoi Tat,Hoi Tat Estate|深水埗|public
+富昌邨|富昌,Fu Cheong,Fu Cheong Estate|深水埗|public
+元州邨|元州,Un Chau,Un Chau Estate|深水埗|public
 紅磡邨|紅磡,Hung Hom Estate|九龍城|public
 何文田邨|何文田,Ho Man Tin Estate|九龍城|public
-愛民邨|愛民,Oi Man|九龍城|public
+愛民邨|愛民,Oi Man,Oi Man Estate|九龍城|public
 家維邨|家維,Ka Wai|九龍城|public
-馬頭圍邨|馬頭圍,Ma Tau Wai|九龍城|public
+馬頭圍邨|馬頭圍,Ma Tau Wai,Ma Tau Wai Estate|九龍城|public
 樂民新村|樂民,Lok Man|九龍城|public
 彩虹道邨|彩虹道,Choi Hung Road Estate|黃大仙|public
-大坑東邨|大坑東,Tai Hang Tung|深水埗|public
+大坑東邨|大坑東,Tai Hang Tung,Tai Hang Tung Estate|深水埗|public
 大坑西邨|大坑西,大坑西新邨,Tai Hang Sai|深水埗|public
-梨木樹邨|梨木樹,梨木樹一邨,梨木樹二邨,Lei Muk Shue|荃灣|public
-麗瑤邨|麗瑤,Lai Yiu|葵青|public
-象山邨|象山,Cheung Shan|荃灣|public
-福來邨|福來,Fuk Loi|荃灣|public
-葵芳邨|葵芳,Kwai Fong|葵青|public
-葵盛東邨|葵盛東,Kwai Shing East|葵青|public
-葵盛西邨|葵盛西,Kwai Shing West|葵青|public
+梨木樹邨|梨木樹,梨木樹一邨,梨木樹二邨,Lei Muk Shue,Lei Muk Shue Estate|荃灣|public
+麗瑤邨|麗瑤,Lai Yiu,Lai Yiu Estate|葵青|public
+象山邨|象山,Cheung Shan,Cheung Shan Estate|荃灣|public
+福來邨|福來,Fuk Loi,Fuk Loi Estate|荃灣|public
+葵芳邨|葵芳,Kwai Fong,Kwai Fong Estate|葵青|public
+葵盛東邨|葵盛東,Kwai Shing East,Kwai Shing East Estate|葵青|public
+葵盛西邨|葵盛西,Kwai Shing West,Kwai Shing West Estate|葵青|public
 葵涌邨|葵涌,Kwai Chung Estate|葵青|public
-石籬邨|石籬,石籬一邨,石籬二邨,Shek Lei|葵青|public
-石蔭邨|石蔭,Shek Yam|葵青|public
-石蔭東邨|石蔭東,Shek Yam East|葵青|public
-安蔭邨|安蔭,On Yam|葵青|public
-長安邨|長安,Cheung On|葵青|public
-長康邨|長康,Cheung Hong|葵青|public
-長青邨|長青,Cheung Ching|葵青|public
-長亨邨|長亨,Cheung Hang|葵青|public
+石籬邨|石籬,石籬一邨,石籬二邨,Shek Lei,Shek Lei Estate|葵青|public
+石蔭邨|石蔭,Shek Yam,Shek Yam Estate|葵青|public
+石蔭東邨|石蔭東,Shek Yam East,Shek Yam East Estate|葵青|public
+安蔭邨|安蔭,On Yam,On Yam Estate|葵青|public
+長安邨|長安,Cheung On,Cheung On Estate|葵青|public
+長康邨|長康,Cheung Hong,Cheung Hong Estate|葵青|public
+長青邨|長青,Cheung Ching,Cheung Ching Estate|葵青|public
+長亨邨|長亨,Cheung Hang,Cheung Hang Estate|葵青|public
 青衣邨|青衣,Tsing Yi Estate|葵青|public
-長發邨|長發,Cheung Fat|葵青|public
-長宏邨|長宏,Cheung Wang|葵青|public
-安定邨|安定,On Ting|屯門|public
-友愛邨|友愛,Yau Oi|屯門|public
-山景邨|山景,Shan King|屯門|public
-大興邨|大興,大興上邨,大興下邨,Tai Hing|屯門|public
-良景邨|良景,Leung King|屯門|public
-田景邨|田景,Tin King|屯門|public
-寶田邨|寶田,Po Tin|屯門|public
-富泰邨|富泰,Fu Tai|屯門|public
-欣田邨|欣田,Yan Tin|屯門|public
+長發邨|長發,Cheung Fat,Cheung Fat Estate|葵青|public
+長宏邨|長宏,Cheung Wang,Cheung Wang Estate|葵青|public
+安定邨|安定,On Ting,On Ting Estate|屯門|public
+友愛邨|友愛,Yau Oi,Yau Oi Estate|屯門|public
+山景邨|山景,Shan King,Shan King Estate|屯門|public
+大興邨|大興,大興上邨,大興下邨,Tai Hing,Tai Hing Estate|屯門|public
+良景邨|良景,Leung King,Leung King Estate|屯門|public
+田景邨|田景,Tin King,Tin King Estate|屯門|public
+寶田邨|寶田,Po Tin,Po Tin Estate|屯門|public
+富泰邨|富泰,Fu Tai,Fu Tai Estate|屯門|public
+欣田邨|欣田,Yan Tin,Yan Tin Estate|屯門|public
 兆康苑|兆康,Siu Hong Court|屯門|hos
-兆翠苑|兆翠,Siu Chui Court|屯門|hos|||恒富街26號
+兆翠苑|兆翠,Siu Chui Court,Siu Tsui Court|屯門|hos|||恒富街26號
 悅湖山莊|悅湖,Yuet Wu Villa|屯門|hos
-天耀邨|天耀,天耀一邨,天耀二邨,Tin Yiu|元朗|public|天水圍
-天瑞邨|天瑞,天瑞一邨,天瑞二邨,Tin Shui|元朗|public|天水圍
-天慈邨|天慈,Tin Tsz|元朗|public|天水圍
-天華邨|天華,Tin Wah|元朗|public|天水圍
-天恩邨|天恩,Tin Yan|元朗|public|天水圍
-天恒邨|天恒,Tin Heng|元朗|public|天水圍
-天逸邨|天逸,Tin Yat|元朗|public|天水圍
-天晴邨|天晴,Tin Ching|元朗|public|天水圍
-天澤邨|天澤,Tin Chak|元朗|public|天水圍
-天悅邨|天悅,Tin Yuet|元朗|public|天水圍
-朗屏邨|朗屏,Long Ping|元朗|public
-水邊圍邨|水邊圍,Shui Pin Wai|元朗|public
+天耀邨|天耀,天耀一邨,天耀二邨,Tin Yiu,Tin Yiu Estate|元朗|public|天水圍
+天瑞邨|天瑞,天瑞一邨,天瑞二邨,Tin Shui,Tin Shui Estate|元朗|public|天水圍
+天慈邨|天慈,Tin Tsz,Tin Tsz Estate|元朗|public|天水圍
+天華邨|天華,Tin Wah,Tin Wah Estate|元朗|public|天水圍
+天恩邨|天恩,Tin Yan,Tin Yan Estate|元朗|public|天水圍
+天恒邨|天恒,Tin Heng,Tin Heng Estate|元朗|public|天水圍
+天逸邨|天逸,Tin Yat,Tin Yat Estate|元朗|public|天水圍
+天晴邨|天晴,Tin Ching,Tin Ching Estate|元朗|public|天水圍
+天澤邨|天澤,Tin Chak,Tin Chak Estate|元朗|public|天水圍
+天悅邨|天悅,Tin Yuet,Tin Yuet Estate|元朗|public|天水圍
+朗屏邨|朗屏,Long Ping,Long Ping Estate|元朗|public
+水邊圍邨|水邊圍,Shui Pin Wai,Shui Pin Wai Estate|元朗|public
 天水圍北|天水圍,Tin Shui Wai North|元朗|public|天水圍
 天富苑|天富,Tin Fu Court|元朗|hos|天水圍
 天盛苑|天盛,Tin Shing Court|元朗|hos|天水圍
@@ -190,18 +190,18 @@ const RAW = `
 影輝苑|影輝,Ying Fai Court|西貢|hos|將軍澳|覆蓋需查核|影業路16號
 英明苑|英明,Ying Ming Court|西貢|hos|將軍澳
 唐明苑|唐明,Tong Ming Court|西貢|hos|將軍澳
-尚德邨|尚德,Sheung Tak|西貢|public|將軍澳
-怡明邨|怡明,Yi Ming|西貢|public|將軍澳
+尚德邨|尚德,Sheung Tak,Sheung Tak Estate|西貢|public|將軍澳
+怡明邨|怡明,Yi Ming,Yee Ming Estate|西貢|public|將軍澳
 日出康城|康城,LOHAS Park,Lohas Park|西貢|private|將軍澳
 維景灣畔|維景灣畔,Ocean Shores|西貢|private|將軍澳
-厚德邨|厚德,Hau Tak|西貢|public|將軍澳
-明德邨|明德,Ming Tak|西貢|public|將軍澳
-景林邨|景林,King Lam|西貢|public|將軍澳
-寶林邨|寶林,Po Lam|西貢|public|將軍澳
-翠林邨|翠林,Tsui Lam|西貢|public|將軍澳
+厚德邨|厚德,Hau Tak,Hau Tak Estate|西貢|public|將軍澳
+明德邨|明德,Ming Tak,Ming Tak Estate|西貢|public|將軍澳
+景林邨|景林,King Lam,King Lam Estate|西貢|public|將軍澳
+寶林邨|寶林,Po Lam,Po Lam Estate|西貢|public|將軍澳
+翠林邨|翠林,Tsui Lam,Tsui Lam Estate|西貢|public|將軍澳
 坑口邨|坑口,Hang Hau|西貢|public|將軍澳
-健明邨|健明,Kin Ming|西貢|public|將軍澳
-善明邨|善明,Shin Ming|西貢|public|將軍澳
+健明邨|健明,Kin Ming,Kin Ming Estate|西貢|public|將軍澳
+善明邨|善明,Shin Ming,Shin Ming Estate|西貢|public|將軍澳
 彩明邨|彩明邨,Choi Ming Estate|西貢|public|將軍澳
 彩明苑|彩明,Choi Ming Court|西貢|hos|將軍澳
 彩楊閣|彩楊,Choi Yeung House,彩明苑彩楊閣|西貢|hos|將軍澳
@@ -213,10 +213,10 @@ const RAW = `
 沙田第一城|第一城,City One|沙田|private
 沙田中心|沙田中心,Shatin Centre|沙田|private
 沙田圍|沙田圍,Sha Tin Wai|沙田|public
-瀝源邨|瀝源,Lek Yuen|沙田|public
-禾輋邨|禾輋,Wo Che|沙田|public
-廣源邨|廣源,Kwong Yuen|沙田|public
-水泉澳邨|水泉澳,Shui Chuen O|沙田|public
+瀝源邨|瀝源,Lek Yuen,Lek Yuen Estate|沙田|public
+禾輋邨|禾輋,Wo Che,Wo Che Estate|沙田|public
+廣源邨|廣源,Kwong Yuen,Kwong Yuen Estate|沙田|public
+水泉澳邨|水泉澳,Shui Chuen O,Shui Chuen O Estate|沙田|public
 廣林苑|廣林,Kwong Lam Court|沙田|hos
 穗禾苑|穗禾,Sui Wo Court|沙田|hos
 豐盛苑|豐盛,Fung Shing Court|沙田|hos
@@ -225,37 +225,37 @@ const RAW = `
 御龍山|御龍山,The Palazzo ST|沙田|private
 銀禧花園|銀禧,Jubilee Garden|沙田|private
 駿景園|駿景,Royal Ascot|沙田|private
-顯徑邨|顯徑,Hin Keng|沙田|public
-秦石邨|秦石,Chun Shek|沙田|public
-新田圍邨|新田圍,Sun Tin Wai|沙田|public
-美林邨|美林,Mei Lam|沙田|public
-美田邨|美田,Mei Tin|沙田|public
+顯徑邨|顯徑,Hin Keng,Hin Keng Estate|沙田|public
+秦石邨|秦石,Chun Shek,Chun Shek Estate|沙田|public
+新田圍邨|新田圍,Sun Tin Wai,Sun Tin Wai Estate|沙田|public
+美林邨|美林,Mei Lam,Mei Lam Estate|沙田|public
+美田邨|美田,Mei Tin,Mei Tin Estate|沙田|public
 圓洲角|圓洲角,Yuen Chau Kok|沙田|public
 馬鞍山中心|馬鞍山中心,Ma On Shan Centre|沙田|private|馬鞍山
 新港城|新港城,Sunshine City|沙田|private|馬鞍山
 聽濤雅苑|Vista Paradiso|沙田|private|馬鞍山||恆明街2號
 迎海|迎海,Double Cove|沙田|private|馬鞍山
 錦豐苑|錦豐,Kam Fung Court|沙田|hos|馬鞍山
-耀安邨|耀安,Yiu On|沙田|public|馬鞍山
-恆安邨|恆安,Heng On|沙田|public|馬鞍山
+耀安邨|耀安,Yiu On,Yiu On Estate|沙田|public|馬鞍山
+恆安邨|恆安,Heng On,Heng On Estate|沙田|public|馬鞍山
 錦英苑|錦英,Kam Ying Court|沙田|hos|馬鞍山
 富安花園|富安,Chevalier Garden|沙田|hos|馬鞍山
 大埔中心|大埔中心,Tai Po Centre|大埔|private
-太和邨|太和,Tai Wo|大埔|public
-富亨邨|富亨,Fu Heng|大埔|public
-富善邨|富善,Fu Shin|大埔|public
-廣福邨|廣福,Kwong Fuk|大埔|public
-大元邨|大元,Tai Yuen|大埔|public
-運頭塘邨|運頭塘,Wan Tau Tong|大埔|public
+太和邨|太和,Tai Wo,Tai Wo Estate|大埔|public
+富亨邨|富亨,Fu Heng,Fu Heng Estate|大埔|public
+富善邨|富善,Fu Shin,Fu Shin Estate|大埔|public
+廣福邨|廣福,Kwong Fuk,Kwong Fuk Estate|大埔|public
+大元邨|大元,Tai Yuen,Tai Yuen Estate|大埔|public
+運頭塘邨|運頭塘,Wan Tau Tong,Wan Tau Tong Estate|大埔|public
 寶湖花園|寶湖,Treasure Garden|大埔|private
 帝欣苑|帝欣,Parc Versailles|大埔|private|||梅樹坑路8號
 粉嶺中心|粉嶺中心,Fanling Centre|北區|private
-華明邨|華明,Wah Ming|北區|public
-祥華邨|祥華,Cheung Wah|北區|public
-嘉福邨|嘉福,Ka Fuk|北區|public
-清河邨|清河,Ching Ho|北區|public
-天平邨|天平,Tin Ping|北區|public
-彩園邨|彩園,Choi Yuen|北區|public
+華明邨|華明,Wah Ming,Wah Ming Estate|北區|public
+祥華邨|祥華,Cheung Wah,Cheung Wah Estate|北區|public
+嘉福邨|嘉福,Ka Fuk,Ka Fuk Estate|北區|public
+清河邨|清河,Ching Ho,Ching Ho Estate|北區|public
+天平邨|天平,Tin Ping,Tin Ping Estate|北區|public
+彩園邨|彩園,Choi Yuen,Choi Yuen Estate|北區|public
 上水匯|上水匯,Sheung Shui Town Centre|北區|private
 太古城|太古城,Taikoo Shing|東區|private
 康怡花園|康怡,Kornhill|東區|private
@@ -321,17 +321,17 @@ YOHO Midtown|YOHO Midtown|元朗|private
 海之戀|海之戀,The Pavilia Bay|荃灣|private
 柏傲灣|柏傲灣,The Pavilia|荃灣|private
 環宇海灣|環宇海灣,Ocean Pride|荃灣|private
-大窩口邨|大窩口,Tai Wo Hau|葵青|public
-葵翠邨|葵翠,Kwai Tsui|葵青|public
-葵聯邨|葵聯,Kwai Luen|葵青|public
+大窩口邨|大窩口,Tai Wo Hau,Tai Wo Hau Estate|葵青|public
+葵翠邨|葵翠,Kwai Tsui,Kwai Tsui Estate|葵青|public
+葵聯邨|葵聯,Kwai Luen,Kwai Luen Estate|葵青|public
 長亨|長亨邨,Cheung Hang|葵青|public
 青衣城|青衣城,Maritime Square|葵青|private
 灝景灣|灝景灣,Villa Esplanada|葵青|private
 藍澄灣|藍澄灣,Rambler Crest|葵青|private
 盈翠半島|盈翠,Tierra Verde|葵青|private
-東涌逸東邨|逸東,逸東邨,逸東一邨,逸東二邨,Yat Tung|離島|public|東涌
-滿東邨|滿東,Mun Tung|離島|public|東涌
-迎東邨|迎東,Ying Tung|離島|public|東涌
+東涌逸東邨|逸東,逸東邨,逸東一邨,逸東二邨,Yat Tung,Yat Tung Estate|離島|public|東涌
+滿東邨|滿東,Mun Tung,Mun Tung Estate|離島|public|東涌
+迎東邨|迎東,Ying Tung,Ying Tung Estate|離島|public|東涌
 裕東苑|裕東,Yu Tung Court|離島|hos|東涌
 裕雅苑|裕雅,Yu Nga Court|離島|hos|東涌
 裕豐苑|裕豐,Yu Fung Court|離島|hos|東涌|覆蓋需查核|匯東街12號
@@ -357,7 +357,7 @@ YOHO Midtown|YOHO Midtown|元朗|private
 大埔林村|林村,Lam Tsuen|大埔|village
 大埔泮涌|泮涌,Pun Chung|大埔|village
 西貢北潭涌|北潭涌,Pak Tam Chung|西貢|village
-西貢海傍街|西貢市,Sai Kung Town|西貢|village
+西貢海傍街|Hoi Pong Street,西貢市,海傍街,Sai Kung Town,Sai Kung Hoi Pong Street|西貢|village
 西貢匡湖居|匡湖居,Marina Cove|西貢|private
 西貢澳南|澳南,Ao Nan|西貢|village
 清水灣|清水灣,Clear Water Bay|西貢|private
@@ -370,27 +370,27 @@ YOHO Midtown|YOHO Midtown|元朗|private
 沙田火炭|火炭,Fo Tan|沙田|private
 大圍美田|大圍,Tai Wai|沙田|private
 寶達邨|寶達邨,Po Tat Estate|觀塘|public
-順利邨|順利,Shun Lee|觀塘|public
+順利邨|順利,Shun Lee,Shun Lee Estate|觀塘|public
 順緻苑|順緻,Shun Chi Court|觀塘|hos
-彩德邨|彩德,Choi Tak|觀塘|public
-彩福邨|彩福,Choi Fook|觀塘|public
-啟田邨|啟田,Kai Tin|觀塘|public
+彩德邨|彩德,Choi Tak,Choi Tak Estate|觀塘|public
+彩福邨|彩福,Choi Fook,Choi Fook Estate|觀塘|public
+啟田邨|啟田,Kai Tin,Kai Tin Estate|觀塘|public
 藍田邨|藍田,Lam Tin Estate|觀塘|public
-廣田邨|廣田,Kwong Tin|觀塘|public
-德田邨|德田,Tak Tin|觀塘|public
-平田邨|平田,Ping Tin|觀塘|public
+廣田邨|廣田,Kwong Tin,Kwong Tin Estate|觀塘|public
+德田邨|德田,Tak Tin,Tak Tin Estate|觀塘|public
+平田邨|平田,Ping Tin,Ping Tin Estate|觀塘|public
 油塘邨|油塘,Yau Tong Estate|觀塘|public
-油麗邨|油麗,Yau Lai|觀塘|public
+油麗邨|油麗,Yau Lai,Yau Lai Estate|觀塘|public
 高翔苑|高翔,Ko Cheung Court,油塘高翔苑|觀塘|hos|油塘||高超道32號
 康華苑|康華,Hong Wah Court|觀塘|hos
 鯉魚門邨|鯉魚門,Lei Yue Mun Estate|觀塘|public
 鯉安苑|居屋鯉安苑,Lei On Court|觀塘|hos
-安達邨|安達,On Tat|觀塘|public
-安泰邨|安泰,On Tai|觀塘|public
+安達邨|安達,On Tat,On Tat Estate|觀塘|public
+安泰邨|安泰,On Tai,On Tai Estate|觀塘|public
 安楹苑|安楹,On Ying Court|觀塘|hos
 安樺苑|安樺,On Wah Court|觀塘|hos
 安麗苑|安麗,On Lai Court|觀塘|hos
-康山花園|康山,Kornhill Gardens|東區|hos
+康山花園|康山,Kornhill Gardens,Kornhill|東區|hos
 天水圍天華|天華,Tin Wah|元朗|public|天水圍
 馬灣|馬灣,Ma Wan|荃灣|village|馬灣
 井欄樹村|井欄樹,Tseng Lan Shue|西貢|village
@@ -836,9 +836,17 @@ function looksEnglish(value: string) {
   return /[A-Za-z]/.test(value) && value.replace(/[^A-Za-z]/g, "").length >= 3;
 }
 
-/** First catalogue alias that looks like an English name. Do not invent one. */
-export function estateEnglishName(estate: Estate): string | undefined {
+/** First catalogue alias that looks like an English name. Used for stable slugs. */
+export function firstEnglishAlias(estate: Estate): string | undefined {
   return estate.aliases.find((alias) => looksEnglish(alias));
+}
+
+/** Display English: prefer official HA Estate / Court names when catalogued. */
+export function estateEnglishName(estate: Estate): string | undefined {
+  const english = estate.aliases.filter((alias) => looksEnglish(alias));
+  if (!english.length) return undefined;
+  const official = english.find((alias) => /\b(Estate|Court)\b/.test(alias));
+  return official ?? english[0];
 }
 
 export function estateDisplayName(estate: Estate, locale: Locale = "zh") {
