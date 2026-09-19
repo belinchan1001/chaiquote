@@ -1,6 +1,6 @@
 {
   "framework": null,
-  "buildCommand": "node scripts/with-app-env.mjs vite build",
+  "buildCommand": "node scripts/check-messages.mjs && node scripts/with-app-env.mjs vite build",
   "installCommand": "npm install",
   "regions": ["hkg1"],
   "redirects": [

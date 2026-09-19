@@ -2,6 +2,12 @@ import { LEGAL } from "./site.ts";
 
 export type Locale = "zh" | "en";
 
+/**
+ * Do not wipe or replace this catalogue. Daily copy must only edit individual
+ * keys — never clear `zh` / `en` or overwrite the file with a partial object.
+ * `scripts/check-messages.mjs` (hotfix #102 floor) will fail the build if a
+ * locale table is missing or drops below the key-count floor.
+ */
 export const MESSAGES = {
   zh: {
     tagline: "搵寬頻唔使四圍問",
