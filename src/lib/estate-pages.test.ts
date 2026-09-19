@@ -207,10 +207,14 @@ describe("estate SEO pages", () => {
     assert.equal(isNewIntakeEstate("凱柏峰"), true);
     assert.equal(isNewIntakeEstate("曉柏峰"), true);
     assert.equal(isNewIntakeEstate("北都滙"), true);
+    assert.equal(isNewIntakeEstate("朗然"), true);
+    assert.equal(isNewIntakeEstate("海璇"), true);
+    assert.equal(isNewIntakeEstate("形瑨"), false);
+    assert.equal(isNewIntakeEstate("南灣"), false);
     assert.equal(isNewIntakeEstate("連方"), true);
     assert.equal(isNewIntakeEstate("映居"), true);
     assert.equal(isNewIntakeEstate("擎海"), false);
-    assert.equal(isNewIntakeEstate("朗然"), false);
+    assert.equal(isNewIntakeEstate("朗然"), true);
     assert.equal(isNewIntakeEstate("柏瓏"), true);
     assert.equal(isNewIntakeEstate("UNI Residence"), true);
     assert.equal(isNewIntakeEstate("飛揚"), true);

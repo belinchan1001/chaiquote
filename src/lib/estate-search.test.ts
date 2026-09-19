@@ -992,6 +992,17 @@ describe("housing type audit 2026", () => {
     assert.equal(estate("華富中邨")?.coverageCheck, true);
     assert.equal(matchKnownEstate("華樂徑")?.name, "華富中邨");
     assert.equal(estate("麗玥苑")?.housing, "hos");
+    assert.equal(estate("麗玥苑")?.street, "東京街3號");
+    assert.equal(estate("麗玥苑")?.area, "長沙灣");
+    assert.equal(estate("南灣")?.housing, "private");
+    assert.equal(matchKnownEstate("Larvotto")?.name, "南灣");
+    assert.equal(estate("南灣")?.street, "鴨脷洲海旁道8號");
+    assert.equal(estate("形瑨")?.housing, "private");
+    assert.equal(matchKnownEstate("Lime Spark")?.name, "形瑨");
+    assert.equal(estate("牛池灣村")?.housing, "village");
+    assert.equal(matchKnownEstate("Hemma Anderson")?.name, "灝然");
+    assert.equal(matchKnownEstate("Lo So Shing")?.name, "蘆鬚城");
+    assert.equal(matchKnownEstate("Victoria Harbour")?.name, "海璇");
     assert.equal(estate("皇都")?.housing, "private");
     assert.equal(matchKnownEstate("State Pavilia")?.name, "皇都");
     assert.equal(estate("啟悅苑")?.street, "沐和街2號");
@@ -1222,7 +1233,7 @@ describe("search query tails, simplified, english", () => {
     assert.equal(isNewIntakeEstate("滿．意"), true);
     assert.equal(isNewIntakeEstate("恒苑"), false);
     assert.equal(isNewIntakeEstate("皇璇"), false);
-    assert.equal(isNewIntakeEstate("海璇"), false);
+    assert.equal(isNewIntakeEstate("海璇"), true);
     assert.equal(estate("柏蔚森")?.housing, "private");
     assert.equal(estate("柏蔚森")?.street, "承景街2號");
     assert.equal(matchKnownEstate("The Pavilia Forest")?.name, "柏蔚森");
@@ -1355,7 +1366,7 @@ describe("search query tails, simplified, english", () => {
     assert.equal(estate("擎海")?.street, "東源街15號");
     assert.equal(isNewIntakeEstate("擎海"), false);
     assert.equal(estate("朗然")?.housing, "hos");
-    assert.equal(isNewIntakeEstate("朗然"), false);
+    assert.equal(isNewIntakeEstate("朗然"), true);
     assert.equal(isNewIntakeEstate("飛揚"), true);
     assert.equal(isNewIntakeEstate("凱和山"), true);
     assert.equal(isNewIntakeEstate("晉環"), true);

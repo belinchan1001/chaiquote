@@ -518,7 +518,7 @@ export const EXTRA_RAW = `
 愛蝶灣|愛蝶,Aldrich Garden|東區|hos
 富欣花園|Cheerful Garden|東區|hos
 宏德居|宏德,Walton Estate,Wang Tak Residence|東區|hos
-啟翔苑|Kai Cheung Court|黃大仙|hos
+啟翔苑|啟翔,Kai Cheung Court,鑽石山啟翔苑,龍蟠街啟翔苑|黃大仙|hos|鑽石山
 鳳鑽苑|Fung Chun Court|黃大仙|hos
 鳳禮苑|Fung Lai Court|黃大仙|hos
 盈福苑|Ying Fuk Court|黃大仙|hos
@@ -839,7 +839,7 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 樂真樓|Lok Chun Lau,啟德樂真樓,樂啟都匯樂真樓,樂真樓第一座,樂真樓第二座|九龍城|public|啟德|覆蓋需查核
 瑜一|In One,何文田瑜一,忠孝街1號瑜一,何文田站瑜一|九龍城|private|何文田||忠孝街1號
 華富中邨|Wah Fu Central Estate,華樂徑公屋,薄扶林華富中,華富邨華樂徑|南區|public|薄扶林|覆蓋需查核
-麗玥苑|麗玥,Lai Yuet Court,白田麗玥苑|深水埗|hos|白田|覆蓋需查核
+麗玥苑|麗玥,Lai Yuet Court,長沙灣麗玥苑,東京街3號麗玥苑,麗玥苑麗滿閣,麗玥苑麗淳閣,麗玥苑麗濤閣|深水埗|hos|長沙灣|覆蓋需查核|東京街3號
 皇都|State Pavilia,北角皇都,英皇道277號皇都|東區|private|北角|覆蓋需查核|英皇道277-291號
 攸壆路簡約公屋|攸壆路項目,Yau Pok Road LPH,元朗攸壆路簡約公屋,簡約公屋攸壆路,攸壆路18號|元朗|public|錦繡花園||攸壆路18號
 彩興路簡約公屋|彩興路項目,Choi Hing Road LPH,牛頭角彩興路簡約公屋,簡約公屋彩興路|觀塘|public|平山||彩興路23號
@@ -892,11 +892,11 @@ The Monet|The Monet,龍庭里8號,九龍塘The Monet,Lung Ting Lane|九龍城|pr
 峻譽渣甸山|峻譽・渣甸山,Jardini,大坑峻譽,大坑道135號|灣仔|private|大坑||大坑道135號
 One Stanley|One Stanley,赤柱One Stanley,赤柱新盤One Stanley,黃麻角道128號|南區|private|赤柱||黃麻角道128號
 Mount Pokfulam|Mount Pokfulam,薄扶林Mount Pokfulam,薄扶林新盤Mount Pokfulam|南區|private|薄扶林||薄扶林道86A-G號
-海璇|Victoria Harbour North Point,北角海璇,海璇II,海璇2B,渣華道133號|東區|private|北角||渣華道133號
+海璇|Victoria Harbour,Victoria Harbour North Point,北角海璇,海璇II,海璇2B,渣華道133號海璇|東區|private|北角||渣華道133號
 皇璇|STATE RESIDENCE,北角皇璇,熙和街1號皇璇|東區|private|北角|覆蓋需查核|熙和街1號
 滿．意|ONE TOSCANA,滿‧意,愉景灣滿．意,意濤,Toscana Discovery Bay,滿．意2期,ONE TOSCANA 2|離島|private|愉景灣
 太子道西233號|233 Prince Edward Road West,何文田太子道西233號|九龍城|private|何文田||太子道西233號
-灝然|Hao Yin,The Hemera Anderson,安達臣灝然,安達臣道灝然,房協灝然,觀塘灝然,安禧街灝然|觀塘|hos|安達臣|覆蓋需查核|安禧街
+灝然|Hemma Anderson,Hao Yin,The Hemera Anderson,安達臣灝然,安達臣道灝然,房協灝然,觀塘灝然,安禧街灝然|觀塘|hos|安達臣|覆蓋需查核|安禧街
 朗然|Hemma Amber,安達臣朗然,安禧街18號朗然,房協朗然,觀塘朗然|觀塘|hos|安達臣||安禧街18號
 叡璟|THE STERLING,叡璟I,叡璟II,叡璟1期,叡璟2期,The Sterling I,The Sterling II,長沙灣叡璟,發祥街西8號叡璟|深水埗|private|長沙灣|覆蓋需查核|發祥街西8號
 PORTO|Porto,鴨脷洲PORTO,平瀾街9號PORTO,平瀾街PORTO,Ap Lei Chau PORTO|南區|private|鴨脷洲||平瀾街9號
@@ -941,8 +941,8 @@ One Innovale|ONE INNOVALE,粉嶺One Innovale,馬適路8號One Innovale,粉嶺馬
 Palo Springs|Palo Springs Sheung Shui,PARK SILICON,Park Silicon,上水Palo Springs,古洞Palo Springs,鄉梓路23號Palo Springs,鄉梓路23號Park Silicon|北區|private|上水|覆蓋需查核|鄉梓路23號
 映居|大角咀映居,旺角映居,埃華街3號映居,埃華街映居,Ivy Street 3|油尖旺|private|大角咀||埃華街3號
 芊御|Garden Regency,Garden REGENCY,元朗芊御,錦田芊御,映河路1A號芊御,The YOHO 芊御|元朗|private|錦田|覆蓋需查核|映河路1A號
-瑧玥|GRAND AUSTIN BOHEMIAN,Grand Austin Bohemian,尖沙咀瑧玥|油尖旺|private|尖沙咀|覆蓋需查核
-南灣苑|Nam Wan Court,鴨脷洲南灣苑,利東邨南灣苑|南區|hos|鴨脷洲
+瑧玥|GRAND AUSTIN BOHEMIAN,Grand Austin Bohemian,尖沙咀瑧玥,官涌街56號瑧玥,官涌街52號瑧玥,佐敦瑧玥|油尖旺|private|尖沙咀|覆蓋需查核|官涌街52-56號
+南灣苑|Nam Wan Court,鴨脷洲南灣苑,利東邨南灣苑,利東南灣苑|南區|hos|鴨脷洲
 澐璟|Pano Harbour,PANO HARBOUR,啟德澐璟,承富里2號澐璟,澐璟1座,澐璟2座,澐璟3A座,澐璟3B座,澐璟5座,澐璟6座,澐璟8座|九龍城|private|啟德||承富里2號
 擎海|擎海I,擎海II,油塘擎海,東源街擎海,東源街15號擎海,King Hoi|觀塘|private|油塘|覆蓋需查核|東源街15號
 凱柏峰|Villa Garda,VILLA GARDA,凱柏峰I,凱柏峰II,凱柏峰III,The LOHAS 凱柏峰,康城凱柏峰,康城路1號凱柏峰|西貢|private|將軍澳||康城路1號
@@ -960,5 +960,11 @@ the MVP|THE MVP,The MVP,般咸道24號the MVP,般咸道28號the MVP,般咸道30�
 幸薈|Soyo Square,SOYO SQUARE,SOYO Square,長沙灣幸薈,青山道439號幸薈|深水埗|private|長沙灣||青山道439號
 柏景峰|One Park Place,ONE PARK PLACE,油塘柏景峰,高雅里8號柏景峰,高超道32號柏景峰|觀塘|private|油塘|覆蓋需查核|高雅里8號
 長洲南氹|Nam Tam Wan,長洲南氹灣,南氹灣,Cheung Chau Nam Tam|離島|village|長洲
+南灣|Larvotto,鴨脷洲南灣,玉桂山南灣,鴨脷洲海旁道8號南灣,鴨脷洲海旁道8號|南區|private|鴨脷洲||鴨脷洲海旁道8號
+形瑨|Lime Spark,LIME SPARK,荃灣形瑨,橫窩仔街21號形瑨,橫窩仔街形瑨,荃灣橫窩仔街21號|荃灣|private|荃灣|覆蓋需查核|橫窩仔街21號
+麗滿閣|Lai Mun House,麗玥苑麗滿閣,麗玥苑A座|深水埗|hos|長沙灣|覆蓋需查核|東京街3號
+麗淳閣|Lai Shun House,麗玥苑麗淳閣,麗玥苑B座|深水埗|hos|長沙灣|覆蓋需查核|東京街3號
+麗濤閣|Lai Tao House,Lai To House,麗玥苑麗濤閣,麗玥苑C座|深水埗|hos|長沙灣|覆蓋需查核|東京街3號
+雅田樓|Nga Tin House,白田邨雅田樓,白田雅田樓|深水埗|public|白田
 `.trim();
 

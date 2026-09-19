@@ -337,6 +337,12 @@ const SLUG_FALLBACK: Record<string, string> = {
   長洲南氹: "nam-tam-wan",
   幸薈: "soyo-square",
   柏景峰: "one-park-place",
+  南灣: "larvotto",
+  形瑨: "lime-spark",
+  麗滿閣: "lai-mun-house",
+  麗淳閣: "lai-shun-house",
+  麗濤閣: "lai-to-house",
+  雅田樓: "nga-tin-house",
 };
 
 function requireEstate(name: string): Estate {

@@ -234,7 +234,7 @@ export const VILLAGE_RAW = `
 下嶺皮|Ha Ling Pei|離島|village|東涌
 長洲西灣|Cheung Chau Sai Wan|離島|village|長洲
 長洲北社|Cheung Chau Pak She|離島|village|長洲
-蘆鬚城|Lo So Ching|離島|village|南丫島
+蘆鬚城|Lo So Shing,Lo So Ching,南丫蘆鬚城,南丫島蘆鬚城,蘆鬚城村|離島|village|南丫島
 石澳村|Shek O Village|南區|village|石澳
 大潭村|Tai Tam Village|南區|village|大潭
 赤柱村|Stanley Village|南區|village|赤柱
@@ -829,6 +829,18 @@ export const VILLAGE_RAW = `
 牙鷹洲|Nga Ying Chau,牙鷹洲村,青衣牙鷹洲|葵青|village|青衣
 荃灣南灣|Tsuen Wan Nam Wan,荃灣南灣村,南灣荃灣|荃灣|village|荃灣
 長洲南氹灣村|Nam Tam Wan Village,長洲南氹村|離島|village|長洲
+東澳|Tung O,南丫東澳,南丫島東澳,東澳村,南丫島東澳村|離島|village|南丫島
+鹿洲|Luk Chau,南丫鹿洲,南丫島鹿洲,鹿洲村|離島|village|南丫島
+榕樹下|Yung Shue Ha,南丫榕樹下,南丫島榕樹下,榕樹下村|離島|village|南丫島
+北角新村|Pak Kok San Tsuen,南丫北角新村,南丫島北角新村|離島|village|南丫島
+大坪村|Tai Ping Tsuen Lamma,南丫大坪村,南丫島大坪,南丫島大坪村|離島|village|南丫島
+大灣舊村|Tai Wan Kau Tsuen,南丫大灣舊村,南丫島大灣舊村|離島|village|南丫島
+大灣新村|Tai Wan San Tsuen,南丫大灣新村,南丫島大灣新村|離島|village|南丫島
+橫塱|Wang Long,南丫橫塱,南丫島橫塱,橫塱村|離島|village|南丫島
+大園|Tai Yuen Lamma,南丫大園,南丫島大園,大園村南丫|離島|village|南丫島
+牛池灣村|Ngau Chi Wan Tsuen,Ngau Chi Wan Village,牛池灣舊村|黃大仙|village|牛池灣
+坪洲大白|Tai Pak Peng Chau,坪洲大白村,大白坪洲|離島|village|坪洲
+坪洲二白|Yi Pak Peng Chau,坪洲二白村,二白坪洲|離島|village|坪洲
 `.trim();
 
 
