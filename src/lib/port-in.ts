@@ -314,6 +314,7 @@ export function portInQuoteMessage(formData: WhatsAppFormData) {
     `⚡ 需求規格：${need}`,
     `🎮 特殊需求：${formData.esports ? "需要電競神線" : "無"}`,
     plan ? `🎯 目標心水計劃：${plan}` : "",
+    `🤖 篩選方式：${formData.source === "ai" ? "AI 智能推薦" : "手動條件篩選"}`,
     "--------------------------------",
     "請幫我確認覆蓋/訊號與預留轉台禮品，謝謝！",
   ]

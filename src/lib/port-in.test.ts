@@ -258,6 +258,7 @@ describe("port-in intake", () => {
     assert.match(text, /指定心水電訊商：網上行 \(HKT\)/);
     assert.match(text, /2500M 光纖 \(HK\$149\/月\)/);
     assert.match(text, /需要電競神線/);
+    assert.match(text, /篩選方式：手動條件篩選/);
     const open = portInQuoteMessage({
       serviceType: "光纖寬頻",
       currentProvider: "網上行",

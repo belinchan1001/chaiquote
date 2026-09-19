@@ -17,6 +17,16 @@ import {
   type SpeedMbps,
 } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
+import {
+  currentLabel,
+  currentOptions,
+  expiryLabel,
+  needLabel,
+  serviceTypeLabel,
+  targetLabel,
+  type CurrentId,
+  type InquiryQuote,
+} from "./port-in.ts";
 
 export const AI_MONTHLY_BUDGET_HKD = 200;
 export const HKD_PER_USD = 7.8;
@@ -33,7 +43,7 @@ const FEE_TALK =
   /HK\s*\$|\$\s*\d|港幣\s*\d|平均月費|月費\s*(只需|低至|只要|HK|\$)|保證|最平|最抵|最低|cheapest|guarantee|best price/i;
 
 const CATEGORY_HINTS: { cat: Category; re: RegExp }[] = [
-  { cat: "mobile", re: /手機|流動|sim|上台|轉台|攜號|5g\s*plan|數據卡/i },
+  { cat: "mobile", re: /手機|流動|sim|上台|轉台|攜號|5g\s*plan|數據卡|新號碼|全速無限/i },
   { cat: "home5g", re: /5g\s*家居|家居寬頻|唔使拉線|插電|家居5g/i },
   { cat: "business", re: /商業|舖頭|鋪頭|寫字樓|商店|公司寬頻/i },
   { cat: "broadband", re: /光纖|寬頻|wifi|路由器|1000m|2500m|5000m|10000m|村屋|丁屋|village\s*houses?/i },
@@ -182,7 +192,23 @@ export function resolveEstate(message: string, inquiryEstate?: string): Estate |
 }
 
 
-export function detectCurrentProvider(message: string): ProviderId | undefined {
+export function detectTargetProvider(message: string): ProviderId | undefined {
+  const clause = message.split(/想轉|轉去|轉做|心水|指定/)[1];
+  if (!clause) return undefined;
+  return detectProvider(clause);
+}
+
+export function detectMobileNeed(message: string) {
+  if (/大灣區|中澳|學生優惠/.test(message)) return "gba" as const;
+  if (/攜號|帶號|mnp/i.test(message)) return "mnp" as const;
+  if (/4\.5g|平價入門/i.test(message)) return "45g" as const;
+  if (/5g/i.test(message)) return "5g" as const;
+  return undefined;
+}
+
+export function detectCurrentProvider(message: string): CurrentId | undefined {
+  if (/新號碼/.test(message)) return "none";
+  if (/新開戶|無用緊|未有寬頻|未裝寬頻/.test(message)) return "none";
   if (!/用緊|而家用|現用|而家係|轉台|到期|約滿/.test(message)) return undefined;
   return detectProvider(message);
 }
@@ -205,12 +231,14 @@ export function detectEsportsLine(message: string) {
 
 export type FilterParse = {
   cat: Category;
-  current?: ProviderId;
+  current?: CurrentId;
   exclude?: ProviderId;
+  target?: ProviderId;
   expiry?: "1m" | "2-3m" | "4-6m" | "6m+";
   estate?: string;
   housing?: Housing;
   speed?: SpeedMbps;
+  mobileNeed?: "5g" | "45g" | "mnp" | "gba";
   esports: boolean;
   gaming: boolean;
 };
@@ -227,16 +255,21 @@ export function parseFilterState(input: { message: string; estate?: string; hous
       : estateRow?.housing ?? guessed.housing;
   const cat = detectCategory(message);
   const current = detectCurrentProvider(message);
+  const target = detectTargetProvider(message);
+  const exclude = current && current !== "none" && current !== "other" ? current : undefined;
   const esports = detectEsportsLine(message);
   const speed = cat === "broadband" || cat === "business" ? detectSpeed(message) : undefined;
+  const mobileNeed = cat === "mobile" ? detectMobileNeed(message) : undefined;
   return {
     cat,
     current,
-    exclude: current,
+    exclude,
+    target: target && target !== exclude ? target : undefined,
     expiry: detectExpiry(message),
     estate: estateRow?.name ?? (villageIntent ? undefined : input.estate || undefined),
     housing,
     speed: esports ? undefined : (speed as SpeedMbps | undefined),
+    mobileNeed,
     esports,
     gaming: detectGaming(message),
   };
@@ -255,6 +288,7 @@ export function retrievePlansForAsk(input: {
     estate: parsed.estate,
     housing: parsed.housing,
     exclude,
+    provider: parsed.target,
     minSpeed: parsed.esports ? 2500 : undefined,
     esports: parsed.esports ? true : undefined,
   };
@@ -267,6 +301,44 @@ export function retrievePlansForAsk(input: {
     category: parsed.cat,
     plans: ranked.slice(0, AI_MAX_PLANS).map(toCatalogPlan),
     parsed: { ...parsed, exclude, current: parsed.current ?? exclude },
+  };
+}
+
+function needIdFromParse(parsed: FilterParse) {
+  if (parsed.cat === "mobile") return parsed.mobileNeed ?? "";
+  if (parsed.esports) return "2500";
+  if ((parsed.speed ?? 0) >= 2500) return parsed.cat === "business" ? "dedicated" : "2500";
+  if ((parsed.speed ?? 0) >= 1000) return "1000";
+  if (parsed.cat === "broadband" || parsed.cat === "business") return "any";
+  return "";
+}
+
+export function inquiryFromAiParse(
+  parsed: FilterParse,
+  previous?: {
+    estate?: string;
+    housing?: string;
+    district?: string;
+    currentProvider?: string;
+    targetProvider?: string;
+    expiry?: string;
+  },
+): InquiryQuote & { source: "ai"; district?: string } {
+  const current = parsed.current
+    ? (currentOptions(parsed.cat).find((item) => item.id === parsed.current)?.label ?? currentLabel(parsed.current))
+    : previous?.currentProvider || "";
+  const target = parsed.target ? targetLabel(parsed.target) : previous?.targetProvider || "";
+  return {
+    estate: parsed.estate || previous?.estate || "",
+    housing: parsed.housing || previous?.housing || "",
+    district: previous?.district,
+    currentProvider: current,
+    targetProvider: target,
+    expiry: parsed.expiry ? expiryLabel(parsed.expiry) : previous?.expiry || "",
+    need: needLabel(parsed.cat, needIdFromParse(parsed), parsed.esports),
+    serviceType: serviceTypeLabel(parsed.cat),
+    esports: parsed.esports,
+    source: "ai",
   };
 }
 
