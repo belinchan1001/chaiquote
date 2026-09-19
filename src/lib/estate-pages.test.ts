@@ -231,6 +231,13 @@ describe("estate SEO pages", () => {
     assert.equal(isNewIntakeEstate("瑧博"), false);
     assert.equal(isNewIntakeEstate("柏景峰"), false);
     assert.equal(isNewIntakeEstate("皇都"), false);
+    assert.equal(isNewIntakeEstate("朗譽"), true);
+    assert.equal(isNewIntakeEstate("南首"), true);
+    assert.equal(getEstatePage("chill-residence")?.estate.name, "朗譽");
+    assert.equal(getEstatePage("chill-residence")?.estate.street, "高超道29號");
+    assert.equal(getEstatePage("eight-southpark")?.estate.name, "南首");
+    assert.equal(getEstatePage("eight-southpark")?.estate.street, "南角道8號");
+    assert.equal(getEstatePage("pak-kok-kau-tsuen")?.estate.housing, "village");
     assert.equal(getEstatePage("cadenza-sheung-shui")?.estate.name, "華第");
     assert.equal(getEstatePage("33-catchick-street")?.estate.name, "吉喆");
     assert.equal(getEstatePage("the-boundary")?.estate.name, "THE BOUNDARY");

@@ -1436,6 +1436,22 @@ describe("search query tails, simplified, english", () => {
     assert.equal(searchEstates("汾流", 4)[0]?.name, "分流");
     assert.equal(matchKnownEstate("Park Silicon")?.name, "Palo Springs");
     assert.equal(estate("Palo Springs")?.coverageCheck, true);
+    assert.equal(estate("朗譽")?.housing, "private");
+    assert.equal(estate("朗譽")?.street, "高超道29號");
+    assert.equal(estateEnglishName(estate("朗譽")!), "Chill Residence");
+    assert.equal(matchKnownEstate("Chill Residence")?.name, "朗譽");
+    assert.equal(isNewIntakeEstate("朗譽"), true);
+    assert.equal(estate("南首")?.housing, "private");
+    assert.equal(estate("南首")?.street, "南角道8號");
+    assert.equal(estateEnglishName(estate("南首")!), "Eight Southpark");
+    assert.equal(matchKnownEstate("Eight Southpark")?.name, "南首");
+    assert.equal(isNewIntakeEstate("南首"), true);
+    assert.equal(estateEnglishName(estate("映居")!), "foto+");
+    assert.equal(matchKnownEstate("THE RESERVE")?.name, "黃金海灣");
+    assert.equal(searchEstates("北角舊村", 4)[0]?.housing, "village");
+    assert.equal(searchEstates("梅窩白芒", 4)[0]?.housing, "village");
+    assert.equal(searchEstates("坪洲圍仔", 4)[0]?.housing, "village");
+    assert.equal(searchEstates("牙較灣", 4)[0]?.name, "牙較灣");
   });
 });
 

@@ -343,6 +343,17 @@ const SLUG_FALLBACK: Record<string, string> = {
   麗淳閣: "lai-shun-house",
   麗濤閣: "lai-to-house",
   雅田樓: "nga-tin-house",
+  朗譽: "chill-residence",
+  南首: "eight-southpark",
+  北角舊村: "pak-kok-kau-tsuen",
+  牙較灣: "nga-keng-wan",
+  梅窩盲塘: "mang-tong-mui-wo",
+  梅窩牛牯塱: "ngau-kwu-long-mui-wo",
+  梅窩白芒: "pak-mong-mui-wo",
+  梅窩東灣頭: "tung-wan-tau-mui-wo",
+  梅窩黃蜂田: "wong-fung-tin-mui-wo",
+  坪洲圍仔: "wai-tsai-peng-chau",
+  坪洲老圍: "lo-wai-peng-chau",
 };
 
 function requireEstate(name: string): Estate {

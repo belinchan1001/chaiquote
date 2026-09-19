@@ -777,7 +777,7 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 聚豪天下|Grand Palisades|大埔|private|||山賢路8號
 肇輝臺|Kadoorie Avenue|九龍城|private
 海傲灣|One East Coast|觀塘|private|油塘||鯉魚門徑1號
-朗譽|The Aperture|觀塘|private|油塘
+朗譽|Chill Residence,CHILL RESIDENCE,The Aperture,油塘朗譽,高超道29號朗譽,高超道朗譽|觀塘|private|油塘||高超道29號
 上然|Le Mont,大埔上然,上然第1期,上然第2期,上然第3期|大埔|private|大埔墟||馬窩路19號
 上然第1座|Le Mont Tower 1,上然1座,上然一座|大埔|private|大埔墟||馬窩路19號
 上然第2座|Le Mont Tower 2,上然2座,上然二座|大埔|private|大埔墟||馬窩路19號
@@ -848,7 +848,7 @@ The Haddon|The Haddon Hung Hom|九龍城|private|紅磡
 彩石里簡約公屋|彩石里項目,Choi Shek Lane LPH,九龍灣彩石里簡約公屋,簡約公屋彩石里|觀塘|public|九龍灣||彩石里
 青發街簡約公屋|青發街項目,Tsing Fat Street LPH,屯門青發街簡約公屋,小欖樂安排簡約公屋,簡約公屋青發街|屯門|public|小欖||青發街
 Sierra Sea|Sierra Sea,西沙Sierra Sea,十四鄉Sierra Sea,Sierra Sea 1期,Sierra Sea 2期,西沙海映路|大埔|private|西貢北||海映路8號
-黃金海灣|Gold Coast Bay,黃金海灣意嵐,黃金海灣珀岸,意嵐,珀岸,The Uppland|屯門|private|青山灣||青山公路－青山灣段18號
+黃金海灣|Gold Coast Bay,黃金海灣意嵐,黃金海灣珀岸,意嵐,珀岸,The Uppland,THE UPPLAND,THE RESERVE,The Reserve,Gold Coast Bay The Uppland,Gold Coast Bay The Reserve|屯門|private|青山灣||青山公路－青山灣段18號
 Double Coast|Double Coast I,Double Coast II,Double Coast III,Double Coast 3,啟德Double Coast,啟德Double Coast III|九龍城|private|啟德||承豐道19號
 海盈山|La Montagne,海盈山第4A期,海盈山第4B期,港島南岸海盈山|南區|private|黃竹坑||香葉道11號
 逸瓏灣|Mayfair By The Sea,逸瓏灣I,逸瓏灣1期,逸瓏灣一期,白石角逸瓏灣|大埔|private|白石角
@@ -939,7 +939,7 @@ One Innovale|ONE INNOVALE,粉嶺One Innovale,馬適路8號One Innovale,粉嶺馬
 滶蘊|PAVILIA ROSA,Pavilia Rosa,九龍塘滶蘊,玫瑰街28號滶蘊,石硤尾滶蘊|九龍城|private|九龍塘|覆蓋需查核|玫瑰街28號
 海瑅灣|LA MIRABELLE,海瑅灣I,海瑅灣II,海瑅灣1期,海瑅灣2期,LA MIRABELLE I,LA MIRABELLE II,日出康城海瑅灣,康城海瑅灣,康城路1號海瑅灣|西貢|private|將軍澳|覆蓋需查核|康城路1號
 Palo Springs|Palo Springs Sheung Shui,PARK SILICON,Park Silicon,上水Palo Springs,古洞Palo Springs,鄉梓路23號Palo Springs,鄉梓路23號Park Silicon|北區|private|上水|覆蓋需查核|鄉梓路23號
-映居|大角咀映居,旺角映居,埃華街3號映居,埃華街映居,Ivy Street 3|油尖旺|private|大角咀||埃華街3號
+映居|foto+,FOTO+,Foto Plus,大角咀映居,旺角映居,埃華街3號映居,埃華街映居,Ivy Street 3|油尖旺|private|大角咀||埃華街3號
 芊御|Garden Regency,Garden REGENCY,元朗芊御,錦田芊御,映河路1A號芊御,The YOHO 芊御|元朗|private|錦田|覆蓋需查核|映河路1A號
 瑧玥|GRAND AUSTIN BOHEMIAN,Grand Austin Bohemian,尖沙咀瑧玥,官涌街56號瑧玥,官涌街52號瑧玥,佐敦瑧玥|油尖旺|private|尖沙咀|覆蓋需查核|官涌街52-56號
 南灣苑|Nam Wan Court,鴨脷洲南灣苑,利東邨南灣苑,利東南灣苑|南區|hos|鴨脷洲
@@ -966,5 +966,6 @@ the MVP|THE MVP,The MVP,般咸道24號the MVP,般咸道28號the MVP,般咸道30�
 麗淳閣|Lai Shun House,麗玥苑麗淳閣,麗玥苑B座|深水埗|hos|長沙灣|覆蓋需查核|東京街3號
 麗濤閣|Lai Tao House,Lai To House,麗玥苑麗濤閣,麗玥苑C座|深水埗|hos|長沙灣|覆蓋需查核|東京街3號
 雅田樓|Nga Tin House,白田邨雅田樓,白田雅田樓|深水埗|public|白田
+南首|Eight Southpark,EIGHT SOUTHPARK,九龍城南首,馬頭角南首,南角道8號南首,南角道南首|九龍城|private|馬頭角||南角道8號
 `.trim();
 

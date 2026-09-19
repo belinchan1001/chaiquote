@@ -841,6 +841,15 @@ export const VILLAGE_RAW = `
 牛池灣村|Ngau Chi Wan Tsuen,Ngau Chi Wan Village,牛池灣舊村|黃大仙|village|牛池灣
 坪洲大白|Tai Pak Peng Chau,坪洲大白村,大白坪洲|離島|village|坪洲
 坪洲二白|Yi Pak Peng Chau,坪洲二白村,二白坪洲|離島|village|坪洲
+北角舊村|Pak Kok Kau Tsuen,南丫北角舊村,南丫島北角舊村,Pak Kok Old Village|離島|village|南丫島
+牙較灣|Nga Keng Wan,南丫牙較灣,南丫島牙較灣,牙較灣村|離島|village|南丫島
+梅窩盲塘|Mang Tong,盲塘,梅窩盲塘村,Mang Tong Mui Wo|離島|village|梅窩
+梅窩牛牯塱|Ngau Kwu Long,牛牯塱,梅窩牛牯塱|離島|village|梅窩
+梅窩白芒|Pak Mong,白芒,梅窩白芒村,大嶼山白芒|離島|village|梅窩
+梅窩東灣頭|Tung Wan Tau,東灣頭,梅窩東灣頭|離島|village|梅窩
+梅窩黃蜂田|Wong Fung Tin,黃蜂田,梅窩黃蜂田|離島|village|梅窩
+坪洲圍仔|Wai Tsai Peng Chau,坪洲圍仔村,圍仔坪洲|離島|village|坪洲
+坪洲老圍|Lo Wai Peng Chau,坪洲老圍村,老圍坪洲|離島|village|坪洲
 `.trim();
 
 
