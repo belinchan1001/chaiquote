@@ -81,6 +81,7 @@ export function EstateSuggest({
   const [awaiting, setAwaiting] = useState(false);
   const [blockStep, setBlockStep] = useState<BlockStep | null>(null);
   const [lookupPending, setLookupPending] = useState(false);
+  const lookupGen = useRef(0);
   const local = localAddressHits(value);
   const query = value.trim();
   const remoteFresh = remoteFor === query;
@@ -139,6 +140,7 @@ export function EstateSuggest({
   }
 
   function clearBlockFlow() {
+    lookupGen.current += 1;
     setBlockStep(null);
     setLookupPending(false);
   }
@@ -173,9 +175,11 @@ export function EstateSuggest({
     setLookupPending(false);
     setBlockStep({ parent: hit, catalogue, gov: [] });
     setOpen(true);
+    const gen = lookupGen.current;
     const ac = new AbortController();
     void lookupParentBlocks(hit, ac.signal)
       .then(({ gov }) => {
+        if (gen !== lookupGen.current) return;
         setBlockStep((current) => (current && current.parent.key === hit.key ? { ...current, gov } : current));
       })
       .catch((error: unknown) => {
@@ -184,6 +188,7 @@ export function EstateSuggest({
   }
 
   function pick(hit: AddressHit) {
+    lookupGen.current += 1;
     const kind = blockStepKind(hit);
     if (kind === "none") {
       finalize(hit);
@@ -198,9 +203,11 @@ export function EstateSuggest({
     setLookupPending(true);
     setBlockStep(null);
     setOpen(true);
+    const gen = ++lookupGen.current;
     const ac = new AbortController();
     void lookupParentBlocks(hit, ac.signal)
       .then(({ catalogue, gov }) => {
+        if (gen !== lookupGen.current) return;
         const next = blockStepHits(catalogue, gov);
         if (!next.length) {
           finalize(hit);

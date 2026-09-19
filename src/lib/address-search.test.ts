@@ -344,6 +344,8 @@ describe("phase 1 address suggest UX and filters", () => {
     assert.match(suggest, /skipParentName/);
     assert.match(suggest, /blockStepKind/);
     assert.match(suggest, /lookupParentBlocks/);
+    assert.match(suggest, /lookupGen/);
+    assert.match(suggest, /if \(gen !== lookupGen\.current\) return;/);
     assert.doesNotMatch(suggest, /matchKnownEstate/);
     assert.match(suggest, /function keepTypedName\(\) \{\n    clearBlockFlow\(\);\n    dismissKeyboard\(\);/);
     assert.match(suggest, /function skipParentName\(\) \{\n    if \(!blockStep\) return;\n    finalize\(blockStep\.parent\);/);
