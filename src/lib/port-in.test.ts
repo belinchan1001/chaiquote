@@ -141,6 +141,14 @@ describe("port-in intake", () => {
       currentOptions("business").some((item) => item.id === "other"),
       true,
     );
+    assert.equal(
+      currentOptions("mobile").some((item) => item.id === "none" && item.label === "新號碼"),
+      true,
+    );
+    assert.equal(excludeProvider("none"), undefined);
+    const newNumber = filterPlans(toPortInSearch({ cat: "mobile", current: "none" }));
+    assert.ok(newNumber.length > 0);
+    assert.equal(new Set(newNumber.map((plan) => plan.providerId)).size > 1, true);
     const dedicated = toPortInSearch({
       cat: "business",
       current: "hkbn",
@@ -266,5 +274,13 @@ describe("port-in intake", () => {
     assert.match(href, /api\.whatsapp\.com\/send/);
     assert.match(href, /text=/);
     assert.match(href, /85263099966/);
+    const newNumber = portInQuoteMessage({
+      serviceType: "手機月費",
+      currentProvider: "新號碼",
+      expiry: "半年以上／不清楚",
+      need: "5G 全速無限",
+    });
+    assert.match(newNumber, /現時電訊商：新號碼 \(新號碼\)/);
+    assert.doesNotMatch(newNumber, /轉台客戶/);
   });
 });

@@ -44,6 +44,7 @@ export const MOBILE_CURRENT = [
   { id: "three", label: "3香港" },
   { id: "hkbn", label: "香港寬頻" },
   { id: "other", label: "其他" },
+  { id: "none", label: "新號碼" },
 ] as const;
 
 export const FIBRE_TARGETS = [
@@ -295,7 +296,12 @@ export function portInQuoteMessage(formData: WhatsAppFormData) {
   const plan = formData.planName
     ? `${formData.planName}${formData.monthlyFee != null ? ` (${formatFee(formData.monthlyFee)}/月)` : ""}`
     : "";
-  const switching = current === "新開戶／無用緊" || current === "新開戶" ? "新開戶" : "轉台客戶";
+  const switching =
+    current === "新號碼"
+      ? "新號碼"
+      : current === "新開戶／無用緊" || current === "新開戶"
+        ? "新開戶"
+        : "轉台客戶";
   return [
     `👋 你好！我想查詢／申請【${SITE.name} 轉台獨家優惠】：`,
     "--------------------------------",
