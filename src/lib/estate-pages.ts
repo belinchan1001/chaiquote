@@ -355,6 +355,11 @@ const SLUG_FALLBACK: Record<string, string> = {
   坪洲圍仔: "wai-tsai-peng-chau",
   坪洲老圍: "lo-wai-peng-chau",
   半山名滙: "upper-manor",
+  海嵎: "kennedy-bay",
+  雅盈峰: "central-residence-by-the-park",
+  嘉居天后: "kabitat-tin-hau",
+  堅尼地道33號: "33-kennedy-road",
+  太子壹號: "one-edward",
 };
 
 function requireEstate(name: string): Estate {

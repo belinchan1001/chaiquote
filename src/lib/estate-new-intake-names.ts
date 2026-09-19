@@ -140,6 +140,10 @@ export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "海璇", group: "港島" },
   { name: "朗譽", group: "九龍" },
   { name: "南首", group: "九龍" },
+  { name: "海嵎", group: "港島" },
+  { name: "雅盈峰", group: "港島" },
+  { name: "堅尼地道33號", group: "港島" },
+  { name: "太子壹號", group: "九龍" },
 ];
 
 export const NEW_INTAKE_NAMES = new Set(NEW_INTAKE.map((item) => item.name));

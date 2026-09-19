@@ -226,6 +226,11 @@ describe("estate SEO pages", () => {
     assert.equal(isNewIntakeEstate("天御"), true);
     assert.equal(isNewIntakeEstate("幸薈"), true);
     assert.equal(isNewIntakeEstate("半山名滙"), true);
+    assert.equal(isNewIntakeEstate("海嵎"), true);
+    assert.equal(isNewIntakeEstate("雅盈峰"), true);
+    assert.equal(isNewIntakeEstate("堅尼地道33號"), true);
+    assert.equal(isNewIntakeEstate("太子壹號"), true);
+    assert.equal(isNewIntakeEstate("嘉居天后"), false);
     assert.equal(isNewIntakeEstate("映匯"), false);
     assert.equal(isNewIntakeEstate("woodis"), false);
     assert.equal(isNewIntakeEstate("the MVP"), false);
@@ -266,6 +271,12 @@ describe("estate SEO pages", () => {
     assert.equal(getEstatePage("upper-manor")?.estate.name, "半山名滙");
     assert.equal(getEstatePage("upper-manor")?.estate.street, "高街6號");
     assert.equal(getEstatePage("upper-manor")?.estate.housing, "private");
+    assert.equal(getEstatePage("kennedy-bay")?.estate.name, "海嵎");
+    assert.equal(getEstatePage("kennedy-bay")?.estate.street, "爹核士街1D號");
+    assert.equal(getEstatePage("central-residence-by-the-park")?.estate.name, "雅盈峰");
+    assert.equal(getEstatePage("kabitat-tin-hau")?.estate.coverageCheck, true);
+    assert.equal(getEstatePage("33-kennedy-road")?.estate.name, "堅尼地道33號");
+    assert.equal(getEstatePage("one-edward")?.estate.name, "太子壹號");
     assert.equal(getEstatePage("one-park-place")?.estate.coverageCheck, true);
     assert.equal(getEstatePage("scenic-gardens")?.estate.name, "御景園");
     assert.equal(getEstatePage("scenic-gardens")?.estate.street, "公園南路25號");

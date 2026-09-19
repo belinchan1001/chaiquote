@@ -426,8 +426,8 @@ export const EXTRA_RAW = `
 愉景灣翠峰|DB Hillgrove|離島|private
 東涌水藍天岸|The Mediterranean TC|離島|private
 長洲花屏路|Cheung Chau Residences|離島|private
-南丫島榕樹灣|Yung Shue Wan|離島|village
-南丫島索罟灣|Sok Kwu Wan|離島|village
+南丫島榕樹灣|Yung Shue Wan,榕樹灣,南丫榕樹灣,南丫島榕樹灣村|離島|village|南丫島
+南丫島索罟灣|Sok Kwu Wan,索罟灣,南丫索罟灣,南丫島索罟灣村|離島|village|南丫島
 大嶼山貝澳|Pui O|離島|village
 大嶼山長沙|Cheung Sha Lantau|離島|village
 大嶼山塘福|Tong Fuk|離島|village
@@ -893,7 +893,7 @@ The Monet|The Monet,龍庭里8號,九龍塘The Monet,Lung Ting Lane|九龍城|pr
 One Stanley|One Stanley,赤柱One Stanley,赤柱新盤One Stanley,黃麻角道128號|南區|private|赤柱||黃麻角道128號
 Mount Pokfulam|Mount Pokfulam,薄扶林Mount Pokfulam,薄扶林新盤Mount Pokfulam|南區|private|薄扶林||薄扶林道86A-G號
 海璇|Victoria Harbour,Victoria Harbour North Point,北角海璇,海璇II,海璇2B,渣華道133號海璇|東區|private|北角||渣華道133號
-皇璇|STATE RESIDENCE,北角皇璇,熙和街1號皇璇|東區|private|北角|覆蓋需查核|熙和街1號
+皇璇|STATE RESIDENCE,State Residence,北角皇璇,熙和街1號皇璇,熙和街1號|東區|private|北角|覆蓋需查核|熙和街1號
 滿．意|ONE TOSCANA,滿‧意,愉景灣滿．意,意濤,Toscana Discovery Bay,滿．意2期,ONE TOSCANA 2|離島|private|愉景灣
 太子道西233號|233 Prince Edward Road West,何文田太子道西233號|九龍城|private|何文田||太子道西233號
 灝然|Hemma Anderson,Hao Yin,The Hemera Anderson,安達臣灝然,安達臣道灝然,房協灝然,觀塘灝然,安禧街灝然|觀塘|hos|安達臣|覆蓋需查核|安禧街
@@ -968,5 +968,10 @@ the MVP|THE MVP,The MVP,般咸道24號the MVP,般咸道28號the MVP,般咸道30�
 麗濤閣|Lai Tao House,Lai To House,麗玥苑麗濤閣,麗玥苑C座|深水埗|hos|長沙灣|覆蓋需查核|東京街3號
 雅田樓|Nga Tin House,白田邨雅田樓,白田雅田樓|深水埗|public|白田
 南首|Eight Southpark,EIGHT SOUTHPARK,九龍城南首,馬頭角南首,南角道8號南首,南角道南首|九龍城|private|馬頭角||南角道8號
+海嵎|KENNEDY BAY,Kennedy Bay,海隅,堅尼地城海嵎,爹核士街1D號海嵎,爹核士街1D號,1D Davis Street|中西區|private|堅尼地城||爹核士街1D號
+雅盈峰|Central Residence By The Park,CENTRAL RESIDENCE BY THE PARK,中環雅盈峰,中半山雅盈峰,己連拿利3號雅盈峰,己連拿利3號,3 Glenealy|中西區|private|中環||己連拿利3號
+嘉居天后|KABITAT TIN HAU,KABITAT·Tin Hau,嘉居‧天后,嘉居·天后,嘉居・天后,北角嘉居天后,天后嘉居,英皇道33號嘉居,英皇道33號|東區|private|北角|覆蓋需查核|英皇道33號
+堅尼地道33號|33 Kennedy Road,33 Kennedy Rd,33 KENNEDY ROAD,灣仔堅尼地道33號|灣仔|private|灣仔||堅尼地道33號
+太子壹號|ONE EDWARD,One Edward,Upper Prince,旺角太子壹號,基隆街1號太子壹號,基隆街1號|油尖旺|private|旺角||基隆街1號
 `.trim();
 
