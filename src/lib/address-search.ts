@@ -312,20 +312,24 @@ export function catalogueBlockHits(hit: AddressHit): AddressHit[] {
   return relatedBlocks(known).map(fromLocal);
 }
 
-function hitCompactKeys(hit: AddressHit): string[] {
-  return [hit.name, hit.nameEN].filter(Boolean).map((value) => compact(value!)).filter((key) => key.length >= 2);
+function displayDedupKeys(hit: AddressHit): string[] {
+  return [...new Set([hit.name, hit.nameEN].filter(Boolean).map((value) => compact(value!)).filter((key) => key.length >= 2))];
+}
+
+function catalogueNameKey(hit: AddressHit): string | undefined {
+  /** Name only — an address that mentions the parent must not collapse the child onto the estate. */
+  return matchKnownEstate(hit.name, "")?.name;
 }
 
 export function isGovChildBlock(parent: AddressHit, child: AddressHit): boolean {
   if (child.key === parent.key) return false;
-  const parentKeys = new Set([...hitCompactKeys(parent), ...addressHitDedupKeys(parent)]);
-  const childKeys = addressHitDedupKeys(child);
-  if (childKeys.some((key) => parentKeys.has(key))) return false;
+  const parentNames = displayDedupKeys(parent);
+  if (displayDedupKeys(child).some((key) => parentNames.includes(key))) return false;
   if (!isBuildingLikeName(child.name) && !isBuildingLikeName(child.nameEN ?? "")) return false;
   if (isImpracticalPlace(child.name, child.address)) return false;
   if (child.nameEN && isImpracticalPlace(child.nameEN, child.addressEN ?? "")) return false;
   const childHay = compact(`${child.name}${child.nameEN ?? ""}${child.address}${child.addressEN ?? ""}`);
-  if (![...hitCompactKeys(parent)].some((key) => childHay.includes(key))) return false;
+  if (!parentNames.some((key) => childHay.includes(key))) return false;
   if (!allowSuggestHitForQuery(parent.name, child.name, child.nameEN ?? "")) return false;
   return true;
 }
@@ -335,16 +339,23 @@ export function labelGovBlockHit(hit: AddressHit): AddressHit {
 }
 
 export function collectGovChildBlocks(parent: AddressHit, hits: AddressHit[], catalogue: AddressHit[] = []): AddressHit[] {
-  const seen = new Set([...catalogue, parent].flatMap(addressHitDedupKeys));
-  seen.add(parent.key);
+  const seen = new Set<string>([parent.key, ...displayDedupKeys(parent)]);
+  for (const hit of catalogue) {
+    seen.add(hit.key);
+    for (const key of displayDedupKeys(hit)) seen.add(key);
+    const known = catalogueNameKey(hit);
+    if (known) seen.add(compact(known));
+  }
+  const parentKnown = catalogueNameKey(parent);
   const out: AddressHit[] = [];
   for (const hit of hits) {
     if (!isGovChildBlock(parent, hit)) continue;
-    const keys = addressHitDedupKeys(hit);
-    if (keys.some((key) => seen.has(key)) || seen.has(hit.key)) continue;
+    const keys = [...displayDedupKeys(hit), hit.key];
+    const known = catalogueNameKey(hit);
+    if (known && known !== parentKnown) keys.push(compact(known));
+    if (keys.some((key) => seen.has(key))) continue;
     out.push(labelGovBlockHit(hit));
     for (const key of keys) seen.add(key);
-    seen.add(hit.key);
   }
   return out;
 }
