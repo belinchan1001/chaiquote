@@ -150,7 +150,7 @@ export const MESSAGES = {
     share: "分享",
     shareCopied: "已分享連結",
     shareSuccessToast: "已成功分享",
-    shareFailed: "複製唔到，請再試",
+    shareFailed: "未能複製，請再試",
     perMonth: "／月 · {n} 個月",
     avgFee: "平均月費 {fee}／月（已計免月費）",
     speed: "網絡速度",
