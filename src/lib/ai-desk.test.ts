@@ -398,4 +398,33 @@ describe("AI desk safety", () => {
     assert.doesNotMatch(staff, /formatFee\([^)]*bubble\.text/);
     assert.match(staff, /formatFee\(plan\.monthlyFee\)[\s\S]*t\("aiCardRef"\)/);
   });
+
+  it("turns the AI chat into a filter workstation with a slow accent pulse on the entry", () => {
+    const staff = readFileSync(join(here, "../components/ai-staff.tsx"), "utf8");
+    const entry = readFileSync(join(here, "../components/ai-filter-entry.tsx"), "utf8");
+    const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
+    const css = readFileSync(join(here, "../styles.css"), "utf8");
+    const messages = readFileSync(join(here, "messages.ts"), "utf8");
+
+    assert.match(staff, /function IntakeProgress/);
+    assert.match(staff, /t\("aiStillNeed"/);
+    assert.match(staff, /t\("aiFaqMore"\)/);
+    assert.match(staff, /QUESTION_CHIPS\.map/);
+    assert.equal(quoted(messages, "aiSlotCurrent")[0], "現用台");
+    assert.equal(quoted(messages, "aiFaqMore")[0], "常見問題");
+
+    assert.match(entry, /plan-card-shine ai-filter-shine ai-entry-pulse/);
+    assert.match(entry, /aiOpen && "is-open"/);
+    assert.match(header, /aiOpen && "ai-header-live"/);
+    assert.doesNotMatch(header, /wa-pulse|ai-entry-pulse/);
+    assert.doesNotMatch(staff, /wa-pulse|ai-entry-pulse/);
+
+    assert.match(css, /@keyframes ai-entry-pulse-ring/);
+    assert.match(css, /animation:\s*ai-entry-pulse-ring 10s ease-out infinite/);
+    assert.match(css, /\.ai-header-live/);
+    assert.match(
+      css,
+      /prefers-reduced-motion:\s*reduce[\s\S]*\.ai-entry-pulse::after[\s\S]*animation:\s*none !important/,
+    );
+  });
 });

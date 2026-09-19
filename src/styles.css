@@ -69,6 +69,17 @@
   initial-value: 0deg;
 }
 
+@keyframes ai-entry-pulse-ring {
+  0%,
+  12%,
+  100% {
+    box-shadow: 0px 0px 0px 0.01px rgb(0 168 197 / 0);
+  }
+  6% {
+    box-shadow: 0px 0px 0px 6px rgb(0 168 197 / 0.32);
+  }
+}
+
 @keyframes wa-pulse-ring {
   0%,
   10%,
@@ -168,6 +179,7 @@
   .chip-press,
   .esports-line-chip,
   .wa-pulse::after,
+  .ai-entry-pulse::after,
   .ai-overlay,
   .ai-panel,
   .intake-overlay,
@@ -476,6 +488,29 @@
     }
   }
 
+  .ai-entry-pulse {
+    position: relative;
+    overflow: visible;
+  }
+  .ai-entry-pulse::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: 0px 0px 0px 0.01px rgb(0 168 197 / 0);
+    animation: ai-entry-pulse-ring 10s ease-out infinite;
+  }
+  .ai-entry-pulse.is-open::after,
+  .ai-entry-pulse:hover::after,
+  .ai-entry-pulse:active::after,
+  .ai-entry-pulse:focus-within::after {
+    animation: none;
+    box-shadow: 0px 0px 0px 0.01px rgb(0 168 197 / 0);
+  }
+  .ai-header-live {
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-accent) 72%, transparent);
+  }
 
   .intake-overlay {
     position: fixed;
@@ -920,6 +955,16 @@
       animation:
         quote-pick-shine 4.8s linear infinite,
         esports-card-glow 3s ease-in-out infinite;
+    }
+  }
+
+  .plan-card-shine.ai-filter-shine {
+    animation: none;
+  }
+  @media (hover: hover) {
+    .plan-card-shine.ai-filter-shine:hover,
+    .plan-card-shine.ai-filter-shine:focus-within {
+      animation: quote-pick-shine 4.8s linear infinite;
     }
   }
 

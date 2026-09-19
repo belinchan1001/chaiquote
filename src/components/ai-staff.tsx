@@ -18,10 +18,16 @@ import {
   shouldHoldForIntake,
   type FilterParse,
 } from "@/lib/ai-desk";
-import { useDesk, useHydrateDesk } from "@/lib/desk";
+import { useDesk, useHydrateDesk, type Inquiry } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
 import { formatFee, type Category } from "@/lib/plans";
-import { currentOptions, EXPIRY_OPTIONS, portInQuoteFromInquiry, type InquiryQuote } from "@/lib/port-in";
+import {
+  currentOptions,
+  EXPIRY_OPTIONS,
+  portInQuoteFromInquiry,
+  type InquiryQuote,
+} from "@/lib/port-in";
+import type { MessageKey } from "@/lib/messages";
 import { compactSearch } from "@/lib/search";
 import { filterPlans } from "@/lib/plan-filter";
 import { quoteWhatsappE164, whatsappHref } from "@/lib/whatsapp";
@@ -86,6 +92,50 @@ function sessionId() {
   }
 }
 
+const SLOT_KEYS = [
+  { id: "serviceType", label: "aiSlotService" },
+  { id: "estate", label: "aiSlotEstate" },
+  { id: "currentProvider", label: "aiSlotCurrent" },
+  { id: "expiry", label: "aiSlotExpiry" },
+] as const;
+
+function IntakeProgress({
+  inquiry,
+  t,
+}: {
+  inquiry: Inquiry;
+  t: (key: MessageKey, vars?: Record<string, string | number>) => string;
+}) {
+  const slots = SLOT_KEYS.map((slot) => ({
+    id: slot.id,
+    label: t(slot.label),
+    value: inquiry[slot.id].trim(),
+  }));
+  const missing = slots.filter((slot) => !slot.value).map((slot) => slot.label);
+  return (
+    <div className="border-t border-primary-foreground/15 px-4 pb-3">
+      <ul className="flex flex-wrap gap-1.5">
+        {slots.map((slot) => (
+          <li
+            key={slot.id}
+            className={cn(
+              "max-w-[9.5rem] truncate rounded-full px-2 py-0.5 text-[11px] leading-5",
+              slot.value
+                ? "bg-primary-foreground/15 text-primary-foreground"
+                : "bg-primary-foreground/5 text-primary-foreground/55",
+            )}
+          >
+            {slot.value || slot.label}
+          </li>
+        ))}
+      </ul>
+      <p className="mt-1.5 text-[11px] leading-snug text-primary-foreground/70">
+        {missing.length ? t("aiStillNeed", { items: missing.join("、") }) : t("aiReady")}
+      </p>
+    </div>
+  );
+}
+
 export function AiStaffPanel() {
   const panelId = useId();
   const navigate = useNavigate();
@@ -101,6 +151,7 @@ export function AiStaffPanel() {
   const inquiry = useDesk((s) => s.inquiry);
   const setInquiry = useDesk((s) => s.setInquiry);
   const { t, locale, tx } = useI18n();
+  const asking = [...bubbles].reverse().find((bubble) => bubble.from === "biz")?.ask;
 
   useEffect(() => {
     setBubbles([
@@ -240,9 +291,10 @@ export function AiStaffPanel() {
           aria-hidden={!shown}
           aria-label={t("aiStaff")}
           inert={!shown}
-          className="flex h-[min(22rem,44dvh)] max-h-[44dvh] flex-col overflow-hidden rounded-t-2xl bg-card shadow-[var(--shadow-border-hover)] lg:h-[28rem] lg:max-h-[calc(100dvh-9rem)] lg:rounded-xl"
+          className="flex h-[min(28rem,58dvh)] max-h-[58dvh] flex-col overflow-hidden rounded-t-2xl bg-card shadow-[var(--shadow-border-hover)] lg:h-[32rem] lg:max-h-[calc(100dvh-9rem)] lg:rounded-xl"
         >
-          <div className="flex items-center gap-3 bg-primary px-4 py-3 text-primary-foreground">
+          <div className="bg-primary text-primary-foreground">
+            <div className="flex items-center gap-3 bg-primary px-4 py-3 text-primary-foreground">
             <span className="flex size-11 items-center justify-center bg-accent text-accent-foreground">
               <LogoMarkLooking className="size-7" />
             </span>
@@ -261,6 +313,8 @@ export function AiStaffPanel() {
             >
               <X className="size-4" />
             </button>
+            </div>
+            <IntakeProgress inquiry={inquiry} t={t} />
           </div>
 
           <div className="min-h-0 flex-1 space-y-3 overflow-y-auto bg-surface px-4 py-4">
@@ -331,18 +385,26 @@ export function AiStaffPanel() {
             {busy ? (
               <p className="bg-card px-3 py-2 text-sm text-muted shadow-[var(--shadow-border)]">{t("aiThinking")}</p>
             ) : null}
-            <div className="flex flex-wrap gap-2">
+            <details
+              className="rounded-lg bg-card px-3 shadow-[var(--shadow-border)]"
+              open={!asking}
+            >
+              <summary className="flex h-11 cursor-pointer list-none items-center text-sm font-medium">
+                {t("aiFaqMore")}
+              </summary>
+              <div className="flex flex-wrap gap-2 pb-3">
               {QUESTION_CHIPS.map((item) => (
                 <button
                   key={item.id}
                   type="button"
-                  className="h-11 rounded-full bg-card px-3 text-sm font-medium shadow-[var(--shadow-border)]"
+                  className="h-11 rounded-full bg-surface px-3 text-sm font-medium shadow-[var(--shadow-border)]"
                   onClick={() => void sendToAi(locale === "en" ? item.en : item.zh)}
                 >
                   {locale === "en" ? item.en : item.zh}
                 </button>
               ))}
-            </div>
+              </div>
+            </details>
             <div ref={endRef} />
           </div>
 

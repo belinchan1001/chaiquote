@@ -21,7 +21,13 @@ export function AiFilterEntry({ className }: { className?: string }) {
   return (
     <div className={cn("flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted", className)}>
       <p>{t("aiEntryLead")}</p>
-      <div ref={shineRef} className="plan-card-shine ai-filter-shine inline-flex rounded-md">
+      <div
+        ref={shineRef}
+        className={cn(
+          "plan-card-shine ai-filter-shine ai-entry-pulse inline-flex rounded-md",
+          aiOpen && "is-open",
+        )}
+      >
         <span className="foil" aria-hidden="true" />
         <Button
           type="button"

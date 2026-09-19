@@ -71,7 +71,7 @@ export function SiteHeader() {
               size="sm"
               aria-expanded={aiOpen}
               aria-label={`${t("aiStaff")}（${t("aiBeta")}）`}
-              className="max-sm:h-11 max-sm:px-2 sm:px-3"
+              className={cn("max-sm:h-11 max-sm:px-2 sm:px-3", aiOpen && "ai-header-live")}
               onClick={() => {
                 setOpen(false);
                 toggleAi();
