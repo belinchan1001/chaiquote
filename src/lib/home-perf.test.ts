@@ -114,6 +114,7 @@ describe("homepage first-load images", () => {
   it("keeps the trial-period paper tokens and unclamped category blurbs", () => {
     const css = src("../styles.css");
     const home = src("../routes/index.tsx");
+    const featured = src("../components/home-featured.tsx");
     assert.match(css, /--color-bg: #f4f8ff;/);
     assert.match(css, /--color-surface: #eaf2ff;/);
     assert.match(css, /--color-fg: #0f274f;/);
@@ -123,7 +124,7 @@ describe("homepage first-load images", () => {
     assert.match(css, /--color-accent: #00a8c5;/);
     assert.match(home, /t\(item\.text\)/);
     assert.doesNotMatch(home, /line-clamp/);
-    assert.match(home, /<PlanCard key=\{plan\.id\} plan=\{plan\} \/>/);
+    assert.match(featured, /<PlanCard key=\{plan\.id\} plan=\{plan\} \/>/);
     assert.doesNotMatch(home, /className="plan"/);
 
     const chips = src("../components/filter-link.tsx");
@@ -162,5 +163,17 @@ describe("homepage first-load images", () => {
     assert.match(lazy, /onFocus=\{\(\) => setActive\(true\)\}/);
     assert.doesNotMatch(lazy, /requestIdleCallback/);
     assert.doesNotMatch(lazy, /setTimeout\(start, 2500\)/);
+  });
+
+  it("does not import the full plan catalogue on the homepage shell", () => {
+    const home = src("../routes/index.tsx");
+    const root = src("../routes/__root.tsx");
+    assert.doesNotMatch(home, /from "@\/lib\/plans"/);
+    assert.doesNotMatch(home, /from "@\/components\/plan-card"/);
+    assert.match(home, /from "@\/lib\/plan-count"/);
+    assert.match(home, /lazy\(\(\) =>\s*import\("@\/components\/home-best-picks"\)/);
+    assert.match(home, /lazy\(\(\) =>\s*import\("@\/components\/home-featured"\)/);
+    assert.match(root, /IdleMount/);
+    assert.match(src("../components/idle-mount.tsx"), /requestIdleCallback/);
   });
 });
