@@ -78,7 +78,7 @@ export function SiteFooter() {
           <ul className="mt-3 space-y-2 text-sm">
             <li>
               <Link to="/spend" className="hover:underline">
-                {locale === "en" ? "Monthly spend" : "月費開銷"}
+                {locale === "en" ? "Personal spend" : "個人月費開銷"}
               </Link>
             </li>
             <li>
