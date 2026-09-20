@@ -32,9 +32,11 @@ export function QuoteLink({
 }) {
   const stored = useDesk((s) => s.inquiry);
   const selected = plans ?? (plan ? [plan] : []);
+  const resolved = inquiry ?? stored;
   const { t, locale } = useI18n();
+  const phone = quoteWhatsappE164(selected, resolved);
   const label = showNumber
-    ? t("waQuoteWithNumber", { phone: quoteWhatsappDisplay(selected) })
+    ? t("waQuoteWithNumber", { phone: quoteWhatsappDisplay(selected, resolved) })
     : t("waQuote");
   return (
     <Button
@@ -45,10 +47,10 @@ export function QuoteLink({
     >
       <a
         href={whatsappHref(
-          shouldUsePortInQuote(inquiry ?? stored)
-            ? portInQuoteFromInquiry(inquiry ?? stored, selected[0])
-            : quoteMessage(selected, inquiry ?? stored, locale),
-          quoteWhatsappE164(selected),
+          shouldUsePortInQuote(resolved)
+            ? portInQuoteFromInquiry(resolved, selected[0])
+            : quoteMessage(selected, resolved, locale),
+          phone,
         )}
         target="_blank"
         rel="noopener noreferrer"
@@ -56,7 +58,7 @@ export function QuoteLink({
         onClick={() =>
           trackWaClick({
             planIds: selected.map((item) => item.id),
-            waPhone: quoteWhatsappE164(selected),
+            waPhone: phone,
           })
         }
       >
