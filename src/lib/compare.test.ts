@@ -364,7 +364,7 @@ describe("HKBN 1000M four-in-one $199", () => {
     assert.deepEqual(row.housing, ["public", "hos", "private"]);
     assert.equal(row.voice, "本地 3,000 分鐘");
     assert.equal(row.roaming, "中國內地及澳門 4GB；通話 10 分鐘");
-    assert.equal(row.prepaid, "須預繳 HK$200，第 1 至第 4 個月每月從預繳費用中扣減月費 HK$50");
+    assert.equal(row.prepaid, "須預繳 HK$200，服務開始計起第 1 至第 4 個月每月回贈 HK$50");
     assert.deepEqual(row.perks, [
       "送 TP-Link Archer BE220 Wi-Fi 7 路由器（價值每月 HK$39；24 個月，合約後無須歸還）",
       "三選一：Disney+ 標準計劃 24 個月、Netflix 標準計劃 24 個月或 HBO Max 標準計劃 24 個月",
@@ -993,7 +993,7 @@ describe("HKBN 2.5Gbps / 5Gbps 24-month GigaFast cards", () => {
     assert.equal(loan.contractMonths, 24);
     assert.equal(loan.speedMbps, 2500);
     assert.equal(loan.install, "豁免安裝費（原價 HK$680）");
-    assert.equal(loan.prepaid, "須預繳 HK$200，第 1 至第 4 個月每月從預繳費用中扣減月費 HK$50");
+    assert.equal(loan.prepaid, "須預繳 HK$200，服務開始計起第 1 至第 4 個月每月回贈 HK$50");
     assert.ok(loan.perks.includes("借用 TP-Link Aginet EB610v 路由器（24 個月，合約後須歸還）"));
     assert.equal(loan.quotePick, undefined);
 
@@ -1005,7 +1005,7 @@ describe("HKBN 2.5Gbps / 5Gbps 24-month GigaFast cards", () => {
     const phone = plan("hkbn-ftth-5000-24m-349-phone");
     assert.equal(phone.monthlyFee, 349);
     assert.equal(phone.speedMbps, 5000);
-    assert.equal(phone.prepaid, "須預繳 HK$200，第 1 至第 4 個月每月回贈 HK$50");
+    assert.equal(phone.prepaid, "須預繳 HK$200，服務開始計起第 1 至第 4 個月每月回贈 HK$50");
     assert.ok(phone.perks.includes("SAFE 網絡安全防護及防毒軟件 6 個月"));
     assert.equal(phone.perks.some((item) => item.includes("路由器")), false);
 

@@ -53,10 +53,8 @@ const EXACT: Record<string, string> = {
     "Includes 24 months myTV SUPER (basic, TVB acquired titles, selected basic, multi-screen)",
   "加購每月 HK$46（只繳 24 個月，合共 HK$1,104），合約期內自動升級至 2500M":
     "Add-on HK$46/month for 24 months only (HK$1,104 total) to auto-upgrade to 2500M during the contract",
-  "須預繳 HK$200，第 1 至第 4 個月每月從預繳費用中扣減月費 HK$50":
-    "Prepaid HK$200; HK$50/month deducted in months 1–4",
-  "須預繳 HK$200，第 1 至第 4 個月每月回贈 HK$50":
-    "Prepaid HK$200; HK$50 rebate/month in months 1–4",
+  "須預繳 HK$200，服務開始計起第 1 至第 4 個月每月回贈 HK$50":
+    "Prepaid HK$200; HK$50 rebate each month for the first 4 months from service start",
   "實際月費、數據用量及申請條款以電訊商確認為準。":
     "Monthly fees, data quota and terms are confirmed by the carrier.",
   "適用於 18 至 29 歲客戶。實際月費、數據用量及申請資格以電訊商確認為準。":

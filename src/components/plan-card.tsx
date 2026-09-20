@@ -132,9 +132,9 @@ export function PlanCard({ plan }: { plan: Plan }) {
           </div>
         ) : null}
         {plan.prepaid ? (
-          <div>
+          <div className={/回贈|扣減/.test(plan.prepaid) ? "col-span-2" : undefined}>
             <dt className="text-xs text-subtle">{t("prepaid")}</dt>
-            <dd className="font-medium">{tx(formatPrepaidShort(plan.prepaid))}</dd>
+            <dd className="font-medium leading-snug">{tx(formatPrepaidShort(plan.prepaid))}</dd>
           </div>
         ) : null}
         {plan.category !== "mobile" ? (

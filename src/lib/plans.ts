@@ -159,8 +159,9 @@ const PERKS_HKBN_ELDER = [
 const PORT_HKBN_ELDER = "攜號轉台可豁免每月行政費 HK$18";
 const VOICE_HKBN_ELDER = "本地通話無限；每月 100 分鐘中國內地通話";
 const PREPAID_HGC_300 = "須預繳 HK$300";
-const PREPAID_HKBN_200 = "須預繳 HK$200，第 1 至第 4 個月每月從預繳費用中扣減月費 HK$50";
-const PREPAID_HKBN_200_REBATE = "須預繳 HK$200，第 1 至第 4 個月每月回贈 HK$50";
+const PREPAID_HKBN_200 =
+  "須預繳 HK$200，服務開始計起第 1 至第 4 個月每月回贈 HK$50";
+const PREPAID_HKBN_200_REBATE = PREPAID_HKBN_200;
 const PERK_HKBN_365 = "可選擇延遲服務生效日（最長 365 日）";
 const PERK_HKBN_SAFE = "SAFE 網絡安全防護及防毒軟件 6 個月";
 const PERK_HKBN_MONEYBACK = "Money-Back 雙重保證（速度保證、低時延保證）";
@@ -3855,6 +3856,7 @@ export function formatInstall(plan: Plan) {
 }
 
 export function formatPrepaidShort(prepaid: string) {
+  if (/回贈|扣減/.test(prepaid)) return prepaid;
   const match = prepaid.match(/須預繳 HK\$[0-9,]+/);
   return match ? match[0] : prepaid;
 }
