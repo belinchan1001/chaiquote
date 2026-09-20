@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { NavProgress } from "@/components/nav-progress";
 import { DeferredWhatsApp } from "@/components/whatsapp-widget";
+import { IdleMount } from "@/components/idle-mount";
 import { PwaServiceWorker } from "@/components/pwa-service-worker";
 import { I18nProvider, useI18n, usePageTitle } from "@/lib/i18n";
 import { AppErrorComponent } from "@/lib/error-component";
@@ -130,12 +131,14 @@ function RootLayout() {
               <PageShell />
               <SiteFooter />
             </div>
-            <Suspense fallback={null}>
-              <CompareBar />
-              <PwaInstallTip />
-              <AiStaffPanel />
-              <FirstVisitTour />
-            </Suspense>
+            <IdleMount>
+              <Suspense fallback={null}>
+                <CompareBar />
+                <PwaInstallTip />
+                <AiStaffPanel />
+                <FirstVisitTour />
+              </Suspense>
+            </IdleMount>
             <DeferredWhatsApp />
           </AuthProvider>
         </I18nProvider>
