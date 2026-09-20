@@ -27,18 +27,40 @@ export function withBrandTag(text: string) {
   return `${BRAND_TAG}\n${body}`;
 }
 
-export function quoteWhatsappE164(plans: Plan[] = []) {
-  if (!plans.length) return SITE.whatsappE164;
-  if (plans.every(isHktPlan)) return SITE.hktWhatsappE164;
-  if (plans.every((plan) => plan.providerId === "hkbn")) return SITE.hkbnWhatsappE164;
-  return SITE.whatsappE164;
+export type QuoteDesk = "hkt" | "hkbn" | "desk";
+
+export function quoteDeskFromHint(hint?: string | null): Exclude<QuoteDesk, "desk"> | null {
+  const raw = (hint ?? "").trim();
+  if (!raw) return null;
+  const text = raw.toLowerCase();
+  if (/網上行|netvigator|\bhkt\b|電訊盈科|csl|1o1o|1010/.test(text)) return "hkt";
+  if (/香港寬頻|hkbn/.test(text)) return "hkbn";
+  return null;
 }
 
-export function quoteWhatsappDisplay(plans: Plan[] = []) {
-  if (!plans.length) return SITE.phoneDisplay;
-  if (plans.every(isHktPlan)) return SITE.hktPhoneDisplay;
-  if (plans.every((plan) => plan.providerId === "hkbn")) return SITE.hkbnPhoneDisplay;
-  return SITE.phoneDisplay;
+export function quoteDeskFromPlans(plans: readonly Plan[]): QuoteDesk | null {
+  if (!plans.length) return null;
+  if (plans.every(isHktPlan)) return "hkt";
+  if (plans.every((plan) => plan.providerId === "hkbn")) return "hkbn";
+  return null;
+}
+
+function deskNumber(desk: QuoteDesk) {
+  if (desk === "hkt") return { e164: SITE.hktWhatsappE164, display: SITE.hktPhoneDisplay };
+  if (desk === "hkbn") return { e164: SITE.hkbnWhatsappE164, display: SITE.hkbnPhoneDisplay };
+  return { e164: SITE.whatsappE164, display: SITE.phoneDisplay };
+}
+
+export function resolveQuoteDesk(plans: Plan[] = [], inquiry?: Partial<Inquiry> | null): QuoteDesk {
+  return quoteDeskFromPlans(plans) ?? quoteDeskFromHint(inquiry?.targetProvider) ?? "desk";
+}
+
+export function quoteWhatsappE164(plans: Plan[] = [], inquiry?: Partial<Inquiry> | null) {
+  return deskNumber(resolveQuoteDesk(plans, inquiry)).e164;
+}
+
+export function quoteWhatsappDisplay(plans: Plan[] = [], inquiry?: Partial<Inquiry> | null) {
+  return deskNumber(resolveQuoteDesk(plans, inquiry)).display;
 }
 
 export function whatsappHref(text: string, phone: string = SITE.whatsappE164) {
