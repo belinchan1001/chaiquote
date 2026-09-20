@@ -5,7 +5,7 @@ import { SITE } from "@/lib/site";
 import { trackWaClick } from "@/lib/track-client";
 
 export function SiteFooter() {
-  const { t, updated } = useI18n();
+  const { t, updated, locale } = useI18n();
   return (
     <footer className="border-t border-border bg-primary text-primary-foreground">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-3">
@@ -76,6 +76,11 @@ export function SiteFooter() {
         <div>
           <p className="text-xs tracking-wider text-primary-foreground/55">{t("footerHelp")}</p>
           <ul className="mt-3 space-y-2 text-sm">
+            <li>
+              <Link to="/spend" className="hover:underline">
+                {locale === "en" ? "Monthly spend" : "月費開銷"}
+              </Link>
+            </li>
             <li>
               <Link to="/guides" className="hover:underline">
                 {t("footerGuides")}
