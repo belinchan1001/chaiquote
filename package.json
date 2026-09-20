@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "node scripts/with-app-env.mjs vite dev --host 0.0.0.0 --port 8080",
-    "build": "node scripts/check-messages.mjs && node scripts/with-app-env.mjs vite build && npm run db:migrate",
+    "restore:catalogues": "node scripts/restore-truncated-catalogues.mjs",
+    "build": "node scripts/restore-truncated-catalogues.mjs && node scripts/check-messages.mjs && node scripts/with-app-env.mjs vite build && npm run db:migrate",
     "db:migrate": "node scripts/migrate.mjs",
     "build:dev": "node scripts/with-app-env.mjs vite build --mode development",
     "preview": "node scripts/with-app-env.mjs vite preview",
@@ -16,9 +17,9 @@
     "preview:stop": "node scripts/preview.mjs stop",
     "typecheck": "tsc --noEmit",
     "check:auth": "node scripts/check-auth-invariant.mjs",
-    "check:messages": "node scripts/check-messages.mjs",
+    "check:messages": "node scripts/restore-truncated-catalogues.mjs && node scripts/check-messages.mjs",
     "sync:prh-blocks": "node scripts/sync-prh-blocks.mjs",
-    "test": "node scripts/check-messages.mjs && node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --test src/lib/app-data/app-data.test.ts src/lib/auth/gate-identity.test.ts src/lib/auth/sign-in-gate.test.ts src/lib/seo.test.ts src/lib/pwa.test.ts src/lib/estate-search.test.ts src/lib/estate-poi-filter.test.ts src/lib/address-search.test.ts src/lib/district-names.test.ts src/lib/guides.test.ts src/lib/guide-media.test.ts src/lib/compare.test.ts src/lib/quote-pick.test.ts src/lib/foil-scroll.test.ts src/lib/plan-list.test.ts src/lib/messages.test.ts src/lib/plan-card.test.ts src/lib/plan-share.test.ts src/lib/plan-detail.test.ts src/lib/plan-count.test.ts src/lib/home-perf.test.ts src/lib/ai-desk.test.ts src/lib/offer-link.test.ts src/lib/motion-polish.test.ts src/lib/wa-pulse.test.ts src/lib/whatsapp.test.ts src/lib/track.test.ts src/lib/spend-ledger.test.ts",
+    "test": "node scripts/restore-truncated-catalogues.mjs && node scripts/check-messages.mjs && node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --test src/lib/app-data/app-data.test.ts src/lib/auth/gate-identity.test.ts src/lib/auth/sign-in-gate.test.ts src/lib/seo.test.ts src/lib/pwa.test.ts src/lib/estate-search.test.ts src/lib/estate-poi-filter.test.ts src/lib/address-search.test.ts src/lib/district-names.test.ts src/lib/guides.test.ts src/lib/guide-media.test.ts src/lib/compare.test.ts src/lib/quote-pick.test.ts src/lib/foil-scroll.test.ts src/lib/plan-list.test.ts src/lib/messages.test.ts src/lib/plan-card.test.ts src/lib/plan-share.test.ts src/lib/plan-detail.test.ts src/lib/plan-count.test.ts src/lib/home-perf.test.ts src/lib/ai-desk.test.ts src/lib/offer-link.test.ts src/lib/motion-polish.test.ts src/lib/wa-pulse.test.ts src/lib/whatsapp.test.ts src/lib/track.test.ts src/lib/spend-ledger.test.ts",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
