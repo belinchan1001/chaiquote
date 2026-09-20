@@ -22,7 +22,7 @@ export function SiteHeader() {
   const aiOpen = useDesk((s) => s.aiOpen);
   const toggleAi = useDesk((s) => s.toggleAi);
   const { t, updated, locale } = useI18n();
-  const spendLabel = locale === "en" ? "Spend" : "月費開銷";
+  const spendLabel = locale === "en" ? "Personal spend" : "個人月費開銷";
 
   const links: {
     to: "/plans" | "/guides" | "/about" | "/estates" | "/spend";
