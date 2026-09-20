@@ -1,6 +1,6 @@
 export const SITE = {
   name: "齊Quote",
-  tagline: "揄寬頻唔使四圍問",
+  tagline: "搵寬頻唔使四圍問",
   searchHint: "電訊報價",
   url: "https://www.chaiquote.hk",
   description:
@@ -29,7 +29,7 @@ export const LEGAL = {
   referencePrice:
     "以上月費及優惠為市場參考資料，實際價格、覆蓋、合約期及安裝安排，一律以電訊商確認為準。",
   whatsappTip:
-    "撲下去會開啟 WhatsApp 聯絡我哋（{phone}）。請勿分享銀行戶口或信用卡密碼。非電訊商官方客服。",
+    "撳下去會開啟 WhatsApp 聯絡我哋（{phone}）。請勿分享銀行戶口或信用卡密碼。非電訊商官方客服。",
 } as const;
 
 export const DISCLAIMER = [
@@ -123,7 +123,7 @@ export const FAQ = [
   },
   {
     q: "公屋同埋居屋價錢會唔會唔同？",
-    a: "公屋同埋居屋好多時有指定供應商同批量價，不過每個屋邸／屋苑合約都可能唔同。篩選時可以分開擁；問價記得填齊屋苑名稱。",
+    a: "公屋同埋居屋好多時有指定供應商同批量價，不過每個屋邨／屋苑合約都可能唔同。篩選時可以分開揀；問價記得填齊屋苑名稱。",
   },
   {
     q: "村屋有冇光纖？",
@@ -139,6 +139,6 @@ export const FAQ = [
   },
   {
     q: "點樣查核報價？",
-    a: "最快用 WhatsApp 6309 9966。冇 WhatsApp 可以撲「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 info@chaiquote.hk。",
+    a: "最快用 WhatsApp 6309 9966。冇 WhatsApp 可以撳「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 info@chaiquote.hk。",
   },
 ] as const;
