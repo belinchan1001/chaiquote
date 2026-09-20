@@ -21,19 +21,26 @@ export function SiteHeader() {
   const compareCount = useDesk((s) => s.compare.length);
   const aiOpen = useDesk((s) => s.aiOpen);
   const toggleAi = useDesk((s) => s.toggleAi);
-  const { t, updated } = useI18n();
+  const { t, updated, locale } = useI18n();
+  const spendLabel = locale === "en" ? "Spend" : "月費開銷";
 
-  const links: { to: "/plans" | "/guides" | "/about" | "/estates"; labelKey: MessageKey; search?: { cat: "broadband" | "home5g" | "mobile" | "business" } }[] = [
-    { to: "/plans", labelKey: "navFibre", search: { cat: "broadband" } },
-    { to: "/plans", labelKey: "navHome5g", search: { cat: "home5g" } },
-    { to: "/plans", labelKey: "navMobile", search: { cat: "mobile" } },
-    { to: "/plans", labelKey: "navBusiness", search: { cat: "business" } },
-    { to: "/estates", labelKey: "navEstates" },
-    { to: "/guides", labelKey: "navGuides" },
-    { to: "/about", labelKey: "navAbout" },
+  const links: {
+    to: "/plans" | "/guides" | "/about" | "/estates" | "/spend";
+    label: string;
+    search?: { cat: "broadband" | "home5g" | "mobile" | "business" };
+  }[] = [
+    { to: "/plans", label: t("navFibre"), search: { cat: "broadband" } },
+    { to: "/plans", label: t("navHome5g"), search: { cat: "home5g" } },
+    { to: "/plans", label: t("navMobile"), search: { cat: "mobile" } },
+    { to: "/plans", label: t("navBusiness"), search: { cat: "business" } },
+    { to: "/estates", label: t("navEstates") },
+    { to: "/spend", label: spendLabel },
+    { to: "/guides", label: t("navGuides") },
+    { to: "/about", label: t("navAbout") },
   ];
 
   function isActive(link: (typeof links)[number]) {
+    if (link.to === "/spend") return pathname === "/spend";
     if (!link.search) return pathname === link.to;
     return pathname === "/plans" && (currentCat ?? "broadband") === link.search.cat;
   }
@@ -45,7 +52,7 @@ export function SiteHeader() {
         <nav className="hidden items-center gap-1 lg:flex">
           {links.map((link) => (
             <Link
-              key={link.labelKey}
+              key={link.label + (link.search?.cat ?? "")}
               to={link.to}
               search={link.search}
               className={cn(
@@ -53,7 +60,7 @@ export function SiteHeader() {
                 isActive(link) ? "bg-surface text-fg" : "text-muted hover:text-fg",
               )}
             >
-              {t(link.labelKey)}
+              {link.label}
             </Link>
           ))}
         </nav>
@@ -105,13 +112,13 @@ export function SiteHeader() {
           <nav className="flex flex-col px-4 py-4">
             {links.map((link) => (
               <Link
-                key={link.labelKey}
+                key={link.label + (link.search?.cat ?? "menu")}
                 to={link.to}
                 search={link.search}
                 className={cn("flex h-12 items-center text-base font-medium", isActive(link) && "text-primary")}
                 onClick={() => setOpen(false)}
               >
-                {t(link.labelKey)}
+                {link.label}
               </Link>
             ))}
             <Link to="/compare" className="flex h-12 items-center text-base font-medium" onClick={() => setOpen(false)}>
