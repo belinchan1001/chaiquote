@@ -3,9 +3,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { QuoteLink } from "@/components/quote-link";
+import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { canonicalUrl, shareHead } from "@/lib/canonical";
-import { canCompareOnSite, compareSearchFor } from "@/lib/spend-compare";
+import { canCompareOnSite, compareSearchFor, inquiryPatchFromSpendItem } from "@/lib/spend-compare";
 import {
   OTHER_PROVIDER,
   SPEED_PRESETS,
@@ -59,6 +60,8 @@ const EMPTY_FORM = {
 function SpendPage() {
   const { locale } = useI18n();
   usePageTitle(SPEND_SEO.title);
+  useHydrateDesk();
+  const setInquiry = useDesk((s) => s.setInquiry);
   const lang = locale === "en" ? "en" : "zh";
   const labels = SPEND_KIND_LABEL[lang];
   const speedLabels = SPEED_PRESET_LABEL[lang];
@@ -66,14 +69,26 @@ function SpendPage() {
   const [ready, setReady] = useState(false);
   const [form, setForm] = useState(EMPTY_FORM);
 
+  function syncInquiry(list: SpendItem[], preferred?: SpendItem) {
+    const item = preferred ?? soonestExpiry(list);
+    if (!item) {
+      setInquiry({ customerExpiry: "" });
+      return;
+    }
+    setInquiry(inquiryPatchFromSpendItem(item));
+  }
+
   useEffect(() => {
-    setItems(readSpendLedger(typeof localStorage === "undefined" ? null : localStorage));
+    const list = readSpendLedger(typeof localStorage === "undefined" ? null : localStorage);
+    setItems(list);
     setReady(true);
+    syncInquiry(list);
   }, []);
 
   function persist(next: SpendItem[]) {
     setItems(next);
     writeSpendLedger(typeof localStorage === "undefined" ? null : localStorage, next);
+    syncInquiry(next);
   }
 
   const providerList = SPEND_PROVIDERS[form.kind];
@@ -112,6 +127,7 @@ function SpendPage() {
     [items],
   );
   const comparable = items.filter((item) => canCompareOnSite(item.kind));
+  const firstCompare = comparable[0] ? compareSearchFor(comparable[0]) : { cat: "broadband" as const };
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10">
@@ -170,7 +186,7 @@ function SpendPage() {
                     </span>
                   </p>
                   <Button asChild size="sm">
-                    <Link to="/plans" search={search}>
+                    <Link to="/plans" search={search} onClick={() => syncInquiry(items, item)}>
                       {lang === "en" ? "See cheaper" : "睇平過而家"}
                     </Link>
                   </Button>
@@ -359,6 +375,7 @@ function SpendPage() {
                             <Link
                               to="/plans"
                               search={search}
+                              onClick={() => syncInquiry(items, item)}
                               className="mt-2 inline-flex text-sm text-accent underline-offset-4 hover:underline"
                             >
                               {lang === "en" ? "Compare this fee" : "即時對比呢個月費"}
@@ -390,11 +407,19 @@ function SpendPage() {
 
       <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         <Button asChild>
-          <Link to="/plans" search={{ cat: "broadband" }}>
-            {lang === "en" ? "Compare broadband" : "比較寬頻"}
+          <Link
+            to="/plans"
+            search={firstCompare ?? { cat: "broadband" }}
+            onClick={() => {
+              if (comparable[0]) syncInquiry(items, comparable[0]);
+            }}
+          >
+            {lang === "en" ? "Compare port-in plans" : "比較轉台計劃"}
           </Link>
         </Button>
-        <QuoteLink showNumber />
+        <QuoteLink>
+          {lang === "en" ? "WhatsApp quote check" : "WhatsApp查核報價"}
+        </QuoteLink>
       </div>
     </div>
   );
