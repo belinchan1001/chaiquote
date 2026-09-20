@@ -20,7 +20,7 @@ export const PRH_BLOCKS_RAW = `
 泰榮樓|Tai Wing House,大元邨泰榮樓|大埔|public
 泰德樓|Tai Tak House,大元邨泰德樓|大埔|public
 泰樂樓|Tai Lok House,大元邨泰樂樓|大埔|public
-東成樓|大坑東邨東成樓|深水埗|public
+東成樓|大坑東邨東成樓,TUNG SHING HOUSE|深水埗|public
 東怡樓|Tung Yi House,大坑東邨東怡樓|深水埗|public
 東旺樓|Tung Wong House,大坑東邨東旺樓|深水埗|public
 東海樓|Tung Hoi House,大坑東邨東海樓|深水埗|public
@@ -29,7 +29,7 @@ export const PRH_BLOCKS_RAW = `
 東滿樓|Tung Moon House,大坑東邨東滿樓|深水埗|public
 東輝樓|Tung Fai House,大坑東邨東輝樓|深水埗|public
 東龍樓|Tung Lung House,大坑東邨東龍樓|深水埗|public
-大窩口邨富安樓||葵青|public
+大窩口邨富安樓|FU ON HOUSE|葵青|public
 富平樓|Fu Ping House,大窩口邨富平樓|葵青|public
 富民樓|Fu Man House,大窩口邨富民樓|葵青|public
 富秀樓|Fu Sau House,大窩口邨富秀樓|葵青|public
@@ -156,7 +156,7 @@ export const PRH_BLOCKS_RAW = `
 逸江樓|Yat Kong House,天逸邨逸江樓|元朗|public|天水圍
 逸池樓|Yat Chi House,天逸邨逸池樓|元朗|public|天水圍
 逸洋樓|Yat Yeung House,天逸邨逸洋樓|元朗|public|天水圍
-逸浪樓|天逸邨逸浪樓|元朗|public|天水圍
+逸浪樓|天逸邨逸浪樓,YAT LONG HOUSE|元朗|public|天水圍
 逸海樓|Yat Hoi House,天逸邨逸海樓|元朗|public|天水圍
 逸湖樓|Yat Wu House,天逸邨逸湖樓|元朗|public|天水圍
 逸潭樓|Yat Tam House,天逸邨逸潭樓|元朗|public|天水圍
@@ -183,11 +183,11 @@ export const PRH_BLOCKS_RAW = `
 澤星樓|Chak Sing House,天澤邨澤星樓|元朗|public|天水圍
 澤潤樓|Chak Yun House,天澤邨澤潤樓|元朗|public|天水圍
 澤輝樓|Chak Fai House,天澤邨澤輝樓|元朗|public|天水圍
-天耀邨耀昌樓||元朗|public|天水圍
+天耀邨耀昌樓|Yiu Cheong House|元朗|public|天水圍
 天耀邨耀富樓|Yiu Foo House|元朗|public|天水圍
-天耀邨耀華樓||元朗|public|天水圍
-天耀邨耀興樓||元朗|public|天水圍
-天耀邨耀豐樓||元朗|public|天水圍
+天耀邨耀華樓|Yiu Wah House|元朗|public|天水圍
+天耀邨耀興樓|Yiu Hing House|元朗|public|天水圍
+天耀邨耀豐樓|Yiu Fung House|元朗|public|天水圍
 耀民樓|Yiu Man House,天耀邨耀民樓|元朗|public|天水圍
 耀泰樓|Yiu Tai House,天耀邨耀泰樓|元朗|public|天水圍
 耀康樓|Yiu Hong House,天耀邨耀康樓|元朗|public|天水圍
@@ -229,7 +229,7 @@ export const PRH_BLOCKS_RAW = `
 山水樓|San Shui House,水邊圍邨山水樓|元朗|public
 泉水樓|Chuen Shui House,水邊圍邨泉水樓|元朗|public
 盈水樓|Ying Shui House,水邊圍邨盈水樓|元朗|public
-康水樓|水邊圍邨康水樓|元朗|public
+康水樓|水邊圍邨康水樓,HONG SHUI HOUSE|元朗|public
 湖水樓|Woo Shui House,水邊圍邨湖水樓|元朗|public
 碧水樓|Bik Shui House,水邊圍邨碧水樓|元朗|public
 疊水樓|Dip Shui House,水邊圍邨疊水樓|元朗|public
@@ -263,7 +263,7 @@ export const PRH_BLOCKS_RAW = `
 田敦樓|Tin Tun House,田景邨田敦樓|屯門|public
 田裕樓|Tin Yue House,田景邨田裕樓|屯門|public
 田翠樓|Tin Tsui House,田景邨田翠樓|屯門|public
-田樂樓|田景邨田樂樓|屯門|public
+田樂樓|田景邨田樂樓,TIN LOK HOUSE|屯門|public
 田健樓|Tin Kin House,田灣邨田健樓|南區|public
 田康樓|Tin Hong House,田灣邨田康樓|南區|public
 田澤樓|Tin Chak House,田灣邨田澤樓|南區|public
@@ -340,7 +340,7 @@ export const PRH_BLOCKS_RAW = `
 石禧樓|Shek Hei House,石籬邨石禧樓|葵青|public
 石歡樓|Shek Foon House,石籬邨石歡樓|葵青|public
 民和樓|Man Wo House,禾輋邨民和樓|沙田|public
-禾輋邨康和樓||沙田|public
+禾輋邨康和樓|HONG WO HOUSE|沙田|public
 協和樓|Hip Wo House,禾輋邨協和樓|沙田|public
 欣和樓|Yan Wo House,禾輋邨欣和樓|沙田|public
 厚和樓|Hau Wo House,禾輋邨厚和樓|沙田|public
@@ -428,7 +428,7 @@ export const PRH_BLOCKS_RAW = `
 東逸樓|Tung Yat House,利東邨東逸樓|南區|public
 東業樓|Tung Yip House,利東邨東業樓|南區|public
 東興樓|Tung Hing House,利東邨東興樓|南區|public
-仁愛樓|李鄭屋邨仁愛樓|深水埗|public
+仁愛樓|李鄭屋邨仁愛樓,YAN OI HOUSE|深水埗|public
 孝廉樓|Hau Lim House,李鄭屋邨孝廉樓|深水埗|public
 孝慈樓|Hau Chi House,李鄭屋邨孝慈樓|深水埗|public
 和平樓|Wo Ping House,李鄭屋邨和平樓|深水埗|public
@@ -484,7 +484,7 @@ export const PRH_BLOCKS_RAW = `
 和麗樓|Wo Lai House,和田邨和麗樓|屯門|public
 平安樓|Ping On House,和樂邨平安樓|觀塘|public
 民安樓|Man On House,和樂邨民安樓|觀塘|public
-和樂邨富安樓||觀塘|public
+和樂邨富安樓|FU ON HOUSE|觀塘|public
 居安樓|Kui On House,和樂邨居安樓|觀塘|public
 長安樓|Cheung On House,和樂邨長安樓|觀塘|public
 建安樓|Kin On House,和樂邨建安樓|觀塘|public
@@ -602,7 +602,7 @@ export const PRH_BLOCKS_RAW = `
 宏毅樓|Wang Ngai House,長宏邨宏毅樓|葵青|public
 長欣樓|Cheung Yan House,長沙灣邨長欣樓|深水埗|public
 長泰樓|Cheung Tai House,長沙灣邨長泰樓|深水埗|public
-青松樓|長青邨青松樓|葵青|public
+青松樓|長青邨青松樓,CHING CHUNG HOUSE|葵青|public
 青柏樓|Ching Pak House,長青邨青柏樓|葵青|public
 青桃樓|Ching Tao House,長青邨青桃樓|葵青|public
 青梅樓|Ching Mui House,長青邨青梅樓|葵青|public
@@ -612,7 +612,7 @@ export const PRH_BLOCKS_RAW = `
 青榕樓|Ching Yung House,長青邨青榕樓|葵青|public
 青槐樓|Ching Wai House,長青邨青槐樓|葵青|public
 青蘭樓|Ching Lan House,長青邨青蘭樓|葵青|public
-長康邨康和樓||葵青|public
+長康邨康和樓|HONG WO HOUSE|葵青|public
 康平樓|Hong Ping House,長康邨康平樓|葵青|public
 康安樓|Hong On House,長康邨康安樓|葵青|public
 康美樓|Hong Mei House,長康邨康美樓|葵青|public
@@ -633,19 +633,19 @@ export const PRH_BLOCKS_RAW = `
 長益樓|Cheung Yick House,長貴邨長益樓|離島|public
 長盛樓|Cheung Shing House,長貴邨長盛樓|離島|public
 長富樓|Cheung Fu House,長貴邨長富樓|離島|public
-長景樓|長貴邨長景樓|離島|public
+長景樓|長貴邨長景樓,CHEUNG KING HOUSE|離島|public
 長發樓|Cheung Fat House,長貴邨長發樓|離島|public
 長華樓|Cheung Wah House,長貴邨長華樓|離島|public
 長雅樓|Cheung Nga House,長貴邨長雅樓|離島|public
-長順樓|長貴邨長順樓|離島|public
+長順樓|長貴邨長順樓,CHEUNG SHUN HOUSE|離島|public
 長裕樓|Cheung Yu House,長貴邨長裕樓|離島|public
 長榮樓|Cheung Wing House,長貴邨長榮樓|離島|public
 長廣樓|Cheung Kwong House,長貴邨長廣樓|離島|public
-長德樓|長貴邨長德樓|離島|public
-長樂樓|長貴邨長樂樓|離島|public
-長緻樓|長貴邨長緻樓|離島|public
+長德樓|長貴邨長德樓,CHEUNG TAK HOUSE|離島|public
+長樂樓|長貴邨長樂樓,CHEUNG LOK HOUSE|離島|public
+長緻樓|長貴邨長緻樓,CHEUNG CHI HOUSE|離島|public
 長興樓|Cheung Hing House,長貴邨長興樓|離島|public
-長豐樓|長貴邨長豐樓|離島|public
+長豐樓|長貴邨長豐樓,CHEUNG FUNG HOUSE|離島|public
 長歡樓|Cheung Foon House,長貴邨長歡樓|離島|public
 宜居樓|Yee Kui House,青衣邨宜居樓|葵青|public
 宜偉樓|Yee Wai House,青衣邨宜偉樓|葵青|public
@@ -666,7 +666,7 @@ export const PRH_BLOCKS_RAW = `
 昌遜樓|Cheong Shun House,南昌邨昌遜樓|深水埗|public
 昌賢樓|Cheong Yin House,南昌邨昌賢樓|深水埗|public
 昌謙樓|Cheong Him House,南昌邨昌謙樓|深水埗|public
-厚德邨德康樓||西貢|public|將軍澳
+厚德邨德康樓|TAK HONG HOUSE|西貢|public|將軍澳
 德安樓|Tak On House,厚德邨德安樓|西貢|public|將軍澳
 德志樓|Tak Chi House,厚德邨德志樓|西貢|public|將軍澳
 德富樓|Tak Fu House,厚德邨德富樓|西貢|public|將軍澳
@@ -684,12 +684,12 @@ export const PRH_BLOCKS_RAW = `
 恆峰樓|Heng Fung House,恆安邨恆峰樓|沙田|public|馬鞍山
 恆海樓|Heng Hoi House,恆安邨恆海樓|沙田|public|馬鞍山
 洪昌樓|Hung Cheong House,洪福邨洪昌樓|元朗|public
-洪欣樓|洪福邨洪欣樓|元朗|public
+洪欣樓|洪福邨洪欣樓,HUNG YAN HOUSE|元朗|public
 洪悅樓|Hung Yuet House,洪福邨洪悅樓|元朗|public
 洪盛樓|Hung Shing House,洪福邨洪盛樓|元朗|public
 洪喜樓|Hung Hei House,洪福邨洪喜樓|元朗|public
 洪塱樓|Hung Long House,洪福邨洪塱樓|元朗|public
-洪溢樓|洪福邨洪溢樓|元朗|public
+洪溢樓|洪福邨洪溢樓,HUNG YAT HOUSE|元朗|public
 洪樂樓|Hung Lok House,洪福邨洪樂樓|元朗|public
 洪歡樓|Hung Foon House,洪福邨洪歡樓|元朗|public
 皇盛樓|Wong Sheng House,皇后山邨皇盛樓|北區|public
@@ -699,9 +699,9 @@ export const PRH_BLOCKS_RAW = `
 皇樂樓|Wong Lok House,皇后山邨皇樂樓|北區|public
 皇澄樓|Wong Ching House,皇后山邨皇澄樓|北區|public
 皇頤樓|Wong Yi House,皇后山邨皇頤樓|北區|public
-紅日樓|紅磡邨紅日樓|九龍城|public
+紅日樓|紅磡邨紅日樓,HUNG YAT HOUSE|九龍城|public
 紅昇樓|Hung Sing House,紅磡邨紅昇樓|九龍城|public
-紅昕樓|紅磡邨紅昕樓|九龍城|public
+紅昕樓|紅磡邨紅昕樓,HUNG YAN HOUSE|九龍城|public
 紅暉樓|Hung Fai House,紅磡邨紅暉樓|九龍城|public
 紅曜樓|Hung Yiu House,紅磡邨紅曜樓|九龍城|public
 美全樓|Mei Chuen House,美田邨美全樓|沙田|public
@@ -736,8 +736,8 @@ export const PRH_BLOCKS_RAW = `
 善良樓|Shin Leung House,朗善邨善良樓|元朗|public
 善勇樓|Shin Yung House,朗善邨善勇樓|元朗|public
 善愛樓|Shin Oi House,朗善邨善愛樓|元朗|public
-日朗樓|朗晴邨日朗樓|元朗|public
-青朗樓|朗晴邨青朗樓|元朗|public
+日朗樓|朗晴邨日朗樓,YAT LONG HOUSE|元朗|public
+青朗樓|朗晴邨青朗樓,CHING LONG HOUSE|元朗|public
 灣映樓|Wan Ying House,柴灣邨灣映樓|東區|public
 灣畔樓|Wan Poon House,柴灣邨灣畔樓|東區|public
 盈昌樓|Ying Cheong House,海盈邨盈昌樓|深水埗|public
@@ -795,7 +795,7 @@ export const PRH_BLOCKS_RAW = `
 健暉樓|Kin Fai House,健明邨健暉樓|西貢|public|將軍澳
 健曦樓|Kin Hei House,健明邨健曦樓|西貢|public|將軍澳
 常樂樓|Sheung Lok House,常樂邨常樂樓|九龍城|public
-康瑞樓|康東邨康瑞樓|東區|public
+康瑞樓|康東邨康瑞樓,HONG SHUI HOUSE|東區|public
 玥石樓|Yuet Shek House,彩石邨玥石樓|北區|public|上水
 琥珀樓|Fu Pak House,彩石邨琥珀樓|北區|public|上水
 榮石樓|Wing Shek House,彩石邨榮石樓|北區|public|上水
@@ -842,7 +842,7 @@ export const PRH_BLOCKS_RAW = `
 彩屏樓|Choi Ping House,彩園邨彩屏樓|北區|public
 彩珠樓|Choi Chu House,彩園邨彩珠樓|北區|public
 彩湖樓|Choi Wu House,彩園邨彩湖樓|北區|public
-彩園邨彩華樓||北區|public
+彩園邨彩華樓|CHOI WAH HOUSE|北區|public
 彩麗樓|Choi Lai House,彩園邨彩麗樓|北區|public
 彩和樓|Choi Wo House,彩福邨彩和樓|觀塘|public
 彩善樓|Choi Sin House,彩福邨彩善樓|觀塘|public
@@ -858,7 +858,7 @@ export const PRH_BLOCKS_RAW = `
 彩誠樓|Choi Shing House,彩德邨彩誠樓|觀塘|public
 彩賢樓|Choi Yin House,彩德邨彩賢樓|觀塘|public
 彩葉樓|Choi Yip House,彩輝邨彩葉樓|黃大仙|public
-彩輝邨彩華樓||黃大仙|public
+彩輝邨彩華樓|CHOI WAH HOUSE|黃大仙|public
 彩日樓|Choi Yat House,彩霞邨彩日樓|觀塘|public
 彩月樓|Choi Yuet House,彩霞邨彩月樓|觀塘|public
 彩星樓|Choi Sing House,彩霞邨彩星樓|觀塘|public
@@ -891,23 +891,23 @@ export const PRH_BLOCKS_RAW = `
 翠樹樓|Chui Shue House,梨木樹邨翠樹樓|荃灣|public
 樂樹樓|Lok Shue House,梨木樹邨樂樹樓|荃灣|public
 清平樓|Ching Ping House,清河邨清平樓|北區|public
-清朗樓|清河邨清朗樓|北區|public
+清朗樓|清河邨清朗樓,CHING LONG HOUSE|北區|public
 清照樓|Ching Chiu House,清河邨清照樓|北區|public
-清頌樓|清河邨清頌樓|北區|public
+清頌樓|清河邨清頌樓,CHING CHUNG HOUSE|北區|public
 清潤樓|Ching Yun House,清河邨清潤樓|北區|public
 清澤樓|Ching Chak House,清河邨清澤樓|北區|public
 清譽樓|Ching Yu House,清河邨清譽樓|北區|public
 清顯樓|Ching Hin House,清河邨清顯樓|北區|public
 祥和樓|Cheung Wo House,祥華邨祥和樓|北區|public
-祥景樓|祥華邨祥景樓|北區|public
-祥智樓|祥華邨祥智樓|北區|public
-祥順樓|祥華邨祥順樓|北區|public
+祥景樓|祥華邨祥景樓,CHEUNG KING HOUSE|北區|public
+祥智樓|祥華邨祥智樓,CHEUNG CHI HOUSE|北區|public
+祥順樓|祥華邨祥順樓,CHEUNG SHUN HOUSE|北區|public
 祥裕樓|Cheung Yue House,祥華邨祥裕樓|北區|public
 祥頌樓|Cheung Chung House,祥華邨祥頌樓|北區|public
-祥德樓|祥華邨祥德樓|北區|public
-祥樂樓|祥華邨祥樂樓|北區|public
+祥德樓|祥華邨祥德樓,CHEUNG TAK HOUSE|北區|public
+祥樂樓|祥華邨祥樂樓,CHEUNG LOK HOUSE|北區|public
 祥禮樓|Cheung Lai House,祥華邨祥禮樓|北區|public
-祥豐樓|祥華邨祥豐樓|北區|public
+祥豐樓|祥華邨祥豐樓,CHEUNG FUNG HOUSE|北區|public
 呈祥樓|Ching Cheung House,祥龍圍邨呈祥樓|北區|public
 景祥樓|King Cheung House,祥龍圍邨景祥樓|北區|public
 連翠樓|Lin Tsui House,連翠邨連翠樓|東區|public
@@ -945,7 +945,7 @@ export const PRH_BLOCKS_RAW = `
 富韻樓|Fu Wen House,富昌邨富韻樓|深水埗|public
 東埔樓|Tung Po House,富東邨東埔樓|離島|public
 東馬樓|Tung Ma House,富東邨東馬樓|離島|public
-東盛樓|富東邨東盛樓|離島|public
+東盛樓|富東邨東盛樓,TUNG SHING HOUSE|離島|public
 仁泰樓|Yan Tai House,富泰邨仁泰樓|屯門|public
 君泰樓|Kwan Tai House,富泰邨君泰樓|屯門|public
 秀泰樓|Sau Tai House,富泰邨秀泰樓|屯門|public
@@ -1001,7 +1001,7 @@ export const PRH_BLOCKS_RAW = `
 康明樓|Hong Ming House,華明邨康明樓|北區|public
 添明樓|Tim Ming House,華明邨添明樓|北區|public
 富明樓|Fu Ming House,華明邨富明樓|北區|public
-華明邨耀明樓||北區|public
+華明邨耀明樓|YIU MING HOUSE|北區|public
 頌明樓|Chung Ming House,華明邨頌明樓|北區|public
 禮明樓|Lai Ming House,華明邨禮明樓|北區|public
 喜荔樓|Hei Lai House,華荔邨喜荔樓|葵青|public
@@ -1050,7 +1050,7 @@ export const PRH_BLOCKS_RAW = `
 天暉樓|Tin Fai House,順天邨天暉樓|觀塘|public
 天榮樓|Tin Wing House,順天邨天榮樓|觀塘|public
 天瑤樓|Tin Yiu House,順天邨天瑤樓|觀塘|public
-天樂樓|順天邨天樂樓|觀塘|public
+天樂樓|順天邨天樂樓,TIN LOK HOUSE|觀塘|public
 天璣樓|Tin Kei House,順天邨天璣樓|觀塘|public
 天衡樓|Tin Hang House,順天邨天衡樓|觀塘|public
 天韻樓|Tin Wan House,順天邨天韻樓|觀塘|public
@@ -1320,7 +1320,7 @@ export const PRH_BLOCKS_RAW = `
 廣智樓|Kwong Chi House,廣福邨廣智樓|大埔|public
 廣義樓|Kwong Yee House,廣福邨廣義樓|大埔|public
 廣禮樓|Kwong Lai House,廣福邨廣禮樓|大埔|public
-德田邨德康樓||觀塘|public
+德田邨德康樓|TAK HONG HOUSE|觀塘|public
 德田邨德瑞樓|Tak Shui House|觀塘|public
 德欣樓|Tak Yan House,德田邨德欣樓|觀塘|public
 德盛樓|Tak Shing House,德田邨德盛樓|觀塘|public
@@ -1497,12 +1497,12 @@ export const PRH_BLOCKS_RAW = `
 耀遜樓|Yiu Shun House,耀安邨耀遜樓|沙田|public|馬鞍山
 耀謙樓|Yiu Him House,耀安邨耀謙樓|沙田|public|馬鞍山
 耀安樓|Yiu On House,耀東邨耀安樓|東區|public
-耀東邨耀昌樓||東區|public
-耀東邨耀明樓||東區|public
+耀東邨耀昌樓|YIU CHEONG HOUSE|東區|public
+耀東邨耀明樓|YIU MING HOUSE|東區|public
 耀東邨耀富樓|Yiu Fu House|東區|public
-耀東邨耀華樓||東區|public
-耀東邨耀興樓||東區|public
-耀東邨耀豐樓||東區|public
+耀東邨耀華樓|YIU WAH HOUSE|東區|public
+耀東邨耀興樓|YIU HING HOUSE|東區|public
+耀東邨耀豐樓|YIU FUNG HOUSE|東區|public
 耀貴樓|Yiu Kwai House,耀東邨耀貴樓|東區|public
 耀福樓|Yiu Fook House,耀東邨耀福樓|東區|public
 耀樂樓|Yiu Lok House,耀東邨耀樂樓|東區|public

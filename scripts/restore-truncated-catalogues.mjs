@@ -4,7 +4,7 @@
  * compile. Pull the last known-good blobs from git history before
  * check-messages and vite build.
  */
-import { writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 
 const WYLER = "偉恆昌新邨|偉恆昌,Wyler Gardens,Wyler Garden|九龍城|private|土瓜灣";
 
@@ -30,6 +30,15 @@ const FILES = [
 ];
 
 async function restoreOne(file) {
+  try {
+    const existing = readFileSync(file.dest);
+    if (existing.byteLength >= file.minBytes) {
+      console.log(`[restore-catalogues] skip ${file.dest} (${existing.byteLength} bytes, already complete)`);
+      return;
+    }
+  } catch {
+    /* missing — restore */
+  }
   const res = await fetch(file.url, { headers: { Accept: "text/plain" } });
   if (!res.ok) throw new Error(`${file.dest}: HTTP ${res.status}`);
   let text = await res.text();
