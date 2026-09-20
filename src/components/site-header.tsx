@@ -10,7 +10,6 @@ import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
-import type { MessageKey } from "@/lib/messages";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -23,6 +22,8 @@ export function SiteHeader() {
   const toggleAi = useDesk((s) => s.toggleAi);
   const { t, updated, locale } = useI18n();
   const spendLabel = locale === "en" ? "Personal spend" : "個人月費開銷";
+  const guidesLabel = locale === "en" ? "How-to guides" : "點擁攻略";
+  const waMenuLabel = locale === "en" ? "WhatsApp ChaiQuote desk" : "WhatsApp 齊Quote客服";
 
   const links: {
     to: "/plans" | "/guides" | "/about" | "/estates" | "/spend";
@@ -35,7 +36,7 @@ export function SiteHeader() {
     { to: "/plans", label: t("navBusiness"), search: { cat: "business" } },
     { to: "/estates", label: t("navEstates") },
     { to: "/spend", label: spendLabel },
-    { to: "/guides", label: t("navGuides") },
+    { to: "/guides", label: guidesLabel },
     { to: "/about", label: t("navAbout") },
   ];
 
@@ -143,7 +144,7 @@ export function SiteHeader() {
               className="flex h-12 items-center text-base font-medium"
               onClick={() => setOpen(false)}
             >
-              {t("waQuoteWithNumber", { phone: SITE.phoneDisplay })}
+              {waMenuLabel}
             </a>
           </nav>
         </div>
