@@ -32,12 +32,12 @@ export function SiteHeader() {
     label: string;
     search?: { cat: "broadband" | "home5g" | "mobile" | "business" };
   }[] = [
+    { to: "/spend", label: spendLabel },
     { to: "/plans", label: t("navFibre"), search: { cat: "broadband" } },
     { to: "/plans", label: t("navHome5g"), search: { cat: "home5g" } },
     { to: "/plans", label: t("navMobile"), search: { cat: "mobile" } },
     { to: "/plans", label: t("navBusiness"), search: { cat: "business" } },
     { to: "/estates", label: t("navEstates") },
-    { to: "/spend", label: spendLabel },
     { to: "/guides", label: guidesLabel },
     { to: "/about", label: t("navAbout") },
   ];
