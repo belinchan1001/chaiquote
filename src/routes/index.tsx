@@ -1,11 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
 import { ArrowRight } from "lucide-react";
-import { PlanCard } from "@/components/plan-card";
 import { ServiceSearch } from "@/components/service-search";
-import { Button } from "@/components/ui/button";
 import { ESTATE_COUNT } from "@/lib/estate-count";
-import { PLANS, formatFee, getPlan, cheapestPlan, cheapestVillageBroadbandPlan } from "@/lib/plans";
+import { PLAN_COUNT } from "@/lib/plan-count";
 import { HOME_SEARCH_V2, SITE } from "@/lib/site";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import type { MessageKey } from "@/lib/messages";
@@ -14,6 +12,12 @@ import { JsonLd } from "@/components/json-ld";
 
 const SearchPanel = lazy(() =>
   import("@/components/search-panel").then((mod) => ({ default: mod.SearchPanel })),
+);
+const HomeBestPicks = lazy(() =>
+  import("@/components/home-best-picks").then((mod) => ({ default: mod.HomeBestPicks })),
+);
+const HomeFeatured = lazy(() =>
+  import("@/components/home-featured").then((mod) => ({ default: mod.HomeFeatured })),
 );
 
 export const Route = createFileRoute("/")({
@@ -43,23 +47,7 @@ export const Route = createFileRoute("/")({
   },
 });
 
-const FEATURED_IDS = [
-  "hkbn-ftth-1000-36m-98",
-  "hgc-ftth-1000-public-36m",
-  "cmhk-home5g-350-48-88",
-  "three-45g-10-58",
-] as const;
-
 function Home() {
-  const featured = FEATURED_IDS.map(getPlan).filter((p): p is NonNullable<typeof p> => Boolean(p));
-  const bestPicks = (
-    [
-      ["catBroadband", cheapestPlan("broadband")],
-      ["catHome5g", cheapestPlan("home5g")],
-      ["catMobile", cheapestPlan("mobile")],
-      ["villageFibre", cheapestVillageBroadbandPlan()],
-    ] as const
-  ).flatMap(([label, plan]) => (plan ? [{ label, plan }] : []));
   const { t } = useI18n();
   usePageTitle(HOME_SEO.title);
   const categories: {
@@ -118,7 +106,7 @@ function Home() {
                 {t("statProvidersUnit")}
               </p>
               <p className="flex items-baseline gap-1.5">
-                <span className="font-display text-lg font-semibold tabular-nums text-primary-foreground">{PLANS.length}</span>
+                <span className="font-display text-lg font-semibold tabular-nums text-primary-foreground">{PLAN_COUNT}</span>
                 {t("statPlansUnit")}
               </p>
               <p className="flex items-baseline gap-1.5">
@@ -137,34 +125,9 @@ function Home() {
         </div>
       </section>
 
-      <section className="border-b border-border">
-        <div className="mx-auto max-w-6xl px-4 py-6 sm:py-7">
-          <div>
-            <h2 className="home-section-title">{t("bestPicksTitle")}</h2>
-            <p className="home-section-lead">{t("bestPicksLead")}</p>
-          </div>
-          <ul className="mt-3 grid grid-cols-2 gap-3 lg:grid-cols-4">
-            {bestPicks.map((item) => (
-              <li key={item.label} className="min-h-0">
-                <Link
-                  to="/plans/$planId"
-                  params={{ planId: item.plan.id }}
-                  className="group flex h-full min-h-[5.5rem] flex-col rounded-lg border border-border bg-card px-3.5 py-3 shadow-[var(--shadow-home-tile)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
-                >
-                  <p className="text-[11px] font-semibold tracking-wider text-muted">{t(item.label)}</p>
-                  <p className="mt-1 font-display text-lg font-semibold tracking-tight tabular-nums text-primary">
-                    {t("fromFee", { fee: formatFee(item.plan.monthlyFee) })}
-                  </p>
-                  <p className="mt-auto pt-2 text-[11px] font-semibold text-accent">
-                    {t("bestPicksCta")}
-                    <ArrowRight className="ml-1 inline size-3.5 transition-transform duration-150 group-hover:translate-x-0.5" />
-                  </p>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      <Suspense fallback={null}>
+        <HomeBestPicks />
+      </Suspense>
 
       <section className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -219,25 +182,9 @@ function Home() {
         </div>
       </section>
 
-      <section className="home-below-fold bg-surface">
-        <div className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
-          <div>
-            <h2 className="home-section-title">{t("featuredTitle")}</h2>
-            <p className="home-section-lead">{t("featuredLead")}</p>
-          </div>
-          <div className="mt-5 grid gap-3 md:grid-cols-2">
-            {featured.map((plan) => (
-              <PlanCard key={plan.id} plan={plan} />
-            ))}
-          </div>
-          <Button asChild size="lg" className="mt-6 w-full sm:w-auto">
-            <Link to="/plans" search={{ cat: "broadband" }}>
-              {t("seeAllPlans")}
-              <ArrowRight className="size-4" />
-            </Link>
-          </Button>
-        </div>
-      </section>
+      <Suspense fallback={null}>
+        <HomeFeatured />
+      </Suspense>
 
       <section className="home-below-fold border-t border-border">
         <div className="mx-auto max-w-3xl px-4 py-8 sm:py-10">
