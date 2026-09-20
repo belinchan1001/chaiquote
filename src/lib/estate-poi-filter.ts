@@ -44,6 +44,11 @@ const GOV_POI_MARKERS = [
   "郵筒",
   "垃圾收集",
   "垃圾站",
+  "垃圾收集站",
+  "單車停泊",
+  "充電站",
+  "行人天橋",
+  "電車站",
 ].sort((a, b) => b.length - a.length);
 
 function haystack(name: string, address = ""): string {

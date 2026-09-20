@@ -15,10 +15,13 @@ describe("non-residential gov hits", () => {
       "東涌巴士總站",
       "Bus Stop",
       "Taxi Stand",
+      "的士站",
       "Sitting-out Area",
       "太古城停車場",
       "華富邨公廁",
       "村屋廁所",
+      "垃圾收集站",
+      "行人天橋",
     ]) {
       assert.equal(isNonResidentialGovHit(name), true, name);
     }
