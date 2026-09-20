@@ -18,7 +18,7 @@ import {
 import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
 import type { Housing } from "./plans.ts";
 import { isNewIntakeEstate } from "./estate-new-intake.ts";
-import { govHitRelevantToQuery, isNonResidentialGovHit } from "./estate-poi-filter.ts";
+import { govHitRelevantToQuery, isNonResidentialGovHit, looksLikeResidentialName } from "./estate-poi-filter.ts";
 import { DISTRICTS } from "./site.ts";
 import { toTraditional } from "./zh-s2t.ts";
 
@@ -26,11 +26,8 @@ export { classifyAddress, isImpracticalPlace, matchKnownEstate, allowSuggestHitF
 export type { HousingGuess };
 
 const GOV_SEARCH = "https://www.map.gov.hk/gs/api/v1.0.0/locationSearch";
-/** Locale-independent: hits keep ZH+EN fields. Do not key by locale. */
 const RESULT_CACHE = new Map<string, AddressHit[]>();
-/** Homepage / suggest debounce. Keep Abort + cache; do not spam map.gov. */
 export const ADDRESS_SEARCH_DEBOUNCE_MS = 300;
-/** Parent + a scrollable set of 樓／閣 children; keep a few gov rows after that. */
 export const LOCAL_SUGGEST_LIMIT = 24;
 const GOV_EXTRA = 8;
 
@@ -46,7 +43,6 @@ export type AddressHit = {
   source: "local" | "gov";
   coverageCheck?: boolean;
   newIntake?: boolean;
-  /** Gov-suggested block/building — UI must say 僅供參考／覆蓋另查. */
   blockRef?: boolean;
 };
 
@@ -79,35 +75,12 @@ const HK_DISTRICT_LABELS = new Set<string>([
 
 const HK_PLACE_MARKERS = ["香港", "九龍", "新界", "港島", "hongkong", "kowloon", "newterritories", "hong kong"];
 const OVERSEAS_MARKERS = [
-  "united kingdom",
-  "united states",
-  "singapore",
-  "tokyo",
-  "osaka",
-  "beijing",
-  "shanghai",
-  "shenzhen",
-  "guangzhou",
-  "macau",
-  "macao",
-  "taiwan",
-  "英國",
-  "美國",
-  "新加坡",
-  "東京",
-  "大阪",
-  "北京",
-  "上海",
-  "深圳",
-  "廣州",
-  "澳門",
-  "台灣",
+  "united kingdom", "united states", "singapore", "tokyo", "osaka", "beijing", "shanghai", "shenzhen", "guangzhou", "macau", "macao", "taiwan",
+  "英國", "美國", "新加坡", "東京", "大阪", "北京", "上海", "深圳", "廣州", "澳門", "台灣",
 ];
 
 function normalizeDistrictLabel(value: string) {
-  return tidy(value)
-    .replace(/\s*District$/i, "")
-    .replace(/區$/, "");
+  return tidy(value).replace(/\s*District$/i, "").replace(/區$/, "");
 }
 
 export function isKnownHkDistrict(value: string): boolean {
@@ -120,18 +93,13 @@ export function isKnownHkDistrict(value: string): boolean {
   return [...HK_DISTRICT_LABELS].some((label) => label.toLowerCase() === folded || label.toLowerCase() === raw.toLowerCase());
 }
 
-/** map.gov rows are HK; drop only when a district/address is clearly not HK. */
 export function isHongKongPlace(district: string, address = "", name = ""): boolean {
   if (isKnownHkDistrict(district)) return true;
   const hay = compact(`${name}${address}${district}`);
   if (!hay) return true;
   if (HK_PLACE_MARKERS.some((marker) => hay.includes(compact(marker)))) return true;
-  if (district && !isKnownHkDistrict(district) && OVERSEAS_MARKERS.some((marker) => compact(district).includes(compact(marker)))) {
-    return false;
-  }
-  if (OVERSEAS_MARKERS.some((marker) => hay.includes(compact(marker))) && !HK_PLACE_MARKERS.some((marker) => hay.includes(compact(marker)))) {
-    return false;
-  }
+  if (district && !isKnownHkDistrict(district) && OVERSEAS_MARKERS.some((marker) => compact(district).includes(compact(marker)))) return false;
+  if (OVERSEAS_MARKERS.some((marker) => hay.includes(compact(marker))) && !HK_PLACE_MARKERS.some((marker) => hay.includes(compact(marker)))) return false;
   return true;
 }
 
@@ -166,11 +134,9 @@ function pickLocalized(zh: string, en: string | undefined, locale: Locale) {
 export function addressHitName(hit: AddressHit, locale: Locale = "zh") {
   return pickLocalized(hit.name, hit.nameEN, locale);
 }
-
 export function addressHitAddress(hit: AddressHit, locale: Locale = "zh") {
   return pickLocalized(hit.address, hit.addressEN, locale);
 }
-
 export function addressHitDistrict(hit: AddressHit, locale: Locale = "zh") {
   return pickLocalized(hit.district, hit.districtEN || districtEnglishName(hit.district), locale);
 }
@@ -234,11 +200,10 @@ export async function searchAddresses(query: string, signal?: AbortSignal): Prom
       if (!allowGovHitForQuery(q, matchName, matchAddress)) continue;
       if (!allowSuggestHitForQuery(q, hit.name, hit.nameEN ?? "")) continue;
       if (!govHitRelevantToQuery(q, hit.name, hit.nameEN ?? "", hit.address, hit.addressEN ?? "")) continue;
-      if (!isHongKongPlace(hit.district || hit.districtEN || "", `${hit.address} ${hit.addressEN ?? ""}`, hit.name)) {
-        continue;
-      }
+      if (!isHongKongPlace(hit.district || hit.districtEN || "", `${hit.address} ${hit.addressEN ?? ""}`, hit.name)) continue;
       if (isNonResidentialGovHit(hit.name, hit.address)) continue;
       if (hit.nameEN && isNonResidentialGovHit(hit.nameEN, hit.addressEN ?? "")) continue;
+      if (!looksLikeResidentialName(hit.name, hit.address) && !(hit.nameEN && looksLikeResidentialName(hit.nameEN, hit.addressEN ?? ""))) continue;
       const keys = addressHitDedupKeys(hit);
       if (keys.some((key) => seen.has(key)) || seen.has(hit.key)) continue;
       for (const key of keys) seen.add(key);
@@ -266,7 +231,6 @@ export function addressHitLabel(hit: AddressHit, locale: Locale = "zh") {
   return bits.join(" · ");
 }
 
-/** Dropdown line: district · housing type (street stays on the value / label). */
 export function addressHitSubtitle(hit: AddressHit, locale: Locale = "zh") {
   const type = hit.housing ? MESSAGES[locale][HOUSING_MESSAGE[hit.housing]] : "";
   return [addressHitDistrict(hit, locale), type].filter(Boolean).join(" · ");
@@ -280,49 +244,34 @@ export function addressHitValue(hit: AddressHit, locale: Locale = "zh") {
 }
 
 const BUILDING_MARK = /[樓閣座]|大廈|house|block|tower|building/i;
-
 export function isBuildingLikeName(name: string): boolean {
   return BUILDING_MARK.test(name);
 }
-
 export function knownEstateForHit(hit: AddressHit): Estate | undefined {
   return matchKnownEstate(hit.name, hit.address);
 }
-
-/** Already a 樓／閣 catalogue child — finalize, do not open another block step. */
 export function isCatalogueBlockHit(hit: AddressHit): boolean {
   const known = knownEstateForHit(hit);
   return Boolean(known && parentEstate(known));
 }
-
 export type BlockStepKind = "none" | "catalogue" | "lookup";
-
-/**
- * Site-wide parent → block/building. Catalogue children open step 2 immediately.
- * Parents with no catalogue blocks look up map.gov / ALS; empty results skip step 2.
- */
 export function blockStepKind(hit: AddressHit): BlockStepKind {
   const known = knownEstateForHit(hit);
   if (known && parentEstate(known)) return "none";
   if (known && relatedBlocks(known).length) return "catalogue";
   return "lookup";
 }
-
 export function catalogueBlockHits(hit: AddressHit): AddressHit[] {
   const known = knownEstateForHit(hit);
   if (!known || parentEstate(known)) return [];
   return relatedBlocks(known).map(fromLocal);
 }
-
 function displayDedupKeys(hit: AddressHit): string[] {
   return [...new Set([hit.name, hit.nameEN].filter(Boolean).map((value) => compact(value!)).filter((key) => key.length >= 2))];
 }
-
 function catalogueNameKey(hit: AddressHit): string | undefined {
-  /** Name only — an address that mentions the parent must not collapse the child onto the estate. */
   return matchKnownEstate(hit.name, "")?.name;
 }
-
 export function isGovChildBlock(parent: AddressHit, child: AddressHit): boolean {
   if (child.key === parent.key) return false;
   const parentNames = displayDedupKeys(parent);
@@ -330,16 +279,15 @@ export function isGovChildBlock(parent: AddressHit, child: AddressHit): boolean 
   if (!isBuildingLikeName(child.name) && !isBuildingLikeName(child.nameEN ?? "")) return false;
   if (isNonResidentialGovHit(child.name, child.address)) return false;
   if (child.nameEN && isNonResidentialGovHit(child.nameEN, child.addressEN ?? "")) return false;
+  if (!looksLikeResidentialName(child.name, child.address) && !(child.nameEN && looksLikeResidentialName(child.nameEN, child.addressEN ?? ""))) return false;
   const childHay = compact(`${child.name}${child.nameEN ?? ""}${child.address}${child.addressEN ?? ""}`);
   if (!parentNames.some((key) => childHay.includes(key))) return false;
   if (!allowSuggestHitForQuery(parent.name, child.name, child.nameEN ?? "")) return false;
   return true;
 }
-
 export function labelGovBlockHit(hit: AddressHit): AddressHit {
   return { ...hit, blockRef: true, coverageCheck: true };
 }
-
 export function collectGovChildBlocks(parent: AddressHit, hits: AddressHit[], catalogue: AddressHit[] = []): AddressHit[] {
   const seen = new Set<string>([parent.key, ...displayDedupKeys(parent)]);
   for (const hit of catalogue) {
@@ -361,7 +309,6 @@ export function collectGovChildBlocks(parent: AddressHit, hits: AddressHit[], ca
   }
   return out;
 }
-
 export async function lookupParentBlocks(
   parent: AddressHit,
   signal?: AbortSignal,
@@ -370,7 +317,6 @@ export async function lookupParentBlocks(
   const hits = await searchAddresses(parent.name, signal);
   return { catalogue, gov: collectGovChildBlocks(parent, hits, catalogue) };
 }
-
 export function blockStepHits(catalogue: AddressHit[], gov: AddressHit[]): AddressHit[] {
   return [...catalogue, ...gov];
 }
