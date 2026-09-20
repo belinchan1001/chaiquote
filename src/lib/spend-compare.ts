@@ -1,5 +1,6 @@
 import type { Category, PlansSearch, ProviderId } from "./plans.ts";
-import { daysUntil, type SpendItem, type SpendKind } from "./spend-ledger.ts";
+import { formatCustomerExpiry, serviceTypeLabel } from "./port-in.ts";
+import { daysUntil, speedLabel, type SpendItem, type SpendKind } from "./spend-ledger.ts";
 
 const PROVIDER_ID: Record<string, ProviderId> = {
   "香港寬頻": "hkbn",
@@ -61,4 +62,15 @@ export function compareSearchFor(item: SpendItem): PlansSearch | null {
 
 export function canCompareOnSite(kind: SpendKind): boolean {
   return compareCategory(kind) !== null;
+}
+
+export function inquiryPatchFromSpendItem(item: SpendItem) {
+  const cat = compareCategory(item.kind);
+  return {
+    currentProvider: item.provider,
+    customerExpiry: formatCustomerExpiry(item.endDate),
+    expiry: formatCustomerExpiry(item.endDate),
+    serviceType: cat ? serviceTypeLabel(cat) : "",
+    need: item.kind === "broadband" ? speedLabel(item, "zh") : "",
+  };
 }

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { create } from "zustand";
 import type { Housing } from "@/lib/plans";
+import { formatCustomerExpiry } from "@/lib/port-in";
+import { readSpendLedger, soonestExpiry } from "@/lib/spend-ledger";
 
 const COMPARE_KEY = "chaiquote-compare";
 const SAVED_KEY = "chaiquote-saved";
@@ -15,6 +17,7 @@ export type Inquiry = {
   currentProvider: string;
   targetProvider: string;
   expiry: string;
+  customerExpiry: string;
   need: string;
   serviceType: string;
   esports: boolean;
@@ -29,6 +32,7 @@ const EMPTY_INQUIRY: Inquiry = {
   currentProvider: "",
   targetProvider: "",
   expiry: "",
+  customerExpiry: "",
   need: "",
   serviceType: "",
   esports: false,
@@ -49,10 +53,19 @@ function writeList(key: string, value: string[]) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
+function spendCustomerExpiry(): string {
+  if (typeof localStorage === "undefined") return "";
+  const next = soonestExpiry(readSpendLedger(localStorage));
+  return formatCustomerExpiry(next?.endDate ?? "");
+}
+
 function readInquiry(): Inquiry {
   try {
     const raw = localStorage.getItem(INQUIRY_KEY);
     const parsed = raw ? (JSON.parse(raw) as Partial<Inquiry>) : {};
+    const fromSpend = spendCustomerExpiry();
+    const storedCustomer =
+      typeof parsed.customerExpiry === "string" ? parsed.customerExpiry : "";
     return {
       estate: typeof parsed.estate === "string" ? parsed.estate : "",
       housing: typeof parsed.housing === "string" ? parsed.housing : "",
@@ -61,6 +74,7 @@ function readInquiry(): Inquiry {
       currentProvider: typeof parsed.currentProvider === "string" ? parsed.currentProvider : "",
       targetProvider: typeof parsed.targetProvider === "string" ? parsed.targetProvider : "",
       expiry: typeof parsed.expiry === "string" ? parsed.expiry : "",
+      customerExpiry: fromSpend || storedCustomer,
       need: typeof parsed.need === "string" ? parsed.need : "",
       serviceType: typeof parsed.serviceType === "string" ? parsed.serviceType : "",
       esports: parsed.esports === true,
@@ -171,6 +185,7 @@ export const useDesk = create<DeskState>((set, get) => ({
     next.estate = next.estate.trim();
     next.housing = next.housing.trim();
     next.district = next.district.trim();
+    next.customerExpiry = next.customerExpiry.trim();
     localStorage.setItem(INQUIRY_KEY, JSON.stringify(next));
     set({ inquiry: next });
   },
