@@ -6,6 +6,12 @@
   "redirects": [
     {
       "source": "/(.*)",
+      "has": [{ "type": "host", "value": "chaiquote.hk" }],
+      "destination": "https://www.chaiquote.hk/$1",
+      "statusCode": 301
+    },
+    {
+      "source": "/(.*)",
       "has": [{ "type": "host", "value": "chaiquote.vercel.app" }],
       "destination": "https://www.chaiquote.hk/$1",
       "statusCode": 301

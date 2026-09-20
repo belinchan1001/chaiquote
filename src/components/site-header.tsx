@@ -23,7 +23,7 @@ export function SiteHeader() {
   const toggleAi = useDesk((s) => s.toggleAi);
   const { t, updated, locale } = useI18n();
   const spendLabel = locale === "en" ? "Personal spend" : "個人月費開銷";
-  const guidesLabel = locale === "en" ? "How-to guides" : "點擁攻略";
+  const guidesLabel = locale === "en" ? "How-to guides" : "點揀攻略";
   const waMenuLabel = locale === "en" ? "WhatsApp ChaiQuote desk" : "WhatsApp 齊Quote客服";
   const waE164 = quoteWhatsappE164([], inquiry);
 
@@ -88,9 +88,15 @@ export function SiteHeader() {
               }}
             >
               <LogoMarkLooking className="!size-5" />
-              <span className="sm:hidden">{t("aiStaffTiny")}</span>
-              <span className="hidden sm:inline lg:hidden">{t("aiStaffShort")}</span>
-              <span className="hidden lg:inline">{t("aiStaff")}</span>
+              <span className="sm:hidden" aria-hidden>
+                {t("aiStaffTiny")}
+              </span>
+              <span className="hidden sm:inline lg:hidden" aria-hidden>
+                {t("aiStaffShort")}
+              </span>
+              <span className="hidden lg:inline" aria-hidden>
+                {t("aiStaff")}
+              </span>
               <AiBetaMark className="hidden text-primary-foreground/80 sm:inline" />
             </Button>
             <AiBetaMark className="pointer-events-none absolute inset-x-0 bottom-0.5 text-center text-[8px] leading-none text-primary-foreground/85 sm:hidden" />
