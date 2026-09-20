@@ -10,7 +10,7 @@ export type Locale = "zh" | "en";
  */
 export const MESSAGES = {
   zh: {
-    tagline: "搜寬頻唔使四圍問",
+    tagline: "搵寬頻唔使四圍問",
     description:
       "齊Quote 係獨立電訊比較平台，一次過比較香港家居寬頻、5G 家居、商業寬頻同手機計劃。所列月費僅供參考。",
     updatedPrefix: "資料更新：",
