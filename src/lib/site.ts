@@ -1,6 +1,6 @@
 export const SITE = {
   name: "齊Quote",
-  tagline: "搜寬頻唔使四圍問",
+  tagline: "揄寬頻唔使四圍問",
   searchHint: "電訊報價",
   url: "https://www.chaiquote.hk",
   description:
@@ -29,7 +29,7 @@ export const LEGAL = {
   referencePrice:
     "以上月費及優惠為市場參考資料，實際價格、覆蓋、合約期及安裝安排，一律以電訊商確認為準。",
   whatsappTip:
-    "撲落去會開啟 WhatsApp 聯絡我哋（{phone}）。請勿分享銀行戶口或信用卡密碼。非電訊商官方客服。",
+    "撲下去會開啟 WhatsApp 聯絡我哋（{phone}）。請勿分享銀行戶口或信用卡密碼。非電訊商官方客服。",
 } as const;
 
 export const DISCLAIMER = [
