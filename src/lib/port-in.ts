@@ -101,6 +101,8 @@ export const BUSINESS_SPEEDS = [
   { id: "dedicated", label: "商業專線／高頻寬", minSpeed: 2500 },
 ] as const;
 
+export const CUSTOMER_EXPIRY_NOTE = "客人自行提供";
+
 export type BusinessSpeedId = (typeof BUSINESS_SPEEDS)[number]["id"];
 export type TargetId = ProviderId | "all";
 
@@ -155,6 +157,32 @@ export function expiryIdFromLabel(label: string): ExpiryId | "" {
   const trimmed = label.trim();
   if (!trimmed) return "";
   return EXPIRY_OPTIONS.find((item) => item.label === trimmed)?.id ?? "";
+}
+
+export function isIsoDate(value: string): boolean {
+  return /^\d{4}-\d{2}-\d{2}$/.test(value.trim());
+}
+
+export function formatCustomerExpiry(endDate: string): string {
+  const trimmed = endDate.trim();
+  if (!isIsoDate(trimmed)) return "";
+  if (trimmed.includes(CUSTOMER_EXPIRY_NOTE)) return trimmed;
+  return `${trimmed}（${CUSTOMER_EXPIRY_NOTE}）`;
+}
+
+export function isCustomerExpiry(value: string | undefined | null): boolean {
+  const trimmed = (value ?? "").trim();
+  return trimmed.includes(CUSTOMER_EXPIRY_NOTE) || /^\d{4}-\d{2}-\d{2}/.test(trimmed);
+}
+
+export function staffExpiryText(raw: string | undefined | null): string {
+  const trimmed = (raw ?? "").trim();
+  if (!trimmed) return "未填寫";
+  const iso = trimmed.match(/^(\d{4}-\d{2}-\d{2})/);
+  if (iso) {
+    return trimmed.includes(CUSTOMER_EXPIRY_NOTE) ? trimmed : `${iso[1]}（${CUSTOMER_EXPIRY_NOTE}）`;
+  }
+  return trimmed;
 }
 
 export function needLabel(cat: Category, id: string, esports = false) {
@@ -297,7 +325,7 @@ export function portInQuoteMessage(formData: WhatsAppFormData) {
   const housing = formData.housing?.trim() || "不適用 / 未填寫";
   const current = formData.currentProvider.trim() || "未填寫";
   const target = formData.targetProvider?.trim() || "不限 (請推薦最抵方案)";
-  const expiry = formData.expiry.trim() || "未填寫";
+  const expiry = staffExpiryText(formData.expiry);
   const need = formData.need.trim() || "速度不限 / 預設";
   const plan = formData.planName
     ? `${formData.planName}${formData.monthlyFee != null ? ` (${formatFee(formData.monthlyFee)}/月)` : ""}`
@@ -356,6 +384,7 @@ export type InquiryQuote = {
   currentProvider?: string;
   targetProvider?: string;
   expiry?: string;
+  customerExpiry?: string;
   need?: string;
   serviceType?: string;
   esports?: boolean;
@@ -363,7 +392,7 @@ export type InquiryQuote = {
 };
 
 export function shouldUsePortInQuote(inquiry?: InquiryQuote | null) {
-  return Boolean(inquiry?.currentProvider || inquiry?.source === "ai" || inquiry?.serviceType);
+  return Boolean(inquiry?.currentProvider || inquiry?.source === "ai" || inquiry?.serviceType || inquiry?.customerExpiry);
 }
 
 export function portInQuoteFromInquiry(
@@ -376,7 +405,7 @@ export function portInQuoteFromInquiry(
     housing: housingDisplay(inquiry.housing),
     currentProvider: inquiry.currentProvider || "",
     targetProvider: inquiry.targetProvider || "",
-    expiry: inquiry.expiry || "",
+    expiry: inquiry.customerExpiry || inquiry.expiry || "",
     need: inquiry.need || "",
     planName: plan?.name,
     monthlyFee: plan?.monthlyFee,
