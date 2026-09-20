@@ -65,6 +65,9 @@ const GOV_POI_MARKERS = [
   "電車站",
 ].sort((a, b) => b.length - a.length);
 
+const RESIDENTIAL_MARK =
+  /[邨苑閣座樓圍]$|新邨|唐樓|村屋|丁屋|花園|豪園|豪庭|山莊|屋苑|大廈|洋房|半島|居$|軒$|峰$|\d+號/;
+
 function haystack(name: string, address = ""): string {
   return compact(`${name} ${address}`);
 }
@@ -80,10 +83,15 @@ export function isNonResidentialGovHit(name: string, address = ""): boolean {
   return GOV_POI_MARKERS.some((marker) => rest.includes(marker));
 }
 
-/**
- * map.gov often returns nearby POIs that do not contain the typed estate.
- * Keep the row only when the query (or its known-estate name) appears in the hit.
- */
+/** Keep 公屋 / 居屋 / 私人樓 / 村屋 / 唐樓 style names only. */
+export function looksLikeResidentialName(name: string, address = ""): boolean {
+  if (isNonResidentialGovHit(name, address)) return false;
+  if (matchKnownEstate(name, address)) return true;
+  const title = name.replace(/[，,：:].*$/, "").trim();
+  if (!title) return false;
+  return RESIDENTIAL_MARK.test(title) || RESIDENTIAL_MARK.test(address);
+}
+
 export function govHitRelevantToQuery(
   query: string,
   name: string,
