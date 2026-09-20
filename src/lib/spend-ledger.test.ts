@@ -11,7 +11,8 @@ import {
   SPEND_STORAGE_KEY,
   writeSpendLedger,
 } from "./spend-ledger.ts";
-import { compareSearchFor, providerIdFromName } from "./spend-compare.ts";
+import { compareSearchFor, inquiryPatchFromSpendItem, providerIdFromName } from "./spend-compare.ts";
+import { portInQuoteFromInquiry, staffExpiryText } from "./port-in.ts";
 
 describe("spend ledger", () => {
   it("parses money and kinds", () => {
@@ -51,6 +52,19 @@ describe("spend ledger", () => {
     assert.equal(search?.maxFee, 168);
     assert.equal(search?.expiry, "2-3m");
     assert.equal(compareSearchFor(normalizeItem({ kind: "paytv", provider: "Now TV" })), null);
+  });
+
+  it("puts the customer end date into the sales WhatsApp copy", () => {
+    const item = normalizeItem({
+      kind: "broadband",
+      provider: "香港寬頻",
+      endDate: "2026-11-08",
+    });
+    const patch = inquiryPatchFromSpendItem(item);
+    assert.equal(patch.customerExpiry, "2026-11-08（客人自行提供）");
+    assert.equal(staffExpiryText("2026-11-08"), "2026-11-08（客人自行提供）");
+    const text = portInQuoteFromInquiry(patch, { name: "1000M", monthlyFee: 168 });
+    assert.match(text, /合約到期日：2026-11-08（客人自行提供）/);
   });
 
   it("round-trips through storage and reads the v1 key", () => {
