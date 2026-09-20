@@ -8,7 +8,14 @@ import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
 import { getPlan } from "@/lib/plans";
 import { SITE } from "@/lib/site";
-import { QUICK_REPLIES, quoteMessage, whatsappHref, withInquiry } from "@/lib/whatsapp";
+import {
+  QUICK_REPLIES,
+  quoteMessage,
+  quoteWhatsappDisplay,
+  quoteWhatsappE164,
+  whatsappHref,
+  withInquiry,
+} from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 import type { MessageKey } from "@/lib/messages";
 
@@ -35,16 +42,18 @@ export function WhatsAppWidget() {
   const plans = compare.map(getPlan).filter((p): p is NonNullable<typeof p> => Boolean(p));
   const lifted = compare.length > 0;
   const { t, locale } = useI18n();
+  const deskPhone = quoteWhatsappDisplay(plans, inquiry);
+  const deskE164 = quoteWhatsappE164(plans, inquiry);
 
   useEffect(() => {
     setBubbles([
       {
         id: "w1",
         from: "biz",
-        text: t("waWelcome", { name: SITE.name, phone: SITE.phoneDisplay }),
+        text: t("waWelcome", { name: SITE.name, phone: deskPhone }),
       },
     ]);
-  }, [locale, t]);
+  }, [locale, t, deskPhone]);
 
   useEffect(() => {
     if (!open) return;
@@ -73,7 +82,7 @@ export function WhatsAppWidget() {
       },
     ]);
     setDraft("");
-    window.open(whatsappHref(withInquiry(trimmed, inquiry, locale)), "_blank", "noopener,noreferrer");
+    window.open(whatsappHref(withInquiry(trimmed, inquiry, locale), deskE164), "_blank", "noopener,noreferrer");
   }
 
   return (
@@ -104,7 +113,7 @@ export function WhatsAppWidget() {
             <div className="min-w-0 flex-1">
               <p className="truncate font-medium">{SITE.name}</p>
               <p className="truncate text-xs text-whatsapp-foreground/80">
-                WhatsApp · {SITE.phoneDisplay}
+                WhatsApp · {deskPhone}
               </p>
             </div>
             <button
@@ -184,7 +193,7 @@ export function WhatsAppWidget() {
         type="button"
         aria-expanded={open}
         aria-controls={panelId}
-        aria-label={open ? t("waCloseFab") : t("waOpenNum", { phone: SITE.phoneDisplay })}
+        aria-label={open ? t("waCloseFab") : t("waOpenNum", { phone: deskPhone })}
         className={cn(
           "ml-auto flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)] transition-transform duration-150 ease-out active:scale-[0.96]",
           !open && "wa-pulse wa-pulse-fab",
@@ -201,8 +210,12 @@ export function DeferredWhatsApp() {
   const [ready, setReady] = useState(false);
   useHydrateDesk();
   const compare = useDesk((s) => s.compare);
+  const inquiry = useDesk((s) => s.inquiry);
+  const plans = compare.map(getPlan).filter((p): p is NonNullable<typeof p> => Boolean(p));
   const lifted = compare.length > 0;
   const { t } = useI18n();
+  const deskE164 = quoteWhatsappE164(plans, inquiry);
+  const deskPhone = quoteWhatsappDisplay(plans, inquiry);
   useEffect(() => {
     const timer = window.setTimeout(() => setReady(true), 1800);
     return () => window.clearTimeout(timer);
@@ -210,14 +223,14 @@ export function DeferredWhatsApp() {
   if (!ready) {
     return (
       <a
-        href={`https://wa.me/${SITE.whatsappE164}`}
+        href={`https://wa.me/${deskE164}`}
         target="_blank"
         rel="noopener noreferrer"
         className={cn(
           "wa-pulse wa-pulse-fab fixed right-4 z-50 flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)]",
           lifted ? "bottom-[calc(6.5rem+env(safe-area-inset-bottom))] sm:bottom-20" : "bottom-6",
         )}
-        aria-label={t("waQuoteWithNumber", { phone: SITE.phoneDisplay })}
+        aria-label={t("waQuoteWithNumber", { phone: deskPhone })}
       >
         <WhatsAppIcon className="size-7" />
       </a>
