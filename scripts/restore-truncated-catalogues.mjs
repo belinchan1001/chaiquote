@@ -6,6 +6,8 @@
  */
 import { writeFileSync } from "node:fs";
 
+const WYLER = "偉恆昌新邨|偉恆昌,Wyler Gardens,Wyler Garden|九龍城|private|土瓜灣";
+
 const FILES = [
   {
     dest: "src/lib/messages.ts",
@@ -17,13 +19,12 @@ const FILES = [
     url: "https://raw.githubusercontent.com/belinchan1001/chaiquote/1d8a1fcbfe6fbc29de75211d7e2ee9dc40c73b4b/src/lib/estate-extra-raw.ts",
     minBytes: 50000,
     after: (text) => {
-      if (text.includes("偉恆昌新邸")) return text;
-      const row =
-        "偉恆昌新邸|偉恆昌,Wyler Gardens,Wyler Garden|九龍城|private|土瓜灣\n";
-      const anchor =
-        "薇鳴|Phoenext,PHOENEXT,黃大仙薇鳴,鳴鳳街28號薇鳴,鳴鳳街28號|黃大仙|private|黃大仙||鳴鳳街28號\n";
-      if (text.includes(anchor)) return text.replace(anchor, anchor + row);
-      return text.replace("`\n`.trim();", row + "`.trim();");
+      if (text.includes("Wyler Gardens")) return text;
+      const row = WYLER + "\n";
+      const needle = "`.trim();";
+      const idx = text.lastIndexOf(needle);
+      if (idx === -1) return text + "\n" + row;
+      return text.slice(0, idx) + row + text.slice(idx);
     },
   },
 ];
