@@ -8,7 +8,7 @@ import { LogoMarkLooking } from "@/components/logo-mark-looking";
 import { LangToggle } from "@/components/lang-toggle";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
-import { SITE } from "@/lib/site";
+import { quoteWhatsappE164 } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
@@ -18,12 +18,14 @@ export function SiteHeader() {
   const currentCat = new URL(href, "https://quote.local").searchParams.get("cat");
   useHydrateDesk();
   const compareCount = useDesk((s) => s.compare.length);
+  const inquiry = useDesk((s) => s.inquiry);
   const aiOpen = useDesk((s) => s.aiOpen);
   const toggleAi = useDesk((s) => s.toggleAi);
   const { t, updated, locale } = useI18n();
   const spendLabel = locale === "en" ? "Personal spend" : "個人月費開銷";
   const guidesLabel = locale === "en" ? "How-to guides" : "點擁攻略";
   const waMenuLabel = locale === "en" ? "WhatsApp ChaiQuote desk" : "WhatsApp 齊Quote客服";
+  const waE164 = quoteWhatsappE164([], inquiry);
 
   const links: {
     to: "/plans" | "/guides" | "/about" | "/estates" | "/spend";
@@ -138,7 +140,7 @@ export function SiteHeader() {
               <AiBetaMark className="text-muted" />
             </button>
             <a
-              href={`https://wa.me/${SITE.whatsappE164}`}
+              href={`https://wa.me/${waE164}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex h-12 items-center text-base font-medium"
