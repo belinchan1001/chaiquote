@@ -1223,8 +1223,12 @@ describe("HGC village broadband install waiver", () => {
     assert.equal(village2500Upgrade.freeMonths, 3);
     assert.equal(village2500Upgrade.contractMonths, 27);
     assert.equal(averageFee(village2500Upgrade), 336);
+    assert.ok(village2500Upgrade.perks.some((perk) => perk.includes("必須加購路由器")));
+    assert.ok(village2500Upgrade.perks.some((perk) => perk.includes("每月 HK$46")));
     assert.ok(village2500Upgrade.perks.some((perk) => perk.includes("只繳 24 個月")));
     assert.ok(village2500Upgrade.perks.some((perk) => perk.includes("HK$1,104")));
+    assert.ok(village2500Upgrade.perks.some((perk) => perk.includes("TP-Link BE230")));
+    assert.ok(!village2500Upgrade.perks.some((perk) => perk.startsWith("送 TP-Link BE230")));
 
     const netvigatorVillage = plan("netvigator-ftth-1000-village-36m");
     assert.equal(netvigatorVillage.install, "豁免安裝費");

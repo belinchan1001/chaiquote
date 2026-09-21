@@ -51,8 +51,11 @@ const EXACT: Record<string, string> = {
     "Pick one: TP-Link Archer BE220 router, 12 months iQIYI Gold, 12 months JOOX VIP, or 12 months WeTV",
   "送 24 個月 myTV SUPER 組合（基本、TVB 外購節目、精選基本、跨屏幕同時睇）":
     "Includes 24 months myTV SUPER (basic, TVB acquired titles, selected basic, multi-screen)",
-  "加購每月 HK$46（只繳 24 個月，合共 HK$1,104），合約期內自動升級至 2500M":
-    "Add-on HK$46/month for 24 months only (HK$1,104 total) to auto-upgrade to 2500M during the contract",
+  "必須加購路由器，每月 HK$46（只繳 24 個月，合共 HK$1,104）":
+    "Router add-on required: HK$46/month for 24 months only (HK$1,104 total)",
+  "路由器為 TP-Link BE230 Wi-Fi 7（合約後無須歸還）":
+    "Router is TP-Link BE230 Wi-Fi 7 (keep after contract)",
+  "合約期內自動升級至 2500M": "Auto-upgrade to 2500M during the contract",
   "須預繳 HK$200，服務開始計起第 1 至第 4 個月每月回贈 HK$50":
     "Prepaid HK$200; HK$50 rebate each month for the first 4 months from service start",
   "實際月費、數據用量及申請條款以電訊商確認為準。":
