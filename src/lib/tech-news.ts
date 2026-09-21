@@ -55,7 +55,7 @@ export const TECH_NEWS_CATEGORIES: readonly TechNewsCategory[] = [
     labelEn: "Telecom & mobile",
     excerpt: "5G 計劃、續約、SIM、寬頻同漫遊更新。月費以電訊商確認為準。",
     excerptEn: "5G plans, renewals, SIMs, broadband and roaming. Fees are confirmed by the carrier.",
-    image: "/images/cat-broadband.jpg",
+    image: "/images/news-telecom.jpg",
     planCat: "broadband",
   },
   {
@@ -65,7 +65,7 @@ export const TECH_NEWS_CATEGORIES: readonly TechNewsCategory[] = [
     labelEn: "Phones & hardware",
     excerpt: "新機發佈、出機續約要注意嘅規格同價錢，唔當官價表。",
     excerptEn: "Launches and contract handsets. Specs and prices are not a price list.",
-    image: "/images/cat-mobile.jpg",
+    image: "/images/news-phones.jpg",
     planCat: "mobile",
   },
   {
@@ -75,7 +75,7 @@ export const TECH_NEWS_CATEGORIES: readonly TechNewsCategory[] = [
     labelEn: "Tech & gadgets",
     excerpt: "實用 App、網絡安全同家居數碼產品情報。",
     excerptEn: "Useful apps, network security and home gadgets.",
-    image: "/images/cat-home5g.jpg",
+    image: "/images/news-gadgets.jpg",
   },
   {
     id: "gaming",
@@ -84,7 +84,7 @@ export const TECH_NEWS_CATEGORIES: readonly TechNewsCategory[] = [
     labelEn: "Gaming & entertainment",
     excerpt: "主機同手遊情報，以及電訊商遊戲數據包點樣核對。",
     excerptEn: "Console and mobile-game news, and how to check carrier gaming data packs.",
-    image: "/images/cat-business.jpg",
+    image: "/images/news-gaming.jpg",
   },
 ] as const;
 

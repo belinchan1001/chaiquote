@@ -18,8 +18,13 @@ describe("tech news channel", () => {
   it("keeps four desks, two sample stories, and no invented cheapest-price claims", () => {
     assert.equal(TECH_NEWS_CATEGORIES.length, 4);
     assert.deepEqual(
-      TECH_NEWS_CATEGORIES.map((item) => item.id),
-      ["telecom", "phones", "gadgets", "gaming"],
+      TECH_NEWS_CATEGORIES.map((item) => item.image),
+      [
+        "/images/news-telecom.jpg",
+        "/images/news-phones.jpg",
+        "/images/news-gadgets.jpg",
+        "/images/news-gaming.jpg",
+      ],
     );
     assert.equal(TECH_NEWS_ARTICLES.length, 2);
     assert.ok(getTechNewsArticle("how-we-cover"));
