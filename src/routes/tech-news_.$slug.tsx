@@ -11,6 +11,7 @@ import {
   type TechNewsCategory,
 } from "@/lib/tech-news";
 import { loadPublishedNews, loadPublishedNewsBySlug } from "@/lib/tech-news-live";
+import { useI18n, usePageTitle } from "@/lib/i18n";
 import { canonicalUrl, notFoundHead, shareHead } from "@/lib/canonical";
 import { SITE } from "@/lib/site";
 

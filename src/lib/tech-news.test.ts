@@ -49,7 +49,8 @@ describe("tech news channel", () => {
     const index = readFileSync(join(here, "../routes/tech-news.tsx"), "utf8");
     assert.match(header, /to: "\/tech-news"/);
     assert.match(footer, /to="\/tech-news"/);
-    assert.match(index, /shareHead\(TECH_NEWS_SEO/);
+    const slugPage = readFileSync(join(here, "../routes/tech-news_.$slug.tsx"), "utf8");
+    assert.match(slugPage, /useI18n, usePageTitle/);
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/tech-news"));
     for (const slug of [
       "telecom",
