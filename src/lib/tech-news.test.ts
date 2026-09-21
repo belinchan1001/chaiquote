@@ -26,10 +26,17 @@ describe("tech news channel", () => {
         "/images/news-gaming.jpg",
       ],
     );
-    assert.equal(TECH_NEWS_ARTICLES.length, 3);
+    assert.equal(TECH_NEWS_ARTICLES.length, 10);
     assert.ok(getTechNewsArticle("how-we-cover"));
     assert.ok(getTechNewsArticle("read-offer-news"));
     assert.ok(getTechNewsArticle("gta-6-november-2026"));
+    assert.ok(getTechNewsArticle("iphone-18-handset-plan"));
+    assert.ok(getTechNewsArticle("smartone-3g-close-2026"));
+    assert.ok(getTechNewsArticle("iphone-18-pro-hk"));
+    assert.ok(getTechNewsArticle("iphone-duo-hk"));
+    assert.ok(getTechNewsArticle("apple-watch-12-hk"));
+    assert.ok(getTechNewsArticle("airpods-5-hk"));
+    assert.ok(getTechNewsArticle("switch-2-hk-3700"));
     assert.equal(getTechNewsArticle("gta-6-november-2026")?.image, "/images/news-gta-6.jpg");
     assert.equal(getTechNewsArticle("gta-6-november-2026")?.imageCredit, "Rockstar Games");
     assert.ok(getTechNewsCategory("telecom"));
@@ -37,10 +44,13 @@ describe("tech news channel", () => {
     assert.match(TECH_NEWS_SEO.description, /以電訊商確認為準/);
     const blob = JSON.stringify(TECH_NEWS_ARTICLES);
     assert.doesNotMatch(blob, /最抵|最低|最平/);
+    const byDesk = { telecom: 0, phones: 0, gadgets: 0, gaming: 0 };
     for (const article of TECH_NEWS_ARTICLES) {
-      assert.match(article.description, /以電訊商確認為準|以官方及平台商店確認為準|以官方公布為準/);
-      assert.ok(article.published === "2026-09-21");
+      assert.match(article.description, /以電訊商確認為準|以官方及平台商店確認為準|以官方公布為準|以 SmarTone 及通訊辦公布為準/);
+      assert.match(article.published, /^2026-09-(18|21)$/);
+      if (article.category in byDesk) byDesk[article.category] += 1;
     }
+    assert.ok(byDesk.telecom >= 2 && byDesk.phones >= 2 && byDesk.gadgets >= 2 && byDesk.gaming >= 2);
   });
 
   it("is linked from chrome, sitemap and robots", () => {
@@ -60,6 +70,13 @@ describe("tech news channel", () => {
       "how-we-cover",
       "read-offer-news",
       "gta-6-november-2026",
+      "iphone-18-handset-plan",
+      "smartone-3g-close-2026",
+      "iphone-18-pro-hk",
+      "iphone-duo-hk",
+      "apple-watch-12-hk",
+      "airpods-5-hk",
+      "switch-2-hk-3700",
     ]) {
       assert.ok(
         SITEMAP_PAGES.some((page) => page.path === `/tech-news/${slug}`),

@@ -1,3 +1,5 @@
+import { TECH_NEWS_BATCH } from "./tech-news-batch.ts";
+
 export type TechNewsCategoryId = "telecom" | "phones" | "gadgets" | "gaming";
 
 export type TechNewsSection = {
@@ -93,6 +95,7 @@ export const TECH_NEWS_CATEGORIES: readonly TechNewsCategory[] = [
 ] as const;
 
 export const TECH_NEWS_ARTICLES: readonly TechNewsArticle[] = [
+  ...TECH_NEWS_BATCH,
   {
     slug: "gta-6-november-2026",
     category: "gaming",
