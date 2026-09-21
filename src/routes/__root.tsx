@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { NavProgress } from "@/components/nav-progress";
 import { DeferredWhatsApp } from "@/components/whatsapp-widget";
+import { GoogleAdsTag } from "@/components/google-ads-tag";
 import { IdleMount } from "@/components/idle-mount";
 import { PwaServiceWorker } from "@/components/pwa-service-worker";
 import { I18nProvider, useI18n, usePageTitle } from "@/lib/i18n";
@@ -121,6 +122,7 @@ function RootLayout() {
       </head>
       <body className="min-h-dvh bg-bg text-fg">
         <PreviewHostBridge />
+        <GoogleAdsTag />
         <PwaServiceWorker />
         <NavProgress />
         <I18nProvider>

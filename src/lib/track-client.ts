@@ -1,5 +1,6 @@
 import { recordSiteEvent } from "@/lib/track-fn";
 import { inferTrackSource, type TrackEventName, type TrackPayload } from "@/lib/track";
+import { fireAdsQuoteConversion } from "@/lib/ads-gtag";
 
 export function trackEvent(input: TrackPayload) {
   if (typeof window === "undefined") return;
@@ -9,6 +10,7 @@ export function trackEvent(input: TrackPayload) {
     source: input.source ?? inferTrackSource(window.location.pathname),
   };
   void recordSiteEvent({ data: payload }).catch(() => undefined);
+  if (payload.event === "wa_click") fireAdsQuoteConversion();
 }
 
 export function trackWaClick(input: Omit<TrackPayload, "event"> = {}) {
