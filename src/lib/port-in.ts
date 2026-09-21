@@ -310,6 +310,7 @@ export function mergePortInSearch(
     q: base.q,
     saved: base.saved,
     intake: base.intake && next.cat === "broadband" ? true : undefined,
+    from: base.from,
   };
 }
 

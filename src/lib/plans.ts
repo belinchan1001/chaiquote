@@ -3694,6 +3694,7 @@ export type PlansSearch = {
   esports?: boolean;
   exclude?: ProviderId;
   expiry?: "1m" | "2-3m" | "4-6m" | "6m+";
+  from?: "ad";
 };
 
 export const ESPORTS_LINE_MIN_SPEED = 2500;

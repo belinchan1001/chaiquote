@@ -66,6 +66,7 @@ export function parsePlansSearch(search: Record<string, unknown>): PlansSearch {
     expiry: EXPIRY.includes(search.expiry as NonNullable<PlansSearch["expiry"]>)
       ? (search.expiry as NonNullable<PlansSearch["expiry"]>)
       : undefined,
+    from: search.from === "ad" || search.from === "1" || search.from === 1 ? "ad" : undefined,
   };
 }
 
@@ -88,6 +89,7 @@ export function compactSearch(search: PlansSearch): PlansSearch {
     ...(search.esports ? { esports: true } : {}),
     ...(search.exclude ? { exclude: search.exclude } : {}),
     ...(search.expiry ? { expiry: search.expiry } : {}),
+    ...(search.from === "ad" ? { from: "ad" as const } : {}),
     ...(search.sort && search.sort !== "fee" ? { sort: search.sort } : {}),
   };
 }

@@ -417,6 +417,7 @@ export function renderRobotsTxt(origin: string = DEFAULT_SEO_ORIGIN): string {
     "Disallow: /brand",
     "Disallow: /tech-news/desk",
     "Disallow: /offers/",
+    "Disallow: /go/",
     "Disallow: /__grok/",
     "Disallow: /api/",
     "",

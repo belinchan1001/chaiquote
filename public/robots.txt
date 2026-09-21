@@ -8,6 +8,7 @@ Allow: /about
 Disallow: /brand
 Disallow: /tech-news/desk
 Disallow: /offers/
+Disallow: /go/
 Disallow: /__grok/
 Disallow: /api/
 

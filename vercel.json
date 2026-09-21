@@ -5,6 +5,21 @@
   "regions": ["hkg1"],
   "redirects": [
     {
+      "source": "/go/broadband",
+      "destination": "/plans?cat=broadband&from=ad",
+      "statusCode": 302
+    },
+    {
+      "source": "/go/home5g",
+      "destination": "/plans?cat=home5g&from=ad",
+      "statusCode": 302
+    },
+    {
+      "source": "/go/village",
+      "destination": "/plans?cat=broadband&housing=village&from=ad",
+      "statusCode": 302
+    },
+    {
       "source": "/(.*)",
       "has": [{ "type": "host", "value": "chaiquote.hk" }],
       "destination": "https://www.chaiquote.hk/$1",
