@@ -11,6 +11,7 @@ import {
   getTechNewsCategory,
 } from "./tech-news.ts";
 import { SITEMAP_PAGES, renderRobotsTxt } from "./seo.ts";
+import { newsShareText, newsWhatsAppHref, shareOrCopyNews } from "./news-share.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -57,10 +58,17 @@ describe("tech news channel", () => {
     const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
     const footer = readFileSync(join(here, "../components/site-footer.tsx"), "utf8");
     const index = readFileSync(join(here, "../routes/tech-news.tsx"), "utf8");
+    const slugPage = readFileSync(join(here, "../routes/tech-news_.$slug.tsx"), "utf8");
+    const feed = readFileSync(join(here, "../components/news-feed.tsx"), "utf8");
     assert.match(header, /to: "\/tech-news"/);
     assert.match(footer, /to="\/tech-news"/);
-    const slugPage = readFileSync(join(here, "../routes/tech-news_.$slug.tsx"), "utf8");
+    assert.match(index, /NewsDeskChips/);
+    assert.match(index, /NewsStoryList/);
+    assert.doesNotMatch(index, /photo-strip/);
+    assert.doesNotMatch(index, /入專區/);
     assert.match(slugPage, /useI18n, usePageTitle/);
+    assert.match(slugPage, /NewsShareBar/);
+    assert.match(feed, /line-clamp-2/);
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/tech-news"));
     for (const slug of [
       "telecom",
@@ -85,5 +93,36 @@ describe("tech news channel", () => {
     }
     assert.match(renderRobotsTxt(), /Allow: \/tech-news/);
     assert.match(renderRobotsTxt(), /Disallow: \/tech-news\/desk/);
+  });
+
+  it("shares a story URL over WhatsApp or the clipboard", async () => {
+    const title = "SmarTone 3G 10 月 9 日停";
+    const url = "https://www.chaiquote.hk/tech-news/smartone-3g-close-2026";
+    assert.equal(newsShareText(title, url), `${title}\n${url}`);
+    assert.match(newsWhatsAppHref(title, url), /^https:\/\/wa\.me\/\?text=/);
+    const copied: string[] = [];
+    assert.equal(
+      await shareOrCopyNews(title, url, {
+        writeText: async (text) => {
+          copied.push(text);
+        },
+      }),
+      "copied",
+    );
+    assert.deepEqual(copied, [`${title}\n${url}`]);
+    const shared: ShareData[] = [];
+    assert.equal(
+      await shareOrCopyNews(title, url, {
+        canShare: () => true,
+        share: async (data) => {
+          shared.push(data);
+        },
+        writeText: async () => {
+          throw new Error("should not copy");
+        },
+      }),
+      "shared",
+    );
+    assert.equal(shared[0]?.url, url);
   });
 });

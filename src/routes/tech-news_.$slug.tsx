@@ -1,6 +1,8 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
+import { NewsDeskChips, NewsStoryList } from "@/components/news-feed";
+import { NewsShareBar } from "@/components/news-share-bar";
 import {
   articlesInCategory,
   getTechNewsArticle,
@@ -105,7 +107,7 @@ function HubPage({ category, extra }: { category: TechNewsCategory; extra: TechN
   );
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
+    <div className="mx-auto max-w-3xl px-4 py-10">
       <nav aria-label={isEn ? "Breadcrumb" : "面包屑"} className="text-sm text-muted">
         <ol className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
           <li>
@@ -124,51 +126,13 @@ function HubPage({ category, extra }: { category: TechNewsCategory; extra: TechN
         </ol>
       </nav>
       <h1 className="mt-6 text-title font-semibold">{isEn ? category.labelEn : category.label}</h1>
-      <p className="mt-3 max-w-2xl text-muted">{isEn ? category.excerptEn : category.excerpt}</p>
-      {items.length ? (
-        <ul className="mt-8 grid gap-3 sm:grid-cols-2">
-          {items.map((article) => {
-            const copy = techNewsCopy(article, locale);
-            return (
-              <li key={article.slug}>
-                <Link
-                  to="/tech-news/$slug"
-                  params={{ slug: article.slug }}
-                  className="flex h-full min-h-11 flex-col overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
-                >
-                  {article.image ? (
-                    <picture className="photo-strip photo-strip-tile">
-                      <source srcSet={article.image.replace(/\.jpg$/, ".webp")} type="image/webp" />
-                      <img
-                        src={article.image}
-                        alt=""
-                        width={1280}
-                        height={720}
-                        loading="lazy"
-                        decoding="async"
-                        className="outline outline-1 -outline-offset-1 outline-fg/10"
-                      />
-                    </picture>
-                  ) : null}
-                  <div className="px-4 py-4">
-                    <p className="text-xs text-subtle">{article.published}</p>
-                    <p className="mt-2 font-semibold">{copy.h1}</p>
-                    <p className="mt-1 text-sm leading-relaxed text-muted">{copy.excerpt}</p>
-                  </div>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      ) : (
-        <p className="mt-8 rounded-xl bg-card px-4 py-6 text-sm leading-relaxed text-muted shadow-[var(--shadow-border)]">
-          {isEn
-            ? "This desk will fill in as stories are filed. Telecom offers are live first."
-            : "呢個專區稍後先有新稿。而家可以先睇電訊與上網優惠。"}
-        </p>
-      )}
+      <p className="mt-2 text-sm text-muted">{isEn ? category.excerptEn : category.excerpt}</p>
+      <div className="mt-6">
+        <NewsDeskChips active={category.id} />
+      </div>
+      <NewsStoryList articles={items} />
       {category.planCat ? (
-        <p className="mt-6 text-sm">
+        <p className="mt-8 text-sm">
           <Link
             to="/plans"
             search={{ cat: category.planCat }}
@@ -261,6 +225,9 @@ function ArticlePage({ article }: { article: TechNewsArticle }) {
       </p>
       <h1 className="mt-2 text-title font-semibold">{copy.h1}</h1>
       <p className="mt-3 text-base leading-relaxed text-muted">{copy.excerpt}</p>
+      <div className="mt-5">
+        <NewsShareBar title={copy.h1} url={url} />
+      </div>
       {article.image ? (
         <figure className="mt-6 overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border)]">
           <picture>
@@ -308,6 +275,9 @@ function ArticlePage({ article }: { article: TechNewsArticle }) {
           </a>
         </p>
       ) : null}
+      <div className="mt-8">
+        <NewsShareBar title={copy.h1} url={url} />
+      </div>
       {related.length ? (
         <section className="mt-10">
           <h2 className="text-lg font-semibold">{isEn ? "Related" : "延伸閱讀"}</h2>
