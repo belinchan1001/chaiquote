@@ -5,6 +5,8 @@ import { NewsDeskChips, NewsStoryList } from "@/components/news-feed";
 import { NewsShareBar } from "@/components/news-share-bar";
 import {
   articlesInCategory,
+  EDITOR_TAKE_DISCLAIMER,
+  EDITOR_TAKE_DISCLAIMER_EN,
   getTechNewsArticle,
   getTechNewsCategory,
   TECH_NEWS_CATEGORIES,
@@ -265,6 +267,7 @@ function ArticlePage({ article }: { article: TechNewsArticle }) {
       ))}
       <section className="mt-10 rounded-xl bg-card px-4 py-4 shadow-[var(--shadow-border)]">
         <h2 className="text-sm font-semibold">{isEn ? "齊Quote editor’s take" : "齊Quote編輯觀點"}</h2>
+        <p className="mt-1 text-xs text-subtle">{isEn ? EDITOR_TAKE_DISCLAIMER_EN : EDITOR_TAKE_DISCLAIMER}</p>
         {copy.editorNote.split("\n\n").map((para) => (
           <p key={para.slice(0, 24)} className="mt-2 text-sm leading-relaxed text-muted">
             {para}

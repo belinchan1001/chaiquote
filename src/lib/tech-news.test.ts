@@ -7,11 +7,13 @@ import {
   TECH_NEWS_ARTICLES,
   TECH_NEWS_CATEGORIES,
   TECH_NEWS_SEO,
+  EDITOR_TAKE_DISCLAIMER,
   getTechNewsArticle,
   getTechNewsCategory,
 } from "./tech-news.ts";
 import { SITEMAP_PAGES, renderRobotsTxt } from "./seo.ts";
 import { newsShareText, newsWhatsAppHref, shareOrCopyNews } from "./news-share.ts";
+import { HOME_NEWS_TEASERS } from "./home-news-teaser.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -70,7 +72,13 @@ describe("tech news channel", () => {
     assert.doesNotMatch(index, /入專區/);
     assert.match(slugPage, /useI18n, usePageTitle/);
     assert.match(slugPage, /齊Quote編輯觀點/);
+    assert.match(slugPage, /EDITOR_TAKE_DISCLAIMER/);
     assert.match(slugPage, /NewsShareBar/);
+    assert.equal(EDITOR_TAKE_DISCLAIMER, "純粹編輯個人觀點，一律與本網站無關。");
+    assert.equal(HOME_NEWS_TEASERS.length, 3);
+    for (const item of HOME_NEWS_TEASERS) {
+      assert.ok(getTechNewsArticle(item.slug), item.slug);
+    }
     assert.match(feed, /line-clamp-2/);
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/tech-news"));
     for (const slug of [

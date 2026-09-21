@@ -19,6 +19,9 @@ const HomeBestPicks = lazy(() =>
 const HomeFeatured = lazy(() =>
   import("@/components/home-featured").then((mod) => ({ default: mod.HomeFeatured })),
 );
+const HomeNewsRail = lazy(() =>
+  import("@/components/home-news-rail").then((mod) => ({ default: mod.HomeNewsRail })),
+);
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -181,6 +184,10 @@ function Home() {
           ))}
         </div>
       </section>
+
+      <Suspense fallback={null}>
+        <HomeNewsRail />
+      </Suspense>
 
       <Suspense fallback={null}>
         <HomeFeatured />

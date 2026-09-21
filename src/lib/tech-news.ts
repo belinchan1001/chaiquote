@@ -320,6 +320,10 @@ export const TECH_NEWS_ARTICLES: readonly TechNewsArticle[] = [
   },
 ];
 
+export const EDITOR_TAKE_DISCLAIMER = "純粹編輯個人觀點，一律與本網站無關。";
+export const EDITOR_TAKE_DISCLAIMER_EN =
+  "This is a personal editor’s view and does not represent this website.";
+
 export function getTechNewsCategory(slug: string) {
   return TECH_NEWS_CATEGORIES.find((item) => item.slug === slug);
 }

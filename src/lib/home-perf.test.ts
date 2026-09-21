@@ -173,6 +173,16 @@ describe("homepage first-load images", () => {
     assert.match(home, /from "@\/lib\/plan-count"/);
     assert.match(home, /lazy\(\(\) =>\s*import\("@\/components\/home-best-picks"\)/);
     assert.match(home, /lazy\(\(\) =>\s*import\("@\/components\/home-featured"\)/);
+    assert.match(home, /lazy\(\(\) =>\s*import\("@\/components\/home-news-rail"\)/);
+    assert.doesNotMatch(home, /from "@\/lib\/tech-news"/);
+    assert.doesNotMatch(home, /from "@\/lib\/tech-news-batch"/);
+    assert.doesNotMatch(home, /from "@\/lib\/home-news-teaser"/);
+    const rail = src("../components/home-news-rail.tsx");
+    assert.match(rail, /from "@\/lib\/home-news-teaser"/);
+    assert.doesNotMatch(rail, /from "@\/lib\/tech-news"/);
+    assert.doesNotMatch(rail, /<img/);
+    const teaser = src("../lib/home-news-teaser.ts");
+    assert.doesNotMatch(teaser, /editorNote|body:|paragraphs/);
     assert.match(root, /IdleMount/);
     assert.match(src("../components/idle-mount.tsx"), /requestIdleCallback/);
   });
