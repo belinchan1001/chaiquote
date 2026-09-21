@@ -56,7 +56,14 @@ export const FIBRE_TARGETS = [
   { id: "icable", label: "有線寬頻" },
 ] as const;
 
-export const HOME5G_TARGETS = FIBRE_TARGETS;
+export const HOME5G_TARGETS = [
+  { id: "all", label: "不限／睇晒所有" },
+  { id: "hkbn", label: "香港寬頻" },
+  { id: "netvigator", label: "網上行 (HKT)" },
+  { id: "smartone", label: "SmarTone" },
+  { id: "cmhk", label: "中國移動 (CMHK)" },
+  { id: "three", label: "3香港" },
+] as const;
 
 export const BUSINESS_TARGETS = [
   { id: "all", label: "不限／睇晒所有" },
@@ -141,7 +148,7 @@ export function currentLabel(id: CurrentId | "") {
 
 export function targetLabel(id: TargetId | "") {
   if (!id || id === "all") return "不限 (請推薦最抵方案)";
-  for (const list of [FIBRE_TARGETS, BUSINESS_TARGETS, MOBILE_TARGETS]) {
+  for (const list of [FIBRE_TARGETS, HOME5G_TARGETS, BUSINESS_TARGETS, MOBILE_TARGETS]) {
     const hit = list.find((item) => item.id === id);
     if (hit) return hit.label;
   }

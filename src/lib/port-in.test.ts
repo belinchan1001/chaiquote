@@ -171,6 +171,18 @@ describe("port-in intake", () => {
       false,
     );
     assert.equal(
+      targetOptions("home5g").some((item) => item.id === "icable"),
+      false,
+    );
+    assert.equal(
+      targetOptions("home5g").some((item) => item.id === "three"),
+      true,
+    );
+    assert.equal(
+      targetOptions("broadband").some((item) => item.id === "icable"),
+      true,
+    );
+    assert.equal(
       targetOptions("mobile").some((item) => item.id === "icable"),
       false,
     );
