@@ -85,6 +85,9 @@ export const Route = createFileRoute("/tech-news_/$slug")({
         { property: "og:type", content: "article" },
         { property: "og:locale", content: "zh_HK" },
         { property: "og:site_name", content: SITE.name },
+        ...(article.image
+          ? [{ property: "og:image", content: canonicalUrl(article.image) }]
+          : []),
       ],
       links: [{ rel: "canonical", href: url }],
     };
@@ -130,11 +133,27 @@ function HubPage({ category, extra }: { category: TechNewsCategory; extra: TechN
                 <Link
                   to="/tech-news/$slug"
                   params={{ slug: article.slug }}
-                  className="flex h-full min-h-11 flex-col rounded-xl bg-card px-4 py-4 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
+                  className="flex h-full min-h-11 flex-col overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
                 >
-                  <p className="text-xs text-subtle">{article.published}</p>
-                  <p className="mt-2 font-semibold">{copy.h1}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-muted">{copy.excerpt}</p>
+                  {article.image ? (
+                    <picture className="photo-strip photo-strip-tile">
+                      <source srcSet={article.image.replace(/\.jpg$/, ".webp")} type="image/webp" />
+                      <img
+                        src={article.image}
+                        alt=""
+                        width={1280}
+                        height={720}
+                        loading="lazy"
+                        decoding="async"
+                        className="outline outline-1 -outline-offset-1 outline-fg/10"
+                      />
+                    </picture>
+                  ) : null}
+                  <div className="px-4 py-4">
+                    <p className="text-xs text-subtle">{article.published}</p>
+                    <p className="mt-2 font-semibold">{copy.h1}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-muted">{copy.excerpt}</p>
+                  </div>
                 </Link>
               </li>
             );
@@ -196,6 +215,7 @@ function ArticlePage({ article }: { article: TechNewsArticle }) {
                 logo: { "@type": "ImageObject", url: `${SITE.url}/icon-512.png` },
               },
               keywords: copy.tags.join(","),
+              ...(article.image ? { image: canonicalUrl(article.image) } : {}),
             },
             {
               "@type": "BreadcrumbList",
@@ -240,6 +260,26 @@ function ArticlePage({ article }: { article: TechNewsArticle }) {
       </p>
       <h1 className="mt-2 text-title font-semibold">{copy.h1}</h1>
       <p className="mt-3 text-base leading-relaxed text-muted">{copy.excerpt}</p>
+      {article.image ? (
+        <figure className="mt-6 overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border)]">
+          <picture>
+            <source srcSet={article.image.replace(/\.jpg$/, ".webp")} type="image/webp" />
+            <img
+              src={article.image}
+              alt={article.imageAlt ?? copy.h1}
+              width={1280}
+              height={720}
+              decoding="async"
+              className="h-auto w-full"
+            />
+          </picture>
+          {article.imageCredit ? (
+            <figcaption className="px-3 py-2 text-xs text-subtle">
+              {isEn ? `Image: ${article.imageCredit}` : `圖片：${article.imageCredit}`}
+            </figcaption>
+          ) : null}
+        </figure>
+      ) : null}
       <ul className="mt-6 list-disc space-y-2 pl-5 text-sm leading-relaxed text-fg">
         {copy.bullets.map((item) => (
           <li key={item}>{item}</li>

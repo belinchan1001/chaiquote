@@ -30,7 +30,8 @@ describe("tech news channel", () => {
     assert.ok(getTechNewsArticle("how-we-cover"));
     assert.ok(getTechNewsArticle("read-offer-news"));
     assert.ok(getTechNewsArticle("gta-6-november-2026"));
-    assert.equal(getTechNewsArticle("gta-6-november-2026")?.category, "gaming");
+    assert.equal(getTechNewsArticle("gta-6-november-2026")?.image, "/images/news-gta-6.jpg");
+    assert.equal(getTechNewsArticle("gta-6-november-2026")?.imageCredit, "Rockstar Games");
     assert.ok(getTechNewsCategory("telecom"));
     assert.match(TECH_NEWS_SEO.title, /^齊Quote｜/);
     assert.match(TECH_NEWS_SEO.description, /以電訊商確認為準/);

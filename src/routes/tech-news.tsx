@@ -106,15 +106,31 @@ function TechNewsIndex() {
                 <Link
                   to="/tech-news/$slug"
                   params={{ slug: article.slug }}
-                  className="flex h-full min-h-11 flex-col rounded-xl bg-card px-4 py-4 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
+                  className="flex h-full min-h-11 flex-col overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
                 >
-                  <p className="text-xs text-subtle">
-                    {article.published}
-                    {" · "}
-                    {isEn ? `${article.minutes} min` : `${article.minutes} 分鐘`}
-                  </p>
-                  <p className="mt-2 font-semibold">{copy.h1}</p>
-                  <p className="mt-1 flex-1 text-sm leading-relaxed text-muted">{copy.excerpt}</p>
+                  {article.image ? (
+                    <picture className="photo-strip photo-strip-tile">
+                      <source srcSet={article.image.replace(/\.jpg$/, ".webp")} type="image/webp" />
+                      <img
+                        src={article.image}
+                        alt=""
+                        width={1280}
+                        height={720}
+                        loading="lazy"
+                        decoding="async"
+                        className="outline outline-1 -outline-offset-1 outline-fg/10"
+                      />
+                    </picture>
+                  ) : null}
+                  <div className="flex flex-1 flex-col px-4 py-4">
+                    <p className="text-xs text-subtle">
+                      {article.published}
+                      {" · "}
+                      {isEn ? `${article.minutes} min` : `${article.minutes} 分鐘`}
+                    </p>
+                    <p className="mt-2 font-semibold">{copy.h1}</p>
+                    <p className="mt-1 flex-1 text-sm leading-relaxed text-muted">{copy.excerpt}</p>
+                  </div>
                 </Link>
               </li>
             );

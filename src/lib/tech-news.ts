@@ -40,6 +40,9 @@ export type TechNewsArticle = {
   editorNoteEn: string;
   related?: string[];
   sourceUrl?: string;
+  image?: string;
+  imageAlt?: string;
+  imageCredit?: string;
 };
 
 export const TECH_NEWS_SEO = {
@@ -162,6 +165,9 @@ export const TECH_NEWS_ARTICLES: readonly TechNewsArticle[] = [
     editorNoteEn:
       "About two months remain. Pre-load and the Hong Kong store price can still move. This is a recap of public facts, not a pre-order pitch. Rockstar, PlayStation Store and Microsoft Store confirm the live terms.",
     sourceUrl: "https://www.rockstargames.com/VI",
+    image: "/images/news-gta-6.jpg",
+    imageAlt: "Grand Theft Auto VI 官方封面：Lucia Caminos 同 Jason Duval，左上有 GTA VI 標誌",
+    imageCredit: "Rockstar Games",
   },
   {
     slug: "how-we-cover",
