@@ -6,6 +6,7 @@ Allow: /guides
 Allow: /tech-news
 Allow: /about
 Disallow: /brand
+Disallow: /tech-news/desk
 Disallow: /offers/
 Disallow: /__grok/
 Disallow: /api/

@@ -55,5 +55,6 @@ describe("tech news channel", () => {
       );
     }
     assert.match(renderRobotsTxt(), /Allow: \/tech-news/);
+    assert.match(renderRobotsTxt(), /Disallow: \/tech-news\/desk/);
   });
 });

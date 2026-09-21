@@ -10,7 +10,7 @@ import {
   type TechNewsArticle,
   type TechNewsCategory,
 } from "@/lib/tech-news";
-import { useI18n, usePageTitle } from "@/lib/i18n";
+import { loadPublishedNews, loadPublishedNewsBySlug } from "@/lib/tech-news-live";
 import { canonicalUrl, notFoundHead, shareHead } from "@/lib/canonical";
 import { SITE } from "@/lib/site";
 
@@ -38,11 +38,26 @@ function NewsRichText({ text }: { text: string }) {
 }
 
 export const Route = createFileRoute("/tech-news_/$slug")({
-  loader: ({ params }) => {
-    const article = getTechNewsArticle(params.slug);
+  loader: async ({ params }) => {
+    const local = getTechNewsArticle(params.slug);
+    let live = null;
+    try {
+      live = local ? null : await loadPublishedNewsBySlug({ data: { slug: params.slug } });
+    } catch {
+      live = null;
+    }
+    const article = local ?? live;
     if (article) return { kind: "article" as const, article };
     const category = getTechNewsCategory(params.slug);
-    if (category) return { kind: "hub" as const, category };
+    if (category) {
+      let extra: TechNewsArticle[] = [];
+      try {
+        extra = (await loadPublishedNews()).filter((item) => item.category === category.id);
+      } catch {
+        extra = [];
+      }
+      return { kind: "hub" as const, category, extra };
+    }
     throw notFound();
   },
   component: TechNewsSlugPage,
@@ -76,12 +91,14 @@ export const Route = createFileRoute("/tech-news_/$slug")({
   },
 });
 
-function HubPage({ category }: { category: TechNewsCategory }) {
+function HubPage({ category, extra }: { category: TechNewsCategory; extra: TechNewsArticle[] }) {
   const { locale } = useI18n();
   const isEn = locale === "en";
   const title = `齊Quote｜${isEn ? category.labelEn : category.label}`;
   usePageTitle(title);
-  const items = articlesInCategory(category.id);
+  const items = [...extra, ...articlesInCategory(category.id)].filter(
+    (article, index, list) => list.findIndex((item) => item.slug === article.slug) === index,
+  );
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
@@ -243,6 +260,13 @@ function ArticlePage({ article }: { article: TechNewsArticle }) {
         <p className="mt-2 text-sm leading-relaxed text-muted">{copy.editorNote}</p>
       </section>
       <p className="mt-6 text-xs text-subtle">{copy.tags.join(" · ")}</p>
+      {article.sourceUrl ? (
+        <p className="mt-3 text-sm">
+          <a href={article.sourceUrl} className="text-accent underline-offset-4 hover:underline" rel="noopener noreferrer">
+            {isEn ? "Source" : "來源"}
+          </a>
+        </p>
+      ) : null}
       {related.length ? (
         <section className="mt-10">
           <h2 className="text-lg font-semibold">{isEn ? "Related" : "延伸閱讀"}</h2>
@@ -270,6 +294,6 @@ function ArticlePage({ article }: { article: TechNewsArticle }) {
 
 function TechNewsSlugPage() {
   const data = Route.useLoaderData();
-  if (data.kind === "hub") return <HubPage category={data.category} />;
+  if (data.kind === "hub") return <HubPage category={data.category} extra={data.extra} />;
   return <ArticlePage article={data.article} />;
 }

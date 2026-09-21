@@ -39,6 +39,7 @@ export type TechNewsArticle = {
   editorNote: string;
   editorNoteEn: string;
   related?: string[];
+  sourceUrl?: string;
 };
 
 export const TECH_NEWS_SEO = {

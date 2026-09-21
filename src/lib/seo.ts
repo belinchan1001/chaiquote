@@ -390,9 +390,12 @@ function escapeXml(value: string): string {
   return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 }
 
-export function renderSitemapXml(origin: string = DEFAULT_SEO_ORIGIN): string {
+export function renderSitemapXml(
+  origin: string = DEFAULT_SEO_ORIGIN,
+  extra: readonly SitemapPage[] = [],
+): string {
   const host = seoOrigin(origin);
-  const urls = SITEMAP_PAGES.map((page) => {
+  const urls = [...SITEMAP_PAGES, ...extra].map((page) => {
     const loc = escapeXml(`${host}${page.path}`);
     const lastmod = sitemapLastmod(page.path);
     const lastmodXml = lastmod ? `<lastmod>${lastmod}</lastmod>` : "";
@@ -412,6 +415,7 @@ export function renderRobotsTxt(origin: string = DEFAULT_SEO_ORIGIN): string {
     "Allow: /tech-news",
     "Allow: /about",
     "Disallow: /brand",
+    "Disallow: /tech-news/desk",
     "Disallow: /offers/",
     "Disallow: /__grok/",
     "Disallow: /api/",

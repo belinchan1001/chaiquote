@@ -25,6 +25,7 @@ import { Route as EstatesSlugRouteImport } from './routes/estates_.$slug'
 import { Route as OffersOfferIdRouteImport } from './routes/offers_.$offerId'
 import { Route as TechNewsRouteImport } from './routes/tech-news'
 import { Route as TechNewsSlugRouteImport } from './routes/tech-news_.$slug'
+import { Route as TechNewsDeskRouteImport } from './routes/tech-news_.desk'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -106,6 +107,11 @@ const TechNewsSlugRoute = TechNewsSlugRouteImport.update({
   path: '/tech-news/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TechNewsDeskRoute = TechNewsDeskRouteImport.update({
+  id: '/tech-news_/desk',
+  path: '/tech-news/desk',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -124,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/offers/$offerId': typeof OffersOfferIdRoute
   '/tech-news': typeof TechNewsRoute
   '/tech-news/$slug': typeof TechNewsSlugRoute
+  '/tech-news/desk': typeof TechNewsDeskRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -142,6 +149,7 @@ export interface FileRoutesByTo {
   '/offers/$offerId': typeof OffersOfferIdRoute
   '/tech-news': typeof TechNewsRoute
   '/tech-news/$slug': typeof TechNewsSlugRoute
+  '/tech-news/desk': typeof TechNewsDeskRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -161,6 +169,7 @@ export interface FileRoutesById {
   '/offers_/$offerId': typeof OffersOfferIdRoute
   '/tech-news': typeof TechNewsRoute
   '/tech-news_/$slug': typeof TechNewsSlugRoute
+  '/tech-news_/desk': typeof TechNewsDeskRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -181,6 +190,7 @@ export interface FileRouteTypes {
     | '/offers/$offerId'
     | '/tech-news'
     | '/tech-news/$slug'
+    | '/tech-news/desk'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/offers/$offerId'
     | '/tech-news'
     | '/tech-news/$slug'
+    | '/tech-news/desk'
   id:
     | '__root__'
     | '/'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/offers_/$offerId'
     | '/tech-news'
     | '/tech-news_/$slug'
+    | '/tech-news_/desk'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -236,6 +248,7 @@ export interface RootRouteChildren {
   OffersOfferIdRoute: typeof OffersOfferIdRoute
   TechNewsRoute: typeof TechNewsRoute
   TechNewsSlugRoute: typeof TechNewsSlugRoute
+  TechNewsDeskRoute: typeof TechNewsDeskRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -352,6 +365,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TechNewsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tech-news_/desk': {
+      id: '/tech-news_/desk'
+      path: '/tech-news/desk'
+      fullPath: '/tech-news/desk'
+      preLoaderRoute: typeof TechNewsDeskRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -372,6 +392,7 @@ const rootRouteChildren: RootRouteChildren = {
   OffersOfferIdRoute: OffersOfferIdRoute,
   TechNewsRoute: TechNewsRoute,
   TechNewsSlugRoute: TechNewsSlugRoute,
+  TechNewsDeskRoute: TechNewsDeskRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
