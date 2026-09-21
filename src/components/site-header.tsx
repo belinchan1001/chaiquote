@@ -24,11 +24,12 @@ export function SiteHeader() {
   const { t, updated, locale } = useI18n();
   const spendLabel = locale === "en" ? "Personal spend" : "個人月費開銷";
   const guidesLabel = locale === "en" ? "How-to guides" : "點揀攻略";
+  const newsLabel = locale === "en" ? "News" : "電訊新聞";
   const waMenuLabel = locale === "en" ? "WhatsApp ChaiQuote desk" : "WhatsApp 齊Quote客服";
   const waE164 = quoteWhatsappE164([], inquiry);
 
   const links: {
-    to: "/plans" | "/guides" | "/about" | "/estates" | "/spend";
+    to: "/plans" | "/guides" | "/about" | "/estates" | "/spend" | "/tech-news";
     label: string;
     search?: { cat: "broadband" | "home5g" | "mobile" | "business" };
   }[] = [
@@ -39,11 +40,13 @@ export function SiteHeader() {
     { to: "/plans", label: t("navBusiness"), search: { cat: "business" } },
     { to: "/estates", label: t("navEstates") },
     { to: "/guides", label: guidesLabel },
+    { to: "/tech-news", label: newsLabel },
     { to: "/about", label: t("navAbout") },
   ];
 
   function isActive(link: (typeof links)[number]) {
     if (link.to === "/spend") return pathname === "/spend";
+    if (link.to === "/tech-news") return pathname === "/tech-news" || pathname.startsWith("/tech-news/");
     if (!link.search) return pathname === link.to;
     return pathname === "/plans" && (currentCat ?? "broadband") === link.search.cat;
   }

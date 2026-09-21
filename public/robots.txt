@@ -3,6 +3,7 @@ Allow: /
 Allow: /plans
 Allow: /estates
 Allow: /guides
+Allow: /tech-news
 Allow: /about
 Disallow: /brand
 Disallow: /offers/

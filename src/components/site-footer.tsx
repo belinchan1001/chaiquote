@@ -87,6 +87,11 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
+              <Link to="/tech-news" className="hover:underline">
+                {locale === "en" ? "Telecom news" : "電訊新聞"}
+              </Link>
+            </li>
+            <li>
               <Link to="/quote" className="hover:underline">
                 {t("footerQuote")}
               </Link>

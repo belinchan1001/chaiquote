@@ -23,6 +23,8 @@ import { Route as GuidesSlugRouteImport } from './routes/guides_.$slug'
 import { Route as PlansPlanIdRouteImport } from './routes/plans_.$planId'
 import { Route as EstatesSlugRouteImport } from './routes/estates_.$slug'
 import { Route as OffersOfferIdRouteImport } from './routes/offers_.$offerId'
+import { Route as TechNewsRouteImport } from './routes/tech-news'
+import { Route as TechNewsSlugRouteImport } from './routes/tech-news_.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -94,6 +96,16 @@ const OffersOfferIdRoute = OffersOfferIdRouteImport.update({
   path: '/offers/$offerId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TechNewsRoute = TechNewsRouteImport.update({
+  id: '/tech-news',
+  path: '/tech-news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TechNewsSlugRoute = TechNewsSlugRouteImport.update({
+  id: '/tech-news_/$slug',
+  path: '/tech-news/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -110,6 +122,8 @@ export interface FileRoutesByFullPath {
   '/plans/$planId': typeof PlansPlanIdRoute
   '/estates/$slug': typeof EstatesSlugRoute
   '/offers/$offerId': typeof OffersOfferIdRoute
+  '/tech-news': typeof TechNewsRoute
+  '/tech-news/$slug': typeof TechNewsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -126,6 +140,8 @@ export interface FileRoutesByTo {
   '/plans/$planId': typeof PlansPlanIdRoute
   '/estates/$slug': typeof EstatesSlugRoute
   '/offers/$offerId': typeof OffersOfferIdRoute
+  '/tech-news': typeof TechNewsRoute
+  '/tech-news/$slug': typeof TechNewsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -143,6 +159,8 @@ export interface FileRoutesById {
   '/plans_/$planId': typeof PlansPlanIdRoute
   '/estates_/$slug': typeof EstatesSlugRoute
   '/offers_/$offerId': typeof OffersOfferIdRoute
+  '/tech-news': typeof TechNewsRoute
+  '/tech-news_/$slug': typeof TechNewsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -161,6 +179,8 @@ export interface FileRouteTypes {
     | '/plans/$planId'
     | '/estates/$slug'
     | '/offers/$offerId'
+    | '/tech-news'
+    | '/tech-news/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -177,6 +197,8 @@ export interface FileRouteTypes {
     | '/plans/$planId'
     | '/estates/$slug'
     | '/offers/$offerId'
+    | '/tech-news'
+    | '/tech-news/$slug'
   id:
     | '__root__'
     | '/'
@@ -193,6 +215,8 @@ export interface FileRouteTypes {
     | '/plans_/$planId'
     | '/estates_/$slug'
     | '/offers_/$offerId'
+    | '/tech-news'
+    | '/tech-news_/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -210,6 +234,8 @@ export interface RootRouteChildren {
   PlansPlanIdRoute: typeof PlansPlanIdRoute
   EstatesSlugRoute: typeof EstatesSlugRoute
   OffersOfferIdRoute: typeof OffersOfferIdRoute
+  TechNewsRoute: typeof TechNewsRoute
+  TechNewsSlugRoute: typeof TechNewsSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -312,6 +338,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OffersOfferIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tech-news': {
+      id: '/tech-news'
+      path: '/tech-news'
+      fullPath: '/tech-news'
+      preLoaderRoute: typeof TechNewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tech-news_/$slug': {
+      id: '/tech-news_/$slug'
+      path: '/tech-news/$slug'
+      fullPath: '/tech-news/$slug'
+      preLoaderRoute: typeof TechNewsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -330,6 +370,8 @@ const rootRouteChildren: RootRouteChildren = {
   PlansPlanIdRoute: PlansPlanIdRoute,
   EstatesSlugRoute: EstatesSlugRoute,
   OffersOfferIdRoute: OffersOfferIdRoute,
+  TechNewsRoute: TechNewsRoute,
+  TechNewsSlugRoute: TechNewsSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

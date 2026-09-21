@@ -1,6 +1,7 @@
 import { formatFee, isListedPlan, PLANS, PROVIDER_MAP, type Category, type Housing, type Plan, type ProviderId } from "./plans.ts";
 import { INDEXABLE_ESTATE_PAGES, estatePagePath, estateSeoDescription, estateSeoTitle, type EstatePage } from "./estate-pages.ts";
 import { GUIDES, getGuide, type Guide } from "./guides.ts";
+import { TECH_NEWS_ARTICLES, TECH_NEWS_CATEGORIES } from "./tech-news.ts";
 import { guideTopicImage } from "./guide-media.ts";
 import { SITE } from "./site.ts";
 import {
@@ -119,6 +120,13 @@ export function sitemapLastmod(path: string): string | undefined {
       }
     }
   }
+  if (path.startsWith("/tech-news/")) {
+    const slug = path.slice("/tech-news/".length);
+    if (slug && !slug.includes("/")) {
+      const article = TECH_NEWS_ARTICLES.find((item) => item.slug === slug);
+      if (article?.published && W3C_LASTMOD.test(article.published)) return article.published;
+    }
+  }
   return siteDataLastmod();
 }
 
@@ -130,6 +138,7 @@ export const STATIC_SITEMAP_PAGES: readonly SitemapPage[] = [
   { path: "/plans?cat=mobile", changefreq: "weekly", priority: "0.8" },
   { path: "/plans?cat=business", changefreq: "weekly", priority: "0.7" },
   { path: "/guides", changefreq: "monthly", priority: "0.7" },
+  { path: "/tech-news", changefreq: "weekly", priority: "0.6" },
   { path: "/estates", changefreq: "weekly", priority: "0.8" },
   { path: "/about", changefreq: "monthly", priority: "0.5" },
   { path: "/privacy", changefreq: "monthly", priority: "0.4" },
@@ -160,6 +169,16 @@ export const SITEMAP_PAGES: readonly SitemapPage[] = [
     path: `/guides/${guide.slug}`,
     changefreq: "monthly" as const,
     priority: HUB_GUIDE_SLUGS.has(guide.slug) ? "0.8" : "0.6",
+  })),
+  ...TECH_NEWS_CATEGORIES.map((cat) => ({
+    path: `/tech-news/${cat.slug}`,
+    changefreq: "weekly" as const,
+    priority: "0.5",
+  })),
+  ...TECH_NEWS_ARTICLES.map((article) => ({
+    path: `/tech-news/${article.slug}`,
+    changefreq: "weekly" as const,
+    priority: "0.5",
   })),
   ...INDEXABLE_ESTATE_PAGES.map((page) => ({
     path: estatePagePath(page),
@@ -390,6 +409,7 @@ export function renderRobotsTxt(origin: string = DEFAULT_SEO_ORIGIN): string {
     "Allow: /plans",
     "Allow: /estates",
     "Allow: /guides",
+    "Allow: /tech-news",
     "Allow: /about",
     "Disallow: /brand",
     "Disallow: /offers/",
