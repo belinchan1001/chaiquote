@@ -1,7 +1,84 @@
 import type { TechNewsArticle } from "./tech-news.ts";
 
-/** Two news pieces per desk. GTA 6 already lives in TECH_NEWS_ARTICLES. */
+/** Extra news pieces. GTA 6 still lives in TECH_NEWS_ARTICLES. */
 export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
+  {
+    slug: "assemble-nintendo-switch-wanchai",
+    category: "gaming",
+    minutes: 6,
+    published: "2026-09-21",
+    seoTitle: "灣仔Assemble Switch生活館｜合和商場｜齊Quote",
+    h1: "灣仔合和商場 Assemble：亞洲首個大型 Switch 遊戲生活館",
+    description:
+      "Assemble | Nintendo Switch 商品專門店位於灣仔皇后大道東 183 號合和商場 4 樓 414-415 號舖。合和商場官方寫明為亞洲首個大型 Nintendo Switch 遊戲生活館，佔地近 12,000 呎。內容僅供參考，營業時間、庫存同售價以商店確認為準。",
+    excerpt: "唔係任天堂直營。合和 4 樓逾萬呎，試玩、周邊、多間日廠專區同場。去之前對營業時間。",
+    seoTitleEn: "Assemble Switch lifestyle store, Hopewell Mall | 齊Quote",
+    h1En: "Assemble in Wan Chai: Asia’s first large Switch lifestyle store",
+    descriptionEn:
+      "Assemble | Nintendo Switch Specialty Store is at shops 414-415, 4/F, Hopewell Mall, 183 Queen’s Road East, Wan Chai. The mall calls it Asia’s first large Nintendo Switch game lifestyle centre, nearly 12,000 sq ft. Hours and stock are confirmed by the shop.",
+    excerptEn: "Not a Nintendo-run store. Over 10,000 sq ft on Hopewell 4/F: try-play, merch, multiple Japanese publisher zones.",
+    bullets: [
+      "地址：灣仔皇后大道東 183 號合和商場 4 樓 414-415 號舖。",
+      "商場官方：亞洲首個大型 Nintendo Switch 遊戲生活館，佔地近 12,000 呎。",
+      "營業時間（商場頁）：一至四 11:30–20:30；五至日及公眾假期 11:00–21:00。",
+      "查詢電話 5364 5099。唔係任天堂直營店，庫存以舖頭為準。",
+    ],
+    bulletsEn: [
+      "Shop 414-415, 4/F, Hopewell Mall, 183 Queen’s Road East, Wan Chai.",
+      "Mall copy: Asia’s first large Nintendo Switch game lifestyle centre, nearly 12,000 sq ft.",
+      "Hours (mall page): Mon–Thu 11:30–20:30; Fri–Sun and public holidays 11:00–21:00.",
+      "Tel 5364 5099. Not Nintendo-operated. Stock is whatever is on the shelf.",
+    ],
+    body: [
+      {
+        heading: "邊度、幾大、開唔開",
+        headingEn: "Where, how big, when",
+        paragraphs: [
+          "合和商場租戶頁寫：Assemble 係亞洲首個大型 Nintendo Switch「Game Lifestyle Center」，圍繞遊戲文化、佔地近 12,000 呎，匯集日本遊戲公司專區、過百款熱門遊戲、現場試玩同官方授權周邊。SNK Asia 2024 年 11 月開幕前亦用過「亞洲首個遊戲生活館」呢句。",
+          "舖位：灣仔皇后大道東 183 號合和商場 4 樓 414-415。商場列營業時間星期一至四 11:30–20:30，星期五至日及公眾假期 11:00–21:00，電話 5364 5099。2024 年 11 月 14 日開業。出門前打去或者睇 [合和租戶頁](https://www.hopewellhill.com.hk/shopping/assemble-nintendo-switch-specialty-store)，假期可能改時間。",
+        ],
+        paragraphsEn: [
+          "Hopewell’s tenant page calls Assemble the first large-scale Nintendo Switch Game Lifestyle Center in Asia, nearly 12,000 sq ft, with Japanese publisher zones, try-play and licensed merch. SNK Asia used the same “first in Asia” line before the 14 November 2024 opening.",
+          "Shop 414-415, 4/F, Hopewell Mall, 183 Queen’s Road East. Hours on the mall page: Mon–Thu 11:30–20:30; Fri–Sun and PH 11:00–21:00. Tel 5364 5099. Check the [mall listing](https://www.hopewellhill.com.hk/shopping/assemble-nintendo-switch-specialty-store) before you go.",
+        ],
+      },
+      {
+        heading: "入去會見到咩",
+        headingEn: "What is actually inside",
+        paragraphs: [
+          "開業報道同商場簡介一致：任天堂專區之外，還有 BANDAI NAMCO、SEGA、Capcom、Square Enix、Konami、SNK、Cygames、Koei Tecmo 等形象區，部分有大型角色雕塑。另有限定活動主題區、家居概念試玩／直播室、復古同獨立遊戲、乙女遊戲專區。開幕當年《勇者鬥惡龍 III HD-2D Remake》中庭活動已經完，而家有咩主題要以店內告示為準。",
+          "呢度賣遊戲同周邊，亦俾人試。Switch 2 港版已經加到 HK$3,700，想摸過先決定，灣仔呢舖比起淨睇網圖實際。主機、遊戲、amiibo 有冇貨，齊Quote 唔代舖頭報。",
+        ],
+        paragraphsEn: [
+          "Launch coverage matches the mall brief: a Nintendo zone plus BANDAI NAMCO, SEGA, Capcom, Square Enix, Konami, SNK, Cygames, Koei Tecmo and others, some with giant figures. There is an event bay, a glass try-play/livestream room, retro, indie and otome corners. The 2024 Dragon Quest atrium event is over; current themes are whatever the shop has posted.",
+          "It sells games and merch, and lets you play. Switch 2 already lists at HK$3,700 in Hong Kong — trying one in Wan Chai is more useful than another screenshot. We will not quote shelf stock.",
+        ],
+      },
+      {
+        heading: "去之前三句老實話",
+        headingEn: "Three practical notes",
+        paragraphs: [
+          "一、唔好當 Nintendo Store。商標、貨、試玩都圍住 Switch，營運係專門店，保養同換貨跟舖頭單據。二、合和商場喺皇后大道東，灣仔站行過去；精確出口各站指引唔一致，跟地圖去 183 號最穩。三、週末同放學時段會逼，平日晏晝較易試機。",
+          "實際營業、庫存、價錢以商店確認為準。",
+        ],
+        paragraphsEn: [
+          "One: this is not a Nintendo-operated Nintendo Store. Warranty follows the shop receipt. Two: Hopewell is on Queen’s Road East; walk from Wan Chai station to no. 183 rather than arguing over which exit. Three: weekends fill up; weekday afternoons are easier for try-play.",
+          "Hours, stock and prices are confirmed by the shop.",
+        ],
+      },
+    ],
+    tags: ["Nintendo Switch", "Assemble", "灣仔", "合和商場"],
+    tagsEn: ["Nintendo Switch", "Assemble", "Wan Chai", "Hopewell Mall"],
+    editorNote:
+      "香港終於有一間唔使去日本、又唔使困喺電器舖玻璃櫃後面嘅 Switch 場。12,000 呎聽落誇張，入去其實係「試完再決定買唔買」，同淨係比價網完全兩回事。\n\n我哋唔會叫你為打卡專程過海。但如果你已經想摸 Switch 2，或者陪細路揀一隻實體帶，灣仔合和呢舖係而家香港最齊嗰種。記住：唔係任天堂員工幫你保養，單據留低。週末唔好估準有機試。",
+    editorNoteEn:
+      "Hong Kong finally has a Switch floor that is not a glass cabinet in an electronics shop. The 12,000 sq ft is really “try, then decide” — the opposite of a price-comparison tab.\n\nWe will not tell you to cross the harbour just for photos. If you already want hands on a Switch 2, or a physical game with a kid, this is the fullest room in town. It is not staffed by Nintendo. Keep the receipt. Do not assume a free machine at the weekend.",
+    related: ["switch-2-hk-3700", "gta-6-november-2026"],
+    sourceUrl: "https://www.hopewellhill.com.hk/shopping/assemble-nintendo-switch-specialty-store",
+    image: "/images/news-assemble.jpg",
+    imageAlt: "灣仔合和商場 Assemble | Nintendo Switch 商品專門店店面",
+    imageCredit: "Hopewell Mall / Assemble",
+  },
   {
     slug: "iphone-18-handset-plan",
     category: "telecom",
@@ -68,9 +145,9 @@ export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
     tags: ["iPhone 18", "上台", "手機月費", "轉台"],
     tagsEn: ["iPhone 18", "handset plan", "mobile", "port-in"],
     editorNote:
-      "官價引自 Apple 香港新聞稿。電訊商機價折扣同月費每日可改，本文唔排名、唔寫邊間抵。成交以門市確認為準。",
+      "上台戰每年都一樣：舖頭海報寫減三千，月費就靜靜墊返嚟。我寧願你用紙筆計 24 或者 36 個月，唔好信任何「全期」排名表——昨日啱，聽日折扣就撤。\n\n齊Quote 唔排名邊間上台抵，唔係怕得罪人，係呢啲數唔應該由新聞稿決定。官價我哋引 Apple；折扣你自己問門市。想轉台，先講而家用緊邊間，結果頁先有意義。",
     editorNoteEn:
-      "List prices are from Apple HK. Carrier discounts are not ranked here. Confirm in-store.",
+      "Every autumn the same trick: a fat handset discount on the poster, and the monthly fee quietly climbs back. Do the 24- or 36-month sum yourself. Yesterday’s “lifetime cost” table is already stale.\n\nWe will not rank carriers. Apple’s list price is the only number we will print. Ask the shop for the discount. If you are porting, say which carrier you are on first — otherwise the results page is theatre.",
     related: ["iphone-18-pro-hk", "iphone-duo-hk", "read-offer-news"],
     sourceUrl: "https://www.apple.com/hk/newsroom/2026/09/apple-debuts-iphone-18-pro-and-iphone-18-pro-max/",
     image: "/images/news-iphone-18-pro.jpg",
@@ -133,8 +210,9 @@ export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
     tags: ["SmarTone", "3G", "換 SIM", "通訊辦"],
     tagsEn: ["SmarTone", "3G", "SIM swap", "OFCA"],
     editorNote:
-      "日期同安排引自通訊辦新聞稿同 SmarTone「3G 服務停止」專頁。換機折扣本文唔報價，以免過時。",
-    editorNoteEn: "Dates are from OFCA and SmarTone. Handset discounts are not quoted here.",
+      "3G 停網唔係科技新聞，係屋企新聞。最容易中招唔係追 5G 嘅人，而係阿爸阿媽仲用緊十年前部機、部車 Cam、隻老人錶。而家距離 10 月 9 日只得兩個幾星期，呢個週末去門市換 SIM 已經遲，但仲趕得切。\n\nSmarTone 話門市免費換卡。真係換唔到訊號，就要換機——呢步先至有人想推你上台。換機條件你自己問，我哋呢篇刻意唔報折扣，免得你以為新聞價就係成交價。",
+    editorNoteEn:
+      "A 3G shutdown is a family story, not a gadget story. The people who get cut off are parents on a ten-year-old handset, a dash cam, a watch. You have a couple of weeks to 9 October.\n\nSmarTone says the SIM swap is free in store. If the radio still says 3G, you need a new phone — that is when the contract pitch starts. We deliberately did not print handset discounts. A news figure is not a quote.",
     related: ["iphone-18-handset-plan", "read-offer-news"],
     sourceUrl: "https://www.ofca.gov.hk/en/news_info/press_releases/index_id_2401.html",
     image: "/images/news-smartone-3g.jpg",
@@ -194,8 +272,10 @@ export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
     ],
     tags: ["iPhone 18 Pro", "A20 Pro", "出機"],
     tagsEn: ["iPhone 18 Pro", "A20 Pro", "handset"],
-    editorNote: "售價、日期、續航數字引自 Apple 香港新聞稿。標準版未公布，本文唔估期。",
-    editorNoteEn: "Prices and dates from Apple HK. No guessed date for the base model.",
+    editorNote:
+      "今代 Pro 係相機同續航嘅機，唔係「人人都要換」嘅機。Apple 今秋唔出標準版，我睇係產能同利潤兩邊夾——中階客要嘛捱 Pro 價，要嘛留喺 iPhone 17。\n\n你部 15、16 用得順，無謂為冰川色排隊。真係夜拍或者打機先熱，Pro Max 張電先有說服力。標準版幾時出我唔估；估期嘅稿，通常係廣告。",
+    editorNoteEn:
+      "This Pro is a camera and battery phone, not a must-upgrade. Skipping the base model looks like a squeeze on the mid-tier: pay Pro money or keep a 17.\n\nIf a 15 or 16 is fine, skip the glacier queue. Night photography and long sessions are the only honest reasons for a Pro Max. We will not guess a date for the missing base model.",
     related: ["iphone-18-handset-plan", "iphone-duo-hk", "apple-watch-12-hk"],
     sourceUrl: "https://www.apple.com/hk/newsroom/2026/09/apple-debuts-iphone-18-pro-and-iphone-18-pro-max/",
     image: "/images/news-iphone-18-pro.jpg",
@@ -255,8 +335,10 @@ export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
     ],
     tags: ["iPhone Duo", "摺機", "eSIM"],
     tagsEn: ["iPhone Duo", "foldable", "eSIM"],
-    editorNote: "售價同日期引自 Apple 香港「推出 iPhone Duo」新聞稿同商店頁。容量級距以商店結帳為準。",
-    editorNoteEn: "Prices and dates from Apple HK Newsroom and the store. Capacity steps are confirmed at checkout.",
+    editorNote:
+      "HK$17,499 起已經係一部「決定型」電話，唔係玩票。摺機幾靚，鉸位同內屏花幾耐先出現，要等第一批用家先有數，新聞稿幫唔到你。\n\n香港更大嘅坑係 eSIM。Duo 無卡槽，你而家張實體 SIM 帶唔入去。未問清楚電訊商開唔開到 eSIM，唔好先比訂金。我個人會等到 10 月中先決定，Pro 系列已經喺街。",
+    editorNoteEn:
+      "From HK$17,499 this is a commitment, not a toy. Foldables look finished in photos; creases and hinges show up months later. A press release will not tell you that.\n\nHong Kong’s real trap is eSIM-only. If your carrier cannot issue one, the pre-order is wasted. I would wait until mid-October. The Pro phones are already in shops.",
     related: ["iphone-18-pro-hk", "iphone-18-handset-plan"],
     sourceUrl: "https://www.apple.com/hk/newsroom/2026/09/apple-unveils-iphone-duo/",
     image: "/images/news-iphone-duo.jpg",
@@ -316,8 +398,10 @@ export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
     ],
     tags: ["Apple Watch", "Series 12", "Ultra 4"],
     tagsEn: ["Apple Watch", "Series 12", "Ultra 4"],
-    editorNote: "售價引自 Apple 香港商店。健康功能視地區法規，香港開唔開齊要以產品頁為準。",
-    editorNoteEn: "Prices from Apple HK store. Health features depend on local regulation.",
+    editorNote:
+      "Series 12 戴上手，路人未必睇得出同舊款分別。錢其實買喺 S11 同感測。健康功能香港開幾多，要對產品頁，唔好信發布會演示。\n\n舊錶值唔值得留，先打開 Apple 兼容名單。系統一刀切，你先至知部 SE 定 Series 8 仲有冇得跟。為咗錶面新顏色換錶，我覺得唔抵；為咗舊錶即將唔支援，先有理由。",
+    editorNoteEn:
+      "On a wrist, Series 12 does not announce itself. You are paying for S11 and the sensors. Which health features Hong Kong actually gets is on the store page, not the keynote.\n\nCheck Apple’s compatibility list before you keep an old watch. A new colour is a weak reason to spend. A cutoff is a real one.",
     related: ["airpods-5-hk", "iphone-18-pro-hk"],
     sourceUrl: "https://www.apple.com/hk-zh/shop/buy-watch",
     image: "/images/news-watch-12.jpg",
@@ -377,8 +461,10 @@ export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
     ],
     tags: ["AirPods 5", "主動消噪", "Apple"],
     tagsEn: ["AirPods 5", "ANC", "Apple"],
-    editorNote: "售價同續航引自 Apple 香港新聞稿同商店。功能視系統版本同地區。",
-    editorNoteEn: "Price and battery figures from Apple HK. Features depend on OS and region.",
+    editorNote:
+      "AirPods 5 真正有趣嘅唔係翻譯 demo，而係入門價都有主動消噪。已經有 Pro 嘅人，無謂為咗「5」個字再買一副。\n\n無線充電盒嗰 HK$150，換嚟輕掃音量同多啲電，視你幾常喺街上調歌。翻譯要指定 iPhone 同語言，香港用家買之前對名單，唔好當日用廣東話實時譯。一次充電 4 小時開咗消噪，出街要帶盒，唔係全天一副搞掂。",
+    editorNoteEn:
+      "The interesting part of AirPods 5 is ANC at the lower price, not the translation demo. If you already own Pros, skip the numeral.\n\nThe extra HK$150 for the wireless case buys volume swipe and battery. Live Translation needs a listed iPhone and language — do not assume Cantonese on day one. Four hours with ANC means you still carry the case.",
     related: ["apple-watch-12-hk", "iphone-18-pro-hk"],
     sourceUrl: "https://www.apple.com/hk/newsroom/2026/09/apple-introduces-airpods-5-featuring-best-in-class-open-ear-active-noise-cancellation/",
     image: "/images/news-airpods-5.jpg",
@@ -439,8 +525,9 @@ export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
     tags: ["Nintendo Switch 2", "薩爾達", "香港售價"],
     tagsEn: ["Nintendo Switch 2", "Zelda", "Hong Kong price"],
     editorNote:
-      "主機價引自任天堂香港「建議售價變更」公告；遊戲日期引自其支援頁。街貨是否仲有舊價，本文唔猜。",
-    editorNoteEn: "SRP from Nintendo HK’s June notice; game dates from its support page. We do not guess leftover stock.",
+      "HK$250 加幅唔好聽，但比起日本今輪，香港呢刀其實收得較細。已經入手嘅人當無事；而家先買就要當 HK$3,700 係新常態，唔好再等舊價回流，街貨剩幾部我唔估。\n\nOnline 會籍官方話唔跟加，呢句值得記。今秋若果只為一隻遊戲入主機，11 月 5 日《時之笛》先係理由，唔係「加價前最後機會」呢類口號——機會已經過咗。想摸機，灣仔合和商場 Assemble 生活館仲開住。",
+    editorNoteEn:
+      "HK$250 is annoying. Japan’s hike was worse. If you already own a Switch 2, ignore this. If you are buying now, HK$3,700 is the number. I will not guess leftover stock at the old SRP.\n\nNintendo says Switch Online is unchanged — remember that. Ocarina of Time on 5 November is a reason to walk into a shop. “Last chance before the hike” is not; that date has passed. Assemble in Hopewell Mall is still open if you want hands-on.",
     related: ["gta-6-november-2026"],
     sourceUrl: "https://www.nintendo.com.hk/support/releasenotes/2026-06-29",
     image: "/images/news-switch-2.jpg",

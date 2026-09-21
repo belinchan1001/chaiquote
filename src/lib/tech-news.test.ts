@@ -27,7 +27,8 @@ describe("tech news channel", () => {
         "/images/news-gaming.jpg",
       ],
     );
-    assert.equal(TECH_NEWS_ARTICLES.length, 10);
+    assert.equal(TECH_NEWS_ARTICLES.length, 11);
+    assert.ok(getTechNewsArticle("assemble-nintendo-switch-wanchai"));
     assert.ok(getTechNewsArticle("how-we-cover"));
     assert.ok(getTechNewsArticle("read-offer-news"));
     assert.ok(getTechNewsArticle("gta-6-november-2026"));
@@ -47,8 +48,9 @@ describe("tech news channel", () => {
     assert.doesNotMatch(blob, /最抵|最低|最平/);
     const byDesk = { telecom: 0, phones: 0, gadgets: 0, gaming: 0 };
     for (const article of TECH_NEWS_ARTICLES) {
-      assert.match(article.description, /以電訊商確認為準|以官方及平台商店確認為準|以官方公布為準|以 SmarTone 及通訊辦公布為準/);
+      assert.match(article.description, /以電訊商確認為準|以官方及平台商店確認為準|以官方公布為準|以 SmarTone 及通訊辦公布為準|以商店確認為準/);
       assert.match(article.published, /^2026-09-(18|21)$/);
+      assert.ok(article.editorNote.length > 80, article.slug);
       if (article.category in byDesk) byDesk[article.category] += 1;
     }
     assert.ok(byDesk.telecom >= 2 && byDesk.phones >= 2 && byDesk.gadgets >= 2 && byDesk.gaming >= 2);
@@ -67,6 +69,7 @@ describe("tech news channel", () => {
     assert.doesNotMatch(index, /photo-strip/);
     assert.doesNotMatch(index, /入專區/);
     assert.match(slugPage, /useI18n, usePageTitle/);
+    assert.match(slugPage, /齊Quote編輯觀點/);
     assert.match(slugPage, /NewsShareBar/);
     assert.match(feed, /line-clamp-2/);
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/tech-news"));
@@ -85,6 +88,7 @@ describe("tech news channel", () => {
       "apple-watch-12-hk",
       "airpods-5-hk",
       "switch-2-hk-3700",
+      "assemble-nintendo-switch-wanchai",
     ]) {
       assert.ok(
         SITEMAP_PAGES.some((page) => page.path === `/tech-news/${slug}`),

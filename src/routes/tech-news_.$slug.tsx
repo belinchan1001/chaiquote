@@ -264,8 +264,12 @@ function ArticlePage({ article }: { article: TechNewsArticle }) {
         </section>
       ))}
       <section className="mt-10 rounded-xl bg-card px-4 py-4 shadow-[var(--shadow-border)]">
-        <h2 className="text-sm font-semibold">{isEn ? "Editor’s note" : "編輯觀點"}</h2>
-        <p className="mt-2 text-sm leading-relaxed text-muted">{copy.editorNote}</p>
+        <h2 className="text-sm font-semibold">{isEn ? "齊Quote editor’s take" : "齊Quote編輯觀點"}</h2>
+        {copy.editorNote.split("\n\n").map((para) => (
+          <p key={para.slice(0, 24)} className="mt-2 text-sm leading-relaxed text-muted">
+            {para}
+          </p>
+        ))}
       </section>
       <p className="mt-6 text-xs text-subtle">{copy.tags.join(" · ")}</p>
       {article.sourceUrl ? (

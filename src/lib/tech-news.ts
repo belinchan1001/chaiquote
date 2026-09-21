@@ -164,9 +164,9 @@ export const TECH_NEWS_ARTICLES: readonly TechNewsArticle[] = [
     tags: ["GTA 6", "Rockstar Games", "PlayStation 5", "Xbox", "電玩"],
     tagsEn: ["GTA 6", "Rockstar Games", "PlayStation 5", "Xbox", "gaming"],
     editorNote:
-      "距離 11 月 19 日仲有約兩個月，檔期、預載同香港售價仍可能微調。呢篇只整理已公開資料，唔當預購建議。實際以 Rockstar Games、PlayStation Store 同 Microsoft Store 為準。",
+      "等 PC 嘅人，呢兩個字暫時唔好望。Rockstar 今次寫得好白：11 月 19 日係 PS5 同 Xbox，Online 同 PC 另計。預載、午夜解鎖、香港店價，出街前一週先有用；而家估美金折港幣，係自己嚇自己。\n\n想打故事，預咗買主機版。想繼續掛 GTA Online，官方話舊 Online 會留。專為未公布嘅新 Online 去排隊，我覺得早。齊Quote 呢篇係日曆，唔係預購按鈕。",
     editorNoteEn:
-      "About two months remain. Pre-load and the Hong Kong store price can still move. This is a recap of public facts, not a pre-order pitch. Rockstar, PlayStation Store and Microsoft Store confirm the live terms.",
+      "If you are waiting for PC, stop looking at November. Rockstar was blunt: 19 November is PS5 and Xbox; PC and Online are separate. Pre-load and the Hong Kong store price matter the week before launch, not a dollar conversion in September.\n\nBuy a console copy for the story. Keep the current GTA Online if that is what you play. Queuing for an undated new Online is early. This page is a calendar, not a pre-order button.",
     sourceUrl: "https://www.rockstargames.com/VI",
     image: "/images/news-gta-6.jpg",
     imageAlt: "Grand Theft Auto VI 官方封面：Lucia Caminos 同 Jason Duval，左上有 GTA VI 標誌",
@@ -240,9 +240,9 @@ export const TECH_NEWS_ARTICLES: readonly TechNewsArticle[] = [
     tags: ["電訊新聞", "香港寬頻報價", "5G月費", "齊Quote"],
     tagsEn: ["telecom news", "Hong Kong broadband", "5G plans", "ChaiQuote"],
     editorNote:
-      "而家呢個頻道先開四個專區同樣板稿，證實獨立頁同 SEO 位。自動 RSS 稍後先接；電訊價錢類永遠要人睇過先出街。",
+      "頻道啱開，專區曾經空過，呢點我哋認。寧願空兩日，都唔好用「仍然按期」去填版。電訊價錢類永遠要人睇過——自動稿一寫錯月費，讀者當我哋係報價網，之後無得解釋。\n\n你喺呢頁見到嘅稿，應該係有來源、有日期、有下一步。無呢三樣，我哋選擇 skip。想轉去比較計劃，用篩選，唔好當新聞頁係價目表。",
     editorNoteEn:
-      "This launch is four desks plus sample copy, to prove the independent URL and SEO slot. RSS ingest comes later. Telecom fee stories will always need a human pass.",
+      "The desks started thin. We would rather skip a slot than pad it with “still on track”. Telecom fee stories will always get a human pass — one invented monthly fee and this site becomes a fake price list.\n\nA story here should have a source, a date, and a next step. Missing any of those, we skip. Compare plans with the filters. This page is not a tariff.",
     related: ["read-offer-news"],
   },
   {
@@ -313,9 +313,9 @@ export const TECH_NEWS_ARTICLES: readonly TechNewsArticle[] = [
     tags: ["電訊優惠", "寬頻報價", "轉台", "預繳"],
     tagsEn: ["telecom offers", "broadband quotes", "port-in", "prepaid"],
     editorNote:
-      "呢篇係方法文，冇寫死任何一間嘅最新月費。你見到具體優惠稿，仍然要以當時電訊商條款為準。",
+      "香港電訊新聞最毒嘅唔係假新聞，係截圖。一張「$98」流傳三個月，合約期、預繳、樓類全部被裁走。我見過人為張舊圖同銷售嘈，最後先發現自己住村屋。\n\n標題月費可以真，但真得唔完整。睇完優惠稿，問四句：合約、預繳、現用台、屋企樓類。問唔清就唔好簽。齊Quote 篩選係幫你收窄，唔係替電訊商簽字。",
     editorNoteEn:
-      "This is a method piece. It does not lock any carrier’s current fee. A later offer story still follows that day’s carrier terms.",
+      "The poison in Hong Kong telecom news is not fake news. It is screenshots. A “$98” crop circulates for months with the term, prepaid and housing type cut off. People argue with a salesperson over a picture, then discover they live in a village house.\n\nA headline fee can be true and still incomplete. Ask four things: term, prepaid, current carrier, building type. If those are vague, do not sign. Our filters narrow the list. They do not sign for the carrier.",
     related: ["how-we-cover"],
   },
 ];
