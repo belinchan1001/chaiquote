@@ -19,6 +19,7 @@ describe("HKBN Sep 30 flash fibre", () => {
       assert.ok(plan, id);
       assert.equal(plan.providerId, "hkbn");
       assert.equal(plan.flashOffer, true);
+      assert.equal(plan.quotePick, true);
       assert.equal(plan.offerEndsAt, "2026-09-30T23:59:59+08:00");
       assert.equal(plan.housing === "all" || plan.housing.includes("village"), false, id);
       assert.match(plan.install, /豁免安裝費/);

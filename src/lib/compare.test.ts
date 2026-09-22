@@ -138,7 +138,7 @@ describe("HKBN student/youth 5G 30GB", () => {
     assert.equal(youth.quotePick, true);
     assert.deepEqual(
       PLANS.filter((p) => p.latestOffer).map((p) => p.id),
-      ["hkbn-ftth-1000-24m-199-mobile", "icable-ftth-1000-48m-58", "cmhk-5g-limited-50-129", "cmhk-5g-limited-100-149", "cmhk-5g-limited-60-98-youth", "cmhk-5g-limited-4places-50-149", "cmhk-5g-limited-4places-50-209", "hkbn-5g-30-78-youth", "hkbn-5g-elder-15-79", "hkbn-5g-elder-30-109"],
+      ["hkbn-ftth-1000-24m-199-mobile", "icable-ftth-1000-48m-58", "hkbn-ftth-1000-24m-98-sep30", "hkbn-ftth-1000-36m-98-sep30", "hkbn-ftth-1000-36m-128-sep30", "hkbn-ftth-2500-24m-148-sep30", "hkbn-ftth-2500-36m-158-sep30", "hkbn-ftth-2500-36m-178-sep30", "cmhk-5g-limited-50-129", "cmhk-5g-limited-100-149", "cmhk-5g-limited-60-98-youth", "cmhk-5g-limited-4places-50-149", "cmhk-5g-limited-4places-50-209", "hkbn-5g-30-78-youth", "hkbn-5g-elder-15-79", "hkbn-5g-elder-30-109"],
     );
     assert.deepEqual(
       PLANS.filter((p) => p.quotePick).map((p) => p.id),
@@ -163,6 +163,12 @@ describe("HKBN student/youth 5G 30GB", () => {
         "hkbn-ftth-1000-24m-0-flash",
         "hkbn-ftth-2500-36m-148-flash",
         "hkbn-ftth-1000-36m-63-flash",
+        "hkbn-ftth-1000-24m-98-sep30",
+        "hkbn-ftth-1000-36m-98-sep30",
+        "hkbn-ftth-1000-36m-128-sep30",
+        "hkbn-ftth-2500-24m-148-sep30",
+        "hkbn-ftth-2500-36m-158-sep30",
+        "hkbn-ftth-2500-36m-178-sep30",
         "cmhk-5g-limited-50-129",
         "cmhk-5g-limited-100-149",
         "cmhk-5g-limited-60-98-youth",
