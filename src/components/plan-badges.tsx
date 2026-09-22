@@ -13,7 +13,7 @@ export function PlanBadges({ plan, className }: { plan: Plan; className?: string
 
   return (
     <div className={cn("mt-3 flex flex-wrap items-center gap-1.5", className)}>
-      {plan.flashOffer ? <span className={flashClass}>{t("flashOffer")}</span> : null}
+      {plan.flashOffer ? <span className={flashClass}>⏰ {t("flashOffer")}</span> : null}
       {plan.newIntakeOffer ? <span className={intakeClass}>{t("newIntakeOffer")}</span> : null}
       {plan.quotePick ? <span className={quotePickClass}>👍 {t("quotePick")}</span> : null}
       {plan.latestOffer ? <span className={pillClass}>{t("latestOffer")}</span> : null}

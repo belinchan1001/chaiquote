@@ -28,6 +28,7 @@ describe("齊Quote pick badge", () => {
     assert.match(messages, /newIntakeOffer: "新入伙優惠"/);
     assert.match(messages, /flashOffer: "超限定快閃優惠"/);
     assert.match(badges, /flashClass = "[^"]*bg-flash[^"]*text-flash-foreground"/);
+    assert.match(badges, /⏰ \{t\("flashOffer"\)\}/);
     assert.match(badges, /<span className=\{/);
     assert.doesNotMatch(badges, /<button|onClick|FilterLink|aria-pressed/);
     assert.doesNotMatch(badges, /最平|保證|最優惠/);

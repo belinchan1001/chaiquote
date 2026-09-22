@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n";
 import { remainingOfferMs, type Plan } from "@/lib/plans";
-import { cn } from "@/lib/utils";
 
 function parts(ms: number) {
   const total = Math.max(0, Math.floor(ms / 1000));
@@ -26,17 +25,20 @@ const COPY = {
   },
 };
 
-function Unit({ value, label, pulse }: { value: string; label: string; pulse?: boolean }) {
+function Digit({ value, label }: { value: string; label: string }) {
   return (
-    <div
-      className={cn(
-        "min-w-0 flex-1 rounded-md bg-flash-foreground/15 px-1 py-1.5 text-center",
-        pulse && "countdown-sec",
-      )}
-    >
-      <p className="font-display text-xl font-bold tabular-nums leading-none tracking-wide">{value}</p>
-      <p className="mt-1 text-[10px] font-medium tracking-wide opacity-75">{label}</p>
+    <div className="min-w-0 flex-1 text-center">
+      <p className="digital-clock-digit">{value}</p>
+      <p className="digital-clock-unit">{label}</p>
     </div>
+  );
+}
+
+function Colon() {
+  return (
+    <span className="digital-clock-colon" aria-hidden="true">
+      :
+    </span>
   );
 }
 
@@ -63,21 +65,20 @@ export function OfferCountdown({ plan }: { plan: Plan }) {
     : copy.ended;
 
   return (
-    <div
-      className="mt-3 rounded-lg bg-flash px-3 py-2.5 text-flash-foreground"
-      role="timer"
-      aria-live="polite"
-      aria-label={aria}
-    >
-      <p className="text-[11px] font-medium tracking-wide">{copy.bookBy}</p>
+    <div className="digital-clock mt-3" role="timer" aria-live="polite" aria-label={aria}>
+      <p className="digital-clock-caption">{copy.bookBy}</p>
       {live ? (
-        <div className="mt-2 flex gap-1.5">
-          {values.map((value, i) => (
-            <Unit key={copy.units[i]} value={value} label={copy.units[i]} pulse={i === 3} />
-          ))}
+        <div className="mt-2 flex items-start justify-center">
+          <Digit value={clock.d} label={copy.units[0]} />
+          <Colon />
+          <Digit value={clock.h} label={copy.units[1]} />
+          <Colon />
+          <Digit value={clock.m} label={copy.units[2]} />
+          <Colon />
+          <Digit value={clock.s} label={copy.units[3]} />
         </div>
       ) : (
-        <p className="mt-1 font-display text-sm font-semibold">{copy.ended}</p>
+        <p className="digital-clock-ended">{copy.ended}</p>
       )}
     </div>
   );
