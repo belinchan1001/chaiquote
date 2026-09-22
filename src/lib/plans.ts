@@ -71,6 +71,8 @@ export type Plan = {
   quotePick?: boolean;
   newIntakeOffer?: boolean;
   flashOffer?: boolean;
+  /** ISO timestamp; listing hides the plan after this instant. */
+  offerEndsAt?: string;
   onlyEstates?: string[];
   staffOffer?: string;
   bestFor: string;
@@ -102,6 +104,15 @@ const LIMITS_HKBN_FLASH_2500 =
   "僅適用於指定屋苑。本計劃為自動續約。可選擇延遲服務生效日（最長 365 日）。實際覆蓋同安裝期以電訊商確認為準。";
 const LIMITS_HKBN_FLASH_63 =
   "僅適用於指定屋苑。本計劃為自動續約。免 3 個月月費。實際覆蓋同安裝期以電訊商確認為準。";
+const HKBN_SEP30_FLASH_ENDS = "2026-09-30T23:59:59+08:00";
+const LIMITS_HKBN_SEP30 =
+  "限時快閃：只適用於 2026 年 9 月 22 日至 9 月 30 日成功預約安裝之客戶。適用於公屋、居屋及私人樓宇。不適用於村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。";
+const LIMITS_HKBN_SEP30_PUBLIC_HOS =
+  "限時快閃：只適用於 2026 年 9 月 22 日至 9 月 30 日成功預約安裝之客戶。適用於公屋及居屋。不適用於私人樓宇及村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。";
+const LIMITS_HKBN_SEP30_PRIVATE =
+  "限時快閃：只適用於 2026 年 9 月 22 日至 9 月 30 日成功預約安裝之客戶。適用於私人樓宇。不適用於公屋、居屋及村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。";
+const PERK_HKBN_SEP30_FREE2 = "寬頻月費豁免 2 個月（第 13–14 個月）";
+const PERK_HKBN_SEP30_FREE3 = "寬頻月費豁免 3 個月（第 13–15 個月）";
 const LIMITS_HOME5G_SPEED =
   "實際速度介乎 100M 至 1000M，視乎訊號覆蓋、裝置數量及現場環境而定。";
 const LIMITS_CMHK_HOME5G =
@@ -1582,6 +1593,148 @@ export const PLANS: Plan[] = [
     flashOffer: true,
     onlyEstates: [...HKBN_LPR_FLASH_ESTATES],
     bestFor: "適合指定屋苑、需要 1000M 光纖及免 3 個月月費之住戶",
+  },
+  {
+    id: "hkbn-ftth-1000-24m-98-sep30",
+    providerId: "hkbn",
+    category: "broadband",
+    name: "1000M 限時快閃（24 個月）",
+    monthlyFee: 98,
+    freeMonths: 2,
+    contractMonths: 24,
+    speedMbps: 1000,
+    install: "豁免安裝費（原價 HK$680）",
+    housing: ["public", "hos", "private"],
+    network: "光纖入屋",
+    prepaid: PREPAID_HKBN_200,
+    perks: [PERK_HKBN_SEP30_FREE2],
+    limits: LIMITS_HKBN_SEP30,
+    flashOffer: true,
+    latestOffer: true,
+    quotePick: true,
+    offerEndsAt: HKBN_SEP30_FLASH_ENDS,
+    bestFor: "適合公屋、居屋或私人樓宇，9 月 30 日前預約安裝之 1000M 住戶",
+  },
+  {
+    id: "hkbn-ftth-1000-36m-98-sep30",
+    providerId: "hkbn",
+    category: "broadband",
+    name: "1000M 限時快閃連 Wi-Fi 7（36 個月）",
+    monthlyFee: 98,
+    freeMonths: 3,
+    contractMonths: 36,
+    speedMbps: 1000,
+    install: "豁免安裝費（原價 HK$680）",
+    housing: ["public", "hos", "private"],
+    network: "光纖入屋",
+    prepaid: PREPAID_HKBN_200,
+    perks: [
+      PERK_HKBN_SEP30_FREE3,
+      "必須同時登記 36 個月 Wi-Fi 7 TP-Link Archer BE220 路由器",
+    ],
+    limits: LIMITS_HKBN_SEP30,
+    flashOffer: true,
+    latestOffer: true,
+    quotePick: true,
+    offerEndsAt: HKBN_SEP30_FLASH_ENDS,
+    bestFor: "適合公屋、居屋或私人樓宇，需要 1000M 及 Wi-Fi 7 之住戶",
+  },
+  {
+    id: "hkbn-ftth-1000-36m-128-sep30",
+    providerId: "hkbn",
+    category: "broadband",
+    name: "1000M 限時快閃連影視會籍（36 個月）",
+    monthlyFee: 128,
+    freeMonths: 3,
+    contractMonths: 36,
+    speedMbps: 1000,
+    install: "豁免安裝費（原價 HK$680）",
+    housing: ["public", "hos", "private"],
+    network: "光纖入屋",
+    prepaid: PREPAID_HKBN_200,
+    perks: [
+      PERK_HKBN_SEP30_FREE3,
+      "必須同時登記 36 個月 Wi-Fi 7 TP-Link Archer BE220 路由器",
+      "必須同時登記 36 個月 myTV SUPER（智能電視版）",
+      "必須同時登記 12 個月 Disney+ 標準版",
+    ],
+    limits: LIMITS_HKBN_SEP30,
+    flashOffer: true,
+    latestOffer: true,
+    offerEndsAt: HKBN_SEP30_FLASH_ENDS,
+    bestFor: "適合公屋、居屋或私人樓宇，需要 1000M、路由器及影視會籍之住戶",
+  },
+  {
+    id: "hkbn-ftth-2500-24m-148-sep30",
+    providerId: "hkbn",
+    category: "broadband",
+    name: "2500M 限時快閃連家居電話（24 個月）",
+    monthlyFee: 148,
+    freeMonths: 3,
+    contractMonths: 24,
+    speedMbps: 2500,
+    install: "豁免安裝費（原價 HK$680）",
+    housing: ["public", "hos", "private"],
+    network: "光纖入屋",
+    prepaid: PREPAID_HKBN_200,
+    perks: [
+      PERK_HKBN_SEP30_FREE3,
+      "必須同時登記 24 個月家居電話服務",
+      "必須同時登記 24 個月 Wi-Fi 7 TP-Link Archer BE230 路由器",
+    ],
+    limits: LIMITS_HKBN_SEP30,
+    flashOffer: true,
+    latestOffer: true,
+    offerEndsAt: HKBN_SEP30_FLASH_ENDS,
+    bestFor: "適合公屋、居屋或私人樓宇，需要 2500M 及家居電話之住戶",
+  },
+  {
+    id: "hkbn-ftth-2500-36m-158-sep30",
+    providerId: "hkbn",
+    category: "broadband",
+    name: "2500M 限時快閃連家居電話（36 個月・公屋居屋）",
+    monthlyFee: 158,
+    freeMonths: 3,
+    contractMonths: 36,
+    speedMbps: 2500,
+    install: "豁免安裝費（原價 HK$680）",
+    housing: ["public", "hos"],
+    network: "光纖入屋",
+    prepaid: PREPAID_HKBN_200,
+    perks: [
+      PERK_HKBN_SEP30_FREE3,
+      "必須同時登記 36 個月家居電話服務",
+      "必須同時登記 36 個月 Wi-Fi 7 TP-Link Archer BE230 路由器",
+    ],
+    limits: LIMITS_HKBN_SEP30_PUBLIC_HOS,
+    flashOffer: true,
+    latestOffer: true,
+    offerEndsAt: HKBN_SEP30_FLASH_ENDS,
+    bestFor: "適合公屋或居屋，需要 2500M 及家居電話之住戶",
+  },
+  {
+    id: "hkbn-ftth-2500-36m-178-sep30",
+    providerId: "hkbn",
+    category: "broadband",
+    name: "2500M 限時快閃連影視會籍（36 個月・私樓）",
+    monthlyFee: 178,
+    freeMonths: 3,
+    contractMonths: 36,
+    speedMbps: 2500,
+    install: "豁免安裝費（原價 HK$680）",
+    housing: ["private"],
+    network: "光纖入屋",
+    prepaid: PREPAID_HKBN_200,
+    perks: [
+      PERK_HKBN_SEP30_FREE3,
+      "必須同時登記 36 個月 myTV SUPER（智能電視版）",
+      "必須同時登記 12 個月 Disney+ 標準版",
+    ],
+    limits: LIMITS_HKBN_SEP30_PRIVATE,
+    flashOffer: true,
+    latestOffer: true,
+    offerEndsAt: HKBN_SEP30_FLASH_ENDS,
+    bestFor: "適合私人樓宇，需要 2500M 及影視會籍之住戶",
   },
   {
     id: "smartone-ftth-1000",
@@ -3707,6 +3860,19 @@ export function averageFee(plan: Plan) {
   const rebate = plan.rebate ?? 0;
   if (!plan.freeMonths && !rebate) return plan.monthlyFee;
   return Math.round(((plan.monthlyFee * (plan.contractMonths - plan.freeMonths) - rebate) / plan.contractMonths) * 10) / 10;
+}
+
+export function isOfferExpired(plan: Plan, now = Date.now()) {
+  if (!plan.offerEndsAt) return false;
+  const ends = Date.parse(plan.offerEndsAt);
+  return Number.isFinite(ends) && now > ends;
+}
+
+export function remainingOfferMs(plan: Plan, now = Date.now()) {
+  if (!plan.offerEndsAt) return 0;
+  const ends = Date.parse(plan.offerEndsAt);
+  if (!Number.isFinite(ends)) return 0;
+  return Math.max(0, ends - now);
 }
 
 export function matchesHousing(plan: Plan, housing?: Housing) {

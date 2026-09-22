@@ -73,6 +73,8 @@ describe("齊Quote pick badge", () => {
         "hkbn-ftth-1000-24m-0-flash",
         "hkbn-ftth-2500-36m-148-flash",
         "hkbn-ftth-1000-36m-63-flash",
+        "hkbn-ftth-1000-24m-98-sep30",
+        "hkbn-ftth-1000-36m-98-sep30",
         "cmhk-5g-limited-50-129",
         "cmhk-5g-limited-100-149",
         "cmhk-5g-limited-60-98-youth",

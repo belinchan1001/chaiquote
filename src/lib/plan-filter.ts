@@ -8,6 +8,7 @@ import {
   hasGba,
   isHgcVillage,
   isHkbnVillage,
+  isOfferExpired,
   matchesHousing,
   planGeneration,
   type PlansSearch,
@@ -22,6 +23,7 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
   let rows = PLANS.filter((plan) => {
     if (plan.category !== search.cat) return false;
     if (plan.staffOffer) return false;
+    if (isOfferExpired(plan)) return false;
     if (
       (search.cat === "broadband" || search.cat === "business") &&
       isNetvigatorOnlyEstate(estate) &&

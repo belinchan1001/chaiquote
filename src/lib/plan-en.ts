@@ -17,6 +17,12 @@ const EXACT: Record<string, string> = {
     "Selected estates only. This plan auto-renews. Service start can be deferred up to 365 days. Coverage and install dates are confirmed by the carrier.",
   "僅適用於指定屋苑。本計劃為自動續約。免 3 個月月費。實際覆蓋同安裝期以電訊商確認為準。":
     "Selected estates only. This plan auto-renews. Three months free. Coverage and install dates are confirmed by the carrier.",
+  "限時快閃：只適用於 2026 年 9 月 22 日至 9 月 30 日成功預約安裝之客戶。適用於公屋、居屋及私人樓宇。不適用於村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。":
+    "Flash offer: only for customers who successfully book installation from 22 to 30 Sep 2026. For public housing, HOS and private buildings. Not for village houses. Listed bundled services must be signed up together. Coverage, install date and monthly fee are confirmed by the carrier.",
+  "限時快閃：只適用於 2026 年 9 月 22 日至 9 月 30 日成功預約安裝之客戶。適用於公屋及居屋。不適用於私人樓宇及村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。":
+    "Flash offer: only for customers who successfully book installation from 22 to 30 Sep 2026. For public housing and HOS. Not for private buildings or village houses. Listed bundled services must be signed up together. Coverage, install date and monthly fee are confirmed by the carrier.",
+  "限時快閃：只適用於 2026 年 9 月 22 日至 9 月 30 日成功預約安裝之客戶。適用於私人樓宇。不適用於公屋、居屋及村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。":
+    "Flash offer: only for customers who successfully book installation from 22 to 30 Sep 2026. For private buildings. Not for public housing, HOS or village houses. Listed bundled services must be signed up together. Coverage, install date and monthly fee are confirmed by the carrier.",
   "僅適用於指定村屋地址。本計劃為 27 個月合約。可選擇延遲服務生效日（最長 365 日）。香港寬頻之公屋、居屋及私人樓宇計劃不適用於村屋地址。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須另行核對。":
     "Village-house addresses only. 27-month contract. Service start can be deferred up to 365 days. HKBN public/HOS/private plans do not apply to village houses. Not for villages with HGC fibre coverage. Coverage must be confirmed separately.",
   "僅適用於指定村屋地址。本計劃為 24 個月合約。可選擇延遲服務生效日（最長 365 日）。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須另行核對。":
@@ -121,6 +127,21 @@ const PHRASES: [string, string][] = [
   ["送指定 TP-Link Wi-Fi 6 路由器", "Includes designated TP-Link Wi-Fi 6 router"],
   ["送 TP-Link Archer BE220 Wi-Fi 7 路由器（價值每月 HK$39；24 個月，合約後無須歸還）", "Includes TP-Link Archer BE220 Wi-Fi 7 router (HK$39/month value; 24 months, keep after contract)"],
   ["送 TP-Link Archer BE220 Wi-Fi 7 路由器", "Includes TP-Link Archer BE220 Wi-Fi 7 router"],
+  ["寬頻月費豁免 2 個月（第 13–14 個月）", "2 months of broadband fee waived (months 13–14)"],
+  ["寬頻月費豁免 3 個月（第 13–15 個月）", "3 months of broadband fee waived (months 13–15)"],
+  ["必須同時登記 36 個月 Wi-Fi 7 TP-Link Archer BE220 路由器", "Must also sign up for 36 months of TP-Link Archer BE220 Wi-Fi 7 router"],
+  ["必須同時登記 24 個月 Wi-Fi 7 TP-Link Archer BE230 路由器", "Must also sign up for 24 months of TP-Link Archer BE230 Wi-Fi 7 router"],
+  ["必須同時登記 36 個月 Wi-Fi 7 TP-Link Archer BE230 路由器", "Must also sign up for 36 months of TP-Link Archer BE230 Wi-Fi 7 router"],
+  ["必須同時登記 24 個月家居電話服務", "Must also sign up for 24 months of home landline"],
+  ["必須同時登記 36 個月家居電話服務", "Must also sign up for 36 months of home landline"],
+  ["必須同時登記 36 個月 myTV SUPER（智能電視版）", "Must also sign up for 36 months of myTV SUPER (smart TV)"],
+  ["必須同時登記 12 個月 Disney+ 標準版", "Must also sign up for 12 months of Disney+ Standard"],
+  ["1000M 限時快閃（24 個月）", "1000M flash offer (24 months)"],
+  ["1000M 限時快閃連 Wi-Fi 7（36 個月）", "1000M flash offer with Wi-Fi 7 (36 months)"],
+  ["1000M 限時快閃連影視會籍（36 個月）", "1000M flash offer with streaming (36 months)"],
+  ["2500M 限時快閃連家居電話（24 個月）", "2500M flash offer with home phone (24 months)"],
+  ["2500M 限時快閃連家居電話（36 個月・公屋居屋）", "2500M flash offer with home phone (36 months, public/HOS)"],
+  ["2500M 限時快閃連影視會籍（36 個月・私樓）", "2500M flash offer with streaming (36 months, private)"],
   ["三選一：Disney+ 標準計劃 24 個月、Netflix 標準計劃 24 個月或 HBO Max 標準計劃 24 個月", "Pick one: 24 months Disney+ Standard, 24 months Netflix Standard, or 24 months HBO Max Standard"],
   ["24 個月 5G 流動通訊 30GB 本地數據，送任用 15 款熱門串流及社交數據（原價每月 HK$98）", "24 months 5G mobile 30GB local data plus unlimited data for 15 streaming and social apps (HK$98/month value)"],
   ["1000M 四合一（Wi-Fi 7、OTT 及 5G 30GB｜24 個月）", "1000M four-in-one (Wi-Fi 7, OTT and 5G 30GB | 24 months)"],

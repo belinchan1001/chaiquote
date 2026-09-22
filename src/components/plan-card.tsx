@@ -3,6 +3,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { Bookmark, GitCompareArrows } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PlanBadges } from "@/components/plan-badges";
+import { OfferCountdown } from "@/components/offer-countdown";
 import { CertifiedStaffNote } from "@/components/certified-staff-note";
 import { LogoMark } from "@/components/logo";
 import { ProviderMark } from "@/components/provider-mark";
@@ -79,6 +80,7 @@ export function PlanCard({ plan }: { plan: Plan }) {
       </div>
 
       <PlanBadges plan={plan} />
+      <OfferCountdown plan={plan} />
 
       <p className="mt-4 text-xs tracking-wider text-subtle uppercase">
         {categoryLabel(plan.category)} · {tx(plan.network)}
