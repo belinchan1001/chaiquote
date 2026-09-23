@@ -1,12 +1,12 @@
 export const SITE = {
   name: "齊Quote",
-  tagline: "搵寬頻唔使四圍問",
+  tagline: "搜寬頻唔使四圍問",
   searchHint: "電訊報價",
   url: "https://www.chaiquote.hk",
   description:
     "齊Quote 係獨立電訊比較平台，提供香港寬頻報價同電訊報價，一次過比較家居寬頻、5G 家居、商業寬頻同手機計劃。所列月費僅供參考，實際以電訊商確認為準。",
   /** Catalogue stamp shown on the homepage hero as YYYY-MM-DD. */
-  updated: "2026-09-23",
+  updated: "2026-09-24",
   phoneDisplay: "6309 9966",
   whatsappE164: "85263099966",
   hktPhoneDisplay: "5436 3004",
@@ -29,7 +29,7 @@ export const LEGAL = {
   referencePrice:
     "以上月費及優惠為市場參考資料，實際價格、覆蓋、合約期及安裝安排，一律以電訊商確認為準。",
   whatsappTip:
-    "撳下去會開啟 WhatsApp 聯絡我哋（{phone}）。請勿分享銀行戶口或信用卡密碼。非電訊商官方客服。",
+    "撘落去會開啟 WhatsApp 聯絡我哋（{phone}）。請勿分享銀行戶口或信用卡密碼。非電訊商官方客服。",
 } as const;
 
 export const DISCLAIMER = [
@@ -64,7 +64,7 @@ export const DISTRICTS = [
   "東區",
   "南區",
   "油尖旺",
-  "深水埗",
+  "深水埔",
   "九龍城",
   "黃大仙",
   "觀塘",
@@ -123,10 +123,10 @@ export const FAQ = [
   },
   {
     q: "公屋同埋居屋價錢會唔會唔同？",
-    a: "公屋同埋居屋好多時有指定供應商同批量價，不過每個屋邨／屋苑合約都可能唔同。篩選時可以分開揀；問價記得填齊屋苑名稱。",
+    a: "公屋同埋居屋好多時有指定供應商同批量價，不過每個屋邨／屋苑合約都可能唔同。篩選時可以分開擇；問價記得填齊屋苑名稱。",
   },
   {
-    q: "村屋有冇光纖？",
+    q: "村屋有咩光纖？",
     a: "村屋光纖而家主要由香港寬頻、HGC 同網上行提供指定計劃；公屋、居屋同私樓計劃一般唔適用於村屋地址。未有光纖嘅地址，可以一併比較 5G 家居寬頻。實際覆蓋要核對門牌。",
   },
   {
@@ -139,6 +139,6 @@ export const FAQ = [
   },
   {
     q: "點樣查核報價？",
-    a: "最快用 WhatsApp 6309 9966。冇 WhatsApp 可以撳「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 info@chaiquote.hk。",
+    a: "最快用 WhatsApp 6309 9966。冇 WhatsApp 可以撘「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 info@chaiquote.hk。",
   },
 ] as const;
