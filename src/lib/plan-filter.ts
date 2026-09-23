@@ -76,7 +76,17 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
       (a, b) => (b.dataGb ?? b.highSpeedGb ?? 0) - (a.dataGb ?? a.highSpeedGb ?? 0) || a.id.localeCompare(b.id),
     );
   }
-  return interleaveCheapestFirst(rows);
+  return pinHkbn98Flash(interleaveCheapestFirst(rows));
+}
+
+/** 1000M $98 / 36 個月送 3 個月. Other offers keep the ladder order. */
+const HKBN_98_36M_FLASH_ID = "hkbn-ftth-1000-36m-98-sep30";
+
+function pinHkbn98Flash(rows: Plan[]): Plan[] {
+  const index = rows.findIndex((plan) => plan.id === HKBN_98_36M_FLASH_ID);
+  if (index <= 0) return rows;
+  const pinned = rows[index];
+  return [pinned, ...rows.slice(0, index), ...rows.slice(index + 1)];
 }
 
 /** Ladder by average fee (free months included), then sticker fee. */

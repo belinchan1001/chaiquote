@@ -22,12 +22,20 @@ function firstWaveCoversEveryProvider(rows: Plan[], key: (plan: Plan) => number)
 }
 
 describe("monthly fee ladder", () => {
+  it("pins the HKBN $98 1000M 36-month flash card, then keeps the ladder", () => {
+    const rows = filterPlans({ cat: "broadband" });
+    assert.equal(rows[0]?.id, "hkbn-ftth-1000-36m-98-sep30");
+    const rest = rows.slice(1);
+    assert.equal(rest.some((plan) => plan.id === rows[0].id), false);
+    firstWaveCoversEveryProvider(rest, (plan) => averageFee(plan));
+  });
+
   it("shows every company's cheapest plan before anyone's second plan", () => {
     for (const cat of ["broadband", "mobile", "home5g", "business"] as const) {
-      const rows = filterPlans({ cat });
+      const rows = filterPlans({ cat }).filter((plan) => plan.id !== "hkbn-ftth-1000-36m-98-sep30");
       assert.ok(rows.length > 1, cat);
       firstWaveCoversEveryProvider(rows, (plan) => averageFee(plan));
-      const avg = filterPlans({ cat, sort: "avg" });
+      const avg = filterPlans({ cat, sort: "avg" }).filter((plan) => plan.id !== "hkbn-ftth-1000-36m-98-sep30");
       firstWaveCoversEveryProvider(avg, (plan) => averageFee(plan));
     }
   });
