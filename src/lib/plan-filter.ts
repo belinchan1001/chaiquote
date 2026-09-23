@@ -76,21 +76,25 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
       (a, b) => (b.dataGb ?? b.highSpeedGb ?? 0) - (a.dataGb ?? a.highSpeedGb ?? 0) || a.id.localeCompare(b.id),
     );
   }
-  return interleaveCheapestFirst(rows, sort === "avg" ? "avg" : "fee");
+  return interleaveCheapestFirst(rows);
+}
+
+/** Ladder by average fee (free months included), then sticker fee. */
+function priceRank(plan: Plan) {
+  return averageFee(plan);
 }
 
 /** Each provider's cheapest plan first, then the next tier, so one company cannot fill the first pages. */
-function interleaveCheapestFirst(rows: Plan[], sort: "fee" | "avg"): Plan[] {
-  const key = (plan: Plan) => (sort === "avg" ? averageFee(plan) : plan.monthlyFee);
+function interleaveCheapestFirst(rows: Plan[]): Plan[] {
   const groups = new Map<string, Plan[]>();
   for (const plan of rows) {
     const bucket = groups.get(plan.providerId);
     if (bucket) bucket.push(plan);
     else groups.set(plan.providerId, [plan]);
   }
-  for (const list of groups.values()) {
-    list.sort((a, b) => key(a) - key(b) || a.id.localeCompare(b.id));
-  }
+  const cheaper = (a: Plan, b: Plan) =>
+    priceRank(a) - priceRank(b) || a.monthlyFee - b.monthlyFee || a.id.localeCompare(b.id);
+  for (const list of groups.values()) list.sort(cheaper);
   const out: Plan[] = [];
   for (let round = 0; ; round += 1) {
     const wave: Plan[] = [];
@@ -99,7 +103,7 @@ function interleaveCheapestFirst(rows: Plan[], sort: "fee" | "avg"): Plan[] {
       if (plan) wave.push(plan);
     }
     if (!wave.length) break;
-    wave.sort((a, b) => key(a) - key(b) || a.providerId.localeCompare(b.providerId) || a.id.localeCompare(b.id));
+    wave.sort((a, b) => cheaper(a, b) || a.providerId.localeCompare(b.providerId));
     out.push(...wave);
   }
   return out;

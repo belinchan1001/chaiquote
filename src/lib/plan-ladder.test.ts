@@ -26,17 +26,24 @@ describe("monthly fee ladder", () => {
     for (const cat of ["broadband", "mobile", "home5g", "business"] as const) {
       const rows = filterPlans({ cat });
       assert.ok(rows.length > 1, cat);
-      firstWaveCoversEveryProvider(rows, (plan) => plan.monthlyFee);
+      firstWaveCoversEveryProvider(rows, (plan) => averageFee(plan));
       const avg = filterPlans({ cat, sort: "avg" });
       firstWaveCoversEveryProvider(avg, (plan) => averageFee(plan));
     }
   });
 
-  it("still lists a single company's plans from low fee to high", () => {
-    const rows = filterPlans({ cat: "broadband", provider: "hgc" });
-    assert.ok(rows.length > 1);
+  it("ranks a company by average fee, so waived months beat the same sticker price", () => {
+    const rows = filterPlans({ cat: "broadband", provider: "hkbn" });
+    const ids = rows.map((plan) => plan.id);
+    const waived = ids.indexOf("hkbn-ftth-1000-36m-98-sep30");
+    const sticker = ids.indexOf("hkbn-ftth-1000-36m-98");
+    const waived128 = ids.indexOf("hkbn-ftth-1000-36m-128-sep30");
+    assert.ok(waived >= 0 && sticker > waived);
+    assert.ok(waived128 > sticker);
     for (let i = 1; i < rows.length; i += 1) {
-      assert.ok(rows[i].monthlyFee >= rows[i - 1].monthlyFee);
+      const prev = averageFee(rows[i - 1]);
+      const next = averageFee(rows[i]);
+      assert.ok(next > prev || (next === prev && rows[i].monthlyFee >= rows[i - 1].monthlyFee));
     }
   });
 });
