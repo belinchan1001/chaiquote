@@ -11,6 +11,7 @@ import {
   isOfferExpired,
   matchesHousing,
   planGeneration,
+  type Plan,
   type PlansSearch,
 } from "./plans.ts";
 
@@ -67,11 +68,39 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
   });
 
   const sort = search.sort ?? "fee";
-  rows = [...rows].sort((a, b) => {
-    if (sort === "avg") return averageFee(a) - averageFee(b);
-    if (sort === "speed") return (b.speedMbps ?? 0) - (a.speedMbps ?? 0);
-    if (sort === "data") return (b.dataGb ?? b.highSpeedGb ?? 0) - (a.dataGb ?? a.highSpeedGb ?? 0);
-    return a.monthlyFee - b.monthlyFee;
-  });
-  return rows;
+  if (sort === "speed") {
+    return [...rows].sort((a, b) => (b.speedMbps ?? 0) - (a.speedMbps ?? 0) || a.id.localeCompare(b.id));
+  }
+  if (sort === "data") {
+    return [...rows].sort(
+      (a, b) => (b.dataGb ?? b.highSpeedGb ?? 0) - (a.dataGb ?? a.highSpeedGb ?? 0) || a.id.localeCompare(b.id),
+    );
+  }
+  return interleaveCheapestFirst(rows, sort === "avg" ? "avg" : "fee");
+}
+
+/** Each provider's cheapest plan first, then the next tier, so one company cannot fill the first pages. */
+function interleaveCheapestFirst(rows: Plan[], sort: "fee" | "avg"): Plan[] {
+  const key = (plan: Plan) => (sort === "avg" ? averageFee(plan) : plan.monthlyFee);
+  const groups = new Map<string, Plan[]>();
+  for (const plan of rows) {
+    const bucket = groups.get(plan.providerId);
+    if (bucket) bucket.push(plan);
+    else groups.set(plan.providerId, [plan]);
+  }
+  for (const list of groups.values()) {
+    list.sort((a, b) => key(a) - key(b) || a.id.localeCompare(b.id));
+  }
+  const out: Plan[] = [];
+  for (let round = 0; ; round += 1) {
+    const wave: Plan[] = [];
+    for (const list of groups.values()) {
+      const plan = list[round];
+      if (plan) wave.push(plan);
+    }
+    if (!wave.length) break;
+    wave.sort((a, b) => key(a) - key(b) || a.providerId.localeCompare(b.providerId) || a.id.localeCompare(b.id));
+    out.push(...wave);
+  }
+  return out;
 }
