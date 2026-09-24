@@ -30,7 +30,7 @@ import {
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { canonicalUrl, notFoundHead } from "@/lib/canonical";
-import { planJsonLd, planSeoDescription, planSeoTitle } from "@/lib/seo";
+import { planJsonLd, planSeoDescription, planSeoTitle } from "@/lib/plan-seo";
 import { JsonLd } from "@/components/json-ld";
 
 export const Route = createFileRoute("/plans_/$planId")({

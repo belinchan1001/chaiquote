@@ -5,9 +5,9 @@ import {
   formatFee,
   type Category,
   type Housing,
-  type PlansSearch,
   type ProviderId,
-} from "./plans.ts";
+} from "./plan-meta.ts";
+import type { PlansSearch } from "./plans.ts";
 import { SITE } from "./site.ts";
 
 export const FIBRE_CURRENT = [

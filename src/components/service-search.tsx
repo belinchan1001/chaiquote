@@ -4,13 +4,13 @@ import { useNavigate } from "@tanstack/react-router";
 import { Building2, Signal, Smartphone, Wifi, X } from "lucide-react";
 import { AiFilterEntry } from "@/components/ai-filter-entry";
 import { LazyEstateSuggest as EstateSuggest } from "@/components/lazy-estate-suggest";
-import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
+import { HousingGuessNote, housingFromQuery } from "@/components/housing-guess";
 import { IntakeFields } from "@/components/intake-fields";
 import { Button } from "@/components/ui/button";
-import { addressHitValue, type AddressHit } from "@/lib/address-search";
+import { addressHitValue, type AddressHit } from "@/lib/address-hit";
 import { useDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
-import type { Category, Housing } from "@/lib/plans";
+import type { Category, Housing } from "@/lib/plan-meta";
 import {
   addressRequired,
   currentLabel,
@@ -95,8 +95,8 @@ export function ServiceSearch() {
     });
   }
 
-  function onPickEstate(hit: AddressHit) {
-    const nextHousing = hit.housing ?? resolvedHousing(hit.name) ?? housing;
+  async function onPickEstate(hit: AddressHit) {
+    const nextHousing = hit.housing ?? (await housingFromQuery(hit.name)) ?? housing;
     const nextEstate = addressHitValue(hit);
     setEstate(nextEstate);
     if (nextHousing) setHousing(nextHousing);
@@ -122,7 +122,7 @@ export function ServiceSearch() {
     setError("");
   }
 
-  function submit() {
+  async function submit() {
     if (!openCat) return;
     const fullEstate = estate.trim();
     if (addressRequired(openCat) && !fullEstate) {
@@ -134,7 +134,7 @@ export function ServiceSearch() {
       return;
     }
     const housingValue = (
-      openCat === "business" ? "" : housing || resolvedHousing(fullEstate) || ""
+      openCat === "business" ? "" : housing || (await housingFromQuery(fullEstate)) || ""
     ) as Housing | "";
     setInquiry({
       estate: fullEstate,

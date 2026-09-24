@@ -5,8 +5,8 @@ import {
   isHktPlan,
   type Category,
   type Housing,
-  type Plan,
-} from "./plans.ts";
+} from "./plan-meta.ts";
+import type { Plan } from "./plans.ts";
 import { SITE } from "./site.ts";
 import type { Inquiry } from "./desk.ts";
 import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";

@@ -1,5 +1,5 @@
 import { recordSiteEvent } from "@/lib/track-fn";
-import { inferTrackSource, type TrackEventName, type TrackPayload } from "@/lib/track";
+import { inferTrackSource, type TrackEventName, type TrackPayload } from "@/lib/track-types";
 import { fireAdsQuoteConversion } from "@/lib/ads-gtag";
 
 export function trackEvent(input: TrackPayload) {

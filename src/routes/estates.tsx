@@ -1,12 +1,13 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState, type FormEvent } from "react";
 import { EstateSuggest } from "@/components/estate-suggest";
-import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
+import { HousingGuessNote, housingFromQuery } from "@/components/housing-guess";
 import { JsonLd } from "@/components/json-ld";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { useDesk } from "@/lib/desk";
+import { ESTATE_COUNT } from "@/lib/estate-count";
 import { compact, estateDisplayName, ESTATES, placeDisplayName } from "@/lib/estates";
 import { estatePagesByDistrict, estateSelectTarget, ESTATE_PAGES, getEstatePage, INDEXABLE_ESTATE_PAGES } from "@/lib/estate-pages";
 import { isNewIntakeEstate, NEW_INTAKE_NAMES, newIntakeGroups } from "@/lib/estate-new-intake";
@@ -17,20 +18,9 @@ import type { Housing } from "@/lib/plans";
 import { cn } from "@/lib/utils";
 
 const TITLE = "香港屋苑寬頻比較｜齊Quote";
-const DESCRIPTION = `按地區瀏覽香港${ESTATES.length}個屋苑寬頻比較，資料庫同首頁搜尋一樣。每個屋苑可睇適用樓類計劃。實際覆蓋同安裝期以電訊商確認為準。`;
+const DESCRIPTION = `按地區瀏覽香港${ESTATE_COUNT}個屋苑寬頻比較，資料庫同首頁搜尋一樣。每個屋苑可睇適用樓類計劃。實際覆蓋同安裝期以電訊商確認為準。`;
 
 const HOUSING_IDS: Housing[] = ["public", "hos", "private", "village"];
-
-const HOUSING_COUNTS: Record<Housing, number> = {
-  public: ESTATES.filter((item) => item.housing === "public").length,
-  hos: ESTATES.filter((item) => item.housing === "hos").length,
-  private: ESTATES.filter((item) => item.housing === "private").length,
-  village: ESTATES.filter((item) => item.housing === "village").length,
-};
-
-const DISTRICT_GROUPS = estatePagesByDistrict();
-const NEW_INTAKE_GROUPS = newIntakeGroups(ESTATE_PAGES);
-const NEW_INTAKE_COUNT = NEW_INTAKE_NAMES.size;
 
 const POPULAR_ESTATES = [
   { slug: "tin-yiu", name: "天耀邨" },
@@ -38,11 +28,6 @@ const POPULAR_ESTATES = [
   { slug: "city-one", name: "沙田第一城" },
   { slug: "taikoo-shing", name: "太古城" },
 ] as const;
-
-function popularLabel(slug: string, fallback: string, locale: "zh" | "en") {
-  const page = getEstatePage(slug);
-  return page ? estateDisplayName(page.estate, locale) : fallback;
-}
 
 export const Route = createFileRoute("/estates")({
   component: EstatesIndexPage,
@@ -64,7 +49,22 @@ export const Route = createFileRoute("/estates")({
 });
 
 function EstatesIndexPage() {
-  const groups = DISTRICT_GROUPS;
+  const groups = useMemo(() => estatePagesByDistrict(), []);
+  const intakeGroups = useMemo(() => newIntakeGroups(ESTATE_PAGES), []);
+  const intakeCount = NEW_INTAKE_NAMES.size;
+  const housingCounts = useMemo(
+    () => ({
+      public: ESTATES.filter((item) => item.housing === "public").length,
+      hos: ESTATES.filter((item) => item.housing === "hos").length,
+      private: ESTATES.filter((item) => item.housing === "private").length,
+      village: ESTATES.filter((item) => item.housing === "village").length,
+    }),
+    [],
+  );
+  function popularLabel(slug: string, fallback: string, locale: "zh" | "en") {
+    const page = getEstatePage(slug);
+    return page ? estateDisplayName(page.estate, locale) : fallback;
+  }
   const [estate, setEstate] = useState("");
   const [housing, setHousing] = useState("");
   const [district, setDistrict] = useState("");
@@ -76,13 +76,13 @@ function EstatesIndexPage() {
   const { t, housingLabel, updated, locale } = useI18n();
   usePageTitle(TITLE);
   const url = canonicalUrl("/estates");
-  const districtGroups = newIntakeFilter ? NEW_INTAKE_GROUPS : groups;
+  const districtGroups = newIntakeFilter ? intakeGroups : groups;
   const districtValid = districtGroups.some((group) => group.district === districtFilter);
   const activeDistrict = districtValid ? districtFilter : "";
 
   const visible = useMemo(() => {
     const q = compact(estate);
-    const source = newIntakeFilter ? NEW_INTAKE_GROUPS : groups;
+    const source = newIntakeFilter ? intakeGroups : groups;
     return source
       .filter((group) => !activeDistrict || group.district === activeDistrict)
       .map((group) => ({
@@ -95,7 +95,7 @@ function EstatesIndexPage() {
         }),
       }))
       .filter((group) => group.pages.length > 0);
-  }, [activeDistrict, estate, groups, housingFilter, newIntakeFilter]);
+  }, [activeDistrict, estate, groups, housingFilter, intakeGroups, newIntakeFilter]);
 
   const visibleCount = visible.reduce((sum, group) => sum + group.pages.length, 0);
   const browseAll = !compact(estate) && !housingFilter && !activeDistrict && !newIntakeFilter;
@@ -111,9 +111,9 @@ function EstatesIndexPage() {
     });
   }
 
-  function openPlans(next: { estate?: string; housing?: string; district?: string }) {
+  async function openPlans(next: { estate?: string; housing?: string; district?: string }) {
     const estateValue = (next.estate ?? estate).trim();
-    const housingValue = next.housing || housing || resolvedHousing(estateValue) || undefined;
+    const housingValue = next.housing || housing || (await housingFromQuery(estateValue)) || undefined;
     const districtValue = next.district ?? district;
     remember({ estate: estateValue, housing: housingValue ?? "", district: districtValue });
     void navigate({
@@ -128,14 +128,14 @@ function EstatesIndexPage() {
     });
   }
 
-  function goEstatePage(next: { estate: string; housing?: string; district?: string }) {
+  async function goEstatePage(next: { estate: string; housing?: string; district?: string }) {
     const estateValue = next.estate.trim();
     if (!estateValue) {
       document.getElementById("estate-dir-list")?.scrollIntoView({ block: "start" });
       return;
     }
     const known = matchKnownEstate(estateValue);
-    const housingValue = next.housing || housing || known?.housing || resolvedHousing(estateValue) || "";
+    const housingValue = next.housing || housing || known?.housing || (await housingFromQuery(estateValue)) || "";
     const districtValue = next.district ?? district ?? known?.district ?? "";
     remember({ estate: estateValue, housing: housingValue, district: districtValue });
     if (known) {
@@ -214,16 +214,18 @@ function EstatesIndexPage() {
             name="estate"
             placeholder={t("estatePlaceholder")}
             onSelect={(hit) => {
-              const nextHousing = hit.housing ?? resolvedHousing(hit.name) ?? "";
-              const nextEstate = addressHitValue(hit, locale);
-              if (nextHousing) setHousing(nextHousing);
-              if (hit.district) setDistrict(hit.district);
-              setEstate(nextEstate);
-              goEstatePage({
-                estate: nextEstate,
-                housing: nextHousing,
-                district: hit.district,
-              });
+              void (async () => {
+                const nextHousing = hit.housing ?? (await housingFromQuery(hit.name)) ?? "";
+                const nextEstate = addressHitValue(hit, locale);
+                if (nextHousing) setHousing(nextHousing);
+                if (hit.district) setDistrict(hit.district);
+                setEstate(nextEstate);
+                await goEstatePage({
+                  estate: nextEstate,
+                  housing: nextHousing,
+                  district: hit.district,
+                });
+              })();
             }}
           />
           <HousingGuessNote query={estate} applied={(housingFilter || housing || undefined) as Housing | undefined} />
@@ -329,7 +331,7 @@ function EstatesIndexPage() {
           )}
         >
           <p className="text-[11px] font-medium tracking-wider text-accent">{t("estatesNewIntakeTag")}</p>
-          <p className="mt-0.5 font-display text-base font-semibold tabular-nums sm:text-lg">{NEW_INTAKE_COUNT}</p>
+          <p className="mt-0.5 font-display text-base font-semibold tabular-nums sm:text-lg">{intakeCount}</p>
         </button>
         {HOUSING_IDS.map((id) => (
           <button
@@ -344,7 +346,7 @@ function EstatesIndexPage() {
             )}
           >
             <p className="text-[11px] font-medium tracking-wider text-muted">{housingLabel(id)}</p>
-            <p className="mt-0.5 font-display text-base font-semibold tabular-nums sm:text-lg">{HOUSING_COUNTS[id]}</p>
+            <p className="mt-0.5 font-display text-base font-semibold tabular-nums sm:text-lg">{housingCounts[id]}</p>
           </button>
         ))}
       </div>

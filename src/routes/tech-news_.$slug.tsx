@@ -44,6 +44,7 @@ function NewsRichText({ text }: { text: string }) {
 
 export const Route = createFileRoute("/tech-news_/$slug")({
   loader: async ({ params }) => {
+    const { getTechNewsArticle, getTechNewsCategory } = await import("@/lib/tech-news");
     const local = getTechNewsArticle(params.slug);
     let live = null;
     try {

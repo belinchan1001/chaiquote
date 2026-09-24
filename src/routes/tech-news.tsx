@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { JsonLd } from "@/components/json-ld";
 import { NewsDeskChips, NewsStoryList } from "@/components/news-feed";
-import { TECH_NEWS_ARTICLES, TECH_NEWS_CATEGORIES, TECH_NEWS_SEO } from "@/lib/tech-news";
+import { TECH_NEWS_ARTICLES, TECH_NEWS_CATEGORIES } from "@/lib/tech-news";
+import { TECH_NEWS_SEO } from "@/lib/tech-news-seo";
 import { loadPublishedNews } from "@/lib/tech-news-live";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { canonicalUrl, shareHead } from "@/lib/canonical";

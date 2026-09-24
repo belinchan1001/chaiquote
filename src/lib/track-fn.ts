@@ -1,14 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getSql } from "@/lib/db";
-import {
-  hongKongDayBounds,
-  normalizeTrackPayload,
-  previousHongKongDay,
-  summarizeInterest,
-  type InterestSummary,
-  type SiteEventRow,
-  type TrackPayload,
-} from "@/lib/track";
+import type { InterestSummary, SiteEventRow, TrackPayload } from "@/lib/track";
 
 function interestToken() {
   return (process.env.INTEREST_TOKEN || process.env.STATS_TOKEN || "").trim();
@@ -23,6 +15,7 @@ function tokenOk(token?: string) {
 export const recordSiteEvent = createServerFn({ method: "POST" })
   .inputValidator((data: TrackPayload) => data)
   .handler(async ({ data }) => {
+    const { normalizeTrackPayload } = await import("@/lib/track");
     const row = normalizeTrackPayload(data);
     if (!row) return { ok: false as const };
     try {
@@ -56,6 +49,7 @@ export const loadInterestSummary = createServerFn({ method: "POST" })
     if (!tokenOk(data.token)) {
       return { ok: false, reason: interestToken() ? "bad-token" : "no-token" };
     }
+    const { hongKongDayBounds, previousHongKongDay, summarizeInterest } = await import("@/lib/track");
     const bounds = data.day === "today" ? hongKongDayBounds() : previousHongKongDay();
     try {
       const sql = await getSql();

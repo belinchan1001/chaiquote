@@ -6,34 +6,33 @@ import { useDesk, useHydrateDesk } from "@/lib/desk";
 import {
   estateHousingLabel,
   estateIntro,
-  estatePagePath,
   estatePageTitle,
   estatePlans,
-  estateSeoDescription,
-  estateSeoTitle,
-  getEstatePage,
-  getEstatePageByName,
   isIndexableEstatePage,
   nearbyEstatePages,
   relatedGuideSlug,
 } from "@/lib/estate-pages";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import { canonicalUrl, notFoundHead } from "@/lib/canonical";
-import { estateDisplayName, parentEstate, placeDisplayName } from "@/lib/estates";
+import { notFoundHead } from "@/lib/canonical";
+import { estateDisplayName, placeDisplayName } from "@/lib/estates";
 import { estateJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 import { isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
 
 export const Route = createFileRoute("/estates_/$slug")({
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
+    const { canonicalUrl } = await import("@/lib/canonical");
+    const {
+      estatePagePath,
+      estateSeoDescription,
+      estateSeoTitle,
+      getEstatePage,
+      getEstatePageByName,
+      isIndexableEstatePage,
+    } = await import("@/lib/estate-pages");
+    const { parentEstate } = await import("@/lib/estates");
     const page = getEstatePage(params.slug);
     if (!page) throw notFound();
-    return { page };
-  },
-  component: EstatePage,
-  head: ({ loaderData }) => {
-    if (!loaderData) return notFoundHead();
-    const { page } = loaderData;
     const { estate } = page;
     const title = estateSeoTitle(estate);
     const description = estateSeoDescription(estate);
@@ -42,6 +41,12 @@ export const Route = createFileRoute("/estates_/$slug")({
     const parent = !indexable ? parentEstate(estate) : undefined;
     const parentPage = parent ? getEstatePageByName(parent.name) : undefined;
     const canonicalHref = parentPage ? canonicalUrl(estatePagePath(parentPage)) : url;
+    return { page, title, description, canonicalHref, indexable };
+  },
+  component: EstatePage,
+  head: ({ loaderData }) => {
+    if (!loaderData) return notFoundHead();
+    const { title, description, canonicalHref, indexable } = loaderData;
     return {
       meta: [
         { title },

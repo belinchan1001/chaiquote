@@ -3,11 +3,11 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { AiFilterEntry } from "@/components/ai-filter-entry";
 import { Button } from "@/components/ui/button";
 import { EstateSuggest } from "@/components/estate-suggest";
-import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
+import { HousingGuessNote, housingFromQuery } from "@/components/housing-guess";
 import { chipClass, chipInputClass, chipRowClass } from "@/components/filter-link";
 import { compactSearch, parsePlansSearch } from "@/lib/search";
 import { useDesk } from "@/lib/desk";
-import { addressHitValue } from "@/lib/address-search";
+import { addressHitValue } from "@/lib/address-hit";
 import { getEstatePage } from "@/lib/estate-pages";
 import { estateDisplayName } from "@/lib/estates";
 import { useI18n } from "@/lib/i18n";
@@ -139,10 +139,10 @@ export function SearchPanel() {
     });
   }
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget).entries());
-    const housingValue = housing || resolvedHousing(estate) || undefined;
+    const housingValue = housing || (await housingFromQuery(estate)) || undefined;
     remember({ estate, housing: housingValue ?? "", district });
     void navigate({
       to: "/plans",
@@ -178,16 +178,18 @@ export function SearchPanel() {
           name="estate"
           placeholder={t("estatePlaceholder")}
           onSelect={(hit) => {
-            const nextHousing = hit.housing ?? resolvedHousing(hit.name) ?? "";
-            const nextEstate = addressHitValue(hit, locale);
-            if (nextHousing) setHousing(nextHousing);
-            if (hit.district) setDistrict(hit.district);
-            setEstate(nextEstate);
-            remember({
-              estate: nextEstate,
-              housing: nextHousing,
-              district: hit.district,
-            });
+            void (async () => {
+              const nextHousing = hit.housing ?? (await housingFromQuery(hit.name)) ?? "";
+              const nextEstate = addressHitValue(hit, locale);
+              if (nextHousing) setHousing(nextHousing);
+              if (hit.district) setDistrict(hit.district);
+              setEstate(nextEstate);
+              remember({
+                estate: nextEstate,
+                housing: nextHousing,
+                district: hit.district,
+              });
+            })();
           }}
         />
         <HousingGuessNote query={estate} applied={(housing || undefined) as Housing | undefined} />

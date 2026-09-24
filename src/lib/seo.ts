@@ -1,4 +1,4 @@
-import { formatFee, isListedPlan, PLANS, PROVIDER_MAP, type Category, type Housing, type Plan, type ProviderId } from "./plans.ts";
+import { isListedPlan, PLANS } from "./plans.ts";
 import { INDEXABLE_ESTATE_PAGES, estatePagePath, estateSeoDescription, estateSeoTitle, type EstatePage } from "./estate-pages.ts";
 import { GUIDES, getGuide, type Guide } from "./guides.ts";
 import { TECH_NEWS_ARTICLES, TECH_NEWS_CATEGORIES } from "./tech-news.ts";
@@ -192,121 +192,15 @@ export const SITEMAP_PAGES: readonly SitemapPage[] = [
   })),
 ];
 
-const HOUSING_ZH: Record<Housing, string> = {
-  public: "公屋",
-  hos: "居屋",
-  private: "私樓",
-  village: "村屋",
-};
-
-export function planHousingLabel(plan: Plan): string {
-  if (plan.housing === "all") return "公屋、居屋、私樓及村屋";
-  return plan.housing.map((id) => HOUSING_ZH[id]).join("、");
-}
-
-export function planSpeedLabel(plan: Plan): string {
-  if (plan.category === "home5g") return "100M–1000M";
-  if (plan.speedMbps) return `${plan.speedMbps}M`;
-  return "";
-}
-
-export function planSeoTitle(plan: Plan): string {
-  const provider = PROVIDER_MAP[plan.providerId].name;
-  const speed = planSpeedLabel(plan);
-  const mid = speed ? `${provider} ${speed}` : provider;
-  const term = /個月/.test(plan.name) ? "" : `｜${plan.contractMonths}個月`;
-  return `${plan.name}｜${mid}${term}｜月費 ${formatFee(plan.monthlyFee)}｜齊Quote`;
-}
-
-export function planSeoDescription(plan: Plan): string {
-  const provider = PROVIDER_MAP[plan.providerId].name;
-  const speed = planSpeedLabel(plan);
-  const speedBit = speed ? `網絡${speed}。` : "";
-  let text = `${plan.name}由${provider}提供，月費${formatFee(plan.monthlyFee)}，${plan.contractMonths}個月合約。適用樓類：${planHousingLabel(plan)}。${speedBit}實際月費、覆蓋及安裝安排以電訊商確認為準。`;
-  if (text.length < 70) {
-    text = text.replace("以電訊商確認為準。", "詳情請向銷售員查詢，以電訊商確認為準。");
-  }
-  return text;
-}
-
-/** Same PNG trademarks as `provider-mark.tsx` LOGO.src. Prefer .png for Product image. */
-const PROVIDER_TRADEMARK_PNG: Partial<Record<ProviderId, string>> = {
-  hkbn: "/images/providers/hkbn.png",
-  netvigator: "/images/providers/netvigator.png",
-  cmhk: "/images/providers/cmhk.png",
-  hgc: "/images/providers/hgc.png",
-  smartone: "/images/providers/smartone.png",
-  three: "/images/providers/three.png",
-  csl: "/images/providers/csl.png",
-  icable: "/images/providers/icable.png",
-};
-
-/** Absolute Product image: provider trademark, or site OG if a logo is missing. */
-export function planJsonLdImage(plan: Pick<Plan, "providerId">): string {
-  const src = PROVIDER_TRADEMARK_PNG[plan.providerId] ?? "/og.jpg";
-  return `${SITE.url}${src}`;
-}
-
-export function planJsonLd(plan: Plan) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: plan.name,
-    image: planJsonLdImage(plan),
-    brand: { "@type": "Brand", name: PROVIDER_MAP[plan.providerId].name },
-    description: planSeoDescription(plan),
-    offers: {
-      "@type": "Offer",
-      price: plan.monthlyFee,
-      priceCurrency: "HKD",
-      url: canonicalUrl(`/plans/${plan.id}`),
-    },
-    additionalProperty: [
-      { "@type": "PropertyValue", name: "合約期", value: `${plan.contractMonths}個月` },
-      { "@type": "PropertyValue", name: "樓類", value: planHousingLabel(plan) },
-    ],
-  };
-}
-
-/** Category hub graph. Plans listing imports this; homepage must keep using canonical.ts. */
-export function categoryJsonLd(cat: Category) {
-  const seo = CATEGORY_SEO[cat];
-  const url = canonicalUrl(plansCategoryPath(cat));
-  const plans = PLANS.filter((plan) => isListedPlan(plan) && plan.category === cat);
-  return {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "CollectionPage",
-        "@id": `${url}#webpage`,
-        name: seo.title,
-        description: seo.description,
-        url,
-        inLanguage: "zh-HK",
-        isPartOf: { "@id": `${SITE.url}/#website` },
-        mainEntity: { "@id": `${url}#list` },
-      },
-      {
-        "@type": "ItemList",
-        "@id": `${url}#list`,
-        numberOfItems: plans.length,
-        itemListElement: plans.map((plan, index) => ({
-          "@type": "ListItem",
-          position: index + 1,
-          url: canonicalUrl(`/plans/${plan.id}`),
-          name: plan.name,
-        })),
-      },
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "首頁", item: canonicalUrl("/") },
-          { "@type": "ListItem", position: 2, name: seo.title.replace(/^齊Quote｜/, ""), item: url },
-        ],
-      },
-    ],
-  };
-}
+export {
+  planHousingLabel,
+  planJsonLd,
+  planJsonLdImage,
+  planSeoDescription,
+  planSeoTitle,
+  planSpeedLabel,
+} from "./plan-seo.ts";
+export { categoryJsonLd } from "./category-jsonld.ts";
 
 function plainText(value: string): string {
   return value.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*\*([^*]+)\*\*/g, "$1");

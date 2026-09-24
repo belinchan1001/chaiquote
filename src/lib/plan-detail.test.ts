@@ -119,8 +119,9 @@ describe("plan detail share landing", () => {
     assert.match(card, /registerFoilCard/);
 
     assert.doesNotMatch(home, /plan-card-shine|className="foil"|registerFoilCard/);
-    assert.match(home, /t\("bestPicksTitle"\)/);
-    assert.match(home, /t\("bestPicksCta"\)/);
+    const picks = src("../components/home-best-picks.tsx");
+    assert.match(picks, /t\("bestPicksTitle"\)/);
+    assert.match(picks, /t\("bestPicksCta"\)/);
   });
 
   it("does not change plan SEO head or JSON-LD", () => {

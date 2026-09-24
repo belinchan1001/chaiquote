@@ -4,45 +4,24 @@ import {
   HKBN_LPR_FLASH_ESTATES,
   NETVIGATOR_INTAKE_OFFER_ESTATES,
 } from "./estate-new-intake-names.ts";
+import { formatFee, type Category, type Generation, type Housing, type ProviderId, type SpeedMbps } from "./plan-meta.ts";
 
-export type Category = "broadband" | "mobile" | "home5g" | "business";
-export type Housing = "public" | "hos" | "private" | "village";
-export type Generation = "4g" | "5g";
-export type SpeedMbps = 200 | 500 | 1000 | 2000 | 2500 | 5000 | 10000;
-
-export type ProviderId =
-  | "hkbn"
-  | "netvigator"
-  | "cmhk"
-  | "hgc"
-  | "smartone"
-  | "three"
-  | "csl"
-  | "icable";
-
-export type Provider = {
-  id: ProviderId;
-  name: string;
-  nameEn: string;
-  initial: string;
-  tone: string;
-};
-
-export const PROVIDERS: Provider[] = [
-  { id: "hkbn", name: "香港寬頻", nameEn: "HKBN", initial: "寬", tone: "bg-provider-hkbn" },
-  { id: "netvigator", name: "網上行", nameEn: "Netvigator", initial: "網", tone: "bg-provider-netvigator" },
-  { id: "cmhk", name: "中國移動香港", nameEn: "CMHK", initial: "移", tone: "bg-provider-cmhk" },
-  { id: "hgc", name: "HGC 寬頻", nameEn: "HGC", initial: "H", tone: "bg-provider-hgc" },
-  { id: "smartone", name: "數碼通", nameEn: "SmarTone", initial: "S", tone: "bg-provider-smartone" },
-  { id: "three", name: "3香港", nameEn: "3HK", initial: "3", tone: "bg-provider-three" },
-  { id: "csl", name: "csl.", nameEn: "csl.", initial: "C", tone: "bg-provider-csl" },
-  { id: "icable", name: "有線寬頻", nameEn: "i-Cable", initial: "線", tone: "bg-provider-icable" },
-];
-
-export const PROVIDER_MAP = Object.fromEntries(PROVIDERS.map((p) => [p.id, p])) as Record<
+export {
+  CATEGORY_LABEL,
+  HOUSING_LABEL,
+  PROVIDERS,
+  PROVIDER_MAP,
+  formatFee,
+  isHktPlan,
+} from "./plan-meta.ts";
+export type {
+  Category,
+  Generation,
+  Housing,
+  Provider,
   ProviderId,
-  Provider
->;
+  SpeedMbps,
+} from "./plan-meta.ts";
 
 export type Plan = {
   id: string;
@@ -3931,10 +3910,6 @@ export function isHkbnVillage(plan: Plan) {
   return plan.providerId === "hkbn" && plan.housing !== "all" && plan.housing.every((item) => item === "village");
 }
 
-export function isHktPlan(plan: Plan) {
-  return plan.providerId === "netvigator" || plan.providerId === "csl";
-}
-
 export type CertifiedStaffNoteKey = "hktStaffNote" | "hkbnStaffNote";
 
 export function certifiedStaffNoteKey(plan: Plan): CertifiedStaffNoteKey | null {
@@ -3990,10 +3965,6 @@ export function staffOfferLabel(offerId: string, locale: "zh" | "en" = "zh") {
 
 export function isListedPlan(plan: Plan) {
   return !plan.onlyEstates?.length && !plan.staffOffer;
-}
-
-export function formatFee(value: number) {
-  return Number.isInteger(value) ? `HK$${value}` : `HK$${value.toFixed(1)}`;
 }
 
 export function minMonthlyFee(category: Category) {
@@ -4075,17 +4046,3 @@ export function planPerks(plan: Plan) {
     return true;
   });
 }
-
-export const CATEGORY_LABEL: Record<Category, string> = {
-  broadband: "光纖寬頻",
-  mobile: "手機月費",
-  home5g: "5G 家居寬頻",
-  business: "商業寬頻",
-};
-
-export const HOUSING_LABEL: Record<Housing, string> = {
-  public: "公屋",
-  hos: "居屋",
-  private: "私人樓",
-  village: "村屋",
-};

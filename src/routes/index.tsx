@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
 import { ArrowRight } from "lucide-react";
+import { IdleMount } from "@/components/idle-mount";
 import { ServiceSearch } from "@/components/service-search";
 import { ESTATE_COUNT } from "@/lib/estate-count";
 import { PLAN_COUNT } from "@/lib/plan-count";
@@ -128,9 +129,11 @@ function Home() {
         </div>
       </section>
 
-      <Suspense fallback={null}>
-        <HomeBestPicks />
-      </Suspense>
+      <IdleMount>
+        <Suspense fallback={null}>
+          <HomeBestPicks />
+        </Suspense>
+      </IdleMount>
 
       <section className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -185,13 +188,17 @@ function Home() {
         </div>
       </section>
 
-      <Suspense fallback={null}>
-        <HomeNewsRail />
-      </Suspense>
+      <IdleMount>
+        <Suspense fallback={null}>
+          <HomeNewsRail />
+        </Suspense>
+      </IdleMount>
 
-      <Suspense fallback={null}>
-        <HomeFeatured />
-      </Suspense>
+      <IdleMount>
+        <Suspense fallback={null}>
+          <HomeFeatured />
+        </Suspense>
+      </IdleMount>
 
       <section className="home-below-fold border-t border-border">
         <div className="mx-auto max-w-3xl px-4 py-8 sm:py-10">

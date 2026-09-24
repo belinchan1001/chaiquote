@@ -1,3 +1,4 @@
+import { addressHitAddress, addressHitName, addressHitValue, pickLocalized, type AddressHit } from "./address-hit.ts";
 import { DISTRICT_EN, districtEnglishName } from "./district-names.ts";
 import {
   allowGovHitForQuery,
@@ -16,13 +17,14 @@ import {
   type HousingGuess,
 } from "./estates.ts";
 import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
-import type { Housing } from "./plans.ts";
+import type { Housing } from "./plan-meta.ts";
 import { isNewIntakeEstate } from "./estate-new-intake.ts";
 import { govHitRelevantToQuery, isNonResidentialGovHit, looksLikeResidentialName } from "./estate-poi-filter.ts";
 import { DISTRICTS } from "./site.ts";
 import { toTraditional } from "./zh-s2t.ts";
 
 export { classifyAddress, isImpracticalPlace, matchKnownEstate, allowSuggestHitForQuery };
+export { addressHitAddress, addressHitName, addressHitValue, type AddressHit };
 export type { HousingGuess };
 
 const GOV_SEARCH = "https://www.map.gov.hk/gs/api/v1.0.0/locationSearch";
@@ -30,21 +32,6 @@ const RESULT_CACHE = new Map<string, AddressHit[]>();
 export const ADDRESS_SEARCH_DEBOUNCE_MS = 300;
 export const LOCAL_SUGGEST_LIMIT = 24;
 const GOV_EXTRA = 8;
-
-export type AddressHit = {
-  key: string;
-  name: string;
-  address: string;
-  district: string;
-  nameEN?: string;
-  addressEN?: string;
-  districtEN?: string;
-  housing?: Housing;
-  source: "local" | "gov";
-  coverageCheck?: boolean;
-  newIntake?: boolean;
-  blockRef?: boolean;
-};
 
 export type GovRow = {
   nameZH?: string;
@@ -123,20 +110,6 @@ export function localAddressHits(query: string, limit = LOCAL_SUGGEST_LIMIT): Ad
     .map(fromLocal);
 }
 
-function pickLocalized(zh: string, en: string | undefined, locale: Locale) {
-  if (locale === "en") {
-    const english = tidy(en || "");
-    if (english) return english;
-  }
-  return tidy(zh || en || "");
-}
-
-export function addressHitName(hit: AddressHit, locale: Locale = "zh") {
-  return pickLocalized(hit.name, hit.nameEN, locale);
-}
-export function addressHitAddress(hit: AddressHit, locale: Locale = "zh") {
-  return pickLocalized(hit.address, hit.addressEN, locale);
-}
 export function addressHitDistrict(hit: AddressHit, locale: Locale = "zh") {
   return pickLocalized(hit.district, hit.districtEN || districtEnglishName(hit.district), locale);
 }
@@ -234,13 +207,6 @@ export function addressHitLabel(hit: AddressHit, locale: Locale = "zh") {
 export function addressHitSubtitle(hit: AddressHit, locale: Locale = "zh") {
   const type = hit.housing ? MESSAGES[locale][HOUSING_MESSAGE[hit.housing]] : "";
   return [addressHitDistrict(hit, locale), type].filter(Boolean).join(" · ");
-}
-
-export function addressHitValue(hit: AddressHit, locale: Locale = "zh") {
-  const name = addressHitName(hit, locale);
-  const address = addressHitAddress(hit, locale);
-  if (!address) return name;
-  return locale === "en" ? `${name}, ${address}` : `${name}，${address}`;
 }
 
 const BUILDING_MARK = /[樓閣座]|大廈|house|block|tower|building/i;

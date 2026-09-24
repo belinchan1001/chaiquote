@@ -5,7 +5,7 @@ import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { NavProgress } from "@/components/nav-progress";
-import { DeferredWhatsApp } from "@/components/whatsapp-widget";
+import { DeferredWhatsApp } from "@/components/deferred-whatsapp";
 import { GoogleAdsTag } from "@/components/google-ads-tag";
 import { IdleMount } from "@/components/idle-mount";
 import { PwaServiceWorker } from "@/components/pwa-service-worker";

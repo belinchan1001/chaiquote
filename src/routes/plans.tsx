@@ -4,7 +4,7 @@ import { PlanCard } from "@/components/plan-card";
 import { PageBackButton } from "@/components/page-back";
 import { AiFilterEntry } from "@/components/ai-filter-entry";
 import { LazyEstateSuggest as EstateSuggest } from "@/components/lazy-estate-suggest";
-import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
+import { HousingGuessNote, housingFromQuery } from "@/components/housing-guess";
 import { Chip, IntakeFields } from "@/components/intake-fields";
 import { FilterLink, chipRowClass } from "@/components/filter-link";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,7 @@ import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { isHkbnFlashEstate, isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
 import { compactSearch, parsePlansSearch, planListReplayKey } from "@/lib/search";
 import { CATEGORY_SEO, plansCategoryPath, canonicalUrl, shareHead } from "@/lib/canonical";
-import { categoryJsonLd } from "@/lib/seo";
+import { categoryJsonLd } from "@/lib/category-jsonld";
 import { JsonLd } from "@/components/json-ld";
 import { bringPlanListIntoView, isPlanListInView, watchPlanListInView } from "@/lib/plan-list-fade";
 import { CATEGORY_OPTIONS } from "@/lib/site";
@@ -419,18 +419,20 @@ function PlansPage() {
             value={estateDraft}
             onChange={setEstateDraft}
             onSelect={(item) => {
-              const housing = showHousing
-                ? item.housing ?? resolvedHousing(item.name) ?? search.housing
-                : undefined;
-              setInquiry({
-                estate: addressHitValue(item),
-                housing: housing ?? "",
-                district: item.district,
-              });
-              patch({
-                estate: addressHitValue(item),
-                housing,
-              });
+              void (async () => {
+                const housing = showHousing
+                  ? item.housing ?? (await housingFromQuery(item.name)) ?? search.housing
+                  : undefined;
+                setInquiry({
+                  estate: addressHitValue(item),
+                  housing: housing ?? "",
+                  district: item.district,
+                });
+                patch({
+                  estate: addressHitValue(item),
+                  housing,
+                });
+              })();
             }}
           />
           {showHousing ? <HousingGuessNote query={estateDraft} applied={search.housing} /> : null}

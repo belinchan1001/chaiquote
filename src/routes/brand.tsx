@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { BrandLockup, LogoMark } from "@/components/logo";
 import { ProviderMark } from "@/components/provider-mark";
-import { PROVIDERS } from "@/lib/plans";
+import { PROVIDERS } from "@/lib/plan-meta";
 import { SITE } from "@/lib/site";
 import { VOICE, COMPETITOR_VOICES, VOICE_GAP } from "@/lib/voice";
 import { cn } from "@/lib/utils";

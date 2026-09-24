@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
-import { getPlan } from "@/lib/plans";
+import type { Plan } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 import {
   QUICK_REPLIES,
@@ -39,7 +39,21 @@ export function WhatsAppWidget() {
   const open = useDesk((s) => s.waOpen);
   const toggleWa = useDesk((s) => s.toggleWa);
   const closeWa = useDesk((s) => s.closeWa);
-  const plans = compare.map(getPlan).filter((p): p is NonNullable<typeof p> => Boolean(p));
+  const [plans, setPlans] = useState<Plan[]>([]);
+  useEffect(() => {
+    if (!compare.length) {
+      setPlans([]);
+      return;
+    }
+    let cancel = false;
+    void import("@/lib/plans").then(({ getPlan }) => {
+      if (cancel) return;
+      setPlans(compare.map((id) => getPlan(id)).filter((plan): plan is Plan => Boolean(plan)));
+    });
+    return () => {
+      cancel = true;
+    };
+  }, [compare]);
   const lifted = compare.length > 0;
   const { t, locale } = useI18n();
   const deskPhone = quoteWhatsappDisplay(plans, inquiry);
@@ -206,35 +220,3 @@ export function WhatsAppWidget() {
   );
 }
 
-export function DeferredWhatsApp() {
-  const [ready, setReady] = useState(false);
-  useHydrateDesk();
-  const compare = useDesk((s) => s.compare);
-  const inquiry = useDesk((s) => s.inquiry);
-  const plans = compare.map(getPlan).filter((p): p is NonNullable<typeof p> => Boolean(p));
-  const lifted = compare.length > 0;
-  const { t } = useI18n();
-  const deskE164 = quoteWhatsappE164(plans, inquiry);
-  const deskPhone = quoteWhatsappDisplay(plans, inquiry);
-  useEffect(() => {
-    const timer = window.setTimeout(() => setReady(true), 1800);
-    return () => window.clearTimeout(timer);
-  }, []);
-  if (!ready) {
-    return (
-      <a
-        href={`https://wa.me/${deskE164}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={cn(
-          "wa-pulse wa-pulse-fab fixed right-4 z-50 flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)]",
-          lifted ? "bottom-[calc(6.5rem+env(safe-area-inset-bottom))] sm:bottom-20" : "bottom-6",
-        )}
-        aria-label={t("waQuoteWithNumber", { phone: deskPhone })}
-      >
-        <WhatsAppIcon className="size-7" />
-      </a>
-    );
-  }
-  return <WhatsAppWidget />;
-}
