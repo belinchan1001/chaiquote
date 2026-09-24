@@ -3,6 +3,83 @@ import type { TechNewsArticle } from "./tech-news.ts";
 /** Extra news pieces. GTA 6 still lives in TECH_NEWS_ARTICLES. */
 export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
   {
+    slug: "cmhk-mid-autumn-2026",
+    category: "telecom",
+    minutes: 5,
+    published: "2026-09-24",
+    seoTitle: "中移動雙節至10月11日：指定5G雙倍中澳數據｜齊Quote",
+    h1: "中移動雙節至10月11日：指定5G雙倍中澳數據",
+    description:
+      "中國移動香港 2026 年 9 月 23 日新聞稿：雙節通訊優惠即日起至 10 月 11 日。指定 5G 本地計劃可享雙倍中國內地及澳門數據；5G 一咭大中華 50GB 新聞稿寫每月 $179（原價每月 $209）。內容僅供參考，實際月費、合約同適用計劃以電訊商確認為準。",
+    excerpt: "官方寫到 10 月 11 日。指定 5G 本地計劃可雙倍中澳數據；一咭大中華 50GB 新聞稿寫每月 $179。成交前對官網。",
+    seoTitleEn: "CMHK holiday offers to 11 Oct: double Mainland-Macau data | 齊Quote",
+    h1En: "CMHK holiday window to 11 October: double data only on named 5G plans",
+    descriptionEn:
+      "China Mobile Hong Kong’s 23 September 2026 release: the holiday telecom offers run through 11 October. Named 5G local plans get double Mainland and Macau data. The Greater China 50GB plan is listed at $179 a month, from $209. Confirm fees and eligible plans with the carrier.",
+    excerptEn: "The release ends 11 October. Double roaming data is only on named 5G local plans. Greater China 50GB is listed at $179.",
+    bullets: [
+      "中國移動香港新聞稿日期：2026 年 9 月 23 日；優惠寫「即日起至 10 月 11 日」。",
+      "優惠期內申請指定 5G 本地服務計劃，可享雙倍中國內地及澳門數據；邊幾個計劃算「指定」，要以官網名單為準。",
+      "5G 一咭大中華 50GB：新聞稿寫每月 $179（原價每月 $209），適用中國內地、香港、澳門及台灣。",
+      "1000M 家居寬頻新聞稿寫「限時限量優惠月費 $77 起」；覆蓋、年期同埋你條地址裝唔裝到，以電訊商確認為準。",
+    ],
+    bulletsEn: [
+      "CMHK release dated 23 September 2026; offers run through 11 October.",
+      "Named 5G local plans applied in the window get double Mainland and Macau data. The named list is on CMHK’s page.",
+      "5G Greater China 50GB is listed at $179 a month, from $209, for Mainland China, Hong Kong, Macau and Taiwan.",
+      "1000M home broadband is worded “from $77”, limited time and quantity. Coverage is confirmed at your address.",
+    ],
+    body: [
+      {
+        heading: "官方寫到邊日",
+        headingEn: "What the release actually dates",
+        paragraphs: [
+          "中國移動香港 2026 年 9 月 23 日經美通社發出新聞稿，主題係國慶同中秋「雙節送暖」。通訊優惠一段寫明：即日起至 10 月 11 日，涵蓋 5G 服務、漫遊數據、儲值卡、家居寬頻及指定手機優惠。",
+          "同一稿另寫 10 月 1 日可無限次免費乘搭普通載客電車，由中國移動香港聯同香港中國企業協會舉行。電車係節日活動，唔係上台條件；要乘搭以當日電車公司安排為準。詳情頁新聞稿指向 [中國移動香港雙節頁](http://hk.chinamobile.com/tc/home/jetso/2026-mid-autumn)。",
+        ],
+        paragraphsEn: [
+          "China Mobile Hong Kong issued a 23 September 2026 release via PR Newswire. The telecom offers are dated through 11 October and cover named 5G plans, roaming packs, prepaid cards, home broadband and selected handsets.",
+          "The same release also describes free ordinary tram rides on 1 October with the Hong Kong Chinese Enterprises Association. That is a festival activity, not a contract term. The landing page in the release is [CMHK’s holiday page](http://hk.chinamobile.com/tc/home/jetso/2026-mid-autumn).",
+        ],
+      },
+      {
+        heading: "北上同外遊要對邊項",
+        headingEn: "What to check before you travel",
+        paragraphs: [
+          "新聞稿寫：優惠期內申請「指定」5G 本地服務計劃，可享雙倍中國內地及澳門數據。重點係「指定」兩個字——唔係所有本地 5G 計劃自動加倍，名單以官網同門市當時顯示為準。",
+          "5G 一咭大中華 50GB 服務計劃，新聞稿寫每月 $179（原價每月 $209），適用中國內地、香港、澳門及台灣。月費計劃客戶申請中國內地及澳門漫遊數據，新聞稿寫可享低至 $5.9/GB。指定儲值卡享 77 折，稿件點名亞太卡 30 日數據卡、中國內地及澳門數據卡、5G 香港自遊行卡。行政費、合約期、其後限速同埋邊張卡納入 77 折，成交前以電訊商確認為準。",
+        ],
+        paragraphsEn: [
+          "The release says applying for *named* 5G local plans in the window doubles Mainland and Macau data. “Named” is the word that matters. It is not every local 5G plan.",
+          "The Greater China 50GB plan is listed at $179 a month, from $209, for Mainland China, Hong Kong, Macau and Taiwan. Plan customers buying Mainland/Macau roaming are worded “from $5.9/GB”. Named prepaid cards are 23% off: Asia-Pacific 30-day, Mainland and Macau data, and the 5G Hong Kong visitor card. Admin fees, term and fair-use caps are confirmed by the carrier.",
+        ],
+      },
+      {
+        heading: "寬頻「$77起」唔等於你屋企個價",
+        headingEn: "“From $77” is not your address quote",
+        paragraphs: [
+          "新聞稿寫：申請 1000M 家居寬頻服務，可享限時限量優惠月費 $77 起；購買指定型號手機可享高達 $3,200 折扣。呢兩句都有「起」同「指定／限量」，即係唔保證你條地址、你部機有同一個數字。",
+          "想核對寬頻，先用自己屋苑查覆蓋，再問合約期、路由器、預繳同埋優惠係咪仍然有位。手機折扣要對型號同門市當日單。以上只跟 9 月 23 日新聞稿，實際以電訊商確認為準。",
+        ],
+        paragraphsEn: [
+          "The release lists 1000M home broadband “from $77” on a limited-time, limited-quantity basis, and selected handsets off by up to $3,200. “From” and “selected” mean your address and your SKU can differ.",
+          "Check coverage at your estate first, then term, router, prepayment and whether the quota is still open. Handset discounts are SKU- and store-specific. This page follows the 23 September release only.",
+        ],
+      },
+    ],
+    tags: ["中國移動香港", "中秋", "國慶", "漫遊數據", "家居寬頻"],
+    tagsEn: ["CMHK", "Mid-Autumn", "National Day", "roaming", "home broadband"],
+    editorNote:
+      "節日稿最易令人以為「而家全線平咗」。呢篇新聞稿其實只做咗三件有日期嘅事：優惠窗到 10 月 11 日、指定本地 5G 先有雙倍中澳數據、一咭大中華 50GB 寫死每月 $179。其他「起」字全部要打回頭問。\n\n10 月 1 日免費電車係活動，唔好當成上台禮品。寬頻 $77 起如果唔對你條地址，個數字對你冇用。去官網對名單，門市對合約，先至係讀者用得着嘅一步。",
+    editorNoteEn:
+      "Holiday copy tempts people to think every plan just got cheaper. The release actually dates three things: the window closes 11 October, only named local 5G plans get double roaming data, and Greater China 50GB is listed at $179. Every “from” price needs a follow-up question.\n\nThe 1 October tram ride is an event, not a contract gift. A $77-from broadband line that does not cover your estate is a number for someone else. Check the named list, then the contract.",
+    related: ["iphone-18-handset-plan", "read-offer-news", "smartone-3g-close-2026"],
+    sourceUrl: "https://www.prnewswire.com/apac/zh/news-releases/--302887451.html",
+    image: "/images/news-telecom.jpg",
+    imageAlt: "電訊與上網優惠專區配圖",
+    imageCredit: "中國移動香港新聞稿／齊Quote",
+  },
+  {
     slug: "assemble-nintendo-switch-wanchai",
     category: "gaming",
     minutes: 6,

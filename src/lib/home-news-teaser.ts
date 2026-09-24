@@ -10,6 +10,14 @@ export type HomeNewsTeaser = {
 
 export const HOME_NEWS_TEASERS: readonly HomeNewsTeaser[] = [
   {
+    slug: "cmhk-mid-autumn-2026",
+    published: "2026-09-24",
+    desk: "電訊",
+    deskEn: "Telecom",
+    h1: "中移動雙節至10月11日：指定5G雙倍中澳數據",
+    h1En: "CMHK holiday window to 11 October: double data only on named 5G plans",
+  },
+  {
     slug: "assemble-nintendo-switch-wanchai",
     published: "2026-09-21",
     desk: "電玩",
@@ -24,13 +32,5 @@ export const HOME_NEWS_TEASERS: readonly HomeNewsTeaser[] = [
     deskEn: "Telecom",
     h1: "iPhone 18 上台：機價折扣同月費要分開計",
     h1En: "iPhone 18 contracts: price the phone and the plan separately",
-  },
-  {
-    slug: "smartone-3g-close-2026",
-    published: "2026-09-21",
-    desk: "電訊",
-    deskEn: "Telecom",
-    h1: "SmarTone 3G 10 月 9 日停：舊機、手錶、車機都要對",
-    h1En: "SmarTone 3G ends 9 October: check phones, watches and car kits",
   },
 ];

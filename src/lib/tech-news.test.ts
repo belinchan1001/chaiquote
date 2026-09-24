@@ -29,7 +29,8 @@ describe("tech news channel", () => {
         "/images/news-gaming.jpg",
       ],
     );
-    assert.equal(TECH_NEWS_ARTICLES.length, 11);
+    assert.equal(TECH_NEWS_ARTICLES.length, 12);
+    assert.ok(getTechNewsArticle("cmhk-mid-autumn-2026"));
     assert.ok(getTechNewsArticle("assemble-nintendo-switch-wanchai"));
     assert.ok(getTechNewsArticle("how-we-cover"));
     assert.ok(getTechNewsArticle("read-offer-news"));
@@ -51,7 +52,7 @@ describe("tech news channel", () => {
     const byDesk = { telecom: 0, phones: 0, gadgets: 0, gaming: 0 };
     for (const article of TECH_NEWS_ARTICLES) {
       assert.match(article.description, /以電訊商確認為準|以官方及平台商店確認為準|以官方公布為準|以 SmarTone 及通訊辦公布為準|以商店確認為準/);
-      assert.match(article.published, /^2026-09-(18|21)$/);
+      assert.match(article.published, /^2026-09-(18|21|24)$/);
       assert.ok(article.editorNote.length > 80, article.slug);
       if (article.category in byDesk) byDesk[article.category] += 1;
     }
@@ -96,6 +97,7 @@ describe("tech news channel", () => {
       "apple-watch-12-hk",
       "airpods-5-hk",
       "switch-2-hk-3700",
+      "cmhk-mid-autumn-2026",
       "assemble-nintendo-switch-wanchai",
     ]) {
       assert.ok(
