@@ -29,8 +29,11 @@ describe("tech news channel", () => {
         "/images/news-gaming.jpg",
       ],
     );
-    assert.equal(TECH_NEWS_ARTICLES.length, 12);
+    assert.equal(TECH_NEWS_ARTICLES.length, 15);
     assert.ok(getTechNewsArticle("cmhk-mid-autumn-2026"));
+    assert.ok(getTechNewsArticle("sony-hello-kitty-xperia-hk"));
+    assert.ok(getTechNewsArticle("apple-education-sep24-hk"));
+    assert.ok(getTechNewsArticle("switch-sports-resort-oct22"));
     assert.ok(getTechNewsArticle("assemble-nintendo-switch-wanchai"));
     assert.ok(getTechNewsArticle("how-we-cover"));
     assert.ok(getTechNewsArticle("read-offer-news"));
@@ -97,6 +100,9 @@ describe("tech news channel", () => {
       "apple-watch-12-hk",
       "airpods-5-hk",
       "switch-2-hk-3700",
+      "switch-sports-resort-oct22",
+      "apple-education-sep24-hk",
+      "sony-hello-kitty-xperia-hk",
       "cmhk-mid-autumn-2026",
       "assemble-nintendo-switch-wanchai",
     ]) {

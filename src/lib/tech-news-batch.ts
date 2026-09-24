@@ -3,6 +3,201 @@ import type { TechNewsArticle } from "./tech-news.ts";
 /** Extra news pieces. GTA 6 still lives in TECH_NEWS_ARTICLES. */
 export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
   {
+    slug: "sony-hello-kitty-xperia-hk",
+    category: "phones",
+    minutes: 5,
+    published: "2026-09-24",
+    seoTitle: "Sony Store限定：Xperia Hello Kitty套裝｜齊Quote",
+    h1: "Sony Store限定：Xperia Kitty套裝",
+    description:
+      "Sony 香港官方：Xperia 10 VIII Hello Kitty 聯乘套裝 HK$5,399，只限 Sony Store 門市、網上專門店同銷售熱線。2026 年 9 月 8 日起發售，數量有限。內容僅供參考，實際售價同庫存以官方及平台商店確認為準。",
+    excerpt: "官方寫 HK$5,399，Sony Store 獨家。套裝送斜揹袋同帆布袋。機身無 Kitty 圖案，先對舖頭庫存。",
+    seoTitleEn: "Sony Store exclusive: Xperia Hello Kitty bundle | 齊Quote",
+    h1En: "Sony Store only: Xperia 10 VIII Hello Kitty bundle",
+    descriptionEn:
+      "Sony Hong Kong lists the Xperia 10 VIII Hello Kitty bundle at HK$5,399, exclusive to Sony Store shops, the online store and the sales hotline from 8 September 2026. Confirm stock and price in store.",
+    excerptEn: "Listed at HK$5,399, Sony Store exclusive. Bags included; the phone itself is not printed Hello Kitty.",
+    bullets: [
+      "Sony 香港官方：Xperia 10 VIII · Hello Kitty 套裝 HK$5,399。",
+      "9 月 8 日起於 Sony Store 專門店、網上專門店同熱線 2833-5129 發售；數量有限，售完即止。",
+      "套裝附 Hello Kitty 輕便斜揹袋同帆布袋；官方更正帆布袋為黑色。",
+      "耳機聯乘套裝另計：WH-1000XM6 HK$3,249、WH-CH730N HK$1,249、WH-CH530 HK$699。",
+    ],
+    bulletsEn: [
+      "Sony HK: Xperia 10 VIII Hello Kitty set HK$5,399.",
+      "On sale from 8 September at Sony Stores, sony.com.hk/store and hotline 2833-5129. Limited stock.",
+      "Includes a sling and a tote. Sony later said the tote is black.",
+      "Headphone sets are listed separately: XM6 HK$3,249, CH730N HK$1,249, CH530 HK$699.",
+    ],
+    body: [
+      {
+        heading: "邊度買、幾多錢",
+        headingEn: "Where and how much",
+        paragraphs: [
+          "Sony 香港官方帳號同專頁寫：首度同 Sanrio Hello Kitty 聯乘，推出 4 款 Sony Store 限量套裝。手機套裝係 Xperia 10 VIII，官方標價 HK$5,399。發售渠道寫明 Sony Store 專門店、Sony Store 網上專門店（www.sony.com.hk/store）同銷售熱線（852）2833-5129，由 2026 年 9 月 8 日起，數量有限。",
+          "銅鑼灣希慎同旺角朗豪坊 Sony Store 另有打卡點；社交媒體比賽官方寫 9 月 8 日至 30 日。比賽同套裝係兩件事，庫存以舖頭為準。",
+        ],
+        paragraphsEn: [
+          "Sony Hong Kong lists four Sony Store-only Hello Kitty sets. The phone set is Xperia 10 VIII at HK$5,399, from 8 September, via shops, sony.com.hk/store and 2833-5129.",
+          "Photo spots are at the Hysan Place and Langham Place stores. A social contest runs 8–30 September. That is separate from stock.",
+        ],
+      },
+      {
+        heading: "套裝有咩、機身有冇圖案",
+        headingEn: "What is in the box",
+        paragraphs: [
+          "手機套裝包括 Xperia 10 VIII、Hello Kitty 輕便斜揹袋同帆布袋。官方後補更正：聯乘帆布袋均為黑色。報道同台灣對照頁都寫機身本身無 Hello Kitty 印刷，圖案喺袋。買之前問舖頭睇實物。",
+          "三款耳機套裝官方標價：WH-1000XM6 HK$3,249、WH-CH730N HK$1,249、WH-CH530 HK$699，各附收納袋同帆布袋。耳機價錢唔好同手機套裝混用。實際售價同庫存以官方及平台商店確認為準。",
+        ],
+        paragraphsEn: [
+          "The phone set is the handset plus a sling and a tote. Sony later said the tote is black. Coverage matches Taiwan copy: the phone itself is not printed Hello Kitty.",
+          "Headphone sets are listed at HK$3,249 / HK$1,249 / HK$699. Do not mix those figures with the phone bundle. Confirm in store.",
+        ],
+      },
+    ],
+    tags: ["Sony", "Xperia 10 VIII", "Hello Kitty", "Sony Store"],
+    tagsEn: ["Sony", "Xperia 10 VIII", "Hello Kitty", "Sony Store"],
+    editorNote:
+      "呢個唔係新旗艦發布，係 Sony Store 獨家袋。HK$5,399 買嘅係一部中階 Xperia 加兩隻袋，唔係部機印咗 Kitty。鍾意袋先去希慎或者朗豪坊問有冇貨；唔鍾意袋，官價對你冇意義。\n\n熱線同網店都寫得到。週末打卡位會逼，庫存唔保證。我哋唔比較「抵唔抵」，只記官方渠道同標價。",
+    editorNoteEn:
+      "This is a Sony Store bag exclusive, not a flagship launch. HK$5,399 is a mid-range Xperia plus two bags. The phone is not printed Hello Kitty.\n\nGo to Hysan or Langham Place if you want the bags. The hotline and web store are listed. We are not ranking value.",
+    related: ["iphone-duo-hk", "iphone-18-pro-hk", "airpods-5-hk"],
+    sourceUrl: "https://www.sony.com.hk/campaigns/hellosony/headphones.jsp",
+    image: "/images/news-phones.jpg",
+    imageAlt: "旗艦手機與硬件專區配圖",
+    imageCredit: "Sony Hong Kong",
+  },
+  {
+    slug: "apple-education-sep24-hk",
+    category: "gadgets",
+    minutes: 4,
+    published: "2026-09-24",
+    seoTitle: "Apple教育優惠9月24日止：買Mac或iPad｜齊Quote",
+    h1: "Apple教育優惠今日止：買Mac或iPad先對",
+    description:
+      "Apple 香港網上商店寫明：買 Mac 或 iPad 可享教育優惠，並可獲 HK$800 至 HK$1,200 Apple Store 禮品卡，優惠至 2026 年 9 月 24 日止。內容僅供參考，資格同禮品卡金額以官方及平台商店確認為準。",
+    excerpt: "官方寫到 9 月 24 日。對象係 Mac 或 iPad，唔係手機。資格同禮品卡金額要對教育商店頁。",
+    seoTitleEn: "Apple HK education offer ends 24 Sep | 齊Quote",
+    h1En: "Apple education pricing ends today: Mac or iPad only",
+    descriptionEn:
+      "Apple’s Hong Kong store: education pricing on Mac or iPad, with an HK$800–HK$1,200 Apple Store Gift Card, through 24 September 2026. Eligibility is confirmed on the education store.",
+    excerptEn: "Dated 24 September. Mac or iPad, not iPhone. Gift-card amount depends on the education store page.",
+    bullets: [
+      "Apple 香港商店：優惠至 9 月 24 日止。",
+      "對象寫明買 Mac 或 iPad；禮品卡官方寫 HK$800 至 HK$1,200。",
+      "要走教育商店核對資格，唔係普通結帳自動減。",
+      "iPhone、錶、耳機今頁無寫入呢個教育檔期。",
+    ],
+    bulletsEn: [
+      "Apple HK store: offer ends 24 September.",
+      "Mac or iPad. Gift card worded HK$800–HK$1,200.",
+      "Use the education storefront. Ordinary checkout is not the same path.",
+      "iPhone, Watch and AirPods are not named in this banner.",
+    ],
+    body: [
+      {
+        heading: "官方寫到今日",
+        headingEn: "The store dates it today",
+        paragraphs: [
+          "Apple 香港網上商店頁頭寫：把握最後時機，買 Mac 或 iPad 可享教育優惠，並可獲最高達 HK$1,200 Apple Store 禮品卡；另一句寫 HK$800 至 HK$1,200，優惠至 9 月 24 日止。",
+          "呢個截止日期係商店頁寫死嘅。過咗今日，頁面撤回定續期，要以當時 Apple 商店為準，齊Quote 唔代宣布延期。",
+        ],
+        paragraphsEn: [
+          "Apple’s Hong Kong store banner: education pricing on Mac or iPad, with an Apple Store Gift Card worded up to HK$1,200, and separately HK$800–HK$1,200, through 24 September.",
+          "That end date is on the storefront. Whether it is extended is whatever Apple shows next. We will not invent a sequel.",
+        ],
+      },
+      {
+        heading: "點核對資格",
+        headingEn: "How to check you qualify",
+        paragraphs: [
+          "教育優惠通常要經教育商店核對身份，唔係隨便用普通結帳。禮品卡金額視型號，商店用「最高達」同「HK$800 至 HK$1,200」兩種寫法，成交前對教育商店當頁。",
+          "今個檔期商店只寫 Mac 或 iPad。想買 iPhone 18 Pro 或者 AirPods 5，唔好當呢張禮品卡自動跟。實際資格同金額以官方及平台商店確認為準。",
+        ],
+        paragraphsEn: [
+          "Education pricing is checked on the education storefront, not ordinary checkout. The gift-card band is model-specific.",
+          "The banner names Mac or iPad only. Do not assume an iPhone 18 Pro or AirPods 5 picks up the same card. Confirm on Apple’s page.",
+        ],
+      },
+    ],
+    tags: ["Apple", "教育優惠", "Mac", "iPad"],
+    tagsEn: ["Apple", "education pricing", "Mac", "iPad"],
+    editorNote:
+      "呢篇有期限先值得寫：商店自己寫到今日。過咗 9 月 24 日，數字就唔好再當仲有效。\n\n教育優惠最易睇漏資格。學生證、教職員電郵、一次一部，規矩以教育商店為準。禮品卡唔係現金，用唔用得着先決定你出唔出門。",
+    editorNoteEn:
+      "This is dated today on Apple’s own store. After 24 September, do not keep quoting it.\n\nEducation pricing is an identity check. A gift card is not cash. If you cannot use the card, the banner does not matter.",
+    related: ["airpods-5-hk", "apple-watch-12-hk", "iphone-18-pro-hk"],
+    sourceUrl: "https://www.apple.com/hk-zh/store",
+    image: "/images/news-gadgets.jpg",
+    imageAlt: "科技與生活應用專區配圖",
+    imageCredit: "Apple",
+  },
+  {
+    slug: "switch-sports-resort-oct22",
+    category: "gaming",
+    minutes: 4,
+    published: "2026-09-24",
+    seoTitle: "Switch Sports Resort 10月22日｜盒裝HK$399｜齊Quote",
+    h1: "Sports Resort 10月22日：盒裝$399",
+    description:
+      "任天堂香港：Nintendo Switch Sports Resort 於 2026 年 10 月 22 日在 Switch 2 發售。官方建議售價盒裝 HKD 399、下載版 HKD 349。內容僅供參考，實際售價同發售日以官方及平台商店確認為準。",
+    excerpt: "官方發售日 10 月 22 日。盒裝 HKD 399、下載版 HKD 349。下載版已開預購，舖頭貨以商店為準。",
+    seoTitleEn: "Switch Sports Resort 22 Oct, boxed HKD 399 | 齊Quote",
+    h1En: "Switch Sports Resort on 22 October: boxed HKD 399",
+    descriptionEn:
+      "Nintendo HK: Nintendo Switch Sports Resort launches on Switch 2 on 22 October 2026. SRP HKD 399 boxed, HKD 349 download. Confirm store price.",
+    excerptEn: "Dated 22 October. Boxed HKD 399, download HKD 349. Download pre-orders are open.",
+    bullets: [
+      "任天堂香港：2026 年 10 月 22 日（四）Switch 2 發售。",
+      "建議售價：盒裝 HKD 399、下載版 HKD 349；下載版現已接受預購。",
+      "官方寫 12 種體感運動，新項目包括「拇指大戰」。",
+      "主機加遊戲組合另見商品陣容頁，價錢以該頁為準。",
+    ],
+    bulletsEn: [
+      "Nintendo HK: Thursday 22 October 2026 on Switch 2.",
+      "SRP HKD 399 boxed, HKD 349 download. Download pre-order is open.",
+      "Twelve motion sports; official new mode is thumb wrestling.",
+      "A console bundle is on the hardware lineup page. Use that page’s price.",
+    ],
+    body: [
+      {
+        heading: "官方期同官價",
+        headingEn: "The dated price",
+        paragraphs: [
+          "任天堂香港 TOPICS（2026 年 6 月 9 日）：《Nintendo Switch Sports Resort》（Nintendo Switch 運動 度假勝地）將於 2026 年 10 月 22 日（四）在 Nintendo Switch 2 登場。建議售價盒裝 HKD 399、下載版 HKD 349，下載版現已接受預購，支援繁體同簡體中文。",
+          "距離發售約四個星期。舖頭有無實體預訂，要以商店為準，唔好當 eShop 預購等同櫃檯有貨。",
+        ],
+        paragraphsEn: [
+          "Nintendo HK topics, 9 June 2026: Sports Resort lands on Switch 2 on Thursday 22 October. SRP HKD 399 boxed, HKD 349 download. Traditional and Simplified Chinese. Download pre-order is open.",
+          "About four weeks out. A shop pre-order is not the same as an eShop pre-order.",
+        ],
+      },
+      {
+        heading: "入面有咩、組合另計",
+        headingEn: "What is in the game",
+        paragraphs: [
+          "官方簡介：舞台係「烏富島」，可用 Joy-Con 2 玩拳擊、乒乓球、射箭、網球、排球、保齡球、籃球、高爾夫球、滑板、水上摩托車、螺旋槳飛機，以及新項目「拇指大戰」，另有跳繩暖身。",
+          "任天堂香港商品陣容頁另列 Switch 2 主機連 Sports Resort 組合，發售日同樣 10 月 22 日，建議售價 HKD 3,935。組合包唔包其他遊戲。實際售價同庫存以官方及平台商店確認為準。",
+        ],
+        paragraphsEn: [
+          "Official list: twelve sports on Wuhu Island, plus skip-rope warm-up. The new mode is thumb wrestling.",
+          "The hardware lineup also lists a Switch 2 + Sports Resort bundle on the same date at HKD 3,935. That bundle does not add other games. Confirm store price.",
+        ],
+      },
+    ],
+    tags: ["Nintendo Switch 2", "Sports Resort", "體感"],
+    tagsEn: ["Nintendo Switch 2", "Sports Resort", "motion"],
+    editorNote:
+      "時之笛 11 月 5 日已經寫過。呢篇補官方寫死嘅 10 月 22 日同兩個建議售價，方便想預購體感遊戲嘅人對期。\n\n盒裝貴下載版 HKD 50。主機組合 HKD 3,935 係另一張單，唔好當買遊戲就送主機。Joy-Con 2 體感先係賣點；坐梳化撳制，呢隻遊戲無謂買。",
+    editorNoteEn:
+      "Ocarina of Time on 5 November is already on the site. This page adds the 22 October date and the two SRPs.\n\nBoxed is HKD 50 above download. The HKD 3,935 bundle is a separate ticket. This game is motion controls. Sitting on a sofa with buttons is the wrong reason.",
+    related: ["switch-2-hk-3700", "assemble-nintendo-switch-wanchai", "gta-6-november-2026"],
+    sourceUrl: "https://www.nintendo.com/hk/topics/article/5m1STF4LIUsDH3xCCnmFKv",
+    image: "/images/news-gaming.jpg",
+    imageAlt: "電玩娛樂情報專區配圖",
+    imageCredit: "Nintendo",
+  },
+  {
     slug: "cmhk-mid-autumn-2026",
     category: "telecom",
     minutes: 5,
