@@ -13,7 +13,8 @@ import { SITE } from "@/lib/site";
 import { whatsappHref } from "@/lib/whatsapp";
 
 export const Route = createFileRoute("/guides_/$slug")({
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
+    const { getGuide } = await import("@/lib/guides");
     const guide = getGuide(params.slug);
     if (!guide) throw notFound();
     return { guide };

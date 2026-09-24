@@ -2,12 +2,13 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { PlanCard } from "@/components/plan-card";
 import { useHydrateDesk } from "@/lib/desk";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import { staffOfferLabel, staffOfferPlans } from "@/lib/plans";
+import { staffOfferLabel } from "@/lib/plans";
 import { CATEGORY_SEO } from "@/lib/canonical";
 
 export const Route = createFileRoute("/offers_/$offerId")({
   component: StaffOfferPage,
   loader: async ({ params }) => {
+    const { staffOfferPlans } = await import("@/lib/plans");
     const plans = staffOfferPlans(params.offerId);
     if (!plans.length) throw notFound();
     return { offerId: params.offerId, plans };

@@ -1,7 +1,7 @@
 import { createContext, startTransition, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { loadPlanEn, toEnglishLazy } from "@/lib/plan-en-lazy";
 import { MESSAGES, type Locale, type MessageKey } from "@/lib/messages";
-import { PROVIDER_MAP, type Category, type Housing, type ProviderId } from "@/lib/plans";
+import { PROVIDER_MAP, type Category, type Housing, type ProviderId } from "@/lib/plan-meta";
 import { SITE } from "@/lib/site";
 
 const STORAGE_KEY = "chaiquote-lang";

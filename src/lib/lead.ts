@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { CATEGORY_LABEL, HOUSING_LABEL, type Category, type Housing } from "@/lib/plans";
+import { CATEGORY_LABEL, HOUSING_LABEL, type Category, type Housing } from "@/lib/plan-meta";
 import { CALL_WINDOWS, SITE } from "@/lib/site";
 
 export type LeadPayload = {

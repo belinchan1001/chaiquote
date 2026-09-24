@@ -1,4 +1,4 @@
-import { PROVIDER_MAP, type ProviderId } from "@/lib/plans";
+import { PROVIDER_MAP, type ProviderId } from "@/lib/plan-meta";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 

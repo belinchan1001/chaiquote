@@ -73,9 +73,11 @@ describe("trust/compliance copy", () => {
     assert.match(about, /t\("aboutDisclaimer"\)/);
     assert.match(footer, /t\("noCommission"\)/);
     assert.match(footer, /t\("disclaimer1"\)/);
-    assert.match(home, /cheapestPlan\("broadband"\)/);
-    assert.match(home, /t\("bestPicksTitle"\)/);
-    assert.match(home, /t\("bestPicksLead"\)/);
+    const picks = readFileSync(join(here, "../components/home-best-picks.tsx"), "utf8");
+    assert.match(picks, /cheapestPlan\("broadband"\)/);
+    assert.match(picks, /t\("bestPicksTitle"\)/);
+    assert.match(picks, /t\("bestPicksLead"\)/);
+    assert.doesNotMatch(home, /cheapestPlan\(/);
     assert.equal(quoted(messages, "quotePick")[0], "齊Quote 推介");
     assert.equal(quoted(messages, "quotePick")[1], "齊Quote pick");
   });

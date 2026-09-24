@@ -5,7 +5,8 @@ import { QuoteLink } from "@/components/quote-link";
 import { ProviderMark } from "@/components/provider-mark";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { ABOUT_SEO, canonicalUrl, shareHead } from "@/lib/canonical";
-import { PLANS, PROVIDERS } from "@/lib/plans";
+import { PLAN_COUNT } from "@/lib/plan-count";
+import { PROVIDERS } from "@/lib/plan-meta";
 import { SITE } from "@/lib/site";
 
 export const Route = createFileRoute("/about")({
@@ -36,7 +37,7 @@ function AboutPage() {
           {t("aboutIndependentText", {
             date: updated,
             providers: PROVIDERS.length,
-            plans: PLANS.length,
+            plans: PLAN_COUNT,
           })}
         </p>
         <p className="mt-3 text-sm leading-relaxed text-muted">{t("noCommission")}</p>

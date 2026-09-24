@@ -1,6 +1,8 @@
-import { classifyAddress, isImpracticalPlace } from "@/lib/address-search";
-import { type Housing } from "@/lib/plans";
+import { useEffect, useState } from "react";
+import type { Housing } from "@/lib/plan-meta";
 import { useI18n } from "@/lib/i18n";
+
+type Guess = { housing?: Housing; confidence: "high" | "medium" | "none" };
 
 export function HousingGuessNote({
   query,
@@ -10,11 +12,31 @@ export function HousingGuessNote({
   applied?: Housing;
 }) {
   const { t, housingLabel } = useI18n();
-  if (!query.trim()) return null;
-  if (isImpracticalPlace(query)) {
+  const [state, setState] = useState<{ query: string; impractical: boolean; guess: Guess } | null>(null);
+
+  useEffect(() => {
+    const trimmed = query.trim();
+    if (!trimmed) return;
+    let cancel = false;
+    void import("@/lib/address-search").then(({ classifyAddress, isImpracticalPlace }) => {
+      if (cancel) return;
+      setState({
+        query: trimmed,
+        impractical: isImpracticalPlace(trimmed),
+        guess: classifyAddress(trimmed),
+      });
+    });
+    return () => {
+      cancel = true;
+    };
+  }, [query]);
+
+  const trimmed = query.trim();
+  if (!trimmed || !state || state.query !== trimmed) return null;
+  if (state.impractical) {
     return <p className="text-xs text-muted">{t("noisePlaceHint")}</p>;
   }
-  const guess = classifyAddress(query);
+  const guess = state.guess;
   if (!guess.housing) {
     return <p className="text-xs text-muted">{t("guessNone")}</p>;
   }
@@ -30,6 +52,9 @@ export function HousingGuessNote({
   );
 }
 
-export function resolvedHousing(query: string, fallback?: Housing): Housing | undefined {
-  return classifyAddress(query).housing ?? fallback;
+export async function housingFromQuery(query: string, fallback?: Housing): Promise<Housing | undefined> {
+  const trimmed = query.trim();
+  if (!trimmed) return fallback;
+  const { classifyAddress } = await import("@/lib/address-search");
+  return classifyAddress(trimmed).housing ?? fallback;
 }

@@ -1,9 +1,7 @@
 import { useEffect } from "react";
-import { installGoogleAdsTag } from "@/lib/ads-gtag";
+import { scheduleGoogleAdsTag } from "@/lib/ads-gtag";
 
 export function GoogleAdsTag() {
-  useEffect(() => {
-    installGoogleAdsTag();
-  }, []);
+  useEffect(() => scheduleGoogleAdsTag(), []);
   return null;
 }
