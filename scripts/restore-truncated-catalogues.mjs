@@ -3,8 +3,11 @@
  * estate-extra-raw.ts down to a handful of lines. Vercel then cannot
  * compile. Pull the last known-good blobs from git history before
  * check-messages and vite build.
+ *
+ * SOP 2026-09-24: if extra-raw is already complete (>= minBytes),
+ * skip the overwrite. Only inject 偉恆昌新邨 when that row is missing.
  */
-import { writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 
 const WYLER = "偉恆昌新邨|偉恆昌,Wyler Gardens,Wyler Garden|九龍城|private|土瓜灣";
 
@@ -29,11 +32,30 @@ const FILES = [
   },
 ];
 
+function ensureWyler(text, after) {
+  return after ? after(text) : text;
+}
+
 async function restoreOne(file) {
+  if (existsSync(file.dest)) {
+    const current = readFileSync(file.dest, "utf8");
+    const currentBytes = Buffer.byteLength(current);
+    if (currentBytes >= file.minBytes) {
+      const next = ensureWyler(current, file.after);
+      if (next !== current) {
+        writeFileSync(file.dest, next);
+        console.log(`[restore-catalogues] ${file.dest} complete (${currentBytes} bytes); injected Wyler Gardens`);
+      } else {
+        console.log(`[restore-catalogues] ${file.dest} complete (${currentBytes} bytes); skip overwrite`);
+      }
+      return;
+    }
+  }
+
   const res = await fetch(file.url, { headers: { Accept: "text/plain" } });
   if (!res.ok) throw new Error(`${file.dest}: HTTP ${res.status}`);
   let text = await res.text();
-  if (file.after) text = file.after(text);
+  text = ensureWyler(text, file.after);
   const bytes = Buffer.byteLength(text);
   if (bytes < file.minBytes) {
     throw new Error(`${file.dest}: restored ${bytes} bytes, expected >= ${file.minBytes}`);
