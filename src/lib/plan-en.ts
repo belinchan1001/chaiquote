@@ -17,6 +17,8 @@ const EXACT: Record<string, string> = {
     "Selected estates only. This plan auto-renews. Service start can be deferred up to 365 days. Coverage and install dates are confirmed by the carrier.",
   "僅適用於指定屋苑。本計劃為自動續約。免 3 個月月費。實際覆蓋同安裝期以電訊商確認為準。":
     "Selected estates only. This plan auto-renews. Three months free. Coverage and install dates are confirmed by the carrier.",
+  "限時快閃：只適用於 2026 年 9 月 24 日至 9 月 29 日成功預約安裝之客戶。適用於公屋、居屋及私人樓宇。不適用於村屋。實際覆蓋、安裝期及月費以電訊商確認為準。":
+    "Flash offer: only for customers who successfully book installation from 24 to 29 Sep 2026. For public housing, HOS and private buildings. Not for village houses. Coverage, install date and monthly fee are confirmed by the carrier.",
   "限時快閃：只適用於 2026 年 9 月 22 日至 9 月 30 日成功預約安裝之客戶。適用於公屋、居屋及私人樓宇。不適用於村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。":
     "Flash offer: only for customers who successfully book installation from 22 to 30 Sep 2026. For public housing, HOS and private buildings. Not for village houses. Listed bundled services must be signed up together. Coverage, install date and monthly fee are confirmed by the carrier.",
   "限時快閃：只適用於 2026 年 9 月 22 日至 9 月 30 日成功預約安裝之客戶。適用於公屋及居屋。不適用於私人樓宇及村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。":
@@ -136,6 +138,7 @@ const PHRASES: [string, string][] = [
   ["必須同時登記 36 個月家居電話服務", "Must also sign up for 36 months of home landline"],
   ["必須同時登記 36 個月 myTV SUPER（智能電視版）", "Must also sign up for 36 months of myTV SUPER (smart TV)"],
   ["必須同時登記 12 個月 Disney+ 標準版", "Must also sign up for 12 months of Disney+ Standard"],
+  ["1000M 限時快閃（48 個月）", "1000M flash offer (48 months)"],
   ["1000M 限時快閃（24 個月）", "1000M flash offer (24 months)"],
   ["1000M 限時快閃連 Wi-Fi 7（36 個月）", "1000M flash offer with Wi-Fi 7 (36 months)"],
   ["1000M 限時快閃連影視會籍（36 個月）", "1000M flash offer with streaming (36 months)"],
@@ -759,6 +762,7 @@ const BEST_FOR: [string, string][] = [
   ["適合中等 4.5G 數據用量之用戶", "For moderate 4.5G data use"],
   ["適合中等數據用量，以及使用即時通訊與串流應用之用戶", "For moderate data use plus messaging and streaming"],
   ["適合以即時通訊為主、較少串流之用戶", "For mostly messaging, little streaming"],
+  ["適合公屋、居屋或私人樓宇，9 月 29 日前預約安裝之 1000M 住戶", "For public housing, HOS or private buildings booking 1000M installation by 29 Sep"],
   ["適合公屋、居屋或私人樓宇、需要 1000M 光纖之住戶", "For public housing, HOS or private buildings that need 1000M fibre"],
   ["適合公屋、居屋或私人住宅、需要 1000M 光纖之住戶", "For public housing, HOS or private homes that need 1000M fibre"],
   ["適合公屋、居屋或私人住宅之入門 1000M 住戶", "For entry-level 1000M in public housing, HOS or private homes"],

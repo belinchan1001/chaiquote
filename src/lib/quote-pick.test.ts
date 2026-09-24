@@ -71,6 +71,7 @@ describe("齊Quote pick badge", () => {
         "netvigator-ftth-2500-public-36m-158",
         "netvigator-ftth-2500-private-36m-176",
         "icable-ftth-1000-48m-58",
+        "icable-ftth-1000-48m-48-sep29",
         "hkbn-ftth-1000-24m-0-flash",
         "hkbn-ftth-2500-36m-148-flash",
         "hkbn-ftth-1000-36m-63-flash",

@@ -99,6 +99,9 @@ const LIMITS_NETVIGATOR_VILLAGE_WAIVED =
 const LIMITS_HGC_VILLAGE =
   "僅適用於指定村屋地址。馬灣或若干指定村落未必享有額外特別優惠，詳情請向當值銷售員查詢。不適用於公屋、居屋及私人樓宇。實際覆蓋須核對門牌。";
 const LIMITS_ICABLE_FTTH_NO_VILLAGE = "適用於公屋、居屋及私人樓宇。不適用於村屋。";
+const ICABLE_SEP29_FLASH_ENDS = "2026-09-29T23:59:59+08:00";
+const LIMITS_ICABLE_SEP29 =
+  "限時快閃：只適用於 2026 年 9 月 24 日至 9 月 29 日成功預約安裝之客戶。適用於公屋、居屋及私人樓宇。不適用於村屋。實際覆蓋、安裝期及月費以電訊商確認為準。";
 const LIMITS_HKBN_FLASH = "僅適用於指定屋苑。須繳付安裝費。實際覆蓋同安裝期以電訊商確認為準。";
 const LIMITS_HKBN_FLASH_2500 =
   "僅適用於指定屋苑。本計劃為自動續約。可選擇延遲服務生效日（最長 365 日）。實際覆蓋同安裝期以電訊商確認為準。";
@@ -1410,6 +1413,26 @@ export const PLANS: Plan[] = [
     latestOffer: true,
     quotePick: true,
     bestFor: "適合公屋、居屋或私人樓宇、需要 1000M 光纖之住戶",
+  },
+  {
+    id: "icable-ftth-1000-48m-48-sep29",
+    providerId: "icable",
+    category: "broadband",
+    name: "1000M 限時快閃（48 個月）",
+    monthlyFee: 48,
+    freeMonths: 0,
+    contractMonths: 48,
+    speedMbps: 1000,
+    install: "豁免安裝費",
+    housing: ["public", "hos", "private"],
+    network: "光纖入屋",
+    perks: [],
+    limits: LIMITS_ICABLE_SEP29,
+    flashOffer: true,
+    latestOffer: true,
+    quotePick: true,
+    offerEndsAt: ICABLE_SEP29_FLASH_ENDS,
+    bestFor: "適合公屋、居屋或私人樓宇，9 月 29 日前預約安裝之 1000M 住戶",
   },
   {
     id: "icable-ftth-1000-private-36m",
@@ -3877,6 +3900,17 @@ export function remainingOfferMs(plan: Plan, now = Date.now()) {
   const ends = Date.parse(plan.offerEndsAt);
   if (!Number.isFinite(ends)) return 0;
   return Math.max(0, ends - now);
+}
+
+const EN_MONTH = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+/** Caption for that plan's own flash deadline, not a shared 30 Sep line. */
+export function flashBookByLabel(endsAt: string | undefined, locale: "zh" | "en") {
+  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(endsAt ?? "");
+  const month = match ? String(Number(match[2])) : "9";
+  const day = match ? String(Number(match[3])) : "30";
+  if (locale === "en") return `Must book installation by ${day} ${EN_MONTH[Number(month) - 1] ?? month}`;
+  return `須於 ${month} 月 ${day} 日前成功預約安裝`;
 }
 
 export function matchesHousing(plan: Plan, housing?: Housing) {

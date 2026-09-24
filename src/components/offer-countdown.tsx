@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n";
-import { remainingOfferMs, type Plan } from "@/lib/plans";
+import { flashBookByLabel, remainingOfferMs, type Plan } from "@/lib/plans";
 
 function parts(ms: number) {
   const total = Math.max(0, Math.floor(ms / 1000));
@@ -14,12 +14,10 @@ function parts(ms: number) {
 
 const COPY = {
   zh: {
-    bookBy: "須於 9 月 30 日前成功預約安裝",
     ended: "快閃已完結",
     units: ["日", "時", "分", "秒"] as const,
   },
   en: {
-    bookBy: "Must book installation by 30 Sep",
     ended: "Flash offer ended",
     units: ["days", "hrs", "min", "sec"] as const,
   },
@@ -57,16 +55,17 @@ export function OfferCountdown({ plan }: { plan: Plan }) {
   if (!plan.offerEndsAt) return null;
 
   const copy = COPY[locale] ?? COPY.zh;
+  const bookBy = flashBookByLabel(plan.offerEndsAt, locale === "en" ? "en" : "zh");
   const live = ms > 0;
   const clock = parts(ms);
   const values = [clock.d, clock.h, clock.m, clock.s];
   const aria = live
-    ? `${copy.bookBy} ${values.map((value, i) => `${value} ${copy.units[i]}`).join(" ")}`
+    ? `${bookBy} ${values.map((value, i) => `${value} ${copy.units[i]}`).join(" ")}`
     : copy.ended;
 
   return (
     <div className="digital-clock mt-3" role="timer" aria-live="polite" aria-label={aria}>
-      <p className="digital-clock-caption">{copy.bookBy}</p>
+      <p className="digital-clock-caption">{bookBy}</p>
       {live ? (
         <div className="mt-2 flex items-start justify-center">
           <Digit value={clock.d} label={copy.units[0]} />
