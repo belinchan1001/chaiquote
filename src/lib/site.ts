@@ -118,7 +118,7 @@ export const BUDGET_OPTIONS = [
 
 export const FAQ = [
   {
-    q: "齊Quote 係咩電訊商官網？",
+    q: "齊Quote 係咪電訊商官網？",
     a: "唔係。我哋係獨立比較網站，將公開渠道同市場常見優惠擺埋一齊。最終月費、覆蓋同安裝期，都以電訊商確認為準。",
   },
   {
