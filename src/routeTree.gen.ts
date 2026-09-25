@@ -20,6 +20,7 @@ import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as SpendRouteImport } from './routes/spend'
 import { Route as StaffRouteImport } from './routes/staff'
 import { Route as DeskRouteImport } from './routes/desk'
+import { Route as SalesRouteImport } from './routes/sales'
 import { Route as EstatesRouteImport } from './routes/estates'
 import { Route as GuidesSlugRouteImport } from './routes/guides_.$slug'
 import { Route as PlansPlanIdRouteImport } from './routes/plans_.$planId'
@@ -84,6 +85,11 @@ const DeskRoute = DeskRouteImport.update({
   path: '/desk',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SalesRoute = SalesRouteImport.update({
+  id: '/sales',
+  path: '/sales',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EstatesRoute = EstatesRouteImport.update({
   id: '/estates',
   path: '/estates',
@@ -137,8 +143,10 @@ export interface FileRoutesByFullPath {
   '/spend': typeof SpendRoute
   '/staff': typeof StaffRoute
   '/desk': typeof DeskRoute
+  '/sales': typeof SalesRoute
   '/staff': typeof StaffRoute
   '/desk': typeof DeskRoute
+  '/sales': typeof SalesRoute
   '/estates': typeof EstatesRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/plans/$planId': typeof PlansPlanIdRoute
@@ -160,8 +168,10 @@ export interface FileRoutesByTo {
   '/spend': typeof SpendRoute
   '/staff': typeof StaffRoute
   '/desk': typeof DeskRoute
+  '/sales': typeof SalesRoute
   '/staff': typeof StaffRoute
   '/desk': typeof DeskRoute
+  '/sales': typeof SalesRoute
   '/estates': typeof EstatesRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/plans/$planId': typeof PlansPlanIdRoute
@@ -184,8 +194,10 @@ export interface FileRoutesById {
   '/spend': typeof SpendRoute
   '/staff': typeof StaffRoute
   '/desk': typeof DeskRoute
+  '/sales': typeof SalesRoute
   '/staff': typeof StaffRoute
   '/desk': typeof DeskRoute
+  '/sales': typeof SalesRoute
   '/estates': typeof EstatesRoute
   '/guides_/$slug': typeof GuidesSlugRoute
   '/plans_/$planId': typeof PlansPlanIdRoute
@@ -209,6 +221,7 @@ export interface FileRouteTypes {
     | '/spend'
     | '/staff'
     | '/desk'
+    | '/sales'
     | '/estates'
     | '/guides/$slug'
     | '/plans/$planId'
@@ -230,6 +243,7 @@ export interface FileRouteTypes {
     | '/spend'
     | '/staff'
     | '/desk'
+    | '/sales'
     | '/estates'
     | '/guides/$slug'
     | '/plans/$planId'
@@ -251,6 +265,7 @@ export interface FileRouteTypes {
     | '/spend'
     | '/staff'
     | '/desk'
+    | '/sales'
     | '/estates'
     | '/guides_/$slug'
     | '/plans_/$planId'
@@ -416,6 +431,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DeskRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sales': {
+      id: '/sales'
+      path: '/sales'
+      fullPath: '/sales'
+      preLoaderRoute: typeof SalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -431,6 +453,7 @@ const rootRouteChildren: RootRouteChildren = {
   SpendRoute: SpendRoute,
   StaffRoute: StaffRoute,
   DeskRoute: DeskRoute,
+  SalesRoute: SalesRoute,
   EstatesRoute: EstatesRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   PlansPlanIdRoute: PlansPlanIdRoute,

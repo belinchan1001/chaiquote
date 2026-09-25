@@ -21,11 +21,11 @@ import {
 } from "@/lib/staff-ask";
 import { STAFF_GROUPS, type StaffGroupId, type StaffStatus } from "@/lib/staff-groups";
 
-export const Route = createFileRoute("/desk")({
+export const Route = createFileRoute("/sales")({
   component: StaffDeskPage,
   head: () => ({
     meta: [
-      { title: `站長程式 · ${SITE.name}` },
+      { title: `銷售端 · ${SITE.name}` },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
@@ -44,9 +44,9 @@ type DeskState =
     };
 
 function StaffDeskPage() {
-  usePageTitle(`站長程式 · ${SITE.name}`);
+  usePageTitle(`銷售端 · ${SITE.name}`);
   const [desk, setDesk] = useState<DeskState>({ phase: "loading" });
-  const [tab, setTab] = useState<"plans" | "queue" | "people">("queue");
+  const [tab, setTab] = useState<"plans" | "queue" | "people">("plans");
   const [cat, setCat] = useState<Category | "all">("all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [notice, setNotice] = useState("");
@@ -100,9 +100,9 @@ function StaffDeskPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <p className="text-xs font-medium tracking-wider text-subtle">STAFF · NOINDEX</p>
-      <h1 className="mt-2 text-title font-semibold">站長審批程式</h1>
+      <h1 className="mt-2 text-title font-semibold">銷售員程式</h1>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
-        呢個係你嘅程式：睇銷售員提交、確認冇問題，再執行上齊Quote 網站。銷售員用另一條 /sales。
+        銷售員用自己帳號改集團計劃。提交之後會去站長程式等批核，批核先會上齊Quote 網站。
       </p>
 
       {desk.phase === "loading" ? <p className="mt-8 text-sm text-muted">載入中…</p> : null}
@@ -124,7 +124,7 @@ function StaffDeskPage() {
           }}
         >
           <p className="text-sm text-muted">
-            {setupNeeded ? "第一次用：輸入你要嘅用戶名同密碼，就會開成站長帳。" : "輸入用戶名同密碼。"}
+            "用站長開俾你嘅用戶名同密碼。"
           </p>
           <label className="block text-sm">
             用戶名
@@ -135,7 +135,7 @@ function StaffDeskPage() {
             <Input className="mt-1" type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} />
           </label>
           {notice ? <p className="text-sm text-hot">{notice}</p> : null}
-          <Button type="submit">{setupNeeded ? "開站長帳並進入" : "登入"}</Button>
+          <Button type="submit">"登入"</Button>
         </form>
       ) : null}
 
@@ -152,23 +152,17 @@ function StaffDeskPage() {
               登出
             </button>
           </div>
-          <div className="mt-6 flex gap-2">
-            <Button type="button" variant={tab === "plans" ? "default" : "outline"} onClick={() => setTab("plans")}>
-              計劃卡
-            </Button>
-            {desk.actor.role === "owner" ? (
-              <Button type="button" variant={tab === "queue" ? "default" : "outline"} onClick={() => setTab("queue")}>
-                待執行 {desk.pending.length ? desk.pending.length : ""}
-              </Button>
-            ) : null}
-            {desk.actor.role === "owner" ? (
-              <Button type="button" variant={tab === "people" ? "default" : "outline"} onClick={() => setTab("people")}>
-                帳號
-              </Button>
-            ) : null}
-          </div>
+          {desk.actor.role === "owner" ? (
+            <p className="mt-4 text-sm">
+              你係站長。審批同埋上架請去{" "}
+              <Link to="/desk" className="underline-offset-4 hover:underline">
+                站長程式
+              </Link>
+              。
+            </p>
+          ) : null}
 
-          {tab === "queue" && desk.actor.role === "owner" ? (
+          {false ? (
             <section className="mt-6 max-w-xl space-y-3">
               {desk.pending.length === 0 ? <p className="text-sm text-muted">而家冇待執行項目。</p> : null}
               {desk.pending.map((item) => {
