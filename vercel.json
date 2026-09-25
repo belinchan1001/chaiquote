@@ -21,22 +21,22 @@
     },
     {
       "source": "/sales",
-      "destination": "https://chaiquote-office.vercel.app/",
+      "destination": "https://desk.chaiquote.hk/",,
       "statusCode": 302
     },
     {
       "source": "/sales/:path*",
-      "destination": "https://chaiquote-office.vercel.app/:path*",
+      "destination": "https://desk.chaiquote.hk/:path*",
       "statusCode": 302
     },
     {
       "source": "/desk",
-      "destination": "https://chaiquote-office.vercel.app/",
+      "destination": "https://desk.chaiquote.hk/",,
       "statusCode": 302
     },
     {
       "source": "/staff",
-      "destination": "https://chaiquote-office.vercel.app/",
+      "destination": "https://desk.chaiquote.hk/",,
       "statusCode": 302
     },
     {
