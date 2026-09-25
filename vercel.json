@@ -115,7 +115,7 @@
       ]
     },
     {
-      "source": "/plans/desk",
+      "source": "/desk",
       "headers": [
         { "key": "Cache-Control", "value": "private, no-store" },
         { "key": "CDN-Cache-Control", "value": "private, no-store" }

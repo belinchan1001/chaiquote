@@ -19,7 +19,7 @@ import {
 } from "@/lib/staff-ask";
 import { STAFF_GROUPS, type StaffGroupId, type StaffStatus } from "@/lib/staff-groups";
 
-export const Route = createFileRoute("/plans_/desk")({
+export const Route = createFileRoute("/desk")({
   component: StaffDeskPage,
   head: () => ({
     meta: [
@@ -93,7 +93,7 @@ function StaffDeskPage() {
         <div className="mt-8 max-w-sm space-y-3 rounded-xl bg-card p-5 shadow-[var(--shadow-border)]">
           <p className="text-sm text-muted">用 Google 登入先至入到後台。</p>
           {authEnabled ? (
-            <Button type="button" onClick={() => void signIn("grok-google", { callbackURL: "/plans/desk" })}>
+            <Button type="button" onClick={() => void signIn("grok-google", { callbackURL: "/desk" })}>
               用 Google 登入
             </Button>
           ) : (

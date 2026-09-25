@@ -19,6 +19,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as SpendRouteImport } from './routes/spend'
 import { Route as StaffRouteImport } from './routes/staff'
+import { Route as DeskRouteImport } from './routes/desk'
 import { Route as EstatesRouteImport } from './routes/estates'
 import { Route as GuidesSlugRouteImport } from './routes/guides_.$slug'
 import { Route as PlansPlanIdRouteImport } from './routes/plans_.$planId'
@@ -27,7 +28,6 @@ import { Route as OffersOfferIdRouteImport } from './routes/offers_.$offerId'
 import { Route as TechNewsRouteImport } from './routes/tech-news'
 import { Route as TechNewsSlugRouteImport } from './routes/tech-news_.$slug'
 import { Route as TechNewsDeskRouteImport } from './routes/tech-news_.desk'
-import { Route as PlansDeskRouteImport } from './routes/plans_.desk'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -79,6 +79,11 @@ const StaffRoute = StaffRouteImport.update({
   path: '/staff',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DeskRoute = DeskRouteImport.update({
+  id: '/desk',
+  path: '/desk',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EstatesRoute = EstatesRouteImport.update({
   id: '/estates',
   path: '/estates',
@@ -119,11 +124,6 @@ const TechNewsDeskRoute = TechNewsDeskRouteImport.update({
   path: '/tech-news/desk',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PlansDeskRoute = PlansDeskRouteImport.update({
-  id: '/plans_/desk',
-  path: '/plans/desk',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -136,7 +136,9 @@ export interface FileRoutesByFullPath {
   '/quote': typeof QuoteRoute
   '/spend': typeof SpendRoute
   '/staff': typeof StaffRoute
+  '/desk': typeof DeskRoute
   '/staff': typeof StaffRoute
+  '/desk': typeof DeskRoute
   '/estates': typeof EstatesRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/plans/$planId': typeof PlansPlanIdRoute
@@ -145,7 +147,6 @@ export interface FileRoutesByFullPath {
   '/tech-news': typeof TechNewsRoute
   '/tech-news/$slug': typeof TechNewsSlugRoute
   '/tech-news/desk': typeof TechNewsDeskRoute
-  '/plans/desk': typeof PlansDeskRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -158,7 +159,9 @@ export interface FileRoutesByTo {
   '/quote': typeof QuoteRoute
   '/spend': typeof SpendRoute
   '/staff': typeof StaffRoute
+  '/desk': typeof DeskRoute
   '/staff': typeof StaffRoute
+  '/desk': typeof DeskRoute
   '/estates': typeof EstatesRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/plans/$planId': typeof PlansPlanIdRoute
@@ -167,7 +170,6 @@ export interface FileRoutesByTo {
   '/tech-news': typeof TechNewsRoute
   '/tech-news/$slug': typeof TechNewsSlugRoute
   '/tech-news/desk': typeof TechNewsDeskRoute
-  '/plans/desk': typeof PlansDeskRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -181,7 +183,9 @@ export interface FileRoutesById {
   '/quote': typeof QuoteRoute
   '/spend': typeof SpendRoute
   '/staff': typeof StaffRoute
+  '/desk': typeof DeskRoute
   '/staff': typeof StaffRoute
+  '/desk': typeof DeskRoute
   '/estates': typeof EstatesRoute
   '/guides_/$slug': typeof GuidesSlugRoute
   '/plans_/$planId': typeof PlansPlanIdRoute
@@ -204,6 +208,7 @@ export interface FileRouteTypes {
     | '/quote'
     | '/spend'
     | '/staff'
+    | '/desk'
     | '/estates'
     | '/guides/$slug'
     | '/plans/$planId'
@@ -212,7 +217,6 @@ export interface FileRouteTypes {
     | '/tech-news'
     | '/tech-news/$slug'
     | '/tech-news/desk'
-    | '/plans/desk'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -225,6 +229,7 @@ export interface FileRouteTypes {
     | '/quote'
     | '/spend'
     | '/staff'
+    | '/desk'
     | '/estates'
     | '/guides/$slug'
     | '/plans/$planId'
@@ -233,7 +238,6 @@ export interface FileRouteTypes {
     | '/tech-news'
     | '/tech-news/$slug'
     | '/tech-news/desk'
-    | '/plans/desk'
   id:
     | '__root__'
     | '/'
@@ -246,6 +250,7 @@ export interface FileRouteTypes {
     | '/quote'
     | '/spend'
     | '/staff'
+    | '/desk'
     | '/estates'
     | '/guides_/$slug'
     | '/plans_/$planId'
@@ -254,7 +259,6 @@ export interface FileRouteTypes {
     | '/tech-news'
     | '/tech-news_/$slug'
     | '/tech-news_/desk'
-    | '/plans_/desk'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -405,11 +409,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TechNewsDeskRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/plans_/desk': {
-      id: '/plans_/desk'
-      path: '/plans/desk'
-      fullPath: '/plans/desk'
-      preLoaderRoute: typeof PlansDeskRouteImport
+    '/desk': {
+      id: '/desk'
+      path: '/desk'
+      fullPath: '/desk'
+      preLoaderRoute: typeof DeskRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -426,6 +430,7 @@ const rootRouteChildren: RootRouteChildren = {
   QuoteRoute: QuoteRoute,
   SpendRoute: SpendRoute,
   StaffRoute: StaffRoute,
+  DeskRoute: DeskRoute,
   EstatesRoute: EstatesRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   PlansPlanIdRoute: PlansPlanIdRoute,
@@ -434,7 +439,6 @@ const rootRouteChildren: RootRouteChildren = {
   TechNewsRoute: TechNewsRoute,
   TechNewsSlugRoute: TechNewsSlugRoute,
   TechNewsDeskRoute: TechNewsDeskRoute,
-  PlansDeskRoute: PlansDeskRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
