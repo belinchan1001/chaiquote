@@ -6,7 +6,7 @@ export const SITE = {
   description:
     "齊Quote 係獨立電訊比較平台，提供香港寬頻報價同電訊報價，一次過比較家居寬頻、5G 家居、商業寬頻同手機計劃。所列月費僅供參考，實際以電訊商確認為準。",
   /** Catalogue stamp shown on the homepage hero as YYYY-MM-DD. */
-  updated: "2026-09-25",
+  updated: "2026-09-26",
   phoneDisplay: "6309 9966",
   whatsappE164: "85263099966",
   hktPhoneDisplay: "5436 3004",
@@ -118,7 +118,7 @@ export const BUDGET_OPTIONS = [
 
 export const FAQ = [
   {
-    q: "齊Quote 係咪電訊商官網？",
+    q: "齊Quote 係咩電訊商官網？",
     a: "唔係。我哋係獨立比較網站，將公開渠道同市場常見優惠擺埋一齊。最終月費、覆蓋同安裝期，都以電訊商確認為準。",
   },
   {
