@@ -1,6 +1,6 @@
 {
   "framework": null,
-  "buildCommand": "node scripts/restore-truncated-catalogues.mjs && node scripts/check-messages.mjs && node scripts/with-app-env.mjs vite build",
+  "buildCommand": "node scripts/restore-truncated-catalogues.mjs && node scripts/check-messages.mjs && node scripts/with-app-env.mjs vite build && node scripts/migrate.mjs",
   "installCommand": "npm install",
   "regions": ["hkg1"],
   "redirects": [

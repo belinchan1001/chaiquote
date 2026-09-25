@@ -397,22 +397,31 @@ export const addDeskAccount = createServerFn({ method: "POST" })
 export const registerSalesAccount = createServerFn({ method: "POST" })
   .inputValidator((data: { username: string; password: string; groupId: string }) => data)
   .handler(async ({ data }) => {
-    const {
-      hashPassword,
-      isValidUsername,
-      normalizeUsername,
-      writeDeskSession,
-    } = await import("./staff-session.server");
-    const username = normalizeUsername(data.username);
-    const password = String(data.password ?? "");
-    if (!isValidUsername(username) || password.length < 4 || !isStaffGroupId(data.groupId)) {
-      return { ok: false as const, message: "用戶名、密碼或集團無效" };
+    try {
+      const {
+        hashPassword,
+        isValidUsername,
+        normalizeUsername,
+        writeDeskSession,
+      } = await import("./staff-session.server");
+      const username = normalizeUsername(data.username);
+      const password = String(data.password ?? "");
+      if (!isValidUsername(username) || password.length < 4 || !isStaffGroupId(data.groupId)) {
+        return { ok: false as const, message: "用戶名、密碼或集團無效" };
+      }
+      const taken = await getStaffByUsername(username);
+      if (taken) return { ok: false as const, message: "呢個用戶名已經有人用" };
+      await upsertStaffLogin(username, data.groupId, "invited", await hashPassword(password));
+      try {
+        await writeDeskSession(username);
+      } catch (err) {
+        console.error("[staff] session cookie after register", err);
+      }
+      return { ok: true as const };
+    } catch (err) {
+      console.error("[staff] register failed", err);
+      return { ok: false as const, message: "註冊暫時失敗，請再試一次" };
     }
-    const taken = await getStaffByUsername(username);
-    if (taken) return { ok: false as const, message: "呢個用戶名已經有人用" };
-    await upsertStaffLogin(username, data.groupId, "invited", await hashPassword(password));
-    await writeDeskSession(username);
-    return { ok: true as const };
   });
 
 export type { Category, StaffMemberRow, StaffPlanChangeRow };

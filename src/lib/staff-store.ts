@@ -2,6 +2,41 @@ import { getSql } from "@/lib/db";
 import type { PlanOverride } from "./plan-overrides.ts";
 import { isStaffGroupId, normalizeEmail, type StaffGroupId, type StaffStatus } from "./staff-groups.ts";
 
+let staffSchemaReady = false;
+
+export async function ensureStaffSchema() {
+  if (staffSchemaReady) return;
+  const sql = await getSql();
+  await sql.query(`
+    create table if not exists staff_member (
+      email text primary key,
+      group_id text not null,
+      status text not null default 'invited',
+      created_at timestamptz not null default now(),
+      updated_at timestamptz not null default now()
+    )
+  `);
+  await sql.query(`alter table staff_member add column if not exists username text`);
+  await sql.query(`alter table staff_member add column if not exists password_hash text`);
+  await sql.query(`
+    create unique index if not exists staff_member_username_lower
+      on staff_member ((lower(username)))
+      where username is not null
+  `);
+  await sql.query(`
+    create table if not exists staff_plan_change (
+      id text primary key,
+      plan_id text not null,
+      actor text not null,
+      payload_json jsonb not null,
+      status text not null default 'pending',
+      created_at timestamptz not null default now(),
+      executed_at timestamptz
+    )
+  `);
+  staffSchemaReady = true;
+}
+
 export type StaffMemberRow = {
   email: string;
   username: string;
@@ -27,6 +62,7 @@ export async function countStaffMembers(): Promise<number> {
 }
 
 export async function listStaffMembers(): Promise<StaffMemberRow[]> {
+  await ensureStaffSchema();
   const sql = await getSql();
   const rows = await sql.query<{ email: string; username: string | null; group_id: string; status: string }>(
     `select email, username, group_id, status from staff_member where group_id <> 'owner' order by status desc, email`,
@@ -197,6 +233,7 @@ export type StaffLoginRow = StaffMemberRow & {
 };
 
 export async function getStaffByUsername(username: string): Promise<StaffLoginRow | null> {
+  await ensureStaffSchema();
   const sql = await getSql();
   const rows = await sql.query<{
     email: string;
@@ -237,6 +274,7 @@ export async function upsertStaffLogin(
   status: StaffStatus,
   passwordHash: string,
 ) {
+  await ensureStaffSchema();
   const sql = await getSql();
   const email = username.includes("@") ? normalizeEmail(username) : `user:${username}`;
   await sql.query(
