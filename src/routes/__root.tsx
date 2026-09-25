@@ -32,11 +32,22 @@ const FirstVisitTour = lazy(() =>
 );
 
 export const Route = createRootRoute({
-  beforeLoad: async () => {
+  beforeLoad: async ({ location }) => {
+    const path = location.pathname;
+    if (path.startsWith("/sales") || path.startsWith("/desk") || path.startsWith("/staff")) return;
+    if (
+      path !== "/" &&
+      !path.startsWith("/plans") &&
+      !path.startsWith("/compare") &&
+      !path.startsWith("/estates") &&
+      !path.startsWith("/quote")
+    ) {
+      return;
+    }
     try {
-      const { loadPlanOverrides } = await import("@/lib/staff-ask");
+      const { loadCatalogLive } = await import("@/lib/catalog-live");
       const { hydratePlanOverrides } = await import("@/lib/plan-overrides");
-      hydratePlanOverrides(await loadPlanOverrides());
+      hydratePlanOverrides(await loadCatalogLive());
     } catch {
       /* public catalogue still works if the overlay table is not ready */
     }

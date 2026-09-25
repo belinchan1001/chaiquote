@@ -106,16 +106,6 @@ export function SiteFooter() {
                 {t("footerPrivacy")}
               </Link>
             </li>
-            <li>
-              <Link to="/sales" className="hover:underline">
-                {locale === "en" ? "Sales desk" : "銷售員程式"}
-              </Link>
-            </li>
-            <li>
-              <Link to="/desk" className="hover:underline">
-                {locale === "en" ? "Owner desk" : "站長程式"}
-              </Link>
-            </li>
           </ul>
         </div>
       </div>

@@ -29,7 +29,7 @@ export function SiteHeader() {
   const waE164 = quoteWhatsappE164([], inquiry);
 
   const links: {
-    to: "/plans" | "/guides" | "/about" | "/estates" | "/spend" | "/tech-news" | "/desk" | "/sales";
+    to: "/plans" | "/guides" | "/about" | "/estates" | "/spend" | "/tech-news";
     label: string;
     search?: { cat: "broadband" | "home5g" | "mobile" | "business" };
   }[] = [
@@ -42,8 +42,6 @@ export function SiteHeader() {
     { to: "/guides", label: guidesLabel },
     { to: "/tech-news", label: newsLabel },
     { to: "/about", label: t("navAbout") },
-    { to: "/sales", label: locale === "en" ? "Sales" : "銷售" },
-    { to: "/desk", label: locale === "en" ? "Desk" : "後台" },
   ];
 
   function isActive(link: (typeof links)[number]) {
