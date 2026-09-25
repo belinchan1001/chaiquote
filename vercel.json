@@ -20,6 +20,26 @@
       "statusCode": 302
     },
     {
+      "source": "/sales",
+      "destination": "https://chaiquote-office.vercel.app/",
+      "statusCode": 302
+    },
+    {
+      "source": "/sales/:path*",
+      "destination": "https://chaiquote-office.vercel.app/:path*",
+      "statusCode": 302
+    },
+    {
+      "source": "/desk",
+      "destination": "https://chaiquote-office.vercel.app/",
+      "statusCode": 302
+    },
+    {
+      "source": "/staff",
+      "destination": "https://chaiquote-office.vercel.app/",
+      "statusCode": 302
+    },
+    {
       "source": "/(.*)",
       "has": [{ "type": "host", "value": "chaiquote.hk" }],
       "destination": "https://www.chaiquote.hk/$1",

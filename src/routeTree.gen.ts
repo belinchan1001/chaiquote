@@ -18,10 +18,6 @@ import { Route as PlansRouteImport } from './routes/plans'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as SpendRouteImport } from './routes/spend'
-import { Route as StaffRouteImport } from './routes/staff'
-import { Route as DeskRouteImport } from './routes/desk'
-import { Route as SalesRouteImport } from './routes/sales'
-import { Route as SalesRegisterRouteImport } from './routes/sales_.register'
 import { Route as EstatesRouteImport } from './routes/estates'
 import { Route as GuidesSlugRouteImport } from './routes/guides_.$slug'
 import { Route as PlansPlanIdRouteImport } from './routes/plans_.$planId'
@@ -76,26 +72,6 @@ const SpendRoute = SpendRouteImport.update({
   path: '/spend',
   getParentRoute: () => rootRouteImport,
 } as any)
-const StaffRoute = StaffRouteImport.update({
-  id: '/staff',
-  path: '/staff',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DeskRoute = DeskRouteImport.update({
-  id: '/desk',
-  path: '/desk',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SalesRoute = SalesRouteImport.update({
-  id: '/sales',
-  path: '/sales',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SalesRegisterRoute = SalesRegisterRouteImport.update({
-  id: '/sales_/register',
-  path: '/sales/register',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const EstatesRoute = EstatesRouteImport.update({
   id: '/estates',
   path: '/estates',
@@ -147,14 +123,6 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/spend': typeof SpendRoute
-  '/staff': typeof StaffRoute
-  '/desk': typeof DeskRoute
-  '/sales': typeof SalesRoute
-  '/sales/register': typeof SalesRegisterRoute
-  '/staff': typeof StaffRoute
-  '/desk': typeof DeskRoute
-  '/sales': typeof SalesRoute
-  '/sales/register': typeof SalesRegisterRoute
   '/estates': typeof EstatesRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/plans/$planId': typeof PlansPlanIdRoute
@@ -174,14 +142,6 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/spend': typeof SpendRoute
-  '/staff': typeof StaffRoute
-  '/desk': typeof DeskRoute
-  '/sales': typeof SalesRoute
-  '/sales/register': typeof SalesRegisterRoute
-  '/staff': typeof StaffRoute
-  '/desk': typeof DeskRoute
-  '/sales': typeof SalesRoute
-  '/sales/register': typeof SalesRegisterRoute
   '/estates': typeof EstatesRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/plans/$planId': typeof PlansPlanIdRoute
@@ -202,14 +162,6 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/spend': typeof SpendRoute
-  '/staff': typeof StaffRoute
-  '/desk': typeof DeskRoute
-  '/sales': typeof SalesRoute
-  '/sales/register': typeof SalesRegisterRoute
-  '/staff': typeof StaffRoute
-  '/desk': typeof DeskRoute
-  '/sales': typeof SalesRoute
-  '/sales/register': typeof SalesRegisterRoute
   '/estates': typeof EstatesRoute
   '/guides_/$slug': typeof GuidesSlugRoute
   '/plans_/$planId': typeof PlansPlanIdRoute
@@ -231,11 +183,6 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/quote'
     | '/spend'
-    | '/staff'
-    | '/desk'
-    | '/sales'
-    | '/sales_/register'
-    | '/sales/register'
     | '/estates'
     | '/guides/$slug'
     | '/plans/$planId'
@@ -255,11 +202,6 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/quote'
     | '/spend'
-    | '/staff'
-    | '/desk'
-    | '/sales'
-    | '/sales_/register'
-    | '/sales/register'
     | '/estates'
     | '/guides/$slug'
     | '/plans/$planId'
@@ -279,11 +221,6 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/quote'
     | '/spend'
-    | '/staff'
-    | '/desk'
-    | '/sales'
-    | '/sales_/register'
-    | '/sales/register'
     | '/estates'
     | '/guides_/$slug'
     | '/plans_/$planId'
@@ -379,13 +316,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SpendRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/staff': {
-      id: '/staff'
-      path: '/staff'
-      fullPath: '/staff'
-      preLoaderRoute: typeof StaffRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/estates': {
       id: '/estates'
       path: '/estates'
@@ -442,27 +372,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TechNewsDeskRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/desk': {
-      id: '/desk'
-      path: '/desk'
-      fullPath: '/desk'
-      preLoaderRoute: typeof DeskRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sales': {
-      id: '/sales'
-      path: '/sales'
-      fullPath: '/sales'
-      preLoaderRoute: typeof SalesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sales_/register': {
-      id: '/sales_/register'
-      path: '/sales/register'
-      fullPath: '/sales/register'
-      preLoaderRoute: typeof SalesRegisterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -476,10 +385,6 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   QuoteRoute: QuoteRoute,
   SpendRoute: SpendRoute,
-  StaffRoute: StaffRoute,
-  DeskRoute: DeskRoute,
-  SalesRoute: SalesRoute,
-  SalesRegisterRoute: SalesRegisterRoute,
   EstatesRoute: EstatesRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   PlansPlanIdRoute: PlansPlanIdRoute,
