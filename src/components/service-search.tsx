@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { Building2, Signal, Smartphone, Wifi, X } from "lucide-react";
 import { AiFilterEntry } from "@/components/ai-filter-entry";
 import { LazyEstateSuggest as EstateSuggest } from "@/components/lazy-estate-suggest";
@@ -42,6 +42,7 @@ const SERVICES: {
 ];
 
 export function ServiceSearch() {
+  const router = useRouter();
   const setInquiry = useDesk((s) => s.setInquiry);
   const stored = useDesk((s) => s.inquiry);
   const { t } = useI18n();
@@ -138,6 +139,7 @@ export function ServiceSearch() {
     setMobileNeed("");
     setEsports(false);
     setError("");
+    void router.preloadRoute({ to: "/plans", search: { cat } });
   }
 
   function submit(event: { preventDefault: () => void }) {

@@ -294,24 +294,47 @@ function scoreEstate(
   return score;
 }
 
-const VILLAGES = ESTATES.filter((estate) => estate.housing === "village");
+const VILLAGE_BY_KEY = new Map<string, { name: string; aliases: string[]; district: string; area?: string }[]>();
+for (const estate of ESTATES) {
+  if (estate.housing !== "village") continue;
+  const keys = chineseKeys(estate);
+  for (const key of keys) {
+    if (!key) continue;
+    const hit = { name: estate.name, aliases: estate.aliases, district: estate.district, area: estate.area };
+    const list = VILLAGE_BY_KEY.get(key);
+    if (list) list.push(hit);
+    else VILLAGE_BY_KEY.set(key, [hit]);
+  }
+}
 
 function matchRow(row: HgcVillage) {
   let best: { name: string; score: number } | undefined;
-  for (const estate of VILLAGES) {
-    const score = scoreEstate(row, estate);
-    if (score >= 100 && (!best || score > best.score)) best = { name: estate.name, score };
+  const seen = new Set<string>();
+  for (const variant of nameVariants(row)) {
+    const key = compact(variant);
+    const hits = key ? VILLAGE_BY_KEY.get(key) : undefined;
+    if (!hits) continue;
+    for (const estate of hits) {
+      if (seen.has(estate.name)) continue;
+      seen.add(estate.name);
+      const score = scoreEstate(row, estate);
+      if (score >= 100 && (!best || score > best.score)) best = { name: estate.name, score };
+    }
   }
   return best;
 }
 
+const HGC_MATCHES = HGC_VILLAGE_COVERAGE.map((row) => ({ row, hit: matchRow(row) }));
+
 export const HGC_VILLAGE_MATCHED_ESTATES: readonly string[] = [
   ...new Set(
-    HGC_VILLAGE_COVERAGE.map((row) => matchRow(row)?.name).filter((name): name is string => Boolean(name)),
+    HGC_MATCHES.map((item) => item.hit?.name).filter((name): name is string => Boolean(name)),
   ),
 ];
 
-export const HGC_VILLAGE_UNMATCHED: readonly HgcVillage[] = HGC_VILLAGE_COVERAGE.filter((row) => !matchRow(row));
+export const HGC_VILLAGE_UNMATCHED: readonly HgcVillage[] = HGC_MATCHES.filter((item) => !item.hit).map(
+  (item) => item.row,
+);
 
 const UNLOCK_KEYS = new Set<string>();
 for (const row of HGC_VILLAGE_COVERAGE) {

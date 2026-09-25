@@ -561,13 +561,41 @@ export function isRelatedBlock(child: Estate, parent: Estate): boolean {
 
 const RELATED_BLOCKS = new Map<string, Estate[]>();
 const PARENT_OF_BLOCK = new Map<string, Estate>();
-for (const parent of ESTATES) {
-  if (!isCatalogueParent(parent)) continue;
-  const children = ESTATES.filter((child) => isRelatedBlock(child, parent));
-  if (children.length) RELATED_BLOCKS.set(parent.name, children);
-  for (const child of children) {
-    if (!PARENT_OF_BLOCK.has(child.name)) PARENT_OF_BLOCK.set(child.name, parent);
+const blockParents: { estate: Estate; key: string; index: number }[] = [];
+for (let index = 0; index < ESTATES.length; index += 1) {
+  const estate = ESTATES[index];
+  if (!isCatalogueParent(estate)) continue;
+  const key = compact(estate.name);
+  if (key.length < 3) continue;
+  blockParents.push({ estate, key, index });
+}
+const parentsByPrefix = new Map<string, typeof blockParents>();
+for (const parent of blockParents) {
+  const prefix = parent.key.slice(0, 2);
+  const bucket = parentsByPrefix.get(prefix);
+  if (bucket) bucket.push(parent);
+  else parentsByPrefix.set(prefix, [parent]);
+}
+for (const child of ESTATES) {
+  const needles = [child.name, ...child.aliases]
+    .map((raw) => compact(raw))
+    .filter((needle) => needle.length >= 5);
+  if (!needles.length) continue;
+  const prefixes = new Set(needles.map((needle) => needle.slice(0, 2)));
+  let firstParent: (typeof blockParents)[number] | undefined;
+  for (const prefix of prefixes) {
+    const bucket = parentsByPrefix.get(prefix);
+    if (!bucket) continue;
+    for (const parent of bucket) {
+      if (!needles.some((needle) => needle.startsWith(parent.key) && needle !== parent.key)) continue;
+      if (!isRelatedBlock(child, parent.estate)) continue;
+      const list = RELATED_BLOCKS.get(parent.estate.name);
+      if (list) list.push(child);
+      else RELATED_BLOCKS.set(parent.estate.name, [child]);
+      if (!firstParent || parent.index < firstParent.index) firstParent = parent;
+    }
   }
+  if (firstParent) PARENT_OF_BLOCK.set(child.name, firstParent.estate);
 }
 
 export function relatedBlocks(parent: Estate | string): Estate[] {
