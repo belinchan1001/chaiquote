@@ -21,7 +21,7 @@
     },
     {
       "source": "/sales",
-      "destination": "https://desk.chaiquote.hk/",,
+      "destination": "https://desk.chaiquote.hk/",
       "statusCode": 302
     },
     {
@@ -31,12 +31,12 @@
     },
     {
       "source": "/desk",
-      "destination": "https://desk.chaiquote.hk/",,
+      "destination": "https://desk.chaiquote.hk/",
       "statusCode": 302
     },
     {
       "source": "/staff",
-      "destination": "https://desk.chaiquote.hk/",,
+      "destination": "https://desk.chaiquote.hk/",
       "statusCode": 302
     },
     {
