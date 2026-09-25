@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Link, useRouter } from "@tanstack/react-router";
-import { Building2, Signal, Smartphone, Wifi, X } from "lucide-react";
+import { Link, useNavigate, useRouter } from "@tanstack/react-router";
+import { Building2, Loader2, Signal, Smartphone, Wifi, X } from "lucide-react";
 import { AiFilterEntry } from "@/components/ai-filter-entry";
 import { LazyEstateSuggest as EstateSuggest } from "@/components/lazy-estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
@@ -43,6 +43,7 @@ const SERVICES: {
 
 export function ServiceSearch() {
   const router = useRouter();
+  const navigate = useNavigate();
   const setInquiry = useDesk((s) => s.setInquiry);
   const stored = useDesk((s) => s.inquiry);
   const { t } = useI18n();
@@ -62,6 +63,7 @@ export function ServiceSearch() {
   const [mobileNeed, setMobileNeed] = useState<MobileNeedId | "">("");
   const [esports, setEsports] = useState(false);
   const [error, setError] = useState<"address" | "current" | "">("");
+  const [searching, setSearching] = useState(false);
 
   const open = openCat !== null;
   const addressOptional = openCat !== "broadband";
@@ -139,18 +141,22 @@ export function ServiceSearch() {
     setMobileNeed("");
     setEsports(false);
     setError("");
+    setSearching(false);
     void router.preloadRoute({ to: "/plans", search: { cat } });
   }
 
-  function submit(event: { preventDefault: () => void }) {
-    if (!openCat || !pendingSearch) return;
+  function submit(event: { preventDefault: () => void; metaKey?: boolean; ctrlKey?: boolean; shiftKey?: boolean; altKey?: boolean; button?: number }) {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || (event.button ?? 0) !== 0) return;
+    event.preventDefault();
+    if (searching || !openCat || !pendingSearch) return;
     if (!current) {
-      event.preventDefault();
       setError("current");
       document.getElementById("intake-current")?.scrollIntoView({ block: "center" });
       return;
     }
     const fullEstate = estate.trim();
+    const search = pendingSearch;
+    setSearching(true);
     setInquiry({
       estate: fullEstate,
       housing: housingValue,
@@ -168,6 +174,9 @@ export function ServiceSearch() {
       esports,
       source: "filter",
     });
+    window.setTimeout(() => {
+      void navigate({ to: "/plans", search, hash: "plan-list" });
+    }, 0);
   }
 
   return (
@@ -305,9 +314,20 @@ export function ServiceSearch() {
                 <p className="mb-2 text-sm text-hot">{t("intakeNeedCurrent")}</p>
               ) : null}
               {pendingSearch ? (
-                <Button asChild size="lg" className="action-apply w-full">
-                  <Link to="/plans" search={pendingSearch} hash="plan-list" onClick={submit}>
-                    {t("intakeCta")}
+                <Button
+                  asChild
+                  size="lg"
+                  className={searching ? "action-apply pointer-events-none w-full" : "action-apply w-full"}
+                >
+                  <Link
+                    to="/plans"
+                    search={pendingSearch}
+                    hash="plan-list"
+                    aria-busy={searching}
+                    onClick={submit}
+                  >
+                    {searching ? <Loader2 className="animate-spin" /> : null}
+                    {searching ? t("intakeSearching") : t("intakeCta")}
                   </Link>
                 </Button>
               ) : null}
