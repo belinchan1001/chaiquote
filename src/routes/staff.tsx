@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { signIn, signOut, authEnabled } from "@/lib/auth/client";
 import { useCurrentUserState } from "@/lib/auth/use-current-user";
-import { CATEGORY_OPTIONS, PROVIDER_MAP, type Category, type Plan } from "@/lib/plans";
+import { PROVIDER_MAP, type Category } from "@/lib/plans";
 import { usePageTitle } from "@/lib/i18n";
-import { SITE } from "@/lib/site";
+import { CATEGORY_OPTIONS, SITE } from "@/lib/site";
 import {
   inviteStaffMember,
   loadStaffDesk,

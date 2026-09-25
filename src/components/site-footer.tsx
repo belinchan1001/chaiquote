@@ -106,6 +106,11 @@ export function SiteFooter() {
                 {t("footerPrivacy")}
               </Link>
             </li>
+            <li>
+              <Link to="/staff" className="hover:underline">
+                {locale === "en" ? "Staff desk" : "職員後台"}
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
