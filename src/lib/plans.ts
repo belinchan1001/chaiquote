@@ -75,6 +75,8 @@ export type Plan = {
   offerEndsAt?: string;
   onlyEstates?: string[];
   staffOffer?: string;
+  unpublished?: boolean;
+  adImageUrl?: string;
   bestFor: string;
 };
 

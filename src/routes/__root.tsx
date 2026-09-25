@@ -32,6 +32,15 @@ const FirstVisitTour = lazy(() =>
 );
 
 export const Route = createRootRoute({
+  beforeLoad: async () => {
+    try {
+      const { loadPlanOverrides } = await import("@/lib/staff-ask");
+      const { hydratePlanOverrides } = await import("@/lib/plan-overrides");
+      hydratePlanOverrides(await loadPlanOverrides());
+    } catch {
+      /* public catalogue still works if the overlay table is not ready */
+    }
+  },
   head: ({ matches }) => {
     const pageUrl = canonicalUrlFromMatches(matches);
     const notFoundDoc = isNotFoundDocument(matches);

@@ -66,6 +66,9 @@ export function PlanCard({ plan }: { plan: Plan }) {
       )}
     >
       {plan.quotePick ? <span className="foil" aria-hidden="true" /> : null}
+      {plan.adImageUrl ? (
+        <img src={plan.adImageUrl} alt="" className="mb-3 h-28 w-full rounded-lg object-cover" />
+      ) : null}
       <div className="flex items-start justify-between gap-3">
         <ProviderMark id={plan.providerId} />
         <button

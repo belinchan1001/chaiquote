@@ -2,7 +2,6 @@ import { estateUnlocksPlan, isNetvigatorOnlyEstate } from "./estate-new-intake.t
 import { matchKnownEstate } from "./estates.ts";
 import { estateBlocksHkbnVillage, estateHasHgcVillageCoverage } from "./hgc-village-coverage.ts";
 import {
-  PLANS,
   PROVIDER_MAP,
   averageFee,
   hasGba,
@@ -14,6 +13,7 @@ import {
   type Plan,
   type PlansSearch,
 } from "./plans.ts";
+import { catalogPlans } from "./plan-overrides.ts";
 
 export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
   const qEstate = !search.estate?.trim() && search.q ? matchKnownEstate(search.q) : undefined;
@@ -21,8 +21,9 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
   const housing = search.housing ?? qEstate?.housing;
   const blobQ = qEstate ? undefined : search.q;
 
-  let rows = PLANS.filter((plan) => {
+  let rows = catalogPlans().filter((plan) => {
     if (plan.category !== search.cat) return false;
+    if (plan.unpublished) return false;
     if (plan.staffOffer) return false;
     if (isOfferExpired(plan)) return false;
     if (

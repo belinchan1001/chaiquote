@@ -30,6 +30,7 @@ import {
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { canonicalUrl, notFoundHead } from "@/lib/canonical";
+import { resolvePlan } from "@/lib/plan-overrides";
 import { planJsonLd, planSeoDescription, planSeoTitle } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 
@@ -38,8 +39,8 @@ export const Route = createFileRoute("/plans_/$planId")({
   pendingMs: 0,
   pendingComponent: PlanDetailPending,
   loader: ({ params }) => {
-    const plan = getPlan(params.planId);
-    if (!plan || plan.staffOffer) throw notFound();
+    const plan = resolvePlan(getPlan(params.planId));
+    if (!plan || plan.staffOffer || plan.unpublished) throw notFound();
     return { plan };
   },
   head: ({ loaderData }) => {
