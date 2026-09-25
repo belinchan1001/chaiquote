@@ -46,7 +46,7 @@ export function ServiceSearch() {
   const navigate = useNavigate();
   const setInquiry = useDesk((s) => s.setInquiry);
   const stored = useDesk((s) => s.inquiry);
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const titleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -326,8 +326,8 @@ export function ServiceSearch() {
                     aria-busy={searching}
                     onClick={submit}
                   >
-                    {searching ? <Loader2 className="animate-spin" /> : null}
-                    {searching ? t("intakeSearching") : t("intakeCta")}
+                    {searching ? <Loader2 className="animate-spin" aria-hidden="true" /> : null}
+                    {searching ? (locale === "en" ? "Searching" : "搜尋中") : t("intakeCta")}
                   </Link>
                 </Button>
               ) : null}
