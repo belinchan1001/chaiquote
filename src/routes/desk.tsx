@@ -163,7 +163,7 @@ function StaffDeskPage() {
             ) : null}
             {desk.actor.role === "owner" ? (
               <Button type="button" variant={tab === "people" ? "default" : "outline"} onClick={() => setTab("people")}>
-                帳號
+                帳號 {desk.members.filter((member) => member.status === "invited").length || ""}
               </Button>
             ) : null}
           </div>
@@ -301,22 +301,39 @@ function StaffDeskPage() {
                 {desk.members.map((member) => (
                   <li key={member.email} className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-card px-4 py-3 text-sm shadow-[var(--shadow-border)]">
                     <span>
-                      {member.email}
+                      {member.username || member.email}
                       <span className="ml-2 text-muted">{STAFF_GROUPS.find((group) => group.id === member.groupId)?.label}</span>
                     </span>
                     <span className="flex items-center gap-2">
-                      <span className="text-muted">{member.status === "active" ? "已啟用" : member.status === "disabled" ? "已停用" : "未登入"}</span>
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        onClick={() => {
-                          const next: StaffStatus = member.status === "disabled" ? "invited" : "disabled";
-                          void setStaffMemberStatus({ data: { email: member.email, status: next } }).then(() => refresh());
-                        }}
-                      >
-                        {member.status === "disabled" ? "啟用" : "停用"}
-                      </Button>
+                      <span className="text-muted">
+                        {member.status === "active" ? "已批准" : member.status === "disabled" ? "已停用" : "待批准"}
+                      </span>
+                      {member.status === "invited" ? (
+                        <Button
+                          type="button"
+                          size="sm"
+                          onClick={() => {
+                            void setStaffMemberStatus({ data: { email: member.email, status: "active" } }).then(() => {
+                              setNotice(`已批准 ${member.username || member.email}，而家可以改計劃。`);
+                              void refresh();
+                            });
+                          }}
+                        >
+                          批准
+                        </Button>
+                      ) : (
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="outline"
+                          onClick={() => {
+                            const next: StaffStatus = member.status === "disabled" ? "active" : "disabled";
+                            void setStaffMemberStatus({ data: { email: member.email, status: next } }).then(() => refresh());
+                          }}
+                        >
+                          {member.status === "disabled" ? "恢復" : "停用"}
+                        </Button>
+                      )}
                     </span>
                   </li>
                 ))}

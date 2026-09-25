@@ -30,7 +30,7 @@ export default async function htmlCacheMiddleware(
   const result = await next();
   if (!(result instanceof Response) || !shouldCacheHtml(event, result)) return result;
   const path = event.url.pathname;
-  if (result.status === 404 || path === "/staff" || path === "/desk" || path === "/sales") {
+  if (result.status === 404 || path === "/staff" || path === "/desk" || path === "/sales" || path === "/sales/register") {
     const headers = new Headers(result.headers);
     headers.set("Cache-Control", "private, no-store");
     headers.set("CDN-Cache-Control", "private, no-store");

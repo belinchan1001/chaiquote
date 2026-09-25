@@ -55,6 +55,8 @@ export type StaffActor = {
   groupId: StaffGroupId | "all";
   groupLabel: string;
   providers: Plan["providerId"][];
+  status: StaffStatus | "owner";
+  canEdit: boolean;
 };
 
 export type StaffDeskPlan = Plan & { unpublished?: boolean };
@@ -80,6 +82,8 @@ async function resolveActor(bearerToken?: string): Promise<
       groupId: "all" as const,
       groupLabel: "站長",
       providers: [...new Set(PLANS.map((plan) => plan.providerId))],
+      status: "owner" as const,
+      canEdit: true,
     };
     if (ownerName && deskUser === ownerName) return { ok: true, actor: ownerActor };
     const member = await getStaffByUsername(deskUser);
@@ -96,6 +100,8 @@ async function resolveActor(bearerToken?: string): Promise<
           groupId: member.groupId,
           groupLabel: group.label,
           providers: providersForGroup(member.groupId),
+          status: member.status,
+          canEdit: member.status === "active",
         },
       };
     }
@@ -117,6 +123,8 @@ async function resolveActor(bearerToken?: string): Promise<
     groupId: "all" as const,
     groupLabel: "站長",
     providers: [...new Set(PLANS.map((plan) => plan.providerId))],
+    status: "owner" as const,
+    canEdit: true,
   };
 
   if (ownerEmails().includes(email)) {
@@ -138,9 +146,6 @@ async function resolveActor(bearerToken?: string): Promise<
   }
   if (!member || member.status === "disabled") return { ok: false, reason: "forbidden" };
   if (!isStaffGroupId(member.groupId)) return { ok: false, reason: "forbidden" };
-  if (member.status === "invited") {
-    await setStaffStatus(email, "active");
-  }
   const group = STAFF_GROUP_MAP[member.groupId];
   return {
     ok: true,
@@ -150,6 +155,8 @@ async function resolveActor(bearerToken?: string): Promise<
       groupId: member.groupId,
       groupLabel: group.label,
       providers: providersForGroup(member.groupId),
+      status: member.status,
+      canEdit: member.status === "active",
     },
   };
 }
@@ -212,6 +219,9 @@ export const saveStaffPlan = createServerFn({ method: "POST" })
     if (!resolved.ok) return resolved;
     const plan = PLANS.find((item) => item.id === data.planId);
     if (!plan || plan.staffOffer) return { ok: false as const, reason: "forbidden" as const };
+    if (resolved.actor.role !== "owner" && !resolved.actor.canEdit) {
+      return { ok: false as const, reason: "forbidden" as const, message: "帳號未批准，暫時唔可以改計劃" };
+    }
     if (resolved.actor.role !== "owner" && !resolved.actor.providers.includes(plan.providerId)) {
       return { ok: false as const, reason: "forbidden" as const };
     }
@@ -382,6 +392,27 @@ export const addDeskAccount = createServerFn({ method: "POST" })
     }
     await upsertStaffLogin(username, data.groupId, "active", await hashPassword(data.password));
     return { ok: true as const, members: await listStaffMembers() };
+  });
+
+export const registerSalesAccount = createServerFn({ method: "POST" })
+  .inputValidator((data: { username: string; password: string; groupId: string }) => data)
+  .handler(async ({ data }) => {
+    const {
+      hashPassword,
+      isValidUsername,
+      normalizeUsername,
+      writeDeskSession,
+    } = await import("./staff-session.server");
+    const username = normalizeUsername(data.username);
+    const password = String(data.password ?? "");
+    if (!isValidUsername(username) || password.length < 4 || !isStaffGroupId(data.groupId)) {
+      return { ok: false as const, message: "用戶名、密碼或集團無效" };
+    }
+    const taken = await getStaffByUsername(username);
+    if (taken) return { ok: false as const, message: "呢個用戶名已經有人用" };
+    await upsertStaffLogin(username, data.groupId, "invited", await hashPassword(password));
+    await writeDeskSession(username);
+    return { ok: true as const };
   });
 
 export type { Category, StaffMemberRow, StaffPlanChangeRow };

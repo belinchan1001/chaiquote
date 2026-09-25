@@ -4,6 +4,7 @@ import { isStaffGroupId, normalizeEmail, type StaffGroupId, type StaffStatus } f
 
 export type StaffMemberRow = {
   email: string;
+  username: string;
   groupId: StaffGroupId;
   status: StaffStatus;
 };
@@ -27,13 +28,14 @@ export async function countStaffMembers(): Promise<number> {
 
 export async function listStaffMembers(): Promise<StaffMemberRow[]> {
   const sql = await getSql();
-  const rows = await sql.query<{ email: string; group_id: string; status: string }>(
-    `select email, group_id, status from staff_member where group_id <> 'owner' order by email`,
+  const rows = await sql.query<{ email: string; username: string | null; group_id: string; status: string }>(
+    `select email, username, group_id, status from staff_member where group_id <> 'owner' order by status desc, email`,
   );
   return rows
     .filter((row) => isStaffGroupId(row.group_id) || row.group_id === "owner")
     .map((row) => ({
       email: row.email,
+      username: (row.username || row.email.replace(/^user:/, "")).toLowerCase(),
       groupId: row.group_id === "owner" ? ("hkt" as StaffGroupId) : (row.group_id as StaffGroupId),
       status: asStatus(row.status),
     }))
@@ -50,6 +52,7 @@ export async function getStaffMember(email: string): Promise<(StaffMemberRow & {
   if (!row) return null;
   return {
     email: row.email,
+    username: row.email.replace(/^user:/, ""),
     rawGroup: row.group_id,
     groupId: isStaffGroupId(row.group_id) ? row.group_id : "hkt",
     status: asStatus(row.status),

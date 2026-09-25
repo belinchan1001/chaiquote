@@ -123,9 +123,7 @@ function StaffDeskPage() {
             });
           }}
         >
-          <p className="text-sm text-muted">
-            "用站長開俾你嘅用戶名同密碼。"
-          </p>
+          <p className="text-sm text-muted">用已批准嘅用戶名同密碼登入。未有帳就先註冊。</p>
           <label className="block text-sm">
             用戶名
             <Input className="mt-1" autoComplete="username" value={username} onChange={(event) => setUsername(event.target.value)} />
@@ -135,7 +133,13 @@ function StaffDeskPage() {
             <Input className="mt-1" type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} />
           </label>
           {notice ? <p className="text-sm text-hot">{notice}</p> : null}
-          <Button type="submit">"登入"</Button>
+          <Button type="submit">登入</Button>
+          <p className="text-sm text-muted">
+            第一次用？
+            <Link to="/sales/register" className="ml-1 underline-offset-4 hover:underline">
+              去註冊
+            </Link>
+          </p>
         </form>
       ) : null}
 
@@ -160,6 +164,14 @@ function StaffDeskPage() {
               </Link>
               。
             </p>
+          ) : null}
+          {desk.actor.role === "editor" && !desk.actor.canEdit ? (
+            <div className="mt-8 max-w-lg rounded-xl bg-card p-5 text-sm shadow-[var(--shadow-border)]">
+              <p className="font-medium">已註冊，等站長批准</p>
+              <p className="mt-2 text-muted">
+                你嘅帳號（{desk.actor.email} · {desk.actor.groupLabel}）而家仲未批准。批准之後先可以改計劃。
+              </p>
+            </div>
           ) : null}
 
           {false ? (
@@ -192,7 +204,7 @@ function StaffDeskPage() {
               })}
               {notice ? <p className="text-sm">{notice}</p> : null}
             </section>
-          ) : tab === "plans" ? (
+          ) : tab === "plans" && desk.actor.canEdit ? (
             <section className="mt-6">
               <div className="flex flex-wrap gap-2">
                 <button
