@@ -107,7 +107,7 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
-              <Link to="/staff" className="hover:underline">
+              <Link to="/plans/desk" className="hover:underline">
                 {locale === "en" ? "Staff desk" : "職員後台"}
               </Link>
             </li>

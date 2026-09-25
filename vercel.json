@@ -108,6 +108,20 @@
       ]
     },
     {
+      "source": "/staff",
+      "headers": [
+        { "key": "Cache-Control", "value": "private, no-store" },
+        { "key": "CDN-Cache-Control", "value": "private, no-store" }
+      ]
+    },
+    {
+      "source": "/plans/desk",
+      "headers": [
+        { "key": "Cache-Control", "value": "private, no-store" },
+        { "key": "CDN-Cache-Control", "value": "private, no-store" }
+      ]
+    },
+    {
       "source": "/sw.js",
       "headers": [
         { "key": "Content-Type", "value": "application/javascript; charset=utf-8" },

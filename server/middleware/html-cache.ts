@@ -29,8 +29,20 @@ export default async function htmlCacheMiddleware(
 ): Promise<unknown> {
   const result = await next();
   if (!(result instanceof Response) || !shouldCacheHtml(event, result)) return result;
+  const path = event.url.pathname;
+  if (result.status === 404 || path === "/staff" || path.startsWith("/plans/desk")) {
+    const headers = new Headers(result.headers);
+    headers.set("Cache-Control", "private, no-store");
+    headers.set("CDN-Cache-Control", "private, no-store");
+    headers.set("Vercel-CDN-Cache-Control", "private, no-store");
+    return new Response(result.body, {
+      status: result.status,
+      statusText: result.statusText,
+      headers,
+    });
+  }
   const headers = new Headers(result.headers);
-  const cache = result.status === 404 ? NOT_FOUND_CACHE : HTML_CACHE;
+  const cache = HTML_CACHE;
   headers.set("Cache-Control", cache);
   headers.set("CDN-Cache-Control", cache);
   headers.set("Vercel-CDN-Cache-Control", cache);

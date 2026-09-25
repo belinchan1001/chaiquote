@@ -27,6 +27,7 @@ import { Route as OffersOfferIdRouteImport } from './routes/offers_.$offerId'
 import { Route as TechNewsRouteImport } from './routes/tech-news'
 import { Route as TechNewsSlugRouteImport } from './routes/tech-news_.$slug'
 import { Route as TechNewsDeskRouteImport } from './routes/tech-news_.desk'
+import { Route as PlansDeskRouteImport } from './routes/plans_.desk'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -118,6 +119,11 @@ const TechNewsDeskRoute = TechNewsDeskRouteImport.update({
   path: '/tech-news/desk',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlansDeskRoute = PlansDeskRouteImport.update({
+  id: '/plans_/desk',
+  path: '/plans/desk',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -139,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/tech-news': typeof TechNewsRoute
   '/tech-news/$slug': typeof TechNewsSlugRoute
   '/tech-news/desk': typeof TechNewsDeskRoute
+  '/plans/desk': typeof PlansDeskRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -160,6 +167,7 @@ export interface FileRoutesByTo {
   '/tech-news': typeof TechNewsRoute
   '/tech-news/$slug': typeof TechNewsSlugRoute
   '/tech-news/desk': typeof TechNewsDeskRoute
+  '/plans/desk': typeof PlansDeskRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -204,6 +212,7 @@ export interface FileRouteTypes {
     | '/tech-news'
     | '/tech-news/$slug'
     | '/tech-news/desk'
+    | '/plans/desk'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -224,6 +233,7 @@ export interface FileRouteTypes {
     | '/tech-news'
     | '/tech-news/$slug'
     | '/tech-news/desk'
+    | '/plans/desk'
   id:
     | '__root__'
     | '/'
@@ -244,6 +254,7 @@ export interface FileRouteTypes {
     | '/tech-news'
     | '/tech-news_/$slug'
     | '/tech-news_/desk'
+    | '/plans_/desk'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -394,6 +405,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TechNewsDeskRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/plans_/desk': {
+      id: '/plans_/desk'
+      path: '/plans/desk'
+      fullPath: '/plans/desk'
+      preLoaderRoute: typeof PlansDeskRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -416,6 +434,7 @@ const rootRouteChildren: RootRouteChildren = {
   TechNewsRoute: TechNewsRoute,
   TechNewsSlugRoute: TechNewsSlugRoute,
   TechNewsDeskRoute: TechNewsDeskRoute,
+  PlansDeskRoute: PlansDeskRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
