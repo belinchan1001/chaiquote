@@ -147,6 +147,13 @@ function PlansPage() {
   }, [qDraft]);
 
   useEffect(() => {
+    if (typeof window === "undefined" || window.location.hash !== "#plan-list") return;
+    const list = document.getElementById("plan-list");
+    if (!list) return;
+    bringPlanListIntoView(list);
+  }, [replayKey, rows.length]);
+
+  useEffect(() => {
     const replay = prevReplayKey.current !== replayKey;
     prevReplayKey.current = replayKey;
     if (replay) setListEntering(false);
@@ -527,7 +534,7 @@ function PlansPage() {
       </div>
 
       {rows.length === 0 ? (
-        <div className="mt-10 rounded-xl bg-card px-6 py-16 text-center shadow-[var(--shadow-border)]">
+        <div id="plan-list" className="mt-10 scroll-mt-24 rounded-xl bg-card px-6 py-16 text-center shadow-[var(--shadow-border)]">
           <p className="font-medium">{t("emptyPlans")}</p>
           <p className="mt-2 text-sm text-muted">{t("emptyPlansLead")}</p>
           <Link
@@ -542,11 +549,12 @@ function PlansPage() {
       ) : (
         <>
           <div
+            id="plan-list"
             ref={listRef}
             className={
               (listEntering
-                ? "plan-list plan-list-enter mt-8 grid gap-4 md:grid-cols-2"
-                : "plan-list mt-8 grid gap-4 md:grid-cols-2") + (search.esports ? " plan-list-esports" : "")
+                ? "plan-list plan-list-enter mt-8 scroll-mt-24 grid gap-4 md:grid-cols-2"
+                : "plan-list mt-8 scroll-mt-24 grid gap-4 md:grid-cols-2") + (search.esports ? " plan-list-esports" : "")
             }
           >
             {shown.map((plan) => (

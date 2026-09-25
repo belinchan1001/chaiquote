@@ -139,7 +139,7 @@ export function IntakeFields({
         </fieldset>
       ) : null}
 
-      <fieldset>
+      <fieldset id="intake-current">
         <legend className="text-xs font-medium tracking-wider text-muted">
           {cat === "mobile" ? t("intakeCurrentMobile") : t("intakeCurrentBb")}
         </legend>

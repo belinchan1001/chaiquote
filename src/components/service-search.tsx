@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { Building2, Signal, Smartphone, Wifi, X } from "lucide-react";
 import { AiFilterEntry } from "@/components/ai-filter-entry";
 import { LazyEstateSuggest as EstateSuggest } from "@/components/lazy-estate-suggest";
@@ -12,7 +12,6 @@ import { useDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
 import type { Category, Housing } from "@/lib/plans";
 import {
-  addressRequired,
   currentLabel,
   expiryLabel,
   isTargetConflict,
@@ -43,7 +42,6 @@ const SERVICES: {
 ];
 
 export function ServiceSearch() {
-  const navigate = useNavigate();
   const setInquiry = useDesk((s) => s.setInquiry);
   const stored = useDesk((s) => s.inquiry);
   const { t } = useI18n();
@@ -66,6 +64,26 @@ export function ServiceSearch() {
 
   const open = openCat !== null;
   const addressOptional = openCat !== "broadband";
+
+  const housingValue = (
+    !openCat || openCat === "business" ? "" : housing || resolvedHousing(estate.trim()) || ""
+  ) as Housing | "";
+  const pendingSearch = openCat
+    ? compactSearch(
+        toPortInSearch({
+          cat: openCat,
+          estate: estate.trim() || undefined,
+          housing: housingValue || undefined,
+          current,
+          target,
+          fibreSpeed,
+          businessSpeed,
+          mobileNeed,
+          esports,
+          expiry,
+        }),
+      )
+    : undefined;
 
   useEffect(() => {
     if (!open) return;
@@ -122,20 +140,15 @@ export function ServiceSearch() {
     setError("");
   }
 
-  function submit() {
-    if (!openCat) return;
-    const fullEstate = estate.trim();
-    if (addressRequired(openCat) && !fullEstate) {
-      setError("address");
-      return;
-    }
+  function submit(event: { preventDefault: () => void }) {
+    if (!openCat || !pendingSearch) return;
     if (!current) {
+      event.preventDefault();
       setError("current");
+      document.getElementById("intake-current")?.scrollIntoView({ block: "center" });
       return;
     }
-    const housingValue = (
-      openCat === "business" ? "" : housing || resolvedHousing(fullEstate) || ""
-    ) as Housing | "";
+    const fullEstate = estate.trim();
     setInquiry({
       estate: fullEstate,
       housing: housingValue,
@@ -152,23 +165,6 @@ export function ServiceSearch() {
       serviceType: serviceTypeLabel(openCat),
       esports,
       source: "filter",
-    });
-    const search = toPortInSearch({
-      cat: openCat,
-      estate: fullEstate || undefined,
-      housing: housingValue || undefined,
-      current,
-      target,
-      fibreSpeed,
-      businessSpeed,
-      mobileNeed,
-      esports,
-      expiry,
-    });
-    const compacted = compactSearch(search);
-    void navigate({
-      to: "/plans",
-      search: compacted,
     });
   }
 
@@ -303,9 +299,16 @@ export function ServiceSearch() {
             </div>
 
             <div className="border-t border-border px-4 py-3">
-              <Button type="button" size="lg" className="action-apply w-full" onClick={submit}>
-                {t("intakeCta")}
-              </Button>
+              {error === "current" ? (
+                <p className="mb-2 text-sm text-hot">{t("intakeNeedCurrent")}</p>
+              ) : null}
+              {pendingSearch ? (
+                <Button asChild size="lg" className="action-apply w-full">
+                  <Link to="/plans" search={pendingSearch} hash="plan-list" onClick={submit}>
+                    {t("intakeCta")}
+                  </Link>
+                </Button>
+              ) : null}
             </div>
           </div>
             </>,
