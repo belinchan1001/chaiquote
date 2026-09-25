@@ -186,3 +186,157 @@ export async function upsertPlanOverride(patch: PlanOverridePatch) {
     ],
   );
 }
+
+export type StaffLoginRow = StaffMemberRow & {
+  username: string;
+  passwordHash: string | null;
+  rawGroup: string;
+};
+
+export async function getStaffByUsername(username: string): Promise<StaffLoginRow | null> {
+  const sql = await getSql();
+  const rows = await sql.query<{
+    email: string;
+    username: string | null;
+    password_hash: string | null;
+    group_id: string;
+    status: string;
+  }>(
+    `select email, username, password_hash, group_id, status
+     from staff_member
+     where lower(coalesce(username, email)) = $1
+     limit 1`,
+    [username],
+  );
+  const row = rows[0];
+  if (!row) return null;
+  return {
+    email: row.email,
+    username: (row.username || row.email).toLowerCase(),
+    passwordHash: row.password_hash,
+    rawGroup: row.group_id,
+    groupId: isStaffGroupId(row.group_id) ? row.group_id : "hkt",
+    status: asStatus(row.status),
+  };
+}
+
+export async function countPasswordStaff(): Promise<number> {
+  const sql = await getSql();
+  const rows = await sql.query<{ n: number }>(
+    `select count(*)::int as n from staff_member where password_hash is not null and password_hash <> ''`,
+  );
+  return rows[0]?.n ?? 0;
+}
+
+export async function upsertStaffLogin(
+  username: string,
+  groupId: StaffGroupId | "owner",
+  status: StaffStatus,
+  passwordHash: string,
+) {
+  const sql = await getSql();
+  const email = username.includes("@") ? normalizeEmail(username) : `user:${username}`;
+  await sql.query(
+    `insert into staff_member (email, username, password_hash, group_id, status, updated_at)
+     values ($1, $2, $3, $4, $5, now())
+     on conflict (email) do update set
+       username = excluded.username,
+       password_hash = excluded.password_hash,
+       group_id = excluded.group_id,
+       status = excluded.status,
+       updated_at = now()`,
+    [email, username, passwordHash, groupId, status],
+  );
+}
+
+export type StaffPlanChangeRow = {
+  id: string;
+  planId: string;
+  actor: string;
+  payload: Record<string, unknown>;
+  status: "pending" | "executed" | "rejected";
+  createdAt: string;
+};
+
+export async function insertPlanChange(row: {
+  id: string;
+  planId: string;
+  actor: string;
+  payload: Record<string, unknown>;
+}) {
+  const sql = await getSql();
+  await sql.query(
+    `insert into staff_plan_change (id, plan_id, actor, payload_json, status, created_at)
+     values ($1, $2, $3, $4::jsonb, 'pending', now())`,
+    [row.id, row.planId, row.actor, JSON.stringify(row.payload)],
+  );
+}
+
+export async function listPendingPlanChanges(): Promise<StaffPlanChangeRow[]> {
+  try {
+    const sql = await getSql();
+    const rows = await sql.query<{
+      id: string;
+      plan_id: string;
+      actor: string;
+      payload_json: unknown;
+      status: string;
+      created_at: string;
+    }>(
+      `select id, plan_id, actor, payload_json, status, created_at::text
+       from staff_plan_change
+       where status = 'pending'
+       order by created_at desc
+       limit 80`,
+    );
+    return rows.map((row) => ({
+      id: row.id,
+      planId: row.plan_id,
+      actor: row.actor,
+      payload: (row.payload_json && typeof row.payload_json === "object"
+        ? row.payload_json
+        : {}) as Record<string, unknown>,
+      status: "pending",
+      createdAt: row.created_at,
+    }));
+  } catch (err) {
+    console.error("[staff] list pending changes failed", err);
+    return [];
+  }
+}
+
+export async function getPlanChange(id: string): Promise<StaffPlanChangeRow | null> {
+  const sql = await getSql();
+  const rows = await sql.query<{
+    id: string;
+    plan_id: string;
+    actor: string;
+    payload_json: unknown;
+    status: string;
+    created_at: string;
+  }>(
+    `select id, plan_id, actor, payload_json, status, created_at::text
+     from staff_plan_change where id = $1 limit 1`,
+    [id],
+  );
+  const row = rows[0];
+  if (!row) return null;
+  return {
+    id: row.id,
+    planId: row.plan_id,
+    actor: row.actor,
+    payload: (row.payload_json && typeof row.payload_json === "object"
+      ? row.payload_json
+      : {}) as Record<string, unknown>,
+    status: row.status === "executed" ? "executed" : row.status === "rejected" ? "rejected" : "pending",
+    createdAt: row.created_at,
+  };
+}
+
+export async function markPlanChangeExecuted(id: string) {
+  const sql = await getSql();
+  await sql.query(
+    `update staff_plan_change set status = 'executed', executed_at = now() where id = $1`,
+    [id],
+  );
+}

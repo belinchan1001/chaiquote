@@ -3,19 +3,21 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PlanCard } from "@/components/plan-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { signIn, signOut, authEnabled } from "@/lib/auth/client";
-import { useCurrentUserState } from "@/lib/auth/use-current-user";
 import { PROVIDER_MAP, type Category } from "@/lib/plans";
 import { usePageTitle } from "@/lib/i18n";
 import { CATEGORY_OPTIONS, SITE } from "@/lib/site";
 import {
-  inviteStaffMember,
+  addDeskAccount,
+  executeStaffChange,
   loadStaffDesk,
   saveStaffPlan,
   setStaffMemberStatus,
+  signInDesk,
+  signOutDesk,
   type StaffActor,
   type StaffDeskPlan,
   type StaffMemberRow,
+  type StaffPlanChangeRow,
 } from "@/lib/staff-ask";
 import { STAFF_GROUPS, type StaffGroupId, type StaffStatus } from "@/lib/staff-groups";
 
@@ -38,21 +40,36 @@ type DeskState =
       actor: StaffActor;
       plans: StaffDeskPlan[];
       members: StaffMemberRow[];
+      pending: StaffPlanChangeRow[];
     };
 
 function StaffDeskPage() {
   usePageTitle(`計劃後台 · ${SITE.name}`);
-  const { user, isPending } = useCurrentUserState();
   const [desk, setDesk] = useState<DeskState>({ phase: "loading" });
-  const [tab, setTab] = useState<"plans" | "people">("plans");
+  const [tab, setTab] = useState<"plans" | "queue" | "people">("plans");
   const [cat, setCat] = useState<Category | "all">("all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [notice, setNotice] = useState("");
-  const [inviteEmail, setInviteEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [setupNeeded, setSetupNeeded] = useState(false);
+  const [inviteUser, setInviteUser] = useState("");
+  const [invitePass, setInvitePass] = useState("");
   const [inviteGroup, setInviteGroup] = useState<StaffGroupId>("hkt");
 
   async function refresh() {
-    const result = await loadStaffDesk();
+    const result = (await loadStaffDesk()) as {
+      ok?: boolean;
+      reason?: "signin" | "forbidden" | "owner_email";
+      setupNeeded?: boolean;
+      actor?: StaffActor;
+      plans?: StaffDeskPlan[];
+      members?: StaffMemberRow[];
+      pending?: StaffPlanChangeRow[];
+      created?: boolean;
+      message?: string;
+    };
+    setSetupNeeded(Boolean("setupNeeded" in result && result.setupNeeded));
     if (!result.ok) {
       setDesk({
         phase: result.reason === "signin" ? "signin" : "forbidden",
@@ -65,13 +82,14 @@ function StaffDeskPage() {
       actor: result.actor,
       plans: result.plans,
       members: result.members,
+      pending: result.pending ?? [],
     });
+    if ((result.pending ?? []).length && result.actor.role === "owner") setTab((cur) => (cur === "people" ? cur : "queue"));
   }
 
   useEffect(() => {
-    if (isPending) return;
     void refresh().catch(() => setDesk({ phase: "signin" }));
-  }, [isPending, user?.primaryEmail]);
+  }, []);
 
   const selected = desk.phase === "ready" ? desk.plans.find((plan) => plan.id === selectedId) : undefined;
   const visible = useMemo(() => {
@@ -84,30 +102,45 @@ function StaffDeskPage() {
       <p className="text-xs font-medium tracking-wider text-subtle">STAFF · NOINDEX</p>
       <h1 className="mt-2 text-title font-semibold">已上架計劃後台</h1>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
-        同事用自己嘅 Google 帳登入。只可以改自己集團嘅計劃卡、廣告圖同現有標籤。排序同卡面跟網站。齊Quote 精選得站長加。
+        用用戶名同密碼入。改完會排入「待執行」，你睇過再撳執行先上架。唔使 Google。
       </p>
 
-      {desk.phase === "loading" || isPending ? <p className="mt-8 text-sm text-muted">載入中…</p> : null}
+      {desk.phase === "loading" ? <p className="mt-8 text-sm text-muted">載入中…</p> : null}
 
       {desk.phase === "signin" ? (
-        <div className="mt-8 max-w-sm space-y-3 rounded-xl bg-card p-5 shadow-[var(--shadow-border)]">
-          <p className="text-sm text-muted">用 Google 登入先至入到後台。</p>
-          {authEnabled ? (
-            <Button type="button" onClick={() => void signIn("grok-google", { callbackURL: "/desk" })}>
-              用 Google 登入
-            </Button>
-          ) : (
-            <p className="text-sm text-hot">而家網站未開登入（VITE_AUTH_ENABLED=false），開咗 Google 登入先用到呢頁。</p>
-          )}
-        </div>
+        <form
+          className="mt-8 max-w-sm space-y-3 rounded-xl bg-card p-5 shadow-[var(--shadow-border)]"
+          onSubmit={(event) => {
+            event.preventDefault();
+            void signInDesk({ data: { username, password } }).then(async (result) => {
+              if (!result.ok) {
+                setNotice(("message" in result && result.message) || "登入失敗");
+                return;
+              }
+              setPassword("");
+              setNotice(result.created ? "已開站長帳，而家可以改計劃。" : "");
+              await refresh();
+            });
+          }}
+        >
+          <p className="text-sm text-muted">
+            {setupNeeded ? "第一次用：輸入你要嘅用戶名同密碼，就會開成站長帳。" : "輸入用戶名同密碼。"}
+          </p>
+          <label className="block text-sm">
+            用戶名
+            <Input className="mt-1" autoComplete="username" value={username} onChange={(event) => setUsername(event.target.value)} />
+          </label>
+          <label className="block text-sm">
+            密碼
+            <Input className="mt-1" type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} />
+          </label>
+          {notice ? <p className="text-sm text-hot">{notice}</p> : null}
+          <Button type="submit">{setupNeeded ? "開站長帳並進入" : "登入"}</Button>
+        </form>
       ) : null}
 
       {desk.phase === "forbidden" ? (
-        <p className="mt-8 text-sm text-hot">
-          {desk.reason === "owner_email"
-            ? "未設定站長。請喺 Vercel 加環境變數 STAFF_OWNER_EMAIL（你嘅 Google 電郵）。"
-            : "呢個 Google 帳未獲授權，或者已被停用。"}
-        </p>
+        <p className="mt-8 text-sm text-hot">呢個帳號未獲授權，或者已被停用。</p>
       ) : null}
 
       {desk.phase === "ready" ? (
@@ -115,7 +148,7 @@ function StaffDeskPage() {
           <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
             <span className="rounded-full bg-surface px-3 py-1">{desk.actor.email}</span>
             <span className="text-muted">{desk.actor.groupLabel}</span>
-            <button type="button" className="text-muted underline-offset-4 hover:underline" onClick={() => void signOut()}>
+            <button type="button" className="text-muted underline-offset-4 hover:underline" onClick={() => void signOutDesk().then(() => refresh())}>
               登出
             </button>
           </div>
@@ -124,13 +157,48 @@ function StaffDeskPage() {
               計劃卡
             </Button>
             {desk.actor.role === "owner" ? (
+              <Button type="button" variant={tab === "queue" ? "default" : "outline"} onClick={() => setTab("queue")}>
+                待執行 {desk.pending.length ? desk.pending.length : ""}
+              </Button>
+            ) : null}
+            {desk.actor.role === "owner" ? (
               <Button type="button" variant={tab === "people" ? "default" : "outline"} onClick={() => setTab("people")}>
-                畫權
+                帳號
               </Button>
             ) : null}
           </div>
 
-          {tab === "plans" ? (
+          {tab === "queue" && desk.actor.role === "owner" ? (
+            <section className="mt-6 max-w-xl space-y-3">
+              {desk.pending.length === 0 ? <p className="text-sm text-muted">而家冇待執行項目。</p> : null}
+              {desk.pending.map((item) => {
+                const plan = desk.plans.find((row) => row.id === item.planId);
+                return (
+                  <div key={item.id} className="rounded-xl bg-card p-4 text-sm shadow-[var(--shadow-border)]">
+                    <p className="font-medium">{plan ? `${plan.name}` : item.planId}</p>
+                    <p className="mt-1 text-muted">由 {item.actor} 提交 · 月費 {String(item.payload.monthlyFee ?? "—")}</p>
+                    <Button
+                      className="mt-3"
+                      type="button"
+                      onClick={() => {
+                        void executeStaffChange({ data: { changeId: item.id } }).then(async (result) => {
+                          if (!result.ok) {
+                            setNotice(("message" in result && result.message) || "執行失敗");
+                            return;
+                          }
+                          setNotice("已上架。公開頁而家用新月費。");
+                          await refresh();
+                        });
+                      }}
+                    >
+                      執行上架
+                    </Button>
+                  </div>
+                );
+              })}
+              {notice ? <p className="text-sm">{notice}</p> : null}
+            </section>
+          ) : tab === "plans" ? (
             <section className="mt-6">
               <div className="flex flex-wrap gap-2">
                 <button
@@ -176,7 +244,7 @@ function StaffDeskPage() {
                       plan={selected}
                       canQuotePick={desk.actor.role === "owner"}
                       onSaved={async () => {
-                        setNotice("已儲存，公開頁會用新月費同標籤。");
+                        setNotice("已排入待執行。去「待執行」睇完再上架。");
                         await refresh();
                       }}
                     />
@@ -193,20 +261,25 @@ function StaffDeskPage() {
                 className="space-y-3 rounded-xl bg-card p-4 shadow-[var(--shadow-border)]"
                 onSubmit={(event) => {
                   event.preventDefault();
-                  void inviteStaffMember({ data: { email: inviteEmail, groupId: inviteGroup } }).then(async (result) => {
+                  void addDeskAccount({ data: { username: inviteUser, password: invitePass, groupId: inviteGroup } }).then(async (result) => {
                     if (!result.ok) {
                       setNotice(("message" in result && result.message) || "加唔到呢個同事");
                       return;
                     }
-                    setInviteEmail("");
-                    setNotice("已加入。同事用同一個 Google 電郵打開 /staff 就得。");
+                    setInviteUser("");
+                    setInvitePass("");
+                    setNotice("已加入。同事用呢個用戶名密碼打開 /desk。");
                     await refresh();
                   });
                 }}
               >
                 <label className="block text-sm font-medium">
-                  同事 Google 電郵
-                  <Input className="mt-1" value={inviteEmail} onChange={(event) => setInviteEmail(event.target.value)} placeholder="name@company.com" />
+                  同事用戶名
+                  <Input className="mt-1" value={inviteUser} onChange={(event) => setInviteUser(event.target.value)} placeholder="username" />
+                </label>
+                <label className="block text-sm font-medium">
+                  同事密碼
+                  <Input className="mt-1" type="password" value={invitePass} onChange={(event) => setInvitePass(event.target.value)} />
                 </label>
                 <label className="block text-sm font-medium">
                   集團
@@ -392,7 +465,7 @@ function PlanEditor({
       </label>
       {error ? <p className="text-sm text-hot">{error}</p> : null}
       <Button type="submit" disabled={busy}>
-        {busy ? "儲存緊…" : "儲存呢張卡"}
+        {busy ? "提交緊…" : "提交待執行"}
       </Button>
     </form>
   );
