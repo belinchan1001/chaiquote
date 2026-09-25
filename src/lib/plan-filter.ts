@@ -1,6 +1,6 @@
 import { estateUnlocksPlan, isNetvigatorOnlyEstate } from "./estate-new-intake.ts";
 import { matchKnownEstate } from "./estates.ts";
-import { estateBlocksHkbnVillage, estateHasHgcVillageCoverage } from "./hgc-village-coverage.ts";
+import { estateHasHgcVillageCoverage } from "./hgc-village-coverage.ts";
 import {
   PROVIDER_MAP,
   averageFee,
@@ -20,29 +20,38 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
   const estate = search.estate?.trim() || qEstate?.name;
   const housing = search.housing ?? qEstate?.housing;
   const blobQ = qEstate ? undefined : search.q;
+  const limitToNetvigator =
+    Boolean(estate) &&
+    (search.cat === "broadband" || search.cat === "business") &&
+    isNetvigatorOnlyEstate(estate);
+  const hgcVillageOk = estateHasHgcVillageCoverage(estate);
+  const blockHkbnVillage = Boolean(estate) && hgcVillageOk;
+  const unlockCache = new Map<string, boolean>();
+  const unlockedFor = (onlyEstates: readonly string[]) => {
+    const key = onlyEstates.join("\n");
+    const cached = unlockCache.get(key);
+    if (cached !== undefined) return cached;
+    const value = estateUnlocksPlan(estate, onlyEstates);
+    unlockCache.set(key, value);
+    return value;
+  };
 
   let rows = catalogPlans().filter((plan) => {
     if (plan.category !== search.cat) return false;
     if (plan.unpublished) return false;
     if (plan.staffOffer) return false;
     if (isOfferExpired(plan)) return false;
-    if (
-      (search.cat === "broadband" || search.cat === "business") &&
-      isNetvigatorOnlyEstate(estate) &&
-      plan.providerId !== "netvigator"
-    ) {
-      return false;
-    }
+    if (limitToNetvigator && plan.providerId !== "netvigator") return false;
     if (plan.onlyEstates?.length) {
-      const unlocked = estateUnlocksPlan(estate, plan.onlyEstates);
+      const unlocked = unlockedFor(plan.onlyEstates);
       if (search.intake) {
         if (estate && !unlocked) return false;
       } else if (!unlocked) {
         return false;
       }
     }
-    if (isHgcVillage(plan) && !estateHasHgcVillageCoverage(estate)) return false;
-    if (isHkbnVillage(plan) && estateBlocksHkbnVillage(estate)) return false;
+    if (isHgcVillage(plan) && !hgcVillageOk) return false;
+    if (isHkbnVillage(plan) && blockHkbnVillage) return false;
     if (search.intake && !plan.newIntakeOffer) return false;
     if (!matchesHousing(plan, housing)) return false;
     if (search.maxFee && plan.monthlyFee > search.maxFee) return false;

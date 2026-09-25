@@ -784,11 +784,33 @@ export function searchEstates(query: string, limit = 8): Estate[] {
   return out;
 }
 
+const ESTATE_BY_COMPACT_NAME = new Map<string, Estate>();
+for (const estate of ESTATES) {
+  const key = compact(estate.name);
+  if (key && !ESTATE_BY_COMPACT_NAME.has(key)) ESTATE_BY_COMPACT_NAME.set(key, estate);
+}
+
+let knownEstateCacheKey = "";
+let knownEstateCacheValue: Estate | undefined;
+
 export function matchKnownEstate(name: string, address = ""): Estate | undefined {
+  const cacheKey = `${name}\0${address}`;
+  if (cacheKey === knownEstateCacheKey) return knownEstateCacheValue;
+  const found = resolveKnownEstate(name, address);
+  knownEstateCacheKey = cacheKey;
+  knownEstateCacheValue = found;
+  return found;
+}
+
+function resolveKnownEstate(name: string, address = ""): Estate | undefined {
   if (isBareHousingTypeQuery(name) && !compact(address)) return undefined;
   const nameCompact = compact(name);
   const hay = compact(`${name}${address}`);
   if (!hay) return undefined;
+  if (!compact(address)) {
+    const exact = ESTATE_BY_COMPACT_NAME.get(nameCompact);
+    if (exact) return exact;
+  }
 
   const present = [...ALL_ESTATE_NEEDLES, ...NON_ESTATE_NEEDLES].filter(
     (needle) => textHasEstateNeedle(hay, needle) || textHasEstateNeedle(nameCompact, needle),
