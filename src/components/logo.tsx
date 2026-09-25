@@ -30,10 +30,13 @@ export function LogoMark({
 export function BrandLockup({
   className,
   variant = "color",
+  markVariant,
   markClassName,
 }: {
   className?: string;
   variant?: LogoVariant;
+  /** Icon only. Footer keeps the header mark and only lightens the wordmark. */
+  markVariant?: LogoVariant;
   markClassName?: string;
 }) {
   return (
@@ -46,7 +49,7 @@ export function BrandLockup({
         className,
       )}
     >
-      <LogoMark variant={variant} className={markClassName} />
+      <LogoMark variant={markVariant ?? variant} className={markClassName} />
       <span className="flex min-w-0 flex-col leading-none">
         <span>{SITE.name}</span>
         <span
@@ -71,7 +74,7 @@ export function Logo({
 }) {
   return (
     <Link to="/" className={className} aria-label={`${SITE.name} ${SITE.searchHint}`}>
-      <BrandLockup variant={onPrimary ? "reverse" : "color"} />
+      <BrandLockup variant={onPrimary ? "reverse" : "color"} markVariant="color" />
     </Link>
   );
 }
