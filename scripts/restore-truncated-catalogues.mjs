@@ -5,11 +5,11 @@
  * check-messages and vite build.
  *
  * SOP: if extra-raw / messages is already complete (>= minBytes),
- * skip the overwrite. Only inject 偏恒昌新邨 when that row is missing.
+ * skip the overwrite. Only inject 偉恆昌新邸 when that row is missing.
  */
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 
-const WYLER = "偏恒昌新邨|偏恒昌,Wyler Gardens,Wyler Garden|九龍城|private|土瓜灣";
+const WYLER = "偉恆昌新邸|偉恆昌,Wyler Gardens,Wyler Garden|九龍城|private|土瓜灣";
 
 const FILES = [
   {
