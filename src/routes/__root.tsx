@@ -2,6 +2,7 @@ import { createRootRoute, HeadContent, Link, Outlet, Scripts } from "@tanstack/r
 import { lazy, Suspense } from "react";
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
+import { BootSplash } from "@/components/boot-splash";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { NavProgress } from "@/components/nav-progress";
@@ -136,11 +137,17 @@ function PageShell() {
 
 function RootLayout() {
   return (
-    <html lang="zh-HK" className="antialiased" suppressHydrationWarning>
+    <html lang="zh-HK" className="antialiased" style={{ backgroundColor: "#F4F8FF" }} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body className="min-h-dvh bg-bg text-fg">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(localStorage.getItem("chaiquote-lang")==="en")document.documentElement.setAttribute("data-boot","en")}catch(e){}`,
+          }}
+        />
+        <BootSplash />
         <PreviewHostBridge />
         <GoogleAdsTag />
         <PwaServiceWorker />
