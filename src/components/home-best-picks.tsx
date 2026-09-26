@@ -16,7 +16,7 @@ export function HomeBestPicks() {
   ).flatMap(([label, plan]) => (plan ? [{ label, plan }] : []));
 
   return (
-    <section className="border-b border-border">
+    <section className="home-below-fold border-b border-border">
       <div className="mx-auto max-w-6xl px-4 py-6 sm:py-7">
         <div>
           <h2 className="home-section-title">{t("bestPicksTitle")}</h2>

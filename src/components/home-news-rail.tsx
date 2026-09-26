@@ -8,7 +8,7 @@ export function HomeNewsRail() {
   const isEn = locale === "en";
 
   return (
-    <section className="border-t border-border">
+    <section className="home-below-fold border-t border-border">
       <div className="mx-auto max-w-6xl px-4 py-6 sm:py-7">
         <div className="flex items-end justify-between gap-3">
           <div>

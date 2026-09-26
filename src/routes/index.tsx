@@ -132,7 +132,7 @@ function Home() {
         <HomeBestPicks />
       </Suspense>
 
-      <section className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
+      <section className="home-below-fold mx-auto max-w-6xl px-4 py-8 sm:py-10">
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           {categories.map((item) => (
             <div

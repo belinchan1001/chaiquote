@@ -398,6 +398,10 @@
     opacity: 0.88;
     transform: translateY(6px);
   }
+  .plan-list-item {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 32rem;
+  }
   .plan-list-item > article {
     height: 100%;
   }
