@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { useRouterState } from "@tanstack/react-router";
 
-/** First paint cover. Inline styles so iOS is not white before the stylesheet arrives. Removed as soon as the page paints. */
+/** First paint and any later load that actually waits. Same screen on iOS, Android, and the website. */
 const BOOT_CSS = `
 #boot-splash{position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F4F8FF;color:#5b6b86;font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
 .boot-mark{width:4.5rem;height:4.5rem;overflow:visible}
@@ -19,18 +20,7 @@ html:not([data-boot="en"]) .boot-en{display:none}
 }
 `;
 
-export function BootSplash() {
-  const [on, setOn] = useState(true);
-
-  useEffect(() => {
-    const outer = requestAnimationFrame(() => {
-      requestAnimationFrame(() => setOn(false));
-    });
-    return () => cancelAnimationFrame(outer);
-  }, []);
-
-  if (!on) return null;
-
+function BootSplashView() {
   return (
     <div id="boot-splash" role="status">
       <style>{BOOT_CSS}</style>
@@ -52,4 +42,31 @@ export function BootSplash() {
       </div>
     </div>
   );
+}
+
+export function BootSplash() {
+  const loading = useRouterState({ select: (s) => s.isLoading });
+  const [boot, setBoot] = useState(true);
+  const [slow, setSlow] = useState(false);
+
+  useEffect(() => {
+    const outer = requestAnimationFrame(() => {
+      requestAnimationFrame(() => setBoot(false));
+    });
+    return () => cancelAnimationFrame(outer);
+  }, []);
+
+  useEffect(() => {
+    if (!loading || boot) {
+      setSlow(false);
+      return;
+    }
+    const timer = window.setTimeout(() => setSlow(true), 180);
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [loading, boot]);
+
+  if (!boot && !slow) return null;
+  return <BootSplashView />;
 }

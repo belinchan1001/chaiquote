@@ -114,6 +114,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = locale === "en" ? "en" : "zh-HK";
+    document.documentElement.setAttribute("data-boot", locale === "en" ? "en" : "zh");
   }, [locale]);
 
   useEffect(() => {
