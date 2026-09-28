@@ -29,7 +29,7 @@ describe("tech news channel", () => {
         "/images/news-gaming.jpg",
       ],
     );
-    assert.equal(TECH_NEWS_ARTICLES.length, 15);
+    assert.equal(TECH_NEWS_ARTICLES.length, 16);
     assert.ok(getTechNewsArticle("cmhk-mid-autumn-2026"));
     assert.ok(getTechNewsArticle("sony-hello-kitty-xperia-hk"));
     assert.ok(getTechNewsArticle("apple-education-sep24-hk"));
@@ -45,6 +45,7 @@ describe("tech news channel", () => {
     assert.ok(getTechNewsArticle("apple-watch-12-hk"));
     assert.ok(getTechNewsArticle("airpods-5-hk"));
     assert.ok(getTechNewsArticle("switch-2-hk-3700"));
+    assert.ok(getTechNewsArticle("minecraft-dungeons-2-sep29"));
     assert.equal(getTechNewsArticle("gta-6-november-2026")?.image, "/images/news-gta-6.jpg");
     assert.equal(getTechNewsArticle("gta-6-november-2026")?.imageCredit, "Rockstar Games");
     assert.ok(getTechNewsCategory("telecom"));
@@ -55,7 +56,7 @@ describe("tech news channel", () => {
     const byDesk = { telecom: 0, phones: 0, gadgets: 0, gaming: 0 };
     for (const article of TECH_NEWS_ARTICLES) {
       assert.match(article.description, /以電訊商確認為準|以官方及平台商店確認為準|以官方公布為準|以 SmarTone 及通訊辦公布為準|以商店確認為準/);
-      assert.match(article.published, /^2026-09-(18|21|24)$/);
+      assert.match(article.published, /^2026-09-(18|21|24|28)$/);
       assert.ok(article.editorNote.length > 80, article.slug);
       if (article.category in byDesk) byDesk[article.category] += 1;
     }
@@ -103,6 +104,7 @@ describe("tech news channel", () => {
       "switch-sports-resort-oct22",
       "apple-education-sep24-hk",
       "sony-hello-kitty-xperia-hk",
+      "minecraft-dungeons-2-sep29",
       "cmhk-mid-autumn-2026",
       "assemble-nintendo-switch-wanchai",
     ]) {

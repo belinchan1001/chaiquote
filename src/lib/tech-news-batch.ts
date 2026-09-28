@@ -3,6 +3,71 @@ import type { TechNewsArticle } from "./tech-news.ts";
 /** Extra news pieces. GTA 6 still lives in TECH_NEWS_ARTICLES. */
 export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
   {
+    slug: "minecraft-dungeons-2-sep29",
+    category: "gaming",
+    minutes: 4,
+    published: "2026-09-28",
+    seoTitle: "Dungeons II 9月29日：商店寫HK$199｜齊Quote",
+    h1: "Dungeons II 9月29日：商店寫$199",
+    description:
+      "Xbox 香港商店同任天堂香港商店：《Minecraft Dungeons II》發售日寫 2026 年 9 月 29 日。標準版 HK$199、豪華版 HK$349。Xbox 香港頁寫預購贈品至 9 月 28 日。內容僅供參考，實際售價、平台同檔期以官方及平台商店確認為準。",
+    excerpt: "Xbox同任天堂香港商店寫 9 月 29 日。標準版 HK$199、豪華版 HK$349。預購贈品官方寫到 9 月 28 日。",
+    seoTitleEn: "Dungeons II on 29 Sep: stores list HK$199 | 齊Quote",
+    h1En: "Dungeons II on 29 September: stores list $199",
+    descriptionEn:
+      "Xbox Hong Kong and Nintendo HK storefronts date Minecraft Dungeons II to 29 September 2026. Standard HK$199, Deluxe HK$349. The Xbox HK page dates the pre-order extra through 28 September. Confirm price and platform in the store.",
+    excerptEn: "Both HK stores date 29 September. Standard HK$199, Deluxe HK$349. Pre-order extras are dated through 28 September.",
+    bullets: [
+      "Xbox 香港商店：發售日 2026 年 9 月 29 日；標準版 HK$199、豪華版 HK$349。",
+      "任天堂香港商店同一日：標準版 HKD 199、豪華版 HKD 349。",
+      "Xbox 香港頁寫：預購可獲兩款英雄外觀、扭曲斗篷同扭曲小雞寵物，優惠至 9 月 28 日。",
+      "Xbox 頁另寫 Game Pass 上市當日可玩；月費同庫存以商店當頁為準。",
+    ],
+    bulletsEn: [
+      "Xbox HK store: 29 September 2026. Standard HK$199, Deluxe HK$349.",
+      "Nintendo HK store, same date: HKD 199 and HKD 349.",
+      "Xbox HK page: pre-order extras through 28 September — two hero skins, Twisted cape, Twisted chicken pet.",
+      "The same page says Game Pass on day one. The fee is whatever the store shows.",
+    ],
+    body: [
+      {
+        heading: "兩個香港商店都寫死日期",
+        headingEn: "Both Hong Kong stores print the date",
+        paragraphs: [
+          "Xbox 香港產品頁（《Minecraft Dungeons II》）寫發售日 2026 年 9 月 29 日，標準版 HK$199、豪華版 HK$349，平台寫 Xbox Series X|S 同 Windows。任天堂香港商店同一日列出標準版 HKD 199、豪華版 HKD 349。",
+          "呢個係商店頁寫死嘅發售日同標價，唔係討論區傳聞。其他主機有無上架、盒裝舖頭有無貨，要以當時商店為準，齊Quote 唔代宣布全平台同時有實體。",
+        ],
+        paragraphsEn: [
+          "The Xbox Hong Kong product page dates Minecraft Dungeons II to 29 September 2026 at HK$199 standard and HK$349 Deluxe, on Xbox Series X|S and Windows. Nintendo’s Hong Kong store lists the same date at HKD 199 and HKD 349.",
+          "Those figures are on the storefronts. Whether another console shop or a boxed copy exists is whatever that shop shows. We will not invent a full platform list.",
+        ],
+      },
+      {
+        heading: "預購贈品寫到今日",
+        headingEn: "The pre-order extra is dated today",
+        paragraphs: [
+          "Xbox 香港頁寫：立即預購可獲兩個英雄外觀、扭曲斗篷同扭曲小雞寵物；優惠將於 2026 年 9 月 28 日到期，每個帳戶僅限一次。想攞呢批贈品，要喺商店截止前完成預購，過咗今日以當時頁面為準。",
+          "豪華版頁面寫包標準版之外另有後續 DLC 同額外外觀。標準版同豪華版係兩張單，唔好當買標準版就自動有豪華內容。實際包含項目以結帳頁為準。",
+        ],
+        paragraphsEn: [
+          "Xbox HK: pre-order for two hero skins, the Twisted cape and the Twisted chicken pet, through 28 September 2026, once per account. After today, use whatever the page then shows.",
+          "Deluxe is a separate ticket with later DLC and extra cosmetics. The checkout page is the list that counts.",
+        ],
+      },
+    ],
+    tags: ["Minecraft", "Xbox", "Nintendo", "香港商店"],
+    tagsEn: ["Minecraft", "Xbox", "Nintendo", "Hong Kong store"],
+    editorNote:
+      "唔係等 GTA 6，亦唔係重複 Sports Resort 嗰個 10 月 22 日。呢篇只寫兩個香港商店而家寫死嘅 9 月 29 日、兩個標價，同 Xbox 頁寫到今日嘅預購贈品。\n\n有 Game Pass 嘅人先對訂閱頁，唔好估月費。想攞預購贈品就今日對 Xbox 商店；淨係等上市，就 29 日再對一次價錢同平台。",
+    editorNoteEn:
+      "This is not another GTA 6 hold. It is the 29 September date and the two ticket prices printed on the Hong Kong stores, plus the Xbox pre-order extra dated today.\n\nGame Pass users should open the subscription page. Do not invent a monthly fee. Pre-order extras need the Xbox store today. Everyone else can wait for the 29th and read the price again.",
+    related: ["switch-sports-resort-oct22", "switch-2-hk-3700", "gta-6-november-2026"],
+    sourceUrl: "https://www.xbox.com/zh-HK/games/minecraft-dungeons-ii",
+    image: "/images/news-gaming.jpg",
+    imageAlt: "電玩娛樂情報專區配圖",
+    imageCredit: "Xbox / Nintendo Hong Kong storefronts",
+  },
+  {
     slug: "sony-hello-kitty-xperia-hk",
     category: "phones",
     minutes: 5,
