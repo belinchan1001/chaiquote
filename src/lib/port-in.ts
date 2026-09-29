@@ -53,6 +53,7 @@ export const FIBRE_TARGETS = [
   { id: "netvigator", label: "網上行 (HKT)" },
   { id: "smartone", label: "SmarTone" },
   { id: "cmhk", label: "中國移動 (CMHK)" },
+  { id: "hgc", label: "HGC" },
   { id: "icable", label: "有線寬頻" },
 ] as const;
 
