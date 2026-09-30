@@ -20,4 +20,13 @@ coverage
 AGENTS.md
 startup.sh
 .grok/*
+*.jks
+*.keystore
+android/upload-keystore.jks
+android/local.properties
+android/.gradle/
+android/build/
+android/app/build/
+android/*.aab
+android/*.apk
 !.grok/app-env.json

@@ -12,19 +12,37 @@ test("vite config disables TanStack Start's built-in sitemap writer", () => {
   assert.match(viteConfig, /serverDir:\s*"\.\/server"/);
 });
 
-test("vercel.json 301s only the production vercel.app host to www.chaiquote.hk", () => {
+test("vercel.json 301s production hosts to www and keeps TWA files on the apex", () => {
   const vercel = JSON.parse(readFileSync(join(ROOT, "vercel.json"), "utf8"));
   const redirects = vercel.redirects ?? [];
   const hostRedirects = redirects.filter((rule) => rule.has?.[0]?.type === "host");
-  assert.ok(hostRedirects.length >= 1);
-  for (const rule of hostRedirects) {
+  const vercelApp = hostRedirects.filter((rule) => String(rule.has?.[0]?.value ?? "").endsWith("vercel.app"));
+  const apex = hostRedirects.filter((rule) => rule.has?.[0]?.value === "chaiquote.hk");
+  assert.ok(vercelApp.length >= 1);
+  for (const rule of vercelApp) {
     assert.equal(rule.statusCode, 301);
     assert.equal(rule.destination, "https://www.chaiquote.hk/$1");
     assert.equal(rule.has?.[0]?.type, "host");
     assert.match(rule.has?.[0]?.value ?? "", /^((www\.)?chaiquote\.vercel\.app)$/);
     assert.doesNotMatch(rule.has?.[0]?.value ?? "", /^\*\.vercel\.app$/);
   }
-  assert.ok(hostRedirects.some((rule) => rule.has?.[0]?.value === "chaiquote.vercel.app"));
+  assert.ok(vercelApp.some((rule) => rule.has?.[0]?.value === "chaiquote.vercel.app"));
+  assert.equal(apex.length, 1);
+  assert.equal(apex[0].statusCode, 301);
+  assert.equal(apex[0].destination, "https://www.chaiquote.hk/$1");
+  assert.match(apex[0].source, /assetlinks/);
+  assert.match(apex[0].source, /webmanifest/);
+  const headers = vercel.headers ?? [];
+  const assetHeaders = headers.find((rule) => rule.source === "/.well-known/assetlinks.json");
+  const manifestHeaders = headers.find((rule) => rule.source === "/manifest.webmanifest");
+  assert.equal(
+    assetHeaders?.headers?.find((header) => header.key === "Content-Type")?.value,
+    "application/json; charset=utf-8",
+  );
+  assert.equal(
+    manifestHeaders?.headers?.find((header) => header.key === "Content-Type")?.value,
+    "application/manifest+json; charset=utf-8",
+  );
 });
 
 test("bare /plans 301 keeps sitelinks q via middleware, not a vercel.json query rewrite", () => {

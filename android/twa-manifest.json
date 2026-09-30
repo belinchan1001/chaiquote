@@ -1,0 +1,44 @@
+{
+  "packageId": "hk.chaiquote.app",
+  "host": "chaiquote.hk",
+  "name": "齊Quote",
+  "launcherName": "齊Quote",
+  "display": "standalone",
+  "themeColor": "#1557C4",
+  "themeColorDark": "#0E3E8C",
+  "navigationColor": "#1557C4",
+  "navigationColorDark": "#0E3E8C",
+  "backgroundColor": "#F4F8FF",
+  "enableNotifications": false,
+  "startUrl": "/",
+  "iconUrl": "https://www.chaiquote.hk/icon-512.png",
+  "maskableIconUrl": "https://www.chaiquote.hk/__grok/icon-512-maskable.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./upload-keystore.jks",
+    "alias": "upload"
+  },
+  "appVersionCode": 1,
+  "appVersion": "1.0.0",
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://www.chaiquote.hk/manifest.webmanifest",
+  "fallbackType": "webview",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://chaiquote.hk/",
+  "minSdkVersion": 24,
+  "orientation": "default",
+  "fingerprints": [
+    {
+      "name": "upload",
+      "value": "2B:4B:17:BC:99:92:63:79:66:F9:AF:CF:42:BA:05:03:18:EF:34:E9:DF:84:C3:25:05:E1:5C:AC:1A:41:44:B8"
+    }
+  ],
+  "additionalTrustedOrigins": ["www.chaiquote.hk"]
+}

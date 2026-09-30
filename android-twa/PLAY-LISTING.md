@@ -25,8 +25,9 @@ Tools / Lifestyle
 填你經常用來收 Play 通知的 Gmail。
 
 ## 隱私政策 URL
-待站上線隱私政策頁後填入（草稿見 PRIVACY-DRAFT.md）。
-建議：https://www.chaiquote.hk/privacy
+https://www.chaiquote.hk/privacy
+
+站上已有 `/privacy`。App 啟動網址 `https://chaiquote.hk/` 會 301 到 www，商店填 www 呢條。
 
 ## 內容等級
 3+ / Everyone

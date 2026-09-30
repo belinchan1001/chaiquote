@@ -44,11 +44,21 @@ export function canonicalUrlFromMatches(
   return canonicalUrl(path);
 }
 
+/**
+ * Trusted Web Activity files must be fetched on the apex origin with HTTP 200.
+ * `https://chaiquote.hk/` still 301s to www; these two paths do not.
+ */
+const TWA_UNREDIRECTED_PATHS = new Set([
+  "/.well-known/assetlinks.json",
+  "/manifest.webmanifest",
+]);
+
 /** 301 Location for the official www host, or null when this request should stay. */
 export function canonicalRedirectLocation(
   requestUrl: URL,
   hostHeader?: string | null,
 ): string | null {
+  if (TWA_UNREDIRECTED_PATHS.has(requestUrl.pathname)) return null;
   const host = requestHostname(hostHeader ?? requestUrl.host);
   if (host === "chaiquote.hk" || isLegacyProductionHost(hostHeader ?? requestUrl.host)) {
     return `${DEFAULT_SEO_ORIGIN}${requestUrl.pathname}${requestUrl.search}`;
