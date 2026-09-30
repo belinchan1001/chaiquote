@@ -12,7 +12,8 @@ describe("flash offer countdown clock", () => {
     const clock = readFileSync(join(here, "../components/offer-countdown.tsx"), "utf8");
     const css = readFileSync(join(here, "../styles.css"), "utf8");
     assert.match(clock, /flashBookByLabel\(plan\.offerEndsAt/);
-    assert.equal(flashBookByLabel("2026-09-30T23:59:59+08:00", "zh"), "須於 9 月 30 日前成功預約安裝");
+    assert.equal(flashBookByLabel("2026-10-31T23:59:59+08:00", "zh"), "須於 10 月 31 日前成功預約安裝");
+    assert.equal(flashBookByLabel("2026-10-31T23:59:59+08:00", "en"), "Must book installation by 31 Oct");
     assert.equal(flashBookByLabel("2026-09-29T23:59:59+08:00", "zh"), "須於 9 月 29 日前成功預約安裝");
     assert.equal(flashBookByLabel("2026-09-29T23:59:59+08:00", "en"), "Must book installation by 29 Sep");
     assert.match(clock, /units: \["日", "時", "分", "秒"\]/);

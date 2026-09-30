@@ -19,12 +19,12 @@ const EXACT: Record<string, string> = {
     "Selected estates only. This plan auto-renews. Three months free. Coverage and install dates are confirmed by the carrier.",
   "限時快閃：只適用於 2026 年 9 月 24 日至 9 月 29 日成功預約安裝之客戶。適用於公屋、居屋及私人樓宇。不適用於村屋。實際覆蓋、安裝期及月費以電訊商確認為準。":
     "Flash offer: only for customers who successfully book installation from 24 to 29 Sep 2026. For public housing, HOS and private buildings. Not for village houses. Coverage, install date and monthly fee are confirmed by the carrier.",
-  "限時快閃：只適用於 2026 年 9 月 22 日至 9 月 30 日成功預約安裝之客戶。適用於公屋、居屋及私人樓宇。不適用於村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。":
-    "Flash offer: only for customers who successfully book installation from 22 to 30 Sep 2026. For public housing, HOS and private buildings. Not for village houses. Listed bundled services must be signed up together. Coverage, install date and monthly fee are confirmed by the carrier.",
-  "限時快閃：只適用於 2026 年 9 月 22 日至 9 月 30 日成功預約安裝之客戶。適用於公屋及居屋。不適用於私人樓宇及村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。":
-    "Flash offer: only for customers who successfully book installation from 22 to 30 Sep 2026. For public housing and HOS. Not for private buildings or village houses. Listed bundled services must be signed up together. Coverage, install date and monthly fee are confirmed by the carrier.",
-  "限時快閃：只適用於 2026 年 9 月 22 日至 9 月 30 日成功預約安裝之客戶。適用於私人樓宇。不適用於公屋、居屋及村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。":
-    "Flash offer: only for customers who successfully book installation from 22 to 30 Sep 2026. For private buildings. Not for public housing, HOS or village houses. Listed bundled services must be signed up together. Coverage, install date and monthly fee are confirmed by the carrier.",
+  "限時快閃：只適用於 2026 年 9 月 22 日至 10 月 31 日成功預約安裝之客戶。適用於公屋、居屋及私人樓宇。不適用於村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。":
+    "Flash offer: only for customers who successfully book installation from 22 Sep to 31 Oct 2026. For public housing, HOS and private buildings. Not for village houses. Listed bundled services must be signed up together. Coverage, install date and monthly fee are confirmed by the carrier.",
+  "限時快閃：只適用於 2026 年 9 月 22 日至 10 月 31 日成功預約安裝之客戶。適用於公屋及居屋。不適用於私人樓宇及村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。":
+    "Flash offer: only for customers who successfully book installation from 22 Sep to 31 Oct 2026. For public housing and HOS. Not for private buildings or village houses. Listed bundled services must be signed up together. Coverage, install date and monthly fee are confirmed by the carrier.",
+  "限時快閃：只適用於 2026 年 9 月 22 日至 10 月 31 日成功預約安裝之客戶。適用於私人樓宇。不適用於公屋、居屋及村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。":
+    "Flash offer: only for customers who successfully book installation from 22 Sep to 31 Oct 2026. For private buildings. Not for public housing, HOS or village houses. Listed bundled services must be signed up together. Coverage, install date and monthly fee are confirmed by the carrier.",
   "僅適用於指定村屋地址。本計劃為 27 個月合約。可選擇延遲服務生效日（最長 365 日）。香港寬頻之公屋、居屋及私人樓宇計劃不適用於村屋地址。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須另行核對。":
     "Village-house addresses only. 27-month contract. Service start can be deferred up to 365 days. HKBN public/HOS/private plans do not apply to village houses. Not for villages with HGC fibre coverage. Coverage must be confirmed separately.",
   "僅適用於指定村屋地址。本計劃為 24 個月合約。可選擇延遲服務生效日（最長 365 日）。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須另行核對。":

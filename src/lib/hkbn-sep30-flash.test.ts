@@ -20,7 +20,7 @@ describe("HKBN Sep 30 flash fibre", () => {
       assert.equal(plan.providerId, "hkbn");
       assert.equal(plan.flashOffer, true);
       assert.equal(plan.quotePick, true);
-      assert.equal(plan.offerEndsAt, "2026-09-30T23:59:59+08:00");
+      assert.equal(plan.offerEndsAt, "2026-10-31T23:59:59+08:00");
       assert.equal(plan.housing === "all" || plan.housing.includes("village"), false, id);
       assert.match(plan.install, /豁免安裝費/);
     }
@@ -39,8 +39,8 @@ describe("HKBN Sep 30 flash fibre", () => {
 
   it("hides the cards from listings after the cutoff, but getPlan still resolves", () => {
     const plan = getPlan("hkbn-ftth-1000-24m-98-sep30")!;
-    const before = Date.parse("2026-09-30T23:59:59+08:00") - 1000;
-    const after = Date.parse("2026-09-30T23:59:59+08:00") + 1000;
+    const before = Date.parse("2026-10-31T23:59:59+08:00") - 1000;
+    const after = Date.parse("2026-10-31T23:59:59+08:00") + 1000;
     assert.equal(isOfferExpired(plan, before), false);
     assert.equal(isOfferExpired(plan, after), true);
     assert.ok(remainingOfferMs(plan, before) > 0);
@@ -51,7 +51,7 @@ describe("HKBN Sep 30 flash fibre", () => {
     const rows = filterPlans({ cat: "broadband" });
     const ids = rows.map((plan) => plan.id);
     for (const id of IDS) {
-      if (Date.now() > Date.parse("2026-09-30T23:59:59+08:00")) {
+      if (Date.now() > Date.parse("2026-10-31T23:59:59+08:00")) {
         assert.equal(ids.includes(id), false, id);
       } else {
         assert.equal(ids.includes(id), true, id);
