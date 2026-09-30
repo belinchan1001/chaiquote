@@ -40,7 +40,7 @@
       "statusCode": 302
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!\\.well-known/assetlinks\\.json$|manifest\\.webmanifest$).*)",
       "has": [{ "type": "host", "value": "chaiquote.hk" }],
       "destination": "https://www.chaiquote.hk/$1",
       "statusCode": 301
@@ -154,6 +154,20 @@
         { "key": "Content-Type", "value": "application/javascript; charset=utf-8" },
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
         { "key": "Service-Worker-Allowed", "value": "/" }
+      ]
+    },
+    {
+      "source": "/manifest.webmanifest",
+      "headers": [
+        { "key": "Content-Type", "value": "application/manifest+json; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    },
+    {
+      "source": "/.well-known/assetlinks.json",
+      "headers": [
+        { "key": "Content-Type", "value": "application/json; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
       ]
     }
   ]
