@@ -12,7 +12,7 @@
 | 另外信任 | `https://www.chaiquote.hk`（apex 會 301 去 www，兩邊都要過 Digital Asset Links） |
 | minSdk | 24 |
 | 上傳金鑰 SHA-256 | `2B:4B:17:BC:99:92:63:79:66:F9:AF:CF:42:BA:05:03:18:EF:34:E9:DF:84:C3:25:05:E1:5C:AC:1A:41:44:B8` |
-| 權限 | `INTERNET`（WebView fallback 先會用到；有 Chrome 時仍然係 TWA） |
+| 權限 | `INTERNET`（WebView fallback 先會用到；有 Chrome 時仍然係 TWA）。合併後嘅 release manifest 仲有 AndroidX 加嘅 signature 權限 `hk.chaiquote.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`，只係 App 自己收非匯出廣播，唔係位置、相機、通訊錄或通知。 |
 | 隱私政策（站上已有） | https://www.chaiquote.hk/privacy |
 
 `fallbackType` 係 `webview`，因為 Bubblewrap 只會喺 WebView fallback 時把 `INTERNET` 寫入 manifest。有支援 TWA 嘅 Chrome 時，App 仍然用 Trusted Web Activity，唔會改用 WebView。
