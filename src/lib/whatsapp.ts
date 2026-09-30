@@ -11,6 +11,7 @@ import { SITE } from "./site.ts";
 import type { Inquiry } from "./desk.ts";
 import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
 import { toEnglishLazy } from "./plan-en-lazy.ts";
+import { appendSourceMark, classifyLeadSource, readLeadTouch } from "./ads-attribution.ts";
 
 const HOUSING_MESSAGE: Record<Housing, MessageKey> = {
   public: "housingPublic",
@@ -63,14 +64,24 @@ export function quoteWhatsappDisplay(plans: Plan[] = [], inquiry?: Partial<Inqui
   return deskNumber(resolveQuoteDesk(plans, inquiry)).display;
 }
 
-export function whatsappHref(text: string, phone: string = SITE.whatsappE164) {
+function whatsappSendHref(text: string, phone: string) {
   const params = new URLSearchParams({
     phone,
-    text: withBrandTag(text),
+    text,
     type: "phone_number",
     app_absent: "0",
   });
   return `https://api.whatsapp.com/send/?${params.toString()}`;
+}
+
+export function whatsappHref(text: string, phone: string = SITE.whatsappE164) {
+  return whatsappSendHref(withBrandTag(text), phone);
+}
+
+/** Outbound quote URL with one 【來源】line. Blank chats get only that line. */
+export function quoteWhatsappHref(text: string, phone: string = SITE.whatsappE164) {
+  const marked = appendSourceMark(text, classifyLeadSource(readLeadTouch()));
+  return whatsappSendHref(text.trim() ? withBrandTag(marked) : marked, phone);
 }
 
 export function planLine(plan: Plan, locale: Locale = "zh") {

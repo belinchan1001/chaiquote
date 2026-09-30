@@ -6,7 +6,7 @@ import { useI18n } from "@/lib/i18n";
 import type { Plan } from "@/lib/plans";
 import { portInQuoteFromInquiry, shouldUsePortInQuote } from "@/lib/port-in";
 import { quoteMessage, quoteWhatsappDisplay, quoteWhatsappE164, whatsappHref } from "@/lib/whatsapp";
-import { trackWaClick } from "@/lib/track-client";
+import { quoteWhatsAppActivateProps } from "@/lib/wa-quote-open";
 import { cn } from "@/lib/utils";
 
 export function QuoteLink({
@@ -35,6 +35,9 @@ export function QuoteLink({
   const resolved = inquiry ?? stored;
   const { t, locale } = useI18n();
   const phone = quoteWhatsappE164(selected, resolved);
+  const message = shouldUsePortInQuote(resolved)
+    ? portInQuoteFromInquiry(resolved, selected[0])
+    : quoteMessage(selected, resolved, locale);
   const label = showNumber
     ? t("waQuoteWithNumber", { phone: quoteWhatsappDisplay(selected, resolved) })
     : t("waQuote");
@@ -46,21 +49,14 @@ export function QuoteLink({
       className={cn("min-w-0", pulse === "header" && "wa-pulse wa-pulse-header", className)}
     >
       <a
-        href={whatsappHref(
-          shouldUsePortInQuote(resolved)
-            ? portInQuoteFromInquiry(resolved, selected[0])
-            : quoteMessage(selected, resolved, locale),
-          phone,
-        )}
+        href={whatsappHref(message, phone)}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={label}
-        onClick={() =>
-          trackWaClick({
-            planIds: selected.map((item) => item.id),
-            waPhone: phone,
-          })
-        }
+        {...quoteWhatsAppActivateProps(message, phone, {
+          planIds: selected.map((item) => item.id),
+          waPhone: phone,
+        })}
       >
         <WhatsAppIcon />
         {children ?? <span className="truncate">{label}</span>}

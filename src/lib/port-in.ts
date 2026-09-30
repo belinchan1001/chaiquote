@@ -9,6 +9,7 @@ import {
   type ProviderId,
 } from "./plans.ts";
 import { SITE } from "./site.ts";
+import { quoteWhatsappHref } from "./whatsapp.ts";
 
 export const FIBRE_CURRENT = [
   { id: "hkbn", label: "香港寬頻" },
@@ -366,16 +367,7 @@ export function portInQuoteMessage(formData: WhatsAppFormData) {
 }
 
 export function generateWhatsAppLink(formData: WhatsAppFormData, phone: string = SITE.whatsappE164) {
-  const body = portInQuoteMessage(formData);
-  const tag = `【${SITE.name}】`;
-  const text = body.startsWith(tag) ? body : `${tag}\n${body}`;
-  const params = new URLSearchParams({
-    phone,
-    text,
-    type: "phone_number",
-    app_absent: "0",
-  });
-  return `https://api.whatsapp.com/send/?${params.toString()}`;
+  return quoteWhatsappHref(portInQuoteMessage(formData), phone);
 }
 
 export function housingDisplay(housing?: string) {

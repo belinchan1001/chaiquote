@@ -35,6 +35,7 @@ import type { MessageKey } from "@/lib/messages";
 import { compactSearch } from "@/lib/search";
 import { filterPlans } from "@/lib/plan-filter";
 import { quoteWhatsappE164, whatsappHref } from "@/lib/whatsapp";
+import { quoteWhatsAppActivateProps } from "@/lib/wa-quote-open";
 import { cn } from "@/lib/utils";
 
 type Bubble = {
@@ -509,34 +510,40 @@ export function AiStaffPanel() {
                 </p>
                 {bubble.planIds?.length ? (
                   <div className="mt-2 space-y-2">
-                    {plansForAiCards(bubble.planIds).map((plan) => (
-                      <div key={plan.id} className="space-y-2">
-                        <Link
-                          to="/plans/$planId"
-                          params={{ planId: plan.id }}
-                          className="block bg-card px-3 py-2 text-sm shadow-[var(--shadow-border)] hover:shadow-[var(--shadow-border-hover)]"
-                        >
-                          <ProviderMark id={plan.providerId} size="sm" showEn={false} />
-                          <p className="mt-1 font-medium leading-snug">{tx(plan.name)}</p>
-                          <p className="mt-1 tabular-nums">
-                            {formatFee(plan.monthlyFee)}{" "}
-                            <span className="text-xs text-muted">{t("months", { n: plan.contractMonths })}</span>
-                          </p>
-                          <p className="mt-0.5 text-[11px] text-subtle">{t("aiCardRef")}</p>
-                        </Link>
-                        <a
-                          href={whatsappHref(
-                            portInQuoteFromInquiry(bubble.quote ?? guide, plan),
-                            quoteWhatsappE164([plan]),
-                          )}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex h-11 w-full items-center justify-center rounded-full bg-whatsapp px-3 text-sm font-medium text-whatsapp-foreground"
-                        >
-                          {t("aiWaCta")}
-                        </a>
-                      </div>
-                    ))}
+                    {plansForAiCards(bubble.planIds).map((plan) => {
+                      const waPhone = quoteWhatsappE164([plan]);
+                      const waText = portInQuoteFromInquiry(bubble.quote ?? guide, plan);
+                      return (
+                        <div key={plan.id} className="space-y-2">
+                          <Link
+                            to="/plans/$planId"
+                            params={{ planId: plan.id }}
+                            className="block bg-card px-3 py-2 text-sm shadow-[var(--shadow-border)] hover:shadow-[var(--shadow-border-hover)]"
+                          >
+                            <ProviderMark id={plan.providerId} size="sm" showEn={false} />
+                            <p className="mt-1 font-medium leading-snug">{tx(plan.name)}</p>
+                            <p className="mt-1 tabular-nums">
+                              {formatFee(plan.monthlyFee)}{" "}
+                              <span className="text-xs text-muted">{t("months", { n: plan.contractMonths })}</span>
+                            </p>
+                            <p className="mt-0.5 text-[11px] text-subtle">{t("aiCardRef")}</p>
+                          </Link>
+                          <a
+                            href={whatsappHref(waText, waPhone)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex h-11 w-full items-center justify-center rounded-full bg-whatsapp px-3 text-sm font-medium text-whatsapp-foreground"
+                            {...quoteWhatsAppActivateProps(waText, waPhone, {
+                              source: "ai_staff",
+                              planIds: [plan.id],
+                              waPhone,
+                            })}
+                          >
+                            {t("aiWaCta")}
+                          </a>
+                        </div>
+                      );
+                    })}
                     <p className="text-xs text-muted">{t("aiFeeNote")}</p>
                   </div>
                 ) : null}
