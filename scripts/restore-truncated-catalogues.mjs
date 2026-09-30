@@ -11,7 +11,10 @@ const WYLER = "偉恆昌新邨|偉恆昌,Wyler Gardens,Wyler Garden|九龍城|pr
 const FILES = [
   {
     dest: "src/lib/messages.ts",
-    url: "https://raw.githubusercontent.com/belinchan1001/chaiquote/031247c1a0fdb6e86963f4013af7b74df9e3b0ef/src/lib/messages.ts",
+    // Must be a main commit whose messages.ts already contains every key the
+    // app renders. 031247c predates the Android privacy section (#122) and
+    // the build was shipping key names on /privacy.
+    url: "https://raw.githubusercontent.com/belinchan1001/chaiquote/efc4d7f1303cb0ac5ee1c2b84e7600d1f8d3d831/src/lib/messages.ts",
     minBytes: 40000,
   },
   {
