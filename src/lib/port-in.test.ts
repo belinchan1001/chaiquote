@@ -287,6 +287,9 @@ describe("port-in intake", () => {
     assert.match(href, /api\.whatsapp\.com\/send/);
     assert.match(href, /text=/);
     assert.match(href, /85263099966/);
+    const decoded = new URL(href).searchParams.get("text") ?? "";
+    assert.match(decoded, /【來源】(google_ads|meta|organic|other)/);
+    assert.doesNotMatch(decoded, /gclid|fbclid/);
     const newNumber = portInQuoteMessage({
       serviceType: "手機月費",
       currentProvider: "新號碼",

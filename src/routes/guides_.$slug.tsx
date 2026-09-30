@@ -11,6 +11,7 @@ import { canonicalUrl, notFoundHead } from "@/lib/canonical";
 import { guideJsonLd } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { whatsappHref } from "@/lib/whatsapp";
+import { quoteWhatsAppActivateProps } from "@/lib/wa-quote-open";
 
 export const Route = createFileRoute("/guides_/$slug")({
   loader: ({ params }) => {
@@ -283,7 +284,12 @@ function GuidePage() {
           ) : null}
           {copy.ctaButton && copy.waText ? (
             <Button asChild variant="whatsapp" className="w-full sm:w-auto">
-              <a href={whatsappHref(copy.waText)} target="_blank" rel="noopener noreferrer">
+              <a
+                href={whatsappHref(copy.waText)}
+                target="_blank"
+                rel="noopener noreferrer"
+                {...quoteWhatsAppActivateProps(copy.waText, SITE.whatsappE164, { source: "guide" })}
+              >
                 <WhatsAppIcon />
                 <span className="truncate">{copy.ctaButton}</span>
               </a>

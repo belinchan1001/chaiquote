@@ -13,9 +13,11 @@ import {
   quoteMessage,
   quoteWhatsappDisplay,
   quoteWhatsappE164,
-  whatsappHref,
+  quoteWhatsappHref,
   withInquiry,
 } from "@/lib/whatsapp";
+import { trackWaClick } from "@/lib/track-client";
+import { quoteWhatsAppActivateProps } from "@/lib/wa-quote-open";
 import { cn } from "@/lib/utils";
 import type { MessageKey } from "@/lib/messages";
 
@@ -82,7 +84,12 @@ export function WhatsAppWidget() {
       },
     ]);
     setDraft("");
-    window.open(whatsappHref(withInquiry(trimmed, inquiry, locale), deskE164), "_blank", "noopener,noreferrer");
+    window.open(quoteWhatsappHref(withInquiry(trimmed, inquiry, locale), deskE164), "_blank", "noopener,noreferrer");
+    trackWaClick({
+      source: "widget",
+      waPhone: deskE164,
+      planIds: plans.map((plan) => plan.id),
+    });
   }
 
   return (
@@ -226,6 +233,11 @@ export function DeferredWhatsApp() {
         href={`https://wa.me/${deskE164}`}
         target="_blank"
         rel="noopener noreferrer"
+        {...quoteWhatsAppActivateProps("", deskE164, {
+          source: "widget",
+          waPhone: deskE164,
+          planIds: plans.map((plan) => plan.id),
+        })}
         className={cn(
           "wa-pulse wa-pulse-fab fixed right-4 z-50 flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)]",
           lifted ? "bottom-[calc(6.5rem+env(safe-area-inset-bottom))] sm:bottom-20" : "bottom-6",

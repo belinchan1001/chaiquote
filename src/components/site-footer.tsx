@@ -2,10 +2,14 @@ import { Link } from "@tanstack/react-router";
 import { Logo } from "@/components/logo";
 import { useI18n } from "@/lib/i18n";
 import { SITE } from "@/lib/site";
-import { trackWaClick } from "@/lib/track-client";
+import { quoteWhatsAppActivateProps } from "@/lib/wa-quote-open";
 
 export function SiteFooter() {
   const { t, updated, locale } = useI18n();
+  const waOpenProps = quoteWhatsAppActivateProps("", SITE.whatsappE164, {
+    source: "footer",
+    waPhone: SITE.whatsappE164,
+  });
   return (
     <footer className="border-t border-border bg-primary text-primary-foreground">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-3">
@@ -19,7 +23,7 @@ export function SiteFooter() {
               target="_blank"
               rel="noopener noreferrer"
               className="underline-offset-4 hover:underline"
-              onClick={() => trackWaClick({ source: "footer", waPhone: SITE.whatsappE164 })}
+              {...waOpenProps}
             >
               WhatsApp {SITE.phoneDisplay}
             </a>
