@@ -1,15 +1,15 @@
 # 齊Quote Android（Trusted Web Activity）
 
-殼 App 只係打開 [https://chaiquote.hk/](https://chaiquote.hk/)。網站文案同月費照舊喺呢個 repo 改，唔使每次重新上架。
+殼 App 只係打開 [https://www.chaiquote.hk/](https://www.chaiquote.hk/)。網站文案同月費照舊喺呢個 repo 改，唔使每次重新上架。
 
 | | |
 | --- | --- |
 | 套件名 | `hk.chaiquote.app` |
 | 顯示名稱 | 齊Quote |
-| versionName | 1.0.0 |
-| versionCode | 1 |
-| 啟動網址 | `https://chaiquote.hk/`（`host` + `startUrl`） |
-| 另外信任 | `https://www.chaiquote.hk`（apex 會 301 去 www，兩邊都要過 Digital Asset Links） |
+| versionName | 1.0.1 |
+| versionCode | 2 |
+| 啟動網址 | `https://www.chaiquote.hk/`（`host` + `startUrl`） |
+| 信任來源 | 只有 `https://www.chaiquote.hk` |
 | minSdk | 24 |
 | 上傳金鑰 SHA-256 | `2B:4B:17:BC:99:92:63:79:66:F9:AF:CF:42:BA:05:03:18:EF:34:E9:DF:84:C3:25:05:E1:5C:AC:1A:41:44:B8` |
 | 權限 | `INTERNET`（WebView fallback 先會用到；有 Chrome 時仍然係 TWA）。合併後嘅 release manifest 仲有 AndroidX 加嘅 signature 權限 `hk.chaiquote.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`，只係 App 自己收非匯出廣播，唔係位置、相機、通訊錄或通知。 |
@@ -38,12 +38,13 @@ android/upload-keystore.jks
 
 `public/.well-known/assetlinks.json` 寫咗 upload key 嘅 SHA-256。第一次上傳 AAB 之後，Play Console → 測試和發布 → 應用完整性（App signing）會顯示 **應用程式簽署金鑰憑證** 嘅 SHA-256。阿祺要將嗰組指紋加埋落 `sha256_cert_fingerprints` 陣列（保留而家呢組），然後等 Vercel 發佈。兩組可以同時存在。
 
-驗證網址（都要係 `application/json`、HTTP 200、唔好再 301）：
+Digital Asset Links 用呢條，必須 HTTP 200、`application/json`、唔好 308：
 
-- https://chaiquote.hk/.well-known/assetlinks.json
 - https://www.chaiquote.hk/.well-known/assetlinks.json
 
-`https://chaiquote.hk/` 其他路徑仍然 301 去 www。`/.well-known/assetlinks.json` 同 `/manifest.webmanifest` 喺 apex 直接 200，否則 Digital Asset Links 失敗。
+`https://chaiquote.hk/` 係 Vercel 網域層級 **308** 去 www（Project Settings → Domains）。呢個 308 喺 `vercel.json` 同 Nitro middleware 之前發生，所以 `vercel.json` 入面嘅 negative lookahead 攔唔到 `/.well-known/assetlinks.json` 同 `/manifest.webmanifest`。App 因此改為打開 www，唔再打開 apex。
+
+如果之後想 apex 都直接 200：喺 Vercel Domains 取消 `chaiquote.hk` → `www.chaiquote.hk` 嘅 redirect。Repo 入面嘅 in-app 301 已經跳過呢兩個路徑。未取消之前，apex 仍然會 308。
 
 ## 重新打包
 

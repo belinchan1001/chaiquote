@@ -45,8 +45,10 @@ export function canonicalUrlFromMatches(
 }
 
 /**
- * Trusted Web Activity files must be fetched on the apex origin with HTTP 200.
- * `https://chaiquote.hk/` still 301s to www; these two paths do not.
+ * In-app apex→www 301 skips Digital Asset Links and the web manifest.
+ * Vercel's domain redirect is HTTP 308 and runs before vercel.json and this
+ * middleware, so production apex still 308s until that dashboard redirect is
+ * removed. The TWA host is www.chaiquote.hk, which already returns 200.
  */
 const TWA_UNREDIRECTED_PATHS = new Set([
   "/.well-known/assetlinks.json",
