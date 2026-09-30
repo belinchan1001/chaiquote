@@ -66,15 +66,15 @@ test("apex canonical redirect skips Digital Asset Links and the web manifest", (
 test("Bubblewrap project targets hk.chaiquote.app and only asks for INTERNET", () => {
   const twa = JSON.parse(readFileSync(join(ROOT, "android/twa-manifest.json"), "utf8"));
   assert.equal(twa.packageId, "hk.chaiquote.app");
-  assert.equal(twa.host, "chaiquote.hk");
+  assert.equal(twa.host, "www.chaiquote.hk");
   assert.equal(twa.startUrl, "/");
   assert.equal(twa.name, "齊Quote");
   assert.equal(twa.launcherName, "齊Quote");
-  assert.equal(twa.appVersion, "1.0.0");
-  assert.equal(twa.appVersionCode, 1);
+  assert.equal(twa.appVersion, "1.0.1");
+  assert.equal(twa.appVersionCode, 2);
   assert.equal(twa.fallbackType, "webview");
   assert.equal(twa.enableNotifications, false);
-  assert.deepEqual(twa.additionalTrustedOrigins, ["www.chaiquote.hk"]);
+  assert.deepEqual(twa.additionalTrustedOrigins, []);
   assert.equal(twa.signingKey.alias, "upload");
   assert.equal(twa.signingKey.path, "./upload-keystore.jks");
   assert.equal(twa.fingerprints[0].value, UPLOAD_SHA256);
@@ -83,7 +83,11 @@ test("Bubblewrap project targets hk.chaiquote.app and only asks for INTERNET", (
   assert.doesNotMatch(manifest, /ACCESS_FINE_LOCATION|ACCESS_COARSE_LOCATION|CAMERA|RECORD_AUDIO|READ_CONTACTS|POST_NOTIFICATIONS/);
   const gradle = readFileSync(join(ROOT, "android/app/build.gradle"), "utf8");
   assert.match(gradle, /applicationId "hk\.chaiquote\.app"/);
-  assert.match(gradle, /versionCode 1/);
-  assert.match(gradle, /versionName "1\.0\.0"/);
-  assert.match(gradle, /https:\/\/chaiquote\.hk\//);
+  assert.match(gradle, /versionCode 2/);
+  assert.match(gradle, /versionName "1\.0\.1"/);
+  assert.match(gradle, /hostName: 'www\.chaiquote\.hk'/);
+  assert.match(gradle, /https:\/\/www\.chaiquote\.hk\//);
+  const statements = readFileSync(join(ROOT, "android/app/src/main/res/values/strings.xml"), "utf8");
+  assert.match(statements, /https:\/\/www\.chaiquote\.hk/);
+  assert.doesNotMatch(statements, /https:\/\/chaiquote\.hk"/);
 });

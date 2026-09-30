@@ -3,7 +3,7 @@
 Android 專案已經用 Bubblewrap 生成，喺 [`android/`](../android/README.md)。呢個資料夾只保留商店文案草稿。
 
 套件名：`hk.chaiquote.app`  
-啟動網址：https://chaiquote.hk/  
+啟動網址：https://www.chaiquote.hk/  
 上傳金鑰 SHA-256 已經寫入 `public/.well-known/assetlinks.json`（唔再係 `00:00:...`）。
 
 金鑰檔同密碼唔喺 git。下載今次 agent artifacts 嘅 `chaiquote-upload.jks` 同 `chaiquote-upload-credentials.txt`，自己保管。
