@@ -338,6 +338,13 @@ export const MESSAGES = {
     privacyOverseas: "境外存放",
     privacyRights: "你嘅權利",
     privacyRightsText: "你可以查閱或改正個人資料；聯絡渠道同上。",
+    privacyAndroid: "Android 應用程式",
+    privacyAndroidP1:
+      "齊Quote 亦提供 Android 應用程式（Google Play）。該應用程式以網頁殼方式開啟本網站（chaiquote.hk），功能與網站一致，並非另行收集另一套個人資料。",
+    privacyAndroidP2:
+      "透過應用程式使用本服務時，適用本私隱政策全部條文。應用程式本身不會額外要求通訊錄、相機、位置等與查詢無關的權限；若日後有變更，會先更新本頁並於應用程式商店說明。",
+    privacyAndroidP3:
+      "應用程式沿用網站同一套 Cookie／本機儲存及分析設定，並非另開追蹤。應用程式內的瀏覽技術資料、廣告識別相關處理（如有），以及你透過「留低電話」或 WhatsApp 提交的資料，處理目的、保存及權利與網站相同。查閱或改正個人資料，聯絡方式同上。",
     privacyUpdate: "更新",
     privacyUpdateText: "政策或會更新；重大改動喺本頁公布。最後更新日期：{date}。",
     sort: "點排",
@@ -838,6 +845,13 @@ export const MESSAGES = {
     privacyOverseas: "Overseas storage",
     privacyRights: "Your rights",
     privacyRightsText: "Access and correction — same channels as above.",
+    privacyAndroid: "Android app",
+    privacyAndroidP1:
+      "ChaiQuote also offers an Android app (Google Play). The app opens this website (chaiquote.hk) in a web wrapper. It works the same way as the website and does not collect a separate set of personal data.",
+    privacyAndroidP2:
+      "When you use this service through the app, this privacy policy applies in full. The app itself does not ask for extra permissions unrelated to an enquiry, such as contacts, camera or location. If that changes later, this page will be updated first and the change will be explained on the app store.",
+    privacyAndroidP3:
+      "The app uses the same cookies, local storage and analytics settings as the website, and does not run separate tracking. Browsing technical data in the app, advertising-identifier processing (if any), and information you submit through “Leave a number” or WhatsApp are processed, kept and subject to the same rights as on the website. To access or correct personal data, use the same contact details as above.",
     privacyUpdate: "Updates",
     privacyUpdateText: "This policy may change. Material updates are posted on this page. Last updated: {date}.",
     sort: "Sort",

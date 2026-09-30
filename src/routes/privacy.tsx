@@ -13,7 +13,7 @@ export const Route = createFileRoute("/privacy")({
   head: () => shareHead(PRIVACY_SEO, canonicalUrl("/privacy")),
 });
 
-const SECTIONS: { title: MessageKey; body: MessageKey }[] = [
+const SECTIONS: { title: MessageKey; body: MessageKey | MessageKey[] }[] = [
   { title: "privacyController", body: "privacyControllerText" },
   { title: "privacyCollect", body: "privacyCollectText" },
   { title: "privacyUse", body: "privacyUseText" },
@@ -22,6 +22,10 @@ const SECTIONS: { title: MessageKey; body: MessageKey }[] = [
   { title: "privacyKeep", body: "privacyKeepText" },
   { title: "privacyOverseas", body: "overseasNote" },
   { title: "privacyRights", body: "privacyRightsText" },
+  {
+    title: "privacyAndroid",
+    body: ["privacyAndroidP1", "privacyAndroidP2", "privacyAndroidP3"],
+  },
   { title: "privacyUpdate", body: "privacyUpdateText" },
 ];
 
@@ -35,12 +39,19 @@ function PrivacyPage() {
       <h1 className="text-title font-semibold">{t("privacyTitle")}</h1>
       <p className="mt-4 text-sm leading-relaxed text-muted">{t("privacyLead")}</p>
 
-      {SECTIONS.map((section) => (
-        <section key={section.title} className="mt-8">
-          <h2 className="text-lg font-semibold">{t(section.title)}</h2>
-          <p className="mt-3 text-sm leading-relaxed text-muted">{t(section.body, vars)}</p>
-        </section>
-      ))}
+      {SECTIONS.map((section) => {
+        const paragraphs = Array.isArray(section.body) ? section.body : [section.body];
+        return (
+          <section key={section.title} className="mt-8">
+            <h2 className="text-lg font-semibold">{t(section.title)}</h2>
+            {paragraphs.map((paragraph) => (
+              <p key={paragraph} className="mt-3 text-sm leading-relaxed text-muted">
+                {t(paragraph, vars)}
+              </p>
+            ))}
+          </section>
+        );
+      })}
 
       <section className="mt-10">
         <h2 className="text-lg font-semibold">{t("contactUs")}</h2>

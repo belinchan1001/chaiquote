@@ -289,6 +289,37 @@ describe("date stamps", () => {
   });
 });
 
+describe("privacy Android app section", () => {
+  it("inserts the approved written Chinese before the updates section", () => {
+    const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    const privacy = readFileSync(join(here, "../routes/privacy.tsx"), "utf8");
+    assert.equal(quoted(messages, "privacyAndroid")[0], "Android 應用程式");
+    assert.equal(
+      quoted(messages, "privacyAndroidP1")[0],
+      "齊Quote 亦提供 Android 應用程式（Google Play）。該應用程式以網頁殼方式開啟本網站（chaiquote.hk），功能與網站一致，並非另行收集另一套個人資料。",
+    );
+    assert.equal(
+      quoted(messages, "privacyAndroidP2")[0],
+      "透過應用程式使用本服務時，適用本私隱政策全部條文。應用程式本身不會額外要求通訊錄、相機、位置等與查詢無關的權限；若日後有變更，會先更新本頁並於應用程式商店說明。",
+    );
+    assert.equal(
+      quoted(messages, "privacyAndroidP3")[0],
+      "應用程式沿用網站同一套 Cookie／本機儲存及分析設定，並非另開追蹤。應用程式內的瀏覽技術資料、廣告識別相關處理（如有），以及你透過「留低電話」或 WhatsApp 提交的資料，處理目的、保存及權利與網站相同。查閱或改正個人資料，聯絡方式同上。",
+    );
+    assert.equal(quoted(messages, "privacyUpdate")[0], "更新");
+    assert.match(
+      privacy,
+      /privacyAndroid[\s\S]*privacyUpdate/,
+    );
+    assert.doesNotMatch(privacy, /privacyUpdate[\s\S]*privacyAndroid/);
+    for (const word of ["最平", "保證", "官方"]) {
+      for (const key of ["privacyAndroid", "privacyAndroidP1", "privacyAndroidP2", "privacyAndroidP3"]) {
+        assert.equal(quoted(messages, key)[0].includes(word), false, `${key} contains ${word}`);
+      }
+    }
+  });
+});
+
 describe("i18n catalogue and error chrome", () => {
   it("keeps both zh and en tables so EN UI cannot crash on missing MESSAGES.en", () => {
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
