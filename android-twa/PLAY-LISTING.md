@@ -18,6 +18,11 @@
 
 網站：https://www.chaiquote.hk/
 
+## 圖示
+商店資訊用 `android/store_icon.png`（512×512，藍色貼到四邊）。阿祺喺 Play Console 上傳呢張。
+
+主畫面圖示唔係呢張。Adaptive 圖喺 `android/icons/icon-512-adaptive.png`，已經打入 versionCode 3 嘅 AAB。用錯張做商店圖示，列表會見到縮入嘅圓標；用錯張做主畫面，藍圈會被系統裁走。
+
 ## 分類
 Tools / Lifestyle
 

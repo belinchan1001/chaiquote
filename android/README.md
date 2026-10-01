@@ -69,7 +69,11 @@ bubblewrap build --manifest=./twa-manifest.json
 
 簽名 AAB 輸出：`android/app-release-bundle.aab`。呢個檔唔好 commit。
 
-圖示來自 `https://www.chaiquote.hk/icon-512.png` 同 maskable `https://www.chaiquote.hk/__grok/icon-512-maskable.png`。`bubblewrap update` 會重新下載。
+主畫面圖示唔係網站嘅 maskable。`android/icons/icon-512-adaptive.png` 已經將圓標縮入安全區，Android adaptive mask（108dp 圖層入面 66dp 圓）之後藍色外圈仍然喺度。`scripts/generate-twa-icons.py` 將佢縮成 108dp 嘅 `ic_maskable`（mdpi 108 至 xxxhdpi 432），`mipmap-anydpi-v26/ic_launcher.xml` 用呢張做前景、`#1557C4` 做背景，**冇** Bubblewrap 預設嘅 8.5dp inset。嗰段 inset 係為貼邊 maskable 而設，加落呢張圖會再縮細，藍圈會被裁走。
+
+唔好跑 `bubblewrap update`。佢會按 `twa-manifest.json` 嘅 `maskableIconUrl`（網站上貼邊嘅 maskable）重新下載，並且把 `ic_launcher.xml` 換回 8.5dp 模板。
+
+Play 商店資訊圖示係另一張：`android/store_icon.png`（512，藍色貼到四邊）。阿祺喺 Play Console 上傳呢張。呢張唔會變成主畫面圖示，唔使另起一個只畀商店用嘅路徑。
 
 ## Play Console（阿祺自己做，呢度冇登入）
 
@@ -79,4 +83,4 @@ bubblewrap build --manifest=./twa-manifest.json
 4. 商店資訊：名稱「齊Quote」。文案草稿見 `android-twa/PLAY-LISTING.md`。
 5. 隱私權政策網址填 https://www.chaiquote.hk/privacy （頁面已存在，唔好另寫一份）。
 6. 內部測試加入測試者。
-7. Play App Signing SHA-256 已經喺 `public/.well-known/assetlinks.json`。唔好再刪。內部測試要上傳 versionCode **3** 呢包，先至會信任 apex。
+7. Play App Signing SHA-256 已經喺 `public/.well-known/assetlinks.json`。唔好再刪。內部測試要上傳 versionCode **3** 呢包。呢包同時有 apex 信任同埋收得住藍圈嘅主畫面圖示。商店資訊圖示另外上傳 `android/store_icon.png`（藍色貼邊嗰張），唔好用 adaptive 嗰張做商店圖示。
