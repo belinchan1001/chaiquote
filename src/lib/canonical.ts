@@ -46,9 +46,10 @@ export function canonicalUrlFromMatches(
 
 /**
  * In-app apex→www 301 skips Digital Asset Links and the web manifest.
- * Vercel's domain redirect is HTTP 308 and runs before vercel.json and this
- * middleware, so production apex still 308s until that dashboard redirect is
- * removed. The TWA host is www.chaiquote.hk, which already returns 200.
+ * vercel.json uses the same skip. A Vercel Domains redirect (HTTP 308) still
+ * runs before both; while that dashboard redirect is on, apex never reaches
+ * this function. The TWA launches https://www.chaiquote.hk/ and also trusts
+ * https://chaiquote.hk once assetlinks is HTTP 200 there.
  */
 const TWA_UNREDIRECTED_PATHS = new Set([
   "/.well-known/assetlinks.json",

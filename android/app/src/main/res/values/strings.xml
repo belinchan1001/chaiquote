@@ -15,6 +15,9 @@
      limitations under the License.
 -->
 <resources>
+  <string-array name="additional_trusted_origins">
+    <item>https://chaiquote.hk</item>
+  </string-array>
 
   <!--
     The "fullscreen" and "fullscreen-sticky" TWA manifest values correspond to "immersive" and "sticky-immersive"
@@ -35,7 +38,12 @@
             \"namespace\": \"web\",
             \"site\": \"https://www.chaiquote.hk\"
         }
+    },{
+        \"relation\": [\"delegate_permission/common.handle_all_urls\"],
+        \"target\": {
+            \"namespace\": \"web\",
+            \"site\": \"https://chaiquote.hk\"
+        }
     }]
-    
   </string>  
 </resources>

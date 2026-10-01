@@ -30,8 +30,19 @@ test("vercel.json 301s production hosts to www and keeps TWA files on the apex",
   assert.equal(apex.length, 1);
   assert.equal(apex[0].statusCode, 301);
   assert.equal(apex[0].destination, "https://www.chaiquote.hk/$1");
-  assert.match(apex[0].source, /assetlinks/);
-  assert.match(apex[0].source, /webmanifest/);
+  // path-to-regexp 6.1.0 (what @vercel/routing-utils compiles with) turns
+  // `\\.` in the source into a literal backslash, so the old lookahead never
+  // excluded these files and the edge 301'd assetlinks. Dots stay unescaped.
+  assert.equal(
+    apex[0].source,
+    "/((?!.well-known/assetlinks.json$|manifest.webmanifest$).*)",
+  );
+  assert.doesNotMatch(apex[0].source, /\\/);
+  const vercelCompiled = /^(?:\/((?!.well-known\/assetlinks.json$|manifest.webmanifest$).*))$/;
+  assert.equal(vercelCompiled.test("/.well-known/assetlinks.json"), false);
+  assert.equal(vercelCompiled.test("/manifest.webmanifest"), false);
+  assert.equal(vercelCompiled.test("/"), true);
+  assert.equal(vercelCompiled.test("/plans"), true);
   const headers = vercel.headers ?? [];
   const assetHeaders = headers.find((rule) => rule.source === "/.well-known/assetlinks.json");
   const manifestHeaders = headers.find((rule) => rule.source === "/manifest.webmanifest");

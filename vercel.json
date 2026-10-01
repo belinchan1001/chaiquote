@@ -40,7 +40,7 @@
       "statusCode": 302
     },
     {
-      "source": "/((?!\\.well-known/assetlinks\\.json$|manifest\\.webmanifest$).*)",
+      "source": "/((?!.well-known/assetlinks.json$|manifest.webmanifest$).*)",
       "has": [{ "type": "host", "value": "chaiquote.hk" }],
       "destination": "https://www.chaiquote.hk/$1",
       "statusCode": 301

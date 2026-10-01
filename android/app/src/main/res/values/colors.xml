@@ -15,4 +15,6 @@
 -->
 <resources>
     <color name="shortcut_background">#F5F5F5</color>
+    <!-- Same blue as the adaptive icon's outer field (#1557C4). -->
+    <color name="ic_launcher_background">#1557C4</color>
 </resources>
