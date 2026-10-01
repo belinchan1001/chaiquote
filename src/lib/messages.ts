@@ -479,7 +479,7 @@ export const MESSAGES = {
     intakeExpiry6: "半年以上／不清楚",
     intakeSpeedNeed: "網速需求",
     intakeSpeedAny: "速度不限",
-    intakeHousing: "屋樓類型",
+    intakeHousing: "樓宇類型",
     intakeMobileNeed: "計劃類型",
     intakeAddressOptional: "主要活動／居住地址（選填）",
     intakeAddressOptionalHint: "填寫地址可幫你額外查詢該區 5G 訊號覆蓋",
