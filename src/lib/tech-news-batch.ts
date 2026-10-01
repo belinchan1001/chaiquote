@@ -3,6 +3,80 @@ import type { TechNewsArticle } from "./tech-news.ts";
 /** Extra news pieces. GTA 6 still lives in TECH_NEWS_ARTICLES. */
 export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
   {
+    slug: "hkt-ai-data-waiver-oct7",
+    category: "telecom",
+    minutes: 4,
+    published: "2026-10-01",
+    seoTitle: "10月7日起用HKT.AI：本地數據可豁免｜齊Quote",
+    h1: "10月7日起：1O1O同csl用HKT.AI免本地數據",
+    description:
+      "香港電訊2026年9月17日新聞稿註腳寫明：由10月7日起，1O1O、csl同Club Sim月費客戶經註冊SIM喺香港用HKT.AI，可豁免本地流動數據。外遊另計。內容僅供參考，以電訊商確認為準。",
+    excerpt: "新聞稿註腳寫10月7日起，1O1O、csl同Club Sim月費客戶喺香港用HKT.AI，註冊SIM本地數據可豁免。外遊另計，平台上旬先啟用。",
+    seoTitleEn: "From 7 Oct: HKT.AI local data waiver on 1O1O and csl | 齊Quote",
+    h1En: "From 7 October: HKT.AI local data waived on 1O1O and csl",
+    descriptionEn:
+      "HKT’s 17 September 2026 release says that from 7 October, 1O1O, csl and Club Sim monthly users can have local data waived when using HKT.AI in Hong Kong on a registered SIM. Roaming is separate. Confirm with the carrier.",
+    excerptEn: "The footnote dates 7 October. 1O1O, csl and Club Sim monthly SIMs can skip local data for HKT.AI in Hong Kong. Roaming is extra.",
+    bullets: [
+      "由2026年10月7日起：1O1O、csl、Club Sim月費客戶，用註冊SIM喺香港用HKT.AI，本地流動數據可豁免。",
+      "同一註腳寫：外遊用HKT.AI，可能要另付漫遊數據費。",
+      "平台本身寫10月上旬啟用，細節由HKT另公布；唔好當10月7日已經全日開放。",
+      "10月22日或之前申請指定計劃，可多一次過18,000 credits；90日有效，12月31日前發放。",
+    ],
+    bulletsEn: [
+      "From 7 October 2026: 1O1O, csl and Club Sim monthly users on a registered SIM can have local data waived for HKT.AI in Hong Kong.",
+      "The same footnote says overseas use may still incur roaming data charges.",
+      "The platform itself is dated early October, with details to follow. 7 October is the waiver date, not a full launch clock.",
+      "Specified plans applied for on or before 22 October get an extra one-time 18,000 credits, valid 90 days, issued by 31 December.",
+    ],
+    body: [
+      {
+        heading: "10月7日豁免邊啲人",
+        headingEn: "Who the 7 October waiver covers",
+        paragraphs: [
+          "香港電訊9月17日新聞稿註腳(c)寫死：由2026年10月7日起，所有1O1O、csl、Club Sim月費服務計劃用戶，透過註冊SIM卡提供嘅本地流動數據，可豁免喺香港地區內使用HKT.AI時所產生嘅流動數據用量。",
+          "呢句唔限新簽「HKT.AI全能助手計劃」。現有月費客戶都包，但要用返註冊咗嘅SIM。網頁版、第二張卡、或者朋友分享熱點，新聞稿冇寫可以一併豁免，成交或使用前對[1O1O](https://1010.com.hk/iphone-hktai)同[csl](https://www.hkcsl.com/zh_HK/hkt-ai)條款。",
+        ],
+        paragraphsEn: [
+          "Footnote (c) of HKT’s 17 September release dates the waiver to 7 October 2026 for all 1O1O, csl and Club Sim monthly plans, on local data from the registered SIM, while using HKT.AI in Hong Kong.",
+          "It is not limited to a new HKT.AI Super Assistants plan. A second SIM or a shared hotspot is not named. Check the 1O1O and csl terms before you rely on it.",
+        ],
+      },
+      {
+        heading: "外遊同credits唔好撈亂",
+        headingEn: "Roaming and credits are separate",
+        paragraphs: [
+          "同一註腳寫：如果喺海外用HKT.AI，或需另行支付漫遊數據費。免本地數據唔等於漫遊都免。",
+          "高達648,000 HKT.AI Credits係另一條註腳(d)：要選用包括每月18,000 credits嘅指定1O1O、csl或網上行月費計劃，而且簽36個月。唔係所有月費客戶自動有呢個額。生成張數只係參考，註腳(e)寫會因使用模式而變。",
+        ],
+        paragraphsEn: [
+          "The same footnote says overseas HKT.AI use may still be charged as roaming data. A local waiver is not a roaming waiver.",
+          "Up to 648,000 credits is footnote (d): a specified 1O1O, csl or Netvigator plan that includes 18,000 credits a month, on a 36-month term. It is not automatic for every monthly user. Generation counts are illustrative.",
+        ],
+      },
+      {
+        heading: "想用之前對邊度",
+        headingEn: "Where to check before you use it",
+        paragraphs: [
+          "註腳(b)寫HKT.AI服務將於2026年10月上旬正式啟用，詳情由HKT另行公布。10月7日係數據豁免生效日，平台開關以當日官網為準。條款頁：[1O1O](https://1010.com.hk/iphone-hktai)、[csl](https://www.hkcsl.com/zh_HK/hkt-ai)、[網上行](https://www.netvigator.com/zh_HK/tnc-hktai-monthly-service-plan)。",
+          "早鳥係另一個日子：2026年10月22日或之前成功選用指定計劃，可享額外一次過18,000 credits，有效期90日，將於12月31日前發放，到時有短訊。呢個係credits，唔係月費減免。機價折扣同合約月費仍然要分開問門市，以電訊商確認為準。",
+        ],
+        paragraphsEn: [
+          "Footnote (b) says HKT.AI turns on in early October, with details to follow. 7 October is the data-waiver date. Confirm the live page on 1O1O, csl or Netvigator.",
+          "The early-bird date is separate: specified plans taken on or before 22 October get an extra 18,000 credits, valid 90 days, issued by 31 December with an SMS. That is credits, not a bill cut. Handset discounts and monthly fees still have to be priced in-store.",
+        ],
+      },
+    ],
+    tags: ["HKT.AI", "1O1O", "csl", "Club Sim", "本地數據"],
+    tagsEn: ["HKT.AI", "1O1O", "csl", "Club Sim", "local data"],
+    editorNote:
+      "呢則唔係再講一次iPhone減幾多。減機嗰頁已經寫過：折扣同月費要分開計。今次新事實係註腳入面個日子——10月7日，現有1O1O、csl、Club Sim月費客戶喺香港用HKT.AI，本地數據可以豁免。\n\n我唔會順手寫一個「全能助手月費」。新聞稿主文冇把月費寫死，credits又要指定計劃加36個月先至有上限。外遊照計漫遊。想用，10月7日對返自己SIM係咪註冊卡，再打開官網睇平台開未開。",
+    editorNoteEn:
+      "This is not another handset-discount recap. The new fact is the footnote date: from 7 October, existing 1O1O, csl and Club Sim monthly users can have local data waived for HKT.AI in Hong Kong.\n\nI am not inventing a plan fee. The release does not lock a monthly price in the main text, and the credit cap needs a specified plan plus 36 months. Roaming is still roaming. On the day, check that the SIM is the registered one and that the platform is actually on.",
+    related: ["iphone-18-handset-plan", "cmhk-mid-autumn-2026"],
+    sourceUrl: "https://www.hkt.com/about-hkt/press-release/iphone-duo-iphone-18-preorders-hkt/",
+  },
+  {
     slug: "minecraft-dungeons-2-sep29",
     category: "gaming",
     minutes: 4,
