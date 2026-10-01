@@ -8,6 +8,8 @@ import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const UPLOAD_SHA256 =
   "2B:4B:17:BC:99:92:63:79:66:F9:AF:CF:42:BA:05:03:18:EF:34:E9:DF:84:C3:25:05:E1:5C:AC:1A:41:44:B8";
+const PLAY_APP_SIGNING_SHA256 =
+  "F7:82:04:27:F7:D6:96:8D:29:65:53:32:A2:02:EF:C7:EA:C2:30:28:6C:2A:66:59:E6:AC:7E:E3:4C:B0:7C:75";
 
 test("web manifest is the stable 齊Quote TWA manifest", () => {
   const manifest = JSON.parse(readFileSync(join(ROOT, "public/manifest.webmanifest"), "utf8"));
@@ -24,13 +26,16 @@ test("web manifest is the stable 齊Quote TWA manifest", () => {
   assert.ok(sizes.has("512x512"));
 });
 
-test("assetlinks uses the upload-key fingerprint, not the placeholder", () => {
+test("assetlinks delegates to the upload key and the Play App Signing key", () => {
   const statements = JSON.parse(readFileSync(join(ROOT, "public/.well-known/assetlinks.json"), "utf8"));
   assert.equal(statements.length, 1);
   assert.deepEqual(statements[0].relation, ["delegate_permission/common.handle_all_urls"]);
   assert.equal(statements[0].target.namespace, "android_app");
   assert.equal(statements[0].target.package_name, "hk.chaiquote.app");
-  assert.deepEqual(statements[0].target.sha256_cert_fingerprints, [UPLOAD_SHA256]);
+  assert.deepEqual(statements[0].target.sha256_cert_fingerprints, [
+    UPLOAD_SHA256,
+    PLAY_APP_SIGNING_SHA256,
+  ]);
   assert.doesNotMatch(JSON.stringify(statements), /00:00:00:00/);
 });
 
