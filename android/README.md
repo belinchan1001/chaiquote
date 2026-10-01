@@ -6,10 +6,10 @@
 | --- | --- |
 | 套件名 | `hk.chaiquote.app` |
 | 顯示名稱 | 齊Quote |
-| versionName | 1.0.1 |
-| versionCode | 2 |
+| versionName | 1.0.2 |
+| versionCode | 3 |
 | 啟動網址 | `https://www.chaiquote.hk/`（`host` + `startUrl`） |
-| 信任來源 | 只有 `https://www.chaiquote.hk` |
+| 信任來源 | `https://www.chaiquote.hk`，另外 `https://chaiquote.hk`（`additionalTrustedOrigins`） |
 | minSdk | 24 |
 | 上傳金鑰 SHA-256 | `2B:4B:17:BC:99:92:63:79:66:F9:AF:CF:42:BA:05:03:18:EF:34:E9:DF:84:C3:25:05:E1:5C:AC:1A:41:44:B8` |
 | 權限 | `INTERNET`（WebView fallback 先會用到；有 Chrome 時仍然係 TWA）。合併後嘅 release manifest 仲有 AndroidX 加嘅 signature 權限 `hk.chaiquote.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`，只係 App 自己收非匯出廣播，唔係位置、相機、通訊錄或通知。 |
@@ -34,17 +34,21 @@ PKCS12 唔支援 store password 同 key password 唔同，兩個密碼係同一�
 android/upload-keystore.jks
 ```
 
-## 點解 assetlinks 而家只有 upload 指紋
+## Digital Asset Links
 
-`public/.well-known/assetlinks.json` 寫咗 upload key 嘅 SHA-256。第一次上傳 AAB 之後，Play Console → 測試和發布 → 應用完整性（App signing）會顯示 **應用程式簽署金鑰憑證** 嘅 SHA-256。阿祺要將嗰組指紋加埋落 `sha256_cert_fingerprints` 陣列（保留而家呢組），然後等 Vercel 發佈。兩組可以同時存在。
+`public/.well-known/assetlinks.json` 已經有兩組 SHA-256，唔好刪走任何一組：
 
-Digital Asset Links 用呢條，必須 HTTP 200、`application/json`、唔好 308：
+- upload key：`2B:4B:17:BC:99:92:63:79:66:F9:AF:CF:42:BA:05:03:18:EF:34:E9:DF:84:C3:25:05:E1:5C:AC:1A:41:44:B8`
+- Play App Signing：`F7:82:04:27:F7:D6:96:8D:29:65:53:32:A2:02:EF:C7:EA:C2:30:28:6C:2A:66:59:E6:AC:7E:E3:4C:B0:7C:75`
+
+兩條都要 HTTP 200、`application/json`、唔好 301／308：
 
 - https://www.chaiquote.hk/.well-known/assetlinks.json
+- https://chaiquote.hk/.well-known/assetlinks.json
 
-`https://chaiquote.hk/` 係 Vercel 網域層級 **308** 去 www（Project Settings → Domains）。呢個 308 喺 `vercel.json` 同 Nitro middleware 之前發生，所以 `vercel.json` 入面嘅 negative lookahead 攔唔到 `/.well-known/assetlinks.json` 同 `/manifest.webmanifest`。App 因此改為打開 www，唔再打開 apex。
+`vercel.json` 嘅 apex→www 301 要跳過呢兩個路徑。path-to-regexp 6.1.0（Vercel routing）會把 source 入面嘅 `\\.` 編譯成「字面反斜線」，舊嘅 negative lookahead 因此從來冇排除到 `assetlinks.json`，edge 會 301。而家 source 唔再加反斜線。
 
-如果之後想 apex 都直接 200：喺 Vercel Domains 取消 `chaiquote.hk` → `www.chaiquote.hk` 嘅 redirect。Repo 入面嘅 in-app 301 已經跳過呢兩個路徑。未取消之前，apex 仍然會 308。
+如果 Vercel Project Settings → Domains 仲有 `chaiquote.hk` → `www.chaiquote.hk` 嘅 **308**，個 308 喺 `vercel.json` 同 Nitro 之前發生，repo 改唔到。發佈後如果 Google 對 apex 仍然係 `ERROR_CODE_REDIRECT`，就要喺 Domains 取消呢個 redirect。取消之後，in-app 301 同 `vercel.json` 都會放行上面兩條路徑。
 
 ## 重新打包
 
@@ -58,11 +62,10 @@ export PATH="$HOME/.local/node_modules/.bin:$PATH"
 cd android
 export BUBBLEWRAP_KEYSTORE_PASSWORD='（見 credentials 檔）'
 export BUBBLEWRAP_KEY_PASSWORD='（同 store password）'
-bubblewrap update --skipVersionUpgrade --manifest=./twa-manifest.json --directory="$PWD"
 bubblewrap build --manifest=./twa-manifest.json
 ```
 
-`--skipVersionUpgrade` 先唔好改 versionCode。下次上架先改 `android/twa-manifest.json` 嘅 `appVersion` / `appVersionCode`，再跑 `bubblewrap update`（唔加 skip）同 `build`。
+呢版 versionCode 已經係 **3**。唔好跑 `bubblewrap update`：佢會按 template 重寫 `strings.xml`，把 `assetStatements` 拆成兩個 JSON array。git 入面嘅 Android 專案先係準。下次先改 `appVersion` / `appVersionCode`，再對住改過嘅檔 `build`。
 
 簽名 AAB 輸出：`android/app-release-bundle.aab`。呢個檔唔好 commit。
 
@@ -76,4 +79,4 @@ bubblewrap build --manifest=./twa-manifest.json
 4. 商店資訊：名稱「齊Quote」。文案草稿見 `android-twa/PLAY-LISTING.md`。
 5. 隱私權政策網址填 https://www.chaiquote.hk/privacy （頁面已存在，唔好另寫一份）。
 6. 內部測試加入測試者。
-7. 喺 App signing 頁抄 **app signing** SHA-256，加落 `public/.well-known/assetlinks.json`，等網站發佈。未加之前，TWA 可能仍然顯示網址列。
+7. Play App Signing SHA-256 已經喺 `public/.well-known/assetlinks.json`。唔好再刪。內部測試要上傳 versionCode **3** 呢包，先至會信任 apex。
