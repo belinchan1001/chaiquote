@@ -5,12 +5,12 @@
  * check-messages and vite build.
  *
  * SOP: if extra-raw / messages is already complete (>= minBytes),
- * skip the overwrite. Only inject 偉恆昌新邭 when that row is missing.
+ * skip the overwrite. Only inject 偉恆昌新邨 when that row is missing.
  * messages.ts pin stays on efc4d7f (Android privacy keys).
  */
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 
-const WYLER = "偉恆昌新邭|偉恆昌,Wyler Gardens,Wyler Garden|九龍城|private|土瓜灣";
+const WYLER = "偉恆昌新邨|偉恆昌,Wyler Gardens,Wyler Garden|九龍城|private|土瓜灣";
 
 const FILES = [
   {
@@ -27,10 +27,10 @@ const FILES = [
     minBytes: 50000,
     after: (text) => {
       if (text.includes("Wyler Gardens")) return text;
-      const row = WYLER + "\\n";
+      const row = WYLER + "\n";
       const needle = "`.trim();";
       const idx = text.lastIndexOf(needle);
-      if (idx === -1) return text + "\\n" + row;
+      if (idx === -1) return text + "\n" + row;
       return text.slice(0, idx) + row + text.slice(idx);
     },
   },
