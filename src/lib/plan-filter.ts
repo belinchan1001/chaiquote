@@ -158,11 +158,13 @@ export function isTriShared(plan: Plan) {
   return /三地共用|三地共享|中港澳三地|中港澳共享|香港、內地、澳門共享/.test(headline(plan));
 }
 
-/** A plan only counts when the monthly offer itself includes 大灣區數據. */
+/** Non-local data counts, including 大灣區 and 三地共用. Voice-only roaming does not. */
 export function isGbaDataPlan(plan: Plan) {
   if (plan.category !== "mobile") return false;
   const text = [plan.name, plan.roaming, plan.fupNote, plan.portInPerk, ...(plan.perks ?? [])].filter(Boolean).join(" ");
-  return /大灣區/.test(text);
+  return /大灣區|三地共用|三地共享|中港澳三地|中港澳共享|內地及澳門|中國內地及澳門|中國內地數據|澳門數據|中澳\s*\d|中澳數據|中港共|兩地共享|一咭兩地|4地共用|中港澳台|全中國|亞太|全球/.test(
+    text,
+  );
 }
 
 function isSharedHeadline(plan: Plan) {
