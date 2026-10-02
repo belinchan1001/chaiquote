@@ -180,18 +180,18 @@ describe("WhatsApp source mark", () => {
     try {
       const href = quoteWhatsappHref("你好，我想即時報價");
       const text = new URL(href).searchParams.get("text") ?? "";
-      assert.match(text, /^【齊Quote】\n你好，我想即時報價\n【查詢】村屋寬頻$/);
+      assert.match(text, /^【齊Quote】\n你好，我想即時報價\n【查詢】村屋寬頻 #2$/);
       assert.doesNotMatch(text, /CjwKCAjwSECRET|google_ads|Google/);
       const line = text.split("\n").at(-1) ?? "";
       assert.ok(line.length <= 40, line);
       const again = new URL(quoteWhatsappHref("你好")).searchParams.get("text") ?? "";
-      assert.match(again, /【查詢】村屋寬頻/);
+      assert.match(again, /【查詢】村屋寬頻 #2/);
       assert.doesNotMatch(again, /fbclid|facebook|google_ads/);
     } finally {
       globalThis.window = previous;
     }
 
     const blank = new URL(quoteWhatsappHref("")).searchParams.get("text") ?? "";
-    assert.equal(blank, "【查詢】網站");
+    assert.equal(blank, "【查詢】網站 #1");
   });
 });

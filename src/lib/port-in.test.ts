@@ -288,7 +288,7 @@ describe("port-in intake", () => {
     assert.match(href, /text=/);
     assert.match(href, /85263099966/);
     const decoded = new URL(href).searchParams.get("text") ?? "";
-    assert.match(decoded, /【查詢】(網站|家居寬頻|5G 家居寬頻|村屋寬頻|公屋寬頻|居屋寬頻|私人樓宇|手機計劃|商業寬頻)/);
+    assert.match(decoded, /【查詢】(網站|家居寬頻|5G 家居寬頻|村屋寬頻|公屋寬頻|居屋寬頻|私人樓宇|手機計劃|商業寬頻) #[1-4]/);
     assert.doesNotMatch(decoded, /google_ads|gclid|fbclid/);
     const newNumber = portInQuoteMessage({
       serviceType: "手機月費",

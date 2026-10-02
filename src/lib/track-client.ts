@@ -1,6 +1,7 @@
 import { recordSiteEvent } from "@/lib/track-fn";
 import { inferTrackSource, type TrackEventName, type TrackPayload } from "@/lib/track";
 import { fireAdsQuoteConversion } from "@/lib/ads-gtag";
+import { classifyLeadSource, readLeadTouch } from "@/lib/ads-attribution";
 
 export function trackEvent(input: TrackPayload) {
   if (typeof window === "undefined") return;
@@ -14,7 +15,19 @@ export function trackEvent(input: TrackPayload) {
 }
 
 export function trackWaClick(input: Omit<TrackPayload, "event"> = {}) {
-  trackEvent({ event: "wa_click", ...input });
+  const touch = readLeadTouch();
+  const label = classifyLeadSource(touch);
+  trackEvent({
+    event: "wa_click",
+    ...input,
+    extra: {
+      lead: label.source,
+      ...(label.campaign ? { campaign: label.campaign } : {}),
+      ...(touch.cat ? { cat: touch.cat } : {}),
+      ...(touch.housing ? { housing: touch.housing } : {}),
+      ...input.extra,
+    },
+  });
 }
 
 export function trackPlanOpen(planId: string, source?: string) {

@@ -85,6 +85,13 @@ export function classifyLeadSource(touch: LeadTouch | null | undefined): SourceL
   return label(tagged ? "other" : "organic");
 }
 
+const CHANNEL_CODE: Record<LeadSource, string> = {
+  organic: "1",
+  google_ads: "2",
+  meta: "3",
+  other: "4",
+};
+
 export function customerInquiryLine(touch: LeadTouch | null | undefined): string {
   const housing = touch?.housing;
   const cat = touch?.cat;
@@ -106,7 +113,7 @@ export function customerInquiryLine(touch: LeadTouch | null | undefined): string
                   : cat === "broadband"
                     ? "家居寬頻"
                     : "網站";
-  return `【查詢】${topic}`;
+  return `【查詢】${topic} #${CHANNEL_CODE[classifyLeadSource(touch).source]}`;
 }
 
 export function appendInquiryMark(text: string, touch: LeadTouch | null | undefined): string {
