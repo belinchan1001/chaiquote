@@ -1,3 +1,4 @@
+import { estateUnlocksPlan } from "./estate-new-intake.ts";
 import { catalogPlans } from "./plan-overrides.ts";
 import { isOfferExpired, type Housing, type Plan } from "./plans.ts";
 
@@ -7,8 +8,14 @@ export function parseHousingParam(value: unknown): Housing | undefined {
   return typeof value === "string" && HOUSING.has(value as Housing) ? (value as Housing) : undefined;
 }
 
+export function parseEstateParam(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+  const estate = value.trim().slice(0, 80);
+  return estate || undefined;
+}
+
 /** Plans under「其他人亦比較」. Housing stays matched; flash offers, then 齊Quote picks, come first. */
-export function relatedComparePlans(plan: Plan, housing?: Housing, limit = 2): Plan[] {
+export function relatedComparePlans(plan: Plan, housing?: Housing, estate?: string, limit = 2): Plan[] {
   const context = housing ?? inferredHousing(plan);
   return catalogPlans()
     .filter(
@@ -17,7 +24,8 @@ export function relatedComparePlans(plan: Plan, housing?: Housing, limit = 2): P
         !item.staffOffer &&
         !item.unpublished &&
         !isOfferExpired(item) &&
-        fitsRelated(plan, item, context),
+        fitsRelated(plan, item, context) &&
+        fitsEstate(item, estate),
     )
     .map((item, index) => ({ item, index }))
     .sort((a, b) => relatedRank(a.item) - relatedRank(b.item) || a.index - b.index)
@@ -46,6 +54,11 @@ function fitsRelated(current: Plan, item: Plan, housing?: Housing): boolean {
     return item.category === current.category && listedFor(item, housing);
   }
   return item.category === current.category && !villageOnly(item);
+}
+
+function fitsEstate(item: Plan, estate?: string): boolean {
+  if (!item.onlyEstates?.length) return true;
+  return estateUnlocksPlan(estate, item.onlyEstates);
 }
 
 function relatedRank(plan: Plan): number {

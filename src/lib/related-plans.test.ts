@@ -18,23 +18,28 @@ describe("related compare plans", () => {
     assert.equal(rows.some((item) => item.id === "icable-ftth-1000-public-48m"), false);
   });
 
-  it("keeps public suggestions on public plans, flash offers first", () => {
-    const rows = relatedComparePlans(getPlan("icable-ftth-1000-public-48m")!, "public");
-    assert.equal(rows[0]?.flashOffer, true);
-    assert.ok(rows.every((item) => item.category === "broadband"));
-    assert.ok(rows.every((item) => item.housing !== "all" && item.housing.includes("public")));
-    assert.equal(rows.some((item) => item.category === "home5g"), false);
-    assert.equal(rows.some((item) => item.id === "hkbn-village-200-27m"), false);
-    assert.equal(rows.some((item) => item.id === "icable-ftth-1000-private-36m"), false);
+  it("keeps public suggestions on public plans, and flash offers only inside the estate", () => {
+    const hidden = relatedComparePlans(getPlan("icable-ftth-1000-public-48m")!, "public", "YOHO Town 二座");
+    assert.equal(hidden.some((item) => item.onlyEstates?.length), false);
+    assert.equal(hidden.some((item) => item.id === "hkbn-ftth-1000-24m-0-flash"), false);
+    assert.ok(hidden.every((item) => item.category === "broadband"));
+    assert.ok(hidden.every((item) => item.housing !== "all" && item.housing.includes("public")));
+    const unlocked = relatedComparePlans(getPlan("icable-ftth-1000-public-48m")!, "public", "長沙灣邨");
+    assert.equal(unlocked[0]?.id, "hkbn-ftth-1000-24m-0-flash");
+    assert.equal(unlocked[0]?.flashOffer, true);
   });
 
-  it("keeps private suggestions on private plans and skips public-only flash deals", () => {
-    const rows = relatedComparePlans(getPlan("icable-ftth-1000-private-36m")!, "private");
-    assert.equal(rows[0]?.flashOffer, true);
+  it("keeps private suggestions on private plans and hides estate flash deals", () => {
+    const rows = relatedComparePlans(getPlan("icable-ftth-1000-private-36m")!, "private", "YOHO Town 二座");
     assert.equal(rows.some((item) => item.id === "hkbn-ftth-1000-24m-0-flash"), false);
+    assert.equal(rows.some((item) => item.id === "hkbn-ftth-2500-36m-148-flash"), false);
+    assert.equal(rows.some((item) => item.id === "hkbn-ftth-1000-36m-63-flash"), false);
     assert.equal(rows.some((item) => item.id === "hkbn-village-200-27m"), false);
     assert.ok(rows.every((item) => item.housing !== "all" && item.housing.includes("private")));
     assert.equal(rows.some((item) => item.category === "home5g"), false);
+    const unlocked = relatedComparePlans(getPlan("icable-ftth-1000-private-36m")!, "private", "長沙灣邨");
+    assert.equal(unlocked[0]?.flashOffer, true);
+    assert.equal(unlocked.some((item) => item.id === "hkbn-ftth-2500-36m-148-flash"), true);
   });
 
   it("puts a 齊Quote pick ahead of an ordinary plan when no flash offer fits", () => {

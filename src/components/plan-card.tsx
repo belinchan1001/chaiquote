@@ -23,7 +23,7 @@ import {
   planPerks,
   type Plan,
 } from "@/lib/plans";
-import { parseHousingParam } from "@/lib/related-plans";
+import { parseEstateParam, parseHousingParam } from "@/lib/related-plans";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -41,6 +41,15 @@ export function PlanCard({ plan }: { plan: Plan }) {
     select: (s) => {
       try {
         return parseHousingParam(new URL(s.location.href, "https://quote.local").searchParams.get("housing"));
+      } catch {
+        return undefined;
+      }
+    },
+  });
+  const estate = useRouterState({
+    select: (s) => {
+      try {
+        return parseEstateParam(new URL(s.location.href, "https://quote.local").searchParams.get("estate"));
       } catch {
         return undefined;
       }
@@ -105,7 +114,10 @@ export function PlanCard({ plan }: { plan: Plan }) {
           <Link
             to="/plans/$planId"
             params={{ planId: plan.id }}
-            search={housing ? { housing } : {}}
+            search={{
+              ...(housing ? { housing } : {}),
+              ...(estate ? { estate } : {}),
+            }}
             className="hover:underline"
           >
             {tx(plan.name)}

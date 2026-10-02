@@ -26,7 +26,7 @@ import {
   planPerks,
   type Plan,
 } from "@/lib/plans";
-import { parseHousingParam, relatedComparePlans } from "@/lib/related-plans";
+import { parseEstateParam, parseHousingParam, relatedComparePlans } from "@/lib/related-plans";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { canonicalUrl, notFoundHead } from "@/lib/canonical";
@@ -37,7 +37,11 @@ import { JsonLd } from "@/components/json-ld";
 export const Route = createFileRoute("/plans_/$planId")({
   validateSearch: (search: Record<string, unknown>) => {
     const housing = parseHousingParam(search.housing);
-    return housing ? { housing } : {};
+    const estate = parseEstateParam(search.estate);
+    return {
+      ...(housing ? { housing } : {}),
+      ...(estate ? { estate } : {}),
+    };
   },
   component: PlanDetailPage,
   pendingMs: 0,
@@ -93,14 +97,14 @@ function PlanDetailPending() {
 
 function PlanDetailPage() {
   const { plan } = Route.useLoaderData();
-  const { housing } = Route.useSearch();
+  const { housing, estate } = Route.useSearch();
   useHydrateDesk();
   const compare = useDesk((s) => s.compare);
   const saved = useDesk((s) => s.saved);
   const toggleCompare = useDesk((s) => s.toggleCompare);
   const toggleSaved = useDesk((s) => s.toggleSaved);
   const avg = averageFee(plan);
-  const related = relatedComparePlans(plan, housing);
+  const related = relatedComparePlans(plan, housing, estate);
   const perks = planPerks(plan);
   const { t, tx, categoryLabel, housingList, updated } = useI18n();
   usePageTitle(planSeoTitle(plan));
