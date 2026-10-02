@@ -23,8 +23,10 @@ export const LEAD_TOUCH_FIELDS = [
 export type LeadTouchField = (typeof LEAD_TOUCH_FIELDS)[number];
 
 export type LeadTouch = Partial<Record<LeadTouchField, string>> & {
-  /** Existing Google Ads landing flag (`/go/*` → `from=ad`). */
+  /** Existing Google Ads landing flag (`/go/*` → `from=ad`). Not shown in WhatsApp. */
   from?: "ad";
+  cat?: string;
+  housing?: string;
 };
 
 export type LeadSource = "google_ads" | "meta" | "organic" | "other";
@@ -83,6 +85,37 @@ export function classifyLeadSource(touch: LeadTouch | null | undefined): SourceL
   return label(tagged ? "other" : "organic");
 }
 
+export function customerInquiryLine(touch: LeadTouch | null | undefined): string {
+  const housing = touch?.housing;
+  const cat = touch?.cat;
+  const topic =
+    housing === "village"
+      ? "村屋寬頻"
+      : housing === "public"
+        ? "公屋寬頻"
+        : housing === "hos"
+          ? "居屋寬頻"
+          : housing === "private"
+            ? "私人樓宇"
+            : cat === "home5g"
+              ? "5G 家居寬頻"
+              : cat === "mobile"
+                ? "手機計劃"
+                : cat === "business"
+                  ? "商業寬頻"
+                  : cat === "broadband"
+                    ? "家居寬頻"
+                    : "網站";
+  return `【查詢】${topic}`;
+}
+
+export function appendInquiryMark(text: string, touch: LeadTouch | null | undefined): string {
+  const line = customerInquiryLine(touch);
+  if (/(^|\n)【查詢】/.test(text)) return text;
+  const body = text.replace(/\s+$/, "");
+  return body ? `${body}\n${line}` : line;
+}
+
 export function sourceMarkLine(label: SourceLabel): string {
   const head = `【來源】${label.source}`.slice(0, SOURCE_MARK_MAX);
   if (!label.campaign) return head;
@@ -114,11 +147,17 @@ export function touchFromSearch(search: string): LeadTouch {
     touch[key] = value.slice(0, FIELD_MAX);
   }
   if (params.get("from")?.trim() === "ad") touch.from = "ad";
+  const cat = params.get("cat")?.trim();
+  if (cat === "broadband" || cat === "home5g" || cat === "mobile" || cat === "business") touch.cat = cat;
+  const housing = params.get("housing")?.trim();
+  if (housing === "public" || housing === "hos" || housing === "private" || housing === "village") {
+    touch.housing = housing;
+  }
   return touch;
 }
 
 function touchHasSignal(touch: LeadTouch): boolean {
-  return LEAD_TOUCH_FIELDS.some((key) => Boolean(touch[key])) || touch.from === "ad";
+  return LEAD_TOUCH_FIELDS.some((key) => Boolean(touch[key])) || touch.from === "ad" || Boolean(touch.cat || touch.housing);
 }
 
 function parseStoredTouch(raw: string | null): LeadTouch {
@@ -133,6 +172,17 @@ function parseStoredTouch(raw: string | null): LeadTouch {
       if (typeof value === "string" && value.trim()) touch[key] = value.trim().slice(0, FIELD_MAX);
     }
     if (record.from === "ad") touch.from = "ad";
+    if (record.cat === "broadband" || record.cat === "home5g" || record.cat === "mobile" || record.cat === "business") {
+      touch.cat = record.cat;
+    }
+    if (
+      record.housing === "public" ||
+      record.housing === "hos" ||
+      record.housing === "private" ||
+      record.housing === "village"
+    ) {
+      touch.housing = record.housing;
+    }
     return touch;
   } catch {
     return {};

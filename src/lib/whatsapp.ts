@@ -11,7 +11,7 @@ import { SITE } from "./site.ts";
 import type { Inquiry } from "./desk.ts";
 import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
 import { toEnglishLazy } from "./plan-en-lazy.ts";
-import { appendSourceMark, classifyLeadSource, readLeadTouch } from "./ads-attribution.ts";
+import { appendInquiryMark, readLeadTouch } from "./ads-attribution.ts";
 
 const HOUSING_MESSAGE: Record<Housing, MessageKey> = {
   public: "housingPublic",
@@ -78,9 +78,9 @@ export function whatsappHref(text: string, phone: string = SITE.whatsappE164) {
   return whatsappSendHref(withBrandTag(text), phone);
 }
 
-/** Outbound quote URL with one 【來源】line. Blank chats get only that line. */
+/** Outbound quote URL. The prefill names the page they opened, never the ad network. */
 export function quoteWhatsappHref(text: string, phone: string = SITE.whatsappE164) {
-  const marked = appendSourceMark(text, classifyLeadSource(readLeadTouch()));
+  const marked = appendInquiryMark(text, readLeadTouch());
   return whatsappSendHref(text.trim() ? withBrandTag(marked) : marked, phone);
 }
 

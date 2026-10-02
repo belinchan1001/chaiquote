@@ -169,7 +169,7 @@ describe("WhatsApp source mark", () => {
     const store = new Map<string, string>();
     const previous = globalThis.window;
     globalThis.window = {
-      location: { search: "?utm_source=google&utm_medium=cpc&utm_campaign=search-trial&gclid=CjwKCAjwSECRET" },
+      location: { search: "?cat=broadband&housing=village&from=ad&utm_source=google&utm_medium=cpc&utm_campaign=search-trial&gclid=CjwKCAjwSECRET" },
       sessionStorage: {
         getItem: (key: string) => store.get(key) ?? null,
         setItem: (key: string, value: string) => {
@@ -180,18 +180,18 @@ describe("WhatsApp source mark", () => {
     try {
       const href = quoteWhatsappHref("你好，我想即時報價");
       const text = new URL(href).searchParams.get("text") ?? "";
-      assert.match(text, /^【齊Quote】\n你好，我想即時報價\n【來源】google_ads · search-trial$/);
-      assert.doesNotMatch(text, /CjwKCAjwSECRET/);
+      assert.match(text, /^【齊Quote】\n你好，我想即時報價\n【查詢】村屋寬頻$/);
+      assert.doesNotMatch(text, /CjwKCAjwSECRET|google_ads|Google/);
       const line = text.split("\n").at(-1) ?? "";
       assert.ok(line.length <= 40, line);
       const again = new URL(quoteWhatsappHref("你好")).searchParams.get("text") ?? "";
-      assert.match(again, /【來源】google_ads · search-trial/);
-      assert.doesNotMatch(again, /fbclid|facebook/);
+      assert.match(again, /【查詢】村屋寬頻/);
+      assert.doesNotMatch(again, /fbclid|facebook|google_ads/);
     } finally {
       globalThis.window = previous;
     }
 
     const blank = new URL(quoteWhatsappHref("")).searchParams.get("text") ?? "";
-    assert.equal(blank, "【來源】organic");
+    assert.equal(blank, "【查詢】網站");
   });
 });

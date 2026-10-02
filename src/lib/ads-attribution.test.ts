@@ -10,6 +10,7 @@ import {
   captureLeadTouch,
   classifyLeadSource,
   sourceMarkLine,
+  customerInquiryLine,
   touchFromSearch,
 } from "./ads-attribution.ts";
 import { shouldRecordQuoteOpen } from "./wa-open-guard.ts";
@@ -84,6 +85,11 @@ describe("lead source label", () => {
     assert.equal(second.utm_source, "google");
     assert.equal(captureLeadTouch("", memoryStore()).utm_source, undefined);
     assert.equal(touchFromSearch("?from=ad").from, "ad");
+    assert.equal(customerInquiryLine(touchFromSearch("?cat=broadband&housing=public&from=ad")), "【查詢】公屋寬頻");
+    assert.equal(customerInquiryLine(touchFromSearch("?cat=home5g&utm_source=google&utm_medium=cpc")), "【查詢】5G 家居寬頻");
+    assert.equal(customerInquiryLine(touchFromSearch("?cat=broadband&housing=private")), "【查詢】私人樓宇");
+    assert.equal(customerInquiryLine({}), "【查詢】網站");
+    assert.doesNotMatch(customerInquiryLine({ from: "ad", gclid: "secret" }), /google|ads|secret/i);
     assert.match(
       readFileSync(join(here, "ads-attribution.ts"), "utf8"),
       /utm_source=google&utm_medium=cpc&utm_campaign=search-trial/,
