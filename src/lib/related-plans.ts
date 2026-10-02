@@ -1,5 +1,5 @@
 import { catalogPlans } from "./plan-overrides.ts";
-import { isOfferExpired, matchesHousing, type Housing, type Plan } from "./plans.ts";
+import { isOfferExpired, type Housing, type Plan } from "./plans.ts";
 
 const HOUSING = new Set<Housing>(["public", "hos", "private", "village"]);
 
@@ -35,10 +35,15 @@ function villageOnly(plan: Plan) {
   return plan.housing !== "all" && plan.housing.every((item) => item === "village");
 }
 
+function listedFor(plan: Plan, housing: Housing): boolean {
+  if (plan.housing === "all") return false;
+  return plan.housing.includes(housing);
+}
+
 function fitsRelated(current: Plan, item: Plan, housing?: Housing): boolean {
   if (housing === "village") return villageOnly(item) || item.category === "home5g";
   if (housing === "public" || housing === "hos" || housing === "private") {
-    return item.category === current.category && matchesHousing(item, housing) && !villageOnly(item);
+    return item.category === current.category && listedFor(item, housing);
   }
   return item.category === current.category && !villageOnly(item);
 }

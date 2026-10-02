@@ -22,6 +22,8 @@ describe("related compare plans", () => {
     const rows = relatedComparePlans(getPlan("icable-ftth-1000-public-48m")!, "public");
     assert.equal(rows[0]?.flashOffer, true);
     assert.ok(rows.every((item) => item.category === "broadband"));
+    assert.ok(rows.every((item) => item.housing !== "all" && item.housing.includes("public")));
+    assert.equal(rows.some((item) => item.category === "home5g"), false);
     assert.equal(rows.some((item) => item.id === "hkbn-village-200-27m"), false);
     assert.equal(rows.some((item) => item.id === "icable-ftth-1000-private-36m"), false);
   });
@@ -31,7 +33,8 @@ describe("related compare plans", () => {
     assert.equal(rows[0]?.flashOffer, true);
     assert.equal(rows.some((item) => item.id === "hkbn-ftth-1000-24m-0-flash"), false);
     assert.equal(rows.some((item) => item.id === "hkbn-village-200-27m"), false);
-    assert.ok(rows.every((item) => item.housing === "all" || item.housing.includes("private")));
+    assert.ok(rows.every((item) => item.housing !== "all" && item.housing.includes("private")));
+    assert.equal(rows.some((item) => item.category === "home5g"), false);
   });
 
   it("puts a 齊Quote pick ahead of an ordinary plan when no flash offer fits", () => {
