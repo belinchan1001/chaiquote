@@ -24,9 +24,9 @@ import {
   hasCertifiedStaff,
   isNetvigatorVillage,
   planPerks,
-  PLANS,
   type Plan,
 } from "@/lib/plans";
+import { parseHousingParam, relatedComparePlans } from "@/lib/related-plans";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { canonicalUrl, notFoundHead } from "@/lib/canonical";
@@ -35,6 +35,10 @@ import { planJsonLd, planSeoDescription, planSeoTitle } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 
 export const Route = createFileRoute("/plans_/$planId")({
+  validateSearch: (search: Record<string, unknown>) => {
+    const housing = parseHousingParam(search.housing);
+    return housing ? { housing } : {};
+  },
   component: PlanDetailPage,
   pendingMs: 0,
   pendingComponent: PlanDetailPending,
@@ -89,19 +93,14 @@ function PlanDetailPending() {
 
 function PlanDetailPage() {
   const { plan } = Route.useLoaderData();
+  const { housing } = Route.useSearch();
   useHydrateDesk();
   const compare = useDesk((s) => s.compare);
   const saved = useDesk((s) => s.saved);
   const toggleCompare = useDesk((s) => s.toggleCompare);
   const toggleSaved = useDesk((s) => s.toggleSaved);
   const avg = averageFee(plan);
-  const related = PLANS.filter(
-    (p) =>
-      p.category === plan.category &&
-      p.id !== plan.id &&
-      p.providerId !== plan.providerId &&
-      !p.staffOffer,
-  ).slice(0, 2);
+  const related = relatedComparePlans(plan, housing);
   const perks = planPerks(plan);
   const { t, tx, categoryLabel, housingList, updated } = useI18n();
   usePageTitle(planSeoTitle(plan));

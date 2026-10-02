@@ -23,6 +23,7 @@ import {
   planPerks,
   type Plan,
 } from "@/lib/plans";
+import { parseHousingParam } from "@/lib/related-plans";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -36,6 +37,15 @@ export function PlanCard({ plan }: { plan: Plan }) {
   const inSaved = saved.includes(plan.id);
   const avg = averageFee(plan);
   const { t, tx, categoryLabel } = useI18n();
+  const housing = useRouterState({
+    select: (s) => {
+      try {
+        return parseHousingParam(new URL(s.location.href, "https://quote.local").searchParams.get("housing"));
+      } catch {
+        return undefined;
+      }
+    },
+  });
   const esportsGlow = useRouterState({
     select: (s) => {
       try {
@@ -92,7 +102,12 @@ export function PlanCard({ plan }: { plan: Plan }) {
         {plan.staffOffer ? (
           tx(plan.name)
         ) : (
-          <Link to="/plans/$planId" params={{ planId: plan.id }} className="hover:underline">
+          <Link
+            to="/plans/$planId"
+            params={{ planId: plan.id }}
+            search={housing ? { housing } : {}}
+            className="hover:underline"
+          >
             {tx(plan.name)}
           </Link>
         )}
