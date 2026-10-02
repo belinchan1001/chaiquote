@@ -3,6 +3,83 @@ import type { TechNewsArticle } from "./tech-news.ts";
 /** Extra news pieces. GTA 6 still lives in TECH_NEWS_ARTICLES. */
 export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
   {
+    slug: "sosim-esim-hk",
+    category: "telecom",
+    minutes: 4,
+    published: "2026-10-02",
+    seoTitle: "SoSIM全面支援eSIM：新卡轉卡免手續費｜齊Quote",
+    h1: "SoSIM全面支援eSIM：新卡轉卡免手續費",
+    description:
+      "和記電訊香港2026年9月24日新聞稿：SoSIM現已全面支援eSIM。全新主卡可免費將實體SIM轉eSIM；現有帳戶轉換手續費新聞稿寫HK$28，eSIM轉實體卡HK$48。額外50GB香港數據至11月30日。內容僅供參考，以電訊商確認為準。",
+    excerpt: "新聞稿寫SoSIM已全面支援eSIM。全新主卡可免費將實體卡轉eSIM，現有轉換手續費寫HK$28。額外50GB優惠至11月30日，啟用前對App。",
+    seoTitleEn: "SoSIM now supports eSIM: new cards convert free | 齊Quote",
+    h1En: "SoSIM now supports eSIM: new cards convert without a fee",
+    descriptionEn:
+      "Hutchison Telecom Hong Kong’s 24 September 2026 release says SoSIM now supports eSIM. New main-card customers can convert a physical SIM to eSIM free; an existing conversion is listed at HK$28, and eSIM back to a physical SIM at HK$48. An extra 50GB runs to 30 November. Confirm with the carrier.",
+    excerptEn: "The release says SoSIM now supports eSIM. New main cards convert free; existing conversions are listed at HK$28. Extra 50GB runs to 30 November.",
+    bullets: [
+      "和記電訊香港9月24日新聞稿：SoSIM現已全面支援eSIM，新客可於網上商店直接選購eSIM。",
+      "全新主卡可獲免費實體卡轉eSIM優惠券；現有帳戶轉換，新聞稿寫手續費HK$28，eSIM轉回實體卡HK$48。",
+      "即日起至11月30日，成功啟用SoSIM主卡可獲額外50GB香港數據；選50GB預設組合，首30日新聞稿寫共100GB。",
+      "新聞稿寫HK$33可揀30日50GB香港數據，或5日亞太外遊數據。手機要支援eSIM，啟用前對SoSIM App。",
+    ],
+    bulletsEn: [
+      "Hutchison’s 24 September release: SoSIM now supports eSIM, and new customers can buy an eSIM in the online store.",
+      "A new main card includes a free physical-to-eSIM voucher. Existing conversions are listed at HK$28; eSIM back to a physical SIM at HK$48.",
+      "Through 30 November, activating a SoSIM main card adds 50GB of Hong Kong data. A 50GB starter is written as 100GB for the first 30 days.",
+      "The release lists HK$33 for 30-day 50GB Hong Kong data, or 5-day Asia-Pacific roaming data. The phone must support eSIM.",
+    ],
+    body: [
+      {
+        heading: "邊個可以轉eSIM",
+        headingEn: "Who can move to eSIM",
+        paragraphs: [
+          "和記電訊香港9月24日新聞稿寫：旗下儲值卡品牌SoSIM現已全面支援eSIM。換一部支援eSIM嘅手機，唔使插實體卡，最快3分鐘掃碼安裝。新客可以喺SoSIM網上商店直接選購eSIM。",
+          "呢個係儲值卡品牌嘅新渠道，唔等於3香港月費計劃自動有同一套轉換費。你用緊邊張卡、部機支唔支援eSIM，以SoSIM App同手機規格頁為準。",
+        ],
+        paragraphsEn: [
+          "Hutchison’s 24 September release says SoSIM now supports eSIM. On a compatible phone, setup is a QR code, listed as about three minutes. New customers can buy an eSIM in the SoSIM online store.",
+          "This is the prepaid brand, not an automatic rule for a 3HK monthly plan. Check the SoSIM app and the phone’s eSIM support.",
+        ],
+      },
+      {
+        heading: "手續費同新卡優惠券",
+        headingEn: "Fees and the new-card voucher",
+        paragraphs: [
+          "新聞稿分開兩種情況。全新SoSIM主卡客戶，啟用後可喺帳戶攞免費實體SIM轉eSIM電子優惠券，用App自助辦，唔使行門市。現有帳戶自行將實體卡轉eSIM，新聞稿寫手續費HK$28；eSIM轉回實體卡，寫HK$48。",
+          "免費券只寫畀全新主卡。舊卡會唔會都免，新聞稿冇寫死，唔好當人人免手續費。條款以SoSIM帳戶頁為準。",
+        ],
+        paragraphsEn: [
+          "The release splits two cases. A new SoSIM main card gets a free physical-to-eSIM voucher in the account, done in the app. An existing conversion is listed at HK$28, and eSIM back to a physical SIM at HK$48.",
+          "The free voucher is written for new main cards only. Do not assume every existing SIM converts free.",
+        ],
+      },
+      {
+        heading: "11月30日前額外數據點核對",
+        headingEn: "The extra data runs to 30 November",
+        paragraphs: [
+          "由即日起至2026年11月30日，成功啟用SoSIM主卡可獲額外50GB香港數據。新聞稿寫：如果預設組合本身係50GB香港數據，首30日可享共100GB。呢個係啟用贈送，唔係每月固定加額。",
+          "同一段寫HK$33可以揀30日50GB香港數據，或者5日亞太外遊數據，再加上面嗰份限時額外數據。外遊日數同本地GB唔好撈亂。實際組合、剩餘日數同會唔會另收，以電訊商確認為準。",
+        ],
+        paragraphsEn: [
+          "Through 30 November 2026, activating a SoSIM main card adds 50GB of Hong Kong data. A 50GB starter is written as 100GB for the first 30 days. That is an activation extra, not a standing monthly top-up.",
+          "The same section lists HK$33 for 30-day 50GB Hong Kong data, or 5-day Asia-Pacific roaming data, plus that limited extra. Do not mix roaming days with local gigabytes. Confirm the live bundle in the app.",
+        ],
+      },
+    ],
+    tags: ["SoSIM", "eSIM", "3香港", "儲值卡"],
+    tagsEn: ["SoSIM", "eSIM", "3HK", "prepaid"],
+    editorNote:
+      "手機專區今次無新SKU。iPhone Duo預購日已經寫過，唔好再講一次10月23日。跟到嘅新事實係SoSIM：9月24日新聞稿先寫全面支援eSIM，新卡轉卡有免費券，舊卡轉換先至寫HK$28。\n\n我唔會順手叫佢至抵。HK$33係新聞稿列出嘅兩款組合價，唔係月費比較。想轉，先對部機支唔支援eSIM，再開SoSIM App睇張券仲喺唔喺度。額外50GB寫到11月30日，過咗期就當冇。",
+    editorNoteEn:
+      "Phones had no new SKU. The iPhone Duo date is already on the site. The new fact is SoSIM: the 24 September release is the first full eSIM note, with a free voucher on new cards and HK$28 on an existing conversion.\n\nHK$33 is a listed bundle price, not a plan ranking. Check eSIM support on the phone, then the voucher in the SoSIM app. The extra 50GB is dated through 30 November.",
+    related: ["hkt-ai-data-waiver-oct7", "smartone-3g-close-2026"],
+    sourceUrl: "https://www.hthkh.com/tc/media/press.php?prid=/press/cp260924",
+    image: "/images/news-telecom.jpg",
+    imageAlt: "電訊與上網優惠專區配圖",
+    imageCredit: "和記電訊香港新聞稿",
+  },
+  {
     slug: "hkt-ai-data-waiver-oct7",
     category: "telecom",
     minutes: 4,
