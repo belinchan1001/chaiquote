@@ -167,6 +167,14 @@ function TechNewsDesk() {
           </p>
           <h2 className="mt-2 text-title font-semibold">{copy.h1}</h2>
           <p className="mt-3 text-muted">{copy.excerpt}</p>
+          {article.image ? (
+            <figure className="mt-4 overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border)]">
+              <picture>
+                <source srcSet={article.image.replace(/\.jpg$/, ".webp")} type="image/webp" />
+                <img src={article.image} alt={article.imageAlt ?? copy.h1} width={1280} height={720} className="h-auto w-full" />
+              </picture>
+            </figure>
+          ) : null}
           <ul className="mt-4 list-disc space-y-1 pl-5 text-sm">
             {copy.bullets.map((item) => (
               <li key={item}>{item}</li>

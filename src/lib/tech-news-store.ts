@@ -1,5 +1,5 @@
 import { getSql } from "@/lib/db";
-import type { TechNewsArticle } from "./tech-news.ts";
+import { TECH_NEWS_CATEGORIES, type TechNewsArticle } from "./tech-news.ts";
 import { isNewsCategory } from "./tech-news-desk.ts";
 
 function asArticle(row: { payload?: unknown }): TechNewsArticle | null {
@@ -7,7 +7,15 @@ function asArticle(row: { payload?: unknown }): TechNewsArticle | null {
   if (!payload || typeof payload !== "object") return null;
   const article = payload as TechNewsArticle;
   if (!article.slug || !article.h1 || !isNewsCategory(article.category)) return null;
-  return article;
+  if (article.image) return article;
+  const desk = TECH_NEWS_CATEGORIES.find((item) => item.id === article.category);
+  if (!desk) return article;
+  return {
+    ...article,
+    image: desk.image,
+    imageAlt: article.imageAlt ?? `${desk.label}專區配圖`,
+    imageCredit: article.imageCredit ?? "齊Quote",
+  };
 }
 
 export async function listPublishedNews(): Promise<TechNewsArticle[]> {

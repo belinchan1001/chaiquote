@@ -151,6 +151,7 @@ export function parseNewsDraft(
   const withDisclaimer = description.includes("以電訊商確認為準")
     ? description
     : `${description}內容僅供參考，實際條款以電訊商確認為準。`;
+  const desk = TECH_NEWS_CATEGORIES.find((item) => item.id === category);
   const article: TechNewsArticle = {
     slug,
     category,
@@ -172,6 +173,9 @@ export function parseNewsDraft(
     editorNote: String(parsed.editorNote ?? "實際月費、規格同覆蓋以電訊商確認為準。").trim(),
     editorNoteEn: String(parsed.editorNoteEn ?? "Fees, specs and coverage are confirmed by the carrier.").trim(),
     sourceUrl,
+    image: desk?.image,
+    imageAlt: desk ? `${desk.label}專區配圖` : undefined,
+    imageCredit: "齊Quote",
   };
   if (!article.tags.length) article.tags = ["電訊新聞", "齊Quote"];
   if (!article.tagsEn.length) article.tagsEn = ["telecom news", "ChaiQuote"];

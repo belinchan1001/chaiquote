@@ -50,6 +50,11 @@ describe("tech news desk", () => {
     const article = parseNewsDraft(JSON.stringify(SAMPLE), "telecom", "https://example.com/pr");
     assert.ok(article);
     assert.equal(article?.category, "telecom");
+    assert.equal(article?.image, "/images/news-telecom.jpg");
+    assert.equal(article?.imageAlt, "電訊與上網優惠專區配圖");
+    assert.equal(parseNewsDraft(JSON.stringify(SAMPLE), "phones")?.image, "/images/news-phones.jpg");
+    assert.equal(parseNewsDraft(JSON.stringify(SAMPLE), "gadgets")?.image, "/images/news-gadgets.jpg");
+    assert.equal(parseNewsDraft(JSON.stringify(SAMPLE), "gaming")?.image, "/images/news-gaming.jpg");
     assert.equal(article?.sourceUrl, "https://example.com/pr");
     assert.match(article?.description ?? "", /以電訊商確認為準/);
     assert.equal(parseNewsDraft(JSON.stringify({ ...SAMPLE, h1: "全港最平光纖" }), "telecom"), null);
