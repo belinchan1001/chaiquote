@@ -1,12 +1,12 @@
 export const SITE = {
   name: "齊Quote",
-  tagline: "搜寬頻唔使四圍問",
+  tagline: "搵寬頻唔使四圍問",
   searchHint: "電訊報價",
   url: "https://www.chaiquote.hk",
   description:
     "齊Quote 係獨立電訊比較平台，提供香港寬頻報價同電訊報價，一次過比較家居寬頻、5G 家居、商業寬頻同手機計劃。所列月費僅供參考，實際以電訊商確認為準。",
   /** Catalogue stamp shown on the homepage hero as YYYY-MM-DD. */
-  updated: "2026-10-02",
+  updated: "2026-10-03",
   phoneDisplay: "6309 9966",
   whatsappE164: "85263099966",
   hktPhoneDisplay: "5436 3004",
@@ -64,7 +64,7 @@ export const DISTRICTS = [
   "東區",
   "南區",
   "油尖旺",
-  "深水埔",
+  "深水埗",
   "九龍城",
   "黃大仙",
   "觀塘",
@@ -75,7 +75,7 @@ export const DISTRICTS = [
   "大埔",
   "沙田",
   "西貢",
-  "葺青",
+  "葵青",
   "離島",
 ] as const;
 
