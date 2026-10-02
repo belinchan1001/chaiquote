@@ -940,6 +940,7 @@ export function guessHousing(name: string, address = ""): Housing | undefined {
   const text = `${name}${address}`;
   if (/公屋|屋邨/.test(text)) return "public";
   if (/居屋/.test(text)) return "hos";
+  if (/唐樓/.test(text)) return "private";
   if (/村屋|丁屋|village\s*houses?/i.test(text)) return "village";
   if (/新邨|花園|廣場|中心|大廈|洋房|半島|豪庭|豪園|山莊|屋苑/.test(text)) return "private";
   const title = name.replace(/[，,].*$/, "").trim();

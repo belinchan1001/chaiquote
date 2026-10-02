@@ -17,6 +17,7 @@ describe("ad landings", () => {
     assert.equal(AD_LANDINGS.home5g.search.cat, "home5g");
     assert.equal(AD_LANDINGS.village.search.housing, "village");
     assert.equal(AD_LANDINGS.public.search.housing, "public");
+    assert.equal(AD_LANDINGS.private.search.housing, "private");
     for (const landing of Object.values(AD_LANDINGS)) {
       assert.equal(landing.search.from, "ad");
       assert.equal(landing.search.exclude, undefined);
@@ -27,7 +28,7 @@ describe("ad landings", () => {
     const publicRows = filterPlans(AD_LANDINGS.public.search);
     assert.ok(publicRows.every((plan) => plan.housing === "all" || plan.housing.includes("public")));
     assert.equal(getAdLanding("broadband")?.path, "/go/broadband");
-    assert.equal(getAdLanding("public")?.path, "/go/public");
+    assert.equal(getAdLanding("private")?.path, "/go/private");
     assert.equal(getAdLanding("mobile"), undefined);
   });
 
@@ -58,7 +59,9 @@ describe("ad landings", () => {
     assert.match(vercel, /\/go\/village/);
     assert.match(vercel, /\/go\/public/);
     assert.match(vercel, /housing=village/);
+    assert.match(vercel, /\/go\/private/);
     assert.match(vercel, /housing=public/);
+    assert.match(vercel, /housing=private/);
     const route = readFileSync(join(here, "../routes/go_.$dest.tsx"), "utf8");
     assert.match(route, /getAdLanding/);
     const plans = readFileSync(join(here, "../routes/plans.tsx"), "utf8");

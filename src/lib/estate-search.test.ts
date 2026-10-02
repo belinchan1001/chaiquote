@@ -1582,6 +1582,9 @@ describe("phase 1 search ranking and filters", () => {
       assert.equal(isImpracticalPlace(name), false, name);
     }
     assert.equal(classifyAddress("東頭村").housing, "village");
+    assert.equal(classifyAddress("永樂唐樓").housing, "private");
+    assert.equal(classifyAddress("協成唐樓").housing, "private");
+    assert.equal(classifyAddress("官涌唐樓").housing, "private");
     assert.equal(searchEstates("東頭村", 8)[0]?.name, "東頭村");
   });
 
