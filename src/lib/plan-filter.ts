@@ -158,10 +158,11 @@ export function isTriShared(plan: Plan) {
   return /三地共用|三地共享|中港澳三地|中港澳共享|香港、內地、澳門共享/.test(headline(plan));
 }
 
-/** Greater Bay / mainland / Macau data, not a three-region shared pool. */
+/** A plan only counts when the monthly offer itself includes 大灣區數據. */
 export function isGbaDataPlan(plan: Plan) {
-  if (plan.category !== "mobile" || isTriShared(plan)) return false;
-  return /大灣區|中澳|中港|中國內地|內地及澳門|內地數據|澳門數據|全中國及澳門/.test(headline(plan));
+  if (plan.category !== "mobile") return false;
+  const text = [plan.name, plan.roaming, plan.fupNote, plan.portInPerk, ...(plan.perks ?? [])].filter(Boolean).join(" ");
+  return /大灣區/.test(text);
 }
 
 function isSharedHeadline(plan: Plan) {

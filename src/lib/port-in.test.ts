@@ -117,7 +117,9 @@ describe("port-in intake", () => {
     assert.equal(mid.some((plan) => plan.id === "hkbn-5g-30-cga"), false);
     const gba = filterPlans(toPortInSearch({ cat: "mobile", mobileNeed: "gba" }));
     assert.ok(gba.some((plan) => plan.id === "cmhk-5g-gba-15-cny-198"));
+    assert.ok(gba.every((plan) => /大灣區/.test(`${plan.name} ${plan.roaming ?? ""} ${plan.perks.join(" ")}`)));
     assert.equal(gba.some((plan) => plan.id === "three-5g-cga-10-116"), false);
+    assert.equal(gba.some((plan) => plan.id === "csl-5g-20-108-24m"), false);
     assert.equal(fromPortInSearch(toPortInSearch({ cat: "mobile", mobileNeed: "elder" })).mobileNeed, "elder");
     const rows = filterPlans(toPortInSearch({ cat: "mobile", current: "csl" }));
     assert.ok(rows.length > 0);
