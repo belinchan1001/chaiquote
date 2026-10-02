@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { BootSplash } from "@/components/boot-splash";
+import { CatalogLive } from "@/components/catalog-live";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { NavProgress } from "@/components/nav-progress";
@@ -33,26 +34,6 @@ const FirstVisitTour = lazy(() =>
 );
 
 export const Route = createRootRoute({
-  beforeLoad: async ({ location }) => {
-    const path = location.pathname;
-    if (path.startsWith("/sales") || path.startsWith("/desk") || path.startsWith("/staff")) return;
-    if (
-      path !== "/" &&
-      !path.startsWith("/plans") &&
-      !path.startsWith("/compare") &&
-      !path.startsWith("/estates") &&
-      !path.startsWith("/quote")
-    ) {
-      return;
-    }
-    try {
-      const { loadCatalogLive } = await import("@/lib/catalog-live");
-      const { hydratePlanOverrides } = await import("@/lib/plan-overrides");
-      hydratePlanOverrides(await loadCatalogLive());
-    } catch {
-      /* public catalogue still works if the overlay table is not ready */
-    }
-  },
   head: ({ matches }) => {
     const pageUrl = canonicalUrlFromMatches(matches);
     const notFoundDoc = isNotFoundDocument(matches);
@@ -130,7 +111,9 @@ function PageShell() {
   return (
     <main id="main" className="flex-1">
       <div className="page-shell">
-        <Outlet />
+        <CatalogLive>
+          <Outlet />
+        </CatalogLive>
       </div>
     </main>
   );

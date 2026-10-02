@@ -17,21 +17,37 @@ export type PlanOverride = {
   adImageUrl: string | null;
 };
 
-type OverlayState = { byId: Record<string, PlanOverride> };
+type OverlayState = { byId: Record<string, PlanOverride>; tick: number };
 
 const globalRef = globalThis as typeof globalThis & {
   __chaiquotePlanOverlay__?: OverlayState;
 };
 
+const catalogListeners = new Set<() => void>();
+
 function state(): OverlayState {
-  globalRef.__chaiquotePlanOverlay__ ??= { byId: {} };
+  globalRef.__chaiquotePlanOverlay__ ??= { byId: {}, tick: 0 };
   return globalRef.__chaiquotePlanOverlay__;
+}
+
+export function subscribeCatalog(listener: () => void) {
+  catalogListeners.add(listener);
+  return () => {
+    catalogListeners.delete(listener);
+  };
+}
+
+export function getCatalogTick() {
+  return state().tick;
 }
 
 export function hydratePlanOverrides(rows: PlanOverride[]) {
   const byId: Record<string, PlanOverride> = {};
   for (const row of rows) byId[row.planId] = row;
-  state().byId = byId;
+  const current = state();
+  current.byId = byId;
+  current.tick += 1;
+  for (const listener of catalogListeners) listener();
 }
 
 export function getPlanOverride(planId: string): PlanOverride | undefined {

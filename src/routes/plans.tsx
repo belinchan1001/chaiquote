@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState, startTransition } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PlanCard } from "@/components/plan-card";
 import { PageBackButton } from "@/components/page-back";
 import { AiFilterEntry } from "@/components/ai-filter-entry";
@@ -211,20 +211,18 @@ function PlansPage() {
   }, [replayKey, rows.length]);
 
   function patch(next: Partial<PlansSearch>) {
-    startTransition(() => {
-      void navigate({
-        resetScroll: false,
-        search: (prev) => {
-          const merged = { ...prev, ...next, esports: next.esports || undefined };
-          if (
-            merged.provider &&
-            filterPlans({ ...merged, provider: merged.provider }, saved).length === 0
-          ) {
-            merged.provider = undefined;
-          }
-          return compactSearch(merged);
-        },
-      });
+    void navigate({
+      resetScroll: false,
+      search: (prev) => {
+        const merged = { ...prev, ...next, esports: next.esports || undefined };
+        if (
+          merged.provider &&
+          filterPlans({ ...merged, provider: merged.provider }, saved).length === 0
+        ) {
+          merged.provider = undefined;
+        }
+        return compactSearch(merged);
+      },
     });
     if (next.estate !== undefined || next.housing !== undefined) {
       setInquiry({
@@ -238,24 +236,22 @@ function PlansPage() {
     const merged = { ...intake, ...next };
     if (merged.current && isTargetConflict(merged.current, merged.target)) merged.target = "all";
     const housingValue = showHousing ? (next.housing !== undefined ? next.housing : search.housing) : undefined;
-    startTransition(() => {
-      void navigate({
-        resetScroll: false,
-        search: compactSearch(
-          mergePortInSearch(search, {
-            cat: search.cat,
-            estate: next.estate !== undefined ? next.estate : search.estate,
-            housing: housingValue || undefined,
-            current: merged.current,
-            target: merged.target,
-            expiry: merged.expiry,
-            fibreSpeed: merged.fibreSpeed,
-            businessSpeed: merged.businessSpeed,
-            mobileNeed: merged.mobileNeed,
-            esports: merged.esports,
-          }),
-        ),
-      });
+    void navigate({
+      resetScroll: false,
+      search: compactSearch(
+        mergePortInSearch(search, {
+          cat: search.cat,
+          estate: next.estate !== undefined ? next.estate : search.estate,
+          housing: housingValue || undefined,
+          current: merged.current,
+          target: merged.target,
+          expiry: merged.expiry,
+          fibreSpeed: merged.fibreSpeed,
+          businessSpeed: merged.businessSpeed,
+          mobileNeed: merged.mobileNeed,
+          esports: merged.esports,
+        }),
+      ),
     });
   }
 

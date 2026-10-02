@@ -186,4 +186,13 @@ describe("homepage first-load images", () => {
     assert.match(root, /IdleMount/);
     assert.match(src("../components/idle-mount.tsx"), /requestIdleCallback/);
   });
+
+  it("does not wait on the database before the page or a filter change", () => {
+    const root = src("../routes/__root.tsx");
+    const plans = src("../routes/plans.tsx");
+    assert.doesNotMatch(root, /beforeLoad/);
+    assert.match(root, /CatalogLive/);
+    assert.match(src("../components/catalog-live.tsx"), /refreshCatalogLive/);
+    assert.doesNotMatch(plans, /startTransition/);
+  });
 });
