@@ -4,7 +4,6 @@ import { estateHasHgcVillageCoverage } from "./hgc-village-coverage.ts";
 import {
   PROVIDER_MAP,
   averageFee,
-  hasGba,
   isHgcVillage,
   isHkbnVillage,
   isOfferExpired,
@@ -65,7 +64,16 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
     if (search.provider && plan.providerId !== search.provider) return false;
     if (search.portIn && !plan.portInPerk) return false;
     if (search.generation && planGeneration(plan) !== search.generation) return false;
-    if (search.gba && !hasGba(plan)) return false;
+    if (search.gba && !isGbaDataPlan(plan)) return false;
+    if (search.need === "student" && !isStudentMobile(plan)) return false;
+    if (search.need === "elder" && !isElderMobile(plan)) return false;
+    if (search.need === "tri" && !isTriShared(plan)) return false;
+    if (search.need === "local30" || search.need === "local100") {
+      const gb = localDataGb(plan);
+      if (gb == null) return false;
+      if (search.need === "local30" && gb > 30) return false;
+      if (search.need === "local100" && (gb < 30 || gb > 100)) return false;
+    }
     if (search.saved && !savedIds.includes(plan.id)) return false;
     if (blobQ) {
       const provider = PROVIDER_MAP[plan.providerId];
@@ -127,4 +135,42 @@ function interleaveCheapestFirst(rows: Plan[]): Plan[] {
     out.push(...wave);
   }
   return out;
+}
+
+function offerText(plan: Plan) {
+  return [plan.name, plan.bestFor, plan.limits, ...(plan.perks ?? [])].filter(Boolean).join(" ");
+}
+
+function headline(plan: Plan) {
+  return `${plan.name} ${plan.roaming ?? ""}`;
+}
+
+export function isStudentMobile(plan: Plan) {
+  if (plan.category !== "mobile") return false;
+  return /學生/.test(offerText(plan).replace(/學生上台/g, ""));
+}
+
+export function isElderMobile(plan: Plan) {
+  return plan.category === "mobile" && /長者/.test(offerText(plan));
+}
+
+export function isTriShared(plan: Plan) {
+  return /三地共用|三地共享|中港澳三地|中港澳共享|香港、內地、澳門共享/.test(headline(plan));
+}
+
+/** Greater Bay / mainland / Macau data, not a three-region shared pool. */
+export function isGbaDataPlan(plan: Plan) {
+  if (plan.category !== "mobile" || isTriShared(plan)) return false;
+  return /大灣區|中澳|中港|中國內地|內地及澳門|內地數據|澳門數據|全中國及澳門/.test(headline(plan));
+}
+
+function isSharedHeadline(plan: Plan) {
+  return /三地共用|三地共享|中港澳|中港共|兩地共|一咭兩地|4地共用|亞太共用|全球共用/.test(plan.name);
+}
+
+/** Local high-speed GB. Shared-pool headlines are not local data. */
+export function localDataGb(plan: Plan): number | undefined {
+  if (plan.category !== "mobile" || isSharedHeadline(plan)) return undefined;
+  const gb = plan.dataGb ?? plan.highSpeedGb;
+  return gb != null && gb > 0 ? gb : undefined;
 }

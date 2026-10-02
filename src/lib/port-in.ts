@@ -101,7 +101,12 @@ export const MOBILE_NEEDS = [
   { id: "5g", label: "5G 全速無限" },
   { id: "45g", label: "4.5G 平價入門" },
   { id: "mnp", label: "帶號轉台 MNP" },
-  { id: "gba", label: "大灣區／學生優惠" },
+  { id: "student", label: "學生優惠" },
+  { id: "gba", label: "大灣區數據" },
+  { id: "elder", label: "長者優惠" },
+  { id: "local30", label: "30G 本地數據以下" },
+  { id: "local100", label: "30G 至 100G 本地數據" },
+  { id: "tri", label: "三地共用數據" },
 ] as const;
 
 export const BUSINESS_SPEEDS = [
@@ -251,6 +256,10 @@ export function toPortInSearch(input: {
     input.cat === "business" ? BUSINESS_SPEEDS.find((item) => item.id === input.businessSpeed) : undefined;
   const mobile = input.mobileNeed;
   const housing = input.cat === "broadband" || input.cat === "home5g" ? input.housing : undefined;
+  const detailNeed =
+    mobile === "student" || mobile === "elder" || mobile === "local30" || mobile === "local100" || mobile === "tri"
+      ? mobile
+      : undefined;
   return {
     cat: input.cat,
     estate: input.estate?.trim() || undefined,
@@ -261,6 +270,7 @@ export function toPortInSearch(input: {
     generation: mobile === "5g" ? "5g" : mobile === "45g" ? "4g" : undefined,
     portIn: mobile === "mnp" ? true : undefined,
     gba: mobile === "gba" ? true : undefined,
+    need: detailNeed,
     esports: input.esports ? true : undefined,
     sort: input.esports ? "speed" : undefined,
     expiry: input.expiry || undefined,
@@ -283,7 +293,15 @@ export function fromPortInSearch(search: PlansSearch) {
   }
   let mobileNeed: MobileNeedId | "" = "";
   if (search.cat === "mobile") {
-    if (search.gba) mobileNeed = "gba";
+    if (
+      search.need === "student" ||
+      search.need === "elder" ||
+      search.need === "local30" ||
+      search.need === "local100" ||
+      search.need === "tri"
+    ) {
+      mobileNeed = search.need;
+    } else if (search.gba) mobileNeed = "gba";
     else if (search.portIn) mobileNeed = "mnp";
     else if (search.generation === "5g") mobileNeed = "5g";
     else if (search.generation === "4g") mobileNeed = "45g";
@@ -306,6 +324,7 @@ export function mergePortInSearch(
     generation: next.generation,
     portIn: next.portIn,
     gba: next.gba,
+    need: next.need,
     esports: next.esports,
     expiry: next.expiry,
     sort: next.sort ?? base.sort,

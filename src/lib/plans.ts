@@ -3868,6 +3868,7 @@ export type PlansSearch = {
   portIn?: boolean;
   generation?: Generation;
   gba?: boolean;
+  need?: "student" | "elder" | "local30" | "local100" | "tri";
   q?: string;
   estate?: string;
   sort?: "fee" | "avg" | "speed" | "data";

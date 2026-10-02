@@ -15,6 +15,7 @@ const PROVIDERS: ProviderId[] = [
 const SPEEDS: SpeedMbps[] = [200, 500, 1000, 2000, 2500, 5000, 10000];
 const GENERATIONS: Generation[] = ["4g", "5g"];
 const EXPIRY: NonNullable<PlansSearch["expiry"]>[] = ["1m", "2-3m", "4-6m", "6m+"];
+const NEEDS: NonNullable<PlansSearch["need"]>[] = ["student", "elder", "local30", "local100", "tri"];
 
 function asFlag(value: unknown) {
   return value === true || value === 1 || value === "1" || value === "true";
@@ -58,6 +59,9 @@ export function parsePlansSearch(search: Record<string, unknown>): PlansSearch {
     portIn: portIn ? true : undefined,
     saved: saved ? true : undefined,
     gba: gba ? true : undefined,
+    need: NEEDS.includes(search.need as NonNullable<PlansSearch["need"]>)
+      ? (search.need as NonNullable<PlansSearch["need"]>)
+      : undefined,
     q: typeof search.q === "string" && search.q.length ? search.q : undefined,
     estate: typeof search.estate === "string" && search.estate.length ? search.estate : undefined,
     intake: asFlag(search.intake) ? true : undefined,
@@ -82,6 +86,7 @@ export function compactSearch(search: PlansSearch): PlansSearch {
     ...(search.generation ? { generation: search.generation } : {}),
     ...(search.portIn ? { portIn: true } : {}),
     ...(search.gba ? { gba: true } : {}),
+    ...(search.need ? { need: search.need } : {}),
     ...(search.saved ? { saved: true } : {}),
     ...(search.q ? { q: search.q } : {}),
     ...(search.estate ? { estate: search.estate } : {}),

@@ -207,11 +207,16 @@ export function detectTargetProvider(message: string): ProviderId | undefined {
   return detectProvider(clause);
 }
 
-export function detectMobileNeed(message: string) {
-  if (/大灣區|中澳|學生優惠/.test(message)) return "gba" as const;
-  if (/攜號|帶號|mnp/i.test(message)) return "mnp" as const;
-  if (/4\.5g|平價入門/i.test(message)) return "45g" as const;
-  if (/5g/i.test(message)) return "5g" as const;
+export function detectMobileNeed(message: string): MobileNeedId | undefined {
+  if (/長者/.test(message)) return "elder";
+  if (/學生/.test(message)) return "student";
+  if (/三地共用|三地共享/.test(message)) return "tri";
+  if (/30\s*g?\s*(至|到|-|–)\s*100/i.test(message)) return "local100";
+  if (/30\s*g?[^。\n]{0,8}以下/i.test(message)) return "local30";
+  if (/大灣區|中澳/.test(message)) return "gba";
+  if (/攜號|帶號|mnp/i.test(message)) return "mnp";
+  if (/4\.5g|平價入門/i.test(message)) return "45g";
+  if (/5g/i.test(message)) return "5g";
   return undefined;
 }
 
@@ -247,7 +252,7 @@ export type FilterParse = {
   estate?: string;
   housing?: Housing;
   speed?: SpeedMbps;
-  mobileNeed?: "5g" | "45g" | "mnp" | "gba";
+  mobileNeed?: MobileNeedId;
   esports: boolean;
   gaming: boolean;
 };

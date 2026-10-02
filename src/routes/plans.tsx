@@ -29,6 +29,7 @@ import {
   fromPortInSearch,
   isTargetConflict,
   mergePortInSearch,
+  needLabel,
   serviceTypeLabel,
   targetLabel,
   targetOptions,
@@ -299,6 +300,13 @@ function PlansPage() {
     });
   }
   if (search.gba) active.push({ key: "gba", label: t("gba"), search: { ...search, gba: undefined } });
+  if (search.need) {
+    active.push({
+      key: "need",
+      label: needLabel("mobile", search.need),
+      search: { ...search, need: undefined },
+    });
+  }
   if (search.portIn) active.push({ key: "port", label: t("portIn"), search: { ...search, portIn: undefined } });
   if (search.maxFee) {
     active.push({ key: "fee", label: t("budgetUnder", { n: search.maxFee }), search: { ...search, maxFee: undefined } });
