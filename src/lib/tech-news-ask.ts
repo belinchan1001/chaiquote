@@ -9,6 +9,7 @@ import {
   newsDeskKey,
   newsDeskKeyOk,
   parseNewsDraft,
+  sourceImageFromHtml,
   stripHtml,
 } from "./tech-news-desk.ts";
 import { getPublishedNews, insertPublishedNews } from "./tech-news-store.ts";
@@ -42,7 +43,7 @@ export type DraftNewsResult =
   | { ok: true; article: TechNewsArticle; usedModel: boolean }
   | { ok: false; reason: "token" | "empty" | "fetch" | "budget" | "parse"; message: string };
 
-async function fetchSource(url: URL): Promise<string> {
+async function fetchSource(url: URL): Promise<{ text: string; image: { url: string; credit: string } | null }> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 8000);
   try {
@@ -51,12 +52,15 @@ async function fetchSource(url: URL): Promise<string> {
       headers: { Accept: "text/html,text/plain;q=0.9", "User-Agent": "ChaiQuoteNewsDesk/1.0" },
       redirect: "follow",
     });
-    if (!res.ok) return "";
+    if (!res.ok) return { text: "", image: null };
     const buf = await res.arrayBuffer();
-    const text = new TextDecoder("utf-8").decode(buf.slice(0, 80_000));
-    return stripHtml(text).slice(0, NEWS_MAX_SOURCE_CHARS);
+    const html = new TextDecoder("utf-8").decode(buf.slice(0, 80_000));
+    return {
+      text: stripHtml(html).slice(0, NEWS_MAX_SOURCE_CHARS),
+      image: sourceImageFromHtml(html, url),
+    };
   } catch {
-    return "";
+    return { text: "", image: null };
   } finally {
     clearTimeout(timer);
   }
@@ -121,13 +125,16 @@ export const draftTechNews = createServerFn({ method: "POST" })
     const pasted = (data.sourceText ?? "").trim().slice(0, NEWS_MAX_SOURCE_CHARS);
     let source = pasted;
     let sourceUrl: string | undefined;
+    let sourceImage: { url: string; credit: string } | null = null;
     const rawUrl = (data.sourceUrl ?? "").trim();
     if (rawUrl) {
       const safe = isSafeNewsUrl(rawUrl);
       if (!safe) return { ok: false, reason: "fetch", message: "網址唔安全或者格式不正確。" };
       sourceUrl = safe.href;
+      const page = await fetchSource(safe);
+      sourceImage = page.image;
       if (!source) {
-        source = await fetchSource(safe);
+        source = page.text;
         if (source.length < 80) return { ok: false, reason: "fetch", message: "擷取唔到原文，請改貼文字。" };
       }
     }
@@ -142,7 +149,7 @@ export const draftTechNews = createServerFn({ method: "POST" })
     if ("over" in completion && completion.over) {
       return { ok: false, reason: "budget", message: "呢個月 AI 額度用完。" };
     }
-    const article = parseNewsDraft(completion.text, data.category, sourceUrl);
+    const article = parseNewsDraft(completion.text, data.category, sourceUrl, sourceImage);
     if (!article) {
       return { ok: false, reason: "parse", message: "AI 稿未能通過核對（可能缺重點或者寫咗保證句）。請再試一次。" };
     }

@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { draftTechNews, publishTechNews } from "@/lib/tech-news-ask";
+import { isRemoteNewsImage } from "@/lib/tech-news-desk";
 import { TECH_NEWS_CATEGORIES, techNewsCopy, type TechNewsArticle, type TechNewsCategoryId } from "@/lib/tech-news";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { SITE } from "@/lib/site";
@@ -169,10 +170,22 @@ function TechNewsDesk() {
           <p className="mt-3 text-muted">{copy.excerpt}</p>
           {article.image ? (
             <figure className="mt-4 overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border)]">
-              <picture>
-                <source srcSet={article.image.replace(/\.jpg$/, ".webp")} type="image/webp" />
-                <img src={article.image} alt={article.imageAlt ?? copy.h1} width={1280} height={720} className="h-auto w-full" />
-              </picture>
+              {isRemoteNewsImage(article.image) ? (
+                <img
+                  src={article.image}
+                  alt={article.imageAlt ?? copy.h1}
+                  width={1280}
+                  height={720}
+                  referrerPolicy="no-referrer"
+                  className="h-auto w-full"
+                />
+              ) : (
+                <picture>
+                  <source srcSet={article.image.replace(/\.jpg$/, ".webp")} type="image/webp" />
+                  <img src={article.image} alt={article.imageAlt ?? copy.h1} width={1280} height={720} className="h-auto w-full" />
+                </picture>
+              )}
+              {article.imageCredit ? <figcaption className="px-3 py-2 text-xs text-subtle">圖片：{article.imageCredit}</figcaption> : null}
             </figure>
           ) : null}
           <ul className="mt-4 list-disc space-y-1 pl-5 text-sm">

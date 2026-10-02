@@ -17,6 +17,7 @@ import {
 import { loadPublishedNews, loadPublishedNewsBySlug } from "@/lib/tech-news-live";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { canonicalUrl, notFoundHead, shareHead } from "@/lib/canonical";
+import { isRemoteNewsImage } from "@/lib/tech-news-desk";
 import { SITE } from "@/lib/site";
 
 function headingId(heading: string) {
@@ -91,7 +92,7 @@ export const Route = createFileRoute("/tech-news_/$slug")({
         { property: "og:locale", content: "zh_HK" },
         { property: "og:site_name", content: SITE.name },
         ...(article.image
-          ? [{ property: "og:image", content: canonicalUrl(article.image) }]
+          ? [{ property: "og:image", content: isRemoteNewsImage(article.image) ? article.image : canonicalUrl(article.image) }]
           : []),
       ],
       links: [{ rel: "canonical", href: url }],
@@ -182,7 +183,9 @@ function ArticlePage({ article }: { article: TechNewsArticle }) {
                 logo: { "@type": "ImageObject", url: `${SITE.url}/icon-512.png` },
               },
               keywords: copy.tags.join(","),
-              ...(article.image ? { image: canonicalUrl(article.image) } : {}),
+              ...(article.image
+                ? { image: isRemoteNewsImage(article.image) ? article.image : canonicalUrl(article.image) }
+                : {}),
             },
             {
               "@type": "BreadcrumbList",
@@ -232,17 +235,29 @@ function ArticlePage({ article }: { article: TechNewsArticle }) {
       </div>
       {article.image ? (
         <figure className="mt-6 overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border)]">
-          <picture>
-            <source srcSet={article.image.replace(/\.jpg$/, ".webp")} type="image/webp" />
+          {isRemoteNewsImage(article.image) ? (
             <img
               src={article.image}
               alt={article.imageAlt ?? copy.h1}
               width={1280}
               height={720}
               decoding="async"
+              referrerPolicy="no-referrer"
               className="h-auto w-full"
             />
-          </picture>
+          ) : (
+            <picture>
+              <source srcSet={article.image.replace(/\.jpg$/, ".webp")} type="image/webp" />
+              <img
+                src={article.image}
+                alt={article.imageAlt ?? copy.h1}
+                width={1280}
+                height={720}
+                decoding="async"
+                className="h-auto w-full"
+              />
+            </picture>
+          )}
           {article.imageCredit ? (
             <figcaption className="px-3 py-2 text-xs text-subtle">
               {isEn ? `Image: ${article.imageCredit}` : `圖片：${article.imageCredit}`}

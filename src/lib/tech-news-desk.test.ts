@@ -7,6 +7,7 @@ import {
   isSafeNewsUrl,
   parseNewsDraft,
   slugifyNews,
+  sourceImageFromHtml,
   stripHtml,
 } from "./tech-news-desk.ts";
 
@@ -63,6 +64,26 @@ describe("tech news desk", () => {
     assert.equal(isSafeNewsUrl("ftp://files.example/a"), null);
     assert.equal(stripHtml("<script>x</script><p>官方 公告</p>"), "官方 公告");
     assert.equal(slugifyNews("Hello World!!", new Set()), "hello-world");
+    const page = new URL("https://www.apple.com/hk/newsroom/story");
+    const html =
+      '<meta property="og:site_name" content="Apple"><meta property="og:image" content="https://www.apple.com/hk/newsroom/images/hero.jpg">';
+    assert.deepEqual(sourceImageFromHtml(html, page), {
+      url: "https://www.apple.com/hk/newsroom/images/hero.jpg",
+      credit: "Apple",
+    });
+    assert.equal(sourceImageFromHtml('<meta property="og:image" content="http://127.0.0.1/a.jpg">', page), null);
+    assert.equal(
+      sourceImageFromHtml('<meta property="og:image" content="https://cdn.example/a.jpg?w=1&h=2">', page)?.url,
+      "https://cdn.example/a.jpg?w=1&h=2",
+    );
+    const withPhoto = parseNewsDraft(
+      JSON.stringify(SAMPLE),
+      "phones",
+      page.href,
+      { url: "https://www.apple.com/hk/newsroom/images/hero.jpg", credit: "Apple" },
+    );
+    assert.equal(withPhoto?.image, "https://www.apple.com/hk/newsroom/images/hero.jpg");
+    assert.equal(withPhoto?.imageCredit, "Apple");
   });
 
   it("keeps the desk noindex and off the public nav", () => {

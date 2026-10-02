@@ -40,6 +40,45 @@ export const NEWS_JOURNALIST_SYSTEM = `你是一位專精於香港電訊市場�
 結構：標題 18–30 字、摘要 50–80 字、3–4 個必看重點、2–4 個 H2 分段、最後編輯觀點。
 禁忌：唔好用大陸簡轉繁用語（流量改數據、宽带改寬頻、套餐改計劃、智能手环改智能手錶）。唔好標題黨。數字、日期、規格只可以來自來源；來源無寫死就寫「以電訊商確認為準」，不准估月費。唔准寫最平、最抵、最低、保證。description 必須含「以電訊商確認為準」。`;
 
+export function sourceImageFromHtml(html: string, page: URL): { url: string; credit: string } | null {
+  const patterns = [
+    /<meta[^>]+property=["']og:image(?::secure_url)?["'][^>]+content=["']([^"']+)["']/i,
+    /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image(?::secure_url)?["']/i,
+    /<meta[^>]+name=["']twitter:image(?::src)?["'][^>]+content=["']([^"']+)["']/i,
+    /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image(?::src)?["']/i,
+  ];
+  let raw = "";
+  for (const pattern of patterns) {
+    const hit = html.match(pattern);
+    if (hit?.[1]) {
+      raw = hit[1];
+      break;
+    }
+  }
+  if (!raw) return null;
+  const amp = "&" + "amp;";
+  const quot = "&" + "quot;";
+  const decoded = raw.split(amp).join("&").split(quot).join('"').trim();
+  let imageUrl: URL;
+  try {
+    imageUrl = new URL(decoded, page);
+  } catch {
+    return null;
+  }
+  if (!isSafeNewsUrl(imageUrl.href)) return null;
+  if (/\.(html?|php|aspx?)(\?|$)/i.test(imageUrl.pathname)) return null;
+  if (/pixel|spacer|1x1|tracking/i.test(imageUrl.href)) return null;
+  const site =
+    html.match(/<meta[^>]+property=["']og:site_name["'][^>]+content=["']([^"']+)["']/i)?.[1] ??
+    html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:site_name["']/i)?.[1];
+  const credit = (site ? site.split(amp).join("&").trim() : page.hostname.replace(/^www\./, "")).slice(0, 80);
+  return { url: imageUrl.href, credit };
+}
+
+export function isRemoteNewsImage(image: string): boolean {
+  return /^https?:\/\//i.test(image);
+}
+
 export function isNewsCategory(value: string): value is TechNewsCategoryId {
   return TECH_NEWS_CATEGORIES.some((item) => item.id === value);
 }
@@ -130,6 +169,7 @@ export function parseNewsDraft(
   raw: string,
   category: TechNewsCategoryId,
   sourceUrl?: string,
+  sourceImage?: { url: string; credit: string } | null,
 ): TechNewsArticle | null {
   let parsed: Record<string, unknown>;
   try {
@@ -173,9 +213,9 @@ export function parseNewsDraft(
     editorNote: String(parsed.editorNote ?? "實際月費、規格同覆蓋以電訊商確認為準。").trim(),
     editorNoteEn: String(parsed.editorNoteEn ?? "Fees, specs and coverage are confirmed by the carrier.").trim(),
     sourceUrl,
-    image: desk?.image,
-    imageAlt: desk ? `${desk.label}專區配圖` : undefined,
-    imageCredit: "齊Quote",
+    image: sourceImage?.url || desk?.image,
+    imageAlt: sourceImage ? h1 : desk ? `${desk.label}專區配圖` : undefined,
+    imageCredit: sourceImage?.credit || "齊Quote",
   };
   if (!article.tags.length) article.tags = ["電訊新聞", "齊Quote"];
   if (!article.tagsEn.length) article.tagsEn = ["telecom news", "ChaiQuote"];
