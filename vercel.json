@@ -20,6 +20,11 @@
       "statusCode": 302
     },
     {
+      "source": "/go/public",
+      "destination": "/plans?cat=broadband&housing=public&from=ad",
+      "statusCode": 302
+    },
+    {
       "source": "/sales",
       "destination": "https://chaiquote-office.vercel.app/",
       "statusCode": 302

@@ -12,10 +12,11 @@ import { renderRobotsTxt } from "./seo.ts";
 const here = dirname(fileURLToPath(import.meta.url));
 
 describe("ad landings", () => {
-  it("maps three Google Ads URLs onto plans search without excluding a carrier", () => {
+  it("maps Google Ads URLs onto plans search without excluding a carrier", () => {
     assert.equal(AD_LANDINGS.broadband.search.cat, "broadband");
     assert.equal(AD_LANDINGS.home5g.search.cat, "home5g");
     assert.equal(AD_LANDINGS.village.search.housing, "village");
+    assert.equal(AD_LANDINGS.public.search.housing, "public");
     for (const landing of Object.values(AD_LANDINGS)) {
       assert.equal(landing.search.from, "ad");
       assert.equal(landing.search.exclude, undefined);
@@ -23,7 +24,10 @@ describe("ad landings", () => {
       assert.ok(rows.length > 0, landing.path);
       assert.ok(rows.some((plan) => plan.providerId === "hkbn"), landing.path);
     }
+    const publicRows = filterPlans(AD_LANDINGS.public.search);
+    assert.ok(publicRows.every((plan) => plan.housing === "all" || plan.housing.includes("public")));
     assert.equal(getAdLanding("broadband")?.path, "/go/broadband");
+    assert.equal(getAdLanding("public")?.path, "/go/public");
     assert.equal(getAdLanding("mobile"), undefined);
   });
 
@@ -51,7 +55,10 @@ describe("ad landings", () => {
     const vercel = readFileSync(join(here, "../../vercel.json"), "utf8");
     assert.match(vercel, /\/go\/broadband/);
     assert.match(vercel, /from=ad/);
+    assert.match(vercel, /\/go\/village/);
+    assert.match(vercel, /\/go\/public/);
     assert.match(vercel, /housing=village/);
+    assert.match(vercel, /housing=public/);
     const route = readFileSync(join(here, "../routes/go_.$dest.tsx"), "utf8");
     assert.match(route, /getAdLanding/);
     const plans = readFileSync(join(here, "../routes/plans.tsx"), "utf8");

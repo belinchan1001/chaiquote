@@ -1,6 +1,6 @@
 import type { PlansSearch } from "./plans.ts";
 
-export const AD_LANDING_DESTS = ["broadband", "home5g", "village"] as const;
+export const AD_LANDING_DESTS = ["broadband", "home5g", "village", "public"] as const;
 export type AdLandingDest = (typeof AD_LANDING_DESTS)[number];
 
 export type AdLanding = {
@@ -24,6 +24,11 @@ export const AD_LANDINGS: Record<AdLandingDest, AdLanding> = {
     dest: "village",
     path: "/go/village",
     search: { cat: "broadband", housing: "village", from: "ad" },
+  },
+  public: {
+    dest: "public",
+    path: "/go/public",
+    search: { cat: "broadband", housing: "public", from: "ad" },
   },
 };
 
