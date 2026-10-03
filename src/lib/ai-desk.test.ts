@@ -205,8 +205,8 @@ describe("AI desk safety", () => {
     const desk = readFileSync(join(here, "ai-desk.ts"), "utf8");
     const widget = readFileSync(join(here, "../components/whatsapp-widget.tsx"), "utf8");
 
-    assert.equal(quoted(messages, "aiStaffLead")[0], "講屋苑或想要咩，幫你收窄站內嘅計劃");
-    assert.match(quoted(messages, "aiStaffLead")[1] ?? "", /narrow the plans listed on this site/);
+    assert.equal(quoted(messages, "aiStaffLead")[0], "講下想要咩，我幫你對站內計劃");
+    assert.match(quoted(messages, "aiStaffLead")[1] ?? "", /match plans on this site/);
     assert.equal(quoted(messages, "aiBeta")[0], "測試版");
     assert.equal(quoted(messages, "aiBeta")[1], "Beta");
     assert.equal(
@@ -422,7 +422,7 @@ describe("AI desk safety", () => {
     assert.match(staff, /blankGuide/);
     assert.equal(quoted(messages, "aiSlotCurrent")[0], "現用台");
     assert.equal(quoted(messages, "aiFaqMore")[0], "常見問題");
-    assert.equal(quoted(messages, "aiAutoFilter")[0], "我跟住你的答案收窄。");
+    assert.equal(quoted(messages, "aiAutoFilter")[0], "答完我就列出計劃。");
 
     assert.match(entry, /plan-card-shine ai-filter-shine ai-entry-pulse/);
     assert.match(entry, /aiOpen && "is-open"/);
