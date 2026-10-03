@@ -211,7 +211,7 @@ describe("AI desk safety", () => {
     assert.equal(quoted(messages, "aiBeta")[1], "Beta");
     assert.equal(
       quoted(messages, "aiWelcome")[0],
-      "你好，我係齊Quote。\\n我想一步步幫你收窄，唔使一次過睇晒。你想睇邊種服務？",
+      "你好，我係齊Quote。\\n你想睇邊種服務？",
     );
     assert.match(quoted(messages, "aiWelcome")[1] ?? "", /Which service do you want/);
     assert.equal(quoted(messages, "aiWelcomeTrial")[0], "功能試用中，結果僅供參考");
