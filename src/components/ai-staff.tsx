@@ -756,7 +756,13 @@ export function AiStaffPanel() {
                       );
                     })}
                     {bubble.search ? (
-                      <Link to="/plans" search={bubble.search} hash="plan-list" className="inline-flex text-sm font-medium text-accent">
+                      <Link
+                        to="/plans"
+                        search={bubble.search}
+                        hash="plan-list"
+                        className="inline-flex text-sm font-medium text-accent"
+                        onClick={() => closeAi()}
+                      >
                         {t("aiSeeAll")}
                       </Link>
                     ) : null}
