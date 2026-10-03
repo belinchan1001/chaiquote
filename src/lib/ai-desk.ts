@@ -179,6 +179,19 @@ export function detectProvider(message: string): ProviderId | undefined {
 }
 
 const VILLAGE_HOUSING_INTENT = /村屋|丁屋|village\s*houses?/i;
+const STATED_HOUSING: { re: RegExp; housing: Housing }[] = [
+  { re: /村屋|丁屋/, housing: "village" },
+  { re: /居屋/, housing: "hos" },
+  { re: /公屋|屋邨/, housing: "public" },
+  { re: /私樓|唐樓|私人樓/, housing: "private" },
+];
+const ESTATE_NOISE =
+  /公屋|居屋|私樓|唐樓|私人樓宇|私人住宅|村屋|丁屋|屋邨|village\s*houses?|未有寬頻|未裝寬頻|新開戶|無用緊|有冇光纖|有沒有光纖/gi;
+
+export function statedHousing(message: string): Housing | undefined {
+  const hits = STATED_HOUSING.filter((row) => row.re.test(message));
+  return hits.length === 1 ? hits[0]?.housing : undefined;
+}
 
 export function isVillageHousingIntent(message: string) {
   return VILLAGE_HOUSING_INTENT.test(message);
@@ -186,7 +199,7 @@ export function isVillageHousingIntent(message: string) {
 
 /** Strip housing-type words so「村屋 1000M」is not searched as an estate name. */
 export function estateQueryFromMessage(message: string) {
-  return message.replace(VILLAGE_HOUSING_INTENT, " ").replace(/\s+/g, " ").trim();
+  return message.replace(ESTATE_NOISE, " ").replace(/[，,。？?]/g, " ").replace(/\s+/g, " ").trim();
 }
 
 export function resolveEstate(message: string, inquiryEstate?: string): Estate | undefined {
@@ -255,6 +268,8 @@ export type FilterParse = {
   mobileNeed?: MobileNeedId;
   esports: boolean;
   gaming: boolean;
+  /** The message named a housing type, so a previously saved estate must not be kept. */
+  dropStoredEstate?: boolean;
 };
 
 export function parseFilterState(input: {
@@ -264,14 +279,18 @@ export function parseFilterState(input: {
   looseCurrent?: boolean;
 }): FilterParse {
   const message = input.message.trim().slice(0, AI_MAX_MESSAGE_CHARS);
+  const stated = statedHousing(message);
   const villageIntent = isVillageHousingIntent(message);
-  const estateRow = resolveEstate(message, villageIntent ? undefined : input.estate);
-  const guessed = classifyAddress(estateRow?.name ?? message);
-  const housing = villageIntent
-    ? "village"
-    : (["public", "hos", "private", "village"] as Housing[]).includes(input.housing as Housing)
-      ? (input.housing as Housing)
-      : estateRow?.housing ?? guessed.housing;
+  const wanted = stated ?? (villageIntent ? "village" : undefined);
+  const lookup = wanted ? estateQueryFromMessage(message) : message.trim();
+  const estateRow = lookup ? resolveEstate(lookup, wanted ? undefined : input.estate) : undefined;
+  const keptEstate = wanted && estateRow && estateRow.housing !== wanted ? undefined : estateRow;
+  const dropStoredEstate = Boolean(wanted && !keptEstate);
+  const guessed = classifyAddress(keptEstate?.name ?? (wanted ? "" : message));
+  const storedHousing = (["public", "hos", "private", "village"] as Housing[]).includes(input.housing as Housing)
+    ? (input.housing as Housing)
+    : undefined;
+  const housing = wanted ?? keptEstate?.housing ?? (dropStoredEstate ? undefined : storedHousing) ?? guessed.housing;
   const cat = detectCategory(message);
   const current = detectCurrentProvider(message, Boolean(input.looseCurrent));
   const target = detectTargetProvider(message);
@@ -285,12 +304,13 @@ export function parseFilterState(input: {
     exclude,
     target: target && target !== exclude ? target : undefined,
     expiry: detectExpiry(message),
-    estate: estateRow?.name ?? (villageIntent ? undefined : input.estate || undefined),
+    estate: keptEstate?.name ?? (dropStoredEstate || villageIntent ? undefined : input.estate || undefined),
     housing,
     speed: esports ? undefined : (speed as SpeedMbps | undefined),
     mobileNeed,
     esports,
     gaming: detectGaming(message),
+    dropStoredEstate,
   };
 }
 
@@ -349,8 +369,8 @@ export function inquiryFromAiParse(
     : previous?.currentProvider || "";
   const target = parsed.target ? targetLabel(parsed.target) : previous?.targetProvider || "";
   return {
-    estate: parsed.estate || previous?.estate || "",
-    housing: parsed.housing || previous?.housing || "",
+    estate: parsed.dropStoredEstate ? parsed.estate || "" : parsed.estate || previous?.estate || "",
+    housing: parsed.housing || (parsed.dropStoredEstate ? "" : previous?.housing || ""),
     district: previous?.district,
     currentProvider: current,
     targetProvider: target,
@@ -374,13 +394,14 @@ export function mergeFilterParse(
 ): FilterParse {
   const current = parsed.current || currentIdFromLabel(previous?.currentProvider ?? "") || prior?.current;
   const expiry = parsed.expiry || expiryIdFromLabel(previous?.expiry ?? "") || prior?.expiry;
-  const estate = parsed.estate || previous?.estate || prior?.estate;
-  const housing =
-    parsed.housing ||
-    prior?.housing ||
-    ((["public", "hos", "private", "village"] as Housing[]).includes(previous?.housing as Housing)
-      ? (previous?.housing as Housing)
-      : undefined);
+  const estate = parsed.dropStoredEstate ? parsed.estate : parsed.estate || previous?.estate || prior?.estate;
+  const housing = parsed.dropStoredEstate
+    ? parsed.housing
+    : parsed.housing ||
+      prior?.housing ||
+      ((["public", "hos", "private", "village"] as Housing[]).includes(previous?.housing as Housing)
+        ? (previous?.housing as Housing)
+        : undefined);
   const exclude = current && current !== "none" && current !== "other" ? current : undefined;
   return {
     ...parsed,

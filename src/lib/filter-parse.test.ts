@@ -105,4 +105,22 @@ describe("AI filter parse", () => {
     const parsed = parseFilterState({ message: "村屋有冇光纖？" });
     assert.equal(shouldHoldForIntake("村屋有冇光纖？", parsed), false);
   });
+
+  it("lets 公屋 replace a previously saved private estate", () => {
+    const parsed = parseFilterState({
+      message: "公屋，未有寬頻",
+      estate: "YOHO Town",
+      housing: "private",
+    });
+    assert.equal(parsed.housing, "public");
+    assert.equal(parsed.current, "none");
+    assert.equal(parsed.estate, undefined);
+    const merged = mergeFilterParse(parsed, { estate: "YOHO Town", housing: "private" }, undefined);
+    assert.equal(merged.housing, "public");
+    assert.equal(merged.estate, undefined);
+    const inquiry = inquiryFromAiParse(merged, { estate: "YOHO Town", housing: "private" });
+    assert.equal(inquiry.housing, "public");
+    assert.equal(inquiry.estate, "");
+    assert.match(inquiry.currentProvider, /新開戶|新號碼|無用緊/);
+  });
 });
