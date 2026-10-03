@@ -12,9 +12,9 @@ const FILES = [
   {
     dest: "src/lib/messages.ts",
     // Must be a main commit whose messages.ts already contains every key the
-    // app renders. 031247c predates the Android privacy section (#122) and
-    // the build was shipping key names on /privacy.
-    url: "https://raw.githubusercontent.com/belinchan1001/chaiquote/5a28e972536ca65f3bb36272f3d446298f246873/src/lib/messages.ts",
+    // app renders. Bump this hash whenever src/lib/messages.ts changes, or the
+    // build will ship an older catalogue and the UI will show raw key names.
+    url: "https://raw.githubusercontent.com/belinchan1001/chaiquote/6d6c28dde0839b7924ff30270bc619ea902f9ea1/src/lib/messages.ts",
     minBytes: 40000,
   },
   {
