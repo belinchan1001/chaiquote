@@ -421,9 +421,8 @@ export function mergeFilterParse(
   };
 }
 
-export function intakeGap(parsed: FilterParse): "current" | "expiry" | null {
+export function intakeGap(parsed: FilterParse): "current" | null {
   if (!parsed.current) return "current";
-  if (!parsed.expiry) return "expiry";
   return null;
 }
 

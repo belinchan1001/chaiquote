@@ -27,7 +27,6 @@ import { useI18n } from "@/lib/i18n";
 import { formatFee, type Category, type Housing } from "@/lib/plans";
 import {
   currentOptions,
-  EXPIRY_OPTIONS,
   expiryIdFromLabel,
   portInQuoteFromInquiry,
   serviceTypeLabel,
@@ -50,12 +49,6 @@ type Bubble = {
   search?: ReturnType<typeof compactSearch>;
   quote?: InquiryQuote;
 };
-
-const SCREEN_EXAMPLES = [
-  { zh: "村屋，而家香港寬頻，下個月到期", en: "Village house, now on HKBN, ends next month" },
-  { zh: "手機用緊 3香港，想要三地數據", en: "Mobile on 3HK, want three-region data" },
-  { zh: "公屋，未有寬頻", en: "Public housing, no broadband yet" },
-] as const;
 
 const ROLE_KEY = { flash: "aiRoleFlash", pick: "aiRolePick", low: "aiRoleLow" } as const;
 const SESSION_KEY = "chaiquote-ai-session";
@@ -90,7 +83,7 @@ function useAiPresence(open: boolean) {
 }
 
 export function aiWelcomeCopy(t: (key: "aiWelcome" | "aiWelcomeTrial") => string) {
-  return `${t("aiWelcome")}\n${t("aiWelcomeTrial")}`;
+  return t("aiWelcome");
 }
 
 export { AiBetaMark };
@@ -109,17 +102,24 @@ function sessionId() {
 
 const GUIDE_STEPS = [
   { id: "serviceType", n: 1, label: "aiSlotService" },
-  { id: "currentProvider", n: 2, label: "aiSlotCurrent" },
-  { id: "expiry", n: 3, label: "aiSlotExpiry" },
+  { id: "housing", n: 2, label: "aiSlotHousing" },
+  { id: "currentProvider", n: 3, label: "aiSlotCurrent" },
 ] as const;
 
-type GuideStep = "service" | "current" | "expiry" | "estate";
+type GuideStep = "service" | "housing" | "current";
 
 const SERVICE_CHIPS: { cat: Category; key: MessageKey }[] = [
-  { cat: "broadband", key: "catBroadband" },
-  { cat: "mobile", key: "catMobile" },
-  { cat: "home5g", key: "catHome5g" },
-  { cat: "business", key: "catBusiness" },
+  { cat: "broadband", key: "aiSvcFibre" },
+  { cat: "mobile", key: "aiSvcMobile" },
+  { cat: "home5g", key: "aiSvcHome5g" },
+  { cat: "business", key: "aiSvcBusiness" },
+];
+
+const HOUSING_CHIPS: { id: Housing; key: MessageKey; spoken: string }[] = [
+  { id: "public", key: "housingPublic", spoken: "公屋" },
+  { id: "hos", key: "housingHos", spoken: "居屋" },
+  { id: "private", key: "housingPrivate", spoken: "私樓" },
+  { id: "village", key: "housingVillage", spoken: "村屋" },
 ];
 
 function categoryFromInquiry(inquiry: Inquiry): Category {
@@ -130,35 +130,36 @@ function categoryFromInquiry(inquiry: Inquiry): Category {
   return "broadband";
 }
 
+function hasAddress(inquiry: Inquiry) {
+  return Boolean(inquiry.estate.trim() || inquiry.housing.trim());
+}
+
 function nextGuideStep(inquiry: Inquiry): GuideStep | null {
   if (!inquiry.serviceType.trim()) return "service";
+  if (categoryFromInquiry(inquiry) === "broadband" && !hasAddress(inquiry)) return "housing";
   if (!inquiry.currentProvider.trim()) return "current";
-  if (!inquiry.expiry.trim()) return "expiry";
-  if (categoryFromInquiry(inquiry) === "broadband" && !inquiry.estate.trim()) return "estate";
   return null;
 }
 
 function askKey(step: GuideStep): MessageKey {
   if (step === "current") return "aiAskCurrent";
-  if (step === "expiry") return "aiAskExpiry";
-  if (step === "estate") return "aiAskEstate";
+  if (step === "housing") return "aiAskHousing";
   return "aiAskService";
 }
 
 function draftKey(step: GuideStep | null): MessageKey {
   if (step === "current") return "aiDraftCurrent";
-  if (step === "expiry") return "aiDraftExpiry";
-  if (step === "estate") return "aiDraftEstate";
+  if (step === "housing") return "aiDraftEstate";
   if (step === "service") return "aiDraftService";
   return "aiDraft";
 }
 
-function blankGuide(from?: Inquiry): Inquiry {
+function blankGuide(): Inquiry {
   return {
-    estate: from?.estate ?? "",
-    housing: from?.housing ?? "",
-    district: from?.district ?? "",
-    block: from?.block ?? "",
+    estate: "",
+    housing: "",
+    district: "",
+    block: "",
     currentProvider: "",
     targetProvider: "",
     expiry: "",
@@ -172,10 +173,10 @@ function blankGuide(from?: Inquiry): Inquiry {
 
 function clearGuideField(guide: Inquiry, id: (typeof GUIDE_STEPS)[number]["id"]): Inquiry {
   if (id === "serviceType") {
-    return { ...guide, serviceType: "", currentProvider: "", need: "", esports: false };
+    return { ...guide, serviceType: "", housing: "", estate: "", currentProvider: "", need: "", esports: false };
   }
-  if (id === "currentProvider") return { ...guide, currentProvider: "" };
-  return { ...guide, expiry: "" };
+  if (id === "housing") return { ...guide, housing: "", estate: "" };
+  return { ...guide, currentProvider: "" };
 }
 
 function housingFromInquiry(inquiry: Inquiry): Housing | undefined {
@@ -210,8 +211,13 @@ function IntakeProgress({
   onClear: (id: (typeof GUIDE_STEPS)[number]["id"]) => void;
 }) {
   const step = nextGuideStep(inquiry);
-  const missing = GUIDE_STEPS.filter((item) => !inquiry[item.id].trim()).map((item) => t(item.label));
-  const currentN = step === "current" ? 2 : step === "expiry" || step === "estate" ? 3 : step === "service" ? 1 : 4;
+  const fibre = !inquiry.serviceType.trim() || categoryFromInquiry(inquiry) === "broadband";
+  const missing = GUIDE_STEPS.filter((item) => {
+    if (item.id === "housing" && !fibre) return false;
+    if (item.id === "housing") return !hasAddress(inquiry);
+    return !inquiry[item.id].trim();
+  }).map((item) => t(item.label));
+  const currentN = step === "housing" ? 2 : step === "current" ? 3 : step === "service" ? 1 : 4;
   return (
     <div className="border-t border-primary-foreground/15 px-4 pb-3">
       <p className="mb-2 text-xs font-medium leading-snug text-primary-foreground">{t("aiAutoFilter")}</p>
@@ -221,11 +227,23 @@ function IntakeProgress({
       </p>
       <ol className="grid grid-cols-3 gap-1.5">
         {GUIDE_STEPS.map((item) => {
-          const value = inquiry[item.id].trim();
+          const value =
+            item.id === "housing"
+              ? inquiry.estate.trim() ||
+                (inquiry.housing === "private"
+                  ? "私樓"
+                  : inquiry.housing === "public"
+                    ? "公屋"
+                    : inquiry.housing === "hos"
+                      ? "居屋"
+                      : inquiry.housing === "village"
+                        ? "村屋"
+                        : "")
+              : inquiry[item.id].trim();
           const active =
             (item.id === "serviceType" && step === "service") ||
-            (item.id === "currentProvider" && step === "current") ||
-            (item.id === "expiry" && (step === "expiry" || step === "estate"));
+            (item.id === "housing" && step === "housing") ||
+            (item.id === "currentProvider" && step === "current");
           return (
             <li key={item.id}>
               <button
@@ -270,7 +288,6 @@ export function AiStaffPanel() {
   useHydrateDesk();
   const open = useDesk((s) => s.aiOpen);
   const closeAi = useDesk((s) => s.closeAi);
-  const inquiry = useDesk((s) => s.inquiry);
   const setInquiry = useDesk((s) => s.setInquiry);
   const { mounted, shown } = useAiPresence(open);
   const { t, locale, tx } = useI18n();
@@ -278,11 +295,8 @@ export function AiStaffPanel() {
   useEffect(() => {
     if (!open) return;
     sessionParse.current = null;
-    setGuide(blankGuide(inquiry));
-    setBubbles([
-      { id: "a1", from: "biz", text: aiWelcomeCopy(t) },
-      { id: "a2", from: "biz", text: t("aiHint") },
-    ]);
+    setGuide(blankGuide());
+    setBubbles([{ id: "a1", from: "biz", text: aiWelcomeCopy(t) }]);
   }, [open, locale, t]);
 
   useEffect(() => {
@@ -367,7 +381,7 @@ export function AiStaffPanel() {
     if (!snap.serviceType && !detectCategoryHint(trimmed)) {
       quote = { ...quote, serviceType: "" };
     }
-    if (nextGuideStep(snap) === "estate" && !quote.estate.trim()) {
+    if (nextGuideStep(snap) === "housing" && !quote.estate.trim() && !quote.housing.trim()) {
       quote = { ...quote, estate: trimmed };
     }
     setGuide(quote);
@@ -375,7 +389,7 @@ export function AiStaffPanel() {
     const isQuestion =
       /[？?]/.test(trimmed) || QUESTION_CHIPS.some((item) => item.zh === trimmed || item.en === trimmed);
     if (still && !opts?.silent && !isQuestion) {
-      setBubbles((prev) => [...prev, { id: `${mineId}-ai`, from: "biz", text: decorate(t(askKey(still)), quote) }]);
+      setBubbles((prev) => [...prev, { id: `${mineId}-ai`, from: "biz", text: t(askKey(still)) }]);
       setBusy(false);
       return;
     }
@@ -398,11 +412,7 @@ export function AiStaffPanel() {
       return;
     }
     if (merged && shouldHoldForIntake(trimmed, merged) && !isQuestion) {
-      const ask = !merged.current ? "current" : "expiry";
-      setBubbles((prev) => [
-        ...prev,
-        { id: `${mineId}-ai`, from: "biz", text: decorate(t(ask === "current" ? "aiAskCurrent" : "aiAskExpiry"), quote), quote },
-      ]);
+      setBubbles((prev) => [...prev, { id: `${mineId}-ai`, from: "biz", text: t("aiAskCurrent"), quote }]);
       setBusy(false);
       return;
     }
@@ -454,7 +464,7 @@ export function AiStaffPanel() {
     setBubbles((prev) => [...prev, { id: `${Date.now()}`, from: "me", text: spoken }]);
     const step = nextGuideStep(next);
     if (step) {
-      setBubbles((prev) => [...prev, { id: `${Date.now()}-ai`, from: "biz", text: decorate(t(askKey(step)), next) }]);
+      setBubbles((prev) => [...prev, { id: `${Date.now()}-ai`, from: "biz", text: t(askKey(step)) }]);
       return;
     }
     const parsed = parseFromGuide(next);
@@ -610,20 +620,6 @@ export function AiStaffPanel() {
             {busy ? (
               <p className="bg-card px-3 py-2 text-sm text-muted shadow-[var(--shadow-border)]">{t("aiThinking")}</p>
             ) : null}
-            {!guide.serviceType ? (
-              <div className="flex flex-wrap gap-2">
-                {SCREEN_EXAMPLES.map((item) => (
-                  <button
-                    key={item.zh}
-                    type="button"
-                    className="h-11 rounded-full bg-card px-3 text-left text-sm font-medium shadow-[var(--shadow-border)]"
-                    onClick={() => void sendToAi(locale === "en" ? item.en : item.zh)}
-                  >
-                    {locale === "en" ? item.en : item.zh}
-                  </button>
-                ))}
-              </div>
-            ) : null}
             <div ref={endRef} />
           </div>
 
@@ -631,38 +627,38 @@ export function AiStaffPanel() {
             <div className="border-t border-border bg-surface px-3 py-2">
               <p className="text-sm font-medium text-fg">{t(askKey(guideStep))}</p>
               <p className="text-[11px] text-muted">{t("aiCoach")}</p>
-              {guideStep !== "estate" ? (
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {(guideStep === "service"
-                    ? SERVICE_CHIPS.map((item) => ({ id: item.cat, label: t(item.key) }))
-                    : guideStep === "current"
-                      ? currentOptions(guideCat)
-                      : EXPIRY_OPTIONS
-                  ).map((item) => (
-                    <button
-                      key={item.id}
-                      type="button"
-                      className="h-11 rounded-full bg-card px-3 text-sm font-medium shadow-[var(--shadow-border)]"
-                      onClick={() => {
-                        if (guideStep === "service") {
-                          const cat = item.id as Category;
-                          pickGuide(t(SERVICE_CHIPS.find((row) => row.cat === cat)?.key ?? "catBroadband"), {
-                            serviceType: serviceTypeLabel(cat),
-                          });
-                          return;
-                        }
-                        if (guideStep === "current") {
-                          pickGuide(item.label, { currentProvider: item.label });
-                          return;
-                        }
-                        pickGuide(item.label, { expiry: item.label });
-                      }}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
-              ) : null}
+              <div className="mt-2 flex flex-wrap gap-2">
+                {(guideStep === "service"
+                  ? SERVICE_CHIPS.map((item) => ({ id: item.cat, label: t(item.key) }))
+                  : guideStep === "housing"
+                    ? HOUSING_CHIPS.map((item) => ({ id: item.id, label: item.spoken }))
+                    : currentOptions(guideCat)
+                ).map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className="h-11 rounded-full bg-card px-3 text-sm font-medium shadow-[var(--shadow-border)]"
+                    onClick={() => {
+                      if (guideStep === "service") {
+                        const cat = item.id as Category;
+                        pickGuide(t(SERVICE_CHIPS.find((row) => row.cat === cat)?.key ?? "aiSvcFibre"), {
+                          serviceType: serviceTypeLabel(cat),
+                          estate: "",
+                          housing: "",
+                        });
+                        return;
+                      }
+                      if (guideStep === "housing") {
+                        pickGuide(item.label, { housing: item.id, estate: "" });
+                        return;
+                      }
+                      pickGuide(item.label, { currentProvider: item.label });
+                    }}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
             </div>
           ) : null}
 

@@ -209,8 +209,11 @@ describe("AI desk safety", () => {
     assert.match(quoted(messages, "aiStaffLead")[1] ?? "", /narrow the plans listed on this site/);
     assert.equal(quoted(messages, "aiBeta")[0], "測試版");
     assert.equal(quoted(messages, "aiBeta")[1], "Beta");
-    assert.equal(quoted(messages, "aiWelcome")[0], "講屋苑或想要咩，對到就列俾你睇。價錢喺卡片，以電訊商確認為準。");
-    assert.match(quoted(messages, "aiWelcome")[1] ?? "", /carrier confirms the final terms/);
+    assert.equal(
+      quoted(messages, "aiWelcome")[0],
+      "你好，這是齊Quote AI 助手\\n我會一步一步幫你篩選出心水計劃，請問你需要什麼服務？🤖",
+    );
+    assert.match(quoted(messages, "aiWelcome")[1] ?? "", /Which service do you need/);
     assert.equal(quoted(messages, "aiWelcomeTrial")[0], "功能試用中，結果僅供參考");
     assert.match(quoted(messages, "aiWelcomeTrial")[1] ?? "", /on trial/);
     assert.equal(quoted(messages, "aiCardRef")[0], "僅供參考");

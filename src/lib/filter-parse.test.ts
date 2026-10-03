@@ -84,7 +84,7 @@ describe("AI filter parse", () => {
     assert.equal(afterCurrent.current, "hkbn");
     assert.equal(afterCurrent.estate, "太古城");
     assert.equal(afterCurrent.speed, 1000);
-    assert.equal(shouldHoldForIntake("香港寬頻", afterCurrent), true);
+    assert.equal(shouldHoldForIntake("香港寬頻", afterCurrent), false);
     const complete = mergeFilterParse(
       parseFilterState({ message: "下個月到期" }),
       inquiryFromAiParse(afterCurrent),
