@@ -250,10 +250,10 @@ export const MESSAGES = {
       "市面上合約同額外收費好亂。我哋將各電訊商方案整理好，等你快啲揀到啱預算、啱需要嘅計劃。",
     aboutIndependent: "獨立聲明",
     aboutIndependentText:
-      "本平台並非任何單一電訊營運商之附屬機構，所有資料均以提供中立參考為核心原則。資料更新：{date}。現時收錄 {providers} 間供應商、{plans} 個參考計劃。",
+      "本平台唔係任何一間電訊商嘅附屬。資料只作中立參考。資料更新：{date}。而家收錄 {providers} 間供應商、{plans} 個參考計劃。",
     noCommission:
       "本網站並沒有向任何電訊商收取佣金或廣告費。所列月費僅供參考，實際以電訊商確認為準。",
-    aboutProviders: "現時覆蓋之供應商",
+    aboutProviders: "而家收錄嘅電訊商",
     aboutBrand: "品牌指引",
     aboutDisclaimer: "免責聲明",
     aboutPrivacy: "私隱政策",
@@ -508,8 +508,8 @@ export const MESSAGES = {
     intakeHousing: "樓宇類型",
     intakeMobileNeed: "計劃類型",
     intakeAddressOptional: "主要活動／居住地址（選填）",
-    intakeAddressOptionalHint: "填寫地址可幫你額外查詢該區 5G 訊號覆蓋",
-    intakeAddressOptionalHintBiz: "填寫地址可幫你核對舖頭或寫字樓覆蓋",
+    intakeAddressOptionalHint: "填地址可以順便睇吓該區 5G 訊號覆蓋",
+    intakeAddressOptionalHintBiz: "填地址可以核對舖頭或寫字樓覆蓋",
     intakeAddressRequired: "請先填安裝地址，方便核對覆蓋。",
     intakeNeedCurrent: "請揀現時用緊邊間。",
     intakeTarget: "心水／目標電訊商（選填）",
