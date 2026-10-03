@@ -148,6 +148,10 @@ function isNewMobileLine(inquiry: Inquiry) {
   return /新號碼|新開戶|無用緊|New number/i.test(inquiry.currentProvider);
 }
 
+function needsAddress(cat: Category) {
+  return cat === "broadband" || cat === "home5g" || cat === "business";
+}
+
 function nextGuideStep(inquiry: Inquiry): GuideStep | null {
   if (!inquiry.serviceType.trim()) return "service";
   if (categoryFromInquiry(inquiry) === "mobile") {
@@ -156,14 +160,23 @@ function nextGuideStep(inquiry: Inquiry): GuideStep | null {
     if (!isNewMobileLine(inquiry) && !inquiry.expiry.trim()) return "mobileExpiry";
     return null;
   }
-  if (categoryFromInquiry(inquiry) === "broadband" && !hasAddress(inquiry)) return "housing";
+  if (needsAddress(categoryFromInquiry(inquiry)) && !hasAddress(inquiry)) return "housing";
   if (!inquiry.currentProvider.trim()) return "current";
   return null;
 }
 
-function askKey(step: GuideStep): MessageKey {
-  if (step === "current") return "aiAskCurrent";
-  if (step === "housing") return "aiAskHousing";
+function askKey(step: GuideStep, inquiry?: Inquiry): MessageKey {
+  const cat = inquiry ? categoryFromInquiry(inquiry) : "broadband";
+  if (step === "current") {
+    if (cat === "home5g") return "aiAskCurrent5g";
+    if (cat === "business") return "aiAskCurrentBiz";
+    return "aiAskCurrent";
+  }
+  if (step === "housing") {
+    if (cat === "home5g") return "aiAskHousing5g";
+    if (cat === "business") return "aiAskHousingBiz";
+    return "aiAskHousing";
+  }
   if (step === "mobileLine") return "aiAskMobileLine";
   if (step === "mobileData") return "aiAskMobileData";
   if (step === "mobileExpiry") return "aiAskMobileExpiry";
@@ -246,7 +259,7 @@ function IntakeProgress({
 }) {
   const step = nextGuideStep(inquiry);
   const mobile = Boolean(inquiry.serviceType.trim()) && categoryFromInquiry(inquiry) === "mobile";
-  const fibre = !inquiry.serviceType.trim() || categoryFromInquiry(inquiry) === "broadband";
+  const addressStep = !inquiry.serviceType.trim() || needsAddress(categoryFromInquiry(inquiry));
   const slots = mobile
     ? [
         { id: "serviceType" as const, n: 1, label: "aiSlotService" as const, value: inquiry.serviceType.trim() },
@@ -273,7 +286,7 @@ function IntakeProgress({
       }));
   const missing = slots
     .filter((item) => {
-      if (item.id === "housing" && !fibre) return false;
+      if (item.id === "housing" && !addressStep) return false;
       if (item.id === "housing") return !hasAddress(inquiry);
       return !item.value;
     })
@@ -439,7 +452,7 @@ export function AiStaffPanel() {
     const isQuestion =
       /[？?]/.test(trimmed) || QUESTION_CHIPS.some((item) => item.zh === trimmed || item.en === trimmed);
     if (still && !opts?.silent && !isQuestion) {
-      setBubbles((prev) => [...prev, { id: `${mineId}-ai`, from: "biz", text: t(askKey(still)) }]);
+      setBubbles((prev) => [...prev, { id: `${mineId}-ai`, from: "biz", text: t(askKey(still, quote)) }]);
       setBusy(false);
       return;
     }
@@ -514,7 +527,7 @@ export function AiStaffPanel() {
     setBubbles((prev) => [...prev, { id: `${Date.now()}`, from: "me", text: spoken }]);
     const step = nextGuideStep(next);
     if (step) {
-      setBubbles((prev) => [...prev, { id: `${Date.now()}-ai`, from: "biz", text: t(askKey(step)) }]);
+      setBubbles((prev) => [...prev, { id: `${Date.now()}-ai`, from: "biz", text: t(askKey(step, next)) }]);
       return;
     }
     const parsed = parseFromGuide(next);
@@ -675,7 +688,7 @@ export function AiStaffPanel() {
 
           {guideStep ? (
             <div className="border-t border-border bg-surface px-3 py-2">
-              <p className="text-sm font-medium text-fg">{t(askKey(guideStep))}</p>
+              <p className="text-sm font-medium text-fg">{t(askKey(guideStep, guide))}</p>
               <p className="text-[11px] text-muted">{t("aiCoach")}</p>
               <div className="mt-2 flex flex-wrap gap-2">
                 {(guideStep === "service"
