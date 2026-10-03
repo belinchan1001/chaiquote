@@ -697,6 +697,6 @@ export function fallbackReply(hasPlans: boolean, locale: "zh" | "en") {
       : "I am not sure which plan fits. WhatsApp us to check, or tell me the estate and whether you need fibre or mobile.";
   }
   return hasPlans
-    ? "列出對到嘅站內參考計劃，價錢喺下面卡片。實際以電訊商確認為準。"
-    : "未肯定對到邊張。可以直接 WhatsApp 查核報價，或者再講下屋苑／想要光纖定手機。";
+    ? "列出對到你情況嘅計劃，價錢喺下面卡片。想問實價就撳 WhatsApp。"
+    : "未肯定對到邊張。可以直接 WhatsApp 問，或者再講下屋苑、光纖定手機。";
 }

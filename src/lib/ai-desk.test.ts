@@ -211,9 +211,9 @@ describe("AI desk safety", () => {
     assert.equal(quoted(messages, "aiBeta")[1], "Beta");
     assert.equal(
       quoted(messages, "aiWelcome")[0],
-      "你好，這是齊Quote AI 助手\\n我會一步一步幫你篩選出心水計劃，請問你需要什麼服務？🤖",
+      "你好，我係齊Quote。\\n我想一步步幫你收窄，唔使一次過睇晒。你想睇邊種服務？",
     );
-    assert.match(quoted(messages, "aiWelcome")[1] ?? "", /Which service do you need/);
+    assert.match(quoted(messages, "aiWelcome")[1] ?? "", /Which service do you want/);
     assert.equal(quoted(messages, "aiWelcomeTrial")[0], "功能試用中，結果僅供參考");
     assert.match(quoted(messages, "aiWelcomeTrial")[1] ?? "", /on trial/);
     assert.equal(quoted(messages, "aiCardRef")[0], "僅供參考");
@@ -422,7 +422,7 @@ describe("AI desk safety", () => {
     assert.match(staff, /blankGuide/);
     assert.equal(quoted(messages, "aiSlotCurrent")[0], "現用台");
     assert.equal(quoted(messages, "aiFaqMore")[0], "常見問題");
-    assert.equal(quoted(messages, "aiAutoFilter")[0], "答齊篩選條件，AI 會自動篩選計劃。");
+    assert.equal(quoted(messages, "aiAutoFilter")[0], "我跟住你的答案收窄。");
 
     assert.match(entry, /plan-card-shine ai-filter-shine ai-entry-pulse/);
     assert.match(entry, /aiOpen && "is-open"/);
