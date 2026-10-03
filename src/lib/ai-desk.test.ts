@@ -55,6 +55,8 @@ describe("AI desk safety", () => {
     assert.doesNotMatch(sanitizeAiReply("", "zh"), /幫你揀咗|幫我揀|幫你揀/);
     assert.match(fallbackReply(true, "zh"), /列出對到/);
     assert.equal(needsCsHandoff("村屋有冇光纖？"), false);
+    assert.equal(matchKnowledge("村屋有冇光纖？")?.href, "/guides/village");
+    assert.equal(matchKnowledge("攜號轉台點做？")?.href, "/guides/port-in");
     assert.equal(needsCsHandoff("你地幾點收工？"), true);
     assert.match(csHandoffReply("zh"), /歡迎直接聯絡齊Quote 客戶服務/);
     assert.match(csHandoffReply("zh"), /6309 9966/);

@@ -10,6 +10,7 @@ import { askAiDesk } from "@/lib/ai-ask";
 import {
   detectCategoryHint,
   fallbackReply,
+  matchKnowledge,
   needsCsHandoff,
   inquiryFromAiParse,
   mergeFilterParse,
@@ -53,7 +54,16 @@ type Bubble = {
   search?: ReturnType<typeof compactSearch>;
   quote?: InquiryQuote;
   handoff?: boolean;
+  pageHref?: string;
+  pageLabel?: string;
+  cs?: boolean;
 };
+
+function isQuestionIntentClient(message: string) {
+  return /[？?]|有冇|係咪|點樣|點做|點解|幾多|幾點|邊度|分別|包唔包|可唔可以|如何|什麼|甚麼|why|how |what |does |can /i.test(
+    message,
+  );
+}
 
 const ROLE_KEY = { flash: "aiRoleFlash", pick: "aiRolePick", low: "aiRoleLow" } as const;
 const SESSION_KEY = "chaiquote-ai-session";
@@ -450,6 +460,22 @@ export function AiStaffPanel() {
       quote = { ...quote, estate: trimmed };
     }
     setGuide(quote);
+    const known = isQuestionIntentClient(trimmed) ? matchKnowledge(trimmed) : undefined;
+    if (known) {
+      setBubbles((prev) => [
+        ...prev,
+        {
+          id: `${mineId}-ai`,
+          from: "biz",
+          text: locale === "en" ? known.en : known.zh,
+          pageHref: known.href,
+          pageLabel: locale === "en" ? known.linkEn : known.linkZh,
+          cs: true,
+        },
+      ]);
+      setBusy(false);
+      return;
+    }
     if (needsCsHandoff(trimmed)) {
       setBubbles((prev) => [
         ...prev,
@@ -636,15 +662,31 @@ export function AiStaffPanel() {
                 >
                   {bubble.text}
                 </p>
-                {bubble.handoff ? (
-                  <a
-                    href={whatsappHref("你好，我想問齊Quote 客戶服務")}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 inline-flex h-11 w-full items-center justify-center rounded-full bg-whatsapp px-3 text-sm font-medium text-whatsapp-foreground"
-                  >
-                    {t("aiCsCta")}
+                {bubble.pageHref ? (
+                  <a href={bubble.pageHref} className="mt-2 inline-flex text-sm font-medium text-accent">
+                    {bubble.pageLabel ?? t("aiOnSite")}
                   </a>
+                ) : null}
+                {bubble.cs || bubble.handoff ? (
+                  <div className="mt-2 space-y-2">
+                    <p className="text-sm text-fg">{t("aiCsWelcome")}</p>
+                    <a
+                      href={whatsappHref("你好，我想問齊Quote 客戶服務")}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex h-11 w-full items-center justify-center rounded-full bg-whatsapp px-3 text-sm font-medium text-whatsapp-foreground"
+                    >
+                      {t("aiCsCta")}
+                    </a>
+                    <a
+                      href={whatsappHref("你好，我想問齊Quote 客戶服務")}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex text-sm font-medium text-accent underline"
+                    >
+                      {t("aiCsLink")}
+                    </a>
+                  </div>
                 ) : null}
                 {bubble.planIds?.length ? (
                   <div className="mt-2 space-y-2">

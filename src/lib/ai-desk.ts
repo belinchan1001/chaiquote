@@ -599,6 +599,9 @@ export type KnowledgeHit = {
   zh: string;
   en: string;
   attach: boolean;
+  href: string;
+  linkZh: string;
+  linkEn: string;
 };
 
 export const QUESTION_CHIPS = [
@@ -611,9 +614,12 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
   {
     id: "official",
     re: /官網|官方|係咪電訊|chaiquote.*(carrier|official)|independent/i,
-    zh: "齊Quote 唔係電訊商官網，係獨立比較網站。覆蓋、安裝期同實際條款以電訊商確認為準。想確認可以 WhatsApp 查核報價。",
-    en: "ChaiQuote is not a carrier website. It is an independent comparison site. Coverage, install dates and terms are confirmed by the carrier. Use WhatsApp to check a quote.",
+    zh: "齊Quote 唔係電訊商官網，係獨立比較網站。覆蓋、安裝期同實際條款以電訊商確認為準。",
+    en: "ChaiQuote is not a carrier website. It is an independent comparison site. Coverage, install dates and terms are confirmed by the carrier.",
     attach: false,
+    href: "/about",
+    linkZh: "關於齊Quote",
+    linkEn: "About 齊Quote",
   },
   {
     id: "public-hos",
@@ -621,6 +627,9 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
     zh: "公屋同埋居屋好多時有指定供應商同批量價，每個屋邨／屋苑都可能唔同。篩選時可以分開揀樓類，問價時填齊屋苑名稱。",
     en: "Public housing and HOS often have designated carriers and bulk rates, and each estate can differ. Filter by housing type and give the estate name when you check a quote.",
     attach: true,
+    href: "/guides/public-vs-hos",
+    linkZh: "公屋同居屋有咩分別",
+    linkEn: "Public housing and HOS",
   },
   {
     id: "village",
@@ -628,6 +637,9 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
     zh: "村屋光纖而家主要由香港寬頻、HGC 同網上行提供指定計劃；公屋、居屋同私樓計劃一般唔適用。未有光纖可以一併比較 5G 家居。實際覆蓋要核對門牌。",
     en: "Village fibre is mainly from HKBN, HGC and Netvigator on designated plans. Public, HOS and private plans usually do not apply. If there is no fibre yet, compare 5G home. Coverage must be checked against the address.",
     attach: true,
+    href: "/guides/village",
+    linkZh: "村屋光纖點睇",
+    linkEn: "Village fibre",
   },
   {
     id: "business",
@@ -635,6 +647,9 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
     zh: "商業寬頻多可加購固定 IP 及辦公時間技術支援，安裝以工商地址為準，適合店舖、寫字樓及工作室。家居計劃一般唔適用。",
     en: "Business fibre often adds a fixed IP and office-hour support. Install is for a commercial address — shop, office or studio. Home plans usually do not apply.",
     attach: true,
+    href: "/guides/business",
+    linkZh: "商業寬頻點睇",
+    linkEn: "Business broadband",
   },
   {
     id: "gba",
@@ -642,6 +657,9 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
     zh: "手機計劃可篩「大灣區數據」，即包含內地及／或澳門用量，或三地共享數據池。實際地區同用量以電訊商條款為準。",
     en: "Mobile plans can be filtered for Greater Bay Area data — Mainland and/or Macao, or a shared pool. Regions and quota are confirmed in the carrier terms.",
     attach: true,
+    href: "/guides/gba-mobile",
+    linkZh: "大灣區數據點睇",
+    linkEn: "Greater Bay Area data",
   },
   {
     id: "quote",
@@ -649,6 +667,9 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
     zh: "最快用右下角 WhatsApp 查核報價。篩過地址之後，訊息會帶你嘅申請地址。冇 WhatsApp 可以撳「留低電話」，或電郵 info@chaiquote.hk。",
     en: "The fastest way is the green WhatsApp button. If you already filtered an address, it is included. No WhatsApp? Use leave-a-number, or email info@chaiquote.hk.",
     attach: false,
+    href: "/quote",
+    linkZh: "留低電話查報價",
+    linkEn: "Leave a number",
   },
   {
     id: "port-in",
@@ -656,6 +677,9 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
     zh: "手機攜號：向新台申請，新 SIM 未生效前舊卡仍然用得，一般 1 至 2 個工作天。唔好提早取消舊約。寬頻唔能夠攜號，要新台上門安裝，新線測好先取消舊台。",
     en: "Mobile port-in: apply with the new carrier first. The old SIM works until the new one is active, usually 1–2 working days. Do not cancel early. Broadband cannot port a number — install the new line, test it, then cancel the old one.",
     attach: true,
+    href: "/guides/port-in",
+    linkZh: "攜號轉台點做",
+    linkEn: "How to port a number",
   },
   {
     id: "fiber-5g",
@@ -663,6 +687,9 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
     zh: "光纖入屋較穩，適合長住。5G 家居唔使拉線、插電就用，速度視乎現場訊號。村屋未有光纖時，5G 家居係常見後備。實際覆蓋要查核。",
     en: "Fibre is steadier for a long stay. 5G home needs no cabling and depends on the site signal. It is a common fallback when village fibre is not in yet. Coverage must be checked.",
     attach: true,
+    href: "/guides/fiber-vs-5g",
+    linkZh: "光纖同 5G 家居有咩分別",
+    linkEn: "Fibre or 5G home",
   },
   {
     id: "contract",
@@ -670,13 +697,16 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
     zh: "合約期、免月費、提早終止同搬遷要以電訊商合約為準。未約滿就轉台，舊台可能收提早終止費。搬家先問清有冇包搬遷。",
     en: "Contract length, free months, early termination and relocation follow the carrier contract. Switching before it ends may incur a fee. Ask about relocation before you move.",
     attach: false,
+    href: "/guides/contract-fees",
+    linkZh: "合約同提早終止",
+    linkEn: "Contract and early termination",
   },
 ];
 
 export function matchKnowledge(message: string): KnowledgeHit | undefined {
   const hit = KNOWLEDGE.find((row) => row.re.test(message));
   if (!hit) return undefined;
-  return { id: hit.id, zh: hit.zh, en: hit.en, attach: hit.attach };
+  return { id: hit.id, zh: hit.zh, en: hit.en, attach: hit.attach, href: hit.href, linkZh: hit.linkZh, linkEn: hit.linkEn };
 }
 
 export function knowledgeBriefs() {
