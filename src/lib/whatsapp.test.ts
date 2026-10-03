@@ -40,6 +40,10 @@ describe("WhatsApp quote prefill closing line", () => {
     assert.equal(quoteAsk([mobile]), ASK_MOBILE);
     assert.match(text, /轉台獨家優惠/);
     assert.match(text, /服務類型：手機月費/);
+    assert.match(text, /申請方式：/);
+    assert.match(text, /數據需求：/);
+    assert.doesNotMatch(text, /安裝\/常用地址|屋樓類型/);
+    assert.match(text, /攜號轉台／新號碼優惠/);
     assert.match(text, /3香港/);
     assert.match(text, /4\.5G 10GB 入門（36 個月）/);
     assert.match(text, /目標心水計劃：/);

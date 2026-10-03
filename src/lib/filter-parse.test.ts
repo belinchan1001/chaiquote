@@ -68,7 +68,8 @@ describe("AI filter parse", () => {
     const inquiry = inquiryFromAiParse(parsed);
     assert.equal(inquiry.currentProvider, "新號碼");
     const text = portInQuoteFromInquiry(inquiry, { name: "5G 無限", monthlyFee: 98 });
-    assert.match(text, /現時電訊商：新號碼/);
+    assert.match(text, /申請方式：新號碼/);
+    assert.doesNotMatch(text, /現時電訊商：新號碼/);
     assert.match(text, /篩選方式：AI 智能推薦/);
   });
 

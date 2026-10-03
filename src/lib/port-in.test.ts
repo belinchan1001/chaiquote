@@ -322,7 +322,8 @@ describe("port-in intake", () => {
       expiry: "半年以上／不清楚",
       need: "5G 全速無限",
     });
-    assert.match(newNumber, /現時電訊商：新號碼/);
+    assert.match(newNumber, /申請方式：新號碼/);
+    assert.doesNotMatch(newNumber, /現時電訊商：新號碼/);
     assert.doesNotMatch(newNumber, /轉台客戶/);
   });
 });

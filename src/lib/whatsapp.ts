@@ -163,7 +163,20 @@ export type SalesQuoteInput = {
   esports?: boolean;
   special?: string;
   source?: "ai" | "filter" | "";
+  /** Phone plans use the mobile form. Address and housing stay off that form. */
+  mobile?: boolean;
 };
+
+function mobileApplyMode(current: string) {
+  if (!current) return "";
+  if (/新號碼|新開戶|無用緊/.test(current)) return "新號碼";
+  return "轉台";
+}
+
+function mobileDataNeed(need: string) {
+  if (!need || /學生|長者/.test(need)) return "";
+  return need;
+}
 
 /** One prefill for every message a salesperson receives. */
 export function salesQuoteMessage(input: SalesQuoteInput = {}) {
@@ -171,7 +184,27 @@ export function salesQuoteMessage(input: SalesQuoteInput = {}) {
     ? `${input.planName.trim()}${input.monthlyFee != null ? ` (${formatFee(input.monthlyFee)}/月)` : ""}`
     : "";
   const source = input.source === "ai" ? "AI 智能推薦" : input.source === "filter" ? "手動條件篩選" : "";
-  const special = input.special?.trim() || (input.esports ? "需要電競神線" : "無");
+  const current = input.currentProvider?.trim() ?? "";
+  const audience = /學生|長者/.test(input.need ?? "") ? input.need!.trim() : "";
+  const special = input.special?.trim() || (input.esports ? "需要電競神線" : audience || "無");
+  const mobile = input.mobile ?? /手機/.test(input.serviceType ?? "");
+  if (mobile) {
+    return [
+      `👋 你好！我想查詢／申請【${SITE.name} 轉台獨家優惠】：`,
+      "--------------------------------",
+      `📌 服務類型：${input.serviceType?.trim() || "手機月費"}`,
+      `📱 申請方式：${mobileApplyMode(current)}`,
+      `🔄 現時電訊商：${mobileApplyMode(current) === "新號碼" ? "" : current}`,
+      `🎯 指定心水電訊商：${input.targetProvider?.trim() ?? ""}`,
+      `📅 合約到期日：${expiryForSales(input.expiry)}`,
+      `📶 數據需求：${mobileDataNeed(input.need?.trim() ?? "")}`,
+      `🎮 特殊需求：${special}`,
+      `🎯 目標心水計劃：${plan}`,
+      `🤖 篩選方式：${source}`,
+      "--------------------------------",
+      "請幫我確認攜號轉台／新號碼優惠與預留禮品，謝謝！",
+    ].join("\n");
+  }
   return [
     `👋 你好！我想查詢／申請【${SITE.name} 轉台獨家優惠】：`,
     "--------------------------------",
@@ -197,6 +230,9 @@ export function quoteMessage(
   special?: string,
 ) {
   const first = plans[0];
+  const mobileOnly = plans.length
+    ? plans.every((plan) => plan.category === "mobile")
+    : /手機/.test(inquiry?.serviceType ?? "");
   const planName = plans
     .map((plan) => `${PROVIDER_MAP[plan.providerId]?.name ?? ""} ${plan.name}`.trim())
     .join("；");
@@ -213,6 +249,7 @@ export function quoteMessage(
     esports: inquiry?.esports,
     special,
     source: inquiry?.source === "ai" ? "ai" : "filter",
+    mobile: mobileOnly || /手機/.test(inquiry?.serviceType ?? ""),
   });
 }
 
@@ -250,8 +287,8 @@ export const QUICK_REPLIES = [
   {
     id: "mobile",
     label: "手機月費",
-    text: salesQuoteMessage({ serviceType: "手機月費", source: "filter" }),
-    textEn: salesQuoteMessage({ serviceType: "手機月費", source: "filter" }),
+    text: salesQuoteMessage({ serviceType: "手機月費", source: "filter", mobile: true }),
+    textEn: salesQuoteMessage({ serviceType: "手機月費", source: "filter", mobile: true }),
   },
   {
     id: "business",
