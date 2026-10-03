@@ -6,7 +6,9 @@ import {
   AI_MODEL,
   AI_MONTHLY_BUDGET_USD,
   composeFallback,
+  csHandoffReply,
   fallbackReply,
+  needsCsHandoff,
   knowledgeBriefs,
   matchKnowledge,
   monthKey,
@@ -34,6 +36,7 @@ export type AskAiResult =
       planIds: string[];
       budgetLeftHkd: number;
       usedModel: boolean;
+      handoff?: boolean;
     }
   | {
       ok: false;
@@ -89,8 +92,8 @@ async function completeJson(message: string, plans: AiCatalogPlan[], locale: "zh
 
   const system =
     locale === "en"
-      ? "You are ChaiQuote AI filter. Two jobs: (1) filter this site’s reference plans (2) answer general questions from the knowledge notes (fibre, 5G home, mobile, village houses, port-in, what ChaiQuote is). JSON only: {\"reply\":\"...\",\"planIds\":[\"id\"]}. Use planIds only when listing or filtering plans; empty array for general FAQ. Never quote dollar amounts, HK$, averages, cheapest or guarantee. Fees stay on the cards; the carrier confirms terms. Do not invent plans or coverage."
-      : "你係齊Quote AI 篩選。兩件事：1）幫訪客篩選站內參考計劃 2）用提供嘅知識答一般問題（光纖、5G家居、手機、村屋、攜號轉台、本站係咪官網）。只回 JSON：{\"reply\":\"...\",\"planIds\":[\"id\"]}。只有篩選／列出計劃先填 planIds，一般問題可以空陣列。不准報具體價錢、HK$、平均月費、最平、保證。價錢喺卡片，實際以電訊商確認為準。唔好發明計劃或覆蓋。用廣東話短句。";
+      ? "You are ChaiQuote AI filter. Two jobs: (1) filter this site’s reference plans (2) answer only from the matched knowledge note. If the question is not covered, do not guess. Reply exactly: I don’t have an answer for that. You’re welcome to contact 齊Quote customer service on WhatsApp: 6309 9966. JSON only: {\"reply\":\"...\",\"planIds\":[\"id\"]}. Use planIds only when listing or filtering plans. Never quote dollar amounts. Do not invent plans or coverage."
+      : "你係齊Quote AI 篩選。兩件事：1）幫訪客篩選站內參考計劃 2）只可以用對到嘅知識筆記答。如果問題唔喺知識入面，唔好估、唔好硬答，只回：呢條我答唔到。歡迎直接聯絡齊Quote 客戶服務 WhatsApp：6309 9966。只回 JSON：{\"reply\":\"...\",\"planIds\":[\"id\"]}。只有篩選／列出計劃先填 planIds。不准報具體價錢。唔好發明計劃或覆蓋。用廣東話短句。";
 
   const res = await fetch("https://api.x.ai/v1/chat/completions", {
     method: "POST",
@@ -137,6 +140,16 @@ export const askAiDesk = createServerFn({ method: "POST" })
         reason: "empty",
         reply: fallbackReply(false, locale),
         planIds: [],
+      };
+    }
+    if (needsCsHandoff(message)) {
+      return {
+        ok: true,
+        reply: csHandoffReply(locale),
+        planIds: [],
+        budgetLeftHkd: Math.max(0, Math.round(usdToHkd(AI_MONTHLY_BUDGET_USD - spendSlot().usd))),
+        usedModel: false,
+        handoff: true,
       };
     }
 

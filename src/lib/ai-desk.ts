@@ -565,9 +565,22 @@ export function pickAllowedPlanIds(
 }
 
 export function isQuestionIntent(message: string) {
-  return /有冇|係咪|點樣|點做|分別|包唔包|如何|什麼|甚麼|why|how |what |does |can |is chaiquote/i.test(
+  return /[？?]|有冇|係咪|點樣|點做|點解|幾多|幾點|邊度|分別|包唔包|可唔可以|如何|什麼|甚麼|why|how |what |does |can |is chaiquote/i.test(
     message,
   );
+}
+
+/** A question this desk cannot answer. Do not invent a reply. */
+export function needsCsHandoff(message: string) {
+  if (matchKnowledge(message)) return false;
+  if (isFilterIntent(message)) return false;
+  return isQuestionIntent(message);
+}
+
+export function csHandoffReply(locale: "zh" | "en") {
+  return locale === "en"
+    ? "I don’t have an answer for that. You’re welcome to contact 齊Quote customer service on WhatsApp: 6309 9966."
+    : "呢條我答唔到。歡迎直接聯絡齊Quote 客戶服務 WhatsApp：6309 9966。";
 }
 
 export function isFilterIntent(message: string) {
@@ -683,6 +696,9 @@ export function composeFallback(input: {
       planIds: hit.attach ? planIds : [],
     };
   }
+  if (needsCsHandoff(input.message)) {
+    return { reply: csHandoffReply(input.locale), planIds: [] as string[] };
+  }
   const filtering = isFilterIntent(input.message);
   return {
     reply: fallbackReply(filtering && planIds.length > 0, input.locale),
@@ -694,9 +710,9 @@ export function fallbackReply(hasPlans: boolean, locale: "zh" | "en") {
   if (locale === "en") {
     return hasPlans
       ? "Here are matching reference plans from this site. Fees are on the cards. The carrier confirms the final terms."
-      : "I am not sure which plan fits. WhatsApp us to check, or tell me the estate and whether you need fibre or mobile.";
+      : "I don’t have an answer for that. You’re welcome to contact 齊Quote customer service on WhatsApp: 6309 9966.";
   }
   return hasPlans
     ? "列出對到你情況嘅計劃，價錢喺下面卡片。想問實價就撳 WhatsApp。"
-    : "未肯定對到邊張。可以直接 WhatsApp 問，或者再講下屋苑、光纖定手機。";
+    : "呢條我答唔到。歡迎直接聯絡齊Quote 客戶服務 WhatsApp：6309 9966。";
 }

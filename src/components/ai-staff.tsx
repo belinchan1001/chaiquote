@@ -10,6 +10,7 @@ import { askAiDesk } from "@/lib/ai-ask";
 import {
   detectCategoryHint,
   fallbackReply,
+  needsCsHandoff,
   inquiryFromAiParse,
   mergeFilterParse,
   plansForAiCards,
@@ -51,6 +52,7 @@ type Bubble = {
   planRoles?: ScreenRole[];
   search?: ReturnType<typeof compactSearch>;
   quote?: InquiryQuote;
+  handoff?: boolean;
 };
 
 const ROLE_KEY = { flash: "aiRoleFlash", pick: "aiRolePick", low: "aiRoleLow" } as const;
@@ -448,6 +450,14 @@ export function AiStaffPanel() {
       quote = { ...quote, estate: trimmed };
     }
     setGuide(quote);
+    if (needsCsHandoff(trimmed)) {
+      setBubbles((prev) => [
+        ...prev,
+        { id: `${mineId}-ai`, from: "biz", text: t("aiCsHandoff"), handoff: true },
+      ]);
+      setBusy(false);
+      return;
+    }
     const still = nextGuideStep(quote);
     const isQuestion =
       /[？?]/.test(trimmed) || QUESTION_CHIPS.some((item) => item.zh === trimmed || item.en === trimmed);
@@ -626,6 +636,16 @@ export function AiStaffPanel() {
                 >
                   {bubble.text}
                 </p>
+                {bubble.handoff ? (
+                  <a
+                    href={whatsappHref("你好，我想問齊Quote 客戶服務")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-flex h-11 w-full items-center justify-center rounded-full bg-whatsapp px-3 text-sm font-medium text-whatsapp-foreground"
+                  >
+                    {t("aiCsCta")}
+                  </a>
+                ) : null}
                 {bubble.planIds?.length ? (
                   <div className="mt-2 space-y-2">
                     {bubble.planIds.map((id, index) => {
