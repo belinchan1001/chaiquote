@@ -500,7 +500,7 @@ export function AiStaffPanel() {
       <div
         className={cn(
           "ai-panel fixed z-[45] origin-bottom",
-          "inset-x-0 bottom-24 w-full",
+          "inset-x-0 bottom-24 top-16 w-full",
           "lg:inset-x-auto lg:bottom-auto lg:left-4 lg:top-20 lg:w-[min(20rem,calc(100vw-2rem))] lg:origin-top-left",
           shown && "is-open",
         )}
@@ -511,9 +511,12 @@ export function AiStaffPanel() {
           aria-hidden={!shown}
           aria-label={t("aiStaff")}
           inert={!shown}
-          className="flex h-[min(28rem,58dvh)] max-h-[58dvh] flex-col overflow-hidden rounded-t-2xl bg-card shadow-[var(--shadow-border-hover)] lg:h-[32rem] lg:max-h-[calc(100dvh-9rem)] lg:rounded-xl"
+          className="flex h-full max-h-full flex-col overflow-hidden rounded-t-2xl bg-card shadow-[var(--shadow-border-hover)] lg:h-[32rem] lg:max-h-[calc(100dvh-9rem)] lg:rounded-xl"
         >
           <div className="bg-primary text-primary-foreground">
+            <div className="flex justify-center pt-2 lg:hidden" aria-hidden="true">
+              <span className="h-1 w-10 rounded-full bg-primary-foreground/40" />
+            </div>
             <div className="flex items-center gap-3 bg-primary px-4 py-3 text-primary-foreground">
             <span className="flex size-11 items-center justify-center bg-accent text-accent-foreground">
               <LogoMarkLooking className="size-7" />
