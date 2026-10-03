@@ -396,8 +396,17 @@ export function shouldUsePortInQuote(inquiry?: InquiryQuote | null) {
 
 export function portInQuoteFromInquiry(
   inquiry: InquiryQuote,
-  plan?: { name: string; monthlyFee: number },
+  plan?: { name: string; monthlyFee: number; providerId?: string },
 ) {
+  const provider =
+    plan?.providerId && plan.providerId in PROVIDER_MAP
+      ? PROVIDER_MAP[plan.providerId as ProviderId].name
+      : "";
+  const planName = plan?.name
+    ? provider && !plan.name.startsWith(provider)
+      ? `${provider} ${plan.name}`
+      : plan.name
+    : "";
   return portInQuoteMessage({
     serviceType: inquiry.serviceType || "",
     address: inquiry.estate,
@@ -406,7 +415,7 @@ export function portInQuoteFromInquiry(
     targetProvider: inquiry.targetProvider || "",
     expiry: inquiry.customerExpiry || inquiry.expiry || "",
     need: inquiry.need || "",
-    planName: plan?.name,
+    planName,
     monthlyFee: plan?.monthlyFee,
     esports: inquiry.esports,
     source: inquiry.source === "ai" ? "ai" : "filter",

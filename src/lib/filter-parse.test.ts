@@ -47,12 +47,12 @@ describe("AI filter parse", () => {
     assert.match(inquiry.targetProvider ?? "", /網上行/);
     assert.equal(inquiry.estate, "太古城");
     assert.match(inquiry.need ?? "", /電競神線/);
-    const text = portInQuoteFromInquiry(inquiry, { name: "2500M 光纖", monthlyFee: 149 });
+    const text = portInQuoteFromInquiry(inquiry, { name: "2500M 光纖", monthlyFee: 149, providerId: "hkbn" });
     assert.match(text, /太古城/);
     assert.match(text, /現時電訊商：香港寬頻/);
     assert.doesNotMatch(text, /轉台客戶/);
     assert.match(text, /指定心水電訊商：網上行/);
-    assert.match(text, /2500M 光纖 \(HK\$149\/月\)/);
+    assert.match(text, /目標心水計劃：香港寬頻 2500M 光纖 \(HK\$149\/月\)/);
     assert.match(text, /需要電競神線/);
     assert.match(text, /篩選方式：AI 智能推薦/);
   });
