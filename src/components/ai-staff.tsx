@@ -57,7 +57,7 @@ const SCREEN_EXAMPLES = [
   { zh: "公屋，未有寬頻", en: "Public housing, no broadband yet" },
 ] as const;
 
-const ROLE_KEY = { low: "aiRoleLow", pick: "aiRolePick", short: "aiRoleShort" } as const;
+const ROLE_KEY = { flash: "aiRoleFlash", pick: "aiRolePick", low: "aiRoleLow" } as const;
 const SESSION_KEY = "chaiquote-ai-session";
 const AI_CLOSE_MS = 180;
 
@@ -315,7 +315,7 @@ export function AiStaffPanel() {
   function cardsFor(parsed: FilterParse | null | undefined, quote: Inquiry) {
     if (!parsed?.current) return { ids: [] as string[], roles: [] as ScreenRole[], search: undefined };
     const search = compactSearch(plansSearchFromAiParse(parsed, quote));
-    const picked = pickScreenPlans(filterPlans(search));
+    const picked = pickScreenPlans(filterPlans(search), parsed.exclude);
     return {
       ids: picked.map((item) => item.plan.id),
       roles: picked.map((item) => item.role),
@@ -559,7 +559,6 @@ export function AiStaffPanel() {
                       const plan = plansForAiCards(bubble.planIds ?? []).find((item) => item.id === id);
                       if (!plan) return null;
                       const role = bubble.planRoles?.[index];
-                      const showRole = role === "pick" || role === "short" || (role === "low" && index === 0);
                       const waPhone = quoteWhatsappE164([plan]);
                       const baseText = portInQuoteFromInquiry(bubble.quote ?? guide, plan);
                       const waText =
@@ -573,9 +572,7 @@ export function AiStaffPanel() {
                             params={{ planId: plan.id }}
                             className="block bg-card px-3 py-2 text-sm shadow-[var(--shadow-border)] hover:shadow-[var(--shadow-border-hover)]"
                           >
-                            {showRole && role ? (
-                              <p className="text-[11px] font-semibold text-accent">{t(ROLE_KEY[role])}</p>
-                            ) : null}
+                            {role ? <p className="text-[11px] font-semibold text-accent">{t(ROLE_KEY[role])}</p> : null}
                             <ProviderMark id={plan.providerId} size="sm" showEn={false} />
                             <p className="mt-1 font-medium leading-snug">{tx(plan.name)}</p>
                             <p className="mt-1 tabular-nums">

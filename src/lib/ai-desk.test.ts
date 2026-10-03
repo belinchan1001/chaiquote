@@ -24,6 +24,7 @@ import {
   usdToHkd,
 } from "./ai-desk.ts";
 import { isBareHousingTypeQuery, matchKnownEstate, searchEstates } from "./estates.ts";
+import { filterPlans } from "./plan-filter.ts";
 import { averageFee, formatFee, getPlan, type Plan } from "./plans.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -438,15 +439,22 @@ describe("AI desk safety", () => {
   it("screens with a summary, three roles, and no cards before a current carrier", () => {
     assert.equal(screenSummary({ housing: "village", currentProvider: "香港寬頻", expiry: "1個月內" }), "村屋 · 已剔走香港寬頻 · 1個月內");
     assert.equal(screenSummary({ currentProvider: "新號碼" }), "新號碼");
-    const found = retrievePlansForAsk({ message: "太古城 1000M 光纖" });
-    assert.equal(found.parsed?.current, undefined);
-    const picked = pickScreenPlans(found.plans.map((row) => getPlan(row.id)).filter((plan): plan is Plan => Boolean(plan)));
-    assert.ok(picked.length >= 1 && picked.length <= 3);
-    assert.equal(picked[0]?.role, "low");
-    const ids = new Set(picked.map((item) => item.plan.id));
-    assert.equal(ids.size, picked.length);
-    if (picked.some((item) => item.role === "pick")) {
-      assert.equal(picked.find((item) => item.role === "pick")?.plan.quotePick, true);
+    const rows = filterPlans({ cat: "broadband", housing: "private" });
+    assert.equal(rows.some((plan) => plan.onlyEstates?.length), false);
+    const picked = pickScreenPlans(rows);
+    assert.deepEqual(
+      picked.map((item) => item.plan.providerId),
+      ["hkbn", "netvigator", "hgc"],
+    );
+    const replaced = pickScreenPlans(rows, "netvigator");
+    assert.deepEqual(
+      replaced.map((item) => item.plan.providerId),
+      ["hkbn", "cmhk", "hgc"],
+    );
+    for (const item of [...picked, ...replaced]) {
+      const same = rows.filter((plan) => plan.providerId === item.plan.providerId);
+      if (same.some((plan) => plan.flashOffer)) assert.equal(item.plan.flashOffer, true);
+      else if (same.some((plan) => plan.quotePick)) assert.equal(item.plan.quotePick, true);
     }
   });
 });

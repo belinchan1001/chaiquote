@@ -470,27 +470,36 @@ export function plansForAiCards(ids: string[]) {
     .sort((a, b) => averageFee(a) - averageFee(b));
 }
 
-export type ScreenRole = "low" | "pick" | "short";
+export type ScreenRole = "flash" | "pick" | "low";
 
-/** Up to three plans: a lower fee, a 齊Quote pick, and a shorter contract. */
-export function pickScreenPlans(rows: Plan[]): { role: ScreenRole; plan: Plan }[] {
-  if (!rows.length) return [];
-  const byFee = [...rows].sort(
-    (a, b) => averageFee(a) - averageFee(b) || a.monthlyFee - b.monthlyFee || a.id.localeCompare(b.id),
-  );
-  const low = byFee[0];
-  const picked = rows.find((plan) => plan.quotePick && plan.id !== low.id);
-  const used = new Set([low.id, picked?.id].filter((id): id is string => Boolean(id)));
-  const short = [...rows]
-    .sort((a, b) => a.contractMonths - b.contractMonths || averageFee(a) - averageFee(b) || a.id.localeCompare(b.id))
-    .find((plan) => !used.has(plan.id));
-  const out: { role: ScreenRole; plan: Plan }[] = [{ role: "low", plan: low }];
-  if (picked) out.push({ role: "pick", plan: picked });
-  if (short) out.push({ role: "short", plan: short });
-  for (const plan of byFee) {
-    if (out.length >= 3) break;
-    if (out.some((item) => item.plan.id === plan.id)) continue;
-    out.push({ role: "low", plan });
+const SCREEN_PROVIDERS: ProviderId[] = ["hkbn", "netvigator", "hgc"];
+const SCREEN_FILL: ProviderId = "cmhk";
+
+function screenProviders(exclude?: ProviderId): ProviderId[] {
+  return SCREEN_PROVIDERS.map((id) => (id === exclude ? SCREEN_FILL : id));
+}
+
+function bestScreenPlan(rows: Plan[]): Plan | undefined {
+  if (!rows.length) return undefined;
+  return [...rows].sort((a, b) => {
+    const flash = Number(Boolean(b.flashOffer)) - Number(Boolean(a.flashOffer));
+    if (flash) return flash;
+    const pick = Number(Boolean(b.quotePick)) - Number(Boolean(a.quotePick));
+    if (pick) return pick;
+    return averageFee(a) - averageFee(b) || a.monthlyFee - b.monthlyFee || a.id.localeCompare(b.id);
+  })[0];
+}
+
+/** Three carriers: HKBN, Netvigator, HGC. The current carrier is replaced by CMHK. */
+export function pickScreenPlans(rows: Plan[], exclude?: ProviderId): { role: ScreenRole; plan: Plan }[] {
+  const seen = new Set<ProviderId>();
+  const out: { role: ScreenRole; plan: Plan }[] = [];
+  for (const providerId of screenProviders(exclude)) {
+    if (seen.has(providerId)) continue;
+    const plan = bestScreenPlan(rows.filter((row) => row.providerId === providerId));
+    if (!plan) continue;
+    seen.add(providerId);
+    out.push({ role: plan.flashOffer ? "flash" : plan.quotePick ? "pick" : "low", plan });
   }
   return out.slice(0, 3);
 }
