@@ -1233,7 +1233,7 @@ export const GUIDE_ARTICLES: Guide[] = [
           headers: ["供應商／計劃例子", "樓類／站內列出"],
           rows: [
             {
-              label: "有線｜1000M 光纖入屋（48 個月）",
+              label: "有線｜指定屋苑 1000M 光纖入屋（48 個月）",
               value: "公屋、居屋、私樓｜HK$58",
               href: "/plans/icable-ftth-1000-48m-58",
             },
@@ -1348,7 +1348,7 @@ export const GUIDE_ARTICLES: Guide[] = [
           headers: ["Provider / example plan", "Housing / listed fee"],
           rows: [
             {
-              label: "i-Cable | 1000M fibre to the home (48 months)",
+              label: "i-Cable | Designated-estate 1000M FTTH (48 months)",
               value: "Public, HOS, private | HK$58",
               href: "/plans/icable-ftth-1000-48m-58",
             },
@@ -1520,7 +1520,7 @@ export const GUIDE_ARTICLES: Guide[] = [
           headers: ["供應商／計劃例子", "樓類／站內列出"],
           rows: [
             {
-              label: "有線｜1000M 光纖入屋（48 個月）",
+              label: "有線｜指定屋苑 1000M 光纖入屋（48 個月）",
               value: "公屋、居屋、私樓｜HK$58",
               href: "/plans/icable-ftth-1000-48m-58",
             },
@@ -1590,7 +1590,7 @@ export const GUIDE_ARTICLES: Guide[] = [
           headers: ["Provider / example plan", "Housing / listed fee"],
           rows: [
             {
-              label: "i-Cable | 1000M fibre to the home (48 months)",
+              label: "i-Cable | Designated-estate 1000M FTTH (48 months)",
               value: "Public, HOS, private | HK$58",
               href: "/plans/icable-ftth-1000-48m-58",
             },

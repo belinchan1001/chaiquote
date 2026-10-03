@@ -1398,7 +1398,7 @@ export const PLANS: Plan[] = [
     id: "icable-ftth-1000-48m-58",
     providerId: "icable",
     category: "broadband",
-    name: "1000M 光纖入屋（48 個月）",
+    name: "指定屋苑 1000M 光纖入屋（48 個月）",
     monthlyFee: 58,
     freeMonths: 0,
     contractMonths: 48,

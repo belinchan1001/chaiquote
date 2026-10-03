@@ -1463,7 +1463,7 @@ describe("iCable 1000M FTTH $58 48-month", () => {
     assert.equal(row.providerId, "icable");
     assert.equal(row.category, "broadband");
     assert.equal(row.id, "icable-ftth-1000-48m-58");
-    assert.equal(row.name, "1000M 光纖入屋（48 個月）");
+    assert.equal(row.name, "指定屋苑 1000M 光纖入屋（48 個月）");
     assert.equal(row.monthlyFee, 58);
     assert.equal(row.freeMonths, 0);
     assert.equal(row.contractMonths, 48);
@@ -1485,7 +1485,7 @@ describe("iCable 1000M FTTH $58 48-month", () => {
     assert.equal(row.portInPerk, undefined);
     assert.equal(row.prepaid, undefined);
 
-    assert.equal(toEnglish(row.name), "1000M FTTH (48 months)");
+    assert.equal(toEnglish(row.name), "Designated-estate 1000M FTTH (48 months)");
     assert.equal(toEnglish(row.perks[0]), "Relocation fee waived");
     assert.equal(toEnglish(row.bestFor), "For public housing, HOS or private buildings that need 1000M fibre");
     assert.equal(toEnglish(row.limits ?? ""), "Applies to public housing, HOS and private buildings. Not for village houses.");
@@ -1917,7 +1917,8 @@ describe("cheapest plan auto-picks", () => {
     assert.ok(home5g);
     assert.ok(mobile);
     assert.ok(village);
-    assert.equal(fiber.monthlyFee, minMonthlyFee("broadband"));
+    assert.equal(fiber.id, "icable-ftth-1000-48m-58");
+    assert.equal(fiber.monthlyFee, 58);
     assert.equal(home5g.monthlyFee, minMonthlyFee("home5g"));
     assert.equal(mobile.monthlyFee, minMonthlyFee("mobile"));
     assert.equal(village.monthlyFee, minVillageBroadbandFee());

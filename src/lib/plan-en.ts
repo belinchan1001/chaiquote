@@ -663,7 +663,7 @@ const PHRASES: [string, string][] = [
   ["適合指定屋苑、需要 1000M 光纖及免 3 個月月費之住戶", "For selected estates wanting 1000M fibre with 3 months free"],
   ["1000M 家居寬頻（36 個月）", "1000M home broadband (36 months)"],
   ["10000M 光纖入屋（24 個月）", "10000M FTTH (24 months)"],
-  ["1000M 光纖入屋（48 個月）", "1000M FTTH (48 months)"],
+  ["指定屋苑 1000M 光纖入屋（48 個月）", "Designated-estate 1000M FTTH (48 months)"],
   ["1000M 光纖入屋（36 個月）", "1000M FTTH (36 months)"],
   ["2500M 光纖入屋（36 個月）", "2500M FTTH (36 months)"],
   ["200M 光纖（36 個月）", "200M fibre (36 months)"],
