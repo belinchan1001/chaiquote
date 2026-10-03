@@ -449,6 +449,57 @@ export function plansForAiCards(ids: string[]) {
     .sort((a, b) => averageFee(a) - averageFee(b));
 }
 
+export type ScreenRole = "low" | "pick" | "short";
+
+/** Up to three plans: a lower fee, a 齊Quote pick, and a shorter contract. */
+export function pickScreenPlans(rows: Plan[]): { role: ScreenRole; plan: Plan }[] {
+  if (!rows.length) return [];
+  const byFee = [...rows].sort(
+    (a, b) => averageFee(a) - averageFee(b) || a.monthlyFee - b.monthlyFee || a.id.localeCompare(b.id),
+  );
+  const low = byFee[0];
+  const picked = rows.find((plan) => plan.quotePick && plan.id !== low.id);
+  const used = new Set([low.id, picked?.id].filter((id): id is string => Boolean(id)));
+  const short = [...rows]
+    .sort((a, b) => a.contractMonths - b.contractMonths || averageFee(a) - averageFee(b) || a.id.localeCompare(b.id))
+    .find((plan) => !used.has(plan.id));
+  const out: { role: ScreenRole; plan: Plan }[] = [{ role: "low", plan: low }];
+  if (picked) out.push({ role: "pick", plan: picked });
+  if (short) out.push({ role: "short", plan: short });
+  for (const plan of byFee) {
+    if (out.length >= 3) break;
+    if (out.some((item) => item.plan.id === plan.id)) continue;
+    out.push({ role: "low", plan });
+  }
+  return out.slice(0, 3);
+}
+
+export function screenSummary(input: {
+  estate?: string;
+  housing?: string;
+  currentProvider?: string;
+  expiry?: string;
+  locale?: "zh" | "en";
+}) {
+  const zh = input.locale !== "en";
+  const parts: string[] = [];
+  const housing = (["public", "hos", "private", "village"] as Housing[]).includes(input.housing as Housing)
+    ? { public: zh ? "公屋" : "Public", hos: zh ? "居屋" : "HOS", private: zh ? "私樓" : "Private", village: zh ? "村屋" : "Village" }[
+        input.housing as Housing
+      ]
+    : "";
+  if (housing) parts.push(housing);
+  if (input.estate?.trim()) parts.push(input.estate.trim());
+  const current = input.currentProvider?.trim();
+  if (current && !/新號碼|新開戶|無用緊|New number|No current/i.test(current)) {
+    parts.push(zh ? `已剔走${current}` : `Hiding ${current}`);
+  } else if (current) {
+    parts.push(current);
+  }
+  if (input.expiry?.trim()) parts.push(input.expiry.trim());
+  return parts.join(" · ");
+}
+
 export type AiModelJson = {
   reply?: string;
   planIds?: string[];

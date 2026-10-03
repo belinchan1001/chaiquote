@@ -14,9 +14,11 @@ import {
   parseAiJson,
   pickAllowedPlanIds,
   plansForAiCards,
+  pickScreenPlans,
   resolveEstate,
   retrievePlansForAsk,
   sanitizeAiReply,
+  screenSummary,
   stripFeeTalk,
   tokensToUsd,
   usdToHkd,
@@ -225,7 +227,7 @@ describe("AI desk safety", () => {
     assert.match(header, /t\("aiStaffTiny"\)/);
     assert.doesNotMatch(header, /sr-only sm:hidden/);
     assert.doesNotMatch(header, /max-sm:w-11/);
-    assert.match(staff, /plansForAiCards\(bubble\.planIds\)/);
+    assert.match(staff, /plansForAiCards\(bubble\.planIds/);
     assert.match(staff, /<ProviderMark id=\{plan\.providerId\} size="sm"/);
     assert.match(staff, /formatFee\(plan\.monthlyFee\)/);
     assert.match(staff, /t\("months", \{ n: plan\.contractMonths \}\)/);
@@ -282,7 +284,7 @@ describe("AI desk safety", () => {
     assert.match(search, /<AiFilterEntry className="pt-1" \/>/);
     assert.match(plans, /<AiFilterEntry className="mt-6" \/>/);
     assert.match(plans, /mt-3 space-y-4 rounded-lg border border-border bg-card/);
-    assert.match(header, /<span className="sm:hidden">\{t\("aiStaffTiny"\)\}<\/span>/);
+    assert.match(header, /<span className="sm:hidden"[\s\S]*\{t\("aiStaffTiny"\)\}/);
     assert.match(root, /<DeferredWhatsApp \/>/);
     assert.match(root, /<AiStaffPanel \/>/);
     assert.doesNotMatch(root, /AiFilterEntry/);
@@ -430,5 +432,20 @@ describe("AI desk safety", () => {
       css,
       /prefers-reduced-motion:\s*reduce[\s\S]*\.ai-entry-pulse::after[\s\S]*animation:\s*none !important/,
     );
+  });
+
+  it("screens with a summary, three roles, and no cards before a current carrier", () => {
+    assert.equal(screenSummary({ housing: "village", currentProvider: "香港寬頻", expiry: "1個月內" }), "村屋 · 已剔走香港寬頻 · 1個月內");
+    assert.equal(screenSummary({ currentProvider: "新號碼" }), "新號碼");
+    const found = retrievePlansForAsk({ message: "太古城 1000M 光纖" });
+    assert.equal(found.parsed?.current, undefined);
+    const picked = pickScreenPlans(found.plans.map((row) => getPlan(row.id)).filter((plan): plan is Plan => Boolean(plan)));
+    assert.ok(picked.length >= 1 && picked.length <= 3);
+    assert.equal(picked[0]?.role, "low");
+    const ids = new Set(picked.map((item) => item.plan.id));
+    assert.equal(ids.size, picked.length);
+    if (picked.some((item) => item.role === "pick")) {
+      assert.equal(picked.find((item) => item.role === "pick")?.plan.quotePick, true);
+    }
   });
 });

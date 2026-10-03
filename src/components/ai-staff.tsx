@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { LogoMarkLooking } from "@/components/logo-mark-looking";
 import { ProviderMark } from "@/components/provider-mark";
@@ -13,11 +13,14 @@ import {
   inquiryFromAiParse,
   mergeFilterParse,
   plansForAiCards,
+  pickScreenPlans,
   plansSearchFromAiParse,
   QUESTION_CHIPS,
   retrievePlansForAsk,
+  screenSummary,
   shouldHoldForIntake,
   type FilterParse,
+  type ScreenRole,
 } from "@/lib/ai-desk";
 import { useDesk, useHydrateDesk, type Inquiry } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
@@ -43,9 +46,18 @@ type Bubble = {
   from: "biz" | "me";
   text: string;
   planIds?: string[];
+  planRoles?: ScreenRole[];
+  search?: ReturnType<typeof compactSearch>;
   quote?: InquiryQuote;
 };
 
+const SCREEN_EXAMPLES = [
+  { zh: "村屋，而家香港寬頻，下個月到期", en: "Village house, now on HKBN, ends next month" },
+  { zh: "手機用緊 3香港，想要三地數據", en: "Mobile on 3HK, want three-region data" },
+  { zh: "公屋，未有寬頻", en: "Public housing, no broadband yet" },
+] as const;
+
+const ROLE_KEY = { low: "aiRoleLow", pick: "aiRolePick", short: "aiRoleShort" } as const;
 const SESSION_KEY = "chaiquote-ai-session";
 const AI_CLOSE_MS = 180;
 
@@ -150,6 +162,7 @@ function blankGuide(from?: Inquiry): Inquiry {
     currentProvider: "",
     targetProvider: "",
     expiry: "",
+    customerExpiry: "",
     need: "",
     serviceType: "",
     esports: false,
@@ -248,7 +261,6 @@ function IntakeProgress({
 
 export function AiStaffPanel() {
   const panelId = useId();
-  const navigate = useNavigate();
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
@@ -287,16 +299,34 @@ export function AiStaffPanel() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, closeAi]);
 
-  function goToPlans(next: Inquiry, parsed: FilterParse) {
+  function decorate(base: string, quote: Inquiry) {
+    const summary = screenSummary({
+      estate: quote.estate,
+      housing: quote.housing,
+      currentProvider: quote.currentProvider,
+      expiry: quote.expiry,
+      locale,
+    });
+    const expiryId = expiryIdFromLabel(quote.expiry);
+    const note = expiryId === "1m" ? t("aiUrgentNote") : expiryId === "6m+" ? t("aiLaterNote") : "";
+    return [summary, base, note].filter(Boolean).join("\n");
+  }
+
+  function cardsFor(parsed: FilterParse | null | undefined, quote: Inquiry) {
+    if (!parsed?.current) return { ids: [] as string[], roles: [] as ScreenRole[], search: undefined };
+    const search = compactSearch(plansSearchFromAiParse(parsed, quote));
+    const picked = pickScreenPlans(filterPlans(search));
+    return {
+      ids: picked.map((item) => item.plan.id),
+      roles: picked.map((item) => item.role),
+      search,
+    };
+  }
+
+  function stagePlans(next: Inquiry, parsed: FilterParse) {
     sessionParse.current = parsed;
     setInquiry(next);
-    const search = compactSearch(plansSearchFromAiParse(parsed, next));
-    const localIds = filterPlans(search)
-      .slice(0, 3)
-      .map((plan) => plan.id);
-    closeAi();
-    void navigate({ to: "/plans", search });
-    return localIds;
+    return cardsFor(parsed, next);
   }
 
   async function sendToAi(text: string, opts?: { silent?: boolean; snap?: Inquiry }) {
@@ -345,16 +375,24 @@ export function AiStaffPanel() {
     const isQuestion =
       /[？?]/.test(trimmed) || QUESTION_CHIPS.some((item) => item.zh === trimmed || item.en === trimmed);
     if (still && !opts?.silent && !isQuestion) {
-      setBubbles((prev) => [...prev, { id: `${mineId}-ai`, from: "biz", text: t(askKey(still)) }]);
+      setBubbles((prev) => [...prev, { id: `${mineId}-ai`, from: "biz", text: decorate(t(askKey(still)), quote) }]);
       setBusy(false);
       return;
     }
     if (merged && !shouldHoldForIntake(trimmed, merged) && !still) {
-      const localIds = goToPlans(quote, merged);
-      const localReply = fallbackReply(localIds.length > 0, locale);
+      const staged = stagePlans(quote, merged);
+      const localReply = decorate(fallbackReply(staged.ids.length > 0, locale), quote);
       setBubbles((prev) => [
         ...prev,
-        { id: `${mineId}-ai`, from: "biz", text: localReply, planIds: localIds, quote },
+        {
+          id: `${mineId}-ai`,
+          from: "biz",
+          text: localReply,
+          planIds: staged.ids,
+          planRoles: staged.roles,
+          search: staged.search,
+          quote,
+        },
       ]);
       setBusy(false);
       return;
@@ -363,13 +401,13 @@ export function AiStaffPanel() {
       const ask = !merged.current ? "current" : "expiry";
       setBubbles((prev) => [
         ...prev,
-        { id: `${mineId}-ai`, from: "biz", text: t(ask === "current" ? "aiAskCurrent" : "aiAskExpiry"), quote },
+        { id: `${mineId}-ai`, from: "biz", text: decorate(t(ask === "current" ? "aiAskCurrent" : "aiAskExpiry"), quote), quote },
       ]);
       setBusy(false);
       return;
     }
-    const localIds = local.plans.slice(0, 3).map((plan) => plan.id);
-    const localReply = fallbackReply(localIds.length > 0, locale);
+    const staged = merged?.current ? cardsFor(merged, quote) : { ids: [] as string[], roles: [] as ScreenRole[], search: undefined };
+    const localReply = fallbackReply(staged.ids.length > 0, locale);
     try {
       const result = await askAiDesk({
         data: {
@@ -391,15 +429,17 @@ export function AiStaffPanel() {
         {
           id: `${mineId}-ai`,
           from: "biz",
-          text: reply,
-          planIds: result.planIds?.length ? result.planIds : localIds,
+          text: decorate(reply, quote),
+          planIds: staged.ids,
+          planRoles: staged.roles,
+          search: staged.search,
           quote,
         },
       ]);
     } catch {
       setBubbles((prev) => [
         ...prev,
-        { id: `${mineId}-ai`, from: "biz", text: localReply, planIds: localIds, quote },
+        { id: `${mineId}-ai`, from: "biz", text: decorate(localReply, quote), planIds: staged.ids, planRoles: staged.roles, search: staged.search, quote },
       ]);
     } finally {
       setBusy(false);
@@ -414,18 +454,20 @@ export function AiStaffPanel() {
     setBubbles((prev) => [...prev, { id: `${Date.now()}`, from: "me", text: spoken }]);
     const step = nextGuideStep(next);
     if (step) {
-      setBubbles((prev) => [...prev, { id: `${Date.now()}-ai`, from: "biz", text: t(askKey(step)) }]);
+      setBubbles((prev) => [...prev, { id: `${Date.now()}-ai`, from: "biz", text: decorate(t(askKey(step)), next) }]);
       return;
     }
     const parsed = parseFromGuide(next);
-    const localIds = goToPlans(next, parsed);
+    const staged = stagePlans(next, parsed);
     setBubbles((prev) => [
       ...prev,
       {
         id: `${Date.now()}-ai`,
         from: "biz",
-        text: fallbackReply(localIds.length > 0, locale),
-        planIds: localIds,
+        text: decorate(fallbackReply(staged.ids.length > 0, locale), next),
+        planIds: staged.ids,
+        planRoles: staged.roles,
+        search: staged.search,
         quote: next,
       },
     ]);
@@ -510,9 +552,17 @@ export function AiStaffPanel() {
                 </p>
                 {bubble.planIds?.length ? (
                   <div className="mt-2 space-y-2">
-                    {plansForAiCards(bubble.planIds).map((plan) => {
+                    {bubble.planIds.map((id, index) => {
+                      const plan = plansForAiCards(bubble.planIds ?? []).find((item) => item.id === id);
+                      if (!plan) return null;
+                      const role = bubble.planRoles?.[index];
+                      const showRole = role === "pick" || role === "short" || (role === "low" && index === 0);
                       const waPhone = quoteWhatsappE164([plan]);
-                      const waText = portInQuoteFromInquiry(bubble.quote ?? guide, plan);
+                      const baseText = portInQuoteFromInquiry(bubble.quote ?? guide, plan);
+                      const waText =
+                        expiryIdFromLabel((bubble.quote ?? guide).expiry ?? "") === "1m"
+                          ? `${baseText}\n⏰ 跟進：急單`
+                          : baseText;
                       return (
                         <div key={plan.id} className="space-y-2">
                           <Link
@@ -520,6 +570,9 @@ export function AiStaffPanel() {
                             params={{ planId: plan.id }}
                             className="block bg-card px-3 py-2 text-sm shadow-[var(--shadow-border)] hover:shadow-[var(--shadow-border-hover)]"
                           >
+                            {showRole && role ? (
+                              <p className="text-[11px] font-semibold text-accent">{t(ROLE_KEY[role])}</p>
+                            ) : null}
                             <ProviderMark id={plan.providerId} size="sm" showEn={false} />
                             <p className="mt-1 font-medium leading-snug">{tx(plan.name)}</p>
                             <p className="mt-1 tabular-nums">
@@ -544,6 +597,11 @@ export function AiStaffPanel() {
                         </div>
                       );
                     })}
+                    {bubble.search ? (
+                      <Link to="/plans" search={bubble.search} hash="plan-list" className="inline-flex text-sm font-medium text-accent">
+                        {t("aiSeeAll")}
+                      </Link>
+                    ) : null}
                     <p className="text-xs text-muted">{t("aiFeeNote")}</p>
                   </div>
                 ) : null}
@@ -551,6 +609,20 @@ export function AiStaffPanel() {
             ))}
             {busy ? (
               <p className="bg-card px-3 py-2 text-sm text-muted shadow-[var(--shadow-border)]">{t("aiThinking")}</p>
+            ) : null}
+            {!guide.serviceType ? (
+              <div className="flex flex-wrap gap-2">
+                {SCREEN_EXAMPLES.map((item) => (
+                  <button
+                    key={item.zh}
+                    type="button"
+                    className="h-11 rounded-full bg-card px-3 text-left text-sm font-medium shadow-[var(--shadow-border)]"
+                    onClick={() => void sendToAi(locale === "en" ? item.en : item.zh)}
+                  >
+                    {locale === "en" ? item.en : item.zh}
+                  </button>
+                ))}
+              </div>
             ) : null}
             <details className="rounded-lg bg-card px-3 shadow-[var(--shadow-border)]">
               <summary className="flex h-11 cursor-pointer list-none items-center text-sm font-medium">
