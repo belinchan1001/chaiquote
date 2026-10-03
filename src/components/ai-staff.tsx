@@ -27,11 +27,14 @@ import { useI18n } from "@/lib/i18n";
 import { formatFee, type Category, type Housing } from "@/lib/plans";
 import {
   currentOptions,
+  EXPIRY_OPTIONS,
   expiryIdFromLabel,
+  MOBILE_CURRENT,
   portInQuoteFromInquiry,
   serviceTypeLabel,
   type CurrentId,
   type InquiryQuote,
+  type MobileNeedId,
 } from "@/lib/port-in";
 import type { MessageKey } from "@/lib/messages";
 import { compactSearch } from "@/lib/search";
@@ -106,7 +109,14 @@ const GUIDE_STEPS = [
   { id: "currentProvider", n: 3, label: "aiSlotCurrent" },
 ] as const;
 
-type GuideStep = "service" | "housing" | "current";
+type GuideStep = "service" | "housing" | "current" | "mobileLine" | "mobileData" | "mobileExpiry";
+
+const MOBILE_DATA: { id: MobileNeedId; label: string }[] = [
+  { id: "local30", label: "30G 以下" },
+  { id: "local100", label: "30 至 100G" },
+  { id: "tri", label: "三地共用" },
+  { id: "gba", label: "大灣區" },
+];
 
 const SERVICE_CHIPS: { cat: Category; key: MessageKey }[] = [
   { cat: "broadband", key: "aiSvcFibre" },
@@ -134,8 +144,18 @@ function hasAddress(inquiry: Inquiry) {
   return Boolean(inquiry.estate.trim() || inquiry.housing.trim());
 }
 
+function isNewMobileLine(inquiry: Inquiry) {
+  return /新號碼|新開戶|無用緊|New number/i.test(inquiry.currentProvider);
+}
+
 function nextGuideStep(inquiry: Inquiry): GuideStep | null {
   if (!inquiry.serviceType.trim()) return "service";
+  if (categoryFromInquiry(inquiry) === "mobile") {
+    if (!inquiry.currentProvider.trim()) return "mobileLine";
+    if (!inquiry.need.trim()) return "mobileData";
+    if (!isNewMobileLine(inquiry) && !inquiry.expiry.trim()) return "mobileExpiry";
+    return null;
+  }
   if (categoryFromInquiry(inquiry) === "broadband" && !hasAddress(inquiry)) return "housing";
   if (!inquiry.currentProvider.trim()) return "current";
   return null;
@@ -144,6 +164,9 @@ function nextGuideStep(inquiry: Inquiry): GuideStep | null {
 function askKey(step: GuideStep): MessageKey {
   if (step === "current") return "aiAskCurrent";
   if (step === "housing") return "aiAskHousing";
+  if (step === "mobileLine") return "aiAskMobileLine";
+  if (step === "mobileData") return "aiAskMobileData";
+  if (step === "mobileExpiry") return "aiAskMobileExpiry";
   return "aiAskService";
 }
 
@@ -171,12 +194,22 @@ function blankGuide(): Inquiry {
   };
 }
 
-function clearGuideField(guide: Inquiry, id: (typeof GUIDE_STEPS)[number]["id"]): Inquiry {
+function clearGuideField(guide: Inquiry, id: "serviceType" | "housing" | "currentProvider" | "need"): Inquiry {
   if (id === "serviceType") {
-    return { ...guide, serviceType: "", housing: "", estate: "", currentProvider: "", need: "", esports: false };
+    return {
+      ...guide,
+      serviceType: "",
+      housing: "",
+      estate: "",
+      currentProvider: "",
+      need: "",
+      expiry: "",
+      esports: false,
+    };
   }
   if (id === "housing") return { ...guide, housing: "", estate: "" };
-  return { ...guide, currentProvider: "" };
+  if (id === "need") return { ...guide, need: "", expiry: "" };
+  return { ...guide, currentProvider: "", need: "", expiry: "" };
 }
 
 function housingFromInquiry(inquiry: Inquiry): Housing | undefined {
@@ -196,6 +229,7 @@ function parseFromGuide(guide: Inquiry): FilterParse {
     expiry,
     estate: guide.estate || undefined,
     housing: housingFromInquiry(guide),
+    mobileNeed: MOBILE_DATA.find((item) => item.label === guide.need)?.id,
     esports: guide.esports,
     gaming: guide.esports,
   };
@@ -208,16 +242,43 @@ function IntakeProgress({
 }: {
   inquiry: Inquiry;
   t: (key: MessageKey, vars?: Record<string, string | number>) => string;
-  onClear: (id: (typeof GUIDE_STEPS)[number]["id"]) => void;
+  onClear: (id: "serviceType" | "housing" | "currentProvider" | "need") => void;
 }) {
   const step = nextGuideStep(inquiry);
+  const mobile = Boolean(inquiry.serviceType.trim()) && categoryFromInquiry(inquiry) === "mobile";
   const fibre = !inquiry.serviceType.trim() || categoryFromInquiry(inquiry) === "broadband";
-  const missing = GUIDE_STEPS.filter((item) => {
-    if (item.id === "housing" && !fibre) return false;
-    if (item.id === "housing") return !hasAddress(inquiry);
-    return !inquiry[item.id].trim();
-  }).map((item) => t(item.label));
-  const currentN = step === "housing" ? 2 : step === "current" ? 3 : step === "service" ? 1 : 4;
+  const slots = mobile
+    ? [
+        { id: "serviceType" as const, n: 1, label: "aiSlotService" as const, value: inquiry.serviceType.trim() },
+        { id: "currentProvider" as const, n: 2, label: "aiSlotMobileLine" as const, value: inquiry.currentProvider.trim() },
+        { id: "need" as const, n: 3, label: "aiSlotData" as const, value: inquiry.need.trim() },
+      ]
+    : GUIDE_STEPS.map((item) => ({
+        id: item.id,
+        n: item.n,
+        label: item.label,
+        value:
+          item.id === "housing"
+            ? inquiry.estate.trim() ||
+              (inquiry.housing === "private"
+                ? "私樓"
+                : inquiry.housing === "public"
+                  ? "公屋"
+                  : inquiry.housing === "hos"
+                    ? "居屋"
+                    : inquiry.housing === "village"
+                      ? "村屋"
+                      : "")
+            : inquiry[item.id].trim(),
+      }));
+  const missing = slots
+    .filter((item) => {
+      if (item.id === "housing" && !fibre) return false;
+      if (item.id === "housing") return !hasAddress(inquiry);
+      return !item.value;
+    })
+    .map((item) => t(item.label));
+  const currentN = step === "housing" || step === "mobileLine" ? 2 : step === "current" || step === "mobileData" || step === "mobileExpiry" ? 3 : step === "service" ? 1 : 4;
   return (
     <div className="border-t border-primary-foreground/15 px-4 pb-3">
       <p className="mb-2 text-xs font-medium leading-snug text-primary-foreground">{t("aiAutoFilter")}</p>
@@ -226,24 +287,13 @@ function IntakeProgress({
         {step ? ` · ${t("aiNowStep", { n: Math.min(currentN, 3) })}` : ""}
       </p>
       <ol className="grid grid-cols-3 gap-1.5">
-        {GUIDE_STEPS.map((item) => {
-          const value =
-            item.id === "housing"
-              ? inquiry.estate.trim() ||
-                (inquiry.housing === "private"
-                  ? "私樓"
-                  : inquiry.housing === "public"
-                    ? "公屋"
-                    : inquiry.housing === "hos"
-                      ? "居屋"
-                      : inquiry.housing === "village"
-                        ? "村屋"
-                        : "")
-              : inquiry[item.id].trim();
+        {slots.map((item) => {
+          const value = item.value;
           const active =
             (item.id === "serviceType" && step === "service") ||
             (item.id === "housing" && step === "housing") ||
-            (item.id === "currentProvider" && step === "current");
+            (item.id === "currentProvider" && (step === "current" || step === "mobileLine")) ||
+            (item.id === "need" && (step === "mobileData" || step === "mobileExpiry"));
           return (
             <li key={item.id}>
               <button
@@ -483,7 +533,7 @@ export function AiStaffPanel() {
     ]);
   }
 
-  function clearStep(id: (typeof GUIDE_STEPS)[number]["id"]) {
+  function clearStep(id: "serviceType" | "housing" | "currentProvider" | "need") {
     if (busy) return;
     setGuide((prev) => {
       const next = clearGuideField(prev, id);
@@ -632,7 +682,13 @@ export function AiStaffPanel() {
                   ? SERVICE_CHIPS.map((item) => ({ id: item.cat, label: t(item.key) }))
                   : guideStep === "housing"
                     ? HOUSING_CHIPS.map((item) => ({ id: item.id, label: item.spoken }))
-                    : currentOptions(guideCat)
+                    : guideStep === "mobileLine"
+                      ? MOBILE_CURRENT.map((item) => ({ id: item.id, label: item.label }))
+                      : guideStep === "mobileData"
+                        ? MOBILE_DATA.map((item) => ({ id: item.id, label: item.label }))
+                        : guideStep === "mobileExpiry"
+                          ? EXPIRY_OPTIONS.map((item) => ({ id: item.id, label: item.label }))
+                          : currentOptions(guideCat)
                 ).map((item) => (
                   <button
                     key={item.id}
@@ -645,11 +701,26 @@ export function AiStaffPanel() {
                           serviceType: serviceTypeLabel(cat),
                           estate: "",
                           housing: "",
+                          currentProvider: "",
+                          need: "",
+                          expiry: "",
                         });
                         return;
                       }
                       if (guideStep === "housing") {
                         pickGuide(item.label, { housing: item.id, estate: "" });
+                        return;
+                      }
+                      if (guideStep === "mobileLine") {
+                        pickGuide(item.label, { currentProvider: item.label, need: "", expiry: "" });
+                        return;
+                      }
+                      if (guideStep === "mobileData") {
+                        pickGuide(item.label, { need: item.label });
+                        return;
+                      }
+                      if (guideStep === "mobileExpiry") {
+                        pickGuide(item.label, { expiry: item.label });
                         return;
                       }
                       pickGuide(item.label, { currentProvider: item.label });
