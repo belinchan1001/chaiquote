@@ -521,7 +521,7 @@ export function screenSummary(input: {
   if (input.estate?.trim()) parts.push(input.estate.trim());
   const current = input.currentProvider?.trim();
   if (current && !/新號碼|新開戶|無用緊|New number|No current/i.test(current)) {
-    parts.push(zh ? `已剔走${current}` : `Hiding ${current}`);
+    parts.push(zh ? `而家${current}` : `Now on ${current}`);
   } else if (current) {
     parts.push(current);
   }

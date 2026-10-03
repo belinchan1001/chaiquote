@@ -440,7 +440,7 @@ describe("AI desk safety", () => {
   });
 
   it("screens with a summary, three roles, and no cards before a current carrier", () => {
-    assert.equal(screenSummary({ housing: "village", currentProvider: "香港寬頻", expiry: "1個月內" }), "村屋 · 已剔走香港寬頻 · 1個月內");
+    assert.equal(screenSummary({ housing: "village", currentProvider: "香港寬頻", expiry: "1個月內" }), "村屋 · 而家香港寬頻 · 1個月內");
     assert.equal(screenSummary({ currentProvider: "新號碼" }), "新號碼");
     const rows = filterPlans({ cat: "broadband", housing: "private" });
     assert.equal(rows.some((plan) => plan.onlyEstates?.length), false);
