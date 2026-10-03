@@ -235,7 +235,8 @@ describe("AI desk safety", () => {
     assert.match(staff, /to="\/plans\/\$planId"/);
     assert.match(staff, /t\("aiWaCta"\)/);
     assert.doesNotMatch(staff, /QUICK_REPLIES/);
-    assert.match(staff, /QUESTION_CHIPS\.map/);
+    assert.doesNotMatch(staff, /QUESTION_CHIPS\.map/);
+    assert.doesNotMatch(staff, /aiFaqMore/);
     assert.match(desk, /id: "village"/);
     assert.match(desk, /id: "port"/);
     assert.match(desk, /id: "housing"/);
@@ -412,8 +413,8 @@ describe("AI desk safety", () => {
     assert.match(staff, /t\("aiStillNeed"/);
     assert.match(staff, /t\("aiAutoFilter"\)/);
     assert.match(staff, /t\("aiTapToClear"\)/);
-    assert.match(staff, /t\("aiFaqMore"\)/);
-    assert.match(staff, /QUESTION_CHIPS\.map/);
+    assert.doesNotMatch(staff, /aiFaqMore/);
+    assert.doesNotMatch(staff, /QUESTION_CHIPS\.map/);
     assert.match(staff, /blankGuide/);
     assert.equal(quoted(messages, "aiSlotCurrent")[0], "現用台");
     assert.equal(quoted(messages, "aiFaqMore")[0], "常見問題");

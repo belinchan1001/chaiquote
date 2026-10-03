@@ -627,23 +627,6 @@ export function AiStaffPanel() {
                 ))}
               </div>
             ) : null}
-            <details className="rounded-lg bg-card px-3 shadow-[var(--shadow-border)]">
-              <summary className="flex h-11 cursor-pointer list-none items-center text-sm font-medium">
-                {t("aiFaqMore")}
-              </summary>
-              <div className="flex flex-wrap gap-2 pb-3">
-              {QUESTION_CHIPS.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  className="h-11 rounded-full bg-surface px-3 text-sm font-medium shadow-[var(--shadow-border)]"
-                  onClick={() => void sendToAi(locale === "en" ? item.en : item.zh)}
-                >
-                  {locale === "en" ? item.en : item.zh}
-                </button>
-              ))}
-              </div>
-            </details>
             <div ref={endRef} />
           </div>
 
