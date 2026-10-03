@@ -2,14 +2,13 @@ import {
   CATEGORY_LABEL,
   HOUSING_LABEL,
   PROVIDER_MAP,
-  formatFee,
   type Category,
   type Housing,
   type PlansSearch,
   type ProviderId,
 } from "./plans.ts";
 import { SITE } from "./site.ts";
-import { quoteWhatsappHref } from "./whatsapp.ts";
+import { quoteWhatsappHref, salesQuoteMessage } from "./whatsapp.ts";
 
 export const FIBRE_CURRENT = [
   { id: "hkbn", label: "香港寬頻" },
@@ -350,39 +349,19 @@ export type WhatsAppFormData = {
 };
 
 export function portInQuoteMessage(formData: WhatsAppFormData) {
-  const address = formData.address?.trim() || "未填寫 (請銷售員協助查詢/推薦)";
-  const housing = formData.housing?.trim() || "不適用 / 未填寫";
-  const current = formData.currentProvider.trim() || "未填寫";
-  const target = formData.targetProvider?.trim() || "不限 (請推薦最抵方案)";
-  const expiry = staffExpiryText(formData.expiry);
-  const need = formData.need.trim() || "速度不限 / 預設";
-  const plan = formData.planName
-    ? `${formData.planName}${formData.monthlyFee != null ? ` (${formatFee(formData.monthlyFee)}/月)` : ""}`
-    : "";
-  const switching =
-    current === "新號碼"
-      ? "新號碼"
-      : current === "新開戶／無用緊" || current === "新開戶"
-        ? "新開戶"
-        : "轉台客戶";
-  return [
-    `👋 你好！我想查詢／申請【${SITE.name} 轉台獨家優惠】：`,
-    "--------------------------------",
-    `📌 服務類型：${formData.serviceType || "未選擇"}`,
-    `📍 安裝/常用地址：${address}`,
-    `🏢 屋樓類型：${housing}`,
-    `🔄 現時電訊商：${current} (${switching})`,
-    `🎯 指定心水電訊商：${target}`,
-    `📅 合約到期日：${expiry}`,
-    `⚡ 需求規格：${need}`,
-    `🎮 特殊需求：${formData.esports ? "需要電競神線" : "無"}`,
-    plan ? `🎯 目標心水計劃：${plan}` : "",
-    `🤖 篩選方式：${formData.source === "ai" ? "AI 智能推薦" : "手動條件篩選"}`,
-    "--------------------------------",
-    "請幫我確認覆蓋/訊號與預留轉台禮品，謝謝！",
-  ]
-    .filter(Boolean)
-    .join("\n");
+  return salesQuoteMessage({
+    serviceType: formData.serviceType,
+    address: formData.address,
+    housing: formData.housing,
+    currentProvider: formData.currentProvider,
+    targetProvider: formData.targetProvider,
+    expiry: formData.expiry,
+    need: formData.need,
+    planName: formData.planName,
+    monthlyFee: formData.monthlyFee,
+    esports: formData.esports,
+    source: formData.source,
+  });
 }
 
 export function generateWhatsAppLink(formData: WhatsAppFormData, phone: string = SITE.whatsappE164) {

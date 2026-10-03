@@ -1,4 +1,5 @@
 import type { Guide } from "./guides.ts";
+import { salesQuoteMessage } from "./whatsapp.ts";
 
 const DISCLAIMER =
   "以上只供參考。實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準，唔好假設一定有線或者一定裝到。";
@@ -99,8 +100,8 @@ export const DISTRICT_GUIDES: Guide[] = [
       leadEn: "Send the full Tin Shui Wai address on WhatsApp to check coverage and a reference fee. For reference only; the carrier confirms.",
       button: "WhatsApp 查核天水圍報價",
       buttonEn: "WhatsApp a Tin Shui Wai quote",
-      waText: "【齊Quote】你好，我想查核天水圍寬頻覆蓋同參考月費。",
-      waTextEn: "[ChaiQuote] Hi, I would like to check Tin Shui Wai broadband coverage and a reference fee.",
+      waText: salesQuoteMessage({ serviceType: "光纖寬頻", address: "天水圍", source: "filter" }),
+      waTextEn: salesQuoteMessage({ serviceType: "光纖寬頻", address: "天水圍", source: "filter" }),
     },
     body: [
       {
@@ -244,8 +245,8 @@ export const DISTRICT_GUIDES: Guide[] = [
       leadEn: "Send the full Sha Tin or Ma On Shan address on WhatsApp. For reference only; the carrier confirms.",
       button: "WhatsApp 查核沙田報價",
       buttonEn: "WhatsApp a Sha Tin quote",
-      waText: "【齊Quote】你好，我想查核沙田寬頻覆蓋同參考月費。",
-      waTextEn: "[ChaiQuote] Hi, I would like to check Sha Tin broadband coverage and a reference fee.",
+      waText: salesQuoteMessage({ serviceType: "光纖寬頻", address: "沙田", source: "filter" }),
+      waTextEn: salesQuoteMessage({ serviceType: "光纖寬頻", address: "沙田", source: "filter" }),
     },
     body: [
       {
@@ -387,8 +388,8 @@ export const DISTRICT_GUIDES: Guide[] = [
       leadEn: "Send the full Tseung Kwan O address on WhatsApp. For reference only; the carrier confirms.",
       button: "WhatsApp 查核將軍澳報價",
       buttonEn: "WhatsApp a Tseung Kwan O quote",
-      waText: "【齊Quote】你好，我想查核將軍澳寬頻覆蓋同參考月費。",
-      waTextEn: "[ChaiQuote] Hi, I would like to check Tseung Kwan O broadband coverage and a reference fee.",
+      waText: salesQuoteMessage({ serviceType: "光纖寬頻", address: "將軍澳", source: "filter" }),
+      waTextEn: salesQuoteMessage({ serviceType: "光纖寬頻", address: "將軍澳", source: "filter" }),
     },
     body: [
       {

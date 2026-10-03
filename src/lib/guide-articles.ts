@@ -1,4 +1,5 @@
 import type { Guide } from "./guides.ts";
+import { salesQuoteMessage } from "./whatsapp.ts";
 
 const DISCLAIMER =
   "以上只供參考。實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準，唔好假設一定有線或者一定裝到。";
@@ -1708,8 +1709,8 @@ export const GUIDE_ARTICLES: Guide[] = [
       leadEn: "Send the full village-house address on WhatsApp to check coverage and village fibre fees. For reference only; the carrier confirms.",
       button: "WhatsApp 查核村屋光纖月費",
       buttonEn: "WhatsApp a village fibre quote",
-      waText: "【齊Quote】你好，我想查核村屋光纖月費同覆蓋。完整地址：",
-      waTextEn: "[ChaiQuote] Hi, I would like to check village fibre monthly fees and coverage. Full address:",
+      waText: salesQuoteMessage({ serviceType: "光纖寬頻", housing: "村屋", source: "filter" }),
+      waTextEn: salesQuoteMessage({ serviceType: "光纖寬頻", housing: "村屋", source: "filter" }),
     },
     body: [
       {

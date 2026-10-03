@@ -142,27 +142,78 @@ export function quoteAsk(plans: Plan[], locale: Locale = "zh") {
   return mobileOnly ? ASK_MOBILE_ZH : ASK_COVERAGE_ZH;
 }
 
-export function quoteMessage(plans: Plan[] = [], inquiry?: Partial<Inquiry> | null, locale: Locale = "zh") {
-  const ask = quoteAsk(plans, locale);
-  let text: string;
-  if (locale === "en") {
-    if (plans.length === 1) {
-      text = `Hi, I would like a quote for:\n${planLine(plans[0], "en")}\n${ask}`;
-    } else if (plans.length > 1) {
-      const list = plans.map((plan, i) => `${i + 1}. ${planLine(plan, "en")}`).join("\n");
-      text = `Hi, I would like a quote for these plans:\n${list}\n${ask}`;
-    } else {
-      text = "Hi, I would like a quote for fibre / mobile plans.";
-    }
-  } else if (plans.length === 1) {
-    text = `你好，我想即時報價：\n${planLine(plans[0])}\n${ask}`;
-  } else if (plans.length > 1) {
-    const list = plans.map((plan, i) => `${i + 1}. ${planLine(plan)}`).join("\n");
-    text = `你好，我想即時報價以下計劃：\n${list}\n${ask}`;
-  } else {
-    text = "你好，我想查詢寬頻／手機月費計劃，請幫手即時報價。";
-  }
-  return withInquiry(text, inquiry, locale);
+function expiryForSales(raw?: string) {
+  const trimmed = (raw ?? "").trim();
+  if (!trimmed) return "";
+  const iso = trimmed.match(/^(\d{4}-\d{2}-\d{2})/);
+  if (!iso) return trimmed;
+  return trimmed.includes("客人自行提供") ? trimmed : `${iso[1]}（客人自行提供）`;
+}
+
+export type SalesQuoteInput = {
+  serviceType?: string;
+  address?: string;
+  housing?: string;
+  currentProvider?: string;
+  targetProvider?: string;
+  expiry?: string;
+  need?: string;
+  planName?: string;
+  monthlyFee?: number;
+  esports?: boolean;
+  special?: string;
+  source?: "ai" | "filter" | "";
+};
+
+/** One prefill for every message a salesperson receives. */
+export function salesQuoteMessage(input: SalesQuoteInput = {}) {
+  const plan = input.planName?.trim()
+    ? `${input.planName.trim()}${input.monthlyFee != null ? ` (${formatFee(input.monthlyFee)}/月)` : ""}`
+    : "";
+  const source = input.source === "ai" ? "AI 智能推薦" : input.source === "filter" ? "手動條件篩選" : "";
+  const special = input.special?.trim() || (input.esports ? "需要電競神線" : "無");
+  return [
+    `👋 你好！我想查詢／申請【${SITE.name} 轉台獨家優惠】：`,
+    "--------------------------------",
+    `📌 服務類型：${input.serviceType?.trim() ?? ""}`,
+    `📍 安裝/常用地址：${input.address?.trim() ?? ""}`,
+    `🏢 屋樓類型：${input.housing?.trim() ?? ""}`,
+    `🔄 現時電訊商：${input.currentProvider?.trim() ?? ""}`,
+    `🎯 指定心水電訊商：${input.targetProvider?.trim() ?? ""}`,
+    `📅 合約到期日：${expiryForSales(input.expiry)}`,
+    `⚡ 需求規格：${input.need?.trim() || "速度不限 / 預設"}`,
+    `🎮 特殊需求：${special}`,
+    `🎯 目標心水計劃：${plan}`,
+    `🤖 篩選方式：${source}`,
+    "--------------------------------",
+    "請幫我確認覆蓋/訊號與預留轉台禮品，謝謝！",
+  ].join("\n");
+}
+
+export function quoteMessage(
+  plans: Plan[] = [],
+  inquiry?: Partial<Inquiry> | null,
+  _locale: Locale = "zh",
+  special?: string,
+) {
+  const first = plans[0];
+  const planName = plans
+    .map((plan) => `${PROVIDER_MAP[plan.providerId]?.name ?? ""} ${plan.name}`.trim())
+    .join("；");
+  return salesQuoteMessage({
+    serviceType: inquiry?.serviceType?.trim() || (first ? CATEGORY_LABEL[first.category] : ""),
+    address: inquiry?.estate,
+    housing: housingLabel(inquiry?.housing?.trim() ?? "", "zh"),
+    currentProvider: inquiry?.currentProvider ?? "",
+    targetProvider: inquiry?.targetProvider || (plans.length === 1 ? PROVIDER_MAP[first.providerId]?.name : ""),
+    expiry: inquiry?.customerExpiry || inquiry?.expiry || "",
+    need: inquiry?.need || "",
+    planName,
+    monthlyFee: plans.length === 1 ? first.monthlyFee : undefined,
+    esports: inquiry?.esports,
+    special,
+    source: inquiry?.source === "ai" ? "ai" : "filter",
+  });
 }
 
 export function formQuoteMessage(input: {
@@ -176,44 +227,42 @@ export function formQuoteMessage(input: {
   notes: string;
   plans: Plan[];
 }) {
-  const lines = [
-    "你好，我想申請即時報價。",
-    `姓名：${input.name}`,
-    `電話：${input.phone}`,
-    `樓宇：${housingLabel(input.housing) || input.housing}`,
-    input.district ? `地區：${input.district}` : "",
-    input.estate ? `申請地址：${input.estate}` : "",
-    `想問：${CATEGORY_LABEL[input.category]}`,
-    input.plans.length ? `已選計劃：${input.plans.map((plan) => planLine(plan)).join("；")}` : "",
-    input.currentProvider ? `而家用：${input.currentProvider}` : "",
-    input.notes ? `備註：${input.notes}` : "",
-  ];
-  return lines.filter(Boolean).join("\n");
+  const planName = input.plans.map((plan) => planLine(plan, "zh")).join("；");
+  const who = [input.name, input.phone].filter(Boolean).join(" ");
+  return salesQuoteMessage({
+    serviceType: CATEGORY_LABEL[input.category],
+    address: [input.estate, input.district].filter(Boolean).join(" "),
+    housing: housingLabel(input.housing) || input.housing,
+    currentProvider: input.currentProvider,
+    planName,
+    special: [who ? `聯絡：${who}` : "", input.notes].filter(Boolean).join("；") || undefined,
+    source: "filter",
+  });
 }
 
 export const QUICK_REPLIES = [
   {
     id: "broadband",
     label: "光纖寬頻",
-    text: "你好，我想即時報價光纖寬頻（1000M／2500M／5000M／10000M），請幫手核對覆蓋。",
-    textEn: "Hi, I would like a fibre quote (1000M / 2500M / 5000M / 10000M). Please check coverage.",
+    text: salesQuoteMessage({ serviceType: "光纖寬頻", source: "filter" }),
+    textEn: salesQuoteMessage({ serviceType: "光纖寬頻", source: "filter" }),
   },
   {
     id: "mobile",
     label: "手機月費",
-    text: "你好，我想即時報價手機月費（4G／5G／大灣區數據），請介紹合適計劃。",
-    textEn: "Hi, I would like a mobile plan quote (4G / 5G / Greater Bay Area data). Please recommend a suitable plan.",
+    text: salesQuoteMessage({ serviceType: "手機月費", source: "filter" }),
+    textEn: salesQuoteMessage({ serviceType: "手機月費", source: "filter" }),
   },
   {
     id: "business",
     label: "商業寬頻",
-    text: "你好，我想即時報價商業寬頻，請幫手核對工商地址覆蓋。",
-    textEn: "Hi, I would like a business fibre quote. Please check coverage for a commercial address.",
+    text: salesQuoteMessage({ serviceType: "商業寬頻", source: "filter" }),
+    textEn: salesQuoteMessage({ serviceType: "商業寬頻", source: "filter" }),
   },
   {
     id: "home5g",
     label: "5G 家居",
-    text: "你好，我想即時報價 5G 家居寬頻，地址可能未有光纖。",
-    textEn: "Hi, I would like a 5G home broadband quote. The address may not have fibre.",
+    text: salesQuoteMessage({ serviceType: "5G 家居寬頻", source: "filter" }),
+    textEn: salesQuoteMessage({ serviceType: "5G 家居寬頻", source: "filter" }),
   },
 ] as const;

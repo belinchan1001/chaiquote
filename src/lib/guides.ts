@@ -1,6 +1,7 @@
 import type { Inquiry } from "./desk.ts";
 import { GUIDE_ARTICLES } from "./guide-articles.ts";
 import { DISTRICT_GUIDES } from "./district-guides.ts";
+import { salesQuoteMessage } from "./whatsapp.ts";
 
 export type GuideSection = { heading: string; paragraphs: string[]; table?: GuideTable };
 export type GuideCategory = "fiber" | "home5g" | "mobile" | "business";
@@ -326,10 +327,18 @@ export const CORE_GUIDES: Guide[] = [
       leadEn: "For reference only. To book a visit or 5G test, WhatsApp us to check the quote and arrange a time.",
       button: "WhatsApp 約視察／測訊號",
       buttonEn: "WhatsApp to book a visit / 5G test",
-      waText:
-        "你好，我想約村屋實地視察／現場測 5G。完整地址：（請填）想視察：光纖／測 5G／兩樣",
-      waTextEn:
-        "Hi, I would like to book a village-house on-site fibre check / 5G signal test. Full address: (please fill in) I want: fibre inspection / 5G test / both",
+      waText: salesQuoteMessage({
+        serviceType: "光纖寬頻",
+        housing: "村屋",
+        special: "約村屋實地視察／現場測 5G",
+        source: "filter",
+      }),
+      waTextEn: salesQuoteMessage({
+        serviceType: "光纖寬頻",
+        housing: "村屋",
+        special: "約村屋實地視察／現場測 5G",
+        source: "filter",
+      }),
     },
     body: [
       {

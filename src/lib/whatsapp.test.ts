@@ -38,23 +38,13 @@ describe("WhatsApp quote prefill closing line", () => {
     const another = quoteMessage([plan("cmhk-5g-limited-50-129"), plan("three-5g-22-78")]);
 
     assert.equal(quoteAsk([mobile]), ASK_MOBILE);
-    assert.match(text, /^你好，我想即時報價：\n/);
-    assert.equal(lastLine(text), ASK_MOBILE);
-    assert.equal(text.includes("覆蓋"), false);
-    assert.match(text, /攜號轉台/);
-    assert.doesNotMatch(text, /好過轉台|𨍭台/);
+    assert.match(text, /轉台獨家優惠/);
+    assert.match(text, /服務類型：手機月費/);
     assert.match(text, /3香港/);
     assert.match(text, /4\.5G 10GB 入門（36 個月）/);
-    assert.equal(text.includes(`月費 ${formatFee(mobile.monthlyFee)}`), true);
-    assert.match(text, /36個月/);
-    assert.equal(text, `你好，我想即時報價：\n${planLine(mobile)}\n${ASK_MOBILE}`);
-
-    assert.equal(quoteAsk([plan("cmhk-5g-limited-50-129"), plan("three-5g-22-78")]), ASK_MOBILE);
-    assert.match(another, /^你好，我想即時報價以下計劃：\n/);
-    assert.equal(lastLine(another), ASK_MOBILE);
-    assert.equal(another.includes("覆蓋"), false);
-    assert.match(another, /攜號轉台/);
-    assert.doesNotMatch(another, /好過轉台|𨍭台/);
+    assert.match(text, /目標心水計劃：/);
+    assert.match(another, /服務類型：手機月費/);
+    assert.match(another, /中國移動香港/);
   });
 
   it("keeps 核對覆蓋同最新優惠 for broadband, home5g and business", () => {
@@ -68,26 +58,24 @@ describe("WhatsApp quote prefill closing line", () => {
       assert.equal(found.category, category);
       const text = quoteMessage([found]);
       assert.equal(quoteAsk([found]), ASK_COVERAGE);
-      assert.match(text, /^你好，我想即時報價：\n/);
-      assert.equal(lastLine(text), ASK_COVERAGE);
-      assert.match(text, /覆蓋/);
-      assert.doesNotMatch(text, /新號碼上台優惠|攜號轉台/);
+      assert.match(text, /轉台獨家優惠/);
+      assert.match(text, new RegExp(`服務類型：${found.category === "broadband" ? "光纖寬頻" : found.category === "home5g" ? "5G 家居寬頻" : "商業寬頻"}`));
+      assert.match(text, /請幫我確認覆蓋\/訊號/);
       assert.equal(text.includes(found.name), true);
-      assert.equal(text.includes(`月費 ${formatFee(found.monthlyFee)}`), true);
-      assert.equal(text.includes(`${found.contractMonths}個月`), true);
     }
 
     const twoFibre = quoteMessage([plan("hkbn-ftth-1000-36m-98"), plan("three-home5g-a-118")]);
-    assert.equal(lastLine(twoFibre), ASK_COVERAGE);
-    assert.doesNotMatch(twoFibre, /新號碼上台優惠|攜號轉台/);
+    assert.match(twoFibre, /轉台獨家優惠/);
+    assert.match(twoFibre, /香港寬頻/);
   });
 
   it("keeps the coverage ask when a mixed set is not mobile-only", () => {
     const mixed = [plan("three-45g-10-58"), plan("hkbn-ftth-1000-36m-98")];
     const text = quoteMessage(mixed);
     assert.equal(quoteAsk(mixed), ASK_COVERAGE);
-    assert.equal(lastLine(text), ASK_COVERAGE);
-    assert.doesNotMatch(text, /新號碼上台優惠|攜號轉台/);
+    assert.match(text, /轉台獨家優惠/);
+    assert.match(text, /3香港/);
+    assert.match(text, /香港寬頻/);
   });
 
   it("uses a coverage-free English ask for mobile only", () => {
@@ -95,12 +83,12 @@ describe("WhatsApp quote prefill closing line", () => {
     const fibre = plan("hkbn-ftth-1000-36m-98");
     const mobileText = quoteMessage([mobile], null, "en");
     const fibreText = quoteMessage([fibre], null, "en");
-    assert.equal(lastLine(mobileText), ASK_MOBILE_EN);
-    assert.doesNotMatch(mobileText, /coverage/i);
-    assert.equal(lastLine(quoteMessage([mobile, plan("three-5g-22-78")], null, "en")), ASK_MOBILE_EN);
-    assert.equal(lastLine(fibreText), ASK_COVERAGE_EN);
-    assert.doesNotMatch(fibreText, /new-number signup|number-porting/);
-    assert.equal(lastLine(quoteMessage([mobile, fibre], null, "en")), ASK_COVERAGE_EN);
+    assert.match(mobileText, /服務類型：手機月費/);
+    assert.match(mobileText, /轉台獨家優惠/);
+    assert.match(fibreText, /服務類型：光纖寬頻/);
+    assert.match(quoteMessage([mobile, plan("three-5g-22-78")], null, "en"), /服務類型：手機月費/);
+    assert.match(quoteMessage([mobile, fibre], null, "en"), /3香港/);
+    assert.match(quoteMessage([mobile, fibre], null, "en"), /香港寬頻/);
   });
 
   it("routes quote links, the widget and AI staff through quote builders", () => {
@@ -123,8 +111,9 @@ describe("WhatsApp quote prefill closing line", () => {
     assert.doesNotMatch(src, /好過轉台|𨍭台/);
     const mobileQuick = QUICK_REPLIES.find((item) => item.id === "mobile");
     assert.ok(mobileQuick);
-    assert.equal(mobileQuick.text.includes("覆蓋"), false);
-    assert.equal(mobileQuick.textEn.toLowerCase().includes("coverage"), false);
+    assert.match(mobileQuick.text, /服務類型：手機月費/);
+    assert.match(mobileQuick.text, /轉台獨家優惠/);
+    assert.match(mobileQuick.textEn, /服務類型：手機月費/);
   });
 });
 

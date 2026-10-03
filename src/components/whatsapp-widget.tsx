@@ -14,7 +14,6 @@ import {
   quoteWhatsappDisplay,
   quoteWhatsappE164,
   quoteWhatsappHref,
-  withInquiry,
 } from "@/lib/whatsapp";
 import { trackWaClick } from "@/lib/track-client";
 import { quoteWhatsAppActivateProps } from "@/lib/wa-quote-open";
@@ -84,7 +83,8 @@ export function WhatsAppWidget() {
       },
     ]);
     setDraft("");
-    window.open(quoteWhatsappHref(withInquiry(trimmed, inquiry, locale), deskE164), "_blank", "noopener,noreferrer");
+    const outbound = trimmed.includes("轉台獨家優惠") ? trimmed : quoteMessage(plans, inquiry, locale, trimmed);
+    window.open(quoteWhatsappHref(outbound, deskE164), "_blank", "noopener,noreferrer");
     trackWaClick({
       source: "widget",
       waPhone: deskE164,

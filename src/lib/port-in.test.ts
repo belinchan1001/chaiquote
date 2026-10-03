@@ -291,7 +291,8 @@ describe("port-in intake", () => {
     });
     assert.match(text, /轉台獨家優惠/);
     assert.match(text, /太古城/);
-    assert.match(text, /香港寬頻 \(轉台客戶\)/);
+    assert.match(text, /現時電訊商：香港寬頻/);
+    assert.doesNotMatch(text, /轉台客戶/);
     assert.match(text, /指定心水電訊商：網上行 \(HKT\)/);
     assert.match(text, /2500M 光纖 \(HK\$149\/月\)/);
     assert.match(text, /需要電競神線/);
@@ -302,7 +303,7 @@ describe("port-in intake", () => {
       expiry: "2–3個月內",
       need: "1000M / 1G",
     });
-    assert.match(open, /指定心水電訊商：不限 \(請推薦最抵方案\)/);
+    assert.match(open, /指定心水電訊商：\n/);
     const href = generateWhatsAppLink({
       serviceType: "光纖寬頻",
       currentProvider: "網上行",
@@ -321,7 +322,7 @@ describe("port-in intake", () => {
       expiry: "半年以上／不清楚",
       need: "5G 全速無限",
     });
-    assert.match(newNumber, /現時電訊商：新號碼 \(新號碼\)/);
+    assert.match(newNumber, /現時電訊商：新號碼/);
     assert.doesNotMatch(newNumber, /轉台客戶/);
   });
 });

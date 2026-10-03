@@ -49,7 +49,8 @@ describe("AI filter parse", () => {
     assert.match(inquiry.need ?? "", /電競神線/);
     const text = portInQuoteFromInquiry(inquiry, { name: "2500M 光纖", monthlyFee: 149 });
     assert.match(text, /太古城/);
-    assert.match(text, /香港寬頻 \(轉台客戶\)/);
+    assert.match(text, /現時電訊商：香港寬頻/);
+    assert.doesNotMatch(text, /轉台客戶/);
     assert.match(text, /指定心水電訊商：網上行/);
     assert.match(text, /2500M 光纖 \(HK\$149\/月\)/);
     assert.match(text, /需要電競神線/);
@@ -67,7 +68,7 @@ describe("AI filter parse", () => {
     const inquiry = inquiryFromAiParse(parsed);
     assert.equal(inquiry.currentProvider, "新號碼");
     const text = portInQuoteFromInquiry(inquiry, { name: "5G 無限", monthlyFee: 98 });
-    assert.match(text, /現時電訊商：新號碼 \(新號碼\)/);
+    assert.match(text, /現時電訊商：新號碼/);
     assert.match(text, /篩選方式：AI 智能推薦/);
   });
 

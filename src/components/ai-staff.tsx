@@ -41,7 +41,7 @@ import {
 import type { MessageKey } from "@/lib/messages";
 import { compactSearch } from "@/lib/search";
 import { filterPlans } from "@/lib/plan-filter";
-import { quoteWhatsappE164, whatsappHref } from "@/lib/whatsapp";
+import { quoteWhatsappE164, salesQuoteMessage, whatsappHref } from "@/lib/whatsapp";
 import { quoteWhatsAppActivateProps } from "@/lib/wa-quote-open";
 import { cn } from "@/lib/utils";
 
@@ -582,6 +582,29 @@ export function AiStaffPanel() {
     ]);
   }
 
+  function csQuote() {
+    const housing =
+      guide.housing === "private"
+        ? "私樓"
+        : guide.housing === "public"
+          ? "公屋"
+          : guide.housing === "hos"
+            ? "居屋"
+            : guide.housing === "village"
+              ? "村屋"
+              : "";
+    return salesQuoteMessage({
+      serviceType: guide.serviceType,
+      address: guide.estate,
+      housing,
+      currentProvider: guide.currentProvider,
+      expiry: guide.customerExpiry || guide.expiry,
+      need: guide.need,
+      esports: guide.esports,
+      source: "ai",
+    });
+  }
+
   function clearStep(id: "serviceType" | "housing" | "currentProvider" | "need") {
     if (busy) return;
     setGuide((prev) => {
@@ -671,7 +694,7 @@ export function AiStaffPanel() {
                   <div className="mt-2 space-y-2">
                     <p className="text-sm text-fg">{t("aiCsWelcome")}</p>
                     <a
-                      href={whatsappHref("你好，我想問齊Quote 客戶服務")}
+                      href={whatsappHref(csQuote())}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex h-11 w-full items-center justify-center rounded-full bg-whatsapp px-3 text-sm font-medium text-whatsapp-foreground"
@@ -679,7 +702,7 @@ export function AiStaffPanel() {
                       {t("aiCsCta")}
                     </a>
                     <a
-                      href={whatsappHref("你好，我想問齊Quote 客戶服務")}
+                      href={whatsappHref(csQuote())}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex text-sm font-medium text-accent underline"
