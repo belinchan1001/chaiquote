@@ -40,6 +40,20 @@ describe("monthly fee ladder", () => {
     );
   });
 
+  it("lines up mobile companies as HKBN, 3HK, CMHK, csl, then SmarTone", () => {
+    const rows = filterPlans({ cat: "mobile" });
+    const seen: string[] = [];
+    for (const plan of rows) {
+      if (seen.includes(plan.providerId)) break;
+      seen.push(plan.providerId);
+    }
+    const order = ["hkbn", "three", "cmhk", "csl", "smartone"];
+    assert.deepEqual(
+      seen.filter((id) => order.includes(id)),
+      order.filter((id) => rows.some((plan) => plan.providerId === id)),
+    );
+  });
+
   it("shows every company's cheapest plan before anyone's second plan", () => {
     for (const cat of ["broadband", "mobile", "home5g", "business"] as const) {
       const rows = filterPlans({ cat }).filter((plan) => plan.id !== "hkbn-ftth-1000-36m-98-sep30");

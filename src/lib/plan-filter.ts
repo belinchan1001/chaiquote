@@ -94,7 +94,9 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
       (a, b) => (b.dataGb ?? b.highSpeedGb ?? 0) - (a.dataGb ?? a.highSpeedGb ?? 0) || a.id.localeCompare(b.id),
     );
   }
-  return pinHkbn98Flash(interleaveCheapestFirst(rows, search.cat === "broadband"));
+  const companyOrder =
+    search.cat === "broadband" ? FIBRE_COMPANY_ORDER : search.cat === "mobile" ? MOBILE_COMPANY_ORDER : undefined;
+  return pinHkbn98Flash(interleaveCheapestFirst(rows, companyOrder));
 }
 
 /** 1000M $98 / 36 個月送 3 個月. Other offers keep the ladder order. */
@@ -114,14 +116,17 @@ function priceRank(plan: Plan) {
 
 /** Home fibre company order within each price tier. */
 const FIBRE_COMPANY_ORDER = ["hkbn", "netvigator", "icable", "hgc", "cmhk", "smartone"] as const;
+/** Mobile company order within each price tier. */
+const MOBILE_COMPANY_ORDER = ["hkbn", "three", "cmhk", "csl", "smartone"] as const;
 
-function fibreCompanyRank(id: string) {
-  const index = FIBRE_COMPANY_ORDER.indexOf(id as (typeof FIBRE_COMPANY_ORDER)[number]);
-  return index === -1 ? FIBRE_COMPANY_ORDER.length : index;
+function companyRank(order: readonly string[] | undefined, id: string) {
+  if (!order) return 0;
+  const index = order.indexOf(id);
+  return index === -1 ? order.length : index;
 }
 
 /** Each provider's cheapest plan first, then the next tier, so one company cannot fill the first pages. */
-function interleaveCheapestFirst(rows: Plan[], byCompany = false): Plan[] {
+function interleaveCheapestFirst(rows: Plan[], companyOrder?: readonly string[]): Plan[] {
   const groups = new Map<string, Plan[]>();
   for (const plan of rows) {
     const bucket = groups.get(plan.providerId);
@@ -140,8 +145,8 @@ function interleaveCheapestFirst(rows: Plan[], byCompany = false): Plan[] {
     }
     if (!wave.length) break;
     wave.sort((a, b) =>
-      byCompany
-        ? fibreCompanyRank(a.providerId) - fibreCompanyRank(b.providerId) || cheaper(a, b)
+      companyOrder
+        ? companyRank(companyOrder, a.providerId) - companyRank(companyOrder, b.providerId) || cheaper(a, b)
         : cheaper(a, b) || a.providerId.localeCompare(b.providerId),
     );
     out.push(...wave);
