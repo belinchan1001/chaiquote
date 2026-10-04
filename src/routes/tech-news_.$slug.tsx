@@ -18,6 +18,7 @@ import { loadPublishedNews, loadPublishedNewsBySlug } from "@/lib/tech-news-live
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { canonicalUrl, notFoundHead, shareHead } from "@/lib/canonical";
 import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
+import { isRemoteNewsImage } from "@/lib/tech-news-desk";
 import { SITE } from "@/lib/site";
 
 function headingId(heading: string) {

@@ -7,6 +7,7 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { getGuide, guideCopy, guideManuscriptDates, type GuideTable } from "@/lib/guides";
 import { guideTopicImage } from "@/lib/guide-media";
 import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
+import { useI18n, usePageTitle } from "@/lib/i18n";
 import { canonicalUrl, notFoundHead } from "@/lib/canonical";
 import { guideJsonLd } from "@/lib/seo";
 import { SITE } from "@/lib/site";

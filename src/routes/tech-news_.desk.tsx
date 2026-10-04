@@ -7,6 +7,7 @@ import { isRemoteNewsImage } from "@/lib/tech-news-desk";
 import { TECH_NEWS_CATEGORIES, techNewsCopy, type TechNewsArticle, type TechNewsCategoryId } from "@/lib/tech-news";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
+import { SITE } from "@/lib/site";
 
 const TOKEN_KEY = "chaiquote-news-desk";
 

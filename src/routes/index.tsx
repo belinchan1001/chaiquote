@@ -8,6 +8,7 @@ import { HOME_SEARCH_V2, SITE } from "@/lib/site";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import type { MessageKey } from "@/lib/messages";
 import { HOME_SEO, canonicalUrl, homeJsonLd, shareHead } from "@/lib/canonical";
+import { JsonLd } from "@/components/json-ld";
 import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
 
 const SearchPanel = lazy(() =>

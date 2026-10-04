@@ -5,6 +5,7 @@ import { GUIDE_CATEGORY_META } from "@/lib/guide-articles";
 import { GUIDES, getGuide, guideCopy, guideManuscriptDates, type Guide } from "@/lib/guides";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
+import { GUIDES_SEO, canonicalUrl, shareHead } from "@/lib/canonical";
 
 export const Route = createFileRoute("/guides")({
   component: GuidesPage,
