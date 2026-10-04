@@ -84,7 +84,10 @@ describe("tech news channel", () => {
     assert.equal(EDITOR_TAKE_DISCLAIMER, "純粹編輯個人觀點，一律與本網站無關。");
     assert.equal(HOME_NEWS_TEASERS.length, 3);
     for (const item of HOME_NEWS_TEASERS) {
-      assert.ok(getTechNewsArticle(item.slug), item.slug);
+      const article = getTechNewsArticle(item.slug);
+      assert.ok(article, item.slug);
+      assert.equal(article.category, "telecom");
+      assert.equal(item.desk, "電訊");
     }
     assert.match(feed, /line-clamp-2/);
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/tech-news"));

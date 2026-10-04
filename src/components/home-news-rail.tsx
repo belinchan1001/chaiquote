@@ -14,7 +14,9 @@ export function HomeNewsRail() {
           <div>
             <h2 className="home-section-title">{isEn ? "Telecom and tech news" : "電訊新聞"}</h2>
             <p className="home-section-lead">
-              {isEn ? "Headlines only. Fees are confirmed by the carrier." : "只放標題。月費以電訊商確認為準。"}
+              {isEn
+                ? "Network and plan updates, not a shop listing. Fees are confirmed by the carrier."
+                : "網絡同月費消息，唔係產品廣告。月費以電訊商確認為準。"}
             </p>
           </div>
           <Link
