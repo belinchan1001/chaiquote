@@ -95,7 +95,13 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
     );
   }
   const companyOrder =
-    search.cat === "broadband" ? FIBRE_COMPANY_ORDER : search.cat === "mobile" ? MOBILE_COMPANY_ORDER : undefined;
+    search.cat === "broadband"
+      ? FIBRE_COMPANY_ORDER
+      : search.cat === "mobile"
+        ? MOBILE_COMPANY_ORDER
+        : search.cat === "home5g"
+          ? HOME5G_COMPANY_ORDER
+          : undefined;
   return pinHkbn98Flash(interleaveCheapestFirst(rows, companyOrder));
 }
 
@@ -118,6 +124,8 @@ function priceRank(plan: Plan) {
 const FIBRE_COMPANY_ORDER = ["hkbn", "netvigator", "icable", "hgc", "cmhk", "smartone"] as const;
 /** Mobile company order within each price tier. */
 const MOBILE_COMPANY_ORDER = ["hkbn", "three", "cmhk", "csl", "smartone"] as const;
+/** 5G home company order within each price tier. */
+const HOME5G_COMPANY_ORDER = ["three", "cmhk", "csl", "smartone", "hkbn"] as const;
 
 function companyRank(order: readonly string[] | undefined, id: string) {
   if (!order) return 0;
