@@ -10,6 +10,8 @@ import {
   ESTATE_PAGES,
   estateIntro,
   estatePlans,
+  estateSearchNote,
+  estateSeoDescription,
   estateSelectTarget,
   estateSeoTitle,
   getEstatePage,
@@ -84,7 +86,14 @@ describe("estate SEO pages", () => {
     assert.equal(isIndexableEstatePage(getEstatePage("taikoo-shing")!), true);
     assert.equal(isIndexableEstatePage(getEstatePage("kingswood-villas")!), true);
     assert.equal(isIndexableEstatePage(getEstatePage("city-one")!), true);
+    assert.equal(isIndexableEstatePage(getEstatePage("yoho")!), true);
     assert.equal(isIndexableEstatePage(getEstatePage("wah-fu")!), false);
+    const taikoo = getEstatePage("taikoo-shing")!;
+    assert.match(estateSearchNote(taikoo.estate) ?? "", /指定屋苑/);
+    assert.match(estateSeoDescription(taikoo.estate), /私樓/);
+    assert.match(estateSearchNote(getEstatePage("kingswood-villas")!.estate) ?? "", /天耀邨/);
+    assert.match(estateSearchNote(getEstatePage("city-one")!.estate) ?? "", /瀝源邨/);
+    assert.match(estateSearchNote(getEstatePage("yoho")!.estate) ?? "", /朗城匯/);
     assert.doesNotMatch(
       SITEMAP_PAGES.map((page) => page.path).join("\n"),
       /\/estates\/.*\?/,

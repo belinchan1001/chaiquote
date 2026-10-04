@@ -430,9 +430,59 @@ export function estateSeoTitle(estate: Estate): string {
 }
 
 export function estateSeoDescription(estate: Estate): string {
+  const note = estateSearchSeo(estate);
+  if (note) return note;
   const place = estate.area ? `${estate.district}${estate.area}` : estate.district;
   const street = estate.street ? `${estate.street}，` : "";
   return `${estate.name}位於${street}${place}，樓類為${estateHousingLabel(estate.housing)}。以下只列出適用該樓類的參考計劃。實際覆蓋同安裝期以電訊商確認為準。`;
+}
+
+const SEARCH_INDEX_ESTATES = new Set(["YOHO Town"]);
+
+/** Extra copy for pages people actually search. Generic estates keep the one-line intro. */
+export function estateSearchNote(estate: Estate, locale: Locale = "zh"): string | undefined {
+  const en = locale === "en";
+  switch (estate.name) {
+    case "太古城":
+      return en
+        ? "Taikoo Shing is a private estate in Eastern District. This page uses private-housing plans, not public, HOS or village fees. A plan limited to a named estate appears only when the address is on that list. Coverage and installation are confirmed by the carrier."
+        : "太古城係東區私樓。呢頁用私樓計劃，唔好用公屋、居屋或者村屋月費。指定屋苑先有嘅計劃，要地址喺名單內先會出現，唔會因為打開太古城頁就自動列出。實際覆蓋同安裝以電訊商確認為準。";
+    case "天水圍嘉湖山莊":
+      return en
+        ? "Kingswood Villas is a private estate in Yuen Long, not a public estate like Tin Yiu. Public-housing bulk prices and village fibre fees do not apply. Named-estate offers appear only when the address is on that list."
+        : "嘉湖山莊係元朗私樓，唔係天耀邨呢類公屋。公屋批量價同村屋光纖價都唔適用。指定屋苑隱藏計劃要地址喺名單內先會出現。天水圍其他屋邨見天水圍寬頻攻略。";
+    case "沙田第一城":
+      return en
+        ? "City One is a private estate in Sha Tin. Lek Yuen and Wo Che are public estates, so those fees do not apply here. An exclusive plan for Mei Ying Court or Kam Fai Court applies only at that estate, not across City One."
+        : "沙田第一城係沙田私樓。瀝源邨、禾輋邨係公屋，月費唔好混用。美盈苑、錦暉苑如果有指定屋苑計劃，只適用該苑，唔代表第一城都有。呢頁用私樓目錄。";
+    case "YOHO Town":
+    case "YOHO Midtown":
+    case "YOHO West":
+    case "Grand YOHO":
+      return en
+        ? "YOHO Town, YOHO Midtown and YOHO West are private housing in Yuen Long. Grand YOHO is in the same series. 朗城匯 and The YOHO 芊御 are different places. A named-estate plan does not apply to every YOHO block just because the name contains YOHO. Village fees do not apply."
+        : "YOHO Town、YOHO Midtown 同 YOHO West 係元朗私樓。朗城匯同 The YOHO 芊御係另一個地方，唔好用呢頁嘅價。其他屋苑嘅指定計劃，唔會因為個名有 YOHO 就適用到每一座。村屋價唔適用。";
+    default:
+      return undefined;
+  }
+}
+
+export function estateSearchSeo(estate: Estate): string | undefined {
+  switch (estate.name) {
+    case "太古城":
+      return "太古城寬頻用東區私樓計劃，唔好用公屋或村屋價。指定屋苑計劃要地址在名單內先出現。覆蓋同安裝以電訊商確認為準。";
+    case "天水圍嘉湖山莊":
+      return "嘉湖山莊係元朗私樓，唔係天耀邨公屋。公屋價同村屋光纖價唔適用。指定屋苑計劃要地址在名單內。";
+    case "沙田第一城":
+      return "沙田第一城係沙田私樓。瀝源邨、禾輋邨公屋價唔適用。美盈苑、錦暉苑指定計劃只適用該苑。";
+    case "YOHO Town":
+    case "YOHO Midtown":
+    case "YOHO West":
+    case "Grand YOHO":
+      return "YOHO Town、Midtown、West 係元朗私樓。朗城匯同芊御係另一個地方。指定屋苑計劃唔會因為個名有 YOHO 就適用每一座。";
+    default:
+      return undefined;
+  }
 }
 
 function fillMessage(locale: Locale, key: MessageKey, vars: Record<string, string | number>) {
@@ -515,6 +565,7 @@ const INDEXABLE_ESTATE_NAMES = indexableEstateNames();
 export function isIndexableEstatePage(page: EstatePage): boolean {
   if (parentEstate(page.estate)) return false;
   if ((ESTATE_PAGE_NAMES as readonly string[]).includes(page.estate.name)) return true;
+  if (SEARCH_INDEX_ESTATES.has(page.estate.name)) return true;
   return INDEXABLE_ESTATE_NAMES.has(page.estate.name);
 }
 

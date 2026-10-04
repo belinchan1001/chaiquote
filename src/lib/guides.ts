@@ -227,68 +227,64 @@ export const CORE_GUIDES: Guide[] = [
   },
   {
     slug: "village",
-    minutes: 6,
+    minutes: 8,
     category: "fiber",
-    seoTitle: "村屋／丁屋寬頻點算｜齊Quote",
-    h1: "村屋／丁屋寬頻點算",
-    description: "村屋光纖唔等於公屋價，可能要現場視察。覆蓋同安裝以電訊商確認為準。",
-    title: "村屋／丁屋寬頻點算",
-    excerpt: "覆蓋點查、5G 家居同光纖到村實際有咩分別。",
-    titleEn: "Broadband for village houses",
-    excerptEn: "How to check coverage, and how 5G home differs from fibre to the village.",
+    seoTitle: "村屋光纖點算｜邊間有、參考月費｜齊Quote",
+    h1: "村屋光纖點算：邊間有、幾多錢",
+    description:
+      "村屋光纖站內只列出香港寬頻、網上行同 HGC。特選村屋由 HK$229 起，唔好用太古城、嘉湖或公屋價去估。覆蓋要填完整地址。",
+    title: "村屋光纖點算：邊間有、幾多錢",
+    excerpt: "村屋光纖只得香港寬頻、網上行同 HGC。由 HK$229 起，唔好用私樓或公屋價。",
+    titleEn: "Village fibre: who offers it, and the listed fees",
+    excerptEn: "Only HKBN, Netvigator and HGC list village fibre here, from HK$229. Do not reuse a private-estate or public-housing fee.",
+    descriptionEn:
+      "Village fibre on this site is only HKBN, Netvigator and HGC. Listed plans start at HK$229. Do not reuse Taikoo Shing, Kingswood or public-housing fees. Coverage needs the full address.",
+    h1En: "Village fibre: who offers it, and what it costs",
     published: "2026-09-05",
-    modified: "2026-09-13",
+    modified: "2026-10-05",
     body: [
       {
-        heading: "先問覆蓋，唔好淨睇月費",
+        heading: "邊間有村屋光纖",
         paragraphs: [
-          "新界村屋光纖到屋睇條村、條街甚至左右鄰。報價一定要填齊地址，我哋先幫到你查裝唔裝到。",
+          "站內村屋光纖只得三間：香港寬頻、網上行、HGC。有線、中國移動、數碼通嘅家居光纖計劃唔適用村屋。",
+          "有冇線睇條村、條街，甚至左右鄰。下面月費係站內列出嘅參考，唔等於新界每條村都裝到。",
         ],
       },
       {
-        heading: "5G 家居係常見方案",
+        heading: "站內參考月費",
         paragraphs: [
-          "未有光纖嘅村屋、唐樓，5G 家居插電就用。記住問清楚高速數據用量同繁忙時間表現。",
+          "香港寬頻特選村屋 2000M（24 個月）HK$229。網上行村屋 1000M（24 個月）HK$278。HGC 村屋 1G 連電話（24 個月）HK$319。完整表見 [村屋光纖月費](/guides/village-fees)。",
+          "太古城、嘉湖山莊、沙田第一城同 YOHO 係私樓，嗰啲月費唔可以搬去村屋。公屋批量價同樣唔適用。",
         ],
       },
       {
-        heading: "村屋光纖唔係公屋價",
+        heading: "拉唔到點算",
         paragraphs: [
-          "公屋／居屋有時有指定批量計劃；村屋多數係另一批報價，月費、安裝費、完工期都可以唔同。齊Quote 分開列出參考，例子見 [村屋光纖月費](/guides/village-fees)，唔好用屋邨價去估丁屋。",
-        ],
-      },
-      {
-        heading: "可能要現場",
-        paragraphs: [
-          "拉線路經、井蓋、天台機位，網上相睇唔晒。需要就約 [實地視察同現場測 5G](/guides/village-onsite)，再決定主用光纖定 5G 家居。",
-          "實際覆蓋、安裝期同月費以電訊商確認為準，唔好假設一定有線。",
+          "拉線路經、井蓋、天台機位，網上相睇唔晒。需要就約 [實地視察同現場測 5G](/guides/village-onsite)。",
+          "未有光纖可以一併睇 [5G 家居](/guides/home5g)。5G 家居速度視訊號，唔好當固定光纖替代。實際覆蓋、安裝期同月費以電訊商確認為準。",
         ],
       },
     ],
     bodyEn: [
       {
-        heading: "Check coverage first, not just the fee",
+        heading: "Who lists village fibre",
         paragraphs: [
-          "Fibre to a New Territories village house depends on the village, the street, even the house next door. Give the full address on a quote so we can ask whether it can be installed.",
+          "Village fibre on this site is only HKBN, Netvigator and HGC. i-Cable, CMHK and SmarTone home-fibre plans are not for village houses.",
+          "Whether a line exists depends on the village and the street. The fees below are listed examples, not a promise for every village.",
         ],
       },
       {
-        heading: "5G home is a common option",
+        heading: "Listed reference fees",
         paragraphs: [
-          "Village houses and tong lau without fibre can use 5G home — plug in and go. Ask about the high-speed data cap and peak-hour performance.",
+          "HKBN selected village 2000M (24 months) is HK$229. Netvigator village 1000M (24 months) is HK$278. HGC village 1G with a phone line (24 months) is HK$319. Full table: [village fibre fees](/guides/village-fees).",
+          "Taikoo Shing, Kingswood Villas, City One and YOHO are private estates. Those fees do not carry over to a village house. Public-housing bulk prices do not either.",
         ],
       },
       {
-        heading: "Village fibre is not a public-housing fee",
+        heading: "If fibre cannot be pulled",
         paragraphs: [
-          "Public and HOS estates sometimes have bulk plans. Village houses are usually a separate quote: monthly fee, install fee and completion date can all differ. Listed examples: [village fibre fees](/guides/village-fees). Do not guess a ding uk fee from an estate price.",
-        ],
-      },
-      {
-        heading: "A visit may be needed",
-        paragraphs: [
-          "The pull path, manhole and rooftop position rarely show up in photos. Book [an on-site visit / 5G test](/guides/village-onsite) if needed, then decide fibre or 5G home.",
-          "Coverage, install dates and fees are confirmed by the carrier. Do not assume a line exists.",
+          "The pull path, manhole and rooftop position rarely show up in photos. Book [an on-site visit / 5G test](/guides/village-onsite) if needed.",
+          "Where there is no fibre, compare [5G home](/guides/home5g). Speed depends on the signal. Do not treat it as a fixed fibre line. Coverage, install dates and fees are confirmed by the carrier.",
         ],
       },
     ],
