@@ -94,7 +94,7 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
       (a, b) => (b.dataGb ?? b.highSpeedGb ?? 0) - (a.dataGb ?? a.highSpeedGb ?? 0) || a.id.localeCompare(b.id),
     );
   }
-  return pinHkbn98Flash(interleaveCheapestFirst(rows));
+  return pinHkbn98Flash(interleaveCheapestFirst(rows, search.cat === "broadband"));
 }
 
 /** 1000M $98 / 36 個月送 3 個月. Other offers keep the ladder order. */
@@ -112,8 +112,16 @@ function priceRank(plan: Plan) {
   return averageFee(plan);
 }
 
+/** Home fibre company order within each price tier. */
+const FIBRE_COMPANY_ORDER = ["hkbn", "netvigator", "icable", "hgc", "cmhk", "smartone"] as const;
+
+function fibreCompanyRank(id: string) {
+  const index = FIBRE_COMPANY_ORDER.indexOf(id as (typeof FIBRE_COMPANY_ORDER)[number]);
+  return index === -1 ? FIBRE_COMPANY_ORDER.length : index;
+}
+
 /** Each provider's cheapest plan first, then the next tier, so one company cannot fill the first pages. */
-function interleaveCheapestFirst(rows: Plan[]): Plan[] {
+function interleaveCheapestFirst(rows: Plan[], byCompany = false): Plan[] {
   const groups = new Map<string, Plan[]>();
   for (const plan of rows) {
     const bucket = groups.get(plan.providerId);
@@ -131,7 +139,11 @@ function interleaveCheapestFirst(rows: Plan[]): Plan[] {
       if (plan) wave.push(plan);
     }
     if (!wave.length) break;
-    wave.sort((a, b) => cheaper(a, b) || a.providerId.localeCompare(b.providerId));
+    wave.sort((a, b) =>
+      byCompany
+        ? fibreCompanyRank(a.providerId) - fibreCompanyRank(b.providerId) || cheaper(a, b)
+        : cheaper(a, b) || a.providerId.localeCompare(b.providerId),
+    );
     out.push(...wave);
   }
   return out;

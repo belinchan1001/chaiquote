@@ -28,6 +28,16 @@ describe("monthly fee ladder", () => {
     const rest = rows.slice(1);
     assert.equal(rest.some((plan) => plan.id === rows[0].id), false);
     firstWaveCoversEveryProvider(rest, (plan) => averageFee(plan));
+    const seen: string[] = [];
+    for (const plan of rest) {
+      if (seen.includes(plan.providerId)) break;
+      seen.push(plan.providerId);
+    }
+    const order = ["hkbn", "netvigator", "icable", "hgc", "cmhk", "smartone"];
+    assert.deepEqual(
+      seen.filter((id) => order.includes(id)),
+      order.filter((id) => rest.some((plan) => plan.providerId === id)),
+    );
   });
 
   it("shows every company's cheapest plan before anyone's second plan", () => {
