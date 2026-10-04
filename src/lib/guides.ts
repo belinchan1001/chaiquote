@@ -122,16 +122,25 @@ export const CORE_GUIDES: Guide[] = [
     slug: "fiber-vs-5g",
     minutes: 7,
     category: "fiber",
-    seoTitle: "光纖同 5G 家居寬頻點揀｜齊Quote",
-    h1: "光纖同 5G 家居寬頻點揀",
-    description: "拉線穩唔穩、幾時裝到、有冇數據上限、村屋適唔適合。實際覆蓋同安裝以電訊商確認。",
-    title: "光纖同 5G 家居寬頻點揀",
-    excerpt: "拉線穩唔穩、幾時裝到、有冇數據上限、村屋適唔適合。",
-    titleEn: "Fibre vs 5G home broadband",
-    excerptEn: "Stability, install time, data caps, and what works for village houses.",
+    seoTitle: "5G家居定光纖｜幾時先值得拉線｜齊Quote",
+    h1: "5G家居定光纖",
+    description: "可以拉光纖就優先光纖。拉唔到、租樓或者村屋未有線，先睇 5G 家居。村屋光纖唔等於私樓價。",
+    title: "5G家居定光纖",
+    excerpt: "可以拉光纖就優先光纖。拉唔到或者村屋未有線，先睇 5G 家居。",
+    titleEn: "5G home or fibre: when a line is worth pulling",
+    excerptEn: "Pull fibre if you can. Use 5G home when you cannot, or while waiting.",
+    descriptionEn:
+      "Choose fibre when a line can be pulled. Use 5G home for rentals, waits, and village houses with no fibre. Village fibre is not a private-estate price.",
+    h1En: "5G home or fibre",
     published: "2026-09-05",
-    modified: "2026-09-13",
+    modified: "2026-10-05",
     body: [
+      {
+        heading: "點揀",
+        paragraphs: [
+          "可以拉光纖就優先光纖。拉唔到、租約短，或者村屋未有線，先睇 5G 家居。村屋要另外對 [村屋光纖](/guides/village)，唔好用私樓月費去估。",
+        ],
+      },
       {
         heading: "光纖入屋",
         paragraphs: [
@@ -168,12 +177,18 @@ export const CORE_GUIDES: Guide[] = [
       {
         heading: "村屋／未有光纖",
         paragraphs: [
-          "村屋光纖唔等於公屋價，亦唔等於一定拉到。現場環境、村路、入線都要電訊商確認。可以同 5G 家居一齊比較，需要就約視察。見 [村屋寬頻點算](/guides/village)、[實地視察同測 5G](/guides/village-onsite)。",
+          "村屋光纖唔等於公屋價，亦唔等於一定拉到。現場環境、村路、入線都要電訊商確認。可以同 5G 家居一齊比較，需要就約視察。見 [村屋光纖](/guides/village)、[實地視察同測 5G](/guides/village-onsite)。",
           "實際覆蓋、安裝期同月費以電訊商確認為準。",
         ],
       },
     ],
     bodyEn: [
+      {
+        heading: "How to choose",
+        paragraphs: [
+          "Pull fibre if you can. Use 5G home for a short rental, or a village house with no line. Village fibre is a separate page: [village fibre](/guides/village). Do not reuse a private-estate fee.",
+        ],
+      },
       {
         heading: "Fibre to the home",
         paragraphs: [
@@ -254,7 +269,7 @@ export const CORE_GUIDES: Guide[] = [
         heading: "站內參考月費",
         paragraphs: [
           "香港寬頻特選村屋 2000M（24 個月）HK$229。網上行村屋 1000M（24 個月）HK$278。HGC 村屋 1G 連電話（24 個月）HK$319。完整表見 [村屋光纖月費](/guides/village-fees)。",
-          "太古城、嘉湖山莊、沙田第一城同 YOHO 係私樓，嗰啲月費唔可以搬去村屋。公屋批量價同樣唔適用。",
+          "太古城、嘉湖山莊、沙田第一城同 YOHO 係私樓，見 [太古城寬頻](/estates/taikoo-shing)、[嘉湖山莊寬頻](/estates/kingswood-villas)、[沙田第一城寬頻](/estates/city-one)、[YOHO寬頻](/estates/yoho)。嗰啲月費唔可以搬去村屋。公屋批量價同樣唔適用，分別見 [公屋居屋寬頻分別](/guides/public-vs-hos)。",
         ],
       },
       {

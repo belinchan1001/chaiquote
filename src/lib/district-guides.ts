@@ -128,7 +128,7 @@ export const DISTRICT_GUIDES: Guide[] = [
       {
         heading: "常見屋苑入口",
         paragraphs: [
-          "公屋：[天耀邨](/estates/tin-yiu)、[天瑞邨](/estates/tin-shui)、[天華邨](/estates/tin-wah)、[天恒邨](/estates/tin-heng)、[天恩邨](/estates/tin-yan)、[天逸邨](/estates/tin-yat)、[俊宏軒](/estates/grandeur-terrace)。居屋：[天盛苑](/estates/tin-shing-court)、[天富苑](/estates/tin-fu-court)、[天頌苑](/estates/tin-chung-court)。私樓：[嘉湖山莊](/estates/kingswood-villas)。",
+          "公屋：[天耀邨](/estates/tin-yiu)、[天瑞邨](/estates/tin-shui)、[天華邨](/estates/tin-wah)、[天恒邨](/estates/tin-heng)、[天恩邨](/estates/tin-yan)、[天逸邨](/estates/tin-yat)、[俊宏軒](/estates/grandeur-terrace)。居屋：[天盛苑](/estates/tin-shing-court)、[天富苑](/estates/tin-fu-court)、[天頌苑](/estates/tin-chung-court)。私樓：[嘉湖山莊寬頻](/estates/kingswood-villas)。",
           "屋苑頁列出適用樓類計劃。指定屋苑閃購如果有，只會喺搜該屋苑時出現，**唔入**上面摘要表。點用屋苑名見 [齊Quote 點用屋苑篩](/guides/estate-filter)。全部見 [屋苑目錄](/estates)。",
         ],
       },
@@ -271,7 +271,7 @@ export const DISTRICT_GUIDES: Guide[] = [
       {
         heading: "常見屋苑入口",
         paragraphs: [
-          "私樓：[沙田第一城](/estates/city-one)、[名城](/estates/festival-city)、[迎海](/estates/double-cove)。公屋：[瀝源邨](/estates/lek-yuen)、[禾輋邨](/estates/wo-che)、[水泉澳邨](/estates/shui-chuen-o)。指定屋苑頁：[美盈苑](/estates/mei-ying-court)、[錦暉苑](/estates/kam-fai-court)——呢兩頁如果列出獨家計劃，只適用該苑，唔代表全沙田。",
+          "私樓：[沙田第一城寬頻](/estates/city-one)、[名城](/estates/festival-city)、[迎海](/estates/double-cove)。公屋：[瀝源邨](/estates/lek-yuen)、[禾輋邨](/estates/wo-che)、[水泉澳邨](/estates/shui-chuen-o)。指定屋苑頁：[美盈苑](/estates/mei-ying-court)、[錦暉苑](/estates/kam-fai-court)——呢兩頁如果列出獨家計劃，只適用該苑，唔代表全沙田。",
           "點用屋苑名見 [齊Quote 點用屋苑篩](/guides/estate-filter)。全部見 [屋苑目錄](/estates)。",
         ],
       },

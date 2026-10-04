@@ -425,8 +425,15 @@ export function estateHousingLabel(housing: Housing, locale: Locale = "zh"): str
   return ESTATE_HOUSING_LABEL[housing];
 }
 
+const SEARCH_PAGE_TITLES: Record<string, string> = {
+  太古城: "太古城寬頻｜東區私樓月費｜齊Quote",
+  天水圍嘉湖山莊: "嘉湖山莊寬頻｜元朗私樓月費｜齊Quote",
+  沙田第一城: "沙田第一城寬頻｜沙田私樓月費｜齊Quote",
+  "YOHO Town": "YOHO寬頻｜YOHO Town 私樓月費｜齊Quote",
+};
+
 export function estateSeoTitle(estate: Estate): string {
-  return `${estate.name}寬頻比較｜${estateHousingLabel(estate.housing)}｜齊Quote`;
+  return SEARCH_PAGE_TITLES[estate.name] ?? `${estate.name}寬頻比較｜${estateHousingLabel(estate.housing)}｜齊Quote`;
 }
 
 export function estateSeoDescription(estate: Estate): string {
@@ -493,6 +500,7 @@ function fillMessage(locale: Locale, key: MessageKey, vars: Record<string, strin
 }
 
 export function estatePageTitle(estate: Estate, locale: Locale = "zh"): string {
+  if (locale === "zh" && SEARCH_PAGE_TITLES[estate.name]) return SEARCH_PAGE_TITLES[estate.name];
   return fillMessage(locale, "estateTitle", {
     name: estateDisplayName(estate, locale),
     housing: estateHousingLabel(estate.housing, locale),

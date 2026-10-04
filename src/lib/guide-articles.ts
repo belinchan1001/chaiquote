@@ -64,7 +64,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "公屋、居屋、私樓、村屋點分",
         paragraphs: [
           "公屋同居屋多數有指定批量價，選擇相對集中，記住用對應樓類去篩，唔好用私樓價去估公屋。想知分別可睇 [公屋同居屋有咩分別](/guides/public-vs-hos)。站內列出嘅 1000M 例子見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)。公屋例子：[天耀邨](/estates/tin-yiu)。",
-          "私樓選擇通常多啲，合約期、路由器、家居電話組合都較密，例如 [太古城](/estates/taikoo-shing)。站內列出嘅 1000M 例子見 [私樓 1000M 參考月費](/guides/private-1000-fees)。村屋係另一批計劃，月費同安裝環境都可以同屋邨差好遠，詳情見 [村屋寬頻點算](/guides/village)。村屋光纖月費例子見 [村屋光纖月費](/guides/village-fees)。",
+          "私樓選擇通常多啲，合約期、路由器、家居電話組合都較密，例如 [太古城寬頻](/estates/taikoo-shing)。站內列出嘅 1000M 例子見 [私樓 1000M 參考月費](/guides/private-1000-fees)。村屋係另一批計劃，月費同安裝環境都可以同屋邨差好遠，詳情見 [村屋光纖](/guides/village)。",
         ],
         table: {
           caption: "四類樓點分",
@@ -125,7 +125,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "下一步",
         paragraphs: [
-          "返首頁輸入屋苑，或者直接開 [光纖格價](/plans?cat=broadband)。屋苑篩點用見 [齊Quote 點用屋苑篩](/guides/estate-filter)。想比較免拉線方案，可睇 [光纖同 5G 家居點揀](/guides/fiber-vs-5g) 或者 [5G 家居攻略](/guides/home5g)。屋苑例子：[天耀邨](/estates/tin-yiu)、[太古城](/estates/taikoo-shing)；地區：[天水圍寬頻](/guides/tin-shui-wai)、[沙田寬頻](/guides/sha-tin)、[將軍澳寬頻](/guides/tseung-kwan-o)；村屋見 [村屋光纖月費](/guides/village-fees)；全部屋苑見 [屋苑目錄](/estates)。",
+          "返首頁輸入屋苑，或者直接開 [光纖格價](/plans?cat=broadband)。屋苑篩點用見 [齊Quote 點用屋苑篩](/guides/estate-filter)。想比較免拉線方案，可睇 [5G家居定光纖](/guides/fiber-vs-5g) 或者 [5G 家居攻略](/guides/home5g)。屋苑例子：[天耀邨](/estates/tin-yiu)、[太古城寬頻](/estates/taikoo-shing)；地區：[天水圍寬頻](/guides/tin-shui-wai)、[沙田寬頻](/guides/sha-tin)、[將軍澳寬頻](/guides/tseung-kwan-o)；村屋見 [村屋光纖](/guides/village)；全部屋苑見 [屋苑目錄](/estates)。",
         ],
       },
     ],
@@ -904,11 +904,10 @@ export const GUIDE_ARTICLES: Guide[] = [
     slug: "public-vs-hos",
     minutes: 7,
     category: "fiber",
-    seoTitle: "公屋寬頻同居屋有咩分別｜齊Quote",
-    h1: "公屋同居屋，寬頻價錢會唔會唔同？",
-    description:
-      "公屋同居屋寬頻多數分開報價。同樣 1000M 都可能唔同計劃。先揀樓類，實際覆蓋以電訊商確認。",
-    title: "公屋同居屋，寬頻價錢會唔會唔同？",
+    seoTitle: "公屋居屋寬頻分別｜點解唔共用一張價｜齊Quote",
+    h1: "公屋居屋寬頻分別",
+    description: "公屋居屋寬頻多數分開報價。同樣 1000M 都可能唔同計劃。村屋光纖又係另一套，唔好混用。",
+    title: "公屋居屋寬頻分別",
     excerpt: "多數會唔同。批量合約同指定計劃，令公屋、居屋唔好共用一張價。",
     titleEn: "Do public housing and HOS pay different broadband fees?",
     excerptEn: "Usually yes. Carriers often file separate bulk plans.",
@@ -937,7 +936,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "點解要分開報價",
         paragraphs: [
           "屋邨同居屋屋苑成日有入場安排、指定供應商或者批量合約，安裝路經同管理處要求都可能同私樓唔同。電訊商按呢啲條件出計劃，先出現「公居屋一套、私樓一套」。",
-          "村屋又再另一套，唔好將公屋價套去丁屋。覆蓋同可唔可以拉線，仍然要電訊商確認，齊Quote 唔會寫死「一定有線」。",
+          "村屋又再另一套，見 [村屋光纖](/guides/village)，唔好將公屋價套去丁屋。覆蓋同可唔可以拉線，仍然要電訊商確認，齊Quote 唔會寫死「一定有線」。",
         ],
       },
       {
