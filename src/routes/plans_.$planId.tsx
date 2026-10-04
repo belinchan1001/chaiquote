@@ -259,7 +259,7 @@ function PlanDetailPage() {
       {related.length ? (
         <div className="mt-12">
           <h2 className="text-lg font-semibold">{t("othersCompare")}</h2>
-          <div className="mt-4 grid gap-4 md:grid-cols-2">
+          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
             {related.map((item) => (
               <PlanCard key={item.id} plan={item} />
             ))}

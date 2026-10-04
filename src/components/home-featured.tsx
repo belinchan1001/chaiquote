@@ -23,7 +23,7 @@ export function HomeFeatured() {
           <h2 className="home-section-title">{t("featuredTitle")}</h2>
           <p className="home-section-lead">{t("featuredLead")}</p>
         </div>
-        <div className="mt-5 grid gap-3 md:grid-cols-2">
+        <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
           {featured.map((plan) => (
             <PlanCard key={plan.id} plan={plan} />
           ))}

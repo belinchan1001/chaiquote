@@ -557,8 +557,8 @@ function PlansPage() {
             ref={listRef}
             className={
               (listEntering
-                ? "plan-list plan-list-enter mt-8 scroll-mt-24 grid gap-4 md:grid-cols-2"
-                : "plan-list mt-8 scroll-mt-24 grid gap-4 md:grid-cols-2") + (search.esports ? " plan-list-esports" : "")
+                ? "plan-list plan-list-enter mt-8 scroll-mt-24 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4"
+                : "plan-list mt-8 scroll-mt-24 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4") + (search.esports ? " plan-list-esports" : "")
             }
           >
             {shown.map((plan) => (
