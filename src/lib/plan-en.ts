@@ -129,6 +129,7 @@ const PHRASES: [string, string][] = [
   ["送 TP-Link Archer BE220 Wi-Fi 7 路由器", "Includes TP-Link Archer BE220 Wi-Fi 7 router"],
   ["寬頻月費豁免 2 個月（第 13–14 個月）", "2 months of broadband fee waived (months 13–14)"],
   ["寬頻月費豁免 3 個月（第 13–15 個月）", "3 months of broadband fee waived (months 13–15)"],
+  ["限時快閃優惠", "Flash offer"],
   ["免費送 36 個月 Wi-Fi 7 TP-Link Archer BE220 路由器", "Includes 36 months of TP-Link Archer BE220 Wi-Fi 7 router, no extra charge"],
   ["免費送 24 個月 Wi-Fi 7 TP-Link Archer BE230 路由器", "Includes 24 months of TP-Link Archer BE230 Wi-Fi 7 router, no extra charge"],
   ["免費送 36 個月 Wi-Fi 7 TP-Link Archer BE230 路由器", "Includes 36 months of TP-Link Archer BE230 Wi-Fi 7 router, no extra charge"],

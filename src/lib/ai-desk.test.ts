@@ -209,7 +209,6 @@ describe("AI desk safety", () => {
   it("locks filter copy, mini-cards, chips, and panel placement", () => {
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
     const staff = readFileSync(join(here, "../components/ai-staff.tsx"), "utf8");
-    const card = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
     const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
     const ask = readFileSync(join(here, "ai-ask.ts"), "utf8");
     const desk = readFileSync(join(here, "ai-desk.ts"), "utf8");
@@ -242,9 +241,14 @@ describe("AI desk safety", () => {
     assert.doesNotMatch(header, /sr-only sm:hidden/);
     assert.doesNotMatch(header, /max-sm:w-11/);
     assert.match(staff, /plansForAiCards\(bubble\.planIds/);
-    assert.match(staff, /<PlanCard plan=\{plan\} \/>/);
-    assert.match(card, /formatFee\(plan\.monthlyFee\)/);
-    assert.match(card, /t\("referencePrice"\)/);
+    assert.match(staff, /aiHighlights\(plan, locale\)/);
+    assert.match(staff, /送 \$\{plan\.freeMonths\} 個月月費/);
+    assert.match(staff, /<ProviderMark id=\{plan\.providerId\} size="sm"/);
+    assert.match(staff, /formatFee\(plan\.monthlyFee\)/);
+    assert.match(staff, /t\("months", \{ n: plan\.contractMonths \}\)/);
+    assert.match(staff, /t\("aiCardRef"\)/);
+    assert.match(staff, /to="\/plans\/\$planId"/);
+    assert.match(staff, /t\("aiWaCta"\)/);
     assert.doesNotMatch(staff, /QUICK_REPLIES/);
     assert.doesNotMatch(staff, /QUESTION_CHIPS\.map/);
     assert.doesNotMatch(staff, /aiFaqMore/);
@@ -410,7 +414,7 @@ describe("AI desk safety", () => {
     const staff = readFileSync(join(here, "../components/ai-staff.tsx"), "utf8");
     assert.match(staff, /\{bubble\.text\}/);
     assert.doesNotMatch(staff, /formatFee\([^)]*bubble\.text/);
-    assert.match(staff, /<PlanCard plan=\{plan\} \/>/);
+    assert.match(staff, /aiHighlights\(plan, locale\)[\s\S]*formatFee\(plan\.monthlyFee\)[\s\S]*t\("aiCardRef"\)/);
   });
 
   it("turns the AI chat into a filter workstation with a slow accent pulse on the entry", () => {
