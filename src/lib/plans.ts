@@ -108,11 +108,11 @@ const LIMITS_HKBN_FLASH_63 =
   "僅適用於指定屋苑。本計劃為自動續約。免 3 個月月費。實際覆蓋同安裝期以電訊商確認為準。";
 const HKBN_SEP30_FLASH_ENDS = "2026-10-31T23:59:59+08:00";
 const LIMITS_HKBN_SEP30 =
-  "限時快閃：只適用於 2026 年 9 月 22 日至 10 月 31 日成功預約安裝之客戶。適用於公屋、居屋及私人樓宇。不適用於村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。";
+  "限時快閃：只適用於 2026 年 9 月 22 日至 10 月 31 日成功預約安裝之客戶。適用於公屋、居屋及私人樓宇。不適用於村屋。所列路由器、會籍及電話已包括在月費，無需另付。實際覆蓋、安裝期及月費以電訊商確認為準。";
 const LIMITS_HKBN_SEP30_PUBLIC_HOS =
-  "限時快閃：只適用於 2026 年 9 月 22 日至 10 月 31 日成功預約安裝之客戶。適用於公屋及居屋。不適用於私人樓宇及村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。";
+  "限時快閃：只適用於 2026 年 9 月 22 日至 10 月 31 日成功預約安裝之客戶。適用於公屋及居屋。不適用於私人樓宇及村屋。所列路由器、會籍及電話已包括在月費，無需另付。實際覆蓋、安裝期及月費以電訊商確認為準。";
 const LIMITS_HKBN_SEP30_PRIVATE =
-  "限時快閃：只適用於 2026 年 9 月 22 日至 10 月 31 日成功預約安裝之客戶。適用於私人樓宇。不適用於公屋、居屋及村屋。必須同時登記所列綁定服務。實際覆蓋、安裝期及月費以電訊商確認為準。";
+  "限時快閃：只適用於 2026 年 9 月 22 日至 10 月 31 日成功預約安裝之客戶。適用於私人樓宇。不適用於公屋、居屋及村屋。所列路由器、會籍及電話已包括在月費，無需另付。實際覆蓋、安裝期及月費以電訊商確認為準。";
 const PERK_HKBN_SEP30_FREE2 = "寬頻月費豁免 2 個月（第 13–14 個月）";
 const PERK_HKBN_SEP30_FREE3 = "寬頻月費豁免 3 個月（第 13–15 個月）";
 const LIMITS_HOME5G_SPEED =
@@ -1632,7 +1632,7 @@ export const PLANS: Plan[] = [
     prepaid: PREPAID_HKBN_200,
     perks: [
       PERK_HKBN_SEP30_FREE3,
-      "必須同時登記 36 個月 Wi-Fi 7 TP-Link Archer BE220 路由器",
+      "免費送 36 個月 Wi-Fi 7 TP-Link Archer BE220 路由器",
     ],
     limits: LIMITS_HKBN_SEP30,
     flashOffer: true,
@@ -1656,9 +1656,9 @@ export const PLANS: Plan[] = [
     prepaid: PREPAID_HKBN_200,
     perks: [
       PERK_HKBN_SEP30_FREE3,
-      "必須同時登記 36 個月 Wi-Fi 7 TP-Link Archer BE220 路由器",
-      "必須同時登記 36 個月 myTV SUPER（智能電視版）",
-      "必須同時登記 12 個月 Disney+ 標準版",
+      "免費送 36 個月 Wi-Fi 7 TP-Link Archer BE220 路由器",
+      "免費送 36 個月 myTV SUPER（智能電視版）",
+      "免費送 12 個月 Disney+ 標準版",
     ],
     limits: LIMITS_HKBN_SEP30,
     flashOffer: true,
@@ -1682,8 +1682,8 @@ export const PLANS: Plan[] = [
     prepaid: PREPAID_HKBN_200,
     perks: [
       PERK_HKBN_SEP30_FREE3,
-      "必須同時登記 24 個月家居電話服務",
-      "必須同時登記 24 個月 Wi-Fi 7 TP-Link Archer BE230 路由器",
+      "免費送 24 個月家居電話服務",
+      "免費送 24 個月 Wi-Fi 7 TP-Link Archer BE230 路由器",
     ],
     limits: LIMITS_HKBN_SEP30,
     flashOffer: true,
@@ -1707,8 +1707,8 @@ export const PLANS: Plan[] = [
     prepaid: PREPAID_HKBN_200,
     perks: [
       PERK_HKBN_SEP30_FREE3,
-      "必須同時登記 36 個月家居電話服務",
-      "必須同時登記 36 個月 Wi-Fi 7 TP-Link Archer BE230 路由器",
+      "免費送 36 個月家居電話服務",
+      "免費送 36 個月 Wi-Fi 7 TP-Link Archer BE230 路由器",
     ],
     limits: LIMITS_HKBN_SEP30_PUBLIC_HOS,
     flashOffer: true,
@@ -1732,8 +1732,8 @@ export const PLANS: Plan[] = [
     prepaid: PREPAID_HKBN_200,
     perks: [
       PERK_HKBN_SEP30_FREE3,
-      "必須同時登記 36 個月 myTV SUPER（智能電視版）",
-      "必須同時登記 12 個月 Disney+ 標準版",
+      "免費送 36 個月 myTV SUPER（智能電視版）",
+      "免費送 12 個月 Disney+ 標準版",
     ],
     limits: LIMITS_HKBN_SEP30_PRIVATE,
     flashOffer: true,
