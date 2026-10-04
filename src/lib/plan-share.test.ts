@@ -14,6 +14,7 @@ import {
   planShareBody,
   planShareClipboardText,
   planShareFactsLine,
+  planShareMessage,
   planSharePayload,
   planShareUrl,
   scheduleShareSuccessReveal,
@@ -61,6 +62,7 @@ describe("plan share payload", () => {
     const payload = planSharePayload(plan);
     const clipboard = planShareClipboardText(plan);
     const facts = planShareFactsLine(plan);
+    const message = planShareMessage(plan);
     const body = planShareBody(plan);
 
     assert.equal(planShareUrl(plan.id), `https://www.chaiquote.hk/plans/${plan.id}`);
@@ -71,11 +73,14 @@ describe("plan share payload", () => {
 
     assert.equal(facts, `${plan.name}｜月費 ${formatFee(plan.monthlyFee)}`);
     assert.equal(payload.title, `${plan.name}｜${SITE.name}`);
-    assert.equal(payload.text, body);
-    assert.equal(clipboard, payload.text);
+    assert.equal(payload.text, message);
+    assert.equal(payload.text.includes(payload.url), false);
+    assert.equal(clipboard, body);
+    assert.equal(clipboard, `${payload.text}\n${payload.url}`);
     assert.notEqual(payload.text, PLAN_SHARE_SENTENCE);
-    assertShareFacts(plan, payload.text);
+    assert.equal(message.includes(PLAN_SHARE_SENTENCE), true);
     assertShareFacts(plan, clipboard);
+    assertShareFacts(plan, body);
 
     assertNoClaimWords(payload.text, payload.title, clipboard, PLAN_SHARE_SENTENCE);
   });
@@ -114,8 +119,9 @@ describe("share or copy fallback", () => {
     assert.equal(result, "shared");
     assert.deepEqual(shared, [planSharePayload(plan)]);
     const payload = shared[0] as ReturnType<typeof planSharePayload>;
-    assertShareFacts(plan, payload.text);
-    assert.equal(payload.text, planShareClipboardText(plan));
+    assert.equal(payload.text, planShareMessage(plan));
+    assert.equal(payload.text.includes(payload.url), false);
+    assert.equal(payload.text.includes(PLAN_SHARE_SENTENCE), true);
     assert.equal(payload.url, `https://www.chaiquote.hk/plans/${plan.id}`);
   });
 
@@ -130,7 +136,7 @@ describe("share or copy fallback", () => {
     assert.equal(result, "copied");
     assert.equal(copied.length, 1);
     assert.equal(copied[0], planShareClipboardText(plan));
-    assert.equal(copied[0], planSharePayload(plan).text);
+    assert.notEqual(copied[0], planSharePayload(plan).text);
     assertShareFacts(plan, copied[0]);
   });
 

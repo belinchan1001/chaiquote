@@ -31,21 +31,26 @@ export function planShareFactsLine(plan: Pick<Plan, "name" | "monthlyFee">): str
   return `${plan.name}｜月費 ${formatFee(plan.monthlyFee)}`;
 }
 
+/** Words that travel in the message. The link stays in `url` so WhatsApp attaches one preview. */
+export function planShareMessage(plan: PlanSharePlan): string {
+  return `${planShareFactsLine(plan)}\n${PLAN_SHARE_SENTENCE}`;
+}
+
 export function planShareBody(plan: PlanSharePlan): string {
-  return `${planShareFactsLine(plan)}\n${PLAN_SHARE_SENTENCE}\n${planShareUrl(plan.id)}`;
+  return `${planShareMessage(plan)}\n${planShareUrl(plan.id)}`;
 }
 
 export function planSharePayload(plan: PlanSharePlan): PlanSharePayload {
   const url = planShareUrl(plan.id);
   return {
     title: `${plan.name}｜${SITE.name}`,
-    text: planShareBody(plan),
+    text: planShareMessage(plan),
     url,
   };
 }
 
 export function planShareClipboardText(plan: PlanSharePlan): string {
-  return planSharePayload(plan).text;
+  return planShareBody(plan);
 }
 
 export function isShareAbortError(error: unknown): boolean {
