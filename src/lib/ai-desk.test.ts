@@ -465,6 +465,24 @@ describe("AI desk safety", () => {
       replaced.map((item) => item.plan.providerId),
       ["hkbn", "cmhk", "hgc"],
     );
+    const mobile = filterPlans({ cat: "mobile", need: "local100", exclude: "cmhk" });
+    const mobilePicked = pickScreenPlans(mobile, "cmhk", "mobile");
+    assert.deepEqual(
+      mobilePicked.map((item) => item.plan.providerId),
+      ["hkbn", "three", "csl"],
+    );
+    for (const item of mobilePicked) {
+      const gb = item.plan.dataGb ?? item.plan.highSpeedGb ?? 0;
+      assert.ok(gb >= 30 && gb <= 100, item.plan.id);
+      assert.equal(item.plan.providerId === "cmhk", false);
+    }
+    const gba = filterPlans({ cat: "mobile", gba: true, need: "gba" });
+    const gbaPicked = pickScreenPlans(gba, undefined, "mobile");
+    assert.equal(gbaPicked.length, 3);
+    assert.deepEqual(
+      [...new Set(gbaPicked.map((item) => item.plan.providerId))],
+      gbaPicked.map((item) => item.plan.providerId),
+    );
     for (const item of [...picked, ...replaced]) {
       const same = rows.filter((plan) => plan.providerId === item.plan.providerId);
       if (same.some((plan) => plan.flashOffer)) assert.equal(item.plan.flashOffer, true);

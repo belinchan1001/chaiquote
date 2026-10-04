@@ -471,11 +471,24 @@ export function plansForAiCards(ids: string[]) {
 
 export type ScreenRole = "flash" | "pick" | "low";
 
-const SCREEN_PROVIDERS: ProviderId[] = ["hkbn", "netvigator", "hgc"];
-const SCREEN_FILL: ProviderId = "cmhk";
+const FIBRE_SCREEN: ProviderId[] = ["hkbn", "netvigator", "hgc"];
+const FIBRE_FILL: ProviderId = "cmhk";
+const MOBILE_SCREEN: ProviderId[] = ["hkbn", "three", "cmhk"];
+const MOBILE_FILL: ProviderId = "csl";
 
-function screenProviders(exclude?: ProviderId): ProviderId[] {
-  return SCREEN_PROVIDERS.map((id) => (id === exclude ? SCREEN_FILL : id));
+function screenLine(category: Category | undefined, exclude?: ProviderId) {
+  const mobile = category === "mobile";
+  const primary = mobile ? MOBILE_SCREEN : FIBRE_SCREEN;
+  const fill = mobile ? MOBILE_FILL : FIBRE_FILL;
+  const wanted: ProviderId[] = [];
+  const seen = new Set<ProviderId>();
+  for (const id of primary) {
+    const next = id === exclude ? fill : id;
+    if (seen.has(next)) continue;
+    seen.add(next);
+    wanted.push(next);
+  }
+  return { wanted, fill };
 }
 
 function bestScreenPlan(rows: Plan[]): Plan | undefined {
@@ -489,15 +502,24 @@ function bestScreenPlan(rows: Plan[]): Plan | undefined {
   })[0];
 }
 
-/** Three carriers: HKBN, Netvigator, HGC. The current carrier is replaced by CMHK. */
-export function pickScreenPlans(rows: Plan[], exclude?: ProviderId): { role: ScreenRole; plan: Plan }[] {
-  const seen = new Set<ProviderId>();
+/** Three different carriers. Fibre: HKBN, Netvigator, HGC, fill CMHK. Mobile: HKBN, 3HK, CMHK, fill CSL. */
+export function pickScreenPlans(
+  rows: Plan[],
+  exclude?: ProviderId,
+  category?: Category,
+): { role: ScreenRole; plan: Plan }[] {
+  const { wanted, fill } = screenLine(category ?? rows[0]?.category, exclude);
+  const used = new Set<ProviderId>();
   const out: { role: ScreenRole; plan: Plan }[] = [];
-  for (const providerId of screenProviders(exclude)) {
-    if (seen.has(providerId)) continue;
-    const plan = bestScreenPlan(rows.filter((row) => row.providerId === providerId));
-    if (!plan) continue;
-    seen.add(providerId);
+  for (const providerId of wanted) {
+    let chosen = providerId;
+    let plan = bestScreenPlan(rows.filter((row) => row.providerId === providerId));
+    if (!plan && providerId !== fill && !used.has(fill)) {
+      plan = bestScreenPlan(rows.filter((row) => row.providerId === fill));
+      chosen = fill;
+    }
+    if (!plan || used.has(chosen)) continue;
+    used.add(chosen);
     out.push({ role: plan.flashOffer ? "flash" : plan.quotePick ? "pick" : "low", plan });
   }
   return out.slice(0, 3);

@@ -419,7 +419,7 @@ export function AiStaffPanel() {
   function cardsFor(parsed: FilterParse | null | undefined, quote: Inquiry) {
     if (!parsed?.current) return { ids: [] as string[], roles: [] as ScreenRole[], search: undefined };
     const search = compactSearch(plansSearchFromAiParse(parsed, quote));
-    const picked = pickScreenPlans(filterPlans(search), parsed.exclude);
+    const picked = pickScreenPlans(filterPlans(search), parsed.exclude, parsed.cat);
     return {
       ids: picked.map((item) => item.plan.id),
       roles: picked.map((item) => item.role),
