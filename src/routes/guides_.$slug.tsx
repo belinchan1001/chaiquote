@@ -6,7 +6,7 @@ import { QuoteLink } from "@/components/quote-link";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { getGuide, guideCopy, guideManuscriptDates, type GuideTable } from "@/lib/guides";
 import { guideTopicImage } from "@/lib/guide-media";
-import { useI18n, usePageTitle } from "@/lib/i18n";
+import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
 import { canonicalUrl, notFoundHead } from "@/lib/canonical";
 import { guideJsonLd } from "@/lib/seo";
 import { SITE } from "@/lib/site";
@@ -173,12 +173,13 @@ function GuidePage() {
       <p className="mt-3 text-base leading-relaxed text-muted">{copy.excerpt}</p>
       {topicImage ? (
         <picture className="photo-strip mt-6">
-          <source srcSet={topicImage.webp} type="image/webp" />
+          <source srcSet={webpSrcSet(topicImage.src)} sizes={CARD_IMAGE_SIZES} type="image/webp" />
           <img
             src={topicImage.src}
             alt={locale === "en" ? topicImage.altEn : topicImage.alt}
             width={topicImage.width}
             height={topicImage.height}
+            sizes={CARD_IMAGE_SIZES}
             loading="lazy"
             decoding="async"
             className="rounded-xl outline outline-1 -outline-offset-1 outline-fg/10"

@@ -16,9 +16,11 @@ const LOGO: Record<ProviderId, { src: string; webp: string; fill?: boolean }> = 
 export function ProviderLogo({
   id,
   size = "md",
+  priority = false,
 }: {
   id: ProviderId;
   size?: "sm" | "md" | "lg";
+  priority?: boolean;
 }) {
   const logo = LOGO[id];
   return (
@@ -33,14 +35,16 @@ export function ProviderLogo({
       )}
     >
       <picture>
-        <source srcSet={logo.webp} type="image/webp" />
+        <source srcSet={`${logo.webp} 96w`} type="image/webp" sizes="48px" />
         <img
           src={logo.src}
           alt=""
           width={48}
           height={48}
+          sizes="48px"
           className={cn("size-full", logo.fill ? "object-cover" : "object-contain")}
-          loading="lazy"
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : "auto"}
           decoding="async"
         />
       </picture>
@@ -52,17 +56,19 @@ export function ProviderMark({
   id,
   size = "md",
   showEn = true,
+  priority = false,
 }: {
   id: ProviderId;
   size?: "sm" | "md" | "lg";
   showEn?: boolean;
+  priority?: boolean;
 }) {
   const provider = PROVIDER_MAP[id];
   const { locale, providerName } = useI18n();
   const showSubtitle = showEn && size !== "sm" && locale === "zh";
   return (
     <span className="inline-flex min-w-0 items-center gap-2">
-      <ProviderLogo id={id} size={size} />
+      <ProviderLogo id={id} size={size} priority={priority} />
       <span className="min-w-0">
         <span className={cn("block font-medium leading-tight", size === "sm" ? "text-xs" : "text-sm")}>
           {providerName(id)}

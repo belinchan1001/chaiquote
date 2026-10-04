@@ -4,7 +4,7 @@ import { JsonLd } from "@/components/json-ld";
 import { GUIDE_CATEGORY_META } from "@/lib/guide-articles";
 import { GUIDES, getGuide, guideCopy, guideManuscriptDates, type Guide } from "@/lib/guides";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import { GUIDES_SEO, canonicalUrl, shareHead } from "@/lib/canonical";
+import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
 
 export const Route = createFileRoute("/guides")({
   component: GuidesPage,
@@ -74,12 +74,13 @@ function GuidesPage() {
             >
               <Link to="/guides/$slug" params={{ slug: cat.slug }} className="group flex min-h-11 flex-1 flex-col">
                 <picture className="photo-strip photo-strip-tile">
-                  <source srcSet={cat.image.replace(/\.jpg$/, ".webp")} type="image/webp" />
+                  <source srcSet={webpSrcSet(cat.image)} sizes={CARD_IMAGE_SIZES} type="image/webp" />
                   <img
                     src={cat.image}
                     alt=""
                     width={800}
                     height={600}
+                    sizes={CARD_IMAGE_SIZES}
                     loading="lazy"
                     decoding="async"
                     className="outline outline-1 -outline-offset-1 outline-fg/10"

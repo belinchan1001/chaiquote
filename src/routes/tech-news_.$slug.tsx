@@ -17,7 +17,7 @@ import {
 import { loadPublishedNews, loadPublishedNewsBySlug } from "@/lib/tech-news-live";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { canonicalUrl, notFoundHead, shareHead } from "@/lib/canonical";
-import { isRemoteNewsImage } from "@/lib/tech-news-desk";
+import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
 import { SITE } from "@/lib/site";
 
 function headingId(heading: string) {
@@ -241,18 +241,22 @@ function ArticlePage({ article }: { article: TechNewsArticle }) {
               alt={article.imageAlt ?? copy.h1}
               width={1280}
               height={720}
+              sizes={CARD_IMAGE_SIZES}
+              loading="lazy"
               decoding="async"
               referrerPolicy="no-referrer"
               className="h-auto w-full"
             />
           ) : (
             <picture>
-              <source srcSet={article.image.replace(/\.jpg$/, ".webp")} type="image/webp" />
+              <source srcSet={webpSrcSet(article.image)} sizes={CARD_IMAGE_SIZES} type="image/webp" />
               <img
                 src={article.image}
                 alt={article.imageAlt ?? copy.h1}
                 width={1280}
                 height={720}
+                sizes={CARD_IMAGE_SIZES}
+                loading="lazy"
                 decoding="async"
                 className="h-auto w-full"
               />

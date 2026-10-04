@@ -6,7 +6,7 @@ import { draftTechNews, publishTechNews } from "@/lib/tech-news-ask";
 import { isRemoteNewsImage } from "@/lib/tech-news-desk";
 import { TECH_NEWS_CATEGORIES, techNewsCopy, type TechNewsArticle, type TechNewsCategoryId } from "@/lib/tech-news";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import { SITE } from "@/lib/site";
+import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
 
 const TOKEN_KEY = "chaiquote-news-desk";
 
@@ -176,13 +176,25 @@ function TechNewsDesk() {
                   alt={article.imageAlt ?? copy.h1}
                   width={1280}
                   height={720}
+                  sizes={CARD_IMAGE_SIZES}
+                  loading="lazy"
+                  decoding="async"
                   referrerPolicy="no-referrer"
                   className="h-auto w-full"
                 />
               ) : (
                 <picture>
-                  <source srcSet={article.image.replace(/\.jpg$/, ".webp")} type="image/webp" />
-                  <img src={article.image} alt={article.imageAlt ?? copy.h1} width={1280} height={720} className="h-auto w-full" />
+                  <source srcSet={webpSrcSet(article.image)} sizes={CARD_IMAGE_SIZES} type="image/webp" />
+                  <img
+                    src={article.image}
+                    alt={article.imageAlt ?? copy.h1}
+                    width={1280}
+                    height={720}
+                    sizes={CARD_IMAGE_SIZES}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-auto w-full"
+                  />
                 </picture>
               )}
               {article.imageCredit ? <figcaption className="px-3 py-2 text-xs text-subtle">圖片：{article.imageCredit}</figcaption> : null}

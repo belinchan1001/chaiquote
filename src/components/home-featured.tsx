@@ -24,8 +24,8 @@ export function HomeFeatured() {
           <p className="home-section-lead">{t("featuredLead")}</p>
         </div>
         <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {featured.map((plan) => (
-            <PlanCard key={plan.id} plan={plan} />
+          {featured.map((plan, index) => (
+            <PlanCard key={plan.id} plan={plan} imagePriority={index < 2} />
           ))}
         </div>
         <Button asChild size="lg" className="mt-6 w-full sm:w-auto">

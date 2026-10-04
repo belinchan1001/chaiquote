@@ -52,7 +52,7 @@ function cardSpecLines(plan: Plan) {
   });
 }
 
-export function PlanCard({ plan }: { plan: Plan }) {
+export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePriority?: boolean }) {
   const shineRef = useRef<HTMLElement>(null);
   const compare = useDesk((s) => s.compare);
   const saved = useDesk((s) => s.saved);
@@ -121,10 +121,20 @@ export function PlanCard({ plan }: { plan: Plan }) {
     >
       {plan.quotePick ? <span className="foil" aria-hidden="true" /> : null}
       {plan.adImageUrl ? (
-        <img src={plan.adImageUrl} alt="" className="mb-3 h-28 w-full rounded-lg object-cover" />
+        <img
+          src={plan.adImageUrl}
+          alt=""
+          width={800}
+          height={224}
+          sizes="(max-width: 767px) 400px, 800px"
+          className="mb-3 h-28 w-full rounded-lg object-cover"
+          loading={imagePriority ? "eager" : "lazy"}
+          fetchPriority={imagePriority ? "high" : "auto"}
+          decoding="async"
+        />
       ) : null}
       <div className="flex items-start justify-between gap-3">
-        <ProviderMark id={plan.providerId} />
+        <ProviderMark id={plan.providerId} priority={imagePriority} />
         <button
           type="button"
           aria-label={inSaved ? t("unsave") : t("save")}

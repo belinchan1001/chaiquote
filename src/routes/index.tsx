@@ -8,7 +8,7 @@ import { HOME_SEARCH_V2, SITE } from "@/lib/site";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import type { MessageKey } from "@/lib/messages";
 import { HOME_SEO, canonicalUrl, homeJsonLd, shareHead } from "@/lib/canonical";
-import { JsonLd } from "@/components/json-ld";
+import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
 
 const SearchPanel = lazy(() =>
   import("@/components/search-panel").then((mod) => ({ default: mod.SearchPanel })),
@@ -134,20 +134,24 @@ function Home() {
 
       <section className="home-below-fold mx-auto max-w-6xl px-4 py-8 sm:py-10">
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-          {categories.map((item) => (
+          {categories.map((item, index) => {
+            const eager = index < 2;
+            return (
             <div
               key={item.label}
               className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card shadow-[var(--shadow-home-tile)]"
             >
               <Link to={item.to} params={{ slug: item.slug }} className="group flex min-h-0 flex-1 flex-col">
                 <picture className="photo-strip photo-strip-card">
-                  <source srcSet={item.webp} type="image/webp" />
+                  <source srcSet={webpSrcSet(item.webp)} sizes={CARD_IMAGE_SIZES} type="image/webp" />
                   <img
                     src={item.src}
                     alt={t(item.label)}
                     width={800}
                     height={600}
-                    loading="lazy"
+                    sizes={CARD_IMAGE_SIZES}
+                    loading={eager ? "eager" : "lazy"}
+                    fetchPriority={eager ? "high" : "auto"}
                     decoding="async"
                     className="outline outline-1 -outline-offset-1 outline-fg/10"
                   />
@@ -181,7 +185,8 @@ function Home() {
                 </p>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 

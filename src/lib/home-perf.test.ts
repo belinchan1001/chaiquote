@@ -29,8 +29,10 @@ describe("homepage first-load images", () => {
     assert.match(home, /sizes="100vw"/);
     assert.doesNotMatch(home.slice(home.indexOf("hero-home.jpg"), home.indexOf("hero-home.jpg") + 400), /loading="lazy"/);
 
-    assert.match(home, /srcSet=\{item\.webp\}/);
-    assert.match(home, /loading="lazy"/);
+    assert.match(home, /srcSet=\{webpSrcSet\(item\.webp\)\}/);
+    assert.match(home, /sizes=\{CARD_IMAGE_SIZES\}/);
+    assert.match(src("image-src.ts"), /\(max-width: 767px\) 400px, 800px/);
+    assert.match(home, /loading=\{eager \? "eager" : "lazy"\}/);
     assert.match(home, /webp: "\/images\/cat-broadband\.webp"/);
     assert.match(home, /photo-strip photo-strip-card/);
     assert.doesNotMatch(home, /aspect-\[16\/10\]/);
@@ -38,7 +40,7 @@ describe("homepage first-load images", () => {
     assert.match(css, /\.photo-strip\s*\{[^}]*display:\s*block/);
     assert.match(css, /\.photo-strip img\s*\{[^}]*object-position:\s*top/);
     assert.match(css, /\.photo-strip-card img\s*\{[^}]*aspect-ratio:\s*16\s*\/\s*11/);
-    assert.match(src("../components/provider-mark.tsx"), /loading="lazy"/);
+    assert.match(src("../components/provider-mark.tsx"), /loading=\{priority \? "eager" : "lazy"\}/);
     assert.match(src("../components/provider-mark.tsx"), /hkbn\.webp/);
     assert.doesNotMatch(src("../components/provider-mark.tsx"), /sr-only/);
 
@@ -124,7 +126,7 @@ describe("homepage first-load images", () => {
     assert.match(css, /--color-accent: #00a8c5;/);
     assert.match(home, /t\(item\.text\)/);
     assert.doesNotMatch(home, /line-clamp/);
-    assert.match(featured, /<PlanCard key=\{plan\.id\} plan=\{plan\} \/>/);
+    assert.match(featured, /<PlanCard key=\{plan\.id\} plan=\{plan\} imagePriority=\{index < 2\} \/>/);
     assert.doesNotMatch(home, /className="plan"/);
 
     const chips = src("../components/filter-link.tsx");

@@ -136,6 +136,7 @@ describe("guide topic images", () => {
     assert.match(home, /src: "\/images\/cat-business\.jpg"/);
     assert.match(home, /src="\/images\/hero-home\.jpg"/);
     assert.doesNotMatch(home, /guide-port-in|guide-fiber|guide-village|guide-choose/);
-    assert.doesNotMatch(card, /<img|guide-port-in|guide-fiber|guide-village|guide-choose/);
+    assert.doesNotMatch(card, /guide-port-in|guide-fiber|guide-village|guide-choose/);
+    assert.match(card, /plan\.adImageUrl/);
   });
 });

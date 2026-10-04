@@ -561,9 +561,9 @@ function PlansPage() {
                 : "plan-list mt-8 scroll-mt-24 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4") + (search.esports ? " plan-list-esports" : "")
             }
           >
-            {shown.map((plan) => (
+            {shown.map((plan, index) => (
               <div key={plan.id} className="plan-list-item">
-                <PlanCard plan={plan} />
+                <PlanCard plan={plan} imagePriority={index < 2} />
               </div>
             ))}
           </div>

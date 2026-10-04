@@ -75,7 +75,7 @@ describe("plan list fade-up", () => {
       page,
       /search\.cat === "business" \? \(\s*<p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">\{t\("businessDisclaimer"\)\}<\/p>/,
     );
-    assert.match(page, /<PlanCard plan=\{plan\} \/>/);
+    assert.match(page, /<PlanCard plan=\{plan\} imagePriority=\{index < 2\} \/>/);
     assert.doesNotMatch(page, /plan-list[\s\S]{0,200}<PlanCard key=/);
     assert.match(page, /setVisible\(\(n\) => n \+ PAGE_SIZE\)/);
     assert.doesNotMatch(page, /planListReplayKey\([^)]*visible/);

@@ -191,7 +191,7 @@ describe("plan card share control", () => {
       card,
       /<QuoteLink[\s\S]*className="h-11 w-full rounded-full bg-\[#0F62FE\] text-white hover:bg-\[#0F62FE\]\/90"[\s\S]*<\/QuoteLink>\s*<p[\s\S]*<div className="flex gap-2">[\s\S]*\{plan\.staffOffer \? null : <PlanShareButton plan=\{plan\} \/>\}/,
     );
-    assert.match(card, /<ProviderMark id=\{plan\.providerId\} \/>\s*<button/);
+    assert.match(card, /<ProviderMark id=\{plan\.providerId\} priority=\{imagePriority\} \/>\s*<button/);
     assert.match(card, /aria-label=\{inSaved \? t\("unsave"\) : t\("save"\)\}/);
     assert.doesNotMatch(card, /<PlanBadges plan=\{plan\} \/>\s*<PlanShareButton/);
     assert.doesNotMatch(card, /<PlanShareButton plan=\{plan\} \/>\s*<button/);
