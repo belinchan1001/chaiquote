@@ -155,8 +155,8 @@ describe("port-in intake", () => {
 
   it("uses category-specific current-provider lists and business dedicated speed", () => {
     assert.equal(
-      currentOptions("broadband").some((item) => item.id === "three"),
-      false,
+      currentOptions("broadband").some((item) => item.id === "hgc" && item.label === "HGC"),
+      true,
     );
     assert.equal(
       currentOptions("home5g").some((item) => item.id === "three"),

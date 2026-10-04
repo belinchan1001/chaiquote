@@ -13,6 +13,7 @@ import { quoteWhatsappHref, salesQuoteMessage } from "./whatsapp.ts";
 export const FIBRE_CURRENT = [
   { id: "hkbn", label: "香港寬頻" },
   { id: "netvigator", label: "網上行" },
+  { id: "hgc", label: "HGC" },
   { id: "smartone", label: "數碼通" },
   { id: "cmhk", label: "中國移動香港" },
   { id: "icable", label: "有線寬頻" },
