@@ -483,6 +483,12 @@ describe("AI desk safety", () => {
       [...new Set(gbaPicked.map((item) => item.plan.providerId))],
       gbaPicked.map((item) => item.plan.providerId),
     );
+    const sameCarrier = filterPlans({ cat: "mobile", need: "local100" }).filter(
+      (plan) => plan.id === "cmhk-5g-limited-100-149" || plan.id === "cmhk-42m-10-5-98",
+    );
+    const preferred = pickScreenPlans(sameCarrier, undefined, "mobile");
+    assert.equal(preferred[0]?.plan.id, "cmhk-5g-limited-100-149");
+    assert.equal(preferred[0]?.plan.quotePick, true);
     for (const item of [...picked, ...replaced]) {
       const same = rows.filter((plan) => plan.providerId === item.plan.providerId);
       if (same.some((plan) => plan.flashOffer)) assert.equal(item.plan.flashOffer, true);

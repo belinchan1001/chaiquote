@@ -491,6 +491,7 @@ function screenLine(category: Category | undefined, exclude?: ProviderId) {
   return { wanted, fill };
 }
 
+/** Same carrier: flash offer, then 齊Quote 推介, then the lower average fee. */
 function bestScreenPlan(rows: Plan[]): Plan | undefined {
   if (!rows.length) return undefined;
   return [...rows].sort((a, b) => {
