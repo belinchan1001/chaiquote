@@ -489,6 +489,15 @@ describe("AI desk safety", () => {
     const preferred = pickScreenPlans(sameCarrier, undefined, "mobile");
     assert.equal(preferred[0]?.plan.id, "cmhk-5g-limited-100-149");
     assert.equal(preferred[0]?.plan.quotePick, true);
+    const home5g = filterPlans({ cat: "home5g" });
+    assert.deepEqual(
+      pickScreenPlans(home5g, undefined, "home5g").map((item) => item.plan.providerId),
+      ["three", "cmhk", "csl"],
+    );
+    assert.deepEqual(
+      pickScreenPlans(home5g, "cmhk", "home5g").map((item) => item.plan.providerId),
+      ["three", "smartone", "csl"],
+    );
     for (const item of [...picked, ...replaced]) {
       const same = rows.filter((plan) => plan.providerId === item.plan.providerId);
       if (same.some((plan) => plan.flashOffer)) assert.equal(item.plan.flashOffer, true);

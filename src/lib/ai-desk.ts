@@ -475,11 +475,12 @@ const FIBRE_SCREEN: ProviderId[] = ["hkbn", "netvigator", "hgc"];
 const FIBRE_FILL: ProviderId = "cmhk";
 const MOBILE_SCREEN: ProviderId[] = ["hkbn", "three", "cmhk"];
 const MOBILE_FILL: ProviderId = "csl";
+const HOME5G_SCREEN: ProviderId[] = ["three", "cmhk", "csl"];
+const HOME5G_FILL: ProviderId = "smartone";
 
 function screenLine(category: Category | undefined, exclude?: ProviderId) {
-  const mobile = category === "mobile";
-  const primary = mobile ? MOBILE_SCREEN : FIBRE_SCREEN;
-  const fill = mobile ? MOBILE_FILL : FIBRE_FILL;
+  const primary = category === "mobile" ? MOBILE_SCREEN : category === "home5g" ? HOME5G_SCREEN : FIBRE_SCREEN;
+  const fill = category === "mobile" ? MOBILE_FILL : category === "home5g" ? HOME5G_FILL : FIBRE_FILL;
   const wanted: ProviderId[] = [];
   const seen = new Set<ProviderId>();
   for (const id of primary) {
@@ -503,7 +504,7 @@ function bestScreenPlan(rows: Plan[]): Plan | undefined {
   })[0];
 }
 
-/** Three different carriers. Fibre: HKBN, Netvigator, HGC, fill CMHK. Mobile: HKBN, 3HK, CMHK, fill CSL. */
+/** Three different carriers. Fibre: HKBN, Netvigator, HGC, fill CMHK. Mobile: HKBN, 3HK, CMHK, fill CSL. 5G home: 3HK, CMHK, CSL, fill SmarTone. */
 export function pickScreenPlans(
   rows: Plan[],
   exclude?: ProviderId,
