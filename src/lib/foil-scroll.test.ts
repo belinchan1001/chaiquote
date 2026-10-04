@@ -69,9 +69,8 @@ describe("scroll-driven 齊Quote foil", () => {
     assert.match(card, /registerFoilCard/);
     assert.match(card, /plan\.quotePick && "plan-card-shine"/);
     assert.match(card, /plan\.quotePick \? <span className="foil"/);
-    assert.match(detail, /registerFoilCard/);
-    assert.match(detail, /plan\.quotePick && "plan-card-shine"/);
-    assert.match(detail, /plan\.quotePick \? <span className="foil"/);
+    assert.match(detail, /<PlanCard plan=\{plan\} \/>/);
+    assert.doesNotMatch(detail, /className="foil"/);
     assert.doesNotMatch(card, /addEventListener\(\s*["']scroll["']/);
     assert.doesNotMatch(card, /onPointerDown/);
     assert.doesNotMatch(card, /is-foil-sweep|playFoilSweep/);

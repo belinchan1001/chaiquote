@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { LogoMarkLooking } from "@/components/logo-mark-looking";
-import { ProviderMark } from "@/components/provider-mark";
+import { PlanCard } from "@/components/plan-card";
 import { AiBetaMark } from "@/components/ai-beta-mark";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,13 +26,12 @@ import {
 } from "@/lib/ai-desk";
 import { useDesk, useHydrateDesk, type Inquiry } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
-import { formatFee, type Category, type Housing } from "@/lib/plans";
+import { type Category, type Housing } from "@/lib/plans";
 import {
   currentOptions,
   EXPIRY_OPTIONS,
   expiryIdFromLabel,
   MOBILE_CURRENT,
-  portInQuoteFromInquiry,
   serviceTypeLabel,
   type CurrentId,
   type InquiryQuote,
@@ -41,8 +40,7 @@ import {
 import type { MessageKey } from "@/lib/messages";
 import { compactSearch } from "@/lib/search";
 import { filterPlans } from "@/lib/plan-filter";
-import { quoteWhatsappE164, salesQuoteMessage, whatsappHref } from "@/lib/whatsapp";
-import { quoteWhatsAppActivateProps } from "@/lib/wa-quote-open";
+import { salesQuoteMessage, whatsappHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 type Bubble = {
@@ -365,7 +363,7 @@ export function AiStaffPanel() {
   const closeAi = useDesk((s) => s.closeAi);
   const setInquiry = useDesk((s) => s.setInquiry);
   const { mounted, shown } = useAiPresence(open);
-  const { t, locale, tx } = useI18n();
+  const { t, locale } = useI18n();
 
   useEffect(() => {
     if (!open) return;
@@ -717,41 +715,10 @@ export function AiStaffPanel() {
                       const plan = plansForAiCards(bubble.planIds ?? []).find((item) => item.id === id);
                       if (!plan) return null;
                       const role = bubble.planRoles?.[index];
-                      const waPhone = quoteWhatsappE164([plan]);
-                      const baseText = portInQuoteFromInquiry(bubble.quote ?? guide, plan);
-                      const waText =
-                        expiryIdFromLabel((bubble.quote ?? guide).expiry ?? "") === "1m"
-                          ? `${baseText}\n⏰ 跟進：急單`
-                          : baseText;
                       return (
-                        <div key={plan.id} className="space-y-2">
-                          <Link
-                            to="/plans/$planId"
-                            params={{ planId: plan.id }}
-                            className="block bg-card px-3 py-2 text-sm shadow-[var(--shadow-border)] hover:shadow-[var(--shadow-border-hover)]"
-                          >
-                            {role ? <p className="text-[11px] font-semibold text-accent">{t(ROLE_KEY[role])}</p> : null}
-                            <ProviderMark id={plan.providerId} size="sm" showEn={false} />
-                            <p className="mt-1 font-medium leading-snug">{tx(plan.name)}</p>
-                            <p className="mt-1 tabular-nums">
-                              {formatFee(plan.monthlyFee)}{" "}
-                              <span className="text-xs text-muted">{t("months", { n: plan.contractMonths })}</span>
-                            </p>
-                            <p className="mt-0.5 text-[11px] text-subtle">{t("aiCardRef")}</p>
-                          </Link>
-                          <a
-                            href={whatsappHref(waText, waPhone)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex h-11 w-full items-center justify-center rounded-full bg-whatsapp px-3 text-sm font-medium text-whatsapp-foreground"
-                            {...quoteWhatsAppActivateProps(waText, waPhone, {
-                              source: "ai_staff",
-                              planIds: [plan.id],
-                              waPhone,
-                            })}
-                          >
-                            {t("aiWaCta")}
-                          </a>
+                        <div key={plan.id} className="min-w-0 space-y-2">
+                          {role ? <p className="text-[11px] font-semibold text-accent">{t(ROLE_KEY[role])}</p> : null}
+                          <PlanCard plan={plan} />
                         </div>
                       );
                     })}

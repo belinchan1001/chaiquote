@@ -12,21 +12,14 @@ function src(file: string) {
 }
 
 describe("plan detail share landing", () => {
-  it("reuses a labeled 分享 outline button beside WhatsApp, not in the top-right corner", () => {
+  it("reuses the list plan card, so share stays on the card and not in a second layout", () => {
     const page = src("../routes/plans_.$planId.tsx");
+    const card = src("../components/plan-card.tsx");
     const button = src("../components/plan-share-button.tsx");
 
-    assert.equal([...page.matchAll(/<PlanShareButton plan=\{plan\} \/>/g)].length, 1);
-    assert.match(page, /import \{ PlanShareButton \} from "@\/components\/plan-share-button"/);
-    assert.match(
-      page,
-      /<QuoteLink plan=\{plan\} className="flex-1" \/>\s*\{plan\.staffOffer \? null : <PlanShareButton plan=\{plan\} \/>\}/,
-    );
-    assert.match(page, /<ProviderMark id=\{plan\.providerId\} \/>[\s\S]*<PlanBadges plan=\{plan\} \/>[\s\S]*<h1/);
-    assert.doesNotMatch(page, /<PlanBadges plan=\{plan\} \/>\s*<PlanShareButton/);
-    assert.doesNotMatch(page, /<ProviderMark[\s\S]{0,220}PlanShareButton/);
-    assert.match(page, /formatFee\(plan\.monthlyFee\)[\s\S]*<PlanShareButton plan=\{plan\} \/>/);
-    assert.doesNotMatch(page, /PlanShareButton[\s\S]{0,80}<LogoMark/);
+    assert.match(page, /<PlanCard plan=\{plan\} \/>/);
+    assert.equal([...page.matchAll(/<PlanShareButton/g)].length, 0);
+    assert.match(card, /\{plan\.staffOffer \? null : <PlanShareButton plan=\{plan\} \/>\}/);
     assert.doesNotMatch(page, /window\.location/);
 
     assert.match(button, /shareOrCopyPlan\(plan\)/);
@@ -44,35 +37,17 @@ describe("plan detail share landing", () => {
     assert.match(page, /t\("backTo", \{ cat: categoryLabel\(plan\.category\) \}\)/);
     assert.match(page, /font-medium text-muted hover:text-fg/);
 
-    assert.match(page, /t\("perMonth", \{ n: plan\.contractMonths \}\)/);
     assert.match(page, /t\("rowContract"\)/);
     assert.match(page, /t\("months", \{ n: plan\.contractMonths \}\)/);
-    assert.match(page, /planPerks\(plan\)/);
-    assert.match(page, /t\("rowPerks"\)/);
-    assert.match(page, /<QuoteLink plan=\{plan\}/);
-    assert.match(page, /<WhatsAppTip className="mt-3" \/>/);
-    assert.match(page, /\{t\("referencePrice"\)\}/);
-    assert.match(page, /plan\.category === "business"/);
-    assert.match(
-      page,
-      /CertifiedStaffNote[\s\S]*plan\.category === "business"[\s\S]*t\("businessDisclaimer"\)[\s\S]*\{t\("referencePrice"\)\}/,
-    );
-    assert.doesNotMatch(page, /CertifiedStaffNote[\s\S]{0,120}businessDisclaimer/);
+    assert.match(page, /<PlanCard plan=\{plan\} \/>/);
+    assert.match(page, /<WhatsAppTip className="mt-3 max-w-3xl" \/>/);
     assert.match(page, /t\("installCoverage"\)[\s\S]*t\("referencePrice"\)[\s\S]*t\("disclaimer1"\)/);
 
     const heroEnd = page.indexOf("serviceLimits");
     assert.ok(heroEnd > 0, "disclaimer box should follow the hero");
     const hero = page.slice(0, heroEnd);
-    assert.match(hero, /<PlanShareButton plan=\{plan\} \/>/);
+    assert.match(hero, /<PlanCard plan=\{plan\} \/>/);
     assert.match(hero, /formatFee\(plan\.monthlyFee\)/);
-    assert.match(hero, /t\("perMonth", \{ n: plan\.contractMonths \}\)/);
-    assert.match(hero, /t\("rowPerks"\)/);
-    assert.match(hero, /<QuoteLink plan=\{plan\}/);
-    assert.match(hero, /\{t\("referencePrice"\)\}/);
-    assert.match(hero, /relative mt-6 max-w-3xl rounded-xl bg-card/);
-    assert.match(hero, /<article[\s\S]*plan\.quotePick && "plan-card-shine"/);
-    assert.match(hero, /plan\.quotePick \? <span className="foil" aria-hidden="true" \/> : null/);
-    assert.match(hero, /registerFoilCard/);
 
     for (const word of CLAIM_WORDS) {
       assert.equal(page.includes(word), false, `detail page still claims ${word}`);
@@ -105,12 +80,9 @@ describe("plan detail share landing", () => {
     const card = src("../components/plan-card.tsx");
     const home = src("../routes/index.tsx");
 
-    assert.match(page, /import \{ registerFoilCard \} from "@\/lib\/foil-scroll"/);
-    assert.match(page, /if \(!plan\.quotePick\) return;/);
-    assert.match(page, /return registerFoilCard\(el\)/);
-    assert.match(page, /plan\.quotePick && "plan-card-shine"/);
-    assert.match(page, /plan\.quotePick \? <span className="foil" aria-hidden="true" \/> : null/);
-    assert.equal([...page.matchAll(/className="foil"/g)].length, 1);
+    assert.match(page, /<PlanCard plan=\{plan\} \/>/);
+    assert.doesNotMatch(page, /registerFoilCard/);
+    assert.doesNotMatch(page, /className="foil"/);
     assert.doesNotMatch(page, /function PlanDetailPending[\s\S]{0,800}plan-card-shine/);
     assert.doesNotMatch(page, /is-foil-sweep|playFoilSweep|is-featured/);
 
@@ -119,8 +91,8 @@ describe("plan detail share landing", () => {
     assert.match(card, /registerFoilCard/);
 
     assert.doesNotMatch(home, /plan-card-shine|className="foil"|registerFoilCard/);
-    assert.match(home, /t\("bestPicksTitle"\)/);
-    assert.match(home, /t\("bestPicksCta"\)/);
+    assert.match(src("../components/home-best-picks.tsx"), /t\("bestPicksTitle"\)/);
+    assert.match(src("../components/home-best-picks.tsx"), /t\("bestPicksCta"\)/);
   });
 
   it("does not change plan SEO head or JSON-LD", () => {

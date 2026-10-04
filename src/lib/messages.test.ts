@@ -146,8 +146,7 @@ describe("trust/compliance copy", () => {
     assert.match(plans, /t\("businessDisclaimer"\)/);
     assert.match(card, /plan\.category === "business"/);
     assert.match(card, /t\("businessDisclaimer"\)/);
-    assert.match(detail, /plan\.category === "business"/);
-    assert.match(detail, /t\("businessDisclaimer"\)/);
+    assert.match(detail, /<PlanCard plan=\{plan\}/);
     assert.doesNotMatch(note, /businessDisclaimer/);
 
     for (const staff of [zhHkt, enHkt, zhHkbn, enHkbn]) {
@@ -158,7 +157,6 @@ describe("trust/compliance copy", () => {
     const staffThenDisclaimer =
       /CertifiedStaffNote[\s\S]*plan\.category === "business"[\s\S]*t\("businessDisclaimer"\)[\s\S]*t\("referencePrice"\)/;
     assert.match(card, staffThenDisclaimer);
-    assert.match(detail, staffThenDisclaimer);
   });
 
   it("locks homepage category blurbs to the launch copy", () => {

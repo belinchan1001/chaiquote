@@ -13,8 +13,8 @@ describe("staff offer links", () => {
     const page = readFileSync(join(here, "../routes/offers_.$offerId.tsx"), "utf8");
     assert.match(card, /plan\.staffOffer \? null : <PlanShareButton/);
     assert.match(card, /plan\.staffOffer \? \(/);
-    assert.match(detail, /plan\.staffOffer \? null : <PlanShareButton/);
-    assert.match(detail, /if \(!plan \|\| plan\.staffOffer\) throw notFound\(\)/);
+    assert.match(detail, /<PlanCard plan=\{plan\} \/>/);
+    assert.match(detail, /if \(!plan \|\| plan\.staffOffer \|\| plan\.unpublished\) throw notFound\(\)/);
     assert.match(page, /staffOfferPlans\(params\.offerId\)/);
     assert.match(page, /<PlanCard plan=\{plan\} \/>/);
     assert.match(page, /staffOfferLabel\(offerId, locale\)/);
