@@ -433,7 +433,12 @@ describe("AI desk safety", () => {
     assert.match(staff, /blankGuide/);
     assert.equal(quoted(messages, "aiSlotCurrent")[0], "現用台");
     assert.equal(quoted(messages, "aiFaqMore")[0], "常見問題");
-    assert.equal(quoted(messages, "aiAutoFilter")[0], "答完我就列出計劃。");
+    assert.equal(quoted(messages, "aiAskHousingBiz")[0], "請提供商業寬頻的安裝地址");
+    assert.match(staff, /categoryFromInquiry\(inquiry\) === "business"/);
+    assert.match(staff, /guideCat !== "business"/);
+    assert.match(staff, /bizCs: true/);
+    assert.match(staff, /t\("aiBizFeeNote"\)/);
+    assert.match(staff, /t\("aiBizCsCta"\)/);
 
     assert.match(entry, /plan-card-shine ai-filter-shine ai-entry-pulse/);
     assert.match(entry, /aiOpen && "is-open"/);

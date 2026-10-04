@@ -57,6 +57,7 @@ type Bubble = {
   pageHref?: string;
   pageLabel?: string;
   cs?: boolean;
+  bizCs?: boolean;
 };
 
 function isQuestionIntentClient(message: string) {
@@ -181,6 +182,10 @@ function needsAddress(cat: Category) {
 
 function nextGuideStep(inquiry: Inquiry): GuideStep | null {
   if (!inquiry.serviceType.trim()) return "service";
+  if (categoryFromInquiry(inquiry) === "business") {
+    if (!inquiry.estate.trim()) return "housing";
+    return null;
+  }
   if (categoryFromInquiry(inquiry) === "mobile") {
     if (!inquiry.currentProvider.trim()) return "mobileLine";
     if (!inquiry.need.trim()) return "mobileData";
@@ -210,9 +215,9 @@ function askKey(step: GuideStep, inquiry?: Inquiry): MessageKey {
   return "aiAskService";
 }
 
-function draftKey(step: GuideStep | null): MessageKey {
+function draftKey(step: GuideStep | null, inquiry?: Inquiry): MessageKey {
   if (step === "current") return "aiDraftCurrent";
-  if (step === "housing") return "aiDraftEstate";
+  if (step === "housing") return inquiry && categoryFromInquiry(inquiry) === "business" ? "aiDraftBiz" : "aiDraftEstate";
   if (step === "service") return "aiDraftService";
   return "aiDraft";
 }
@@ -286,6 +291,7 @@ function IntakeProgress({
 }) {
   const step = nextGuideStep(inquiry);
   const mobile = Boolean(inquiry.serviceType.trim()) && categoryFromInquiry(inquiry) === "mobile";
+  const business = Boolean(inquiry.serviceType.trim()) && categoryFromInquiry(inquiry) === "business";
   const addressStep = !inquiry.serviceType.trim() || needsAddress(categoryFromInquiry(inquiry));
   const slots = mobile
     ? [
@@ -293,7 +299,17 @@ function IntakeProgress({
         { id: "currentProvider" as const, n: 2, label: "aiSlotMobileLine" as const, value: inquiry.currentProvider.trim() },
         { id: "need" as const, n: 3, label: "aiSlotData" as const, value: inquiry.need.trim() },
       ]
-    : GUIDE_STEPS.map((item) => ({
+    : business
+      ? [
+          { id: "serviceType" as const, n: 1, label: "aiSlotService" as const, value: inquiry.serviceType.trim() },
+          {
+            id: "housing" as const,
+            n: 2,
+            label: "aiSlotBizAddress" as const,
+            value: inquiry.estate.trim(),
+          },
+        ]
+      : GUIDE_STEPS.map((item) => ({
         id: item.id,
         n: item.n,
         label: item.label,
@@ -324,9 +340,11 @@ function IntakeProgress({
       <p className="mb-2 text-xs font-medium leading-snug text-primary-foreground">{t("aiAutoFilter")}</p>
       <p className="mb-2 text-[11px] text-primary-foreground/70">
         {missing.length ? t("aiStillNeed", { items: missing.join("、") }) : t("aiReady")}
-        {step ? ` · ${t("aiNowStep", { n: Math.min(currentN, 3) })}` : ""}
+        {step
+          ? ` · ${t(business ? "aiNowStepBiz" : "aiNowStep", { n: Math.min(currentN, business ? 2 : 3) })}`
+          : ""}
       </p>
-      <ol className="grid grid-cols-3 gap-1.5">
+      <ol className={cn("grid gap-1.5", business ? "grid-cols-2" : "grid-cols-3")}>
         {slots.map((item) => {
           const value = item.value;
           const active =
@@ -417,9 +435,12 @@ export function AiStaffPanel() {
   }
 
   function cardsFor(parsed: FilterParse | null | undefined, quote: Inquiry) {
-    if (!parsed?.current) return { ids: [] as string[], roles: [] as ScreenRole[], search: undefined };
-    const search = compactSearch(plansSearchFromAiParse(parsed, quote));
-    const picked = pickScreenPlans(filterPlans(search), parsed.exclude, parsed.cat);
+    if (!parsed) return { ids: [] as string[], roles: [] as ScreenRole[], search: undefined };
+    if (parsed.cat !== "business" && !parsed.current) return { ids: [] as string[], roles: [] as ScreenRole[], search: undefined };
+    const ready = parsed.cat === "business" ? { ...parsed, housing: undefined, estate: undefined, current: undefined, exclude: undefined } : parsed;
+    const prior = parsed.cat === "business" ? { estate: "", housing: "" } : quote;
+    const search = compactSearch(plansSearchFromAiParse(ready, prior));
+    const picked = pickScreenPlans(filterPlans(search), parsed.cat === "business" ? undefined : parsed.exclude, parsed.cat);
     return {
       ids: picked.map((item) => item.plan.id),
       roles: picked.map((item) => item.role),
@@ -474,6 +495,16 @@ export function AiStaffPanel() {
     if (nextGuideStep(snap) === "housing" && !quote.estate.trim() && !quote.housing.trim()) {
       quote = { ...quote, estate: trimmed };
     }
+    if (categoryFromInquiry(snap) === "business") {
+      quote = { ...snap, estate: quote.estate.trim() || trimmed, housing: "", source: "ai" };
+      if (merged) {
+        merged.cat = "business";
+        merged.estate = quote.estate;
+        merged.housing = undefined;
+        merged.current = undefined;
+        merged.exclude = undefined;
+      }
+    }
     setGuide(quote);
     const known = isQuestionIntentClient(trimmed) ? matchKnowledge(trimmed) : undefined;
     if (known) {
@@ -504,6 +535,24 @@ export function AiStaffPanel() {
       /[？?]/.test(trimmed) || QUESTION_CHIPS.some((item) => item.zh === trimmed || item.en === trimmed);
     if (still && !opts?.silent && !isQuestion) {
       setBubbles((prev) => [...prev, { id: `${mineId}-ai`, from: "biz", text: t(askKey(still, quote)) }]);
+      setBusy(false);
+      return;
+    }
+    if (!still && categoryFromInquiry(quote) === "business") {
+      const staged = stagePlans(quote, merged ?? parseFromGuide(quote));
+      setBubbles((prev) => [
+        ...prev,
+        {
+          id: `${mineId}-ai`,
+          from: "biz",
+          text: decorate(fallbackReply(staged.ids.length > 0, locale), quote),
+          planIds: staged.ids,
+          planRoles: staged.roles,
+          search: staged.search,
+          quote,
+          bizCs: true,
+        },
+      ]);
       setBusy(false);
       return;
     }
@@ -793,6 +842,19 @@ export function AiStaffPanel() {
                       </Link>
                     ) : null}
                     <p className="text-xs text-muted">{t("aiFeeNote")}</p>
+                    {bubble.bizCs ? (
+                      <div className="space-y-2">
+                        <p className="text-xs leading-relaxed text-muted">{t("aiBizFeeNote")}</p>
+                        <a
+                          href={whatsappHref(csQuote())}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex h-11 w-full items-center justify-center rounded-full bg-whatsapp px-3 text-sm font-medium text-whatsapp-foreground"
+                        >
+                          {t("aiBizCsCta")}
+                        </a>
+                      </div>
+                    ) : null}
                   </div>
                 ) : null}
               </div>
@@ -810,7 +872,7 @@ export function AiStaffPanel() {
               <div className="mt-2 flex flex-wrap gap-2">
                 {(guideStep === "service"
                   ? SERVICE_CHIPS.map((item) => ({ id: item.cat, label: t(item.key) }))
-                  : guideStep === "housing"
+                  : guideStep === "housing" && guideCat !== "business"
                     ? HOUSING_CHIPS.map((item) => ({ id: item.id, label: item.spoken }))
                     : guideStep === "mobileLine"
                       ? MOBILE_CURRENT.map((item) => ({ id: item.id, label: item.label }))
@@ -873,8 +935,8 @@ export function AiStaffPanel() {
             <Input
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
-              placeholder={t(draftKey(guideStep))}
-              aria-label={t(draftKey(guideStep))}
+              placeholder={t(draftKey(guideStep, guide))}
+              aria-label={t(draftKey(guideStep, guide))}
               className="flex-1"
               disabled={busy}
             />
