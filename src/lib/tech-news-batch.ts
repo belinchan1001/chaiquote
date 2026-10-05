@@ -3,6 +3,83 @@ import type { TechNewsArticle } from "./tech-news.ts";
 /** Extra news pieces. GTA 6 still lives in TECH_NEWS_ARTICLES. */
 export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
   {
+    slug: "smartone-iphone-duo-prereg-oct15",
+    category: "phones",
+    minutes: 4,
+    published: "2026-10-05",
+    seoTitle: "SmarTone Duo預先登記：10月15日截止｜齊Quote",
+    h1: "SmarTone Duo預先登記：10月15日截止",
+    description:
+      "SmarTone官方頁寫：iPhone Duo預先登記要喺2026年10月15日23:59前完成，SmarT Pass要喺10月18日23:59前行使，並要選用指定5G計劃。Apple香港預訂日仍然係10月16日晚8時。內容僅供參考，以電訊商確認為準。",
+    excerpt: "SmarTone官方頁寫iPhone Duo預先登記10月15日23:59截止，SmarT Pass要10月18日23:59前行使。指定5G計劃先得。",
+    seoTitleEn: "SmarTone Duo pre-register by 15 Oct 23:59 | 齊Quote",
+    h1En: "SmarTone Duo pre-register by 15 October, 23:59",
+    descriptionEn:
+      "SmarTone’s page says iPhone Duo pre-registration closes at 23:59 on 15 October 2026, and SmarT Pass must be exercised by 23:59 on 18 October, on a designated 5G plan. Apple HK pre-order remains 16 October at 8 p.m. Confirm with the carrier.",
+    excerptEn: "SmarTone’s page sets Duo pre-registration at 23:59 on 15 October, and SmarT Pass exercise at 23:59 on 18 October. A designated 5G plan is required.",
+    bullets: [
+      "SmarTone官方頁：iPhone Duo預先登記要喺2026年10月15日23:59或之前完成。",
+      "同一頁寫SmarT Pass要喺10月18日23:59或之前行使；持證唔等於已經留到機。",
+      "頁面寫要選用指定5G計劃；現有客戶用SmarTone流動電話號碼登入先登記。",
+      "Apple香港預訂仍然係10月16日晚8時、10月23日發售。電訊商截止日期可以早過官網。",
+    ],
+    bulletsEn: [
+      "SmarTone’s page: finish iPhone Duo pre-registration by 23:59 on 15 October 2026.",
+      "The same page says exercise SmarT Pass by 23:59 on 18 October. Holding a pass is not a reserved handset.",
+      "It requires a designated 5G plan. Existing customers log in with their SmarTone mobile number.",
+      "Apple HK pre-order is still 8 p.m. on 16 October, on sale 23 October. A carrier deadline can be earlier.",
+    ],
+    body: [
+      {
+        heading: "兩個截止日期",
+        headingEn: "Two deadlines",
+        paragraphs: [
+          "SmarTone「iPhone 18 Pro系列預訂及iPhone Duo預先登記」頁寫：請於2026年10月15日23:59或之前完成預先登記，並於10月18日23:59或之前行使SmarT Pass。呢兩個時間係電訊商頁面寫死嘅，唔係Apple官網嘅預訂鐘。",
+          "Apple香港新聞稿仍然係10月16日晚上8時起預訂、10月23日起發售。想跟SmarTone出機快證，就要跟電訊商頁，唔好以為16日晚先至開始登記。",
+        ],
+        paragraphsEn: [
+          "SmarTone’s iPhone 18 Pro booking and iPhone Duo pre-registration page says finish pre-registration by 23:59 on 15 October 2026, and exercise SmarT Pass by 23:59 on 18 October. Those times are on the carrier page, not Apple’s pre-order clock.",
+          "Apple HK still lists pre-order from 8 p.m. on 16 October and sale from 23 October. A SmarT Pass path follows the carrier page, not an assumption that registration starts on the 16th.",
+        ],
+      },
+      {
+        heading: "邊個可以登記",
+        headingEn: "Who can register",
+        paragraphs: [
+          "同一頁寫：選用SmarTone指定5G計劃，就可以預訂iPhone 18 Pro系列或預先登記iPhone Duo。現有客戶要輸入SmarTone流動電話號碼，收取驗證碼先登入。頁面冇寫死月費級數同機價，呢度唔代填。",
+          "SmarT Pass條款頁寫，每張證只可預先訂購一部旗艦機，不可轉讓；持證唔代表成功留機。一般行使期係旗艦機開始接受預訂後48小時，但條款寫行使期可因供貨而縮短或取消。今次活動頁寫到10月18日23:59，以活動頁同門市確認為準。",
+        ],
+        paragraphsEn: [
+          "The same page says a designated SmarTone 5G plan can book an iPhone 18 Pro or pre-register an iPhone Duo. Existing customers enter a SmarTone mobile number and a verification code. The page does not lock a monthly fee or a handset price, so none is filled in here.",
+          "SmarT Pass terms say each pass pre-orders one flagship and is not transferable. Holding one is not a successful reservation. The usual exercise window is 48 hours after pre-order opens, and the terms say that window can be shortened or cancelled. This campaign page writes 23:59 on 18 October; confirm on the page or in store.",
+        ],
+      },
+      {
+        heading: "同Apple官網點分開",
+        headingEn: "Split it from Apple’s store",
+        paragraphs: [
+          "機身規格同官價已經寫過：HK$17,499起、內屏7.6吋、外屏5.4吋、全球版純eSIM、10月23日開賣。今次新事實只係SmarTone渠道嘅登記同行使截止。",
+          "未有SmarTone號碼、又未選指定5G計劃，呢張預先登記頁登入唔到。可以等Apple官網10月16日晚8時，或者其他電訊商自己嘅登記頁。成交前再對一次截止時間，頁面可以改。",
+        ],
+        paragraphsEn: [
+          "Specs and the official price are already on the site: from HK$17,499, 7.6-inch inner screen, 5.4-inch cover, eSIM only, on sale 23 October. The new fact is only SmarTone’s registration and exercise cutoff.",
+          "Without a SmarTone number and a designated 5G plan, this pre-registration page will not log you in. Apple’s store opens at 8 p.m. on 16 October, and other carriers may have their own pages. Check the cutoff again before you commit; the page can change.",
+        ],
+      },
+    ],
+    tags: ["iPhone Duo", "SmarTone", "SmarT Pass", "預先登記"],
+    tagsEn: ["iPhone Duo", "SmarTone", "SmarT Pass", "pre-register"],
+    editorNote:
+      "手機專區今次唔係再講一次10月23日開賣。新事實係SmarTone活動頁寫死兩個鐘：10月15日23:59前完成預先登記，10月18日23:59前行使SmarT Pass。Apple官網預訂仍然係16日晚8時。\n\n我唔會喺度填月費或者話邊個折扣最大。頁面只寫指定5G計劃，無機價表。持證唔等於留到機，條款亦寫行使期可以縮。有SmarTone號碼先登入對一次；冇就等官網或其他電訊商頁。",
+    editorNoteEn:
+      "This is not another reminder that sale day is 23 October. The new fact is two clocks on SmarTone’s page: pre-register by 23:59 on 15 October, and exercise SmarT Pass by 23:59 on 18 October. Apple’s pre-order is still 8 p.m. on the 16th.\n\nNo monthly fee is filled in, and no discount is ranked. The page only says a designated 5G plan. A pass is not a reserved phone, and the terms say the exercise window can shrink. Log in if you have a SmarTone number; otherwise wait for Apple or another carrier page.",
+    related: ["iphone-duo-hk", "iphone-18-handset-plan"],
+    sourceUrl: "https://www.smartone.com/hk/260910_SSP_Pre-reg_Priority1_IN_mms_tc",
+    image: "/images/news-iphone-duo.jpg",
+    imageAlt: "Apple官方iPhone Duo摺開內螢幕宣傳圖",
+    imageCredit: "Apple",
+  },
+  {
     slug: "sosim-esim-hk",
     category: "telecom",
     minutes: 4,

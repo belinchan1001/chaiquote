@@ -29,7 +29,8 @@ describe("tech news channel", () => {
         "/images/news-gaming.jpg",
       ],
     );
-    assert.equal(TECH_NEWS_ARTICLES.length, 18);
+    assert.equal(TECH_NEWS_ARTICLES.length, 19);
+    assert.ok(getTechNewsArticle("smartone-iphone-duo-prereg-oct15"));
     assert.ok(getTechNewsArticle("sosim-esim-hk"));
     assert.ok(getTechNewsArticle("hkt-ai-data-waiver-oct7"));
     assert.ok(getTechNewsArticle("cmhk-mid-autumn-2026"));
@@ -58,7 +59,7 @@ describe("tech news channel", () => {
     const byDesk = { telecom: 0, phones: 0, gadgets: 0, gaming: 0 };
     for (const article of TECH_NEWS_ARTICLES) {
       assert.match(article.description, /以電訊商確認為準|以官方及平台商店確認為準|以官方公布為準|以 SmarTone 及通訊辦公布為準|以商店確認為準/);
-      assert.match(article.published, /^2026-09-(18|21|24|28)$|^2026-10-0[12]$/);
+      assert.match(article.published, /^2026-09-(18|21|24|28)$|^2026-10-0[125]$/);
       assert.ok(article.editorNote.length > 80, article.slug);
       if (article.category in byDesk) byDesk[article.category] += 1;
     }
@@ -111,6 +112,7 @@ describe("tech news channel", () => {
       "sony-hello-kitty-xperia-hk",
       "minecraft-dungeons-2-sep29",
       "cmhk-mid-autumn-2026",
+      "smartone-iphone-duo-prereg-oct15",
       "sosim-esim-hk",
       "hkt-ai-data-waiver-oct7",
       "assemble-nintendo-switch-wanchai",
