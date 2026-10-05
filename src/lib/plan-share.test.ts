@@ -195,7 +195,7 @@ describe("plan card share control", () => {
     assert.equal([...card.matchAll(/<PlanShareButton plan=\{plan\} \/>/g)].length, 1);
     assert.match(
       card,
-      /<QuoteLink[\s\S]*className="h-11 w-full rounded-full bg-\[#0F62FE\] text-white hover:bg-\[#0F62FE\]\/90"[\s\S]*<\/QuoteLink>\s*<p[\s\S]*<div className="flex gap-2">[\s\S]*\{plan\.staffOffer \? null : <PlanShareButton plan=\{plan\} \/>\}/,
+      /<QuoteLink plan=\{plan\} className="w-full min-w-fit shrink-0 sm:w-auto">\s*\{t\("askWa"\)\}\s*<\/QuoteLink>\s*<div className="flex gap-2 sm:shrink-0">[\s\S]*\{plan\.staffOffer \? null : <PlanShareButton plan=\{plan\} \/>\}/,
     );
     assert.match(card, /<ProviderMark id=\{plan\.providerId\} priority=\{imagePriority\} \/>\s*<button/);
     assert.match(card, /aria-label=\{inSaved \? t\("unsave"\) : t\("save"\)\}/);

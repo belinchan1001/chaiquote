@@ -108,7 +108,7 @@ function EstatePage() {
       <section className="mt-10">
         <h2 className="text-lg font-semibold">{t("estateFibreTitle", { housing })}</h2>
         <p className="mt-1 text-sm text-muted">{t("estateFibreLead", { housing })}</p>
-        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
           {broadbandPreview.map((plan) => (
             <PlanCard key={plan.id} plan={plan} />
           ))}
@@ -129,7 +129,7 @@ function EstatePage() {
       <section className="mt-12">
         <h2 className="text-lg font-semibold">{t("estateHome5gTitle")}</h2>
         <p className="mt-1 text-sm text-muted">{t("estateHome5gLead")}</p>
-        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
           {home5gPreview.map((plan) => (
             <PlanCard key={plan.id} plan={plan} />
           ))}
