@@ -50,7 +50,7 @@ const RAW = `
 啟業邨|啟業,Kai Yip,Kai Yip Estate|觀塘|public
 坪石邨|坪石,Ping Shek,Ping Shek Estate|觀塘|public
 彩虹邨|彩虹,Choi Hung,Choi Hung Estate|黃大仙|public
-黃大仙下邨|黃大仙下,黃大仙下（一）邨,黃大仙下邨一區,黃大仙下二邨,黃大仙下（二）邨,黃大仙下(二)邨,Lower Wong Tai Sin,Lower Wong Tai Sin Estate|黃大仙|public
+黃大仙下邨|黃大仙下,黃大仙下（一）邨,黃大仙下邨一區,黃大仙下邨(一區),黃大仙下二邨,黃大仙下（二）邨,黃大仙下(二)邨,Lower Wong Tai Sin,Lower Wong Tai Sin (1) Estate,Lower Wong Tai Sin Estate|黃大仙|public
 黃大仙上邨|黃大仙上,Upper Wong Tai Sin,Upper Wong Tai Sin Estate|黃大仙|public
 竹園北邨|竹園北,Chuk Yuen North,Chuk Yuen (North) Estate|黃大仙|public
 竹園南邨|竹園南,Chuk Yuen South,Chuk Yuen South Estate|黃大仙|public

@@ -4,9 +4,9 @@
  * compile. Pull the last known-good blobs from git history before
  * check-messages and vite build.
  */
-import { writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 
-const WYLER = "偉恆昌新邨|偉恆昌,Wyler Gardens,Wyler Garden|九龍城|private|土瓜灣";
+const WYLER = "偉恆昌新邨|偉恆昌,偉恆昌新邭,Wyler Gardens,Wyler Garden|九龍城|private|土瓜灣";
 
 const FILES = [
   {
@@ -22,17 +22,36 @@ const FILES = [
     url: "https://raw.githubusercontent.com/belinchan1001/chaiquote/1d8a1fcbfe6fbc29de75211d7e2ee9dc40c73b4b/src/lib/estate-extra-raw.ts",
     minBytes: 50000,
     after: (text) => {
-      if (text.includes("Wyler Gardens")) return text;
+      let next = text;
+      // 長者安居樂 is subsidised sale, not PRH. Do not rewrite other columns.
+      next = next.replace(
+        "盛頤居|Blossom Place,Shing Yee Residence,樂嶺都匯盛頤居,樂嶺都匯第2座,長者安居樂盛頤居|北區|public|",
+        "盛頤居|Blossom Place,Shing Yee Residence,樂嶺都匯盛頤居,樂嶺都匯第2座,長者安居樂盛頤居|北區|hos|",
+      );
+      if (next.includes("Wyler Gardens")) return next;
       const row = WYLER + "\n";
       const needle = "`.trim();";
-      const idx = text.lastIndexOf(needle);
-      if (idx === -1) return text + "\n" + row;
-      return text.slice(0, idx) + row + text.slice(idx);
+      const idx = next.lastIndexOf(needle);
+      if (idx === -1) return next + "\n" + row;
+      return next.slice(0, idx) + row + next.slice(idx);
     },
   },
 ];
 
 async function restoreOne(file) {
+  if (existsSync(file.dest)) {
+    const existing = readFileSync(file.dest, "utf8");
+    if (Buffer.byteLength(existing) >= file.minBytes) {
+      const patched = file.after ? file.after(existing) : existing;
+      if (patched !== existing) {
+        writeFileSync(file.dest, patched);
+        console.log(`[restore-catalogues] ${file.dest} already complete, patch only`);
+      } else {
+        console.log(`[restore-catalogues] ${file.dest} already complete, skip overwrite`);
+      }
+      return;
+    }
+  }
   const res = await fetch(file.url, { headers: { Accept: "text/plain" } });
   if (!res.ok) throw new Error(`${file.dest}: HTTP ${res.status}`);
   let text = await res.text();
