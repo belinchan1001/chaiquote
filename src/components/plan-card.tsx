@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Bookmark, GitCompareArrows } from "lucide-react";
+import { Bookmark, Check, GitCompareArrows } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PlanBadges } from "@/components/plan-badges";
 import { OfferCountdown } from "@/components/offer-countdown";
@@ -21,11 +21,36 @@ import {
   hasCertifiedStaff,
   isNetvigatorVillage,
   planPerks,
+  type Category,
   type Plan,
 } from "@/lib/plans";
 import { parseEstateParam, parseHousingParam } from "@/lib/related-plans";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
+
+const SERVICE_TONE: Record<Category, string> = {
+  broadband: "bg-[#EFF6FF] text-[#1D4ED8]",
+  home5g: "bg-[#FAF5FF] text-[#7E22CE]",
+  mobile: "bg-[#F0FDF4] text-[#15803D]",
+  business: "bg-[#FFF7ED] text-[#C2410C]",
+};
+
+function cardSpecLines(plan: Plan) {
+  const lines: string[] = [];
+  if (plan.category === "home5g" || plan.speedMbps) lines.push(formatPlanSpeed(plan));
+  if (plan.category !== "mobile" && plan.install) lines.push(formatInstall(plan));
+  if (plan.highSpeedGb || plan.dataGb) lines.push(`${plan.highSpeedGb ?? plan.dataGb}GB`);
+  if (plan.voice) lines.push(plan.voice);
+  for (const perk of planPerks(plan)) lines.push(perk);
+  if (plan.portInPerk) lines.push(plan.portInPerk);
+  const seen = new Set<string>();
+  return lines.filter((line) => {
+    const key = line.trim();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
 
 export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePriority?: boolean }) {
   const shineRef = useRef<HTMLElement>(null);
@@ -36,7 +61,7 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
   const inCompare = compare.includes(plan.id);
   const inSaved = saved.includes(plan.id);
   const avg = averageFee(plan);
-  const { t, tx, categoryLabel } = useI18n();
+  const { t, tx, categoryLabel, locale } = useI18n();
   const housing = useRouterState({
     select: (s) => {
       try {
@@ -73,14 +98,24 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
     return registerFoilCard(el);
   }, [plan.quotePick, plan.id]);
 
+  const specs = cardSpecLines(plan);
+  const face = specs.slice(0, 3);
+  const more = specs.slice(3);
+  const detailBits = [
+    ...more,
+    plan.prepaid ? formatPrepaidShort(plan.prepaid) : "",
+    plan.fupNote ?? "",
+    plan.limits ?? "",
+    plan.bestFor ?? "",
+    isNetvigatorVillage(plan) ? t("villageFeeNote") : "",
+  ].filter(Boolean);
+
   return (
     <article
       ref={shineRef}
       className={cn(
-        "relative flex flex-col rounded-xl bg-card p-5 pb-12",
-        esportsGlow
-          ? "plan-card-esports"
-          : "shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]",
+        "relative flex min-h-[320px] flex-col rounded-2xl border border-[#E5E7EB] bg-white p-5 pb-12 transition-[box-shadow,border-color] duration-150 hover:border-[#0F62FE] hover:shadow-md",
+        esportsGlow && "plan-card-esports",
         plan.quotePick && "plan-card-shine",
       )}
     >
@@ -111,13 +146,13 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
         </button>
       </div>
 
+      <p className={cn("mt-3 inline-flex w-fit rounded-full px-2.5 py-1 text-xs font-medium", SERVICE_TONE[plan.category])}>
+        {categoryLabel(plan.category)}
+      </p>
       <PlanBadges plan={plan} />
       <OfferCountdown plan={plan} />
 
-      <p className="mt-4 text-xs tracking-wider text-subtle uppercase">
-        {categoryLabel(plan.category)} · {tx(plan.network)}
-      </p>
-      <h3 className="mt-1 text-lg font-semibold leading-snug">
+      <h3 className="mt-3 text-lg font-semibold leading-snug">
         {plan.staffOffer ? (
           tx(plan.name)
         ) : (
@@ -135,78 +170,61 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
         )}
       </h3>
 
-      <div className="mt-4 flex items-end gap-2">
-        <p className="font-display text-3xl font-semibold tabular-nums leading-none">
-          {formatFee(plan.monthlyFee)}
-        </p>
-        <p className="pb-0.5 text-sm text-muted">{t("perMonth", { n: plan.contractMonths })}</p>
+      <div className="mt-4 flex flex-wrap items-end gap-2">
+        <p className="font-display text-[32px] font-bold tabular-nums leading-none">{formatFee(plan.monthlyFee)}</p>
+        <span className="mb-0.5 rounded-full bg-[#F3F4F6] px-2.5 py-1 text-sm font-normal text-[#374151]">
+          {t("perMonth", { n: plan.contractMonths })}
+        </span>
       </div>
       {avg !== plan.monthlyFee ? (
         <p className="mt-1 text-sm text-accent">{t("avgFee", { fee: formatFee(avg) })}</p>
       ) : null}
 
-      <dl className="mt-4 grid grid-cols-2 gap-2 text-sm">
-        {plan.category === "home5g" || plan.speedMbps ? (
-          <div className={plan.category === "home5g" ? "col-span-2" : undefined}>
-            <dt className="text-xs text-subtle">{t("speed")}</dt>
-            <dd className="font-medium">{formatPlanSpeed(plan)}</dd>
-            {plan.category === "home5g" ? (
-              <p className="mt-1 text-xs text-muted">{t("speedNote")}</p>
-            ) : null}
-          </div>
-        ) : null}
-        {plan.highSpeedGb || plan.dataGb ? (
-          <div>
-            <dt className="text-xs text-subtle">{t("data")}</dt>
-            <dd className="font-medium">{plan.highSpeedGb ?? plan.dataGb}GB</dd>
-          </div>
-        ) : null}
-        {plan.voice ? (
-          <div>
-            <dt className="text-xs text-subtle">{t("rowVoice")}</dt>
-            <dd className="font-medium leading-snug">{tx(plan.voice)}</dd>
-          </div>
-        ) : null}
-        {plan.category === "mobile" && plan.fupNote ? (
-          <div className="col-span-2">
-            <dt className="text-xs text-subtle">{t("rowAfterUsage")}</dt>
-            <dd className="font-medium">{tx(plan.fupNote)}</dd>
-          </div>
-        ) : null}
-        {plan.prepaid ? (
-          <div className={/回贈|扣減/.test(plan.prepaid) ? "col-span-2" : undefined}>
-            <dt className="text-xs text-subtle">{t("prepaid")}</dt>
-            <dd className="font-medium leading-snug">{tx(formatPrepaidShort(plan.prepaid))}</dd>
-          </div>
-        ) : null}
-        {plan.category !== "mobile" ? (
-          <div>
-            <dt className="text-xs text-subtle">{t("install")}</dt>
-            <dd className="font-medium">{tx(formatInstall(plan))}</dd>
-          </div>
-        ) : null}
-      </dl>
-      {isNetvigatorVillage(plan) ? (
-        <p className="mt-3 text-xs leading-relaxed text-muted">{t("villageFeeNote")}</p>
-      ) : null}
-
-      <ul className="mt-4 space-y-1 text-sm text-muted">
-        {planPerks(plan).slice(0, 4).map((perk) => (
-          <li key={perk}>{tx(perk)}</li>
+      <ul className="mt-4 min-h-[78px] space-y-1.5 text-sm text-[#4B5563]">
+        {face.map((line) => (
+          <li key={line} className="flex items-start gap-2">
+            <Check className="mt-0.5 size-3.5 shrink-0 text-[#0F62FE]" aria-hidden="true" />
+            <span>{tx(line)}</span>
+          </li>
         ))}
-        {plan.portInPerk ? <li className="text-accent">{tx(plan.portInPerk)}</li> : null}
       </ul>
 
-      {hasCertifiedStaff(plan) ? <CertifiedStaffNote plan={plan} className="mt-5" /> : null}
-      <div className={cn("flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center", hasCertifiedStaff(plan) ? "mt-2" : "mt-5")}>
-        <QuoteLink plan={plan} className="w-full min-w-fit shrink-0 sm:w-auto">
-          {t("askWa")}
+      {detailBits.length || plan.category === "business" ? (
+        <details className="mt-3 text-xs leading-relaxed text-muted">
+          <summary className="cursor-pointer text-[#6B7280]">
+            {locale === "en" ? "Details: prepay, cooling-off and terms" : "睇詳情：預繳、冷靜期等"}
+          </summary>
+          <div className="mt-2 space-y-1">
+            {detailBits.map((line) => (
+              <p key={line}>{tx(line)}</p>
+            ))}
+          </div>
+        </details>
+      ) : null}
+
+      {hasCertifiedStaff(plan) ? <CertifiedStaffNote plan={plan} className="mt-4" /> : null}
+      {plan.category === "business" ? (
+        <p className="mt-3 text-xs leading-relaxed text-muted">{t("businessDisclaimer")}</p>
+      ) : null}
+      <div className={cn("mt-auto flex flex-col gap-2 pt-4", hasCertifiedStaff(plan) ? "mt-2" : "")}>
+        <QuoteLink plan={plan}
+          variant="default"
+          className="h-11 w-full rounded-full bg-[#0F62FE] text-white hover:bg-[#0F62FE]/90"
+        >
+          {locale === "en" ? "WhatsApp this plan" : "WhatsApp 問呢個Plan"}
         </QuoteLink>
-        <div className="flex gap-2 sm:shrink-0">
+        <p className="text-center text-[11px] leading-relaxed text-[#6B7280]">
+          {hasCertifiedStaff(plan)
+            ? locale === "en"
+              ? "A verified authorised salesperson replies"
+              : "由已核實身份嘅授權銷售回覆"
+            : t("referencePrice")}
+        </p>
+        <div className="flex gap-2">
           <Button
             type="button"
             variant={inCompare ? "accent" : "outline"}
-            className="flex-1 sm:flex-none"
+            className="flex-1"
             onClick={() => toggleCompare(plan.id)}
           >
             <GitCompareArrows />
@@ -215,9 +233,6 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
           {plan.staffOffer ? null : <PlanShareButton plan={plan} />}
         </div>
       </div>
-      {plan.category === "business" ? (
-        <p className="mt-3 text-xs leading-relaxed text-muted">{t("businessDisclaimer")}</p>
-      ) : null}
       <p className="mt-3 text-[11px] leading-relaxed text-subtle">{t("referencePrice")}</p>
       <span
         aria-hidden="true"
