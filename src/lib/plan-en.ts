@@ -64,6 +64,7 @@ const EXACT: Record<string, string> = {
   "合約期內自動升級至 2500M": "Auto-upgrade to 2500M during the contract",
   "須預繳 HK$200，服務開始計起第 1 至第 4 個月每月回贈 HK$50":
     "Prepaid HK$200; HK$50 rebate each month for the first 4 months from service start",
+  "成功登記時需預繳首月月費": "The first month's fee is prepaid when the application is accepted",
   "實際月費、數據用量及申請條款以電訊商確認為準。":
     "Monthly fees, data quota and terms are confirmed by the carrier.",
   "適用於 18 至 29 歲客戶。實際月費、數據用量及申請資格以電訊商確認為準。":

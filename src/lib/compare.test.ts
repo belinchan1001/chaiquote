@@ -648,6 +648,11 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
         "netvigator-ftth-10000",
       ],
     );
+    assert.ok(
+      PLANS.filter((p) => p.providerId === "netvigator" && p.category === "broadband").every(
+        (p) => p.prepaid === "成功登記時需預繳首月月費",
+      ),
+    );
 
     const private118 = plan("netvigator-ftth-1000-private-36m-118");
     assert.equal(private118.monthlyFee, 108);
