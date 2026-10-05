@@ -6,7 +6,7 @@ import { sitemapLastmod } from "./seo.ts";
 
 describe("guide manuscript dates vs catalogue stamp", () => {
   it("keeps guide lastmod on the manuscript date, not SITE.updated", () => {
-    assert.equal(SITE.updated, "2026-10-05");
+    assert.equal(SITE.updated, "2026-10-06");
     const fiber = getGuide("fiber");
     assert.ok(fiber);
     assert.equal(fiber.published, "2026-09-09");

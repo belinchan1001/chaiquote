@@ -211,7 +211,7 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
           variant="default"
           className="h-11 w-full rounded-full bg-[#0F62FE] text-white hover:bg-[#0F62FE]/90"
         >
-          {locale === "en" ? "WhatsApp this plan" : "WhatsApp 問呢個Plan"}
+          {locale === "en" ? "WhatsApp this plan" : "WhatsApp 問呢個計劃"}
         </QuoteLink>
         <p className="text-center text-[11px] leading-relaxed text-[#6B7280]">
           {hasCertifiedStaff(plan)
