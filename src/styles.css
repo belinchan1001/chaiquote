@@ -71,8 +71,6 @@
 
 @keyframes jelly-chip-in {
   0% { transform: scale(1, 1); }
-  36% { transform: scale(1.16, 0.92); }
-  64% { transform: scale(0.98, 1.12); }
   100% { transform: scale(1.08, 1.08); }
 }
 
@@ -460,7 +458,7 @@
     position: relative;
     z-index: 1;
     transform: scale(1.08);
-    animation: jelly-chip-in 460ms var(--ease-out-smooth) forwards;
+    animation: jelly-chip-in 180ms var(--ease-out-smooth) forwards;
   }
   .jelly-chip:has(+ .jelly-chip[aria-pressed="true"]) {
     transform: translateX(-6px);
