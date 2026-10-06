@@ -68,14 +68,16 @@ describe("trust/compliance copy", () => {
     const about = readFileSync(join(here, "../routes/about.tsx"), "utf8");
     const footer = readFileSync(join(here, "../components/site-footer.tsx"), "utf8");
     const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+    const picks = readFileSync(join(here, "../components/home-best-picks.tsx"), "utf8");
     assert.match(about, /t\("aboutIndependent"\)/);
     assert.match(about, /t\("noCommission"\)/);
     assert.match(about, /t\("aboutDisclaimer"\)/);
     assert.match(footer, /t\("noCommission"\)/);
     assert.match(footer, /t\("disclaimer1"\)/);
-    assert.match(home, /cheapestPlan\("broadband"\)/);
-    assert.match(home, /t\("bestPicksTitle"\)/);
-    assert.match(home, /t\("bestPicksLead"\)/);
+    assert.match(home, /HomeBestPicks/);
+    assert.match(picks, /cheapestPlan\("broadband"\)/);
+    assert.match(picks, /t\("bestPicksTitle"\)/);
+    assert.match(picks, /t\("bestPicksLead"\)/);
     assert.equal(quoted(messages, "quotePick")[0], "齊Quote 推介");
     assert.equal(quoted(messages, "quotePick")[1], "齊Quote pick");
   });
@@ -228,7 +230,7 @@ describe("trust/compliance copy", () => {
 
     assert.equal(zh, "屋苑索引");
     assert.equal(en, "Estate index");
-    assert.match(header, /to: "\/estates", labelKey: "navEstates"/);
+    assert.match(header, /to: "\/estates", label: t\("navEstates"\)/);
   });
 
   it("pins compare page 返回計劃表 as an in-app /plans link", () => {

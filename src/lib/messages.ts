@@ -164,7 +164,7 @@ export const MESSAGES = {
     avgFee: "平均月費 {fee}／月（已計免月費）",
     speed: "網絡速度",
     speedNote: "實際速度視乎現場環境而定",
-    villageFeeNote: "村屋計劃有機會因地址覆蓋而調整，詳情問銷售員。",
+    villageFeeNote: "村屋計劃有機會因地址覆蓋而調整，詳情向銷售確認。",
     businessDisclaimer:
       "商業寬頻嘅月費、安裝費同舖址覆蓋僅供參考；實際視乎用途同現場環境，以電訊商確認為準。",
     hktStaffNote:
@@ -500,7 +500,7 @@ export const MESSAGES = {
     intakeFibreHint: "核對覆蓋，只睇轉台優惠",
     intakeHome5gHint: "地址選填，速度視現場訊號",
     intakeMobileHint: "地址選填，可查 5G 覆蓋",
-    intakeBusinessHint: "地址選填，核對舖頭覆蓋",
+    intakeBusinessHint: "地址選填，核對店舖覆蓋",
     intakeCurrentBb: "現時用緊邊間寬頻？",
     intakeCurrentMobile: "現時手機用緊邊間？",
     intakeExpiry: "合約幾時到期？",
