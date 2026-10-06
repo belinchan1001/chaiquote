@@ -461,12 +461,12 @@ function PlansPage() {
             ariaLabel={t("planType")}
             size="lg"
             radius={999}
-            swell={0.34}
-            barge={10}
-            shrink={0.08}
-            jelly={1.35}
-            bounce={0.32}
-            stagger={28}
+            swell={0.2}
+            barge={4}
+            shrink={0.04}
+            jelly={1}
+            bounce={0.25}
+            stagger={22}
             value={search.cat}
             items={CATEGORY_OPTIONS.map((option) => ({
               value: option.id,

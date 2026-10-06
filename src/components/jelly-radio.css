@@ -12,12 +12,15 @@
   --jr-pad-y: 6px;
   --jr-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  width: 100%;
   max-width: 100%;
   gap: var(--jr-gap);
   padding: var(--jr-pad-y) var(--jr-pad-x);
-  overflow-x: auto;
+  overflow: hidden;
+  box-sizing: border-box;
   font-family: var(--font-sans);
   user-select: none;
   -webkit-user-select: none;
