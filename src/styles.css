@@ -71,9 +71,9 @@
 
 @keyframes jelly-chip-in {
   0% { transform: scale(1, 1); }
-  36% { transform: scale(1.14, 0.92); }
-  64% { transform: scale(0.96, 1.1); }
-  100% { transform: scale(1, 1); }
+  36% { transform: scale(1.16, 0.92); }
+  64% { transform: scale(0.98, 1.12); }
+  100% { transform: scale(1.08, 1.08); }
 }
 
 @keyframes ai-entry-pulse-ring {
@@ -448,8 +448,13 @@
     animation-delay: 450ms;
   }
 
+  .jelly-chip {
+    transform: scale(1);
+    transition: transform 180ms var(--ease-out-smooth);
+  }
   .jelly-chip[aria-pressed="true"] {
-    animation: jelly-chip-in 460ms var(--ease-out-smooth);
+    transform: scale(1.08);
+    animation: jelly-chip-in 460ms var(--ease-out-smooth) forwards;
   }
 
   .chip-press {
