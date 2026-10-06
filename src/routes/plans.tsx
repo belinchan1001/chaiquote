@@ -7,6 +7,7 @@ import { LazyEstateSuggest as EstateSuggest } from "@/components/lazy-estate-sug
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import { Chip, IntakeFields } from "@/components/intake-fields";
 import { FilterLink, chipRowClass } from "@/components/filter-link";
+import { JellyRadio } from "@/components/jelly-radio";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
@@ -455,17 +456,29 @@ function PlansPage() {
         </div>
         <fieldset>
           <legend className="text-xs font-medium tracking-wider text-muted">{t("planType")}</legend>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {CATEGORY_OPTIONS.map((option) => (
-              <FilterLink
-                key={option.id}
-                selected={search.cat === option.id}
-                search={catPatch(search, option.id as Category)}
-              >
-                {t(CAT_KEYS[option.id as Category])}
-              </FilterLink>
-            ))}
-          </div>
+          <JellyRadio
+            className="mt-2"
+            ariaLabel={t("planType")}
+            size="lg"
+            radius={999}
+            swell={0.12}
+            barge={4}
+            shrink={0.04}
+            jelly={0.6}
+            bounce={0.2}
+            stagger={18}
+            value={search.cat}
+            items={CATEGORY_OPTIONS.map((option) => ({
+              value: option.id,
+              label: t(CAT_KEYS[option.id as Category]),
+            }))}
+            onChange={(value) => {
+              void navigate({
+                resetScroll: false,
+                search: catPatch(search, value as Category),
+              });
+            }}
+          />
         </fieldset>
 
         <IntakeFields
