@@ -448,13 +448,25 @@
     animation-delay: 450ms;
   }
 
+  .jelly-row {
+    padding: 4px 6px;
+    overflow: hidden;
+  }
   .jelly-chip {
     transform: scale(1);
-    transition: transform 180ms var(--ease-out-smooth);
+    transition: transform 220ms var(--ease-out-smooth);
   }
   .jelly-chip[aria-pressed="true"] {
+    position: relative;
+    z-index: 1;
     transform: scale(1.08);
     animation: jelly-chip-in 460ms var(--ease-out-smooth) forwards;
+  }
+  .jelly-chip:has(+ .jelly-chip[aria-pressed="true"]) {
+    transform: translateX(-6px);
+  }
+  .jelly-chip[aria-pressed="true"] + .jelly-chip {
+    transform: translateX(6px);
   }
 
   .chip-press {

@@ -133,7 +133,7 @@ export function IntakeFields({
       {showHousing ? (
         <fieldset>
           <legend className="text-xs font-medium tracking-wider text-muted">{t("intakeHousing")}</legend>
-          <div className="mt-2 flex flex-wrap gap-2">
+          <div className={cn("mt-2 flex flex-wrap gap-2", jelly && "jelly-row")}>
             {HOUSING_OPTIONS.map((option) => (
               <Chip
                 jelly={jelly}
@@ -150,7 +150,7 @@ export function IntakeFields({
         <legend className="text-xs font-medium tracking-wider text-muted">
           {cat === "mobile" ? t("intakeCurrentMobile") : t("intakeCurrentBb")}
         </legend>
-        <div className="mt-2 flex flex-wrap gap-2">
+        <div className={cn("mt-2 flex flex-wrap gap-2", jelly && "jelly-row")}>
           {providerChoices.map((option) => (
             <Chip
                 jelly={jelly}
@@ -168,7 +168,7 @@ export function IntakeFields({
 
       <fieldset>
         <legend className="text-xs font-medium tracking-wider text-muted">{t("intakeTarget")}</legend>
-        <div className="mt-2 flex flex-wrap gap-2">
+        <div className={cn("mt-2 flex flex-wrap gap-2", jelly && "jelly-row")}>
           {targetChoices.map((option) => {
             const blocked = isTargetConflict(current, option.id);
             return (
@@ -194,7 +194,7 @@ export function IntakeFields({
 
       <fieldset>
         <legend className="text-xs font-medium tracking-wider text-muted">{t("intakeExpiry")}</legend>
-        <div className="mt-2 flex flex-wrap gap-2">
+        <div className={cn("mt-2 flex flex-wrap gap-2", jelly && "jelly-row")}>
           {EXPIRY_OPTIONS.map((option) => (
             <Chip
                 jelly={jelly}
@@ -219,7 +219,7 @@ export function IntakeFields({
       {cat === "broadband" ? (
         <fieldset>
           <legend className="text-xs font-medium tracking-wider text-muted">{t("intakeSpeedNeed")}</legend>
-          <div className="mt-2 flex flex-wrap items-center gap-2">
+          <div className={cn("mt-2 flex flex-wrap items-center gap-2", jelly && "jelly-row")}>
             {FIBRE_SPEEDS.map((option) => (
               <Chip
                 jelly={jelly}
@@ -242,7 +242,7 @@ export function IntakeFields({
       {cat === "business" ? (
         <fieldset>
           <legend className="text-xs font-medium tracking-wider text-muted">{t("intakeSpeedNeed")}</legend>
-          <div className="mt-2 flex flex-wrap gap-2">
+          <div className={cn("mt-2 flex flex-wrap gap-2", jelly && "jelly-row")}>
             {BUSINESS_SPEEDS.map((option) => (
               <Chip
                 jelly={jelly}
@@ -261,7 +261,7 @@ export function IntakeFields({
       {cat === "mobile" ? (
         <fieldset>
           <legend className="text-xs font-medium tracking-wider text-muted">{t("intakeMobileNeed")}</legend>
-          <div className="mt-2 flex flex-wrap gap-2">
+          <div className={cn("mt-2 flex flex-wrap gap-2", jelly && "jelly-row")}>
             {MOBILE_NEEDS.map((option) => (
               <Chip
                 jelly={jelly}
