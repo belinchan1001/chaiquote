@@ -278,6 +278,7 @@ export function ServiceSearch() {
               </fieldset>
 
               <IntakeFields
+                jelly
                 cat={openCat}
                 housing={housing}
                 onHousing={setHousing}

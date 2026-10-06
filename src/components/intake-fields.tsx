@@ -27,6 +27,7 @@ export function Chip({
   disabled,
   title,
   dataId,
+  jelly = false,
   onSelect,
   children,
 }: {
@@ -35,6 +36,7 @@ export function Chip({
   disabled?: boolean;
   title?: string;
   dataId?: string;
+  jelly?: boolean;
   onSelect: () => void;
   children: ReactNode;
 }) {
@@ -48,6 +50,7 @@ export function Chip({
       onClick={onSelect}
       className={cn(
         "chip-press inline-flex min-h-11 items-center rounded-full px-3.5 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
+        jelly && "jelly-chip",
         disabled
           ? "cursor-not-allowed bg-surface text-muted opacity-40"
           : selected && urgent
@@ -97,6 +100,7 @@ export function IntakeFields({
   onEsports,
   currentError,
   extraHousing,
+  jelly = false,
 }: {
   cat: Category;
   housing: string;
@@ -117,6 +121,7 @@ export function IntakeFields({
   onEsports: (next: boolean) => void;
   currentError?: string;
   extraHousing?: ReactNode;
+  jelly?: boolean;
 }) {
   const { t } = useI18n();
   const showHousing = cat === "broadband" || cat === "home5g";
@@ -130,7 +135,7 @@ export function IntakeFields({
           <legend className="text-xs font-medium tracking-wider text-muted">{t("intakeHousing")}</legend>
           <div className="mt-2 flex flex-wrap gap-2">
             {HOUSING_OPTIONS.map((option) => (
-              <Chip key={option.id} selected={housing === option.id} onSelect={() => onHousing(option.id)}>
+              <Chip jelly={jelly} key={option.id} selected={housing === option.id} onSelect={() => onHousing(option.id)}>
                 {t(HOUSING_KEYS[option.id])}
               </Chip>
             ))}

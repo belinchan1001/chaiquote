@@ -69,6 +69,13 @@
   initial-value: 0deg;
 }
 
+@keyframes jelly-chip-in {
+  0% { transform: scale(1, 1); }
+  38% { transform: scale(1.06, 0.97); }
+  68% { transform: scale(0.99, 1.04); }
+  100% { transform: scale(1, 1); }
+}
+
 @keyframes ai-entry-pulse-ring {
   0%,
   12%,
@@ -241,6 +248,7 @@
   .plan-card-shine::before,
   .plan-card-shine > .foil,
   .chip-press,
+  .jelly-chip,
   .esports-line-chip,
   .wa-pulse::after,
   .ai-entry-pulse::after,
@@ -438,6 +446,10 @@
   }
   .plan-list-enter > *:nth-child(10) {
     animation-delay: 450ms;
+  }
+
+  .jelly-chip[aria-pressed="true"] {
+    animation: jelly-chip-in 380ms var(--ease-out-smooth);
   }
 
   .chip-press {
