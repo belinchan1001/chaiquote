@@ -135,7 +135,9 @@ export function IntakeFields({
           <legend className="text-xs font-medium tracking-wider text-muted">{t("intakeHousing")}</legend>
           <div className="mt-2 flex flex-wrap gap-2">
             {HOUSING_OPTIONS.map((option) => (
-              <Chip jelly={jelly} key={option.id} selected={housing === option.id} onSelect={() => onHousing(option.id)}>
+              <Chip
+                jelly={jelly}
+                key={option.id} selected={housing === option.id} onSelect={() => onHousing(option.id)}>
                 {t(HOUSING_KEYS[option.id])}
               </Chip>
             ))}
@@ -151,6 +153,7 @@ export function IntakeFields({
         <div className="mt-2 flex flex-wrap gap-2">
           {providerChoices.map((option) => (
             <Chip
+                jelly={jelly}
               key={option.id}
               selected={current === option.id}
               dataId={`current-${option.id}`}
@@ -170,6 +173,7 @@ export function IntakeFields({
             const blocked = isTargetConflict(current, option.id);
             return (
               <Chip
+                jelly={jelly}
                 key={option.id}
                 selected={!blocked && target === option.id}
                 disabled={blocked}
@@ -193,6 +197,7 @@ export function IntakeFields({
         <div className="mt-2 flex flex-wrap gap-2">
           {EXPIRY_OPTIONS.map((option) => (
             <Chip
+                jelly={jelly}
               key={option.id}
               selected={expiry === option.id}
               urgent={option.urgent}
@@ -217,6 +222,7 @@ export function IntakeFields({
           <div className="mt-2 flex flex-wrap items-center gap-2">
             {FIBRE_SPEEDS.map((option) => (
               <Chip
+                jelly={jelly}
                 key={option.id}
                 selected={fibreSpeed === option.id}
                 dataId={`speed-${option.id}`}
@@ -239,6 +245,7 @@ export function IntakeFields({
           <div className="mt-2 flex flex-wrap gap-2">
             {BUSINESS_SPEEDS.map((option) => (
               <Chip
+                jelly={jelly}
                 key={option.id}
                 selected={businessSpeed === option.id}
                 dataId={`biz-speed-${option.id}`}
@@ -257,6 +264,7 @@ export function IntakeFields({
           <div className="mt-2 flex flex-wrap gap-2">
             {MOBILE_NEEDS.map((option) => (
               <Chip
+                jelly={jelly}
                 key={option.id}
                 selected={mobileNeed === option.id}
                 dataId={`need-${option.id}`}
