@@ -14,7 +14,7 @@ const FILES = [
     // Must be a main commit whose messages.ts already contains every key the
     // app renders. Bump this hash whenever src/lib/messages.ts changes, or the
     // build will ship an older catalogue and the UI will show raw key names.
-    url: "https://raw.githubusercontent.com/belinchan1001/chaiquote/3e699c68be6b7e1d21bb954f612a62f33e5ae1ac/src/lib/messages.ts",
+    url: "https://raw.githubusercontent.com/belinchan1001/chaiquote/404e980daf0f26074f2a1ec13b3869d13d8cc224/src/lib/messages.ts",
     minBytes: 40000,
   },
   {
