@@ -253,6 +253,7 @@ export const PRH_BLOCKS_RAW = `
 雋善樓|Chun Sin House,古雋邨雋善樓|北區|public|古洞
 雋喜樓|Chun Hei House,古雋邨雋喜樓|北區|public|古洞
 雋樂樓|Chun Lok House,古雋邨雋樂樓|北區|public|古洞
+雋添樓|Chun Tim House,古雋邨雋添樓|北區|public|古洞
 平仁樓|Ping Yan House,平田邨平仁樓|觀塘|public
 平旺樓|Ping Wong House,平田邨平旺樓|觀塘|public
 平信樓|Ping Shun House,平田邨平信樓|觀塘|public
@@ -1293,6 +1294,9 @@ export const PRH_BLOCKS_RAW = `
 銀星樓|Ngan Sing House,銀灣邨銀星樓|離島|public
 銀虹樓|Ngan Hung House,銀灣邨銀虹樓|離島|public
 鳳迎樓|Fung Ying House,鳳凰嶺邨鳳迎樓|北區|public|粉嶺||馬適路
+鳳樂樓|Fung Lok House,鳳凰嶺邨鳳樂樓|北區|public|粉嶺||馬適路
+鳳耀樓|Fung Yiu House,鳳凰嶺邨鳳耀樓|北區|public|粉嶺||馬適路
+鳳臨樓|Fung Lam House,鳳凰嶺邨鳳臨樓|北區|public|粉嶺||馬適路
 鳳晴樓|Fung Ching House,鳳凰嶺邨鳳晴樓|北區|public|粉嶺||馬適路
 鳳新樓|Fung San House,鳳凰嶺邨鳳新樓|北區|public|粉嶺||馬適路
 硃鳳樓|Chu Fung House,鳳德邨硃鳳樓|黃大仙|public
