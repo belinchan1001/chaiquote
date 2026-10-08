@@ -3,6 +3,83 @@ import type { TechNewsArticle } from "./tech-news.ts";
 /** Extra news pieces. GTA 6 still lives in TECH_NEWS_ARTICLES. */
 export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
   {
+    slug: "sim-realname-offence-draft",
+    category: "telecom",
+    minutes: 4,
+    published: "2026-10-08",
+    seoTitle: "借名登記電話卡擬刑事化｜齊Quote",
+    h1: "借名登記電話卡：商經局籌備列為新罪行",
+    description:
+      "商務及經濟發展局局長丘應樺10月7日書面答覆立法會：正籌備修例，將無合法權限或無合理辯解下不當使用他人名義登記電話智能卡列為新罪行，並降低個人儲值卡登記上限。新上限同諮詢日期未公布。內容僅供參考，以官方公布為準。",
+    excerpt: "商經局局長書面答覆指，正籌備將無合法權限借名登記電話卡列為新罪行，並降低儲值卡登記上限。新上限同諮詢日期未寫死，而家唔好借證幫人登記。",
+    seoTitleEn: "SIM registration in another person’s name may become an offence | 齊Quote",
+    h1En: "Registering a SIM in someone else’s name: a new offence is being drafted",
+    descriptionEn:
+      "On 7 October the Secretary for Commerce and Economic Development told LegCo in writing that the government is drafting an offence for registering a SIM in another person’s name without lawful authority or a reasonable excuse, and will lower the personal prepaid-SIM cap. The new cap and the consultation date are not published. Official announcements prevail.",
+    excerptEn: "The written reply says a new offence is being drafted for registering a SIM in someone else’s name, and the prepaid cap will fall. Neither the new cap nor the consultation date is set.",
+    bullets: [
+      "10月7日書面答覆：正籌備修例，將無合法權限或無合理辯解下，不當使用他人名義登記電話智能卡列為新罪行。",
+      "同一答覆寫會降低個人可登記電話儲值卡上限；新上限數字未公布，呢篇唔代填。",
+      "政府話適時諮詢公眾，未寫諮詢開始日。修例未生效，唔等於而家借證登記已經無事。",
+      "答覆引通訊局：今年1至8月平均每月暫停約5700個可疑本地號碼，較去年同期約11400個少近半。被停要問返自己電訊商。",
+    ],
+    bulletsEn: [
+      "The 7 October written reply: an offence is being drafted for registering a SIM in another person’s name without lawful authority or a reasonable excuse.",
+      "The same reply says the personal prepaid-SIM cap will be lowered. The new number is not published, and is not filled in here.",
+      "A public consultation is promised, with no start date. The bill is not in force; lending an ID to register a SIM is already a bad idea.",
+      "The reply cites the Authority: about 5,700 local numbers a month were suspended in January–August, versus about 11,400 a year earlier. A paused number is a carrier question.",
+    ],
+    body: [
+      {
+        heading: "新罪行寫到邊",
+        headingEn: "What the new offence actually says",
+        paragraphs: [
+          "商務及經濟發展局局長丘應樺10月7日書面答覆立法會質詢，香港電台同商業電台都有引述；商業電台註明來源係政府新聞處。答覆話，為打擊電訊網絡詐騙，政府正全面檢視電話智能卡實名登記制，並着手制訂針對性措施。",
+          "寫死嘅方向有兩項：降低個人用戶可登記電話儲值卡嘅數量上限；以及訂立全新罪行，將在沒有合法權限或沒有合理辯解下，不當使用他人名義登記電話智能卡嘅行為刑事化。政府正籌備修例細節，會適時諮詢公眾。諮詢幾時開始、新罪行點樣定義「合理辯解」，答覆未寫。",
+        ],
+        paragraphsEn: [
+          "On 7 October the Secretary for Commerce and Economic Development answered a LegCo question in writing. RTHK and Commercial Radio both quoted it; Commercial Radio attributes the copy to the Information Services Department. The reply says the real-name SIM regime is under review, to curb telecom fraud.",
+          "Two directions are written: a lower cap on prepaid SIMs one person may register, and a new offence for registering a SIM in another person’s name without lawful authority or a reasonable excuse. Details are being drafted, with a public consultation to follow. No start date, and no definition of “reasonable excuse”, is in the reply.",
+        ],
+      },
+      {
+        heading: "上限會降，數字未公布",
+        headingEn: "The cap will fall; the number is not out",
+        paragraphs: [
+          "答覆只寫「降低」上限，冇寫新數字。而家每人向每間電訊商可登記不多於10張儲值卡，係現行動規，唔係今次答覆改咗嘅數。新上限未公布之前，唔好當已經改到2張或者其他數。",
+          "想核對自己名下有幾多張儲值卡，問返出卡嗰間電訊商，或者睇通訊辦實名登記頁。借身份證幫人登記、或者買「已實名」嘅卡，答覆未生效都唔好做。舊有法例已經可以處理虛假文書同以欺騙手段取得服務，今次係再加一條針對借名登記嘅罪。",
+        ],
+        paragraphsEn: [
+          "The reply only says the cap will be lowered. It does not give the new number. The current rule is still up to 10 prepaid SIMs per person per carrier. That is the existing regulation, not a figure changed by this reply. Do not treat 2, or any other number, as already decided.",
+          "To see how many prepaid SIMs are in your name, ask the carrier that issued them, or use the OFCA real-name page. Do not lend an identity document to register a SIM, and do not buy a card that is already registered. Existing offences on false instruments and obtaining services by deception already apply; this bill would add a specific offence.",
+        ],
+      },
+      {
+        heading: "號碼被停，問電訊商唔好估",
+        headingEn: "A paused number is a carrier question",
+        paragraphs: [
+          "同一答覆引通訊局數字：今年1至8月，電訊商因電話或短訊模式可疑而暫停服務嘅本地號碼，平均每月約5700個，較去年同期約11400個少近半。通訊局去年12月收緊《業務守則》嘅識別準則。截至8月底，電訊商聯同警方累計攔截或暫停逾12萬個網頁連結，以及超過17000個本地及非本地號碼；以「+852」開頭嘅可疑境外來電，阻截超過890萬個。",
+          "呢啲係暫停服務，唔係今次新罪行已經落實。自己個號突然打唔出，先打返所屬電訊商熱線核對，唔好轉發「全港封號」截圖。實名登記同月費計劃係兩件事，呢篇唔寫任何月費。",
+        ],
+        paragraphsEn: [
+          "The same reply cites the Authority: in January–August, carriers suspended about 5,700 local numbers a month for suspicious call or SMS patterns, against about 11,400 a year earlier. The code of practice was tightened last December. By end-August, carriers and police had intercepted or suspended more than 120,000 links and over 17,000 local and non-local numbers, and blocked more than 8.9 million suspicious calls showing a +852 prefix.",
+          "Those are service suspensions, not the new offence already in force. If your number suddenly cannot dial out, call your own carrier. Do not forward a “citywide shutdown” screenshot. Real-name registration is not a monthly fee, and none is written here.",
+        ],
+      },
+    ],
+    tags: ["實名登記", "電話卡", "電騙", "通訊辦"],
+    tagsEn: ["SIM registration", "prepaid SIM", "phone fraud", "OFCA"],
+    editorNote:
+      "科技專區今次無鎖死嘅香港店價，唔好用三星平板開賣去填。跟到嘅新事實係10月7日書面答覆：借名登記電話卡，政府正籌備列為新罪行，儲值卡上限會降。新上限同諮詢日都未寫。\\n\\n我唔會代填「降到幾多張」，亦唔會話修例已經生效。借證幫人開卡，而家已經唔應該做；等諮詢稿出咗先算數。號碼被停，打自己電訊商，唔好當呢篇係封號名單。",
+    editorNoteEn:
+      "Gadgets had no locked Hong Kong store price, so this is not a tablet launch filler. The new fact is the 7 October written reply: registering a SIM in someone else’s name is being drafted as an offence, and the prepaid cap will fall. Neither the new cap nor the consultation date is written.\\n\\nThe new number is not filled in, and the bill is not treated as already in force. Lending an ID to open a SIM should already stop. A paused number is a call to your carrier, not a list in this piece.",
+    related: ["sosim-esim-hk", "smartone-3g-close-2026"],
+    sourceUrl: "https://news.rthk.hk/rthk/ch/component/k2/1873020-20261007.htm",
+    image: "/images/news-sim-realname.jpg",
+    imageAlt: "商務及經濟發展局局長丘應樺出席公開場合",
+    imageCredit: "香港電台",
+  },
+  {
     slug: "smartone-iphone-duo-prereg-oct15",
     category: "phones",
     minutes: 4,
