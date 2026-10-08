@@ -805,12 +805,12 @@ export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
     h1: "SmarTone 3G 10 月 9 日停：舊機、手錶、車機都要對",
     description:
       "通訊事務管理局批准 SmarTone 於 2026 年 10 月 9 日停止 3G 服務。訊號長期顯示 3G 的手機、舊 SIM、部分行車裝置會受影響。內容僅供參考，實際安排以 SmarTone 及通訊辦公布為準。",
-    excerpt: "距離停網大約兩個半星期。門市可免費換 SIM。老人機同車載 3G 最容易漏。",
+    excerpt: "停網日就係今日。門市可免費換 SIM。老人機同車載 3G 最容易漏。",
     seoTitleEn: "SmarTone ends 3G on 9 Oct 2026 | 齊Quote",
     h1En: "SmarTone 3G ends 9 October: check phones, watches and car kits",
     descriptionEn:
       "The Communications Authority consented to SmarTone closing 3G on 9 October 2026. Devices stuck on 3G, old SIMs and some trackers are affected. Confirm with SmarTone and OFCA.",
-    excerptEn: "About two and a half weeks left. SmarTone says 4G/5G SIMs can be swapped free in store.",
+    excerptEn: "Shutdown day is today. SmarTone says 4G/5G SIMs can be swapped free in store.",
     bullets: [
       "停網日：2026 年 10 月 9 日（通訊辦 7 月 24 日公布批准）。",
       "訊號長期顯示「3G」就要換卡或者換機；顯示 4G／5G／LTE 一般唔受影響。",
@@ -852,9 +852,9 @@ export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
     tags: ["SmarTone", "3G", "換 SIM", "通訊辦"],
     tagsEn: ["SmarTone", "3G", "SIM swap", "OFCA"],
     editorNote:
-      "3G 停網唔係科技新聞，係屋企新聞。最容易中招唔係追 5G 嘅人，而係阿爸阿媽仲用緊十年前部機、部車 Cam、隻老人錶。而家距離 10 月 9 日只得兩個幾星期，呢個週末去門市換 SIM 已經遲，但仲趕得切。\n\nSmarTone 話門市免費換卡。真係換唔到訊號，就要換機——呢步先至有人想推你上台。換機條件你自己問，我哋呢篇刻意唔報折扣，免得你以為新聞價就係成交價。",
+      "3G 停網唔係科技新聞，係屋企新聞。最容易中招唔係追 5G 嘅人，而係阿爸阿媽仲用緊十年前部機、部車 Cam、隻老人錶。停網日就係今日（10 月 9 日）。未換 SIM 就盡快去門市，仲有得補。\n\nSmarTone 話門市免費換卡。真係換唔到訊號，就要換機——呢步先至有人想推你上台。換機條件你自己問，我哋呢篇刻意唔報折扣，免得你以為新聞價就係成交價。",
     editorNoteEn:
-      "A 3G shutdown is a family story, not a gadget story. The people who get cut off are parents on a ten-year-old handset, a dash cam, a watch. You have a couple of weeks to 9 October.\n\nSmarTone says the SIM swap is free in store. If the radio still says 3G, you need a new phone — that is when the contract pitch starts. We deliberately did not print handset discounts. A news figure is not a quote.",
+      "A 3G shutdown is a family story, not a gadget story. The people who get cut off are parents on a ten-year-old handset, a dash cam, a watch. The shutdown date is today, 9 October.\n\nSmarTone says the SIM swap is free in store. If the radio still says 3G, you need a new phone — that is when the contract pitch starts. We deliberately did not print handset discounts. A news figure is not a quote.",
     related: ["iphone-18-handset-plan", "read-offer-news"],
     sourceUrl: "https://www.ofca.gov.hk/en/news_info/press_releases/index_id_2401.html",
     image: "/images/news-smartone-3g.jpg",
