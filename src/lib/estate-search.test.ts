@@ -413,7 +413,12 @@ describe("matchKnownEstate / classifyAddress", () => {
     assert.equal(searchEstates("青俊苑", 4)[0]?.name, "青俊苑");
     assert.equal(searchEstates("寧峰苑", 4)[0]?.name, "寧峰苑");
     assert.equal(matchKnownEstate("Melody Garden")?.name, "美樂花園");
-    assert.equal(matchKnownEstate("Yuet Wu Villa")?.name, "悅湖山莊");
+    assert.equal(estate("悅湖山莊")?.street, "湖秀街2號");
+    assert.equal(relatedBlocks("悅湖山莊").length, 15);
+    assert.equal(relatedBlocks("悅湖山莊")[0]?.name, "悅湖山莊第1座");
+    assert.equal(relatedBlocks("悅湖山莊")[14]?.name, "悅湖山莊第15座");
+    assert.equal(matchKnownEstate("悅湖山莊8座")?.name, "悅湖山莊第8座");
+    assert.equal(parentEstate("悅湖山莊第15座")?.name, "悅湖山莊");
     assert.equal(matchKnownEstate("Ocean Court")?.name, "逸港居");
     assert.equal(matchKnownEstate("Broadview Court")?.name, "雅濤閣");
     assert.equal(matchKnownEstate("South Wave Court")?.name, "南濤閣");

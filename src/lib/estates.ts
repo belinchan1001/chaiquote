@@ -148,7 +148,22 @@ const RAW = `
 欣田邨|欣田,Yan Tin,Yan Tin Estate|屯門|public
 兆康苑|兆康,Siu Hong Court|屯門|hos
 兆翠苑|兆翠,Siu Chui Court,Siu Tsui Court|屯門|hos|||恒富街26號
-悅湖山莊|悅湖,Yuet Wu Villa|屯門|hos
+悅湖山莊|悅湖,Yuet Wu Villa|屯門|hos|屯門碼頭||湖秀街2號
+悅湖山莊第1座|悅湖山莊1座,Yuet Wu Villa Block 1|屯門|hos|屯門碼頭||湖秀街2號
+悅湖山莊第2座|悅湖山莊2座,Yuet Wu Villa Block 2|屯門|hos|屯門碼頭||湖秀街2號
+悅湖山莊第3座|悅湖山莊3座,Yuet Wu Villa Block 3|屯門|hos|屯門碼頭||湖秀街2號
+悅湖山莊第4座|悅湖山莊4座,Yuet Wu Villa Block 4|屯門|hos|屯門碼頭||湖秀街2號
+悅湖山莊第5座|悅湖山莊5座,Yuet Wu Villa Block 5|屯門|hos|屯門碼頭||湖秀街2號
+悅湖山莊第6座|悅湖山莊6座,Yuet Wu Villa Block 6|屯門|hos|屯門碼頭||湖秀街2號
+悅湖山莊第7座|悅湖山莊7座,Yuet Wu Villa Block 7|屯門|hos|屯門碼頭||湖秀街2號
+悅湖山莊第8座|悅湖山莊8座,Yuet Wu Villa Block 8|屯門|hos|屯門碼頭||湖秀街2號
+悅湖山莊第9座|悅湖山莊9座,Yuet Wu Villa Block 9|屯門|hos|屯門碼頭||湖秀街2號
+悅湖山莊第10座|悅湖山莊10座,Yuet Wu Villa Block 10|屯門|hos|屯門碼頭||湖秀街2號
+悅湖山莊第11座|悅湖山莊11座,Yuet Wu Villa Block 11|屯門|hos|屯門碼頭||湖秀街2號
+悅湖山莊第12座|悅湖山莊12座,Yuet Wu Villa Block 12|屯門|hos|屯門碼頭||湖秀街2號
+悅湖山莊第13座|悅湖山莊13座,Yuet Wu Villa Block 13|屯門|hos|屯門碼頭||湖秀街2號
+悅湖山莊第14座|悅湖山莊14座,Yuet Wu Villa Block 14|屯門|hos|屯門碼頭||湖秀街2號
+悅湖山莊第15座|悅湖山莊15座,Yuet Wu Villa Block 15|屯門|hos|屯門碼頭||湖秀街2號
 天耀邨|天耀,天耀一邨,天耀二邨,Tin Yiu,Tin Yiu Estate|元朗|public|天水圍
 天瑞邨|天瑞,天瑞一邨,天瑞二邨,Tin Shui,Tin Shui Estate|元朗|public|天水圍
 天慈邨|天慈,Tin Tsz,Tin Tsz Estate|元朗|public|天水圍
@@ -536,7 +551,9 @@ function textHasEstateNeedle(text: string, needle: string): boolean {
 
 /** Estate / 苑 parents only — never village (村) or short aliases like「東頭」. */
 export function isCatalogueParent(estate: Estate): boolean {
-  return estate.housing !== "village" && /[邨苑]$/.test(estate.name);
+  if (estate.housing === "village") return false;
+  if (/[邨苑]$/.test(estate.name)) return true;
+  return estate.name === "悅湖山莊";
 }
 
 /**
@@ -548,13 +565,14 @@ export function isCatalogueParent(estate: Estate): boolean {
  */
 export function isRelatedBlock(child: Estate, parent: Estate): boolean {
   if (child.name === parent.name || parent.housing === "village") return false;
-  if (!/[邨苑]$/.test(parent.name)) return false;
+  if (!/[邨苑]$/.test(parent.name) && parent.name !== "悅湖山莊") return false;
   const parentKey = compact(parent.name);
   if (parentKey.length < 3) return false;
   return [child.name, ...child.aliases].some((raw) => {
     const needle = compact(raw);
     if (!needle.startsWith(parentKey) || needle === parentKey) return false;
     const rest = needle.slice(parentKey.length);
+    if (parent.name === "悅湖山莊" && /^第?\d+座$/.test(rest)) return true;
     return rest.length >= 2 && /樓|閣|house/.test(rest);
   });
 }
