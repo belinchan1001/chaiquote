@@ -144,6 +144,7 @@ const RAW = `
 良景邨|良景,Leung King,Leung King Estate|屯門|public
 田景邨|田景,Tin King,Tin King Estate|屯門|public
 寶田邨|寶田,Po Tin,Po Tin Estate|屯門|public
+寶田中轉房屋|寶田中轉,Po Tin Interim Housing,寶田中轉屋|屯門|public|屯門
 富泰邨|富泰,Fu Tai,Fu Tai Estate|屯門|public
 欣田邨|欣田,Yan Tin,Yan Tin Estate|屯門|public
 兆康苑|兆康,Siu Hong Court|屯門|hos
@@ -344,7 +345,7 @@ YOHO Midtown|YOHO Midtown|元朗|private
 灝景灣|灝景灣,Villa Esplanada|葵青|private
 藍澄灣|藍澄灣,Rambler Crest|葵青|private
 盈翠半島|盈翠,Tierra Verde|葵青|private
-東涌逸東邨|逸東,逸東邨,逸東一邨,逸東二邨,Yat Tung,Yat Tung Estate|離島|public|東涌
+東涌逸東邨|逸東,逸東邨,逸東一邨,逸東二邨,Yat Tung,Yat Tung (I) Estate,Yat Tung (II) Estate,Yat Tung Estate|離島|public|東涌
 滿東邨|滿東,Mun Tung,Mun Tung Estate|離島|public|東涌
 迎東邨|迎東,Ying Tung,Ying Tung Estate|離島|public|東涌
 裕東苑|裕東,Yu Tung Court|離島|hos|東涌
@@ -355,33 +356,33 @@ YOHO Midtown|YOHO Midtown|元朗|private
 藍天海岸|藍天海岸,Coastal Skyline|離島|private|東涌
 珀麗灣|珀麗灣,Park Island|離島|private|馬灣
 愉景灣|愉景灣,Discovery Bay|離島|private
-南丫島|南丫,Lamma|離島|village
-長洲|長洲,Cheung Chau|離島|village
-坪洲|坪洲,Peng Chau|離島|village
-大澳|大澳,Tai O|離島|village
-梅窩|梅窩,Mui Wo|離島|village
-廈村|廈村,厦村,Ha Tsuen|元朗|village
-屏山|屏山,Ping Shan|元朗|village
-洪水橋|洪水橋,Hung Shui Kiu|元朗|village
-流浮山|流浮山,Lau Fau Shan|元朗|village
-錦田|錦田,Kam Tin|元朗|village
-八鄉|八鄉,Pat Heung|元朗|village
-石崗|石崗,Shek Kong|元朗|village
-新田|新田,San Tin|元朗|village
-米埔|米埔,Mai Po|元朗|village
-大埔林村|林村,Lam Tsuen|大埔|village
-大埔泮涌|泮涌,Pun Chung|大埔|village
-西貢北潭涌|北潭涌,Pak Tam Chung|西貢|village
-西貢海傍街|Hoi Pong Street,西貢市,海傍街,Sai Kung Town,Sai Kung Hoi Pong Street|西貢|village
+南丫島|南丫,Lamma Island|離島|village|南丫島
+長洲|長洲,Cheung Chau|離島|village|長洲
+坪洲|坪洲,Peng Chau|離島|village|坪洲
+大澳|大澳,Tai O|離島|village|大澳
+梅窩|梅窩,Mui Wo|離島|village|梅窩
+廈村|廈村,厦村,Ha Tsuen|元朗|village|廈村
+屏山|屏山,Ping Shan|元朗|village|屏山
+洪水橋|洪水橋,Hung Shui Kiu|元朗|village|洪水橋
+流浮山|流浮山,Lau Fau Shan|元朗|village|流浮山
+錦田|錦田,Kam Tin|元朗|village|錦田
+八鄉|八鄉,Pat Heung|元朗|village|八鄉
+石崗|石崗,Shek Kong|元朗|village|石崗
+新田|新田,San Tin|元朗|village|新田
+米埔|米埔,Mai Po|元朗|village|米埔
+大埔林村|林村,Lam Tsuen|大埔|village|林村
+大埔泮涌|泮涌,Pun Chung|大埔|village|泮涌
+西貢北潭涌|北潭涌,Pak Tam Chung|西貢|village|北潭涌
+西貢海傍街|Hoi Pong Street,西貢市,海傍街,Sai Kung Town,Sai Kung Hoi Pong Street|西貢|village|西貢市
 西貢匡湖居|匡湖居,Marina Cove|西貢|private
-西貢澳南|澳南,Ao Nan|西貢|village
+西貢澳南|澳南,Ao Nan|西貢|village|澳南
 清水灣|清水灣,Clear Water Bay|西貢|private
-坑口村|Hang Hau Village,坑口舊村|西貢|village
-南圍|南圍,Nam Wai|西貢|village
-蠔涌|蠔涌,Ho Chung|西貢|village
-大網仔|大網仔,Tai Mong Tsai|西貢|village
+坑口村|Hang Hau Village,坑口舊村|西貢|village|坑口
+南圍|南圍,Nam Wai|西貢|village|蠔涌
+蠔涌|蠔涌,Ho Chung|西貢|village|蠔涌
+大網仔|大網仔,Tai Mong Tsai|西貢|village|大網仔
 馬鞍山烏溪沙|烏溪沙,Wu Kai Sha|沙田|private
-西沙路|西沙,Sai Sha|沙田|village
+西沙路|西沙,Sai Sha|沙田|village|西沙
 沙田火炭|火炭,Fo Tan|沙田|private
 大圍美田|大圍,Tai Wai|沙田|private
 寶達邨|寶達邨,Po Tat Estate|觀塘|public
@@ -405,19 +406,19 @@ YOHO Midtown|YOHO Midtown|元朗|private
 安楹苑|安楹,On Ying Court|觀塘|hos
 安樺苑|安樺,On Wah Court|觀塘|hos
 安麗苑|安麗,On Lai Court|觀塘|hos
-康山花園|康山,Kornhill Gardens,Kornhill|東區|hos
+康山花園|康山,Kornhill Gardens|東區|private|鰂魚涌
 天水圍天華|天華,Tin Wah|元朗|public|天水圍
 馬灣|馬灣,Ma Wan|荃灣|village|馬灣
-井欄樹村|井欄樹,Tseng Lan Shue|西貢|village
-木棉下村|木棉下,Muk Min Ha|荃灣|village
-荃灣新村|Tsuen Wan San Tsuen|荃灣|village
-白田壩村|白田壩,Pak Tin Pa|荃灣|village
-馬閃排|馬閃排,Ma Sim Pai|荃灣|village
-海壩東北台|海壩東北,海壩(東北台),Hoi Pa,Hoi Pa Village Northeast Terrace,荃灣海壩東北台|荃灣|village
-西樓角|西樓角,Sai Lau Kok|荃灣|village
-海壩南台|海壩南台,海壩(南台),Hoi Pa Village South Terrace,荃灣海壩南台,荃灣海壩村,荃灣海壩|荃灣|village
-下洋新村|下洋新村,Ha Yeung San Tsuen|西貢|village
-大坳門|大坳門,Tai Au Mun|西貢|village
+井欄樹村|井欄樹,Tseng Lan Shue|西貢|village|井欄樹
+木棉下村|木棉下,Muk Min Ha|荃灣|village|木棉下
+荃灣新村|荃灣新村,Tsuen Wan San Tsuen|荃灣|village|荃灣
+白田壩村|白田壩,Pak Tin Pa|荃灣|village|白田壩
+馬閃排|馬閃排,Ma Sim Pai|荃灣|village|馬閃排
+海壩東北台|海壩東北,海壩(東北台),Hoi Pa,Hoi Pa Village Northeast Terrace,荃灣海壩東北台|荃灣|village|海壩
+西樓角|西樓角,Sai Lau Kok|荃灣|village|西樓角
+海壩南台|海壩南台,海壩(南台),Hoi Pa Village South Terrace,荃灣海壩南台,荃灣海壩村,荃灣海壩|荃灣|village|海壩
+下洋新村|下洋新村,Ha Yeung San Tsuen|西貢|village|下洋
+大坳門|大坳門,Tai Au Mun|西貢|village|大坳門
 `.trim();
 
 export const ESTATES: Estate[] = `${RAW}\n${EXTRA_RAW}\n${PRH_BLOCKS_RAW}\n${VILLAGE_RAW}`

@@ -253,6 +253,7 @@ export const PRH_BLOCKS_RAW = `
 雋善樓|Chun Sin House,古雋邨雋善樓|北區|public|古洞
 雋喜樓|Chun Hei House,古雋邨雋喜樓|北區|public|古洞
 雋樂樓|Chun Lok House,古雋邨雋樂樓|北區|public|古洞
+雋添樓|Chun Tim House,古雋邨雋添樓|北區|public|古洞
 平仁樓|Ping Yan House,平田邨平仁樓|觀塘|public
 平旺樓|Ping Wong House,平田邨平旺樓|觀塘|public
 平信樓|Ping Shun House,平田邨平信樓|觀塘|public
@@ -1293,6 +1294,9 @@ export const PRH_BLOCKS_RAW = `
 銀星樓|Ngan Sing House,銀灣邨銀星樓|離島|public
 銀虹樓|Ngan Hung House,銀灣邨銀虹樓|離島|public
 鳳迎樓|Fung Ying House,鳳凰嶺邨鳳迎樓|北區|public|粉嶺||馬適路
+鳳樂樓|Fung Lok House,鳳凰嶺邨鳳樂樓|北區|public|粉嶺||馬適路
+鳳耀樓|Fung Yiu House,鳳凰嶺邨鳳耀樓|北區|public|粉嶺||馬適路
+鳳臨樓|Fung Lam House,鳳凰嶺邨鳳臨樓|北區|public|粉嶺||馬適路
 鳳晴樓|Fung Ching House,鳳凰嶺邨鳳晴樓|北區|public|粉嶺||馬適路
 鳳新樓|Fung San House,鳳凰嶺邨鳳新樓|北區|public|粉嶺||馬適路
 硃鳳樓|Chu Fung House,鳳德邨硃鳳樓|黃大仙|public
@@ -1531,4 +1535,23 @@ export const PRH_BLOCKS_RAW = `
 顯慶樓|Hin Hing House,顯徑邨顯慶樓|沙田|public
 顯發樓|Hin Fat House,顯發邨顯發樓|屯門|public|屯門||顯發里
 顯耀樓|Hin Yiu House,顯耀邨顯耀樓|沙田|public
+彩富閣|Choi Fu House,彩明苑彩富閣|西貢|hos|將軍澳
+彩貴閣|Choi Kwai House,彩明苑彩貴閣|西貢|hos|將軍澳
+彩榮閣|Choi Wing House,彩明苑彩榮閣|西貢|hos|將軍澳
+彩耀閣|Choi Yiu House,彩明苑彩耀閣|西貢|hos|將軍澳
+峻澤閣|Chun Chak House,雅寧苑峻澤閣|離島|hos
+豪澤閣|Ho Chak House,雅寧苑豪澤閣|離島|hos
+良澤閣|Leung Chak House,雅寧苑良澤閣|離島|hos
+啟雋閣|Kai Chun House,啟鑽苑啟雋閣|黃大仙|hos|鑽石山
+啟宏閣|Kai Wang House,啟鑽苑啟宏閣|黃大仙|hos|鑽石山
+雍華閣|Yung Wa House,雍盛苑雍華閣|北區|hos|粉嶺
+雍萃閣|Yung Sui House,雍盛苑雍萃閣|北區|hos|粉嶺
+高恆閣|Ko Hang House,高翔苑高恆閣|觀塘|hos|油塘
+高麒閣|Ko Ki House,高翔苑高麒閣|觀塘|hos|油塘
+高麟閣|Ko Lun House,高翔苑高麟閣|觀塘|hos|油塘
+高安閣|Ko On House,高翔苑高安閣|觀塘|hos|油塘
+高瑞閣|Ko Sui House,高翔苑高瑞閣|觀塘|hos|油塘
+藍逸樓|Lam Yat House,藍田邨藍逸樓|觀塘|public
+麗柏閣|Lai Pak House,麗翠苑麗柏閣|深水埗|hos
+麗楊閣|Lai Yeung House,麗翠苑麗楊閣|深水埗|hos
 `.trim();
