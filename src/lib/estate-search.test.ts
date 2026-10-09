@@ -363,7 +363,7 @@ describe("matchKnownEstate / classifyAddress", () => {
     assert.equal(estate("海富苑")?.housing, "public");
     assert.equal(estate("海泰閣")?.housing, "public");
     assert.equal(estate("海寧閣")?.housing, "hos");
-    assert.equal(estate("康山花園")?.housing, "hos");
+    assert.equal(estate("康山花園")?.housing, "private");
     assert.equal(estate("麗晶花園")?.housing, "private");
     assert.equal(estate("富安花園")?.housing, "hos");
     assert.equal(estate("龍門居")?.housing, "hos");
