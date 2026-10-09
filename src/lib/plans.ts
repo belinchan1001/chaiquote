@@ -352,7 +352,7 @@ export const PLANS: Plan[] = [
     prepaid: PREPAID_HKBN_200,
     perks: [
       "四選一：TP-Link Archer BE220 路由器、愛奇藝黃金會員 12 個月、JOOX VIP 12 個月或 WeTV 12 個月",
-      "SAFE 防毒軟件 6 個月",
+      PERK_HKBN_SAFE,
       "可選擇延遲服務生效日（最長 365 日）",
     ],
     limits: LIMITS_HKBN_FTTH,
@@ -4088,7 +4088,15 @@ export function formatPrepaidShort(prepaid: string) {
 }
 
 export function planPerks(plan: Plan) {
-  const extra = plan.providerId === "hgc" && !plan.perks.includes("豁免搬遷費") ? ["豁免搬遷費"] : [];
+  const extra: string[] = [];
+  if (plan.providerId === "hgc" && !plan.perks.includes("豁免搬遷費")) extra.push("豁免搬遷費");
+  if (
+    plan.providerId === "hkbn" &&
+    plan.category === "broadband" &&
+    !plan.perks.some((perk) => /SAFE/i.test(perk))
+  ) {
+    extra.push(PERK_HKBN_SAFE);
+  }
   const list = [...plan.perks, ...extra];
   return list.filter((perk) => {
     if (plan.install.includes("豁免安裝") && perk.includes("豁免安裝")) return false;

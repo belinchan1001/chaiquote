@@ -14,7 +14,7 @@ import {
   type CompareCopy,
 } from "./compare.ts";
 import { toEnglish } from "./plan-en.ts";
-import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, getPlan, hasCertifiedStaff, isHgcVillage, isHkbnVillage, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, staffOfferLabel, staffOfferPlans, averageFee, type Category } from "./plans.ts";
+import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, getPlan, hasCertifiedStaff, isHgcVillage, isHkbnVillage, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, planPerks, staffOfferLabel, staffOfferPlans, averageFee, type Category } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
 import {
   HGC_VILLAGE_COVERAGE,
@@ -1076,6 +1076,20 @@ describe("HKBN 2.5Gbps 12-month $218", () => {
       ),
       true,
     );
+  });
+});
+
+describe("HKBN home fibre SAFE", () => {
+  it("adds 6 months SAFE to every HKBN home fibre plan once", () => {
+    const fibre = PLANS.filter((row) => row.providerId === "hkbn" && row.category === "broadband");
+    assert.ok(fibre.length >= 10);
+    for (const row of fibre) {
+      const hits = planPerks(row).filter((perk) => /SAFE/i.test(perk));
+      assert.equal(hits.length, 1, row.id);
+      assert.match(hits[0], /SAFE 網絡安全防護及防毒軟件/);
+    }
+    const other = PLANS.filter((row) => row.providerId === "hkbn" && row.category !== "broadband");
+    assert.equal(other.some((row) => planPerks(row).some((perk) => perk === "SAFE 網絡安全防護及防毒軟件 6 個月" && !row.perks.includes(perk))), false);
   });
 });
 
