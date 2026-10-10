@@ -90,7 +90,7 @@ function PlansPage() {
   const listRef = useRef<HTMLDivElement>(null);
   const replayKey = planListReplayKey(search);
   const prevReplayKey = useRef(replayKey);
-  const { t, providerName, categoryLabel, housingLabel, updated, locale } = useI18n();
+  const { t, providerName, categoryLabel, housingLabel, updated } = useI18n();
   usePageTitle(CATEGORY_SEO[search.cat].title);
 
   useEffect(() => {
@@ -350,13 +350,7 @@ function PlansPage() {
         </p>
       </div>
 
-      {search.from === "ad" && !search.exclude ? (
-        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
-          {locale === "en"
-            ? "From an ad — browse these plans first. We only hide your current carrier after you choose it."
-            : "由廣告入嚟可以先睇晒呢類計劃。填「而家用緊邊間」之後，先排除你而家嗰台。"}
-        </p>
-      ) : search.exclude && search.provider ? (
+      {search.exclude && search.provider ? (
         <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
           {t("intakeTargetNote", {
             current: providerName(search.exclude),

@@ -65,6 +65,6 @@ describe("ad landings", () => {
     const route = readFileSync(join(here, "../routes/go_.$dest.tsx"), "utf8");
     assert.match(route, /getAdLanding/);
     const plans = readFileSync(join(here, "../routes/plans.tsx"), "utf8");
-    assert.match(plans, /from === "ad"/);
+    assert.doesNotMatch(plans, /由廣告入嚟|From an ad/);
   });
 });
