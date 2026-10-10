@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import type { PlansSearch } from "./plans.ts";
 import { planListReplayKey } from "./search.ts";
-import { isPlanListInView } from "./plan-list-fade.ts";
+import { holdPlanListScroll, isPlanListInView } from "./plan-list-fade.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const base: PlansSearch = { cat: "broadband" };
@@ -39,6 +39,22 @@ describe("plan list filter replay", () => {
     assert.equal(planListReplayKey({ ...base, q: "hkbn" }), idle);
     assert.equal(planListReplayKey({ ...base, generation: "5g" }), idle);
     assert.equal(planListReplayKey({ ...base, gba: true, portIn: true }), idle);
+  });
+
+  it("holds the card jump while the address box is focused", () => {
+    const previous = globalThis.document;
+    const active = {
+      getAttribute(name: string) {
+        if (name === "role") return "combobox";
+        if (name === "aria-autocomplete") return "list";
+        return null;
+      },
+    };
+    globalThis.document = { activeElement: active } as unknown as Document;
+    assert.equal(holdPlanListScroll(), true);
+    globalThis.document = { activeElement: null } as unknown as Document;
+    assert.equal(holdPlanListScroll(), false);
+    globalThis.document = previous;
   });
 
   it("keeps the same key when only the visible page would change", () => {
@@ -86,7 +102,8 @@ describe("plan list fade-up", () => {
     assert.match(page, /setListEntering\(false\)/);
     assert.match(page, /setListEntering\(true\)/);
     assert.match(page, /setTimeout\(show, 900\)/);
-    assert.match(page, /bringPlanListIntoView\(list\)/);
+    assert.match(page, /!search\.estate\?\.trim\(\) \|\| holdPlanListScroll\(\)/);
+    assert.match(page, /replay && !holdPlanListScroll\(\)/);
     assert.match(page, /watchPlanListInView\(list/);
     assert.match(page, /isPlanListInView\(/);
     assert.match(page, /resetScroll:\s*false/);

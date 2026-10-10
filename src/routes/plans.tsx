@@ -20,7 +20,7 @@ import { compactSearch, parsePlansSearch, planListReplayKey } from "@/lib/search
 import { CATEGORY_SEO, plansCategoryPath, canonicalUrl, shareHead } from "@/lib/canonical";
 import { categoryJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
-import { bringPlanListIntoView, isPlanListInView, watchPlanListInView } from "@/lib/plan-list-fade";
+import { bringPlanListIntoView, holdPlanListScroll, isPlanListInView, watchPlanListInView } from "@/lib/plan-list-fade";
 import { CATEGORY_OPTIONS } from "@/lib/site";
 import {
   currentLabel,
@@ -149,10 +149,11 @@ function PlansPage() {
 
   useEffect(() => {
     if (typeof window === "undefined" || window.location.hash !== "#plan-list") return;
+    if (!search.estate?.trim() || holdPlanListScroll()) return;
     const list = document.getElementById("plan-list");
     if (!list) return;
     bringPlanListIntoView(list);
-  }, [replayKey, rows.length]);
+  }, [replayKey, rows.length, search.estate]);
 
   useEffect(() => {
     const replay = prevReplayKey.current !== replayKey;
@@ -178,7 +179,7 @@ function PlansPage() {
       if (cancelled) return;
       const list = listRef.current;
       if (!list) return;
-      if (replay) bringPlanListIntoView(list);
+      if (replay && !holdPlanListScroll()) bringPlanListIntoView(list);
       if (reduced) {
         show();
         return;

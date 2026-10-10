@@ -19,6 +19,15 @@ export function bringPlanListIntoView(el: HTMLElement) {
   el.scrollIntoView({ behavior: "auto", block: "start", inline: "nearest" });
 }
 
+/** Address combobox is open. Don't yank the page to the cards while the address is unfinished. */
+export function holdPlanListScroll() {
+  if (typeof document === "undefined") return false;
+  const active = document.activeElement;
+  if (!active || !("getAttribute" in active)) return false;
+  const el = active as HTMLElement;
+  return el.getAttribute("role") === "combobox" && el.getAttribute("aria-autocomplete") === "list";
+}
+
 export function watchPlanListInView(el: HTMLElement, onView: () => void): () => void {
   let done = false;
   let io: IntersectionObserver | null = null;
