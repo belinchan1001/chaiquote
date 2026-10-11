@@ -6,7 +6,7 @@ export const SITE = {
   description:
     "齊Quote 係獨立電訊比較平台，提供香港寬頻報價同電訊報價，一次過比較家居寬頻、5G 家居、商業寬頻同手機計劃。所列月費僅供參考，實際以電訊商確認為準。",
   /** Catalogue stamp shown on the homepage hero as YYYY-MM-DD. */
-  updated: "2026-10-11",
+  updated: "2026-10-12",
   phoneDisplay: "6309 9966",
   whatsappE164: "85263099966",
   hktPhoneDisplay: "5436 3004",
@@ -29,7 +29,7 @@ export const LEGAL = {
   referencePrice:
     "以上月費及優惠為市場參考資料，實際價格、覆蓋、合約期及安裝安排，一律以電訊商確認為準。",
   whatsappTip:
-    "撳落去會開啟 WhatsApp 聯絡我哋（{phone}）。請勿分享銀行戶口或信用卡密碼。非電訊商官方客服。",
+    "撚落去會開啟 WhatsApp 聯絡我哋（{phone}）。請勿分享銀行戶口或信用卡密碼。非電訊商官方客服。",
 } as const;
 
 export const DISCLAIMER = [
@@ -139,6 +139,6 @@ export const FAQ = [
   },
   {
     q: "點樣查核報價？",
-    a: "最快用 WhatsApp 6309 9966。冇 WhatsApp 可以撳「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 info@chaiquote.hk。",
+    a: "最快用 WhatsApp 6309 9966。冇 WhatsApp 可以撚「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 info@chaiquote.hk。",
   },
 ] as const;
