@@ -177,11 +177,7 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
         </span>
       </div>
       {avg !== plan.monthlyFee ? (
-        <p className="mt-1 text-sm text-accent">
-          {plan.freeMonths
-            ? t("avgFee", { fee: formatFee(avg) })
-            : t("avgFeeRebate", { fee: formatFee(avg) })}
-        </p>
+        <p className="mt-1 text-sm text-accent">{t("avgFee", { fee: formatFee(avg) })}</p>
       ) : null}
 
       <ul className="mt-4 min-h-[78px] space-y-1.5 text-sm text-[#4B5563]">

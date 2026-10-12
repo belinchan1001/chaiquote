@@ -429,6 +429,7 @@ const PHRASES: [string, string][] = [
   ["第 13 至第 15 個月免費", "Months 13–15 free"],
   ["首 3 個月免月費", "First 3 months free"],
   ["每月回贈 HK$21", "HK$21 rebate every month"],
+  ["已計每月回贈 HK$21", "HK$21 monthly rebate already included"],
   ["豁免第一個月月費", "First month waived"],
   ["50GB 基數及額外 50GB 優惠，合共 100GB；18 至 29 歲適用", "50GB base plus extra 50GB offer, 100GB total; for ages 18–29"],
   ["100GB 基數及額外 100GB 優惠，合共 200GB；18 至 29 歲適用", "100GB base plus extra 100GB offer, 200GB total; for ages 18–29"],
