@@ -160,6 +160,7 @@ describe("HKBN student/youth 5G 30GB", () => {
         "netvigator-ftth-2500-public-36m-158",
         "netvigator-ftth-2500-private-36m-176",
         "icable-ftth-1000-48m-58",
+        "cmhk-ftth-1000",
         "hkbn-ftth-1000-24m-0-flash",
         "hkbn-ftth-2500-36m-148-flash",
         "hkbn-ftth-1000-36m-63-flash",
@@ -1552,14 +1553,19 @@ describe("iCable 1000M FTTH $58 48-month", () => {
 });
 
 describe("CMHK 1000M FTTH $98 36-month", () => {
-  it("charges HK$98 with three free months and waived install", () => {
+  it("charges HK$98 with a HK$21 monthly rebate and waived install", () => {
     const row = plan("cmhk-ftth-1000");
     assert.equal(row.providerId, "cmhk");
     assert.equal(row.category, "broadband");
     assert.equal(row.name, "1000M 光纖入屋（36 個月）");
     assert.equal(row.monthlyFee, 98);
-    assert.equal(row.freeMonths, 3);
+    assert.equal(row.freeMonths, 0);
+    assert.equal(row.rebate, 21 * 36);
     assert.equal(row.contractMonths, 36);
+    assert.equal(row.speedMbps, 1000);
+    assert.equal(row.install, "豁免安裝費");
+    assert.deepEqual(row.perks, ["每月回贈 HK$21"]);
+    assert.equal(row.quotePick, true);
     assert.equal(row.speedMbps, 1000);
     assert.equal(row.install, "豁免安裝費");
     assert.deepEqual(row.housing, ["public", "hos", "private"]);

@@ -163,6 +163,7 @@ export const MESSAGES = {
     shareFailed: "未能複製，請再試",
     perMonth: "／月 · {n} 個月",
     avgFee: "平均月費 {fee}／月（已計免月費）",
+    avgFeeRebate: "平均月費 {fee}／月（已計每月回贈）",
     speed: "網絡速度",
     speedNote: "實際速度視乎現場環境而定",
     villageFeeNote: "村屋計劃有機會因地址覆蓋而調整，詳情向銷售確認。",
@@ -693,6 +694,7 @@ export const MESSAGES = {
     shareFailed: "Could not copy, try again",
     perMonth: "/mo · {n} months",
     avgFee: "Average {fee}/mo (free months included)",
+    avgFeeRebate: "Average {fee}/mo (monthly rebate included)",
     speed: "Speed",
     speedNote: "Actual speed depends on site conditions",
     villageFeeNote:
