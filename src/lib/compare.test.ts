@@ -1553,21 +1553,19 @@ describe("iCable 1000M FTTH $58 48-month", () => {
 });
 
 describe("CMHK 1000M FTTH $98 36-month", () => {
-  it("shows HK$77 after the HK$21 monthly rebate, with waived install", () => {
+  it("charges HK$98 with three free months, waived install, and a Quote pick", () => {
     const row = plan("cmhk-ftth-1000");
     assert.equal(row.providerId, "cmhk");
     assert.equal(row.category, "broadband");
     assert.equal(row.name, "1000M 光纖入屋（36 個月）");
-    assert.equal(row.monthlyFee, 77);
-    assert.equal(row.freeMonths, 0);
+    assert.equal(row.monthlyFee, 98);
+    assert.equal(row.freeMonths, 3);
     assert.equal(row.rebate, undefined);
     assert.equal(row.contractMonths, 36);
     assert.equal(row.speedMbps, 1000);
     assert.equal(row.install, "豁免安裝費");
-    assert.deepEqual(row.perks, ["已計每月回贈 HK$21"]);
+    assert.deepEqual(row.perks, ["首 3 個月免月費"]);
     assert.equal(row.quotePick, true);
-    assert.equal(row.speedMbps, 1000);
-    assert.equal(row.install, "豁免安裝費");
     assert.deepEqual(row.housing, ["public", "hos", "private"]);
   });
 });
