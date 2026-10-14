@@ -184,6 +184,32 @@ function EstatePage() {
           </Link>
         </p>
       </section>
+
+      <section className="mt-8 border-t border-border pt-6 text-sm">
+        <h2 className="mb-3 font-medium">{t("relatedHeading")}</h2>
+        <ul className="space-y-1">
+          <li>
+            <Link to="/guides/$slug" params={{ slug: "public-vs-hos" }} className="underline">
+              {locale === "en" ? "Public housing and HOS fees" : "公屋同居屋有咩分別"}
+            </Link>
+          </li>
+          <li>
+            <Link to="/guides/$slug" params={{ slug: "broadband-total-cost" }} className="underline">
+              {locale === "en" ? "How to calculate total contract cost" : "寬頻合約總成本點計"}
+            </Link>
+          </li>
+          <li>
+            <Link to="/guides/$slug" params={{ slug: "1000m-or-2500m" }} className="underline">
+              {locale === "en" ? "1000M or 2500M" : "1000M 同 2500M 點揀"}
+            </Link>
+          </li>
+          <li>
+            <Link to="/guides/$slug" params={{ slug: "fiber" }} className="underline">
+              {locale === "en" ? "Hong Kong fibre guide" : "香港光纖寬頻攻略"}
+            </Link>
+          </li>
+        </ul>
+      </section>
     </div>
   );
 }
