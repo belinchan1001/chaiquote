@@ -1536,6 +1536,16 @@ describe("iCable 1000M FTTH $58 48-month", () => {
     assert.equal(private36.quotePick, undefined);
     assert.equal(private36.bestFor, "適合私人樓宇、需要 1000M 光纖之住戶");
 
+    const mytv = plan("icable-ftth-1000-mytv-36m-118");
+    assert.equal(mytv.monthlyFee, 118);
+    assert.equal(mytv.contractMonths, 36);
+    assert.equal(mytv.speedMbps, 1000);
+    assert.equal(mytv.install, "豁免安裝費");
+    assert.deepEqual(mytv.housing, ["public", "hos", "private"]);
+    assert.deepEqual(mytv.perks, ["36 個月 myTV Gold（智能電視版）", "豁免首次搬遷費"]);
+    assert.equal(toEnglish(mytv.name), "1000M fibre + myTV Gold bundle (smart TV, 36 months)");
+    assert.equal(toEnglish(mytv.perks[1]), "First relocation fee waived");
+
     assert.deepEqual(
       PLANS.filter((p) => p.providerId === "icable" && p.category === "broadband").map((p) => p.id),
       [
@@ -1544,6 +1554,7 @@ describe("iCable 1000M FTTH $58 48-month", () => {
         "icable-ftth-1000-private-36m",
         "icable-ftth-1000-public-48m",
         "icable-ftth-1000-public-36m",
+        "icable-ftth-1000-mytv-36m-118",
         "icable-ftth-2000-private-36m",
         "icable-ftth-2000-public-36m",
         "icable-ftth-2000-public-24m",
