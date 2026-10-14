@@ -101,6 +101,11 @@ export const MESSAGES = {
     estateIntroText:
       "{name}位於{street}{place}，樓類為{housing}。{check}實際覆蓋同安裝期以電訊商確認為準。",
     estateIntroCoverageCheck: "呢個地址嘅覆蓋要再核對。",
+    estateHousingNotePublic: "呢頁只列出適用公屋嘅參考計劃，唔好用私樓或村屋月費。",
+    estateHousingNoteHos: "呢頁用居屋計劃，同公屋分開篩選。",
+    estateHousingNotePrivate: "呢頁用私樓計劃。公屋批量價同村屋光纖價都唔適用。",
+    estateHousingNoteVillage: "村屋光纖只得指定供應商，唔好用公屋或私樓月費。",
+    estateHousingNoteConfirm: "實際覆蓋同安裝期以電訊商確認為準。",
     estateFibreTitle: "適用{housing}光纖計劃",
     estateFibreLead: "只列出適用{housing}嘅參考月費，並連去原本計劃頁。",
     estateFibreSeeAll: "睇晒適用{housing}光纖計劃",
@@ -631,6 +636,11 @@ export const MESSAGES = {
     estateIntroText:
       "{name} is in {street}{place}. Housing type is {housing}. {check}Coverage and install dates are confirmed by the carrier.",
     estateIntroCoverageCheck: "Coverage at this address needs a separate check. ",
+    estateHousingNotePublic: "This page lists public-housing plans only. Do not use private-estate or village fees.",
+    estateHousingNoteHos: "This page uses HOS plans, kept separate from public housing.",
+    estateHousingNotePrivate: "This page uses private-estate plans. Public-housing bulk prices and village fibre fees do not apply.",
+    estateHousingNoteVillage: "Village fibre is only from the listed providers. Do not use public-housing or private-estate fees.",
+    estateHousingNoteConfirm: "Coverage and install dates are confirmed by the carrier.",
     estateFibreTitle: "{housing} fibre plans",
     estateFibreLead: "Only reference monthly fees for {housing} are listed, with links to the original plan pages.",
     estateFibreSeeAll: "See all {housing} fibre plans",

@@ -95,6 +95,19 @@ function EstatePage() {
       <h1 className="mt-2 text-title font-semibold">{pageTitle}</h1>
       <p className="mt-2 text-xs text-subtle">{t("dataUpdated", { date: updated })}</p>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{estateIntro(estate, locale)}</p>
+      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
+        {t(
+          estate.housing === "public"
+            ? "estateHousingNotePublic"
+            : estate.housing === "hos"
+              ? "estateHousingNoteHos"
+              : estate.housing === "private"
+                ? "estateHousingNotePrivate"
+                : "estateHousingNoteVillage",
+        )}
+        {locale === "en" ? " " : ""}
+        {t("estateHousingNoteConfirm")}
+      </p>
       {estateSearchNote(estate, locale) ? (
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-fg">{estateSearchNote(estate, locale)}</p>
       ) : null}
