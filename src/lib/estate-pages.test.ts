@@ -14,6 +14,7 @@ import {
   estateSelectTarget,
   estateSeoTitle,
   getEstatePage,
+  getEstatePageByName,
   INDEXABLE_ESTATE_PAGES,
   isIndexableEstatePage,
   SKIPPED_ESTATE_REQUESTS,
@@ -96,6 +97,10 @@ describe("estate SEO pages", () => {
     assert.match(estateSearchNote(getEstatePage("kingswood-villas")!.estate) ?? "", /天耀邨/);
     assert.match(estateSearchNote(getEstatePage("city-one")!.estate) ?? "", /瀝源邨/);
     assert.match(estateSearchNote(getEstatePage("yoho")!.estate) ?? "", /朗城匯/);
+    assert.match(estateSearchNote(getEstatePageByName("天耀邨")!.estate) ?? "", /公屋/);
+    assert.match(estateSearchNote(getEstatePageByName("瀝源邨")!.estate) ?? "", /沙田第一城/);
+    assert.match(estateSearchNote(getEstatePageByName("秀茂坪邨")!.estate) ?? "", /公屋批量/);
+    assert.match(estateSearchNote(getEstatePageByName("天瑞邨")!.estate) ?? "", /嘉湖山莊/);
     assert.doesNotMatch(
       SITEMAP_PAGES.map((page) => page.path).join("\n"),
       /\/estates\/.*\?/,

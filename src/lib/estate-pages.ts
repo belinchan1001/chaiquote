@@ -469,6 +469,22 @@ export function estateSearchNote(estate: Estate, locale: Locale = "zh"): string 
       return en
         ? "YOHO Town, YOHO Midtown and YOHO West are private housing in Yuen Long. Grand YOHO is in the same series. 朗城匯 and The YOHO 芊御 are different places. A named-estate plan does not apply to every YOHO block just because the name contains YOHO. Village fees do not apply."
         : "YOHO Town、YOHO Midtown 同 YOHO West 係元朗私樓。朗城匯同 The YOHO 芊御係另一個地方，唔好用呢頁嘅價。其他屋苑嘅指定計劃，唔會因為個名有 YOHO 就適用到每一座。村屋價唔適用。";
+    case "天耀邨":
+      return en
+        ? "Tin Yiu Estate is a public housing estate in Yuen Long. This page uses public-housing plans only. Do not use private-estate or village fees. Named-estate offers appear only when the address is on that list."
+        : "天耀邨係元朗公屋。呢頁只列出適用公屋嘅參考計劃，唔好用私樓或村屋月費。指定屋苑計劃要地址在名單內先出現。實際覆蓋同安裝以電訊商確認為準。";
+    case "瀝源邨":
+      return en
+        ? "Lek Yuen Estate is a public housing estate in Sha Tin. City One is a private estate — do not mix the fees."
+        : "瀝源邨係沙田公屋。沙田第一城係私樓，月費唔好混用。呢頁用公屋計劃。";
+    case "秀茂坪邨":
+      return en
+        ? "Sau Mau Ping Estate is a public housing estate in Kwun Tong. Use public-housing plans only."
+        : "秀茂坪邨係觀塘公屋。呢頁用公屋批量計劃，唔好用私樓價去估。";
+    case "天瑞邨":
+      return en
+        ? "Tin Shui Estate is a public housing estate in Yuen Long."
+        : "天瑞邨係元朗公屋。用公屋計劃，唔好用嘉湖山莊私樓月費。";
     default:
       return undefined;
   }
@@ -487,6 +503,14 @@ export function estateSearchSeo(estate: Estate): string | undefined {
     case "YOHO West":
     case "Grand YOHO":
       return "YOHO Town、Midtown、West 係元朗私樓。朗城匯同芊御係另一個地方。指定屋苑計劃唔會因為個名有 YOHO 就適用每一座。";
+    case "天耀邨":
+      return "天耀邨係元朗公屋。呢頁只列出適用公屋嘅參考計劃，唔好用私樓或村屋月費。指定屋苑計劃要地址在名單內先出現。";
+    case "瀝源邨":
+      return "瀝源邨係沙田公屋。沙田第一城係私樓，月費唔好混用。呢頁用公屋計劃。";
+    case "秀茂坪邨":
+      return "秀茂坪邨係觀塘公屋。呢頁用公屋批量計劃，唔好用私樓價去估。";
+    case "天瑞邨":
+      return "天瑞邨係元朗公屋。用公屋計劃，唔好用嘉湖山莊私樓月費。";
     default:
       return undefined;
   }
