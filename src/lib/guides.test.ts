@@ -19,5 +19,12 @@ describe("guide manuscript dates vs catalogue stamp", () => {
     assert.equal(port.published, "2026-09-05");
     assert.equal(port.modified, "2026-09-06");
     assert.equal(sitemapLastmod("/guides/port-in"), "2026-09-06");
+
+    for (const slug of ["broadband-total-cost", "1000m-or-2500m"] as const) {
+      const guide = getGuide(slug);
+      assert.ok(guide, slug);
+      assert.equal(guide.published, "2026-10-14");
+      assert.equal(sitemapLastmod(`/guides/${slug}`), "2026-10-14");
+    }
   });
 });
