@@ -3,6 +3,83 @@ import type { TechNewsArticle } from "./tech-news.ts";
 /** Extra news pieces. GTA 6 still lives in TECH_NEWS_ARTICLES. */
 export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
   {
+    slug: "smartone-ceo-resign-oct14",
+    category: "telecom",
+    minutes: 4,
+    published: "2026-10-15",
+    seoTitle: "SmarTone行政總裁劉若虹辭任｜10月14日起｜齊Quote",
+    h1: "SmarTone行政總裁劉若虹辭任：10月14日起",
+    description:
+      "數碼通電訊集團有限公司2026年10月13日港交所公告：執行董事兼行政總裁劉若虹為尋求其他事業發展機會，已辭任，自10月14日起生效。過渡期由副主席馮玉麟與高級管理團隊共同負責。內容僅供參考，以電訊商確認為準。",
+    excerpt: "港交所公告寫劉若虹自10月14日起辭任SmarTone行政總裁。公司正物色新人選，過渡由馮玉麟與管理團隊負責。服務安排以電訊商確認為準。",
+    seoTitleEn: "SmarTone CEO Lau Yuk Hung resigns from 14 Oct | 齊Quote",
+    h1En: "SmarTone CEO Lau Yuk Hung resigns, effective 14 October",
+    descriptionEn:
+      "SmarTone’s 13 October HKEX announcement: executive director and CEO Lau Yuk Hung has resigned to pursue other opportunities, effective 14 October 2026. Vice-chairman Fung Yuk Lun and the senior team will cover in the interim. Confirm with the carrier.",
+    excerptEn: "The HKEX filing states Lau Yuk Hung stepped down as SmarTone CEO from 14 October. The company is seeking a successor; Fung Yuk Lun and the management team cover in the meantime.",
+    bullets: [
+      "2026年10月13日港交所公告：劉若虹辭任執行董事及行政總裁，自10月14日起生效。",
+      "公告寫她同意辭任後一段時間繼續協助過渡；公司正物色合適人選。",
+      "過渡期由副主席兼執行董事馮玉麟與高級管理團隊共同負責及領導。",
+      "執行董事鄒金根同日起獲委任為授權代表及接收法律程序文件代表。",
+    ],
+    bulletsEn: [
+      "The 13 October HKEX announcement: Lau Yuk Hung resigned as executive director and CEO, effective 14 October 2026.",
+      "The filing says she will continue to assist with the transition for a period; a successor is being sought.",
+      "In the interim, vice-chairman and executive director Fung Yuk Lun and the senior management team will cover and lead.",
+      "Executive director Chau Kam Kwan was appointed authorised representative from the same day.",
+    ],
+    body: [
+      {
+        heading: "公告寫死嘅辭任",
+        headingEn: "What the filing actually says",
+        paragraphs: [
+          "數碼通電訊集團有限公司（股份代號：00315）2026年10月13日向港交所發出公告，董事會宣布劉若虹女士為尋求其他事業發展機會，已辭任本公司執行董事及行政總裁，自2026年10月14日起生效。公告同時寫她不再出任董事監督委員會成員、授權代表及接收法律程序文件代表。",
+          "劉若虹已與管理層緊密合作確保平穩過渡，並同意辭任後一段時間繼續提供協助。董事會感謝她在任期間的貢獻。公告日期係10月13日，辭任生效日係10月14日。",
+        ],
+        paragraphsEn: [
+          "SmarTone Telecommunications Holdings Limited (stock code: 00315) filed with the HKEX on 13 October 2026 that Lau Yuk Hung has resigned as executive director and CEO to pursue other opportunities, effective 14 October 2026. She also ceases as a member of the board supervisory committee, authorised representative and process agent.",
+          "She has worked closely with management for a smooth handover and will continue to assist for a period after resignation. The board thanked her for her contributions. The announcement is dated 13 October; the resignation takes effect on 14 October.",
+        ],
+      },
+      {
+        heading: "過渡安排",
+        headingEn: "Interim arrangements",
+        paragraphs: [
+          "公告寫公司現正物色合適人選委任為行政總裁。在此期間，副主席及執行董事馮玉麟先生與高級管理團隊將一同負責劉若虹的職務並領導公司。執行董事鄒金根先生已被委任為授權代表及接收法律程序文件代表，自10月14日起生效。",
+          "公告亦提及因辭任，董事會暫時沒有女性董事，未能符合上市規則性別多元化規定。公司表示會盡合理努力適時委任，並確保自不再符合之日起3個月內恢復合規。呢篇唔討論股價或治理評分。",
+        ],
+        paragraphsEn: [
+          "The filing says the company is seeking a suitable candidate for CEO. In the meantime, vice-chairman and executive director Fung Yuk Lun and the senior management team will cover Lau’s duties and lead the company. Executive director Chau Kam Kwan was appointed authorised representative and process agent from 14 October.",
+          "The filing also notes that after the resignation the board has no female director, falling short of the listing rule on gender diversity. The company says it will use reasonable endeavours to appoint and restore compliance within three months. This piece does not discuss share price or governance scores.",
+        ],
+      },
+      {
+        heading: "對客戶點核對",
+        headingEn: "What customers should check",
+        paragraphs: [
+          "公告係公司管治層面嘅人事變動，無寫任何月費、計劃、門市開放時間或服務中斷。現有SmarTone、SmarTone 5G、家居寬頻或出機合約，條款同服務以你份合約同電訊商確認為準，唔會因為行政總裁辭任而自動改。",
+          "想核對自己計劃、覆蓋或者出機安排，用齊Quote篩選或者打SmarTone客戶熱線／到門市。呢篇係人事公告摘要，唔係服務通知。",
+        ],
+        paragraphsEn: [
+          "The announcement is a governance personnel change. It states no monthly fee, plan, store hours or service interruption. Existing SmarTone mobile, 5G, home broadband or handset contracts follow your contract and the carrier’s confirmation; they do not change automatically because the CEO resigned.",
+          "To check your plan, coverage or handset arrangement, use the ChaiQuote filters or call SmarTone customer service or visit a store. This piece is a summary of the filing, not a service notice.",
+        ],
+      },
+    ],
+    tags: ["SmarTone", "數碼通", "行政總裁", "港交所"],
+    tagsEn: ["SmarTone", "CEO", "HKEX", "telecom"],
+    editorNote:
+      "電訊專區今次唔係再講一次Duo預先登記截止。新事實係10月13日港交所公告：劉若虹自10月14日起辭任SmarTone行政總裁，過渡由馮玉麟與管理團隊負責。公告無寫任何月費或服務改動。\n\n我唔會估「會唔會影響網絡」或者填任何數字。客戶合約照舊，想對計劃就用篩選或問電訊商。人事公告係事實，唔係優惠。",
+    editorNoteEn:
+      "This is not another reminder that the Duo pre-registration ends. The new fact is the 13 October HKEX filing: Lau Yuk Hung resigned as SmarTone CEO from 14 October, with Fung Yuk Lun and the management team covering in the interim. The filing states no fee or service change.\n\nNo guess is made about network impact, and no number is filled in. Contracts stay as written; check plans with the filters or the carrier. A personnel filing is a fact, not an offer.",
+    related: ["smartone-iphone-duo-prereg-oct15", "smartone-3g-close-2026"],
+    sourceUrl: "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/1013/2026101300226_c.pdf",
+    image: "/images/news-telecom.jpg",
+    imageAlt: "SmarTone 品牌標誌",
+    imageCredit: "SmarTone",
+  },
+  {
     slug: "sim-realname-offence-draft",
     category: "telecom",
     minutes: 4,
