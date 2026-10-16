@@ -83,9 +83,14 @@ const EXACT: Record<string, string> = {
 
 const PHRASES: [string, string][] = [
   ["2,000 The Club 積分", "2,000 The Club points"],
-  ["轉台可豁免每月行政費 HK$18；6 個月內轉台另享 HK$200 月費回贈；12 個月內轉台另享 HK$800 CSL 手機及智能家電禮券（須預繳 HK$500）", "Port-in can waive HK$18 admin/month; extra HK$200 fee rebate if port-in within 6 months; HK$800 CSL handset and smart-home voucher if port-in within 12 months (HK$500 prepaid)"],
-  ["轉台可豁免每月行政費 HK$18；6 個月內轉台另享 HK$200 月費回贈；12 個月內轉台另享 HK$1,000 CSL 手機及智能家電禮券（須預繳 HK$500）", "Port-in can waive HK$18 admin/month; extra HK$200 fee rebate if port-in within 6 months; HK$1,000 CSL handset and smart-home voucher if port-in within 12 months (HK$500 prepaid)"],
-  ["轉台可豁免每月行政費 HK$18；轉台另享 HK$100 月費回贈", "Port-in can waive HK$18 admin/month; extra HK$100 fee rebate on port-in"],
+  ["轉台可豁免每月行政費 HK$18；攜號轉台每月額外 10GB 本地數據", "Port-in can waive HK$18 admin/month; port-in adds 10GB local data a month"],
+  ["轉台可豁免每月行政費 HK$18；攜號轉台每月額外 10GB 本地數據。6 個月內轉台另享 HK$100 月費回贈；12 個月內轉台每月回贈 HK$10", "Port-in can waive HK$18 admin/month; port-in adds 10GB local data a month. Extra HK$100 fee rebate if port-in within 6 months; HK$10 a month if port-in within 12 months"],
+  ["轉台可豁免每月行政費 HK$18；6 個月內轉台另享 HK$200 月費回贈；12 個月內轉台每月回贈 HK$20", "Port-in can waive HK$18 admin/month; extra HK$200 fee rebate if port-in within 6 months; HK$20 a month if port-in within 12 months"],
+  ["轉台可豁免每月行政費 HK$18；6 個月內轉台另享 HK$200 月費回贈；12 個月內轉台每月回贈 HK$25", "Port-in can waive HK$18 admin/month; extra HK$200 fee rebate if port-in within 6 months; HK$25 a month if port-in within 12 months"],
+  ["20GB 後以 1Mbps 任用。攜號轉台每月額外 10GB，合共 30GB 後以 1Mbps 任用。", "20GB then unlimited at 1Mbps. Port-in adds 10GB a month, 30GB in total then 1Mbps."],
+  ["30GB 後以 1Mbps 任用", "30GB then unlimited at 1Mbps"],
+  ["60GB 後以 1Mbps 任用", "60GB then unlimited at 1Mbps"],
+  ["100GB 後以 1Mbps 任用", "100GB then unlimited at 1Mbps"],
   ["5G 20GB（24 個月）", "5G 20GB (24 months)"],
   ["5G 20GB（36 個月）", "5G 20GB (36 months)"],
   ["5G 中小學學生 10GB（24 個月）", "5G primary/secondary student 10GB (24 months)"],

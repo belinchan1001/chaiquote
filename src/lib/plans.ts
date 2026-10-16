@@ -225,11 +225,17 @@ const LIMITS_CSL_PRIMARY_SECONDARY =
   "須持有中小學學生手冊或學生證。不適用於大專或大學。實際月費、數據用量及申請資格以電訊商確認為準。";
 const ROAM_CSL_1 = "每月 1GB 中國內地及澳門數據";
 const ROAM_CSL_3 = "每月 3GB 中國內地及澳門數據";
-const PORT_CSL_36_100 = "轉台可豁免每月行政費 HK$18；轉台另享 HK$100 月費回贈";
-const PORT_CSL_36_800 =
-  "轉台可豁免每月行政費 HK$18；6 個月內轉台另享 HK$200 月費回贈；12 個月內轉台另享 HK$800 CSL 手機及智能家電禮券（須預繳 HK$500）";
-const PORT_CSL_36_1000 =
-  "轉台可豁免每月行政費 HK$18；6 個月內轉台另享 HK$200 月費回贈；12 個月內轉台另享 HK$1,000 CSL 手機及智能家電禮券（須預繳 HK$500）";
+const PORT_CSL_20_24 = "轉台可豁免每月行政費 HK$18；攜號轉台每月額外 10GB 本地數據";
+const PORT_CSL_20_36 =
+  "轉台可豁免每月行政費 HK$18；攜號轉台每月額外 10GB 本地數據。6 個月內轉台另享 HK$100 月費回贈；12 個月內轉台每月回贈 HK$10";
+const PORT_CSL_30_36 =
+  "轉台可豁免每月行政費 HK$18；6 個月內轉台另享 HK$200 月費回贈；12 個月內轉台每月回贈 HK$20";
+const PORT_CSL_60_36 =
+  "轉台可豁免每月行政費 HK$18；6 個月內轉台另享 HK$200 月費回贈；12 個月內轉台每月回贈 HK$25";
+const FUP_CSL_20 = "20GB 後以 1Mbps 任用。攜號轉台每月額外 10GB，合共 30GB 後以 1Mbps 任用。";
+const FUP_CSL_30 = "30GB 後以 1Mbps 任用";
+const FUP_CSL_60 = "60GB 後以 1Mbps 任用";
+const FUP_CSL_100 = "100GB 後以 1Mbps 任用";
 const PERK_CMHK_SOCIAL = "送任用社交及娛樂數據組合（原價 HK$38／月）";
 
 export const PLANS: Plan[] = [
@@ -3060,14 +3066,14 @@ export const PLANS: Plan[] = [
     contractMonths: 24,
     dataGb: 20,
     highSpeedGb: 20,
-    fupNote: "其後以 1Mbps 任用",
+    fupNote: FUP_CSL_20,
     voice: "本地無限分鐘",
     roaming: ROAM_CSL_3,
     install: "不適用",
     housing: "all",
     network: "5G",
     perks: [],
-    portInPerk: PERK_CSL_ADMIN_PORT,
+    portInPerk: PORT_CSL_20_24,
     bestFor: "適合需要 5G 20GB 及每月 3GB 中澳數據之用戶",
   },
   {
@@ -3080,14 +3086,14 @@ export const PLANS: Plan[] = [
     contractMonths: 36,
     dataGb: 20,
     highSpeedGb: 20,
-    fupNote: "其後以 1Mbps 任用",
+    fupNote: FUP_CSL_20,
     voice: "本地無限分鐘",
     roaming: ROAM_CSL_3,
     install: "不適用",
     housing: "all",
     network: "5G",
     perks: [],
-    portInPerk: PORT_CSL_36_100,
+    portInPerk: PORT_CSL_20_36,
     bestFor: "適合需要 5G 20GB 及每月 3GB 中澳數據之用戶",
   },
   {
@@ -3140,7 +3146,7 @@ export const PLANS: Plan[] = [
     contractMonths: 24,
     dataGb: 30,
     highSpeedGb: 30,
-    fupNote: "其後以 1Mbps 任用",
+    fupNote: FUP_CSL_30,
     voice: "本地無限分鐘",
     roaming: ROAM_CSL_3,
     install: "不適用",
@@ -3160,14 +3166,14 @@ export const PLANS: Plan[] = [
     contractMonths: 36,
     dataGb: 30,
     highSpeedGb: 30,
-    fupNote: "其後以 1Mbps 任用",
+    fupNote: FUP_CSL_30,
     voice: "本地無限分鐘",
     roaming: ROAM_CSL_3,
     install: "不適用",
     housing: "all",
     network: "5G",
     perks: [PERK_CSL_ADMIN, PERK_CSL_CLUB],
-    portInPerk: PORT_CSL_36_800,
+    portInPerk: PORT_CSL_30_36,
     bestFor: "適合需要 5G 30GB 及無限通話之用戶",
   },
   {
@@ -3180,7 +3186,7 @@ export const PLANS: Plan[] = [
     contractMonths: 24,
     dataGb: 60,
     highSpeedGb: 60,
-    fupNote: "其後以 1Mbps 任用",
+    fupNote: FUP_CSL_60,
     voice: "本地無限分鐘",
     roaming: ROAM_CSL_3,
     install: "不適用",
@@ -3200,14 +3206,14 @@ export const PLANS: Plan[] = [
     contractMonths: 36,
     dataGb: 60,
     highSpeedGb: 60,
-    fupNote: "其後以 1Mbps 任用",
+    fupNote: FUP_CSL_60,
     voice: "本地無限分鐘",
     roaming: ROAM_CSL_3,
     install: "不適用",
     housing: "all",
     network: "5G",
     perks: [PERK_CSL_ADMIN, PERK_CSL_CLUB],
-    portInPerk: PORT_CSL_36_1000,
+    portInPerk: PORT_CSL_60_36,
     bestFor: "適合需要 5G 60GB 及無限通話之用戶",
   },
   {
@@ -3220,7 +3226,7 @@ export const PLANS: Plan[] = [
     contractMonths: 24,
     dataGb: 100,
     highSpeedGb: 100,
-    fupNote: "其後以 1Mbps 任用",
+    fupNote: FUP_CSL_100,
     voice: "本地無限分鐘",
     roaming: ROAM_CSL_3,
     install: "不適用",
@@ -3240,14 +3246,14 @@ export const PLANS: Plan[] = [
     contractMonths: 36,
     dataGb: 100,
     highSpeedGb: 100,
-    fupNote: "其後以 1Mbps 任用",
+    fupNote: FUP_CSL_100,
     voice: "本地無限分鐘",
     roaming: ROAM_CSL_3,
     install: "不適用",
     housing: "all",
     network: "5G",
     perks: [PERK_CSL_ADMIN, PERK_CSL_CLUB],
-    portInPerk: PORT_CSL_36_1000,
+    portInPerk: PORT_CSL_60_36,
     bestFor: "適合需要 5G 100GB 及無限通話之用戶",
   },
   {

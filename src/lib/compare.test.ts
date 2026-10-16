@@ -1747,7 +1747,7 @@ function planCopy(row: ReturnType<typeof plan>) {
 }
 
 describe("CSL 5G 20GB $108", () => {
-  it("splits 24- and 36-month cards with unlimited local voice and keeps the $100 rebate on 36 months only", () => {
+  it("splits 24- and 36-month cards and keeps the extra data and fee rebates on the stated terms", () => {
     const a24 = plan("csl-5g-20-108-24m");
     const a36 = plan("csl-5g-20-108-36m");
     assert.equal(getPlan("csl-5g-20")?.id, "csl-5g-20-108-24m");
@@ -1759,24 +1759,30 @@ describe("CSL 5G 20GB $108", () => {
       assert.equal(row.monthlyFee, 108);
       assert.equal(row.dataGb, 20);
       assert.equal(row.highSpeedGb, 20);
-      assert.equal(row.fupNote, "其後以 1Mbps 任用");
+      assert.equal(row.fupNote, "20GB 後以 1Mbps 任用。攜號轉台每月額外 10GB，合共 30GB 後以 1Mbps 任用。");
       assert.equal(row.voice, "本地無限分鐘");
       assert.equal(row.roaming, "每月 3GB 中國內地及澳門數據");
       assert.equal(row.quotePick, undefined);
       assert.equal(row.hot, undefined);
       assert.equal(row.latestOffer, undefined);
-      assert.doesNotMatch(JSON.stringify(row), /最平/);
+      assert.match(row.portInPerk ?? "", /每月額外 10GB/);
+      assert.doesNotMatch(JSON.stringify(row), /最平|禮券/);
     }
     assert.equal(a24.contractMonths, 24);
     assert.equal(a24.name, "5G 20GB（24 個月）");
-    assert.equal(a24.portInPerk, "轉台可豁免每月行政費 HK$18");
+    assert.equal(a24.portInPerk, "轉台可豁免每月行政費 HK$18；攜號轉台每月額外 10GB 本地數據");
     assert.equal(planCopy(a24).includes("HK$100"), false);
+    assert.equal(planCopy(a24).includes("HK$10"), false);
     assert.equal(a36.contractMonths, 36);
     assert.equal(a36.name, "5G 20GB（36 個月）");
     assert.match(a36.portInPerk ?? "", /轉台可豁免每月行政費 HK\$18/);
     assert.match(a36.portInPerk ?? "", /HK\$100 月費回贈/);
+    assert.match(a36.portInPerk ?? "", /每月回贈 HK\$10/);
     assert.equal(toEnglish(a24.name), "5G 20GB (24 months)");
-    assert.equal(toEnglish(a36.portInPerk ?? ""), "Port-in can waive HK$18 admin/month; extra HK$100 fee rebate on port-in");
+    assert.equal(
+      toEnglish(a36.portInPerk ?? ""),
+      "Port-in can waive HK$18 admin/month; port-in adds 10GB local data a month. Extra HK$100 fee rebate if port-in within 6 months; HK$10 a month if port-in within 12 months",
+    );
     assert.equal(toEnglish(a24.roaming ?? ""), "3GB Mainland & Macao data/month");
     assert.equal(toEnglish(a24.voice ?? ""), "Unlimited local minutes");
   });
@@ -1850,21 +1856,28 @@ describe("CSL 5G $138 $168 $198", () => {
       assert.equal(row.network, "5G");
       assert.equal(row.voice, "本地無限分鐘");
       assert.equal(row.roaming, "每月 3GB 中國內地及澳門數據");
-      assert.equal(row.fupNote, "其後以 1Mbps 任用");
+      assert.equal(
+        row.fupNote,
+        row.dataGb === 30 ? "30GB 後以 1Mbps 任用" : row.dataGb === 60 ? "60GB 後以 1Mbps 任用" : "100GB 後以 1Mbps 任用",
+      );
       assert.ok(row.perks.includes("每月行政費 HK$18"));
       assert.ok(row.perks.includes("2,000 The Club 積分"));
       assert.match(row.portInPerk ?? "", /轉台可豁免每月行政費 HK\$18/);
     }
     assert.equal(a24.portInPerk?.includes("HK$200"), false);
     assert.equal(b24.portInPerk?.includes("禮券"), false);
-    assert.match(a36.portInPerk ?? "", /HK\$200 月費回贈/);
-    assert.match(a36.portInPerk ?? "", /HK\$800 CSL 手機及智能家電禮券/);
-    assert.match(a36.portInPerk ?? "", /須預繳 HK\$500/);
-    assert.match(b36.portInPerk ?? "", /HK\$1,000 CSL 手機及智能家電禮券/);
-    assert.match(c36.portInPerk ?? "", /HK\$1,000 CSL 手機及智能家電禮券/);
+    assert.equal(a36.portInPerk?.includes("禮券"), false);
+    assert.match(a36.portInPerk ?? "", /6 個月內轉台另享 HK\$200 月費回贈/);
+    assert.match(a36.portInPerk ?? "", /12 個月內轉台每月回贈 HK\$20/);
+    assert.match(b36.portInPerk ?? "", /12 個月內轉台每月回贈 HK\$25/);
+    assert.match(c36.portInPerk ?? "", /12 個月內轉台每月回贈 HK\$25/);
+    assert.equal(b36.portInPerk?.includes("禮券"), false);
     assert.equal(plan("csl-5g-20-108-24m").monthlyFee, 108);
     assert.equal(toEnglish(a24.name), "5G 30GB (24 months)");
-    assert.equal(toEnglish(a36.portInPerk ?? ""), "Port-in can waive HK$18 admin/month; extra HK$200 fee rebate if port-in within 6 months; HK$800 CSL handset and smart-home voucher if port-in within 12 months (HK$500 prepaid)");
+    assert.equal(
+      toEnglish(a36.portInPerk ?? ""),
+      "Port-in can waive HK$18 admin/month; extra HK$200 fee rebate if port-in within 6 months; HK$20 a month if port-in within 12 months",
+    );
   });
 });
 
