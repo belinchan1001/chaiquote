@@ -433,7 +433,7 @@ describe("HKBN AX23 stockout → Archer BE220 Wi-Fi 7", () => {
     );
     assert.equal(
       toEnglish(pick2800.perks[1]),
-      "Pick one: 12 months Disney+ Standard, 12 months Netflix Standard, 12 months iQIYI Diamond, or a TP-Link Archer BE220 router",
+      "Pick one: 12 months HBO Max Standard Standard, 12 months Netflix Standard, 12 months iQIYI Diamond, or a TP-Link Archer BE220 router",
     );
 
     const dual = plan("hkbn-ftth-2x1000-36m-75-intake");
@@ -567,7 +567,7 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     assert.deepEqual(plan128.housing, ["public", "hos"]);
     assert.equal(plan128.network, "光纖入屋");
     assert.deepEqual(plan128.perks, [
-      "12 個月 Disney+",
+      "12 個月 HBO Max 標準版",
       "包 Linksys EA9350 Wi-Fi 6 路由器",
       MOVE,
       NOWTV,
@@ -575,7 +575,7 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     assert.equal(plan128.limits, FTTH_LIMITS);
     assert.equal(plan128.hot, undefined);
     assert.equal(toEnglish(plan128.name), "Public/HOS 1000M fibre (36 months + Wi-Fi 6)");
-    assert.equal(toEnglish(plan128.perks[0]), "12 months Disney+");
+    assert.equal(toEnglish(plan128.perks[0]), "12 months HBO Max Standard");
     assert.equal(toEnglish(plan128.perks[1]), "Includes a Linksys EA9350 Wi-Fi 6 router");
 
     const plan158 = plan("netvigator-ftth-2500-public-36m-158");
@@ -590,7 +590,7 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     assert.deepEqual(plan158.housing, ["public", "hos"]);
     assert.equal(plan158.network, "光纖入屋");
     assert.deepEqual(plan158.perks, [
-      "12 個月 Disney+",
+      "12 個月 HBO Max 標準版",
       "包 Wi-Fi 7 路由器",
       "家居固網電話",
       MOVE,
@@ -670,7 +670,7 @@ describe("Netvigator public/HOS fibre $98 $128 $158", () => {
     assert.equal(private176.name, "私人樓宇 2500M 光纖（36 個月＋Wi-Fi 7）");
     assert.deepEqual(private176.housing, ["private"]);
     assert.deepEqual(private176.perks, [
-      "12 個月 Disney+",
+      "12 個月 HBO Max 標準版",
       "包 Wi-Fi 7 二合一路由器",
       "送 Now TV 頻道",
       "豁免搬遷費",
@@ -787,7 +787,7 @@ describe("Netvigator private 1000M $128", () => {
     assert.equal(private128.housing.includes("hos"), false);
     assert.equal(private128.network, "光纖入屋");
     assert.deepEqual(private128.perks, [
-      "12 個月 Disney+",
+      "12 個月 HBO Max 標準版",
       "包 Linksys EA9350 Wi-Fi 6 路由器",
       MOVE,
       NOWTV,
@@ -802,7 +802,7 @@ describe("Netvigator private 1000M $128", () => {
     assert.equal(private128.perks.includes("豁免搬遷費"), false);
     assert.equal(private128.perks.includes("可加購每月 HK$68 換購指定家電（須符合資格）"), false);
     assert.equal(toEnglish(private128.name), "Private 1000M fibre (36 months + Wi-Fi 6)");
-    assert.equal(toEnglish(private128.perks[0]), "12 months Disney+");
+    assert.equal(toEnglish(private128.perks[0]), "12 months HBO Max Standard");
     assert.equal(toEnglish(private128.perks[1]), "Includes a Linksys EA9350 Wi-Fi 6 router");
 
     const public128 = plan("netvigator-ftth-1000-public-36m-128");
@@ -814,7 +814,7 @@ describe("Netvigator private 1000M $128", () => {
     assert.equal(public128.hot, undefined);
     assert.equal(public128.bestFor, "適合公屋或居屋、需要 1000M 光纖之住戶");
     assert.deepEqual(public128.perks, [
-      "12 個月 Disney+",
+      "12 個月 HBO Max 標準版",
       "包 Linksys EA9350 Wi-Fi 6 路由器",
       MOVE,
       NOWTV,
@@ -989,7 +989,7 @@ describe("Netvigator exclusive-private 2500M $244", () => {
     assert.equal(disney36.name, "私人樓宇 2500M 光纖（36 個月＋Wi-Fi 7）");
     assert.equal(disney36.contractMonths, 36);
     assert.deepEqual(disney36.perks, [
-      "12 個月 Disney+",
+      "12 個月 HBO Max 標準版",
       "包 Wi-Fi 7 二合一路由器",
       "送 Now TV 頻道",
       "豁免搬遷費",

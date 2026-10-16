@@ -178,7 +178,7 @@ const PHRASES: [string, string][] = [
   ["24 個月 myTV SUPER 基本版（智能電視版）（價值 $1,152）", "24 months myTV SUPER basic (smart TV) (value $1,152)"],
   ["12 個月 myTV SUPER 基本版（智能電視版）", "12 months myTV SUPER basic (smart TV)"],
   ["12 個月 myTV Gold 服務", "12 months myTV Gold"],
-  ["12 個月 Disney+", "12 months Disney+"],
+  ["12 個月 HBO Max 標準版", "12 months HBO Max Standard"],
   ["24 個月 iQIYI 愛奇藝黃金會員", "24 months iQIYI Gold"],
   ["24 個月 Disney+ 標準計劃", "24 months Disney+ Standard"],
   ["24 個月 Netflix 標準計劃", "24 months Netflix Standard"],
