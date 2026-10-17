@@ -190,11 +190,12 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
       </ul>
 
       {detailBits.length || plan.category === "business" ? (
-        <details className="mt-3 text-xs leading-relaxed text-muted">
-          <summary className="cursor-pointer text-[#6B7280]">
+        <details className="mt-3">
+          <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 rounded-full bg-[#EFF6FF] px-3 py-1.5 text-sm font-medium text-[#1D4ED8] transition-colors hover:bg-[#DBEAFE] [&::-webkit-details-marker]:hidden">
             {locale === "en" ? "Details: prepay, cooling-off and terms" : "睇詳情：預繳、冷靜期等"}
+            <span className="text-xs opacity-70">▾</span>
           </summary>
-          <div className="mt-2 space-y-1">
+          <div className="mt-2 space-y-1 text-sm text-[#374151]">
             {detailBits.map((line) => (
               <p key={line}>{tx(line)}</p>
             ))}
