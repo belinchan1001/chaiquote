@@ -1575,7 +1575,9 @@ describe("CMHK 1000M FTTH $98 36-month", () => {
     assert.equal(row.contractMonths, 36);
     assert.equal(row.speedMbps, 1000);
     assert.equal(row.install, "豁免安裝費");
-    assert.deepEqual(row.perks, ["首 3 個月免月費"]);
+    assert.deepEqual(row.perks, ["第 2、第 5 及第 7 個月免月費"]);
+    assert.equal(toEnglish(row.perks[0]), "Months 2, 5 and 7 free");
+    assert.doesNotMatch(row.perks.join(" "), /首/);
     assert.equal(row.quotePick, true);
     assert.deepEqual(row.housing, ["public", "hos", "private"]);
   });

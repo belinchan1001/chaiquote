@@ -1576,7 +1576,7 @@ export const PLANS: Plan[] = [
     install: "豁免安裝費",
     housing: ["public", "hos", "private"],
     network: "光纖入屋",
-    perks: ["首 3 個月免月費"],
+    perks: ["第 2、第 5 及第 7 個月免月費"],
     quotePick: true,
     bestFor: "適合公屋、居屋或私人住宅之入門 1000M 住戶",
   },
