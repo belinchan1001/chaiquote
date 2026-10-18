@@ -1599,6 +1599,30 @@ describe("CMHK 1000M FTTH $88 36-month", () => {
   });
 });
 
+describe("CMHK village 1000M $218", () => {
+  it("adds a village-only 24-month card and keeps the public HK$98 plan", () => {
+    const row = plan("cmhk-ftth-1000-village-24m-218");
+    assert.equal(row.providerId, "cmhk");
+    assert.equal(row.category, "broadband");
+    assert.equal(row.name, "村屋 1000M 光纖（24 個月）");
+    assert.equal(row.monthlyFee, 218);
+    assert.equal(row.freeMonths, 0);
+    assert.equal(row.contractMonths, 24);
+    assert.equal(row.speedMbps, 1000);
+    assert.equal(row.install, "豁免安裝費（原價 HK$680）");
+    assert.deepEqual(row.housing, ["village"]);
+    assert.equal(row.quotePick, undefined);
+    assert.equal(row.limits, "僅適用於村屋。不適用於公屋、居屋及私人樓宇。實際覆蓋須核對門牌。");
+    assert.equal(toEnglish(row.name), "Village 1000M fibre (24 months)");
+    assert.equal(toEnglish(row.install), "Installation waived (was HK$680)");
+
+    assert.equal(filterPlans({ cat: "broadband", housing: "village" }).some((item) => item.id === row.id), true);
+    assert.equal(filterPlans({ cat: "broadband", housing: "public" }).some((item) => item.id === row.id), false);
+    assert.equal(filterPlans({ cat: "broadband", housing: "private" }).some((item) => item.id === row.id), false);
+    assert.equal(plan("cmhk-ftth-1000").monthlyFee, 98);
+  });
+});
+
 describe("3HK mobile catalogue", () => {
   it("replaces the previous five cards with the twenty screenshot plans", () => {
     for (const id of ["three-45g-44", "three-5g-60-79", "three-5g-100-105", "three-5g-70-cga", "three-5g-200-145"]) {
