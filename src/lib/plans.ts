@@ -1609,6 +1609,7 @@ export const PLANS: Plan[] = [
     network: "光纖入屋",
     perks: [],
     limits: "僅適用於村屋。不適用於公屋、居屋及私人樓宇。實際覆蓋須核對門牌。",
+    latestOffer: true,
     bestFor: "適合村屋、需要 1000M 光纖之住戶",
   },
   {
