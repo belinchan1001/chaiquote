@@ -3,6 +3,83 @@ import type { TechNewsArticle } from "./tech-news.ts";
 /** Extra news pieces. GTA 6 still lives in TECH_NEWS_ARTICLES. */
 export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
   {
+    slug: "cmhk-u6ghz-mongkok-oct17",
+    category: "telecom",
+    minutes: 4,
+    published: "2026-10-19",
+    seoTitle: "中移香港旺角店完成U6GHz網絡驗證｜齊Quote",
+    h1: "中移香港旺角旗艦店完成U6GHz網絡驗證",
+    description:
+      "中國移動香港2026年10月17日宣布，率先於旺角旗艦店完成Upper 6GHz（U6GHz）網絡測試及驗證，成為全港首個。新增100MHz連續頻譜可與現有頻段聚合，下載速率可達3Gbps以上。未公布商用日期同覆蓋範圍。內容僅供參考，以電訊商確認為準。",
+    excerpt: "中移香港10月17日宣布，旺角旗艦店完成全港首個U6GHz網絡測試及驗證。2024年投得100MHz連續頻譜，聚合後可達3Gbps以上。未寫商用日同覆蓋，以電訊商確認為準。",
+    seoTitleEn: "CMHK completes U6GHz network validation at Mong Kok store | 齊Quote",
+    h1En: "China Mobile Hong Kong completes U6GHz network validation at Mong Kok flagship",
+    descriptionEn:
+      "On 17 October 2026 China Mobile Hong Kong announced it has taken the lead in realising a U6GHz network, completing testing and validation at its Mong Kok flagship store. The 100MHz continuous spectrum from the 2024 auction can be aggregated with existing bands for download speeds of 3Gbps or more. No commercial launch date or coverage area is published. Confirm with the carrier.",
+    excerptEn: "CMHK said on 17 October it has completed testing and validation of Hong Kong’s first U6GHz network at its Mong Kok flagship. The 100MHz block from the 2024 auction can be aggregated for 3Gbps-plus downloads. No launch date or coverage is given.",
+    bullets: [
+      "2026年10月17日宣布：率先於旺角旗艦店完成U6GHz網絡測試及驗證，稱為全港首個。",
+      "香港2024年11月29日完成全球首個6/7GHz公共流動服務頻譜拍賣；中移香港投得100MHz連續頻譜。",
+      "新增頻譜可與現有頻段協同，透過載波聚合可實現3Gbps以上下載速率。公告未寫商用開通日、覆蓋範圍或可用手機。",
+      "公司表示會推進終端適配、智算協同，並按需求擴展熱點覆蓋。現有計劃同月費以電訊商確認為準，呢篇唔寫數字。",
+    ],
+    bulletsEn: [
+      "Announced 17 October 2026: testing and validation of a U6GHz network completed at the Mong Kok flagship, described as Hong Kong’s first.",
+      "Hong Kong completed the world’s first public-mobile 6/7GHz auction on 29 November 2024; CMHK secured 100MHz of continuous spectrum.",
+      "The new spectrum can be combined with existing bands via carrier aggregation for download speeds of 3Gbps or higher. No commercial date, coverage area or handset support is stated.",
+      "The company says it will advance terminal adaptation and intelligent-computing synergy, and expand hotspot coverage as needed. Existing plans and fees follow the carrier; none are written here.",
+    ],
+    body: [
+      {
+        heading: "公告寫死咗咩",
+        headingEn: "What the announcement actually states",
+        paragraphs: [
+          "中國移動香港有限公司2026年10月17日透過新聞稿宣布，率先實現U6GHz網絡，並於旺角旗艦店完成網絡測試及驗證，推進Upper 6GHz頻段在流動網絡的應用探索。公司形容為全港首個。U6GHz即Upper 6GHz頻段，可提供連續大頻寬，支援5G-A及未來6G演進。",
+          "香港於2024年11月29日完成6/7GHz頻譜拍賣，成為全球首個拍賣該頻帶供公共流動服務使用的地區。中國移動香港投得100MHz連續頻譜。公告寫，新增U6GHz頻譜可與現有頻段協同使用，透過頻譜聚合技術可實現3Gbps以上的下載速率。更多可用頻譜有助提升數據傳輸能力，容納更多用戶同時連接，改善繁忙區域上網體驗。",
+        ],
+        paragraphsEn: [
+          "On 17 October 2026 China Mobile Hong Kong announced it has taken the lead in realising a U6GHz network, completing testing and validation at its Mong Kok flagship store and advancing exploration of Upper 6GHz band applications in mobile networks. It is described as Hong Kong’s first. U6GHz, the Upper 6GHz band, provides continuous wide bandwidth supporting 5G-Advanced and future 6G evolution.",
+          "Hong Kong completed its 6/7GHz spectrum auction on 29 November 2024, becoming the first jurisdiction to auction the band for public mobile services. China Mobile Hong Kong secured 100MHz of continuous spectrum. The announcement states the new spectrum can be used with existing bands via aggregation to achieve download speeds of 3Gbps or higher, supporting more simultaneous connections and better experience in congested areas.",
+        ],
+      },
+      {
+        heading: "未寫死嘅部分",
+        headingEn: "What is not dated",
+        paragraphs: [
+          "公告沒有公布商用開通日期、現有覆蓋範圍、活躍站點數量、設備供應商，或哪款市售手機已經支援U6GHz。測試同驗證係喺旺角旗艦店完成，唔等於全港即時可用。公司話會聯同業界夥伴加快U6GHz產品研發與測試，並按需求擴展熱點覆蓋，為未來6G商用積累經驗。",
+          "想知道自己個區而家有冇呢個頻段，或者會唔會影響現有5G計劃，以中國移動香港確認為準。呢篇唔會估開通日，亦唔會寫任何月費。",
+        ],
+        paragraphsEn: [
+          "The announcement does not give a commercial launch date, current coverage area, number of active sites, equipment supplier, or which consumer handsets already support U6GHz. Testing and validation were completed at the Mong Kok flagship; that is not the same as territory-wide availability. The company says it will work with partners on product research and testing, and expand hotspot coverage according to demand, to accumulate experience for future 6G commercialisation.",
+          "Whether the band is available in your area, or whether it changes an existing 5G plan, is confirmed by China Mobile Hong Kong. This piece does not guess a launch date and does not write any monthly fee.",
+        ],
+      },
+      {
+        heading: "點核對同下一步",
+        headingEn: "How to check and next step",
+        paragraphs: [
+          "現有中國移動香港流動或家居計劃，條款同覆蓋以你份合約同電訊商確認為準，唔會因為呢個網絡驗證而自動改月費。想對實自己地址嘅網絡，用齊Quote篩選或者打中移香港客戶熱線／到門市。",
+          "如果之後有官方商用公告、指定手機支援或者熱點覆蓋名單，先至係另一篇新事實。而家見到嘅，係旺角店完成測試及驗證、100MHz頻譜同3Gbps聚合能力。",
+        ],
+        paragraphsEn: [
+          "Existing China Mobile Hong Kong mobile or home plans follow your contract and the carrier’s confirmation; they do not change automatically because of this network validation. To check coverage at your address, use the ChaiQuote filters or call CMHK customer service or visit a store.",
+          "A later official commercial launch, a named handset that supports the band, or a published hotspot list would be a separate new fact. What is written now is the Mong Kok validation, the 100MHz block and the 3Gbps aggregation capability.",
+        ],
+      },
+    ],
+    tags: ["中國移動香港", "CMHK", "U6GHz", "5G-A", "6G"],
+    tagsEn: ["China Mobile Hong Kong", "CMHK", "U6GHz", "5G-Advanced", "6G"],
+    editorNote:
+      "電訊專區今次唔係再講一次SmarTone行政總裁辭任。新事實係10月17日中移香港新聞稿：旺角旗艦店完成全港首個U6GHz網絡測試及驗證。2024年投得嘅100MHz連續頻譜，聚合後可達3Gbps以上。公告無寫商用開通日、覆蓋範圍或者可用手機。\n\n我唔會代填「幾時全港用到」或者任何月費。驗證完成係事實，商用係另一回事。想對自己個區有冇線，問電訊商或者用篩選，唔好當呢篇係覆蓋地圖。",
+    editorNoteEn:
+      "This is not another note that the SmarTone CEO has resigned. The new fact is the 17 October China Mobile Hong Kong release: testing and validation of Hong Kong’s first U6GHz network completed at the Mong Kok flagship. The 100MHz continuous spectrum from the 2024 auction can be aggregated for 3Gbps-plus downloads. The release states no commercial date, coverage area or supported handset.\n\nNo launch date is filled in, and no monthly fee is written. Validation is a fact; commercial service is separate. Check your area with the carrier or the filters. This page is not a coverage map.",
+    related: ["smartone-ceo-resign-oct14", "smartone-3g-close-2026"],
+    sourceUrl: "https://www.prnewswire.com/apac/zh/news-releases/u6ghz-302911835.html",
+    image: "/images/news-cmhk-u6g.jpg",
+    imageAlt: "中國移動標誌同U6G字樣，來自公司新聞稿圖片",
+    imageCredit: "China Mobile Hong Kong / PR Newswire",
+  },
+  {
     slug: "smartone-ceo-resign-oct14",
     category: "telecom",
     minutes: 4,
