@@ -95,6 +95,11 @@ export function SiteFooter() {
                 {t("estatesDirTitle")}
               </Link>
             </li>
+            <li>
+              <Link to="/new-intake" className="hover:underline">
+                {t("newIntakeTitle")}
+              </Link>
+            </li>
           </ul>
         </div>
         <div>

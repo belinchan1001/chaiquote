@@ -200,6 +200,11 @@ function EstatesIndexPage() {
       <h1 className="mt-6 text-title font-semibold">香港屋苑寬頻比較</h1>
       <p className="mt-2 text-xs text-subtle">{t("dataUpdated", { date: updated })}</p>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{t("estatesDirLead")}</p>
+      <p className="mt-2 text-sm">
+        <Link to="/new-intake" className="font-medium text-accent underline-offset-4 hover:underline">
+          {t("newIntakeTitle")}
+        </Link>
+      </p>
       <p className="mt-2 text-sm font-medium">{t("estatesIndexCount", { n: ESTATES.length })}</p>
 
       <form className="mt-6 max-w-xl space-y-3 rounded-xl bg-card p-4 shadow-[var(--shadow-border)] sm:p-5" onSubmit={onSubmit}>

@@ -19,6 +19,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as SpendRouteImport } from './routes/spend'
 import { Route as EstatesRouteImport } from './routes/estates'
+import { Route as NewIntakeRouteImport } from './routes/new-intake'
 import { Route as GuidesSlugRouteImport } from './routes/guides_.$slug'
 import { Route as PlansPlanIdRouteImport } from './routes/plans_.$planId'
 import { Route as EstatesSlugRouteImport } from './routes/estates_.$slug'
@@ -77,6 +78,11 @@ const EstatesRoute = EstatesRouteImport.update({
   path: '/estates',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NewIntakeRoute = NewIntakeRouteImport.update({
+  id: '/new-intake',
+  path: '/new-intake',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GuidesSlugRoute = GuidesSlugRouteImport.update({
   id: '/guides_/$slug',
   path: '/guides/$slug',
@@ -124,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/quote': typeof QuoteRoute
   '/spend': typeof SpendRoute
   '/estates': typeof EstatesRoute
+  '/new-intake': typeof NewIntakeRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/plans/$planId': typeof PlansPlanIdRoute
   '/estates/$slug': typeof EstatesSlugRoute
@@ -143,6 +150,7 @@ export interface FileRoutesByTo {
   '/quote': typeof QuoteRoute
   '/spend': typeof SpendRoute
   '/estates': typeof EstatesRoute
+  '/new-intake': typeof NewIntakeRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/plans/$planId': typeof PlansPlanIdRoute
   '/estates/$slug': typeof EstatesSlugRoute
@@ -163,6 +171,7 @@ export interface FileRoutesById {
   '/quote': typeof QuoteRoute
   '/spend': typeof SpendRoute
   '/estates': typeof EstatesRoute
+  '/new-intake': typeof NewIntakeRoute
   '/guides_/$slug': typeof GuidesSlugRoute
   '/plans_/$planId': typeof PlansPlanIdRoute
   '/estates_/$slug': typeof EstatesSlugRoute
@@ -184,6 +193,7 @@ export interface FileRouteTypes {
     | '/quote'
     | '/spend'
     | '/estates'
+    | '/new-intake'
     | '/guides/$slug'
     | '/plans/$planId'
     | '/estates/$slug'
@@ -203,6 +213,7 @@ export interface FileRouteTypes {
     | '/quote'
     | '/spend'
     | '/estates'
+    | '/new-intake'
     | '/guides/$slug'
     | '/plans/$planId'
     | '/estates/$slug'
@@ -222,6 +233,7 @@ export interface FileRouteTypes {
     | '/quote'
     | '/spend'
     | '/estates'
+    | '/new-intake'
     | '/guides_/$slug'
     | '/plans_/$planId'
     | '/estates_/$slug'
@@ -242,6 +254,7 @@ export interface RootRouteChildren {
   QuoteRoute: typeof QuoteRoute
   SpendRoute: typeof SpendRoute
   EstatesRoute: typeof EstatesRoute
+  NewIntakeRoute: typeof NewIntakeRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
   PlansPlanIdRoute: typeof PlansPlanIdRoute
   EstatesSlugRoute: typeof EstatesSlugRoute
@@ -323,6 +336,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EstatesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/new-intake': {
+      id: '/new-intake'
+      path: '/new-intake'
+      fullPath: '/new-intake'
+      preLoaderRoute: typeof NewIntakeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guides_/$slug': {
       id: '/guides_/$slug'
       path: '/guides/$slug'
@@ -386,6 +406,7 @@ const rootRouteChildren: RootRouteChildren = {
   QuoteRoute: QuoteRoute,
   SpendRoute: SpendRoute,
   EstatesRoute: EstatesRoute,
+  NewIntakeRoute: NewIntakeRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   PlansPlanIdRoute: PlansPlanIdRoute,
   EstatesSlugRoute: EstatesSlugRoute,

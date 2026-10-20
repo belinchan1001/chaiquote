@@ -140,6 +140,7 @@ export const STATIC_SITEMAP_PAGES: readonly SitemapPage[] = [
   { path: "/guides", changefreq: "monthly", priority: "0.7" },
   { path: "/tech-news", changefreq: "weekly", priority: "0.6" },
   { path: "/estates", changefreq: "weekly", priority: "0.8" },
+  { path: "/new-intake", changefreq: "weekly", priority: "0.8" },
   { path: "/about", changefreq: "monthly", priority: "0.5" },
   { path: "/privacy", changefreq: "monthly", priority: "0.4" },
 ];

@@ -31,7 +31,7 @@ export function SiteHeader() {
   const waOpenProps = quoteWhatsAppActivateProps("", waE164, { source: "header", waPhone: waE164 });
 
   const links: {
-    to: "/plans" | "/guides" | "/about" | "/estates" | "/spend" | "/tech-news";
+    to: "/plans" | "/guides" | "/about" | "/estates" | "/new-intake" | "/spend" | "/tech-news";
     label: string;
     search?: { cat: "broadband" | "home5g" | "mobile" | "business" };
   }[] = [
@@ -41,6 +41,7 @@ export function SiteHeader() {
     { to: "/plans", label: t("navMobile"), search: { cat: "mobile" } },
     { to: "/plans", label: t("navBusiness"), search: { cat: "business" } },
     { to: "/estates", label: t("navEstates") },
+    { to: "/new-intake", label: t("navNewIntake") },
     { to: "/guides", label: guidesLabel },
     { to: "/tech-news", label: newsLabel },
     { to: "/about", label: t("navAbout") },

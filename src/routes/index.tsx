@@ -191,6 +191,16 @@ function Home() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-6xl px-4 pb-2">
+        <Link
+          to="/new-intake"
+          className="block rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-home)] transition-[border-color,box-shadow] duration-150 hover:border-[#0F62FE] hover:shadow-md"
+        >
+          <p className="text-sm font-semibold">{t("newIntakeTitle")}</p>
+          <p className="mt-1 text-xs leading-relaxed text-muted">{t("newIntakeHome")}</p>
+        </Link>
+      </section>
+
       <Suspense fallback={null}>
         <HomeNewsRail />
       </Suspense>
