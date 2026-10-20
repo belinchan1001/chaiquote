@@ -134,6 +134,22 @@ function Home() {
       </Suspense>
 
       <section className="home-below-fold mx-auto max-w-6xl px-4 py-8 sm:py-10">
+        <Link
+          to="/new-intake"
+          className="mb-3 flex flex-col gap-4 rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-home-tile)] sm:flex-row sm:items-center sm:justify-between sm:p-5"
+        >
+          <span>
+            <span className="inline-flex rounded-full bg-intake px-2.5 py-1 text-sm font-medium text-intake-foreground">
+              {t("estatesNewIntakeTag")}
+            </span>
+            <span className="mt-2 block text-lg font-semibold">{t("newIntakeTitle")}</span>
+            <span className="mt-1 block text-sm leading-relaxed text-muted">{t("newIntakeHome")}</span>
+          </span>
+          <span className="inline-flex h-11 w-full items-center justify-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground sm:w-auto sm:shrink-0">
+            {t("newIntakeHomeCta")}
+            <ArrowRight className="ml-1 size-4" />
+          </span>
+        </Link>
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           {categories.map((item, index) => {
             const eager = index < 2;
@@ -189,16 +205,6 @@ function Home() {
             );
           })}
         </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 pb-2">
-        <Link
-          to="/new-intake"
-          className="block rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-home)] transition-[border-color,box-shadow] duration-150 hover:border-[#0F62FE] hover:shadow-md"
-        >
-          <p className="text-sm font-semibold">{t("newIntakeTitle")}</p>
-          <p className="mt-1 text-xs leading-relaxed text-muted">{t("newIntakeHome")}</p>
-        </Link>
       </section>
 
       <Suspense fallback={null}>
