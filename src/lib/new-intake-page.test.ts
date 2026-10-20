@@ -30,7 +30,10 @@ describe("new intake landing", () => {
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/new-intake"));
     const page = readFileSync(join(here, "../routes/new-intake.tsx"), "utf8");
     assert.match(page, /newIntakeCards\(\)/);
-    assert.doesNotMatch(page, /最平|最低|平面圖/);
+    assert.doesNotMatch(page, /最平|最低|平面圖|未有指定/);
+    const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    assert.match(messages, /newIntakeNoOffer: "可以比較\{housing\}計劃。"/);
+    assert.doesNotMatch(messages, /未有指定新入伙/);
     const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
     assert.match(header, /to: "\/new-intake"/);
   });

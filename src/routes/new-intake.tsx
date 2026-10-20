@@ -222,7 +222,7 @@ function NewIntakePage() {
                     ) : null}
                   </>
                 ) : (
-                  <p className="mt-3 text-sm text-muted">
+                  <p className="mt-3 text-sm font-medium text-fg">
                     {card.housing
                       ? t("newIntakeNoOffer", { housing: housingLabel(card.housing) })
                       : t("newIntakeFindLead")}
