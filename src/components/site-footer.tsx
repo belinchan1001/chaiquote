@@ -25,27 +25,7 @@ export function SiteFooter() {
               className="underline-offset-4 hover:underline"
               {...waOpenProps}
             >
-              WhatsApp {SITE.phoneDisplay}（預設）
-            </a>
-          </p>
-          <p className="mt-1 text-sm">
-            <a
-              href={`https://wa.me/${SITE.hkbnWhatsappE164}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline-offset-4 hover:underline"
-            >
-              WhatsApp {SITE.hkbnPhoneDisplay}（香港寬頻）
-            </a>
-          </p>
-          <p className="mt-1 text-sm">
-            <a
-              href={`https://wa.me/${SITE.hktWhatsappE164}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline-offset-4 hover:underline"
-            >
-              WhatsApp {SITE.hktPhoneDisplay}（網上行／HKT）
+              WhatsApp {SITE.phoneDisplay}
             </a>
           </p>
           <p className="mt-2 text-sm">
