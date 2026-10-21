@@ -14,6 +14,11 @@ export const GUIDE_TOPIC_IMAGE_SLUGS = [
   "tuen-mun",
   "student-plans",
   "elderly-broadband",
+  "kwun-tong",
+  "ma-on-shan",
+  "early-termination",
+  "10g-broadband",
+  "village-5g-test",
 ] as const;
 
 export type GuideTopicImageSlug = (typeof GUIDE_TOPIC_IMAGE_SLUGS)[number];
@@ -145,6 +150,51 @@ export const GUIDE_TOPIC_IMAGES: Record<GuideTopicImageSlug, GuideTopicImage> = 
     height: 720,
     alt: "長輩坐喺暖色客廳梳化睇手機，茶几上有白路由器",
     altEn: "An older adult on a sofa in a warm living room looking at a phone, with a white router on the table.",
+  },
+  "kwun-tong": {
+    slug: "kwun-tong",
+    src: "/images/guides/kwun-tong.jpg",
+    webp: "/images/guides/kwun-tong.webp",
+    width: 1280,
+    height: 720,
+    alt: "觀塘黃昏街道，住宅大廈、行人同巴士",
+    altEn: "Kwun Tong street at dusk, with residential towers, pedestrians and a bus.",
+  },
+  "ma-on-shan": {
+    slug: "ma-on-shan",
+    src: "/images/guides/ma-on-shan.jpg",
+    webp: "/images/guides/ma-on-shan.webp",
+    width: 1280,
+    height: 720,
+    alt: "馬鞍山海濱黃昏，住宅大廈同水面",
+    altEn: "Ma On Shan waterfront at dusk, with residential towers and the water.",
+  },
+  "early-termination": {
+    slug: "early-termination",
+    src: "/images/guides/early-termination.jpg",
+    webp: "/images/guides/early-termination.webp",
+    width: 1280,
+    height: 720,
+    alt: "木枱上嘅合約、筆同白路由器，用來對提早終止條款",
+    altEn: "A contract, a pen and a white router on a wooden table, for reading an early-termination clause.",
+  },
+  "10g-broadband": {
+    slug: "10g-broadband",
+    src: "/images/guides/10g-broadband.jpg",
+    webp: "/images/guides/10g-broadband.webp",
+    width: 1280,
+    height: 720,
+    alt: "白色路由器同網線放喺木面，旁邊有手提電腦",
+    altEn: "A white router and a network cable on a wooden surface, with a laptop nearby.",
+  },
+  "village-5g-test": {
+    slug: "village-5g-test",
+    src: "/images/guides/village-5g-test.jpg",
+    webp: "/images/guides/village-5g-test.webp",
+    width: 1280,
+    height: 720,
+    alt: "村屋外一位女士睇手機，旁邊有白路由器，用來喺現場試訊號",
+    altEn: "A woman looking at a phone outside village houses, with a white router nearby, for an on-site signal check.",
   },
 };
 

@@ -39,6 +39,11 @@ describe("guide manuscript dates vs catalogue stamp", () => {
       "tuen-mun",
       "student-plans",
       "elderly-broadband",
+      "kwun-tong",
+      "ma-on-shan",
+      "early-termination",
+      "10g-broadband",
+      "village-5g-test",
     ] as const) {
       const guide = getGuide(slug);
       assert.ok(guide, slug);
