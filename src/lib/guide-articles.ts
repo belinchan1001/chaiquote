@@ -5599,13 +5599,14 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "香港 2.3 GHz 頻譜拍賣結果｜對 5G 容量有咩影響｜齊Quote",
     h1: "香港 2.3 GHz 頻譜拍賣結果：對 5G 容量有咩影響",
     description:
-      "香港 2024 年 11 月 2.3 GHz 頻譜拍賣結果。中國移動香港取得 50 MHz，3 香港同 HKT 各 20 MHz。頻譜如行車線，但實際體驗仍視基站同地點。以官方公布為準。",
+      "2024 年 11 月 2.3 GHz 頻譜拍賣：中國移動香港 50 MHz，3 香港同 HKT 各 20 MHz。5G 容量多唔等於最快。揀計劃先對覆蓋。以通訊辦公布為準。",
     title: "香港 2.3 GHz 頻譜拍賣結果：對 5G 容量有咩影響",
-    excerpt: "2024 年 11 月 2.3 GHz 拍賣結果。中國移動香港取得最多，頻譜多唔等於一定最快。",
+    excerpt: "2024 年 11 月 2.3 GHz 結果。中國移動香港最多，但頻譜多唔等於 5G 一定快。",
     titleEn: "Hong Kong 2.3 GHz spectrum auction: what it means for 5G capacity",
-    excerptEn: "November 2024 2.3 GHz results. China Mobile Hong Kong took the most. More spectrum does not automatically mean faster.",
+    excerptEn:
+      "November 2024 2.3 GHz results. China Mobile Hong Kong took the most. More spectrum is not a faster plan by itself.",
     descriptionEn:
-      "Hong Kong’s November 2024 2.3 GHz auction: China Mobile Hong Kong 50 MHz, 3HK and HKT 20 MHz each. Spectrum is like road lanes, but real speed still depends on base stations and location. Confirm with official sources.",
+      "November 2024 2.3 GHz: China Mobile Hong Kong won 50 MHz; 3HK and HKT 20 MHz each. More spectrum is not a faster plan. Compare coverage, then confirm with OFCA.",
     h1En: "Hong Kong 2.3 GHz spectrum auction: impact on 5G capacity",
     published: "2026-10-21",
     modified: "2026-10-21",
@@ -5614,100 +5615,150 @@ export const GUIDE_ARTICLES: Guide[] = [
     estates: [{ href: "/estates", label: "屋苑目錄" }],
     body: [
       {
-        heading: "頻譜可以想像成行車線",
+        heading: "頻譜可以當成行車線",
         paragraphs: [
-          "同樣係用 5G，有時有人上網好順，有時去到人多嘅地方就慢。除咗基站數量、網絡設備同覆蓋，頻譜資源都係影響網絡容量嘅因素之一。",
-          "你可以將頻譜想像成公路嘅行車線：喺其他條件相若之下，行車線多啲，通常可以容納更多車流。但路闊唔等於一定唔塞車，仲要睇有幾多車、路口設計同路面狀況。",
+          "同樣用 5G，有時好順，去到人多嘅地方又會慢。基站、設備、覆蓋之外，頻譜都係容量嘅一部分。",
+          "當佢係行車線就得：線多啲，通常容納到更多人一齊用。路闊都唔保證唔塞車，仲要睇有幾多車、路口同路面。",
         ],
       },
       {
-        heading: "2024 年 11 月 2.3 GHz 拍賣結果",
+        heading: "2024 年 11 月 20 日嘅結果",
         paragraphs: [
-          "通訊事務管理局辦公室於 2024 年 11 月 20 日公布 2.3 GHz 頻譜拍賣結果（同 850/900 MHz 一齊拍賣）。結果如下：",
-          "中國移動香港：50 MHz（5 個 10 MHz 區塊）",
-          "3 香港：20 MHz（2 個 10 MHz 區塊）",
-          "香港電訊 HKT：20 MHz（2 個 10 MHz 區塊）",
-          "數碼通 SmarTone：今次沒有投得 2.3 GHz 頻譜（佢哋投得嘅係 850/900 MHz 頻段）。",
-          "新指配的 2.3 GHz 頻譜將於 2027 年 3 月生效。資料以通訊辦公布為準。",
+          "通訊辦當日公布 2.3 GHz 拍賣結果，同一輪仲有 850/900 MHz。2.3 GHz 每一塊係 10 MHz。中國移動香港投到 5 塊，共 50 MHz。3 香港同香港電訊 HKT 各投到 2 塊，各 20 MHz。數碼通今次冇 2.3 GHz，佢哋投到嘅係 850/900 MHz。",
+          "新安排 2027 年 3 月先生效。而家快定慢，唔會因為呢次結果即刻改變。數字以通訊辦公布為準。",
         ],
+        table: {
+          caption: "2.3 GHz 結果｜通訊辦 2024 年 11 月 20 日公布",
+          headers: ["電訊商", "今次 2.3 GHz"],
+          rows: [
+            {
+              label: "中國移動香港",
+              value: "50 MHz（5 個 10 MHz 區塊）",
+              href: "/plans?cat=mobile",
+            },
+            {
+              label: "3 香港",
+              value: "20 MHz（2 個 10 MHz 區塊）",
+              href: "/plans?cat=mobile",
+            },
+            {
+              label: "香港電訊 HKT",
+              value: "20 MHz（2 個 10 MHz 區塊）",
+              href: "/plans?cat=mobile",
+            },
+            {
+              label: "數碼通 SmarTone",
+              value: "今次冇 2.3 GHz，投到嘅係 850/900 MHz",
+              href: "/plans?cat=mobile",
+            },
+          ],
+        },
       },
       {
-        heading: "頻譜多唔等於一定最快",
+        heading: "揀計劃時點用",
         paragraphs: [
-          "2.3 GHz 屬於中頻段，平衡覆蓋範圍同傳輸速度，可用於 4G、5G 或其他符合規定的技術。",
-          "頻譜數量並不等於網絡質素。實際收訊同速度仍受基站部署、網絡配置、建築物阻隔、地點同使用人數影響。唔好單憑某間電訊商取得幾多頻譜，就假設佢一定最快或最穩。",
-          "想比較實際手機月費計劃，可開 [手機月費格價](/plans?cat=mobile)。",
+          "2.3 GHz 係中頻。電訊商可以繼續做 4G，亦可以改做 5G。頻譜多，唔等於你張卡一定最快或者最穩。收訊仍然睇基站、大廈、你喺邊，同埋當時有幾多人用緊。",
+          "揀計劃先對自己屋企同返工嗰度收唔收到、本地數據、月費同合約。見 [香港手機月費點揀](/guides/mobile)。手機同家居寬頻一齊計，見 [手機加寬頻組合](/guides/mobile-broadband-bundle)。",
         ],
       },
       {
         heading: "下一步",
         paragraphs: [
-          "頻譜只是其中一個參考因素。選擇計劃時，仍然要睇覆蓋、月費、數據量同合約條款。實際體驗以現場為準。",
-          "以上資料以通訊事務管理局辦公室公布為準，齊Quote 僅作參考整理。",
+          "頻譜只係一個參考。手感以你現場為準，條款以電訊商確認為準。",
+          "以上按通訊辦 2024 年 11 月 20 日公布整理，齊Quote 只係方便對照。",
         ],
       },
     ],
     bodyEn: [
       {
-        heading: "Spectrum is like road lanes",
+        heading: "Spectrum is like extra lanes",
         paragraphs: [
-          "Even on 5G, speed can feel smooth in one place and slow in a crowded area. Base stations, equipment and coverage matter; spectrum capacity is one more factor.",
-          "Think of spectrum as lanes on a road. More lanes can usually carry more traffic when other conditions are similar, but width alone does not stop congestion.",
+          "5G can feel fine in one place and slow where it is crowded. Base stations, equipment and coverage all matter. Spectrum is the capacity those stations share.",
+          "Think of it as road lanes. More lanes can carry more people at once. A wider road can still jam when the junction and the traffic are heavy.",
         ],
       },
       {
-        heading: "November 2024 2.3 GHz auction results",
+        heading: "The 20 November 2024 result",
         paragraphs: [
-          "On 20 November 2024 the Office of the Communications Authority announced the 2.3 GHz results (auctioned together with 850/900 MHz):",
-          "China Mobile Hong Kong: 50 MHz (five 10 MHz blocks)",
-          "3 Hong Kong: 20 MHz (two 10 MHz blocks)",
-          "HKT: 20 MHz (two 10 MHz blocks)",
-          "SmarTone: no 2.3 GHz blocks this round (it won spectrum in the 850/900 MHz band).",
-          "The new 2.3 GHz assignment is due to take effect in March 2027. Confirm with the official OFCA announcement.",
+          "OFCA announced the 2.3 GHz results that day, in the same auction as 850/900 MHz. Each 2.3 GHz block is 10 MHz. China Mobile Hong Kong won five blocks, 50 MHz. 3 Hong Kong and HKT won two blocks each, 20 MHz. SmarTone won no 2.3 GHz this round. Its win was in the 850/900 MHz band.",
+          "The new assignment takes effect in March 2027. It does not change how a phone feels today. Use the OFCA notice if you need the source.",
         ],
+        table: {
+          caption: "2.3 GHz result announced by OFCA on 20 November 2024",
+          headers: ["Carrier", "2.3 GHz this round"],
+          rows: [
+            {
+              label: "China Mobile Hong Kong",
+              value: "50 MHz (five 10 MHz blocks)",
+              href: "/plans?cat=mobile",
+            },
+            {
+              label: "3 Hong Kong",
+              value: "20 MHz (two 10 MHz blocks)",
+              href: "/plans?cat=mobile",
+            },
+            {
+              label: "HKT",
+              value: "20 MHz (two 10 MHz blocks)",
+              href: "/plans?cat=mobile",
+            },
+            {
+              label: "SmarTone",
+              value: "No 2.3 GHz this round; it won 850/900 MHz",
+              href: "/plans?cat=mobile",
+            },
+          ],
+        },
       },
       {
-        heading: "More spectrum does not automatically mean fastest",
+        heading: "What to do when you pick a plan",
         paragraphs: [
-          "2.3 GHz is a mid-band that balances coverage and speed. It can be used for 4G, 5G or other approved technologies.",
-          "Spectrum quantity is not the same as network quality. Real signal and speed still depend on base-station deployment, configuration, buildings, location and how many people are using the network. Do not assume one carrier is always fastest or most stable just because it holds more spectrum.",
-          "Compare current mobile plans on the [mobile plans page](/plans?cat=mobile).",
+          "2.3 GHz is a mid-band. A carrier can keep it on 4G or move it to 5G. More spectrum does not make one network the fastest or the steadiest everywhere. Signal still depends on base stations, buildings, where you are, and how many people are online.",
+          "Check coverage at home and at work, the local data, the monthly fee and the contract. See [Hong Kong mobile plans](/guides/mobile). If you are adding home broadband, see [mobile and broadband bundles](/guides/mobile-broadband-bundle).",
         ],
       },
       {
         heading: "Next step",
         paragraphs: [
-          "Spectrum is only one reference. Still check coverage, monthly fee, data allowance and contract terms. Real experience depends on the site.",
-          "Figures above follow the OFCA announcement; ChaiQuote is a reference only.",
+          "Spectrum is one reference. Real use depends on the spot, and the contract is confirmed by the carrier.",
+          "The figures follow OFCA’s announcement of 20 November 2024. ChaiQuote only lines them up so they are easier to compare.",
         ],
       },
     ],
     faq: [
       {
-        q: "2.3 GHz 頻譜多係咪一定上網最快？",
-        a: "唔係。頻譜影響容量，但實際速度同穩定性仲要睇基站、覆蓋、地點同使用人數。唔好單憑頻譜數量判斷。",
+        q: "2.3 GHz 多係咪上網一定最快？",
+        a: "唔係。頻譜影響容量，快定穩仲要睇基站、覆蓋、地點同有幾多人用。唔好單憑投到幾多就判斷。",
       },
       {
         q: "數碼通有冇投得 2.3 GHz？",
-        a: "今次 2.3 GHz 拍賣中數碼通沒有投得。佢哋投得嘅係 850/900 MHz 頻段。資料以通訊辦公布為準。",
+        a: "今次冇。佢哋投到嘅係 850/900 MHz。以通訊辦公布為準。",
       },
       {
-        q: "新頻譜幾時生效？",
-        a: "新指配的 2.3 GHz 頻譜預計於 2027 年 3 月生效。實際安排以官方公布為準。",
+        q: "新頻譜幾時先用到？",
+        a: "2027 年 3 月先生效。而家唔好假設已經快咗。日子以通訊辦公布為準。",
+      },
+      {
+        q: "而家轉台會唔會即刻快啲？",
+        a: "唔會因為呢次拍賣就即刻有分別。新安排未生效，手感仍然睇你喺邊同基站。先對覆蓋、數據同月費。",
       },
     ],
     faqEn: [
       {
-        q: "Does more 2.3 GHz spectrum mean the fastest network?",
-        a: "No. Spectrum affects capacity, but real speed and stability also depend on base stations, coverage, location and how many people are online.",
+        q: "Does more 2.3 GHz mean a faster phone?",
+        a: "No. Spectrum is capacity. Speed and stability still depend on base stations, coverage, where you are, and how busy the network is.",
       },
       {
-        q: "Did SmarTone win any 2.3 GHz spectrum?",
-        a: "No in this round. SmarTone won spectrum in the 850/900 MHz band instead. Confirm with the OFCA announcement.",
+        q: "Did SmarTone win any 2.3 GHz?",
+        a: "Not this round. SmarTone won spectrum in the 850/900 MHz band. Check the OFCA notice.",
       },
       {
-        q: "When does the new spectrum take effect?",
-        a: "The new 2.3 GHz assignment is expected to take effect in March 2027. Check the official notice for the final date.",
+        q: "When can the new spectrum be used?",
+        a: "March 2027. Do not assume a phone is already faster. The date is the one OFCA publishes.",
+      },
+      {
+        q: "Will switching today feel faster because of this auction?",
+        a: "No. The new assignment is not in use yet. Check coverage, data and the monthly fee for the plan you actually get.",
       },
     ],
   },
