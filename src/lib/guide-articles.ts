@@ -2694,6 +2694,224 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
     ],
   },
+  {
+    slug: "broadband-renewal",
+    minutes: 7,
+    category: "fiber",
+    seoTitle: "寬頻續約點做｜新客價 vs 續約價｜齊Quote",
+    h1: "寬頻續約點做：新客價同續約價點計",
+    description:
+      "寬頻續約通常同新客價唔同。點計實際平均月費、續約前要問清楚嘅四件事，同埋幾時應該考慮轉台。實際報價以電訊商確認為準。",
+    title: "寬頻續約點做：新客價同續約價點計",
+    excerpt: "新客價多數吸引轉台，續約價可能較高。點計實際月費同決定續約定轉台。",
+    titleEn: "Renewing broadband: new-customer price vs renewal price",
+    excerptEn: "New-customer offers are usually better. How to calculate the real monthly cost and decide whether to renew or switch.",
+    descriptionEn:
+      "Broadband renewal prices are often different from new-customer deals. Learn how to calculate the real average monthly fee and when to consider switching.",
+    h1En: "Renewing broadband: new-customer price vs renewal price",
+    published: "2026-10-21",
+    modified: "2026-10-21",
+    related: [
+      "broadband-total-cost",
+      "switch-broadband",
+      "contract-fees",
+      "fiber",
+      "is-1000m-enough",
+    ],
+    plans: [{ href: "/plans?cat=broadband", label: "去光纖格價" }],
+    estates: [{ href: "/estates", label: "屋苑目錄" }],
+    body: [
+      {
+        heading: "新客價同續約價通常唔同",
+        paragraphs: [
+          "電訊商多數用較吸引嘅新客優惠（免月費、回贈、送路由器）拉轉台客戶，續約價則可能較高或優惠較少。站內列出嘅月費多為市場參考，實際續約報價要向你現有供應商查核。",
+          "唔好只睇廣告標示月費，要計埋合約期、免月費、回贈同預繳，先知道真實平均月費。詳見 [寬頻合約總成本點計](/guides/broadband-total-cost)。",
+        ],
+      },
+      {
+        heading: "續約前要問清楚嘅四件事",
+        paragraphs: [
+          "1. 現約完約日。2. 續約後月費同合約期。3. 路由器係繼續用、要換定合約後要還。4. 可唔可以豁免安裝費或搬遷費（如適用）。",
+          "問清楚之後，再同市場新客價比較。如果差距明顯，可以考慮轉台。",
+        ],
+      },
+      {
+        heading: "續約定轉台？",
+        paragraphs: [
+          "如果續約價明顯高過其他電訊商嘅新客價，轉台可能更抵。寬頻唔能夠攜號，要新線裝好先停舊線，先唔會斷網。步驟見 [轉台寬頻：舊約、安裝期、點樣銜接](/guides/switch-broadband)。",
+          "轉台前記得確認新供應商覆蓋你屋苑，同埋安裝期。",
+        ],
+      },
+      {
+        heading: "下一步",
+        paragraphs: [
+          "返首頁輸入屋苑，或開 [光纖格價](/plans?cat=broadband) 對一對市場參考計劃，再用 WhatsApp 向現有供應商查核續約報價。",
+          "以上只供參考。實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。",
+        ],
+      },
+    ],
+    bodyEn: [
+      {
+        heading: "New-customer and renewal prices are usually different",
+        paragraphs: [
+          "Carriers often use better new-customer offers to attract switchers. Renewal prices may be higher or have fewer free months. Fees listed on this site are references; confirm your renewal quote with your current provider.",
+          "Calculate the real average monthly cost including free months, rebates and prepayments. See [broadband total cost](/guides/broadband-total-cost).",
+        ],
+      },
+      {
+        heading: "Four things to ask before renewing",
+        paragraphs: [
+          "Contract end date, new monthly fee and contract length, router terms, and whether any install or relocation fee can be waived.",
+        ],
+      },
+      {
+        heading: "Renew or switch?",
+        paragraphs: [
+          "If the renewal price is clearly higher than new-customer offers elsewhere, switching may be better. Broadband cannot port a number — install the new line first. See [switching broadband](/guides/switch-broadband).",
+        ],
+      },
+      {
+        heading: "Next step",
+        paragraphs: [
+          "Compare reference plans on the fibre page, then confirm your renewal quote on WhatsApp.",
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "續約價會唔會同新客價一樣？",
+        a: "通常唔會。新客價多數有較多免月費或回贈，續約價可能較高。實際報價要向現有供應商確認。",
+      },
+      {
+        q: "點計續約嘅實際平均月費？",
+        a: "計合約期、免月費、回贈同預繳。詳見 [寬頻合約總成本點計](/guides/broadband-total-cost)。",
+      },
+      {
+        q: "續約定轉台好？",
+        a: "如果續約價明顯高過市場新客價，可考慮轉台。寬頻不能攜號，要新線裝好先停舊線。見 [轉台寬頻](/guides/switch-broadband)。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Is the renewal price the same as the new-customer price?",
+        a: "Usually not. New-customer offers often include more free months. Confirm with your provider.",
+      },
+      {
+        q: "Should I renew or switch?",
+        a: "If the renewal price is clearly higher, consider switching. Install the new line first. See [switching broadband](/guides/switch-broadband).",
+      },
+    ],
+  },
+  {
+    slug: "broadband-stability",
+    minutes: 7,
+    category: "fiber",
+    seoTitle: "寬頻邊間最穩｜打機 WFH 點揀｜齊Quote",
+    h1: "香港邊間寬頻最穩？打機同在家工作點揀",
+    description:
+      "「最穩」唔等於最平。打機同在家工作主要睇延遲同穩定性，光纖通常比 5G 家居穩。點樣揀同減少不穩。實際體驗以現場確認為準。",
+    title: "香港邊間寬頻最穩？打機同在家工作點揀",
+    excerpt: "穩定性受覆蓋、樓內線路同路由器影響。光纖通常較穩，1000M 多數夠用。",
+    titleEn: "Which Hong Kong broadband is most stable for gaming and WFH?",
+    excerptEn: "Stability depends on coverage, in-building wiring and the router. Fibre is usually more stable than 5G home.",
+    descriptionEn:
+      "Stability is not the same as the lowest price. Gaming and working from home care more about latency. Fibre is usually more stable than 5G home broadband.",
+    h1En: "Which Hong Kong broadband is most stable for gaming and working from home?",
+    published: "2026-10-21",
+    modified: "2026-10-21",
+    related: [
+      "fiber-vs-5g",
+      "is-1000m-enough",
+      "1000m-or-2500m",
+      "home5g",
+      "fiber",
+      "broadband-renewal",
+    ],
+    plans: [
+      { href: "/plans?cat=broadband", label: "去光纖格價" },
+      { href: "/plans?cat=home5g", label: "去 5G 家居格價" },
+    ],
+    estates: [{ href: "/estates", label: "屋苑目錄" }],
+    body: [
+      {
+        heading: "「最穩」唔等於最平",
+        paragraphs: [
+          "穩定性受覆蓋、樓內線路、路由器位置同使用習慣影響，唔係單靠月費高低決定。站內列出嘅月費只係參考，實際體驗要現場確認。",
+          "打機同在家工作，延遲（latency）通常比峰值下載速度更重要。光纖入屋多數比 5G 家居穩定。詳見 [5G家居定光纖](/guides/fiber-vs-5g)。",
+        ],
+      },
+      {
+        heading: "1000M 定 2500M+ 先夠",
+        paragraphs: [
+          "一般打機、開會、一兩路 4K，1000M 多數已經夠用。屋企人多、經常同時上傳大檔，或者想預留頻寬，先考慮 2500M 或以上。詳見 [1000M 夠唔夠](/guides/is-1000m-enough) 同 [1000M 同 2500M 寬頻點揀](/guides/1000m-or-2500m)。",
+        ],
+      },
+      {
+        heading: "點樣減少不穩",
+        paragraphs: [
+          "優先用光纖（如覆蓋得到）。路由器放喺中央位置，考慮 Wi-Fi 6 或 Wi-Fi 7。避免高峰時段過度使用。",
+          "村屋或舊樓如果暫時拉唔到光纖，可比較 5G 家居，但要實測訊號強弱。詳見 [香港 5G 家居點揀](/guides/home5g)。",
+        ],
+      },
+      {
+        heading: "下一步",
+        paragraphs: [
+          "返首頁輸入屋苑，或開 [光纖格價](/plans?cat=broadband) 對適用計劃。打機或在家工作用戶可優先看覆蓋穩定嘅光纖計劃。",
+          "以上只供參考。實際覆蓋、速度同穩定性以電訊商現場確認為準。",
+        ],
+      },
+    ],
+    bodyEn: [
+      {
+        heading: "Stability is not the same as the lowest price",
+        paragraphs: [
+          "Stability depends on coverage, in-building wiring, router placement and usage. Latency usually matters more than peak download speed for gaming and working from home. Fibre is usually more stable than 5G home. See [fibre vs 5G home](/guides/fiber-vs-5g).",
+        ],
+      },
+      {
+        heading: "1000M or 2500M+",
+        paragraphs: [
+          "For gaming, video calls and one or two 4K streams, 1000M is usually enough. See [is 1000M enough](/guides/is-1000m-enough).",
+        ],
+      },
+      {
+        heading: "How to reduce instability",
+        paragraphs: [
+          "Prefer fibre where available. Place the router centrally and consider Wi-Fi 6/7. For village or older buildings without fibre, test 5G home signal first. See [5G home](/guides/home5g).",
+        ],
+      },
+      {
+        heading: "Next step",
+        paragraphs: [
+          "Compare reference plans on the fibre page. Confirm coverage and stability with the carrier.",
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "邊間寬頻最穩？",
+        a: "穩定性主要睇覆蓋同樓內線路，唔係單靠供應商。光纖通常比 5G 家居穩定。實際體驗要現場確認。",
+      },
+      {
+        q: "打機用 1000M 夠唔夠？",
+        a: "一般夠用。延遲比峰值速度更重要。屋企人多或經常上傳大檔，可考慮 2500M+。詳見 [1000M 夠唔夠](/guides/is-1000m-enough)。",
+      },
+      {
+        q: "5G 家居夠唔夠穩用嚟打機？",
+        a: "視現場訊號而定，通常不如光纖穩定。可先實測。詳見 [5G 家居點揀](/guides/home5g)。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Which broadband is the most stable?",
+        a: "Stability depends more on coverage and in-building wiring than the provider. Fibre is usually more stable than 5G home.",
+      },
+      {
+        q: "Is 1000M enough for gaming?",
+        a: "Usually yes. Latency matters more than peak speed. See [is 1000M enough](/guides/is-1000m-enough).",
+      },
+    ],
+  },
 ];
 
 export const GUIDE_CATEGORY_META = [
