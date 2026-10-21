@@ -2707,7 +2707,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     titleEn: "Renewing broadband: new-customer price vs renewal price",
     excerptEn: "New-customer offers are usually better. How to calculate the real monthly cost and decide whether to renew or switch.",
     descriptionEn:
-      "Broadband renewal prices often differ from new-customer deals. Count free months and rebates to find the real average monthly fee before you renew or switch.",
+      "Renewal prices differ from new-customer deals. Count free months and rebates for the real average fee, then renew or switch. Confirm the quote.",
     h1En: "Renewing broadband: new-customer price vs renewal price",
     published: "2026-10-21",
     modified: "2026-10-21",
@@ -3007,13 +3007,13 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "舊樓唐樓寬頻點算｜冇光纖有咩選擇｜齊Quote",
     h1: "舊樓同唐樓寬頻點算：冇光纖有咩選擇",
     description:
-      "舊樓同唐樓先問有冇光纖入到你個單位。拉唔到先比較 5G 家居，並喺現場試訊號同路由器擺位。覆蓋、入線同安裝以電訊商確認為準。",
+      "舊樓同唐樓寬頻，先問光纖入唔入到你個單位，唔好睇廣告就假設有線。拉唔到先比較 5G 家居，現場試訊號再簽約。覆蓋同安裝以電訊商確認為準。業主未點頭就未算。",
     title: "舊樓同唐樓寬頻點算：冇光纖有咩選擇",
     excerpt: "舊樓先查有冇光纖。拉唔到就比較 5G 家居，再喺現場試訊號同路由器擺位。",
     titleEn: "Broadband in older walk-ups: options when fibre is not in",
     excerptEn: "Ask about fibre first. If it cannot be pulled in, compare 5G home and test the signal on site.",
     descriptionEn:
-      "In an older walk-up, confirm whether fibre can reach the flat before you sign. If it cannot, compare 5G home, test the signal on site, and place the router carefully. Coverage and install are confirmed by the carrier.",
+      "In an older walk-up, ask if fibre can reach the flat before you sign. If not, compare 5G home and test the signal on site. The carrier confirms coverage.",
     h1En: "Broadband in older walk-ups: what to do without fibre",
     published: "2026-10-21",
     modified: "2026-10-21",
@@ -3071,6 +3071,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "光纖入到屋之後，路由器放喺常用區域中間、少少高、避開金屬櫃同厚牆，通常比再買高一檔月費更有用。見 [1000M 夠唔夠](/guides/is-1000m-enough)。",
           "5G 家居路由器多數要靠窗或者訊號較強嘅位置，唔好鎖喺電箱櫃入面。合約寫「包路由器」定「送出、到期要還」，簽約前問清楚，見 [月費以外](/guides/contract-fees)。",
+          "部機係邊隻、Wi-Fi 6 定 Wi-Fi 7，見 [寬頻路由器點揀](/guides/router-wifi)。5G 家居用到某個用量之後會唔會降速，見 [5G 家居數據上限](/guides/home5g-data-cap)。管理處或者業主未批准穿牆，就未算安裝期已定。",
         ],
       },
       {
@@ -3129,6 +3130,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "Once fibre is in, a central, slightly raised router away from metal cabinets often helps more than the next speed tier. See [is 1000M enough](/guides/is-1000m-enough).",
           "A 5G home router usually wants a stronger-signal spot, not the inside of a cupboard. Ask whether the router is a gift or must be returned. See [install, prepay, contract](/guides/contract-fees).",
+          "Which unit, and Wi-Fi 6 or Wi-Fi 7: [choosing a router](/guides/router-wifi). Whether 5G home slows after the allowance: [5G home data caps](/guides/home5g-data-cap). Until the owner allows drilling, the install date is not fixed.",
         ],
       },
       {
@@ -3175,13 +3177,13 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "5G家居數據上限同公平使用｜點睇合約｜齊Quote",
     h1: "5G 家居寬頻數據上限同公平使用點睇",
     description:
-      "5G 家居有機會有高速數據上限或者公平使用條款，用到某個用量之後可能降速或者降低優先權。點樣睇合約，同光纖有咩分別。實際條款以電訊商確認為準。",
+      "5G 家居要睇數據上限同公平使用，用到某個用量之後可能降速或者降低優先權。唔好當無限全速。簽約前對條款再比較光纖。實際以電訊商確認為準。問完先至簽約。",
     title: "5G 家居寬頻數據上限同公平使用點睇",
     excerpt: "5G 家居唔好只睇標示速度。問清楚用量上限、公平使用同用完之後點算。",
     titleEn: "5G home data caps and fair-use clauses",
     excerptEn: "Do not stop at the headline speed. Read the usage cap, the fair-use clause and what happens after it.",
     descriptionEn:
-      "A 5G home plan may include a high-speed data allowance or a fair-use clause, and speed or priority can change after that usage. Learn how to read the contract and how it differs from fibre. The carrier confirms the terms.",
+      "Check a 5G home data cap and fair-use clause before you sign. Speed can drop after the allowance. Compare it with fibre. The carrier confirms the terms.",
     h1En: "How to read a 5G home data cap and fair-use clause",
     published: "2026-10-21",
     modified: "2026-10-21",
@@ -3245,7 +3247,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "同光纖點比",
         paragraphs: [
           "可以拉光纖，多數人會用光纖做主線，因為唔使靠現場流動訊號。5G 家居啱未有光纖、租樓、或者等安裝期間做後備。兩邊分別見 [5G家居定光纖](/guides/fiber-vs-5g)。",
-          "比較之前最好喺你個單位試一次訊號。試到嘅速度只係參考，繁忙時段可以唔同。",
+          "比較之前最好喺你個單位試一次訊號。試到嘅速度只係參考，繁忙時段可以唔同。村屋更加要喺放機位置試，見 [村屋 5G 家居實測](/guides/village-5g-test)。降速之後手感差，有時係擺位而唔係用量，見 [寬頻路由器點揀](/guides/router-wifi)。",
         ],
       },
       {
@@ -3307,7 +3309,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "Compared with fibre",
         paragraphs: [
           "Where fibre can be installed, most homes use it as the main line. 5G home fits when fibre is not in yet, for a rental, or as a backup while you wait. See [fibre vs 5G home](/guides/fiber-vs-5g).",
-          "Test the signal in the flat first. One test is a reference; busy hours can differ.",
+          "Test the signal in the flat first. One test is a reference; busy hours can differ. Village houses need the test where the router would sit: [village 5G home test](/guides/village-5g-test). A slow feel after the allowance is sometimes placement: [choosing a router](/guides/router-wifi).",
         ],
       },
       {
@@ -3354,13 +3356,13 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "搬屋寬頻點做｜舊約搬遷費同新裝｜齊Quote",
     h1: "搬屋寬頻點做：舊約、搬遷費同新裝",
     description:
-      "搬屋先查舊約完約日、可唔可以搬遷、搬遷費同新址安裝期。新線測好先停舊線。路由器係搬走、換機定要還，以電訊商合約確認為準。",
+      "搬屋寬頻先查舊約完約日、可唔可以搬遷、搬遷費同新址安裝期。新線測好先停舊線，避免中間冇網。路由器點處理都要問清。安排以電訊商確認為準。舊址設備點還都問。",
     title: "搬屋寬頻點做：舊約、搬遷費同新裝",
     excerpt: "先查完約日同搬遷費，再約新址安裝。新線測好先停舊線，路由器點處理亦要問清楚。",
     titleEn: "Moving home with broadband: contract, relocation fee, new install",
     excerptEn: "Check the contract end date and any relocation fee, then book the new install. Test the new line before you stop the old one.",
     descriptionEn:
-      "Before you move, check the old contract end date, whether the line can move, any relocation fee and the install window at the new address. Test the new line before you stop the old one. Router terms are in the carrier contract.",
+      "Before you move, check the end date, any relocation fee and the new install date. Test the new line before you stop the old one. The carrier confirms it.",
     h1En: "Moving home: old contract, relocation fee and a new install",
     published: "2026-10-21",
     modified: "2026-10-21",
@@ -3379,7 +3381,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "搬遷費同新裝期",
         paragraphs: [
           "有啲合約包一次搬遷，有啲要另計上門費，有啲新址根本搬唔到、要當新申請。金額同日數每間電訊商、每個地址都唔同，唔好用別人嘅例子當自己張單。",
-          "問清楚：新址可唔可以入線、最早幾時上門、要唔要管理處或者業主批准、舊址幾時要交還設備。月費以外見 [安裝費、預繳、合約](/guides/contract-fees)。",
+          "問清楚：新址可唔可以入線、最早幾時上門、要唔要管理處或者業主批准、舊址幾時要交還設備。月費以外見 [安裝費、預繳、合約](/guides/contract-fees)。未完約就停，點理解終止費見 [提早終止](/guides/early-termination)。新址如果係舊樓，入線同 5G 後備見 [舊樓寬頻](/guides/old-building-broadband)。",
         ],
         table: {
           caption: "搬屋對一次",
@@ -3442,7 +3444,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "Relocation fee and the new install window",
         paragraphs: [
           "Some contracts include one move, some charge a visit, and some addresses cannot take the old line at all and need a new application. Do not reuse someone else’s fee.",
-          "Ask whether the new address can be cabled, the earliest visit, whether management must approve, and when equipment must go back. See [install, prepay, contract](/guides/contract-fees).",
+          "Ask whether the new address can be cabled, the earliest visit, whether management must approve, and when equipment must go back. See [install, prepay, contract](/guides/contract-fees). If the term is not finished, read [early termination](/guides/early-termination) before you cancel. An older new address: [older walk-ups](/guides/old-building-broadband).",
         ],
         table: {
           caption: "Moving checklist",
@@ -3529,14 +3531,14 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "元朗寬頻比較｜公屋居屋私樓參考月費｜齊Quote",
     h1: "元朗寬頻點揀：公屋、居屋同私樓分開睇",
     description:
-      "元朗寬頻唔係一張區價。朗屏邨、水邊圍邨等公屋，鳳庭苑等居屋，同 YOHO Town 等私樓，計劃通常分開報。天水圍有自己一頁。下列係站內列出參考月費，覆蓋同安裝以電訊商確認為準。",
+      "元朗寬頻先分公屋、居屋同私樓，朗屏同私樓唔好用同一張價。天水圍另有專頁。用屋苑名對參考月費再查地址。覆蓋同安裝以電訊商確認為準。唔好用天水圍價估元朗。",
     title: "元朗寬頻點揀：公屋、居屋同私樓分開睇",
     excerpt: "元朗唔係一區一價。公屋、居屋、私樓分開睇參考月費，天水圍另見天水圍頁。",
     titleEn: "Yuen Long broadband: public, HOS and private estates separately",
     excerptEn:
       "Yuen Long is not one district price. Compare public, HOS and private estates separately. Tin Shui Wai has its own page.",
     descriptionEn:
-      "Yuen Long broadband is not one district fee. Public estates such as Long Ping, HOS courts and private estates such as YOHO Town are usually quoted separately. Tin Shui Wai has its own guide. Listed fees are a reference. Coverage is confirmed by the carrier.",
+      "Yuen Long broadband splits by public, HOS and private housing. Tin Shui Wai has its own page. Compare by estate name. Coverage is confirmed by the carrier.",
     h1En: "Yuen Long broadband: sort public, HOS and private estates first",
     published: "2026-10-21",
     modified: "2026-10-21",
@@ -3656,6 +3658,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "下一步",
         paragraphs: [
           "返首頁輸入座數同街道，或者開 [公屋光纖格價](/plans?cat=broadband&housing=public)。天水圍見 [天水圍寬頻](/guides/tin-shui-wai)。其他地區：[沙田寬頻](/guides/sha-tin)、[將軍澳寬頻](/guides/tseung-kwan-o)。錦田、八鄉、屏山、洪水橋等村屋見 [村屋光纖月費](/guides/village-fees)。2026 年表見 [2026 家居寬頻格價](/guides/home-broadband-2026)。",
+          "附近屯門見 [屯門寬頻](/guides/tuen-mun)。轉台要新線裝好先停舊線，見 [轉台寬頻](/guides/switch-broadband)。屋苑頁先於區表，唔好用區名估座數。",
           DISCLAIMER,
         ],
       },
@@ -3742,6 +3745,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "Next step",
         paragraphs: [
           "Type the block and street on the home page, or open [public fibre plans](/plans?cat=broadband&housing=public). Tin Shui Wai: [Tin Shui Wai](/guides/tin-shui-wai). Also: [Sha Tin](/guides/sha-tin), [Tseung Kwan O](/guides/tseung-kwan-o). Nearby villages: [village fibre fees](/guides/village-fees).",
+          "Nearby Tuen Mun: [Tuen Mun](/guides/tuen-mun). To switch, install the new line first: [switching broadband](/guides/switch-broadband). Use the estate page, not the district name alone.",
           DISCLAIMER_EN,
         ],
       },
@@ -3782,13 +3786,13 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "手機加寬頻組合點計｜免月費同合約期｜齊Quote",
     h1: "手機 + 寬頻組合優惠點計最抵",
     description:
-      "手機加寬頻組合要分開計兩條合約：免月費、回贈、合約期長短可以唔同。同一間電訊商一齊申請，同分開申請，總支出可以唔同。實際條款以電訊商確認為準。",
+      "手機加寬頻組合要分開計兩條合約、免月費同回贈，再先比較一齊申請同分開申請。唔好只睇一句優惠。條款以電訊商確認為準。兩條完約日都寫低，再決定。",
     title: "手機 + 寬頻組合優惠點計最抵",
     excerpt: "組合唔好只睇一句「一齊申請有優惠」。分開計手機同寬頻嘅月數、免月費同回贈。",
     titleEn: "How to add up a mobile and broadband bundle",
     excerptEn: "A bundle is two contracts. Count free months, rebates and the length of each one before you compare it with applying separately.",
     descriptionEn:
-      "A mobile plus broadband bundle is two contracts. Free months, rebates and contract lengths can differ. Applying together and applying separately can cost different totals. The carrier confirms the terms.",
+      "A mobile plus broadband bundle is two contracts. Count free months and rebates, then compare together with separately. The carrier confirms the terms.",
     h1En: "How to add up a mobile and broadband bundle",
     published: "2026-10-21",
     modified: "2026-10-21",
@@ -3818,6 +3822,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "一齊申請有時有額外回贈或者免月費，分開申請有時手機同寬頻各自嘅新客條件更適合你。兩邊都要計完總支出先比較，唔好只睇多咗一句優惠。",
           "手機轉台見 [攜號轉台](/guides/port-in)。寬頻唔能夠攜號，新線裝好先停舊線，見 [轉台寬頻](/guides/switch-broadband)。如果就嚟完約，一併睇 [寬頻續約](/guides/broadband-renewal)。",
+          "學生身份先至有嘅優惠，唔好當普通組合，見 [學生計劃](/guides/student-plans)。家居線夠唔夠用，見 [1000M 夠唔夠](/guides/is-1000m-enough)。兩條完約日唔同，就分開寫低再加總。",
         ],
       },
       {
@@ -3881,6 +3886,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "Applying together can add a rebate. Applying separately can suit the new-customer terms of each service. Compare the totals, not the extra slogan.",
           "Mobile porting: [port-in](/guides/port-in). Broadband cannot port a number. See [switching broadband](/guides/switch-broadband) and, near the end of a term, [renewing broadband](/guides/broadband-renewal).",
+          "A student-only offer is not an ordinary bundle. See [student plans](/guides/student-plans). Whether the home line is enough: [is 1000M enough](/guides/is-1000m-enough). If the two end dates differ, write them separately before you add the totals.",
         ],
       },
       {
@@ -3960,13 +3966,13 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "寬頻路由器點揀｜Wi-Fi 6 同 Wi-Fi 7｜齊Quote",
     h1: "寬頻路由器點揀：Wi-Fi 6／Wi-Fi 7 值唔值得",
     description:
-      "Wi-Fi 6 對一般家庭多數夠用。Wi-Fi 7 要手機同平板都支援先發揮到。計劃包嘅路由器可能係送出或者借用。擺位往往比再買高一檔更影響手感。實際規格以電訊商確認為準。",
+      "寬頻路由器 Wi-Fi 6 對一般家庭多數夠用，Wi-Fi 7 要裝置都支援。包機可能係送出或借用。擺位往往更影響手感。規格以電訊商確認為準。",
     title: "寬頻路由器點揀：Wi-Fi 6／Wi-Fi 7 值唔值得",
     excerpt: "一般家用 Wi-Fi 6 多數夠。人多、打機、部部機都新，先再問 Wi-Fi 7。先問清部機係送定借。",
     titleEn: "Choosing a broadband router: Wi-Fi 6 or Wi-Fi 7",
     excerptEn: "Wi-Fi 6 is enough for many homes. Wi-Fi 7 helps when devices support it. Ask whether the included router is a gift or a loan.",
     descriptionEn:
-      "Wi-Fi 6 is enough for many homes. Wi-Fi 7 only helps when phones and laptops support it. A plan-included router may be a gift or a loan. Placement often changes the feel more than the next badge. Specs are confirmed by the carrier.",
+      "Wi-Fi 6 is enough for many homes. Wi-Fi 7 needs device support. A plan router may be a gift or a loan. Check placement first. The carrier confirms the spec.",
     h1En: "Choosing a broadband router: is Wi-Fi 6 or Wi-Fi 7 worth it?",
     published: "2026-10-21",
     modified: "2026-10-21",
@@ -4027,6 +4033,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "擺位",
         paragraphs: [
           "放喺常用區域中間、少少高、避開金屬櫃、厚牆同微波爐。光纖入咗屋，擺位往往比再上一檔月費更明顯。",
+          "停約要還機定可以留，見 [提早終止](/guides/early-termination)。搬屋部機帶唔帶走，見 [搬屋寬頻](/guides/move-broadband)。自己買嘅機同電訊商借出嗰部，要分開問。",
           DISCLAIMER,
         ],
       },
@@ -4085,6 +4092,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "Placement",
         paragraphs: [
           "Put it near the middle of where you actually sit, slightly raised, away from metal cabinets, thick walls and the microwave. Once fibre is in, placement often matters more than the next monthly tier.",
+          "Whether you return the unit if you leave early: [early termination](/guides/early-termination). Whether it moves with you: [moving broadband](/guides/move-broadband). A router you bought and a router the carrier loaned are separate questions.",
           DISCLAIMER_EN,
         ],
       },
@@ -4125,13 +4133,13 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "屯門寬頻比較｜公屋居屋私樓參考月費｜齊Quote",
     h1: "屯門寬頻點揀：先分樓類再比較月費",
     description:
-      "屯門寬頻唔係一張區價。良景邨、山景邨等公屋，兆康苑等居屋，同黃金海岸、瓏門等私樓，計劃通常分開報。下列係站內列出參考月費，覆蓋同安裝以電訊商確認為準。",
+      "屯門寬頻先分公屋、居屋同私樓，良景邨同黃金海岸唔好用同一張價。用屋苑名對參考月費，再查你個地址。覆蓋同安裝以電訊商確認為準。唔好用元朗價估屯門。",
     title: "屯門寬頻點揀：先分樓類再比較月費",
     excerpt: "屯門唔係一區一價。公屋、居屋、私樓分開睇參考月費，再填地址查核。",
     titleEn: "Tuen Mun broadband: housing type first, then the fee",
     excerptEn: "Tuen Mun is not one district price. Compare public, HOS and private estates separately, then confirm the address.",
     descriptionEn:
-      "Tuen Mun broadband is not one district fee. Public estates such as Leung King, HOS courts such as Siu Hong Court, and private estates such as Gold Coast are usually quoted separately. Listed fees are a reference. Coverage is confirmed by the carrier.",
+      "Tuen Mun broadband splits by public, HOS and private housing. Do not use one district fee. Compare by estate name. Coverage is confirmed by the carrier.",
     h1En: "Tuen Mun broadband: sort housing type before the monthly fee",
     published: "2026-10-21",
     modified: "2026-10-21",
@@ -4252,6 +4260,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "下一步",
         paragraphs: [
           "返首頁輸入座數同街道，或者開 [公屋光纖格價](/plans?cat=broadband&housing=public)。附近地區：[元朗寬頻](/guides/yuen-long)、[天水圍寬頻](/guides/tin-shui-wai)。其他：[沙田寬頻](/guides/sha-tin)、[將軍澳寬頻](/guides/tseung-kwan-o)。龍鼓灘、青山村等村屋見 [村屋光纖月費](/guides/village-fees)。2026 年表見 [2026 家居寬頻格價](/guides/home-broadband-2026)。",
+          "就嚟搬家先問搬遷定終止，見 [搬屋寬頻](/guides/move-broadband)。轉台要先裝後停，見 [轉台寬頻](/guides/switch-broadband)。用屋苑名，唔好只搜「屯門」。",
           DISCLAIMER,
         ],
       },
@@ -4338,6 +4347,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "Next step",
         paragraphs: [
           "Type the block and street on the home page, or open [public fibre plans](/plans?cat=broadband&housing=public). Nearby: [Yuen Long](/guides/yuen-long), [Tin Shui Wai](/guides/tin-shui-wai). Also: [Sha Tin](/guides/sha-tin), [Tseung Kwan O](/guides/tseung-kwan-o). Nearby villages: [village fibre fees](/guides/village-fees).",
+          "If you are about to move, see [moving broadband](/guides/move-broadband). To switch, install first: [switching broadband](/guides/switch-broadband). Search the estate name, not only “Tuen Mun”.",
           DISCLAIMER_EN,
         ],
       },
@@ -4378,13 +4388,13 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "學生寬頻同手機計劃點揀｜資格同用量｜齊Quote",
     h1: "學生寬頻同手機計劃點揀最抵",
     description:
-      "學生計劃通常要核實學生身份，優惠先至用得。先睇本地數據夠唔夠，再決定手機同家居寬頻分開申請定一齊計。預算要計合約期同免月費。資格同月費以電訊商確認為準。",
+      "學生寬頻同手機計劃要電訊商核實學生身份，優惠先用得。先睇本地數據夠唔夠，再決定分開定一齊計。資格同月費以電訊商確認為準。畢業之後點算都要問。",
     title: "學生寬頻同手機計劃點揀最抵",
     excerpt: "學生優惠要先核實身份。本地數據、分開定組合、合約期，三樣計完先好簽約。",
     titleEn: "Student broadband and mobile plans",
     excerptEn: "Student offers usually need proof of status. Count local data, whether to bundle, and the contract length before you sign.",
     descriptionEn:
-      "Student plans usually need the carrier to confirm student status before the offer applies. Start with local data, then decide whether mobile and home broadband should be separate or counted together. Budget for the term and any free months. Eligibility and fees are confirmed by the carrier.",
+      "Student plans need the carrier to confirm student status before the offer applies. Check local data, then compare a bundle. The carrier confirms eligibility.",
     h1En: "Student broadband and mobile plans: how to choose",
     published: "2026-10-21",
     modified: "2026-10-21",
@@ -4449,6 +4459,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "預算",
         paragraphs: [
           "首月平，唔代表合約期內平。問免月費有幾多、完約之後恢復咩價、行政費同預繳。見 [月費以外](/guides/contract-fees)。",
+          "宿舍或者租住如果人多，家居線夠唔夠見 [1000M 夠唔夠](/guides/is-1000m-enough)。學期中搬屋，舊約點處理見 [搬屋寬頻](/guides/move-broadband)。畢業之後學生條件仲用唔用得，簽約前問。",
           "頁上月費係市場參考，唔係學生專屬價。合資格先至有嘅條件，以電訊商確認為準。",
           DISCLAIMER,
         ],
@@ -4506,6 +4517,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "Budget",
         paragraphs: [
           "A cheap first month is not the cost over the term. Ask how many months are free, the price after that, and any admin or prepay fee. See [install, prepay, contract](/guides/contract-fees).",
+          "A busy dorm: [is 1000M enough](/guides/is-1000m-enough). Moving mid-term: [moving broadband](/guides/move-broadband). Ask whether the student condition still applies after you graduate.",
           "Fees on this site are a market reference, not a student price. Eligibility is confirmed by the carrier.",
           DISCLAIMER_EN,
         ],
@@ -4547,13 +4559,13 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "長者寬頻優惠點睇｜資格同月費｜齊Quote",
     h1: "長者寬頻優惠有邊間？月費幾多",
     description:
-      "長者寬頻優惠唔係全港一個價。常見係要核實年齡或者身份，先至有另一個月費、簡化計劃，或者同普通計劃唔同嘅合約。呢頁唔報邊間幾多。資格、月費同操作以電訊商確認為準。",
+      "長者寬頻優惠唔係全港一個價，要核實年齡或者身份先至有。呢頁唔報邊間幾多。先問好不好用同穩唔穩。資格同月費以電訊商確認為準。設定簡唔簡單都問。",
     title: "長者寬頻優惠有邊間？月費幾多",
     excerpt: "冇一張全港長者價。先核實資格，再同普通計劃比較月費、穩定性同好唔好用。",
     titleEn: "Senior broadband offers: eligibility and the monthly fee",
     excerptEn: "There is no single senior price for the whole city. Confirm eligibility, then compare the fee, stability and how simple the service is.",
     descriptionEn:
-      "A senior broadband offer is not one city-wide fee. It usually needs an age or identity check before a different monthly fee, a simpler plan, or a different contract applies. This page does not name a carrier price. Eligibility, fees and how the service works are confirmed by the carrier.",
+      "A senior broadband offer is not one fee and usually needs an age check. This page quotes no price. Ask if it is simple to use. The carrier confirms it.",
     h1En: "Senior broadband offers: what they look like and what to confirm",
     published: "2026-10-21",
     modified: "2026-10-21",
@@ -4580,6 +4592,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "長者用嚟打電話、視像見家人、睇新聞，穩定同好上手通常比峰值速度重要。一般家用 1000M 多數夠，見 [1000M 夠唔夠](/guides/is-1000m-enough)。",
           "路由器放喺常用嘅廳，少啲功能、大個按鈕，往往好過一部設定繁複嘅機。光纖入到屋，通常穩過靠流動訊號；拉唔到先再問 5G 家居，見 [5G家居定光纖](/guides/fiber-vs-5g) 同 [5G 家居](/guides/home5g)。",
+          "擺位同部機係送定借，見 [寬頻路由器點揀](/guides/router-wifi)。打機或者視像不穩，先睇延遲而唔係再高一檔，見 [寬頻穩定](/guides/broadband-stability)。問邊個可以幫手重設密碼。",
         ],
         table: {
           caption: "長者優惠對一次",
@@ -4637,6 +4650,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "Calls, family video and news need stability and a simple setup more than peak speed. 1000M is enough for many homes. See [is 1000M enough](/guides/is-1000m-enough).",
           "Keep the router in the living room. Fibre, where it can be installed, is usually steadier than a mobile signal. If it cannot, ask about 5G home. See [fibre vs 5G home](/guides/fiber-vs-5g) and [5G home](/guides/home5g).",
+          "Placement, and whether the router is a gift or a loan: [choosing a router](/guides/router-wifi). If video calls feel unstable, look at latency before the next speed tier: [broadband stability](/guides/broadband-stability). Ask who can reset the password.",
         ],
         table: {
           caption: "Senior-offer checklist",
@@ -4710,14 +4724,14 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "觀塘寬頻比較｜九龍灣公屋私樓參考月費｜齊Quote",
     h1: "觀塘／九龍灣寬頻點揀：先分樓類",
     description:
-      "觀塘寬頻唔係一張區價。觀塘邨、坪石邨等公屋，康華苑等居屋，同德福花園、麗港城等私樓，計劃通常分開報。九龍灣都係觀塘區，仍然要先分樓類。下列係站內列出參考月費，覆蓋同安裝以電訊商確認為準。",
+      "觀塘同九龍灣寬頻先分公屋、居屋同私樓，唔好用一個區價。德福同坪石要分開對。用屋苑名查地址。覆蓋同安裝以電訊商確認為準。九龍灣都係觀塘區，先分樓類。",
     title: "觀塘／九龍灣寬頻點揀：先分樓類",
     excerpt: "觀塘同九龍灣唔係一區一價。公屋、居屋、私樓分開睇參考月費，再填地址查核。",
     titleEn: "Kwun Tong and Kowloon Bay broadband: sort housing type first",
     excerptEn:
       "Kwun Tong and Kowloon Bay are not one district price. Compare public, HOS and private estates separately, then confirm the address.",
     descriptionEn:
-      "Kwun Tong broadband is not one district fee. Public estates such as Kwun Tong Estate, HOS courts and private estates such as Telford Gardens are usually quoted separately. Kowloon Bay is in the same district and still splits by housing type. Listed fees are a reference. Coverage is confirmed by the carrier.",
+      "Kwun Tong and Kowloon Bay broadband splits by housing type, not one district fee. Compare by estate name. Coverage is confirmed by the carrier.",
     h1En: "Kwun Tong and Kowloon Bay broadband: sort housing type first",
     published: "2026-10-21",
     modified: "2026-10-21",
@@ -4836,6 +4850,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "下一步",
         paragraphs: [
           "返首頁輸入座數同街道，或者開 [公屋光纖格價](/plans?cat=broadband&housing=public) 同 [私樓光纖格價](/plans?cat=broadband&housing=private)。茶果嶺、鯉魚門等村屋見 [村屋光纖月費](/guides/village-fees)。其他地區：[沙田寬頻](/guides/sha-tin)、[將軍澳寬頻](/guides/tseung-kwan-o)。2026 年表見 [2026 家居寬頻格價](/guides/home-broadband-2026)。",
+          "舊樓唐樓入唔入到線，見 [舊樓寬頻](/guides/old-building-broadband)。轉台步驟見 [轉台寬頻](/guides/switch-broadband)。搜「九龍灣」仍然要揀樓類。",
           DISCLAIMER,
         ],
       },
@@ -4922,6 +4937,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "Next step",
         paragraphs: [
           "Type the block and street on the home page, or open [public fibre plans](/plans?cat=broadband&housing=public) and [private fibre plans](/plans?cat=broadband&housing=private). Nearby villages: [village fibre fees](/guides/village-fees). Also: [Sha Tin](/guides/sha-tin), [Tseung Kwan O](/guides/tseung-kwan-o).",
+          "Older walk-ups: [older buildings](/guides/old-building-broadband). Switching: [switching broadband](/guides/switch-broadband). “Kowloon Bay” still needs a housing type.",
           DISCLAIMER_EN,
         ],
       },
@@ -4962,14 +4978,14 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "馬鞍山寬頻比較｜私樓同公屋參考月費｜齊Quote",
     h1: "馬鞍山寬頻點揀：私樓同公屋分別",
     description:
-      "馬鞍山寬頻唔係一張區價。耀安邨、恆安邨等公屋，錦英苑等居屋，同新港城、迎海等私樓，計劃通常分開報。行政區上屬沙田，沙田其他屋苑見沙田頁。下列係站內列出參考月費，覆蓋同安裝以電訊商確認為準。",
+      "馬鞍山寬頻先分私樓同公屋，新港城同耀安邨唔好混用月費。沙田其他屋苑見沙田頁。用屋苑名對一對再查。覆蓋以電訊商確認為準。私樓同公屋分開對，再查地址。",
     title: "馬鞍山寬頻點揀：私樓同公屋分別",
     excerpt: "馬鞍山要先分私樓同公屋。新港城、迎海唔好同耀安邨用同一張月費表。",
     titleEn: "Ma On Shan broadband: private estates and public housing separately",
     excerptEn:
       "Ma On Shan splits by housing type. Do not use a Sunshine City row for Yiu On Estate. Sha Tin’s wider area has its own page.",
     descriptionEn:
-      "Ma On Shan broadband is not one district fee. Public estates such as Yiu On, HOS courts and private estates such as Sunshine City and Double Cove are usually quoted separately. It sits in Sha Tin district; other Sha Tin estates are on the Sha Tin page. Listed fees are a reference. Coverage is confirmed by the carrier.",
+      "Ma On Shan splits private estates from public housing. See the Sha Tin page for the rest. Compare by estate name. The carrier confirms coverage.",
     h1En: "Ma On Shan broadband: private estates and public housing separately",
     published: "2026-10-21",
     modified: "2026-10-21",
@@ -5088,6 +5104,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "下一步",
         paragraphs: [
           "返首頁輸入座數同街道，或者開 [私樓光纖格價](/plans?cat=broadband&housing=private) 同 [公屋光纖格價](/plans?cat=broadband&housing=public)。沙田其他屋苑見 [沙田寬頻](/guides/sha-tin)。馬鞍山村、烏溪沙村等村屋見 [村屋光纖月費](/guides/village-fees)。2026 年表見 [2026 家居寬頻格價](/guides/home-broadband-2026)。",
+          "村屋 5G 要現場試訊號，見 [村屋 5G 家居實測](/guides/village-5g-test)。轉台見 [轉台寬頻](/guides/switch-broadband)。私樓表同公屋表分開對，唔好拉勻。",
           DISCLAIMER,
         ],
       },
@@ -5174,6 +5191,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "Next step",
         paragraphs: [
           "Type the block and street on the home page, or open [private fibre plans](/plans?cat=broadband&housing=private) and [public fibre plans](/plans?cat=broadband&housing=public). The rest of Sha Tin: [Sha Tin](/guides/sha-tin). Nearby villages: [village fibre fees](/guides/village-fees).",
+          "Village 5G needs an on-site test: [village 5G home test](/guides/village-5g-test). Switching: [switching broadband](/guides/switch-broadband). Keep the private table and the public table apart.",
           DISCLAIMER_EN,
         ],
       },
@@ -5214,13 +5232,13 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "寬頻提早終止｜違約金點睇合約｜齊Quote",
     h1: "寬頻提早終止合約點計違約金",
     description:
-      "寬頻提早終止通常要睇未完嘅合約期、條款寫明嘅終止費，同要唔要補回優惠或歸還路由器。每份合約唔同，呢頁唔放金額。實際以你簽嘅合約同電訊商確認為準。",
+      "寬頻提早終止要睇未完合約期、條款寫明嘅終止費，同路由器要唔要還。呢頁唔放任何金額。決定之前先問清。以你嘅合約同電訊商確認為準。本頁亦唔教避約。",
     title: "寬頻提早終止合約點計違約金",
     excerpt: "違約金唔係全港一個數。睇未完約期、條款原文同路由器係送定借。",
     titleEn: "How a broadband early-termination charge is worked out",
     excerptEn: "There is no single city-wide penalty. Read the unused term, the clause, and whether the router is a gift or a loan.",
     descriptionEn:
-      "Leaving a broadband contract early usually depends on the unused term, any charge written in the clause, and whether offers or the router have to be paid back. Contracts differ. This page states no amount. The signed contract and the carrier confirm it.",
+      "Early termination follows the unused term, the clause, and whether the router goes back. This page states no amount. Ask first. The carrier confirms it.",
     h1En: "How a broadband early-termination charge is worked out",
     published: "2026-10-21",
     modified: "2026-10-21",
@@ -5246,7 +5264,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "路由器要還定可以留",
         paragraphs: [
           "借用或者包用嘅路由器，停約多數要還。遺失、壞機點計，通常同終止條款一齊寫。寫明送出嘅機，都要問提早走會唔會變相要補機價，或者仍然要還。送出同包用唔好當同一件事。",
-          "細節見 [月費以外](/guides/contract-fees)。",
+          "細節見 [月費以外](/guides/contract-fees)。部機係送定借、停約要唔要還，亦見 [寬頻路由器點揀](/guides/router-wifi)。新址如果係舊樓，入唔入到線見 [舊樓寬頻](/guides/old-building-broadband)。搬家唔等於可以免費終止。",
         ],
       },
       {
@@ -5284,7 +5302,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "Returning the router",
         paragraphs: [
           "A loaned or included router usually has to go back. Loss and damage are often in the same clause. Even a unit described as a gift should be asked about: leaving early can mean paying for it, or returning it anyway. A gift and a loan are not the same.",
-          "See [install, prepay, contract](/guides/contract-fees).",
+          "See [install, prepay, contract](/guides/contract-fees). Gift or loan, and whether it must go back: [choosing a router](/guides/router-wifi). An older new address: [older walk-ups](/guides/old-building-broadband). Moving house is not automatically a free exit.",
         ],
       },
       {
@@ -5339,13 +5357,13 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "10G寬頻值唔值得｜1000M定更高速度｜齊Quote",
     h1: "10G 寬頻值唔值得用？適合邊類人",
     description:
-      "一般家用 1000M 多數夠，人多或者成日上傳先問 2500M。10G 適合成日傳很大檔、好多部機同時用，而且路由器、網卡同網線都支援多千兆。可唔可以申請同月費以電訊商確認為準。",
+      "10G 寬頻唔係家家需要。一般家用先睇 1000M 同 2500M 夠唔夠用。路由器、網卡同網線都要支援多千兆先再問。月費以電訊商確認為準。",
     title: "10G 寬頻值唔值得用？適合邊類人",
     excerpt: "10G 唔係人人需要。先睇 1000M 同 2500M 夠唔夠，再問裝置同線路跟唔跟得上。",
     titleEn: "Is 10G broadband worth it, and who it suits",
     excerptEn: "Most homes do not need 10G. Check 1000M and 2500M first, then whether the router, computer and cable can use multi-gig.",
     descriptionEn:
-      "1000M is enough for most homes. Ask about 2500M when many people upload at once. 10G suits heavy uploads and many devices only when the router, network port and cable support multi-gig. Whether you can apply, and the fee, are confirmed by the carrier.",
+      "Most homes do not need 10G broadband. Check 1000M and 2500M first. Router, port and cable must support multi-gig. The fee is confirmed by the carrier.",
     h1En: "Is 10G broadband worth it, and who it suits",
     published: "2026-10-21",
     modified: "2026-10-21",
@@ -5371,6 +5389,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "費用同覆蓋要分開問",
         paragraphs: [
           "值唔值得，仲要睇你個地址可唔可以申請、月費同合約期。呢頁唔列出 10G 月費。站內其他速度嘅參考月費，唔可以拿來當成 10G 嘅價。實際報價以電訊商確認為準。",
+          "問價時把安裝費、預繳同合約期同月費一齊睇，唔好只聽一個月費。點對見 [安裝費、預繳、合約](/guides/contract-fees)。光纖點入屋、同其他方案點分，見 [香港光纖寬頻點揀](/guides/fiber)。地址申請唔到，更高標示速度都用唔到。",
           "舊樓、村屋或者管理處唔同意入線，更高標示速度都未必申請到。覆蓋同安裝要現場確認，唔好假設每座樓都拉到。手感不穩多數先睇延遲同擺位，見 [寬頻邊間最穩](/guides/broadband-stability)。",
         ],
       },
@@ -5401,6 +5420,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "Fee and coverage are separate questions",
         paragraphs: [
           "Whether it is worth it also depends on whether your address can apply, and on the fee and the term. This page does not list a 10G fee. Reference fees for other speeds on this site are not a 10G price. The carrier confirms the quote.",
+          "Ask about install, prepay and the contract term together with the monthly fee. Do not judge from the monthly figure alone. How to read those extras: [install, prepay, contract](/guides/contract-fees). How fibre is installed, and how plans differ, is in [Hong Kong fibre](/guides/fiber). If the address cannot apply, a higher label does not help.",
           "An older building, a village house, or a management office that will not allow a new cable may not be able to take a higher label. Coverage and install are confirmed on site. Instability is usually about latency and placement first. See [broadband stability](/guides/broadband-stability).",
         ],
       },
@@ -5448,13 +5468,13 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "村屋5G家居實測｜訊號同公平使用｜齊Quote",
     h1: "村屋 5G 家居實測：訊號同速度注意事項",
     description:
-      "村屋 5G 家居要喺打算放路由器嘅位置試訊號，唔好只睇地圖。可以拉光纖就先問光纖，村屋光纖月費同公屋唔好混用。公平使用用完可能降速。實際覆蓋同速度以現場同電訊商確認為準。",
+      "村屋 5G 家居要喺放路由器嘅位置試訊號，唔好只睇地圖色塊。光纖拉到就先比較光纖。公平使用用完可能降速。結果以電訊商現場確認為準。窗邊同屋入面可以差好遠。",
     title: "村屋 5G 家居實測：訊號同速度注意事項",
     excerpt: "村屋先喺現場試 5G 訊號。光纖拉到就分開比較，用量條款同擺位都會影響手感。",
     titleEn: "Village 5G home: what an on-site signal test should check",
     excerptEn: "Test 5G where the router would sit. If fibre can be pulled in, compare it separately. Fair use and placement still change the feel.",
     descriptionEn:
-      "Village 5G home needs a signal test where you would leave the router, not a coverage map alone. If fibre can be pulled in, ask about fibre first, and do not mix village fibre fees with public-housing fees. Fair use can slow the line after the allowance. Coverage and speed are confirmed on site by the carrier.",
+      "Test village 5G home where the router would sit, not from a map. Compare fibre if a line can be pulled in. Fair use can slow it. Confirm on site.",
     h1En: "Village 5G home: what an on-site signal test should check",
     published: "2026-10-21",
     modified: "2026-10-21",
@@ -5480,6 +5500,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "可以拉光纖就優先問光纖。光纖係固定線路，延遲通常較平穩，少受附近流動網絡忙唔忙影響。5G 家居可以係未有光纖、或者等安裝期間嘅選擇，唔好當固定光纖。比較見 [5G家居定光纖](/guides/fiber-vs-5g) 同 [香港 5G 家居點揀](/guides/home5g)。",
           "村屋光纖係另一套計劃，月費同安裝環境同公屋、居屋、私樓**唔好混用**。見 [村屋寬頻點算](/guides/village) 同 [村屋光纖月費](/guides/village-fees)。呢頁唔用公屋參考月費去估村屋。",
+          "手感不穩先分係訊號、擺位定用量條款，唔好一開始就換計劃。點分見 [寬頻邊間最穩](/guides/broadband-stability)。用屋苑或者村名對樓類，見 [齊Quote 點用屋苑篩](/guides/estate-filter)。地圖色塊仍然唔可以代替現場試。",
         ],
       },
       {
@@ -5517,6 +5538,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "If fibre can be pulled in, ask about fibre first. Fibre is a fixed line. Latency is usually steadier, and less tied to how busy the mobile network nearby is. 5G home can cover a wait, or a house with no fibre yet. Do not treat it as fixed fibre. See [fibre vs 5G home](/guides/fiber-vs-5g) and [5G home](/guides/home5g).",
           "Village fibre is a separate set of plans. Do **not** mix its fees with public, HOS or private housing. See [village broadband](/guides/village) and [village fibre fees](/guides/village-fees). This page does not reuse a public-housing reference fee for a village.",
+          "If the line feels unstable, separate signal, placement and the usage clause before you switch plans. How to tell them apart: [broadband stability](/guides/broadband-stability). Match the estate or village name to a housing type with the [estate filter](/guides/estate-filter). A map colour still does not replace a test at the spot.",
         ],
       },
       {
