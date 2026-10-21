@@ -34,7 +34,19 @@ const TOPIC_FILE: Record<(typeof GUIDE_TOPIC_IMAGE_SLUGS)[number], string> = {
   fiber: "guide-fiber",
   village: "guide-village",
   "fiber-vs-5g": "guide-choose",
+  "old-building-broadband": "guides/old-building-broadband",
+  "home5g-data-cap": "guides/home5g-data-cap",
+  "move-broadband": "guides/move-broadband",
+  "yuen-long": "guides/yuen-long",
 };
+
+const WIDE_TOPIC = new Set([
+  "fiber-vs-5g",
+  "old-building-broadband",
+  "home5g-data-cap",
+  "move-broadband",
+  "yuen-long",
+]);
 
 function src(rel: string) {
   return readFileSync(join(here, rel), "utf8");
@@ -45,15 +57,27 @@ function bytes(rel: string) {
 }
 
 describe("guide topic images", () => {
-  it("wires port-in, fiber, village, and fiber-vs-5g choose", () => {
-    assert.deepEqual([...GUIDE_TOPIC_IMAGE_SLUGS].sort(), ["fiber", "fiber-vs-5g", "port-in", "village"]);
-    assert.deepEqual(Object.keys(GUIDE_TOPIC_IMAGES).sort(), ["fiber", "fiber-vs-5g", "port-in", "village"]);
+  it("wires topic images for the original four guides and the later guide photos", () => {
+    assert.deepEqual(
+      [...GUIDE_TOPIC_IMAGE_SLUGS].sort(),
+      [
+        "fiber",
+        "fiber-vs-5g",
+        "home5g-data-cap",
+        "move-broadband",
+        "old-building-broadband",
+        "port-in",
+        "village",
+        "yuen-long",
+      ],
+    );
+    assert.deepEqual(Object.keys(GUIDE_TOPIC_IMAGES).sort(), [...GUIDE_TOPIC_IMAGE_SLUGS].sort());
     for (const slug of GUIDE_TOPIC_IMAGE_SLUGS) {
       const image = guideTopicImage(slug);
       assert.ok(image, slug);
       assert.equal(image.src, `/images/${TOPIC_FILE[slug]}.jpg`);
       assert.equal(image.webp, `/images/${TOPIC_FILE[slug]}.webp`);
-      const [width, height] = slug === "fiber-vs-5g" ? [1280, 720] : [1200, 630];
+      const [width, height] = WIDE_TOPIC.has(slug) ? [1280, 720] : [1200, 630];
       assert.equal(image.width, width);
       assert.equal(image.height, height);
       assert.equal(guideShareImagePath(slug), image.src);
@@ -78,6 +102,18 @@ describe("guide topic images", () => {
       ["public/images/guide-village.webp", 100_000],
       ["public/images/guide-choose.jpg", 100_000],
       ["public/images/guide-choose.webp", 70_000],
+      ["public/images/guides/old-building-broadband.jpg", 140_000],
+      ["public/images/guides/old-building-broadband.webp", 100_000],
+      ["public/images/guides/old-building-broadband-400.webp", 30_000],
+      ["public/images/guides/home5g-data-cap.jpg", 70_000],
+      ["public/images/guides/home5g-data-cap.webp", 50_000],
+      ["public/images/guides/home5g-data-cap-400.webp", 20_000],
+      ["public/images/guides/move-broadband.jpg", 70_000],
+      ["public/images/guides/move-broadband.webp", 55_000],
+      ["public/images/guides/move-broadband-400.webp", 20_000],
+      ["public/images/guides/yuen-long.jpg", 120_000],
+      ["public/images/guides/yuen-long.webp", 90_000],
+      ["public/images/guides/yuen-long-400.webp", 25_000],
     ] as const;
     for (const [path, max] of assets) {
       assert.equal(existsSync(join(root, path)), true, path);
@@ -94,7 +130,7 @@ describe("guide topic images", () => {
     }
   });
 
-  it("uses the topic asset as JSON-LD image only for those four slugs", () => {
+  it("uses the topic asset as JSON-LD image for registered guide slugs", () => {
     for (const slug of GUIDE_TOPIC_IMAGE_SLUGS) {
       const guide = getGuide(slug);
       assert.ok(guide, slug);

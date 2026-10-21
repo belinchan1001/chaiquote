@@ -27,7 +27,14 @@ describe("guide manuscript dates vs catalogue stamp", () => {
       assert.equal(sitemapLastmod(`/guides/${slug}`), "2026-10-14");
     }
 
-    for (const slug of ["broadband-renewal", "broadband-stability"] as const) {
+    for (const slug of [
+      "broadband-renewal",
+      "broadband-stability",
+      "old-building-broadband",
+      "home5g-data-cap",
+      "move-broadband",
+      "yuen-long",
+    ] as const) {
       const guide = getGuide(slug);
       assert.ok(guide, slug);
       assert.equal(guide.published, "2026-10-21");

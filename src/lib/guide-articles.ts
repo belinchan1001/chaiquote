@@ -2912,6 +2912,781 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
     ],
   },
+  {
+    slug: "old-building-broadband",
+    minutes: 7,
+    category: "fiber",
+    seoTitle: "舊樓唐樓寬頻點算｜冇光纖有咩選擇｜齊Quote",
+    h1: "舊樓同唐樓寬頻點算：冇光纖有咩選擇",
+    description:
+      "舊樓同唐樓先問有冇光纖入到你個單位。拉唔到先比較 5G 家居，並喺現場試訊號同路由器擺位。覆蓋、入線同安裝以電訊商確認為準。",
+    title: "舊樓同唐樓寬頻點算：冇光纖有咩選擇",
+    excerpt: "舊樓先查有冇光纖。拉唔到就比較 5G 家居，再喺現場試訊號同路由器擺位。",
+    titleEn: "Broadband in older walk-ups: options when fibre is not in",
+    excerptEn: "Ask about fibre first. If it cannot be pulled in, compare 5G home and test the signal on site.",
+    descriptionEn:
+      "In an older walk-up, confirm whether fibre can reach the flat before you sign. If it cannot, compare 5G home, test the signal on site, and place the router carefully. Coverage and install are confirmed by the carrier.",
+    h1En: "Broadband in older walk-ups: what to do without fibre",
+    published: "2026-10-21",
+    modified: "2026-10-21",
+    related: ["fiber", "fiber-vs-5g", "home5g", "village", "village-onsite", "estate-filter", "switch-broadband"],
+    plans: [
+      { href: "/plans?cat=broadband", label: "去光纖格價" },
+      { href: "/plans?cat=home5g", label: "去 5G 家居格價" },
+    ],
+    estates: [{ href: "/estates", label: "屋苑目錄" }],
+    body: [
+      {
+        heading: "先確認光纖入唔入到",
+        paragraphs: [
+          "舊樓、唐樓唔等於一定冇光纖，亦唔等於一定拉到。樓齡、走廊、電箱、管理處或者業主同唔同意穿牆，都會影響。第一步係用地址問覆蓋，而唔係睇廣告就假設有線。",
+          "喺齊Quote 輸入屋苑或者街道，先對樓類。點用屋苑名見 [齊Quote 點用屋苑篩](/guides/estate-filter)。光纖同 5G 家居點分，見 [5G家居定光纖](/guides/fiber-vs-5g)。",
+        ],
+      },
+      {
+        heading: "拉唔到先比較 5G 家居",
+        paragraphs: [
+          "電訊商確認暫時入唔到光纖，先睇 5G 家居：插電路由器，用流動網絡開家用 Wi-Fi。速度快慢視現場訊號，唔好當固定光纖。詳見 [香港 5G 家居點揀](/guides/home5g)。",
+          "村屋或者入線特別難嘅地址，光纖同 5G 可以一齊問。需要現場睇路經，見 [村屋寬頻點算](/guides/village) 同 [實地視察](/guides/village-onsite)。",
+        ],
+        table: {
+          caption: "舊樓先問邊樣",
+          headers: ["情況", "點做"],
+          rows: [
+            {
+              label: "未知有冇光纖",
+              value: "用完整地址查核覆蓋同可唔可以入線。",
+              href: "/guides/estate-filter",
+            },
+            {
+              label: "確認拉唔到",
+              value: "再比較 5G 家居，唔好當固定線替代。",
+              href: "/guides/home5g",
+            },
+            {
+              label: "業主唔批准穿牆",
+              value: "問有冇唔使穿牆嘅方案，再決定。",
+              href: "/guides/fiber-vs-5g",
+            },
+          ],
+        },
+      },
+      {
+        heading: "現場試訊號",
+        paragraphs: [
+          "5G 家居唔好只靠地圖色塊。簽約前最好喺你個單位、你打算放路由器嘅位置試一次。窗邊、大廳同睡房可以差好遠。試完先決定做主線定後備。",
+          "試到嘅速度只代表嗰一下。繁忙時段、隔牆、天氣都可能唔同。實際可唔可以申請，仍然以電訊商確認為準。",
+        ],
+      },
+      {
+        heading: "路由器點擺",
+        paragraphs: [
+          "光纖入到屋之後，路由器放喺常用區域中間、少少高、避開金屬櫃同厚牆，通常比再買高一檔月費更有用。見 [1000M 夠唔夠](/guides/is-1000m-enough)。",
+          "5G 家居路由器多數要靠窗或者訊號較強嘅位置，唔好鎖喺電箱櫃入面。合約寫「包路由器」定「送出、到期要還」，簽約前問清楚，見 [月費以外](/guides/contract-fees)。",
+        ],
+      },
+      {
+        heading: "下一步",
+        paragraphs: [
+          "返首頁輸入地址，或者開 [光纖格價](/plans?cat=broadband) 同 [5G 家居格價](/plans?cat=home5g) 對參考計劃。轉台步驟見 [轉台寬頻](/guides/switch-broadband)。",
+          DISCLAIMER,
+        ],
+      },
+    ],
+    bodyEn: [
+      {
+        heading: "Confirm fibre before you assume there is none",
+        paragraphs: [
+          "An older walk-up is not automatically without fibre, and fibre is not automatically installable. Age, the corridor, the meter cupboard and whether the owner allows drilling all matter. Check the address first.",
+          "How to type an estate: [estate filter](/guides/estate-filter). Fibre or 5G home: [fibre vs 5G home](/guides/fiber-vs-5g).",
+        ],
+      },
+      {
+        heading: "Compare 5G home only after fibre is ruled out",
+        paragraphs: [
+          "If the carrier says fibre cannot be pulled in, compare 5G home: a plug-in router on the mobile network. It is not a fixed line. See [5G home](/guides/home5g).",
+          "Village houses and difficult routes can compare both. See [village broadband](/guides/village) and [an on-site visit](/guides/village-onsite).",
+        ],
+        table: {
+          caption: "What to ask first",
+          headers: ["Situation", "What to do"],
+          rows: [
+            {
+              label: "Fibre unknown",
+              value: "Check coverage and whether a line can be pulled in.",
+              href: "/guides/estate-filter",
+            },
+            {
+              label: "Fibre ruled out",
+              value: "Then compare 5G home. Do not treat it as a fixed line.",
+              href: "/guides/home5g",
+            },
+            {
+              label: "No drilling allowed",
+              value: "Ask about an option that does not need a new hole.",
+              href: "/guides/fiber-vs-5g",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Test the signal on site",
+        paragraphs: [
+          "Do not rely on a coverage map alone. Try the router where you would actually leave it. A window, the living room and a bedroom can differ.",
+          "A short test is one moment. Busy hours and walls can change it. Whether you can apply is still confirmed by the carrier.",
+        ],
+      },
+      {
+        heading: "Where to put the router",
+        paragraphs: [
+          "Once fibre is in, a central, slightly raised router away from metal cabinets often helps more than the next speed tier. See [is 1000M enough](/guides/is-1000m-enough).",
+          "A 5G home router usually wants a stronger-signal spot, not the inside of a cupboard. Ask whether the router is a gift or must be returned. See [install, prepay, contract](/guides/contract-fees).",
+        ],
+      },
+      {
+        heading: "Next step",
+        paragraphs: [
+          "Enter the address on the home page, or open [fibre plans](/plans?cat=broadband) and [5G home plans](/plans?cat=home5g). Switching: [switching broadband](/guides/switch-broadband).",
+          DISCLAIMER_EN,
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "舊樓係咪一定冇光纖？",
+        a: "唔係。有啲舊樓已經入到線，有啲要現場先知道。用完整地址向電訊商查核，唔好靠樓齡估。",
+      },
+      {
+        q: "確認拉唔到光纖，下一步係咩？",
+        a: "再比較 5G 家居，並喺你打算放路由器嘅位置試訊號。見 [香港 5G 家居點揀](/guides/home5g)。",
+      },
+      {
+        q: "路由器放邊先穩啲？",
+        a: "光纖路由器放常用區域中間、避開厚牆。5G 家居多數要靠訊號較強嘅位置。實際擺位同安裝以電訊商確認為準。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Do older buildings never have fibre?",
+        a: "No. Some already have a route in, and some need a site check. Confirm the full address with the carrier.",
+      },
+      {
+        q: "What if fibre cannot be installed?",
+        a: "Compare 5G home and test the signal where the router would sit. See [5G home](/guides/home5g).",
+      },
+      {
+        q: "Where should the router go?",
+        a: "For fibre, keep it central and clear of thick walls. A 5G home router usually needs a stronger-signal spot. Placement is still confirmed on site.",
+      },
+    ],
+  },
+  {
+    slug: "home5g-data-cap",
+    minutes: 7,
+    category: "home5g",
+    seoTitle: "5G家居數據上限同公平使用｜點睇合約｜齊Quote",
+    h1: "5G 家居寬頻數據上限同公平使用點睇",
+    description:
+      "5G 家居有機會有高速數據上限或者公平使用條款，用到某個用量之後可能降速或者降低優先權。點樣睇合約，同光纖有咩分別。實際條款以電訊商確認為準。",
+    title: "5G 家居寬頻數據上限同公平使用點睇",
+    excerpt: "5G 家居唔好只睇標示速度。問清楚用量上限、公平使用同用完之後點算。",
+    titleEn: "5G home data caps and fair-use clauses",
+    excerptEn: "Do not stop at the headline speed. Read the usage cap, the fair-use clause and what happens after it.",
+    descriptionEn:
+      "A 5G home plan may include a high-speed data allowance or a fair-use clause, and speed or priority can change after that usage. Learn how to read the contract and how it differs from fibre. The carrier confirms the terms.",
+    h1En: "How to read a 5G home data cap and fair-use clause",
+    published: "2026-10-21",
+    modified: "2026-10-21",
+    related: ["home5g", "fiber-vs-5g", "fiber", "is-1000m-enough", "contract-fees", "broadband-total-cost"],
+    plans: [
+      { href: "/plans?cat=home5g", label: "去 5G 家居格價" },
+      { href: "/plans?cat=broadband", label: "去光纖格價" },
+    ],
+    estates: [
+      { href: "/estates", label: "屋苑目錄" },
+      { href: "/guides/home5g", label: "5G 家居攻略" },
+    ],
+    body: [
+      {
+        heading: "公平使用唔等於無限全速",
+        paragraphs: [
+          "5G 家居用流動網絡做家用 Wi-Fi。有啲計劃寫「無限」或者「任上」，但合約入面可以另有公平使用（fair use）或者高速數據上限。用到某個用量之後，速度或者優先權可以下降。",
+          "齊Quote 列出嘅月費係參考，**唔係**每一條計劃嘅用量條款。上限幾多、用完點計，要睇你將要簽嘅合約原文，再向電訊商確認。背景見 [香港 5G 家居點揀](/guides/home5g)。",
+        ],
+      },
+      {
+        heading: "用完之後可能降速",
+        paragraphs: [
+          "常見寫法係：高速用量用完，其後降速、降低優先，或者繁忙時間先受限。字眼每份合約唔同，唔好用另一間電訊商嘅例子套落自己張單。",
+          "屋企如果成日 4K、雲端備份、視像會議，要問「用完之後仲用唔用得」，而唔係只問廣告最高速度。一般家用幾多先夠，見 [1000M 夠唔夠](/guides/is-1000m-enough)。",
+        ],
+      },
+      {
+        heading: "合約要對邊幾行",
+        paragraphs: [
+          "簽約前對一次：高速數據係幾多、公平使用點寫、用完係降速定停、計費週期由邊日開始、路由器係包用定到期要還。月費以外見 [安裝費、預繳、合約](/guides/contract-fees)。計平均月費見 [寬頻合約總成本點計](/guides/broadband-total-cost)。",
+        ],
+        table: {
+          caption: "睇 5G 家居合約",
+          headers: ["條款", "問咩"],
+          rows: [
+            {
+              label: "高速用量",
+              value: "有冇上限，定係公平使用先限制。",
+              href: "/guides/home5g",
+            },
+            {
+              label: "用完之後",
+              value: "降速、降低優先，定仍然全速。",
+              href: "/guides/contract-fees",
+            },
+            {
+              label: "計費週期",
+              value: "用量幾時重置，跨月點計。",
+              href: "/guides/broadband-total-cost",
+            },
+            {
+              label: "路由器",
+              value: "送出、包用，定合約後要還。",
+              href: "/guides/contract-fees",
+            },
+          ],
+        },
+      },
+      {
+        heading: "同光纖點比",
+        paragraphs: [
+          "可以拉光纖，多數人會用光纖做主線，因為唔使靠現場流動訊號。5G 家居啱未有光纖、租樓、或者等安裝期間做後備。兩邊分別見 [5G家居定光纖](/guides/fiber-vs-5g)。",
+          "比較之前最好喺你個單位試一次訊號。試到嘅速度只係參考，繁忙時段可以唔同。",
+        ],
+      },
+      {
+        heading: "下一步",
+        paragraphs: [
+          "開 [5G 家居格價](/plans?cat=home5g) 睇參考月費，再用 WhatsApp 問該計劃嘅用量上限同公平使用原文。可以拉線就一併睇 [光纖格價](/plans?cat=broadband)。",
+          DISCLAIMER,
+        ],
+      },
+    ],
+    bodyEn: [
+      {
+        heading: "Fair use is not the same as full speed without a limit",
+        paragraphs: [
+          "5G home is household Wi-Fi on a mobile network. A plan can say unlimited and still have a fair-use clause or a high-speed allowance. After that usage, speed or priority can drop.",
+          "Fees on this site are a reference. They are **not** the usage clause of every plan. Read the contract you will sign. Background: [5G home](/guides/home5g).",
+        ],
+      },
+      {
+        heading: "Speed can change after the allowance",
+        paragraphs: [
+          "Typical wording is a slower speed, lower priority, or a limit only at busy times. The words differ by contract. Do not copy another carrier’s example onto your own bill.",
+          "If the home streams, backs up and takes video calls all day, ask what happens after the allowance. See [is 1000M enough](/guides/is-1000m-enough).",
+        ],
+      },
+      {
+        heading: "Lines to read in the contract",
+        paragraphs: [
+          "Check the high-speed allowance, how fair use is written, what happens after it, when the cycle resets, and whether the router is returned. See [install, prepay, contract](/guides/contract-fees) and [total contract cost](/guides/broadband-total-cost).",
+        ],
+        table: {
+          caption: "Reading a 5G home contract",
+          headers: ["Clause", "Ask"],
+          rows: [
+            {
+              label: "High-speed data",
+              value: "Is there a cap, or only a fair-use limit?",
+              href: "/guides/home5g",
+            },
+            {
+              label: "After the allowance",
+              value: "Slower speed, lower priority, or still full speed.",
+              href: "/guides/contract-fees",
+            },
+            {
+              label: "Billing cycle",
+              value: "When usage resets.",
+              href: "/guides/broadband-total-cost",
+            },
+            {
+              label: "Router",
+              value: "Gift, included, or returned at the end.",
+              href: "/guides/contract-fees",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Compared with fibre",
+        paragraphs: [
+          "Where fibre can be installed, most homes use it as the main line. 5G home fits when fibre is not in yet, for a rental, or as a backup while you wait. See [fibre vs 5G home](/guides/fiber-vs-5g).",
+          "Test the signal in the flat first. One test is a reference; busy hours can differ.",
+        ],
+      },
+      {
+        heading: "Next step",
+        paragraphs: [
+          "Open [5G home plans](/plans?cat=home5g), then ask on WhatsApp for that plan’s allowance and fair-use wording. If a line can be pulled in, also see [fibre plans](/plans?cat=broadband).",
+          DISCLAIMER_EN,
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "5G 家居寫無限係咪就唔會降速？",
+        a: "唔一定。合約可以另有公平使用或者高速用量。用完之後點計，要以該份合約同電訊商確認為準。",
+      },
+      {
+        q: "用量上限喺邊度睇？",
+        a: "睇合約入面高速數據、公平使用、計費週期同用完之後嘅速度。頁上月費只係參考，唔代替條款原文。",
+      },
+      {
+        q: "有光纖仲使唔使用 5G 家居？",
+        a: "可以拉光纖，多數用光纖做主線。5G 家居可以做後備或者過渡。見 [5G家居定光纖](/guides/fiber-vs-5g)。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Does unlimited 5G home stay at full speed?",
+        a: "Not always. The contract can still have a fair-use clause or a high-speed allowance. Confirm that wording with the carrier.",
+      },
+      {
+        q: "Where is the data cap written?",
+        a: "In the high-speed allowance, the fair-use clause, the billing cycle and the speed after the allowance. Listed fees are only a reference.",
+      },
+      {
+        q: "Do I still want 5G home if fibre is available?",
+        a: "Most homes use fibre as the main line when it can be installed. 5G home can be a backup or a stopgap. See [fibre vs 5G home](/guides/fiber-vs-5g).",
+      },
+    ],
+  },
+  {
+    slug: "move-broadband",
+    minutes: 7,
+    category: "fiber",
+    seoTitle: "搬屋寬頻點做｜舊約搬遷費同新裝｜齊Quote",
+    h1: "搬屋寬頻點做：舊約、搬遷費同新裝",
+    description:
+      "搬屋先查舊約完約日、可唔可以搬遷、搬遷費同新址安裝期。新線測好先停舊線。路由器係搬走、換機定要還，以電訊商合約確認為準。",
+    title: "搬屋寬頻點做：舊約、搬遷費同新裝",
+    excerpt: "先查完約日同搬遷費，再約新址安裝。新線測好先停舊線，路由器點處理亦要問清楚。",
+    titleEn: "Moving home with broadband: contract, relocation fee, new install",
+    excerptEn: "Check the contract end date and any relocation fee, then book the new install. Test the new line before you stop the old one.",
+    descriptionEn:
+      "Before you move, check the old contract end date, whether the line can move, any relocation fee and the install window at the new address. Test the new line before you stop the old one. Router terms are in the carrier contract.",
+    h1En: "Moving home: old contract, relocation fee and a new install",
+    published: "2026-10-21",
+    modified: "2026-10-21",
+    related: ["switch-broadband", "contract-fees", "fiber", "broadband-renewal", "estate-filter", "port-in"],
+    plans: [{ href: "/plans?cat=broadband", label: "去光纖格價" }],
+    estates: [{ href: "/estates", label: "屋苑目錄" }],
+    body: [
+      {
+        heading: "先查舊約完約日",
+        paragraphs: [
+          "搬屋唔等於自動可以帶走舊約。先睇完約日、提早終止點計、合約有冇寫搬遷。未約滿就停，可能要俾終止費或者補回優惠。本頁唔教你點樣避約。",
+          "寬頻**唔能夠攜號**。手機先至係攜號，見 [攜號轉台](/guides/port-in)。寬頻係新址安裝，步驟同轉台一樣要**先裝後停**，見 [轉台寬頻](/guides/switch-broadband)。",
+        ],
+      },
+      {
+        heading: "搬遷費同新裝期",
+        paragraphs: [
+          "有啲合約包一次搬遷，有啲要另計上門費，有啲新址根本搬唔到、要當新申請。金額同日數每間電訊商、每個地址都唔同，唔好用別人嘅例子當自己張單。",
+          "問清楚：新址可唔可以入線、最早幾時上門、要唔要管理處或者業主批准、舊址幾時要交還設備。月費以外見 [安裝費、預繳、合約](/guides/contract-fees)。",
+        ],
+        table: {
+          caption: "搬屋對一次",
+          headers: ["事項", "問咩"],
+          rows: [
+            {
+              label: "完約日",
+              value: "舊約幾時完，未完就搬點計。",
+              href: "/guides/contract-fees",
+            },
+            {
+              label: "搬遷費",
+              value: "包一次、另計，定新址要重新申請。",
+              href: "/guides/contract-fees",
+            },
+            {
+              label: "新裝期",
+              value: "幾時上門，要唔要管理處批准。",
+              href: "/guides/switch-broadband",
+            },
+            {
+              label: "先裝後停",
+              value: "新線測好先停舊線，避免空窗。",
+              href: "/guides/switch-broadband",
+            },
+          ],
+        },
+      },
+      {
+        heading: "新線測好先停舊線",
+        paragraphs: [
+          "新址未測到上網，就唔好先取消舊址。理想係兩頭重疊短時間，新線穩陣先停舊約。完全銜接唔到，可能要短暫用 5G 家居或者手機熱點，但嗰啲只係權宜，穩定度視現場。",
+          "新址先用屋苑篩對樓類，再睇參考計劃。見 [齊Quote 點用屋苑篩](/guides/estate-filter)。",
+        ],
+      },
+      {
+        heading: "路由器搬走定換機",
+        paragraphs: [
+          "「搬路由器」同「換新機」唔同。舊機可能綁住舊址、要還、或者新址要另一隻型號。送出嘅機通常可以帶走；包用或者借用就要問遺失同歸還點計。",
+          "如果舊約就嚟完，一併問續約價同新址新客價差幾遠。見 [寬頻續約點做](/guides/broadband-renewal)。",
+        ],
+      },
+      {
+        heading: "下一步",
+        paragraphs: [
+          "新址開 [光纖格價](/plans?cat=broadband)，再用 WhatsApp 問舊約搬遷費、新址安裝期同路由器點處理。",
+          DISCLAIMER,
+        ],
+      },
+    ],
+    bodyEn: [
+      {
+        heading: "Start with the old contract end date",
+        paragraphs: [
+          "Moving does not automatically take the old contract with you. Read the end date, early termination and any relocation clause. This page does not explain how to exit a contract.",
+          "Broadband **cannot port a number**. Number porting is for mobile: [port-in](/guides/port-in). At the new address, **install first, then stop** the old line. See [switching broadband](/guides/switch-broadband).",
+        ],
+      },
+      {
+        heading: "Relocation fee and the new install window",
+        paragraphs: [
+          "Some contracts include one move, some charge a visit, and some addresses cannot take the old line at all and need a new application. Do not reuse someone else’s fee.",
+          "Ask whether the new address can be cabled, the earliest visit, whether management must approve, and when equipment must go back. See [install, prepay, contract](/guides/contract-fees).",
+        ],
+        table: {
+          caption: "Moving checklist",
+          headers: ["Item", "Ask"],
+          rows: [
+            {
+              label: "End date",
+              value: "When the old term ends, and what an early move costs.",
+              href: "/guides/contract-fees",
+            },
+            {
+              label: "Relocation fee",
+              value: "Included once, charged, or a new application.",
+              href: "/guides/contract-fees",
+            },
+            {
+              label: "Install window",
+              value: "When they can visit, and whether management must approve.",
+              href: "/guides/switch-broadband",
+            },
+            {
+              label: "Install first",
+              value: "Test the new line before you stop the old one.",
+              href: "/guides/switch-broadband",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Test the new line before you stop the old one",
+        paragraphs: [
+          "Do not cancel the old address before the new one is online. A short overlap is safer. If the dates cannot overlap, a short 5G home or phone hotspot is only a stopgap.",
+          "Match the new estate’s housing type first. See [estate filter](/guides/estate-filter).",
+        ],
+      },
+      {
+        heading: "Move the router or replace it",
+        paragraphs: [
+          "Taking the old router and getting a new one are different. The old unit may be tied to the old address, due back, or the wrong model. A gifted router is usually yours; a loaned one needs a return rule.",
+          "If the old term is almost over, also compare the renewal price with a new-customer price at the new address. See [renewing broadband](/guides/broadband-renewal).",
+        ],
+      },
+      {
+        heading: "Next step",
+        paragraphs: [
+          "Open [fibre plans](/plans?cat=broadband) for the new address, then ask on WhatsApp about the relocation fee, the install window and the router.",
+          DISCLAIMER_EN,
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "搬屋可唔可以原約搬走？",
+        a: "視合約同新址覆蓋。有啲包搬遷，有啲要重新申請。完約日、搬遷費同新裝期要向現有電訊商確認。",
+      },
+      {
+        q: "幾時先停舊址寬頻？",
+        a: "新址測到上網先停。寬頻不能攜號。見 [轉台寬頻](/guides/switch-broadband)。",
+      },
+      {
+        q: "舊路由器可唔可以搬去新屋？",
+        a: "送出嘅機多數可以帶走。包用或者借用就要問歸還。新址亦可能要另一隻型號。以合約為準。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Can I move the same contract to the new flat?",
+        a: "It depends on the contract and coverage at the new address. Some include a move; some need a new application. Confirm the end date, fee and install window with your provider.",
+      },
+      {
+        q: "When do I stop the old line?",
+        a: "After the new address is online. Broadband cannot port a number. See [switching broadband](/guides/switch-broadband).",
+      },
+      {
+        q: "Can I take the old router?",
+        a: "A gifted router is usually yours. A loaned one may have to go back, and the new address may need a different model. Follow the contract.",
+      },
+    ],
+  },
+  {
+    slug: "yuen-long",
+    minutes: 7,
+    category: "fiber",
+    seoTitle: "元朗寬頻比較｜公屋居屋私樓參考月費｜齊Quote",
+    h1: "元朗寬頻點揀：公屋、居屋同私樓分開睇",
+    description:
+      "元朗寬頻唔係一張區價。朗屏邨、水邊圍邨等公屋，鳳庭苑等居屋，同 YOHO Town 等私樓，計劃通常分開報。天水圍有自己一頁。下列係站內列出參考月費，覆蓋同安裝以電訊商確認為準。",
+    title: "元朗寬頻點揀：公屋、居屋同私樓分開睇",
+    excerpt: "元朗唔係一區一價。公屋、居屋、私樓分開睇參考月費，天水圍另見天水圍頁。",
+    titleEn: "Yuen Long broadband: public, HOS and private estates separately",
+    excerptEn:
+      "Yuen Long is not one district price. Compare public, HOS and private estates separately. Tin Shui Wai has its own page.",
+    descriptionEn:
+      "Yuen Long broadband is not one district fee. Public estates such as Long Ping, HOS courts and private estates such as YOHO Town are usually quoted separately. Tin Shui Wai has its own guide. Listed fees are a reference. Coverage is confirmed by the carrier.",
+    h1En: "Yuen Long broadband: sort public, HOS and private estates first",
+    published: "2026-10-21",
+    modified: "2026-10-21",
+    related: [
+      "public-hos-fees",
+      "private-1000-fees",
+      "tin-shui-wai",
+      "sha-tin",
+      "tseung-kwan-o",
+      "fiber",
+      "estate-filter",
+      "home-broadband-2026",
+      "public-vs-hos",
+      "village-fees",
+    ],
+    plans: [
+      { href: "/plans?cat=broadband&housing=public", label: "公屋光纖計劃" },
+      { href: "/plans?cat=broadband&housing=hos", label: "居屋光纖計劃" },
+      { href: "/plans?cat=broadband&housing=private", label: "私樓光纖計劃" },
+    ],
+    estates: [
+      { href: "/estates/long-ping", label: "朗屏邨" },
+      { href: "/estates/shui-pin-wai", label: "水邊圍邨" },
+      { href: "/estates/fung-ting-court", label: "鳳庭苑" },
+      { href: "/estates/yoho", label: "YOHO Town" },
+      { href: "/estates", label: "屋苑目錄" },
+    ],
+    inquiry: { district: "元朗" },
+    cta: {
+      lead: "填完整元朗地址同座數，用 WhatsApp 查核覆蓋同參考月費。僅供參考，以電訊商確認為準。",
+      leadEn: "Send the full Yuen Long address on WhatsApp to check coverage and a reference fee. For reference only; the carrier confirms.",
+      button: "WhatsApp 查核元朗報價",
+      buttonEn: "WhatsApp a Yuen Long quote",
+      waText: salesQuoteMessage({ serviceType: "光纖寬頻", address: "元朗", source: "filter" }),
+      waTextEn: salesQuoteMessage({ serviceType: "光纖寬頻", address: "元朗", source: "filter" }),
+    },
+    body: [
+      {
+        heading: "元朗唔係一區一價",
+        paragraphs: [
+          "搜「元朗寬頻」見到嘅，多數仍然要先分樓類。朗屏邨、水邊圍邨係公屋；鳳庭苑、宏富苑係居屋；YOHO Town、YOHO Midtown、加州花園、錦繡花園、峻巒係私樓。同一條 1000M，三種樓類計劃可以完全唔同。",
+          "天水圍地址喺齊Quote 歸入元朗區，但天耀邨、嘉湖山莊**唔好**用呢頁嘅例子混埋，見 [天水圍寬頻](/guides/tin-shui-wai)。下列月費係**站內列出**例子，**僅供參考**，唔代表你座樓一定有。呢張表**唔係排名**。公屋同居屋點分，見 [公屋同居屋有咩分別](/guides/public-vs-hos)。",
+        ],
+      },
+      {
+        heading: "公屋／居屋參考 1000M",
+        paragraphs: [
+          "朗屏、水邊圍等公屋，同鳳庭苑等居屋，用公居屋表，**唔好**用 YOHO 私樓價去估。居屋亦唔好用村屋價。完整表見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)。",
+        ],
+        table: {
+          caption: "站內列出｜僅供參考",
+          headers: ["計劃例子", "樓類／參考月費"],
+          rows: [
+            {
+              label: "有線 1000M（48 個月）",
+              value: "公屋、居屋、私樓｜HK$58",
+              href: "/plans/icable-ftth-1000-48m-58",
+            },
+            {
+              label: "HGC 轉台 1000M（36 個月）",
+              value: "公屋、居屋｜HK$75",
+              href: "/plans/hgc-ftth-1000-public-36m",
+            },
+            {
+              label: "中國移動香港 1000M（36 個月）",
+              value: "公屋、居屋、私樓｜HK$88",
+              href: "/plans/cmhk-ftth-2500",
+            },
+            {
+              label: "香港寬頻 1000M 連 Wi-Fi 7（36 個月）",
+              value: "公屋、居屋、私樓｜HK$98",
+              href: "/plans/hkbn-ftth-1000-36m-98",
+            },
+          ],
+        },
+      },
+      {
+        heading: "YOHO 等私樓",
+        paragraphs: [
+          "YOHO Town、YOHO Midtown 同附近私樓用私樓表。**唔好**用朗屏邨公屋價去估。完整表見 [私樓 1000M 參考月費](/guides/private-1000-fees)。",
+        ],
+        table: {
+          caption: "站內列出｜僅供參考",
+          headers: ["計劃例子", "樓類／參考月費"],
+          rows: [
+            {
+              label: "中國移動香港 1000M（36 個月）",
+              value: "公屋、居屋、私樓｜HK$88",
+              href: "/plans/cmhk-ftth-2500",
+            },
+            {
+              label: "有線私人樓宇 1000M（36 個月）",
+              value: "私樓｜HK$88",
+              href: "/plans/icable-ftth-1000-private-36m",
+            },
+            {
+              label: "HGC 私人樓宇 1000M（39 個月）",
+              value: "私樓｜HK$89",
+              href: "/plans/hgc-ftth-1000-private-39m",
+            },
+            {
+              label: "香港寬頻 1000M 連 Wi-Fi 7（36 個月）",
+              value: "公屋、居屋、私樓｜HK$98",
+              href: "/plans/hkbn-ftth-1000-36m-98",
+            },
+          ],
+        },
+      },
+      {
+        heading: "常見屋苑入口",
+        paragraphs: [
+          "公屋：[朗屏邨](/estates/long-ping)、[水邊圍邨](/estates/shui-pin-wai)。居屋：[鳳庭苑](/estates/fung-ting-court)、[宏富苑](/estates/wang-fu-court)。私樓：[YOHO Town](/estates/yoho)、[YOHO Midtown](/estates/yoho-midtown)、[加州花園](/estates/palm-springs)、[錦繡花園](/estates/fairview-park)、[峻巒](/estates/park-yoho)。",
+          "屋苑頁列出適用樓類計劃。指定屋苑計劃只會喺搜該屋苑時出現，**唔入**上面摘要表。點用屋苑名見 [齊Quote 點用屋苑篩](/guides/estate-filter)。全部見 [屋苑目錄](/estates)。",
+        ],
+      },
+      {
+        heading: "下一步",
+        paragraphs: [
+          "返首頁輸入座數同街道，或者開 [公屋光纖格價](/plans?cat=broadband&housing=public)。天水圍見 [天水圍寬頻](/guides/tin-shui-wai)。其他地區：[沙田寬頻](/guides/sha-tin)、[將軍澳寬頻](/guides/tseung-kwan-o)。錦田、八鄉、屏山、洪水橋等村屋見 [村屋光纖月費](/guides/village-fees)。2026 年表見 [2026 家居寬頻格價](/guides/home-broadband-2026)。",
+          DISCLAIMER,
+        ],
+      },
+    ],
+    bodyEn: [
+      {
+        heading: "Not one district price",
+        paragraphs: [
+          "Yuen Long searches still start with housing type. Long Ping and Shui Pin Wai are public; Fung Ting Court is HOS; YOHO Town is private. The same 1000M line can be a different plan in each.",
+          "Tin Shui Wai is filed under Yuen Long, but Tin Yiu and Kingswood **do not** use this page. See [Tin Shui Wai](/guides/tin-shui-wai). Fees below are **listed on this site**, **for reference only**. This table is **not a ranking**. Public vs HOS: [public vs HOS](/guides/public-vs-hos).",
+        ],
+      },
+      {
+        heading: "Public / HOS 1000M examples",
+        paragraphs: [
+          "Use the public / HOS table for Long Ping and Fung Ting Court. Do **not** guess from a YOHO private-estate row. Full table: [public / HOS 1000M](/guides/public-hos-fees).",
+        ],
+        table: {
+          caption: "Listed on this site, for reference only",
+          headers: ["Example", "Housing / reference fee"],
+          rows: [
+            {
+              label: "有線 1000M（48 個月）",
+              value: "公屋、居屋、私樓｜HK$58",
+              href: "/plans/icable-ftth-1000-48m-58",
+            },
+            {
+              label: "HGC 轉台 1000M（36 個月）",
+              value: "公屋、居屋｜HK$75",
+              href: "/plans/hgc-ftth-1000-public-36m",
+            },
+            {
+              label: "中國移動香港 1000M（36 個月）",
+              value: "公屋、居屋、私樓｜HK$88",
+              href: "/plans/cmhk-ftth-2500",
+            },
+            {
+              label: "香港寬頻 1000M 連 Wi-Fi 7（36 個月）",
+              value: "公屋、居屋、私樓｜HK$98",
+              href: "/plans/hkbn-ftth-1000-36m-98",
+            },
+          ],
+        },
+      },
+      {
+        heading: "YOHO and other private estates",
+        paragraphs: [
+          "Use the private-estate table. Do **not** guess a YOHO fee from Long Ping. Full table: [private-estate 1000M](/guides/private-1000-fees).",
+        ],
+        table: {
+          caption: "Listed on this site, for reference only",
+          headers: ["Example", "Housing / reference fee"],
+          rows: [
+            {
+              label: "中國移動香港 1000M（36 個月）",
+              value: "公屋、居屋、私樓｜HK$88",
+              href: "/plans/cmhk-ftth-2500",
+            },
+            {
+              label: "有線私人樓宇 1000M（36 個月）",
+              value: "私樓｜HK$88",
+              href: "/plans/icable-ftth-1000-private-36m",
+            },
+            {
+              label: "HGC 私人樓宇 1000M（39 個月）",
+              value: "私樓｜HK$89",
+              href: "/plans/hgc-ftth-1000-private-39m",
+            },
+            {
+              label: "香港寬頻 1000M 連 Wi-Fi 7（36 個月）",
+              value: "公屋、居屋、私樓｜HK$98",
+              href: "/plans/hkbn-ftth-1000-36m-98",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Estate pages",
+        paragraphs: [
+          "Public: [Long Ping](/estates/long-ping), [Shui Pin Wai](/estates/shui-pin-wai). HOS: [Fung Ting Court](/estates/fung-ting-court). Private: [YOHO Town](/estates/yoho). Named-estate offers stay off this summary. See [estate filter](/guides/estate-filter).",
+        ],
+      },
+      {
+        heading: "Next step",
+        paragraphs: [
+          "Type the block and street on the home page, or open [public fibre plans](/plans?cat=broadband&housing=public). Tin Shui Wai: [Tin Shui Wai](/guides/tin-shui-wai). Also: [Sha Tin](/guides/sha-tin), [Tseung Kwan O](/guides/tseung-kwan-o). Nearby villages: [village fibre fees](/guides/village-fees).",
+          DISCLAIMER_EN,
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "元朗寬頻月費係咪全區一樣？",
+        a: "唔係。公屋、居屋、私樓通常分開報。天水圍見 [天水圍寬頻](/guides/tin-shui-wai)。頁上數字係站內列出、僅供參考，以電訊商確認為準。",
+      },
+      {
+        q: "朗屏邨可唔可以用 YOHO 嗰行價？",
+        a: "唔可以。朗屏邨係公屋，YOHO Town 係私樓。公居屋例子見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)。",
+      },
+      {
+        q: "元朗村屋用唔用得公屋表？",
+        a: "唔得。錦田、八鄉、屏山、洪水橋等村屋係另一套計劃，見 [村屋光纖月費](/guides/village-fees)。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Is Yuen Long one broadband fee?",
+        a: "No. Public, HOS and private estates are usually quoted separately. Tin Shui Wai has its own page. Figures here are listed on the site, for reference only.",
+      },
+      {
+        q: "Can Long Ping use a YOHO row?",
+        a: "No. Long Ping is public housing. See [public / HOS 1000M](/guides/public-hos-fees).",
+      },
+      {
+        q: "Can a Yuen Long village house use the public table?",
+        a: "No. Kam Tin, Pat Heung, Ping Shan and Hung Shui Kiu use a separate set. See [village fibre fees](/guides/village-fees).",
+      },
+    ],
+  },
 ];
 
 export const GUIDE_CATEGORY_META = [

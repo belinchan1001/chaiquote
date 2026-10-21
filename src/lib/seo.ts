@@ -162,6 +162,7 @@ export const GUIDE_ARTICLE_KEYWORDS: Record<string, string> = {
   "tin-shui-wai": "天水圍寬頻,天耀邨寬頻,嘉湖山莊寬頻,天水圍光纖",
   "sha-tin": "沙田寬頻,沙田第一城寬頻,瀝源邨寬頻,馬鞍山寬頻",
   "tseung-kwan-o": "將軍澳寬頻,日出康城寬頻,坑口寬頻,寶林邨寬頻",
+  "yuen-long": "元朗寬頻,朗屏邨寬頻,水邊圍邨寬頻,YOHO寬頻,元朗光纖",
 };
 
 export const SITEMAP_PAGES: readonly SitemapPage[] = [
