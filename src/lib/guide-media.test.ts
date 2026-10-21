@@ -48,6 +48,7 @@ const TOPIC_FILE: Record<(typeof GUIDE_TOPIC_IMAGE_SLUGS)[number], string> = {
   "early-termination": "guides/early-termination",
   "10g-broadband": "guides/10g-broadband",
   "village-5g-test": "guides/village-5g-test",
+  "spectrum-2-3ghz": "guides/spectrum-2-3ghz",
 };
 
 const WIDE_TOPIC = new Set([
@@ -66,6 +67,7 @@ const WIDE_TOPIC = new Set([
   "early-termination",
   "10g-broadband",
   "village-5g-test",
+  "spectrum-2-3ghz",
 ]);
 
 function src(rel: string) {
@@ -94,6 +96,7 @@ describe("guide topic images", () => {
         "old-building-broadband",
         "port-in",
         "router-wifi",
+        "spectrum-2-3ghz",
         "student-plans",
         "tuen-mun",
         "village",
@@ -174,6 +177,9 @@ describe("guide topic images", () => {
       ["public/images/guides/village-5g-test.jpg", 110_000],
       ["public/images/guides/village-5g-test.webp", 80_000],
       ["public/images/guides/village-5g-test-400.webp", 20_000],
+      ["public/images/guides/spectrum-2-3ghz.jpg", 40_000],
+      ["public/images/guides/spectrum-2-3ghz.webp", 20_000],
+      ["public/images/guides/spectrum-2-3ghz-400.webp", 8_000],
     ] as const;
     for (const [path, max] of assets) {
       assert.equal(existsSync(join(root, path)), true, path);

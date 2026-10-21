@@ -19,6 +19,7 @@ export const GUIDE_TOPIC_IMAGE_SLUGS = [
   "early-termination",
   "10g-broadband",
   "village-5g-test",
+  "spectrum-2-3ghz",
 ] as const;
 
 export type GuideTopicImageSlug = (typeof GUIDE_TOPIC_IMAGE_SLUGS)[number];
@@ -195,6 +196,15 @@ export const GUIDE_TOPIC_IMAGES: Record<GuideTopicImageSlug, GuideTopicImage> = 
     height: 720,
     alt: "村屋外一位女士睇手機，旁邊有白路由器，用來喺現場試訊號",
     altEn: "A woman looking at a phone outside village houses, with a white router nearby, for an on-site signal check.",
+  },
+  "spectrum-2-3ghz": {
+    slug: "spectrum-2-3ghz",
+    src: "/images/guides/spectrum-2-3ghz.jpg",
+    webp: "/images/guides/spectrum-2-3ghz.webp",
+    width: 1280,
+    height: 720,
+    alt: "淺色背景嘅抽象電波同白色天線，旁邊有白路由器",
+    altEn: "Light background with abstract radio waves, a white antenna and a white router.",
   },
 };
 

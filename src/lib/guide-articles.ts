@@ -5592,6 +5592,125 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
     ],
   },
+  {
+    slug: "spectrum-2-3ghz",
+    minutes: 6,
+    category: "mobile",
+    seoTitle: "香港 2.3 GHz 頻譜拍賣結果｜對 5G 容量有咩影響｜齊Quote",
+    h1: "香港 2.3 GHz 頻譜拍賣結果：對 5G 容量有咩影響",
+    description:
+      "香港 2024 年 11 月 2.3 GHz 頻譜拍賣結果。中國移動香港取得 50 MHz，3 香港同 HKT 各 20 MHz。頻譜如行車線，但實際體驗仍視基站同地點。以官方公布為準。",
+    title: "香港 2.3 GHz 頻譜拍賣結果：對 5G 容量有咩影響",
+    excerpt: "2024 年 11 月 2.3 GHz 拍賣結果。中國移動香港取得最多，頻譜多唔等於一定最快。",
+    titleEn: "Hong Kong 2.3 GHz spectrum auction: what it means for 5G capacity",
+    excerptEn: "November 2024 2.3 GHz results. China Mobile Hong Kong took the most. More spectrum does not automatically mean faster.",
+    descriptionEn:
+      "Hong Kong’s November 2024 2.3 GHz auction: China Mobile Hong Kong 50 MHz, 3HK and HKT 20 MHz each. Spectrum is like road lanes, but real speed still depends on base stations and location. Confirm with official sources.",
+    h1En: "Hong Kong 2.3 GHz spectrum auction: impact on 5G capacity",
+    published: "2026-10-21",
+    modified: "2026-10-21",
+    related: ["mobile", "home5g", "gba-mobile"],
+    plans: [{ href: "/plans?cat=mobile", label: "去手機月費格價" }],
+    estates: [{ href: "/estates", label: "屋苑目錄" }],
+    body: [
+      {
+        heading: "頻譜可以想像成行車線",
+        paragraphs: [
+          "同樣係用 5G，有時有人上網好順，有時去到人多嘅地方就慢。除咗基站數量、網絡設備同覆蓋，頻譜資源都係影響網絡容量嘅因素之一。",
+          "你可以將頻譜想像成公路嘅行車線：喺其他條件相若之下，行車線多啲，通常可以容納更多車流。但路闊唔等於一定唔塞車，仲要睇有幾多車、路口設計同路面狀況。",
+        ],
+      },
+      {
+        heading: "2024 年 11 月 2.3 GHz 拍賣結果",
+        paragraphs: [
+          "通訊事務管理局辦公室於 2024 年 11 月 20 日公布 2.3 GHz 頻譜拍賣結果（同 850/900 MHz 一齊拍賣）。結果如下：",
+          "中國移動香港：50 MHz（5 個 10 MHz 區塊）",
+          "3 香港：20 MHz（2 個 10 MHz 區塊）",
+          "香港電訊 HKT：20 MHz（2 個 10 MHz 區塊）",
+          "數碼通 SmarTone：今次沒有投得 2.3 GHz 頻譜（佢哋投得嘅係 850/900 MHz 頻段）。",
+          "新指配的 2.3 GHz 頻譜將於 2027 年 3 月生效。資料以通訊辦公布為準。",
+        ],
+      },
+      {
+        heading: "頻譜多唔等於一定最快",
+        paragraphs: [
+          "2.3 GHz 屬於中頻段，平衡覆蓋範圍同傳輸速度，可用於 4G、5G 或其他符合規定的技術。",
+          "頻譜數量並不等於網絡質素。實際收訊同速度仍受基站部署、網絡配置、建築物阻隔、地點同使用人數影響。唔好單憑某間電訊商取得幾多頻譜，就假設佢一定最快或最穩。",
+          "想比較實際手機月費計劃，可開 [手機月費格價](/plans?cat=mobile)。",
+        ],
+      },
+      {
+        heading: "下一步",
+        paragraphs: [
+          "頻譜只是其中一個參考因素。選擇計劃時，仍然要睇覆蓋、月費、數據量同合約條款。實際體驗以現場為準。",
+          "以上資料以通訊事務管理局辦公室公布為準，齊Quote 僅作參考整理。",
+        ],
+      },
+    ],
+    bodyEn: [
+      {
+        heading: "Spectrum is like road lanes",
+        paragraphs: [
+          "Even on 5G, speed can feel smooth in one place and slow in a crowded area. Base stations, equipment and coverage matter; spectrum capacity is one more factor.",
+          "Think of spectrum as lanes on a road. More lanes can usually carry more traffic when other conditions are similar, but width alone does not stop congestion.",
+        ],
+      },
+      {
+        heading: "November 2024 2.3 GHz auction results",
+        paragraphs: [
+          "On 20 November 2024 the Office of the Communications Authority announced the 2.3 GHz results (auctioned together with 850/900 MHz):",
+          "China Mobile Hong Kong: 50 MHz (five 10 MHz blocks)",
+          "3 Hong Kong: 20 MHz (two 10 MHz blocks)",
+          "HKT: 20 MHz (two 10 MHz blocks)",
+          "SmarTone: no 2.3 GHz blocks this round (it won spectrum in the 850/900 MHz band).",
+          "The new 2.3 GHz assignment is due to take effect in March 2027. Confirm with the official OFCA announcement.",
+        ],
+      },
+      {
+        heading: "More spectrum does not automatically mean fastest",
+        paragraphs: [
+          "2.3 GHz is a mid-band that balances coverage and speed. It can be used for 4G, 5G or other approved technologies.",
+          "Spectrum quantity is not the same as network quality. Real signal and speed still depend on base-station deployment, configuration, buildings, location and how many people are using the network. Do not assume one carrier is always fastest or most stable just because it holds more spectrum.",
+          "Compare current mobile plans on the [mobile plans page](/plans?cat=mobile).",
+        ],
+      },
+      {
+        heading: "Next step",
+        paragraphs: [
+          "Spectrum is only one reference. Still check coverage, monthly fee, data allowance and contract terms. Real experience depends on the site.",
+          "Figures above follow the OFCA announcement; ChaiQuote is a reference only.",
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "2.3 GHz 頻譜多係咪一定上網最快？",
+        a: "唔係。頻譜影響容量，但實際速度同穩定性仲要睇基站、覆蓋、地點同使用人數。唔好單憑頻譜數量判斷。",
+      },
+      {
+        q: "數碼通有冇投得 2.3 GHz？",
+        a: "今次 2.3 GHz 拍賣中數碼通沒有投得。佢哋投得嘅係 850/900 MHz 頻段。資料以通訊辦公布為準。",
+      },
+      {
+        q: "新頻譜幾時生效？",
+        a: "新指配的 2.3 GHz 頻譜預計於 2027 年 3 月生效。實際安排以官方公布為準。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Does more 2.3 GHz spectrum mean the fastest network?",
+        a: "No. Spectrum affects capacity, but real speed and stability also depend on base stations, coverage, location and how many people are online.",
+      },
+      {
+        q: "Did SmarTone win any 2.3 GHz spectrum?",
+        a: "No in this round. SmarTone won spectrum in the 850/900 MHz band instead. Confirm with the OFCA announcement.",
+      },
+      {
+        q: "When does the new spectrum take effect?",
+        a: "The new 2.3 GHz assignment is expected to take effect in March 2027. Check the official notice for the final date.",
+      },
+    ],
+  },
 ];
 
 export const GUIDE_CATEGORY_META = [
