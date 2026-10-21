@@ -163,6 +163,7 @@ export const GUIDE_ARTICLE_KEYWORDS: Record<string, string> = {
   "sha-tin": "沙田寬頻,沙田第一城寬頻,瀝源邨寬頻,馬鞍山寬頻",
   "tseung-kwan-o": "將軍澳寬頻,日出康城寬頻,坑口寬頻,寶林邨寬頻",
   "yuen-long": "元朗寬頻,朗屏邨寬頻,水邊圍邨寬頻,YOHO寬頻,元朗光纖",
+  "tuen-mun": "屯門寬頻,良景邨寬頻,兆康苑寬頻,黃金海岸寬頻,屯門光纖",
 };
 
 export const SITEMAP_PAGES: readonly SitemapPage[] = [

@@ -38,6 +38,11 @@ const TOPIC_FILE: Record<(typeof GUIDE_TOPIC_IMAGE_SLUGS)[number], string> = {
   "home5g-data-cap": "guides/home5g-data-cap",
   "move-broadband": "guides/move-broadband",
   "yuen-long": "guides/yuen-long",
+  "mobile-broadband-bundle": "guides/mobile-broadband-bundle",
+  "router-wifi": "guides/router-wifi",
+  "tuen-mun": "guides/tuen-mun",
+  "student-plans": "guides/student-plans",
+  "elderly-broadband": "guides/elderly-broadband",
 };
 
 const WIDE_TOPIC = new Set([
@@ -46,6 +51,11 @@ const WIDE_TOPIC = new Set([
   "home5g-data-cap",
   "move-broadband",
   "yuen-long",
+  "mobile-broadband-bundle",
+  "router-wifi",
+  "tuen-mun",
+  "student-plans",
+  "elderly-broadband",
 ]);
 
 function src(rel: string) {
@@ -61,12 +71,17 @@ describe("guide topic images", () => {
     assert.deepEqual(
       [...GUIDE_TOPIC_IMAGE_SLUGS].sort(),
       [
+        "elderly-broadband",
         "fiber",
         "fiber-vs-5g",
         "home5g-data-cap",
+        "mobile-broadband-bundle",
         "move-broadband",
         "old-building-broadband",
         "port-in",
+        "router-wifi",
+        "student-plans",
+        "tuen-mun",
         "village",
         "yuen-long",
       ],
@@ -114,6 +129,21 @@ describe("guide topic images", () => {
       ["public/images/guides/yuen-long.jpg", 120_000],
       ["public/images/guides/yuen-long.webp", 90_000],
       ["public/images/guides/yuen-long-400.webp", 25_000],
+      ["public/images/guides/mobile-broadband-bundle.jpg", 70_000],
+      ["public/images/guides/mobile-broadband-bundle.webp", 45_000],
+      ["public/images/guides/mobile-broadband-bundle-400.webp", 15_000],
+      ["public/images/guides/router-wifi.jpg", 70_000],
+      ["public/images/guides/router-wifi.webp", 45_000],
+      ["public/images/guides/router-wifi-400.webp", 15_000],
+      ["public/images/guides/tuen-mun.jpg", 130_000],
+      ["public/images/guides/tuen-mun.webp", 95_000],
+      ["public/images/guides/tuen-mun-400.webp", 25_000],
+      ["public/images/guides/student-plans.jpg", 80_000],
+      ["public/images/guides/student-plans.webp", 55_000],
+      ["public/images/guides/student-plans-400.webp", 15_000],
+      ["public/images/guides/elderly-broadband.jpg", 70_000],
+      ["public/images/guides/elderly-broadband.webp", 50_000],
+      ["public/images/guides/elderly-broadband-400.webp", 15_000],
     ] as const;
     for (const [path, max] of assets) {
       assert.equal(existsSync(join(root, path)), true, path);

@@ -9,6 +9,11 @@ export const GUIDE_TOPIC_IMAGE_SLUGS = [
   "home5g-data-cap",
   "move-broadband",
   "yuen-long",
+  "mobile-broadband-bundle",
+  "router-wifi",
+  "tuen-mun",
+  "student-plans",
+  "elderly-broadband",
 ] as const;
 
 export type GuideTopicImageSlug = (typeof GUIDE_TOPIC_IMAGE_SLUGS)[number];
@@ -95,6 +100,51 @@ export const GUIDE_TOPIC_IMAGES: Record<GuideTopicImageSlug, GuideTopicImage> = 
     height: 720,
     alt: "元朗市中心傍晚街道，旁邊係住宅大廈",
     altEn: "Yuen Long town centre at dusk, with residential towers beside the street.",
+  },
+  "mobile-broadband-bundle": {
+    slug: "mobile-broadband-bundle",
+    src: "/images/guides/mobile-broadband-bundle.jpg",
+    webp: "/images/guides/mobile-broadband-bundle.webp",
+    width: 1280,
+    height: 720,
+    alt: "木枱上一部手機同一部平板，旁邊有白路由器同稿紙，用來一齊計手機同家居寬頻",
+    altEn: "A phone and a tablet on a wooden table beside a white router and a notepad, for adding a mobile plan and home broadband together.",
+  },
+  "router-wifi": {
+    slug: "router-wifi",
+    src: "/images/guides/router-wifi.jpg",
+    webp: "/images/guides/router-wifi.webp",
+    width: 1280,
+    height: 720,
+    alt: "白色 Wi-Fi 路由器放喺木側几，背景係暖色客廳",
+    altEn: "A white Wi-Fi router on a wooden side table in a warm living room.",
+  },
+  "tuen-mun": {
+    slug: "tuen-mun",
+    src: "/images/guides/tuen-mun.jpg",
+    webp: "/images/guides/tuen-mun.webp",
+    width: 1280,
+    height: 720,
+    alt: "屯門黃金海岸黃昏海濱，住宅大廈同海面",
+    altEn: "Tuen Mun Gold Coast waterfront at dusk, with residential towers and the sea.",
+  },
+  "student-plans": {
+    slug: "student-plans",
+    src: "/images/guides/student-plans.jpg",
+    webp: "/images/guides/student-plans.webp",
+    width: 1280,
+    height: 720,
+    alt: "書枱上打開嘅筆記型電腦、筆記本同手機，旁邊有白路由器",
+    altEn: "An open laptop, notebook and phone on a study desk, with a white router nearby.",
+  },
+  "elderly-broadband": {
+    slug: "elderly-broadband",
+    src: "/images/guides/elderly-broadband.jpg",
+    webp: "/images/guides/elderly-broadband.webp",
+    width: 1280,
+    height: 720,
+    alt: "長輩坐喺暖色客廳梳化睇手機，茶几上有白路由器",
+    altEn: "An older adult on a sofa in a warm living room looking at a phone, with a white router on the table.",
   },
 };
 

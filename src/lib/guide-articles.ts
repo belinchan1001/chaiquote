@@ -3687,6 +3687,934 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
     ],
   },
+  {
+    slug: "mobile-broadband-bundle",
+    minutes: 7,
+    category: "mobile",
+    seoTitle: "手機加寬頻組合點計｜免月費同合約期｜齊Quote",
+    h1: "手機 + 寬頻組合優惠點計最抵",
+    description:
+      "手機加寬頻組合要分開計兩條合約：免月費、回贈、合約期長短可以唔同。同一間電訊商一齊申請，同分開申請，總支出可以唔同。實際條款以電訊商確認為準。",
+    title: "手機 + 寬頻組合優惠點計最抵",
+    excerpt: "組合唔好只睇一句「一齊申請有優惠」。分開計手機同寬頻嘅月數、免月費同回贈。",
+    titleEn: "How to add up a mobile and broadband bundle",
+    excerptEn: "A bundle is two contracts. Count free months, rebates and the length of each one before you compare it with applying separately.",
+    descriptionEn:
+      "A mobile plus broadband bundle is two contracts. Free months, rebates and contract lengths can differ. Applying together and applying separately can cost different totals. The carrier confirms the terms.",
+    h1En: "How to add up a mobile and broadband bundle",
+    published: "2026-10-21",
+    modified: "2026-10-21",
+    related: ["mobile", "fiber", "broadband-total-cost", "contract-fees", "port-in", "broadband-renewal"],
+    plans: [
+      { href: "/plans?cat=mobile", label: "去手機格價" },
+      { href: "/plans?cat=broadband", label: "去光纖格價" },
+    ],
+    estates: [{ href: "/estates", label: "屋苑目錄" }],
+    body: [
+      {
+        heading: "組合係兩條合約，唔係一個月費",
+        paragraphs: [
+          "「手機 + 寬頻」多數仍然係兩份合約：一份手機、一份家居寬頻。優惠可以係免幾個月、回贈、或者只要同一個名申請。標示月費加埋，唔等於你實際俾嘅數。",
+          "計法同單一線一樣，見 [寬頻合約總成本點計](/guides/broadband-total-cost)。分別係你要計兩次，再加總。月費以外仲有安裝費、預繳、行政費，見 [月費以外](/guides/contract-fees)。",
+        ],
+      },
+      {
+        heading: "免月費同回贈點先計得準",
+        paragraphs: [
+          "先分開寫：手機合約幾多個月、免幾多個月、有冇回贈；寬頻合約幾多個月、免幾多個月、有冇回贈或者預繳。免月費只適用其中一條，就唔好當兩條都平咗。",
+          "回贈如果要分期、要預繳、或者要維持兩條線先至有，都要問清楚先至減。頁上列出嘅月費係參考，唔係你張組合單。",
+        ],
+      },
+      {
+        heading: "一齊申請，定分開申請",
+        paragraphs: [
+          "一齊申請有時有額外回贈或者免月費，分開申請有時手機同寬頻各自嘅新客條件更適合你。兩邊都要計完總支出先比較，唔好只睇多咗一句優惠。",
+          "手機轉台見 [攜號轉台](/guides/port-in)。寬頻唔能夠攜號，新線裝好先停舊線，見 [轉台寬頻](/guides/switch-broadband)。如果就嚟完約，一併睇 [寬頻續約](/guides/broadband-renewal)。",
+        ],
+      },
+      {
+        heading: "合約期長短唔同",
+        paragraphs: [
+          "手機 24 個月、寬頻 36 個月，係常見情況。唔好用較短嗰條嘅平均月費，當成兩條線之後都係嗰個價。短約完咗，手機可能要續約或者轉台，寬頻仍然綁住。",
+          "問：其中一條提早停，另一條嘅組合優惠會唔會收回。提早終止以你簽嘅合約為準。本頁唔提供避約方法。",
+        ],
+        table: {
+          caption: "組合對一次",
+          headers: ["事項", "點計"],
+          rows: [
+            {
+              label: "兩條月費",
+              value: "手機同寬頻分開寫低，再加總。",
+              href: "/guides/broadband-total-cost",
+            },
+            {
+              label: "免月費／回贈",
+              value: "睇清適用邊一條，唔好兩邊都減。",
+              href: "/guides/broadband-total-cost",
+            },
+            {
+              label: "合約期",
+              value: "長短唔同就分開計，唔好拉勻當一個價。",
+              href: "/guides/contract-fees",
+            },
+            {
+              label: "分開申請",
+              value: "計完先同組合比，唔好只睇多咗一句優惠。",
+              href: "/plans?cat=mobile",
+            },
+          ],
+        },
+      },
+      {
+        heading: "下一步",
+        paragraphs: [
+          "開 [手機格價](/plans?cat=mobile) 同 [光纖格價](/plans?cat=broadband)，再 WhatsApp 問組合係咪兩份合約、免月費適用邊條、完約日係咪同一日。",
+          DISCLAIMER,
+        ],
+      },
+    ],
+    bodyEn: [
+      {
+        heading: "A bundle is two contracts, not one fee",
+        paragraphs: [
+          "Mobile plus broadband is usually still two contracts. The offer may be free months, a rebate, or a discount only if both are in the same name. Adding the sticker fees is not what you pay.",
+          "The method is the same as one line, twice. See [broadband total cost](/guides/broadband-total-cost) and [install, prepay, contract](/guides/contract-fees).",
+        ],
+      },
+      {
+        heading: "Free months and rebates",
+        paragraphs: [
+          "Write the mobile term, free months and rebate on one line, and the broadband term on another. If a free month applies to only one service, do not subtract it twice.",
+          "Ask whether a rebate is paid in stages, needs a prepayment, or disappears if you drop one line. Listed fees are a reference, not your bundle bill.",
+        ],
+      },
+      {
+        heading: "Together or separately",
+        paragraphs: [
+          "Applying together can add a rebate. Applying separately can suit the new-customer terms of each service. Compare the totals, not the extra slogan.",
+          "Mobile porting: [port-in](/guides/port-in). Broadband cannot port a number. See [switching broadband](/guides/switch-broadband) and, near the end of a term, [renewing broadband](/guides/broadband-renewal).",
+        ],
+      },
+      {
+        heading: "Mismatched contract lengths",
+        paragraphs: [
+          "A 24-month mobile plan beside a 36-month fibre plan is common. Do not treat the shorter average as the price of both lines after that. When the short term ends, the mobile plan may renew while fibre is still tied.",
+          "Ask whether stopping one line claws back the bundle offer. This page does not explain how to exit a contract.",
+        ],
+        table: {
+          caption: "Bundle checklist",
+          headers: ["Item", "How to count"],
+          rows: [
+            {
+              label: "Two fees",
+              value: "Write mobile and broadband separately, then add them.",
+              href: "/guides/broadband-total-cost",
+            },
+            {
+              label: "Free months / rebate",
+              value: "See which line they apply to. Do not subtract twice.",
+              href: "/guides/broadband-total-cost",
+            },
+            {
+              label: "Term length",
+              value: "Different lengths stay separate. Do not blend them into one price.",
+              href: "/guides/contract-fees",
+            },
+            {
+              label: "Separate applications",
+              value: "Compare the totals with the bundle, not the slogan.",
+              href: "/plans?cat=mobile",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Next step",
+        paragraphs: [
+          "Open [mobile plans](/plans?cat=mobile) and [fibre plans](/plans?cat=broadband), then ask on WhatsApp whether the bundle is two contracts, which line the free months hit, and whether the end dates match.",
+          DISCLAIMER_EN,
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "組合月費係咪兩個標價加埋？",
+        a: "唔係。要再計免月費、回贈、預繳同合約期。免月費可能只適用其中一條。見 [寬頻合約總成本點計](/guides/broadband-total-cost)。",
+      },
+      {
+        q: "手機 24 個月、寬頻 36 個月點比？",
+        a: "分開計。短約完咗，手機可能要續或者轉，寬頻仍然綁住。唔好拉勻當一個價。",
+      },
+      {
+        q: "分開申請會唔會更平？",
+        a: "有機會，亦有機會組合先有回贈。兩邊計完總支出先比較。實際條款以電訊商確認為準。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Is the bundle just the two sticker fees added together?",
+        a: "No. Count free months, rebates, prepayment and each term. A free month may apply to only one line. See [broadband total cost](/guides/broadband-total-cost).",
+      },
+      {
+        q: "What if mobile is 24 months and broadband is 36?",
+        a: "Count them separately. When the shorter term ends, mobile may need a new deal while fibre is still tied. Do not blend them into one price.",
+      },
+      {
+        q: "Can applying separately cost less?",
+        a: "Sometimes. Sometimes the bundle rebate wins. Compare the totals. The carrier confirms the terms.",
+      },
+    ],
+  },
+  {
+    slug: "router-wifi",
+    minutes: 7,
+    category: "fiber",
+    seoTitle: "寬頻路由器點揀｜Wi-Fi 6 同 Wi-Fi 7｜齊Quote",
+    h1: "寬頻路由器點揀：Wi-Fi 6／Wi-Fi 7 值唔值得",
+    description:
+      "Wi-Fi 6 對一般家庭多數夠用。Wi-Fi 7 要手機同平板都支援先發揮到。計劃包嘅路由器可能係送出或者借用。擺位往往比再買高一檔更影響手感。實際規格以電訊商確認為準。",
+    title: "寬頻路由器點揀：Wi-Fi 6／Wi-Fi 7 值唔值得",
+    excerpt: "一般家用 Wi-Fi 6 多數夠。人多、打機、部部機都新，先再問 Wi-Fi 7。先問清部機係送定借。",
+    titleEn: "Choosing a broadband router: Wi-Fi 6 or Wi-Fi 7",
+    excerptEn: "Wi-Fi 6 is enough for many homes. Wi-Fi 7 helps when devices support it. Ask whether the included router is a gift or a loan.",
+    descriptionEn:
+      "Wi-Fi 6 is enough for many homes. Wi-Fi 7 only helps when phones and laptops support it. A plan-included router may be a gift or a loan. Placement often changes the feel more than the next badge. Specs are confirmed by the carrier.",
+    h1En: "Choosing a broadband router: is Wi-Fi 6 or Wi-Fi 7 worth it?",
+    published: "2026-10-21",
+    modified: "2026-10-21",
+    related: ["fiber", "is-1000m-enough", "1000m-or-2500m", "contract-fees", "broadband-stability", "fiber-vs-5g"],
+    plans: [{ href: "/plans?cat=broadband", label: "去光纖格價" }],
+    estates: [{ href: "/estates", label: "屋苑目錄" }],
+    body: [
+      {
+        heading: "Wi-Fi 6 同 Wi-Fi 7 差喺邊",
+        paragraphs: [
+          "Wi-Fi 6 同 Wi-Fi 7 係路由器同裝置之間嘅無線世代，唔係光纖入屋嗰條線嘅速度。線係 1000M，手機唔支援新世代，天花板仍然係部手機。",
+          "Wi-Fi 7 通常要路由器同裝置兩邊都支援，先用到較新嘅功能。屋企部部機都舊，換一部寫住 Wi-Fi 7 嘅路由器，手感未必跟住標籤走。一般家用幾多先夠，見 [1000M 夠唔夠](/guides/is-1000m-enough)。",
+        ],
+      },
+      {
+        heading: "一般家庭夠唔夠",
+        paragraphs: [
+          "上網、視像會議、一兩路影片，Wi-Fi 6 同放得啱嘅位置，多數已經夠。牆多、單位大、路由器鎖喺櫃入面，先會覺得慢，呢個唔係單靠換世代就一定好。",
+          "1000M 同 2500M 點揀，見 [1000M 同 2500M 寬頻點揀](/guides/1000m-or-2500m)。速度手感亦受覆蓋同樓內線路影響，見 [邊間比較穩](/guides/broadband-stability)。",
+        ],
+      },
+      {
+        heading: "打機同屋企人多",
+        paragraphs: [
+          "打機在意延遲多過峰值下載。可以拉線去機，通常穩過全程靠 Wi-Fi。人多、同時上傳大檔，先再問多頻段、多天線，或者 Wi-Fi 7 係咪有用。",
+          "5G 家居路由器跟流動訊號，擺位同光纖路由器唔同，見 [5G家居定光纖](/guides/fiber-vs-5g)。",
+        ],
+        table: {
+          caption: "路由器點睇",
+          headers: ["情況", "點揀"],
+          rows: [
+            {
+              label: "一般家用",
+              value: "Wi-Fi 6 加啱嘅擺位，多數夠。",
+              href: "/guides/is-1000m-enough",
+            },
+            {
+              label: "部部機都新、人多",
+              value: "先問裝置支唔支援 Wi-Fi 7，再決定使唔使換。",
+              href: "/guides/1000m-or-2500m",
+            },
+            {
+              label: "打機",
+              value: "延遲優先。可以就用線，唔好只追標籤。",
+              href: "/guides/broadband-stability",
+            },
+          ],
+        },
+      },
+      {
+        heading: "計劃包機，定自己買",
+        paragraphs: [
+          "合約寫「送路由器」同「包路由器」唔同。送出通常係你嘅；包用或者借用，合約完可能要還，遺失要另計。自己買一部，可以留低，但電訊商借出嗰部仍然要按合約歸還。",
+          "簽約前問型號、壞機點換、可唔可以換自己嘅機。見 [月費以外](/guides/contract-fees)。",
+        ],
+      },
+      {
+        heading: "擺位",
+        paragraphs: [
+          "放喺常用區域中間、少少高、避開金屬櫃、厚牆同微波爐。光纖入咗屋，擺位往往比再上一檔月費更明顯。",
+          DISCLAIMER,
+        ],
+      },
+    ],
+    bodyEn: [
+      {
+        heading: "What Wi-Fi 6 and Wi-Fi 7 actually change",
+        paragraphs: [
+          "Wi-Fi 6 and Wi-Fi 7 are the link between the router and your devices, not the fibre speed into the flat. A 1000M line still meets the phone’s own limit.",
+          "Wi-Fi 7 usually needs both the router and the device. Older phones may not feel the badge. See [is 1000M enough](/guides/is-1000m-enough).",
+        ],
+      },
+      {
+        heading: "Enough for a typical home?",
+        paragraphs: [
+          "Browsing, calls and one or two video streams are often fine on Wi-Fi 6 if the router is placed well. Thick walls and a router in a cupboard feel slow for reasons a newer badge does not automatically fix.",
+          "Speed tiers: [1000M or 2500M](/guides/1000m-or-2500m). Stability: [which broadband is more stable](/guides/broadband-stability).",
+        ],
+      },
+      {
+        heading: "Gaming and busy homes",
+        paragraphs: [
+          "Gaming cares more about latency than peak download. A cable to the computer is usually steadier than Wi-Fi all the way. Ask about Wi-Fi 7 when many new devices upload at once.",
+          "A 5G home router follows the mobile signal. See [fibre vs 5G home](/guides/fiber-vs-5g).",
+        ],
+        table: {
+          caption: "How to read the router",
+          headers: ["Situation", "How to choose"],
+          rows: [
+            {
+              label: "Typical home",
+              value: "Wi-Fi 6 and a sensible spot are often enough.",
+              href: "/guides/is-1000m-enough",
+            },
+            {
+              label: "New devices, many people",
+              value: "Check that devices support Wi-Fi 7 before you pay for it.",
+              href: "/guides/1000m-or-2500m",
+            },
+            {
+              label: "Gaming",
+              value: "Latency first. Use a cable when you can.",
+              href: "/guides/broadband-stability",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Included router or your own",
+        paragraphs: [
+          "“Gifted router” and “router included” are not the same. A gift is usually yours. An included or loaned unit often goes back at the end. If you buy your own, you may still have to return the carrier’s unit.",
+          "Ask the model, how a fault is swapped, and whether your own router is allowed. See [install, prepay, contract](/guides/contract-fees).",
+        ],
+      },
+      {
+        heading: "Placement",
+        paragraphs: [
+          "Put it near the middle of where you actually sit, slightly raised, away from metal cabinets, thick walls and the microwave. Once fibre is in, placement often matters more than the next monthly tier.",
+          DISCLAIMER_EN,
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "Wi-Fi 7 係咪一定快過 Wi-Fi 6？",
+        a: "唔一定。手機同平板都要支援，而且牆同擺位會蓋過標籤。一般家用 Wi-Fi 6 多數夠。實際規格以電訊商確認為準。",
+      },
+      {
+        q: "計劃包嘅路由器係咪我嘅？",
+        a: "要睇合約。送出同包用唔同，包用可能到期要還。見 [月費以外](/guides/contract-fees)。",
+      },
+      {
+        q: "打機使唔使換 Wi-Fi 7？",
+        a: "延遲同可唔可以拉線更重要。人多、裝置新，先再問使唔使換。見 [邊間比較穩](/guides/broadband-stability)。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Is Wi-Fi 7 always faster than Wi-Fi 6?",
+        a: "Not always. Phones have to support it, and walls and placement can matter more than the badge. Wi-Fi 6 is enough for many homes. Specs are confirmed by the carrier.",
+      },
+      {
+        q: "Is the included router mine?",
+        a: "Read the contract. A gift and a loan are different. A loan is often returned. See [install, prepay, contract](/guides/contract-fees).",
+      },
+      {
+        q: "Do I need Wi-Fi 7 for gaming?",
+        a: "Latency and a cable matter more. Ask about a newer router when many new devices share the line. See [which broadband is more stable](/guides/broadband-stability).",
+      },
+    ],
+  },
+  {
+    slug: "tuen-mun",
+    minutes: 7,
+    category: "fiber",
+    seoTitle: "屯門寬頻比較｜公屋居屋私樓參考月費｜齊Quote",
+    h1: "屯門寬頻點揀：先分樓類再比較月費",
+    description:
+      "屯門寬頻唔係一張區價。良景邨、山景邨等公屋，兆康苑等居屋，同黃金海岸、瓏門等私樓，計劃通常分開報。下列係站內列出參考月費，覆蓋同安裝以電訊商確認為準。",
+    title: "屯門寬頻點揀：先分樓類再比較月費",
+    excerpt: "屯門唔係一區一價。公屋、居屋、私樓分開睇參考月費，再填地址查核。",
+    titleEn: "Tuen Mun broadband: housing type first, then the fee",
+    excerptEn: "Tuen Mun is not one district price. Compare public, HOS and private estates separately, then confirm the address.",
+    descriptionEn:
+      "Tuen Mun broadband is not one district fee. Public estates such as Leung King, HOS courts such as Siu Hong Court, and private estates such as Gold Coast are usually quoted separately. Listed fees are a reference. Coverage is confirmed by the carrier.",
+    h1En: "Tuen Mun broadband: sort housing type before the monthly fee",
+    published: "2026-10-21",
+    modified: "2026-10-21",
+    related: [
+      "public-hos-fees",
+      "private-1000-fees",
+      "yuen-long",
+      "tin-shui-wai",
+      "sha-tin",
+      "tseung-kwan-o",
+      "fiber",
+      "estate-filter",
+      "home-broadband-2026",
+      "public-vs-hos",
+      "village-fees",
+    ],
+    plans: [
+      { href: "/plans?cat=broadband&housing=public", label: "公屋光纖計劃" },
+      { href: "/plans?cat=broadband&housing=hos", label: "居屋光纖計劃" },
+      { href: "/plans?cat=broadband&housing=private", label: "私樓光纖計劃" },
+    ],
+    estates: [
+      { href: "/estates/leung-king", label: "良景邨" },
+      { href: "/estates/shan-king", label: "山景邨" },
+      { href: "/estates/siu-hong-court", label: "兆康苑" },
+      { href: "/estates/gold-coast", label: "黃金海岸" },
+      { href: "/estates", label: "屋苑目錄" },
+    ],
+    inquiry: { district: "屯門" },
+    cta: {
+      lead: "填完整屯門地址同座數，用 WhatsApp 查核覆蓋同參考月費。僅供參考，以電訊商確認為準。",
+      leadEn: "Send the full Tuen Mun address on WhatsApp to check coverage and a reference fee. For reference only; the carrier confirms.",
+      button: "WhatsApp 查核屯門報價",
+      buttonEn: "WhatsApp a Tuen Mun quote",
+      waText: salesQuoteMessage({ serviceType: "光纖寬頻", address: "屯門", source: "filter" }),
+      waTextEn: salesQuoteMessage({ serviceType: "光纖寬頻", address: "屯門", source: "filter" }),
+    },
+    body: [
+      {
+        heading: "屯門唔係一區一價",
+        paragraphs: [
+          "搜「屯門寬頻」見到嘅，多數仍然要先分樓類。良景邨、山景邨、大興邨、安定邨係公屋；兆康苑、兆翠苑係居屋；黃金海岸、瓏門、愛琴灣係私樓。同一條 1000M，三種樓類計劃可以完全唔同。",
+          "下列月費係**站內列出**例子，**僅供參考**，唔代表你座樓一定有。呢張表**唔係排名**。公屋同居屋點分，見 [公屋同居屋有咩分別](/guides/public-vs-hos)。",
+        ],
+      },
+      {
+        heading: "公屋／居屋參考 1000M",
+        paragraphs: [
+          "良景、山景等公屋，同兆康苑等居屋，用公居屋表，**唔好**用黃金海岸私樓價去估。完整表見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)。",
+        ],
+        table: {
+          caption: "站內列出｜僅供參考",
+          headers: ["計劃例子", "樓類／參考月費"],
+          rows: [
+            {
+              label: "有線 1000M（48 個月）",
+              value: "公屋、居屋、私樓｜HK$58",
+              href: "/plans/icable-ftth-1000-48m-58",
+            },
+            {
+              label: "HGC 轉台 1000M（36 個月）",
+              value: "公屋、居屋｜HK$75",
+              href: "/plans/hgc-ftth-1000-public-36m",
+            },
+            {
+              label: "中國移動香港 1000M（36 個月）",
+              value: "公屋、居屋、私樓｜HK$88",
+              href: "/plans/cmhk-ftth-2500",
+            },
+            {
+              label: "香港寬頻 1000M 連 Wi-Fi 7（36 個月）",
+              value: "公屋、居屋、私樓｜HK$98",
+              href: "/plans/hkbn-ftth-1000-36m-98",
+            },
+          ],
+        },
+      },
+      {
+        heading: "黃金海岸等私樓",
+        paragraphs: [
+          "黃金海岸、瓏門、愛琴灣用私樓表。**唔好**用良景邨公屋價去估。完整表見 [私樓 1000M 參考月費](/guides/private-1000-fees)。",
+        ],
+        table: {
+          caption: "站內列出｜僅供參考",
+          headers: ["計劃例子", "樓類／參考月費"],
+          rows: [
+            {
+              label: "中國移動香港 1000M（36 個月）",
+              value: "公屋、居屋、私樓｜HK$88",
+              href: "/plans/cmhk-ftth-2500",
+            },
+            {
+              label: "有線私人樓宇 1000M（36 個月）",
+              value: "私樓｜HK$88",
+              href: "/plans/icable-ftth-1000-private-36m",
+            },
+            {
+              label: "HGC 私人樓宇 1000M（39 個月）",
+              value: "私樓｜HK$89",
+              href: "/plans/hgc-ftth-1000-private-39m",
+            },
+            {
+              label: "香港寬頻 1000M 連 Wi-Fi 7（36 個月）",
+              value: "公屋、居屋、私樓｜HK$98",
+              href: "/plans/hkbn-ftth-1000-36m-98",
+            },
+          ],
+        },
+      },
+      {
+        heading: "常見屋苑入口",
+        paragraphs: [
+          "公屋：[良景邨](/estates/leung-king)、[山景邨](/estates/shan-king)、[大興邨](/estates/tai-hing)、[安定邨](/estates/on-ting)。居屋：[兆康苑](/estates/siu-hong-court)、[兆翠苑](/estates/siu-chui-court)。私樓：[黃金海岸](/estates/gold-coast)、[瓏門](/estates/century-gateway)、[愛琴灣](/estates/aegean-coast)。",
+          "屋苑頁列出適用樓類計劃。指定屋苑計劃只會喺搜該屋苑時出現，**唔入**上面摘要表。點用屋苑名見 [齊Quote 點用屋苑篩](/guides/estate-filter)。全部見 [屋苑目錄](/estates)。",
+        ],
+      },
+      {
+        heading: "下一步",
+        paragraphs: [
+          "返首頁輸入座數同街道，或者開 [公屋光纖格價](/plans?cat=broadband&housing=public)。附近地區：[元朗寬頻](/guides/yuen-long)、[天水圍寬頻](/guides/tin-shui-wai)。其他：[沙田寬頻](/guides/sha-tin)、[將軍澳寬頻](/guides/tseung-kwan-o)。龍鼓灘、青山村等村屋見 [村屋光纖月費](/guides/village-fees)。2026 年表見 [2026 家居寬頻格價](/guides/home-broadband-2026)。",
+          DISCLAIMER,
+        ],
+      },
+    ],
+    bodyEn: [
+      {
+        heading: "Not one district price",
+        paragraphs: [
+          "Tuen Mun searches still start with housing type. Leung King and Shan King are public; Siu Hong Court is HOS; Gold Coast and Century Gateway are private. The same 1000M line can be a different plan in each.",
+          "Fees below are **listed on this site**, **for reference only**. This table is **not a ranking**. Public vs HOS: [public vs HOS](/guides/public-vs-hos).",
+        ],
+      },
+      {
+        heading: "Public / HOS 1000M examples",
+        paragraphs: [
+          "Use the public / HOS table for Leung King and Siu Hong Court. Do **not** guess from a Gold Coast private-estate row. Full table: [public / HOS 1000M](/guides/public-hos-fees).",
+        ],
+        table: {
+          caption: "Listed on this site, for reference only",
+          headers: ["Example", "Housing / reference fee"],
+          rows: [
+            {
+              label: "有線 1000M（48 個月）",
+              value: "公屋、居屋、私樓｜HK$58",
+              href: "/plans/icable-ftth-1000-48m-58",
+            },
+            {
+              label: "HGC 轉台 1000M（36 個月）",
+              value: "公屋、居屋｜HK$75",
+              href: "/plans/hgc-ftth-1000-public-36m",
+            },
+            {
+              label: "中國移動香港 1000M（36 個月）",
+              value: "公屋、居屋、私樓｜HK$88",
+              href: "/plans/cmhk-ftth-2500",
+            },
+            {
+              label: "香港寬頻 1000M 連 Wi-Fi 7（36 個月）",
+              value: "公屋、居屋、私樓｜HK$98",
+              href: "/plans/hkbn-ftth-1000-36m-98",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Gold Coast and other private estates",
+        paragraphs: [
+          "Use the private-estate table. Do **not** guess a Gold Coast fee from Leung King. Full table: [private-estate 1000M](/guides/private-1000-fees).",
+        ],
+        table: {
+          caption: "Listed on this site, for reference only",
+          headers: ["Example", "Housing / reference fee"],
+          rows: [
+            {
+              label: "中國移動香港 1000M（36 個月）",
+              value: "公屋、居屋、私樓｜HK$88",
+              href: "/plans/cmhk-ftth-2500",
+            },
+            {
+              label: "有線私人樓宇 1000M（36 個月）",
+              value: "私樓｜HK$88",
+              href: "/plans/icable-ftth-1000-private-36m",
+            },
+            {
+              label: "HGC 私人樓宇 1000M（39 個月）",
+              value: "私樓｜HK$89",
+              href: "/plans/hgc-ftth-1000-private-39m",
+            },
+            {
+              label: "香港寬頻 1000M 連 Wi-Fi 7（36 個月）",
+              value: "公屋、居屋、私樓｜HK$98",
+              href: "/plans/hkbn-ftth-1000-36m-98",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Estate pages",
+        paragraphs: [
+          "Public: [Leung King](/estates/leung-king), [Shan King](/estates/shan-king). HOS: [Siu Hong Court](/estates/siu-hong-court). Private: [Gold Coast](/estates/gold-coast). Named-estate offers stay off this summary. See [estate filter](/guides/estate-filter).",
+        ],
+      },
+      {
+        heading: "Next step",
+        paragraphs: [
+          "Type the block and street on the home page, or open [public fibre plans](/plans?cat=broadband&housing=public). Nearby: [Yuen Long](/guides/yuen-long), [Tin Shui Wai](/guides/tin-shui-wai). Also: [Sha Tin](/guides/sha-tin), [Tseung Kwan O](/guides/tseung-kwan-o). Nearby villages: [village fibre fees](/guides/village-fees).",
+          DISCLAIMER_EN,
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "屯門寬頻月費係咪全區一樣？",
+        a: "唔係。公屋、居屋、私樓通常分開報。頁上數字係站內列出、僅供參考，以電訊商確認為準。",
+      },
+      {
+        q: "良景邨可唔可以用黃金海岸嗰行價？",
+        a: "唔可以。良景邨係公屋，黃金海岸係私樓。公居屋例子見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)。",
+      },
+      {
+        q: "屯門村屋用唔用得公屋表？",
+        a: "唔得。龍鼓灘、青山村等村屋係另一套計劃，見 [村屋光纖月費](/guides/village-fees)。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Is Tuen Mun one broadband fee?",
+        a: "No. Public, HOS and private estates are usually quoted separately. Figures here are listed on the site, for reference only.",
+      },
+      {
+        q: "Can Leung King use a Gold Coast row?",
+        a: "No. Leung King is public housing. See [public / HOS 1000M](/guides/public-hos-fees).",
+      },
+      {
+        q: "Can a Tuen Mun village house use the public table?",
+        a: "No. Places such as Lung Kwu Tan use a separate set. See [village fibre fees](/guides/village-fees).",
+      },
+    ],
+  },
+  {
+    slug: "student-plans",
+    minutes: 7,
+    category: "mobile",
+    seoTitle: "學生寬頻同手機計劃點揀｜資格同用量｜齊Quote",
+    h1: "學生寬頻同手機計劃點揀最抵",
+    description:
+      "學生計劃通常要核實學生身份，優惠先至用得。先睇本地數據夠唔夠，再決定手機同家居寬頻分開申請定一齊計。預算要計合約期同免月費。資格同月費以電訊商確認為準。",
+    title: "學生寬頻同手機計劃點揀最抵",
+    excerpt: "學生優惠要先核實身份。本地數據、分開定組合、合約期，三樣計完先好簽約。",
+    titleEn: "Student broadband and mobile plans",
+    excerptEn: "Student offers usually need proof of status. Count local data, whether to bundle, and the contract length before you sign.",
+    descriptionEn:
+      "Student plans usually need the carrier to confirm student status before the offer applies. Start with local data, then decide whether mobile and home broadband should be separate or counted together. Budget for the term and any free months. Eligibility and fees are confirmed by the carrier.",
+    h1En: "Student broadband and mobile plans: how to choose",
+    published: "2026-10-21",
+    modified: "2026-10-21",
+    related: ["mobile", "port-in", "gba-mobile", "contract-fees", "broadband-total-cost", "fiber", "mobile-broadband-bundle"],
+    plans: [
+      { href: "/plans?cat=mobile", label: "去手機格價" },
+      { href: "/plans?cat=broadband", label: "去光纖格價" },
+    ],
+    estates: [
+      { href: "/estates", label: "屋苑目錄" },
+      { href: "/guides/mobile", label: "手機月費攻略" },
+    ],
+    body: [
+      {
+        heading: "學生身份要電訊商核實",
+        paragraphs: [
+          "市面上有時會見到學生手機或者學生寬頻，條件通常係在學證明、學生證，或者某個年齡。呢頁唔列出邊間有、優惠幾多。有定冇、你合唔合格，申請時先由電訊商確認。",
+          "未核實之前，唔好當自己一定用得學生價。普通計劃同學生計劃要並排睇，見 [手機月費點揀](/guides/mobile)。",
+        ],
+      },
+      {
+        heading: "先睇數據夠唔夠",
+        paragraphs: [
+          "上課、短片、熱點開電腦，本地數據先決。漫遊或者大灣區係額外一層，額度好多時同本地分開計，見 [大灣區手機計劃](/guides/gba-mobile)。",
+          "宿舍或者屋企要另開一條寬頻，就唔好將手機用量當成屋企 Wi-Fi。家居線見 [光纖寬頻](/guides/fiber)。",
+        ],
+      },
+      {
+        heading: "分開申請定一齊計",
+        paragraphs: [
+          "學生優惠有時只覆蓋手機，寬頻仍然係普通家居計劃；有時兩條一齊先有回贈。分開寫低每條嘅月費、免月費同合約期，再同分開申請比較。計法見 [手機加寬頻組合](/guides/mobile-broadband-bundle) 同 [寬頻合約總成本點計](/guides/broadband-total-cost)。",
+          "轉手機號碼見 [攜號轉台](/guides/port-in)。唔好為咗學生優惠提早取消未完嘅舊約。",
+        ],
+        table: {
+          caption: "學生計劃對一次",
+          headers: ["事項", "問咩"],
+          rows: [
+            {
+              label: "資格",
+              value: "要咩證明、讀到幾時、畢業之後點算。",
+              href: "/guides/mobile",
+            },
+            {
+              label: "本地數據",
+              value: "夠唔夠課堂同熱點，漫遊係咪另計。",
+              href: "/guides/gba-mobile",
+            },
+            {
+              label: "組合",
+              value: "優惠係咪只覆蓋手機，寬頻使唔使另計。",
+              href: "/guides/mobile-broadband-bundle",
+            },
+            {
+              label: "預算",
+              value: "合約期、免月費、預繳，唔好只睇首月。",
+              href: "/guides/broadband-total-cost",
+            },
+          ],
+        },
+      },
+      {
+        heading: "預算",
+        paragraphs: [
+          "首月平，唔代表合約期內平。問免月費有幾多、完約之後恢復咩價、行政費同預繳。見 [月費以外](/guides/contract-fees)。",
+          "頁上月費係市場參考，唔係學生專屬價。合資格先至有嘅條件，以電訊商確認為準。",
+          DISCLAIMER,
+        ],
+      },
+    ],
+    bodyEn: [
+      {
+        heading: "The carrier confirms student status",
+        paragraphs: [
+          "A student mobile or broadband offer usually needs proof of study, a student card, or an age rule. This page does not list who has one or what it costs. The carrier confirms whether you qualify.",
+          "Until that check, do not assume the student price applies. Compare it with a regular plan. See [mobile plans](/guides/mobile).",
+        ],
+      },
+      {
+        heading: "Data first",
+        paragraphs: [
+          "Classes, video and a laptop hotspot use local data first. Roaming or Greater Bay Area quota is often a separate pot. See [GBA mobile](/guides/gba-mobile).",
+          "A home or dorm line is not the same as the phone’s data. See [fibre](/guides/fiber).",
+        ],
+      },
+      {
+        heading: "Separate or together",
+        paragraphs: [
+          "A student offer may cover only the phone, while broadband stays a normal home plan. Sometimes the rebate needs both. Write each fee, free months and term, then compare with applying separately. See [mobile and broadband bundles](/guides/mobile-broadband-bundle) and [broadband total cost](/guides/broadband-total-cost).",
+          "Changing number: [port-in](/guides/port-in). Do not cancel an unfinished contract early just to chase a student offer.",
+        ],
+        table: {
+          caption: "Student-plan checklist",
+          headers: ["Item", "Ask"],
+          rows: [
+            {
+              label: "Eligibility",
+              value: "What proof, until when, and what happens after you graduate.",
+              href: "/guides/mobile",
+            },
+            {
+              label: "Local data",
+              value: "Enough for class and a hotspot, and whether roaming is separate.",
+              href: "/guides/gba-mobile",
+            },
+            {
+              label: "Bundle",
+              value: "Whether the offer is phone-only and broadband is extra.",
+              href: "/guides/mobile-broadband-bundle",
+            },
+            {
+              label: "Budget",
+              value: "Term, free months and prepayment, not just the first month.",
+              href: "/guides/broadband-total-cost",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Budget",
+        paragraphs: [
+          "A cheap first month is not the cost over the term. Ask how many months are free, the price after that, and any admin or prepay fee. See [install, prepay, contract](/guides/contract-fees).",
+          "Fees on this site are a market reference, not a student price. Eligibility is confirmed by the carrier.",
+          DISCLAIMER_EN,
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "有學生證係咪一定有學生價？",
+        a: "唔一定。電訊商先確認你合唔合格、證明要咩、讀到幾時。未確認之前，當普通計劃一齊比較。",
+      },
+      {
+        q: "學生優惠包唔包屋企寬頻？",
+        a: "有時只包手機。寬頻要另計月費、免月費同合約期。見 [手機加寬頻組合](/guides/mobile-broadband-bundle)。",
+      },
+      {
+        q: "點樣先唔會估錯預算？",
+        a: "計合約期、免月費、回贈同預繳，唔好只睇首月。見 [寬頻合約總成本點計](/guides/broadband-total-cost)。實際以電訊商確認為準。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Does a student card guarantee a student price?",
+        a: "No. The carrier confirms whether you qualify, what proof they need, and until when. Until then, compare a regular plan as well.",
+      },
+      {
+        q: "Does a student offer include home broadband?",
+        a: "Sometimes it is the phone only. Broadband still has its own fee, free months and term. See [mobile and broadband bundles](/guides/mobile-broadband-bundle).",
+      },
+      {
+        q: "How do I budget it?",
+        a: "Count the term, free months, rebates and prepayment, not just the first month. See [broadband total cost](/guides/broadband-total-cost). The carrier confirms the figures.",
+      },
+    ],
+  },
+  {
+    slug: "elderly-broadband",
+    minutes: 7,
+    category: "fiber",
+    seoTitle: "長者寬頻優惠點睇｜資格同月費｜齊Quote",
+    h1: "長者寬頻優惠有邊間？月費幾多",
+    description:
+      "長者寬頻優惠唔係全港一個價。常見係要核實年齡或者身份，先至有另一個月費、簡化計劃，或者同普通計劃唔同嘅合約。呢頁唔報邊間幾多。資格、月費同操作以電訊商確認為準。",
+    title: "長者寬頻優惠有邊間？月費幾多",
+    excerpt: "冇一張全港長者價。先核實資格，再同普通計劃比較月費、穩定性同好唔好用。",
+    titleEn: "Senior broadband offers: eligibility and the monthly fee",
+    excerptEn: "There is no single senior price for the whole city. Confirm eligibility, then compare the fee, stability and how simple the service is.",
+    descriptionEn:
+      "A senior broadband offer is not one city-wide fee. It usually needs an age or identity check before a different monthly fee, a simpler plan, or a different contract applies. This page does not name a carrier price. Eligibility, fees and how the service works are confirmed by the carrier.",
+    h1En: "Senior broadband offers: what they look like and what to confirm",
+    published: "2026-10-21",
+    modified: "2026-10-21",
+    related: ["fiber", "is-1000m-enough", "contract-fees", "broadband-total-cost", "estate-filter", "fiber-vs-5g", "home5g"],
+    plans: [{ href: "/plans?cat=broadband", label: "去光纖格價" }],
+    estates: [{ href: "/estates", label: "屋苑目錄" }],
+    body: [
+      {
+        heading: "呢頁唔報一個全港長者價",
+        paragraphs: [
+          "「長者寬頻幾多」要睇邊個地址、邊種樓、以及電訊商認唔認定你符合長者條件。齊Quote 呢頁**唔列出**邊間有長者價、月費係幾多。站內其他頁嘅月費係一般參考計劃，唔等於長者優惠。",
+          "想對一般參考月費，用屋苑篩分樓類，見 [齊Quote 點用屋苑篩](/guides/estate-filter) 同 [光纖寬頻](/guides/fiber)。",
+        ],
+      },
+      {
+        heading: "常見係點樣嘅優惠",
+        paragraphs: [
+          "常見形式係：要出示年齡或者身份證明，先至用另一個月費；或者計劃功能較少、合約寫法較簡單；又或者同普通家居計劃差在免月費、合約期。每一間嘅門檻都唔同，唔好用街坊嘅例子套落自己。",
+          "問清楚：幾多歲先算、要咩文件、優惠維持幾耐、完約之後恢復邊個價。計平均月費見 [寬頻合約總成本點計](/guides/broadband-total-cost)。",
+        ],
+      },
+      {
+        heading: "簡單、穩，先至好用",
+        paragraphs: [
+          "長者用嚟打電話、視像見家人、睇新聞，穩定同好上手通常比峰值速度重要。一般家用 1000M 多數夠，見 [1000M 夠唔夠](/guides/is-1000m-enough)。",
+          "路由器放喺常用嘅廳，少啲功能、大個按鈕，往往好過一部設定繁複嘅機。光纖入到屋，通常穩過靠流動訊號；拉唔到先再問 5G 家居，見 [5G家居定光纖](/guides/fiber-vs-5g) 同 [5G 家居](/guides/home5g)。",
+        ],
+        table: {
+          caption: "長者優惠對一次",
+          headers: ["事項", "問咩"],
+          rows: [
+            {
+              label: "資格",
+              value: "年齡、文件、優惠維持幾耐。",
+              href: "/guides/contract-fees",
+            },
+            {
+              label: "月費",
+              value: "同普通計劃並排，唔好只聽口頭一個數。",
+              href: "/guides/broadband-total-cost",
+            },
+            {
+              label: "好唔好用",
+              value: "設定簡唔簡單、壞機點換。",
+              href: "/guides/is-1000m-enough",
+            },
+            {
+              label: "穩唔穩",
+              value: "光纖入唔入到，定要靠 5G 家居。",
+              href: "/guides/fiber-vs-5g",
+            },
+          ],
+        },
+      },
+      {
+        heading: "同普通計劃比較",
+        paragraphs: [
+          "長者價如果合約更長、免月費更少、或者路由器要還，總支出可以同普通計劃差不多。兩邊都計完合約期先比較。見 [月費以外](/guides/contract-fees)。",
+          "未確認資格之前，當普通參考計劃睇。確認咗先用長者條件。",
+          DISCLAIMER,
+        ],
+      },
+    ],
+    bodyEn: [
+      {
+        heading: "This page does not quote one senior fee",
+        paragraphs: [
+          "“How much is senior broadband?” depends on the address, the housing type, and whether the carrier accepts the senior status. This page **does not list** which carrier has a senior price or what it is. Other fees on the site are ordinary reference plans, not a senior offer.",
+          "For ordinary reference fees, filter by housing type. See [estate filter](/guides/estate-filter) and [fibre](/guides/fiber).",
+        ],
+      },
+      {
+        heading: "What these offers usually look like",
+        paragraphs: [
+          "Common forms: proof of age or identity before a different monthly fee; a simpler plan; or a different free-month or contract length from the regular home plan. The threshold differs. Do not reuse a neighbour’s example.",
+          "Ask the age rule, the documents, how long the offer lasts, and the price after the term. See [broadband total cost](/guides/broadband-total-cost).",
+        ],
+      },
+      {
+        heading: "Simple and stable comes first",
+        paragraphs: [
+          "Calls, family video and news need stability and a simple setup more than peak speed. 1000M is enough for many homes. See [is 1000M enough](/guides/is-1000m-enough).",
+          "Keep the router in the living room. Fibre, where it can be installed, is usually steadier than a mobile signal. If it cannot, ask about 5G home. See [fibre vs 5G home](/guides/fiber-vs-5g) and [5G home](/guides/home5g).",
+        ],
+        table: {
+          caption: "Senior-offer checklist",
+          headers: ["Item", "Ask"],
+          rows: [
+            {
+              label: "Eligibility",
+              value: "Age, documents, and how long the offer lasts.",
+              href: "/guides/contract-fees",
+            },
+            {
+              label: "Monthly fee",
+              value: "Compare it with a regular plan. Do not rely on one spoken number.",
+              href: "/guides/broadband-total-cost",
+            },
+            {
+              label: "Ease of use",
+              value: "How simple the setup is, and how a fault is swapped.",
+              href: "/guides/is-1000m-enough",
+            },
+            {
+              label: "Stability",
+              value: "Whether fibre can be installed, or 5G home is the option.",
+              href: "/guides/fiber-vs-5g",
+            },
+          ],
+        },
+      },
+      {
+        heading: "Compare with a regular plan",
+        paragraphs: [
+          "A senior price with a longer term, fewer free months, or a router that must be returned can land close to a regular plan. Count both over the term. See [install, prepay, contract](/guides/contract-fees).",
+          "Until eligibility is confirmed, read the ordinary reference plans. Use the senior terms only after the carrier accepts them.",
+          DISCLAIMER_EN,
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "長者寬頻月費係幾多？",
+        a: "冇一個全港價。要電訊商確認你合唔符合長者條件，同埋該地址用邊個計劃。頁上其他月費係一般參考，唔係長者優惠。",
+      },
+      {
+        q: "邊間有長者優惠？",
+        a: "呢頁唔點名、唔報價。申請時問年齡門檻、要咩文件、優惠維持幾耐。以電訊商確認為準。",
+      },
+      {
+        q: "長者使唔使追求高速計劃？",
+        a: "打電話、視像、睇新聞，穩定同簡單通常更重要。一般家用見 [1000M 夠唔夠](/guides/is-1000m-enough)。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "What is the senior broadband fee?",
+        a: "There is no single city-wide fee. The carrier confirms senior status and which plan fits the address. Other fees on this site are ordinary references, not a senior offer.",
+      },
+      {
+        q: "Which carrier has a senior offer?",
+        a: "This page does not name one or quote a price. Ask the age rule, the documents and how long the offer lasts. The carrier confirms it.",
+      },
+      {
+        q: "Do seniors need the fastest plan?",
+        a: "Calls, video and news usually need stability and a simple setup more than peak speed. See [is 1000M enough](/guides/is-1000m-enough).",
+      },
+    ],
+  },
 ];
 
 export const GUIDE_CATEGORY_META = [
