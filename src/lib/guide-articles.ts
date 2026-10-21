@@ -2732,7 +2732,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "點計實際平均月費",
         paragraphs: [
           "唔好用標示月費直接當平均。計法可以寫成：實付金額 = 標示月費 ×（合約月數 − 免月費月數）− 回贈 + 未豁免嘅預繳或安裝費。平均月費 = 實付金額 ÷ 合約月數。免月費或者回贈如果只適用其中一段，就只減一次，唔好兩邊都減。",
-          "假設例子，唔係任何電訊商嘅計劃，亦唔係報價：標示 HK$100／月，24 個月，其中 2 個月免月費，回贈 HK$200，安裝費已豁免。實付 = 100 ×（24 − 2）− 200 = HK$2,000。平均 = 2,000 ÷ 24，大約 HK$83／月。數字只係示範點計。你嘅續約價、免月費同回贈要以現有供應商書面或者訊息為準。步驟同其他例子見 [寬頻合約總成本點計](/guides/broadband-total-cost)。",
+          "用現有供應商書面或者訊息上嘅標示月費、合約期、免月費、回贈，同未豁免嘅預繳或安裝費，代入上面條式。呢頁唔放具體數字例子，避免被當成報價。你嘅續約價、免月費同回贈以供應商確認為準。步驟見 [寬頻合約總成本點計](/guides/broadband-total-cost)。",
         ],
       },
       {
@@ -2776,7 +2776,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "How to calculate the real average monthly fee",
         paragraphs: [
           "Do not use the sticker fee as the average. Amount paid = sticker fee × (contract months − free months) − rebate + any prepayment or install fee that is not waived. Average = amount paid ÷ contract months. If a free month or rebate applies to only one part of the term, subtract it once.",
-          "Hypothetical example, not a carrier plan and not a quote: sticker HK$100 a month, 24 months, 2 of them free, HK$200 rebate, install fee waived. Paid = 100 × (24 − 2) − 200 = HK$2,000. Average = 2,000 ÷ 24, about HK$83 a month. The figures only show the method. Your renewal fee, free months and rebate come from your provider. See [broadband total cost](/guides/broadband-total-cost).",
+          "Put the sticker fee, contract length, free months, rebate, and any prepayment or install fee that is not waived — taken from your provider’s writing — into that formula. This page does not include a worked example with figures, so nothing here should be read as a quote. Your renewal fee, free months and rebate come from your provider. See [broadband total cost](/guides/broadband-total-cost).",
         ],
       },
       {
@@ -2815,7 +2815,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         q: "點計續約嘅實際平均月費？",
-        a: "用標示月費乘實付月數，減回贈，加未豁免嘅預繳或安裝費，再除以合約月數。頁內 HK$100 例子只係示範計法，唔係報價。詳見 [寬頻合約總成本點計](/guides/broadband-total-cost)。",
+        a: "用標示月費乘實付月數，減回贈，加未豁免嘅預繳或安裝費，再除以合約月數。實際數字以現有供應商確認為準。詳見 [寬頻合約總成本點計](/guides/broadband-total-cost)。",
       },
       {
         q: "續約定轉台好？",
@@ -2833,7 +2833,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         q: "How do I calculate the real average monthly fee?",
-        a: "Multiply the sticker fee by the months you actually pay, subtract rebates, add any install or prepay that is not waived, then divide by the full term. The HK$100 figure on this page is only a method example, not a quote. See [broadband total cost](/guides/broadband-total-cost).",
+        a: "Multiply the sticker fee by the months you actually pay, subtract rebates, add any install or prepay that is not waived, then divide by the full term. Use the figures from your provider. See [broadband total cost](/guides/broadband-total-cost).",
       },
       {
         q: "Should I renew or switch?",
