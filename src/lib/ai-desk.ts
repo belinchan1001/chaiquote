@@ -492,10 +492,12 @@ function screenLine(category: Category | undefined, exclude?: ProviderId) {
   return { wanted, fill };
 }
 
-/** Same carrier: flash offer, then 齊Quote 推介, then the lower average fee. */
+/** Same carrier: flash offer, then 齊Quote 推介, then the lower average fee. Employee-card plans stay in the list, but are not the default pick. */
 function bestScreenPlan(rows: Plan[]): Plan | undefined {
-  if (!rows.length) return undefined;
-  return [...rows].sort((a, b) => {
+  const open = rows.filter((plan) => !/員工證|員工卡/.test(`${plan.limits ?? ""} ${plan.perks.join(" ")}`));
+  const pool = open.length ? open : rows;
+  if (!pool.length) return undefined;
+  return [...pool].sort((a, b) => {
     const flash = Number(Boolean(b.flashOffer)) - Number(Boolean(a.flashOffer));
     if (flash) return flash;
     const pick = Number(Boolean(b.quotePick)) - Number(Boolean(a.quotePick));

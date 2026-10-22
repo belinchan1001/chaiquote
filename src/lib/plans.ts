@@ -162,6 +162,8 @@ const LIMITS_SMARTONE_FAMILY =
 const LIMITS_SMARTONE_HANDSET =
   "出機上台。實際手機型號、禮券、保養及月費以電訊商確認為準。";
 const PERK_HKBN_PORT = "攜號轉台適用";
+const LIMITS_HKBN_STAFF_MOBILE =
+  "香港寬頻企業員工優惠。登記時須出示員工證或員工卡。此流動通訊計劃使用中國移動香港（CMHK）網絡。客戶須承諾最短合約期 24 個月。禮券、轉台優惠及家居寬頻現有客戶回贈以電訊商確認為準。";
 const LIMITS_HKBN_ELDER_60 =
   "須年滿 60 歲並出示身份證。此流動通訊計劃使用中國移動香港網絡。香港寬頻現有客戶適用以下月費；非現有客戶以原價為準。客戶須承諾最短合約期 24 個月。實際月費、數據用量及申請資格以電訊商確認為準。";
 const PERKS_HKBN_ELDER = [
@@ -3823,6 +3825,46 @@ export const PLANS: Plan[] = [
     perks: ["200GB 本地高速數據"],
     portInPerk: PERK_HKBN_PORT,
     bestFor: "適合沒有家居寬頻、主要依靠手機熱點之用戶",
+  },
+  {
+    id: "hkbn-5g-staff-100-129",
+    providerId: "hkbn",
+    category: "mobile",
+    name: "5G 100GB + 3GB 大灣區（24 個月）",
+    monthlyFee: 129,
+    freeMonths: 0,
+    contractMonths: 24,
+    dataGb: 100,
+    highSpeedGb: 100,
+    voice: "本地通話無限",
+    roaming: "每月 3GB 大灣區數據",
+    install: "不適用",
+    housing: "all",
+    network: "5G",
+    perks: ["須出示香港寬頻企業員工證或員工卡", "送 HK$200 麥當勞禮券", "家居寬頻現有客戶可享每月回贈"],
+    portInPerk: "攜號轉台免 1 個月月費（第 13 個月），並豁免每月行政費 HK$18",
+    limits: LIMITS_HKBN_STAFF_MOBILE,
+    bestFor: "適合持有香港寬頻企業員工證，並需要大灣區數據之用戶",
+  },
+  {
+    id: "hkbn-5g-staff-200-179",
+    providerId: "hkbn",
+    category: "mobile",
+    name: "5G 200GB + 4GB 大灣區（24 個月）",
+    monthlyFee: 179,
+    freeMonths: 0,
+    contractMonths: 24,
+    dataGb: 200,
+    highSpeedGb: 200,
+    voice: "本地通話無限",
+    roaming: "每月 4GB 大灣區數據",
+    install: "不適用",
+    housing: "all",
+    network: "5G",
+    perks: ["須出示香港寬頻企業員工證或員工卡", "送 HK$200 麥當勞禮券", "家居寬頻現有客戶每月回贈 HK$20"],
+    portInPerk: "攜號轉台免 1 個月月費（第 13 個月），並豁免每月行政費 HK$18",
+    limits: LIMITS_HKBN_STAFF_MOBILE,
+    bestFor: "適合持有香港寬頻企業員工證，並需要較多大灣區數據之用戶",
   },
   {
     id: "hkbn-biz-1000",

@@ -114,6 +114,33 @@ describe("compare chips", () => {
   });
 });
 
+describe("HKBN corporate staff 5G", () => {
+  it("lists the employee-card 100GB and 200GB plans without hiding them", () => {
+    const low = plan("hkbn-5g-staff-100-129");
+    const high = plan("hkbn-5g-staff-200-179");
+    assert.equal(low.monthlyFee, 129);
+    assert.equal(low.dataGb, 100);
+    assert.equal(low.roaming, "每月 3GB 大灣區數據");
+    assert.equal(low.voice, "本地通話無限");
+    assert.equal(low.contractMonths, 24);
+    assert.equal(low.freeMonths, 0);
+    assert.equal(low.staffOffer, undefined);
+    assert.match(low.limits ?? "", /員工證或員工卡/);
+    assert.match(low.limits ?? "", /CMHK/);
+    assert.equal(low.perks[1], "送 HK$200 麥當勞禮券");
+    assert.match(low.perks[2] ?? "", /每月回贈/);
+    assert.doesNotMatch(low.perks[2] ?? "", /HK\$/);
+    assert.match(low.portInPerk ?? "", /第 13 個月/);
+    assert.match(low.portInPerk ?? "", /HK\$18/);
+    assert.equal(high.monthlyFee, 179);
+    assert.equal(high.dataGb, 200);
+    assert.equal(high.roaming, "每月 4GB 大灣區數據");
+    assert.equal(high.perks[2], "家居寬頻現有客戶每月回贈 HK$20");
+    assert.equal(filterPlans({ cat: "mobile" }).some((row) => row.id === low.id), true);
+    assert.equal(filterPlans({ cat: "mobile", gba: true }).some((row) => row.id === high.id), true);
+  });
+});
+
 describe("HKBN student/youth 5G 30GB", () => {
   it("adds one $78 youth/student plan without changing hkbn-5g-30", () => {
     const youth = plan("hkbn-5g-30-78-youth");
@@ -138,7 +165,7 @@ describe("HKBN student/youth 5G 30GB", () => {
     assert.equal(youth.quotePick, true);
     assert.deepEqual(
       PLANS.filter((p) => p.latestOffer).map((p) => p.id),
-      ["hkbn-ftth-1000-24m-199-mobile", "icable-ftth-1000-48m-58", "cmhk-ftth-1000-village-24m-218", "hkbn-ftth-1000-24m-98-sep30", "hkbn-ftth-1000-36m-98-sep30", "hkbn-ftth-1000-36m-128-sep30", "hkbn-ftth-2500-24m-148-sep30", "hkbn-ftth-2500-36m-158-sep30", "hkbn-ftth-2500-36m-178-sep30", "cmhk-5g-limited-50-129", "cmhk-5g-limited-100-149", "cmhk-5g-limited-60-98-youth", "cmhk-5g-limited-4places-50-149", "cmhk-5g-limited-4places-50-209", "hkbn-5g-30-78-youth", "hkbn-5g-elder-15-79", "hkbn-5g-elder-30-109"],
+      ["hkbn-ftth-1000-24m-199-mobile", "icable-ftth-1000-48m-58", "cmhk-ftth-1000-village-24m-218", "hkbn-ftth-1000-24m-0-flash", "hkbn-ftth-1000-24m-98-sep30", "hkbn-ftth-1000-36m-98-sep30", "hkbn-ftth-1000-36m-128-sep30", "hkbn-ftth-2500-24m-148-sep30", "hkbn-ftth-2500-36m-158-sep30", "hkbn-ftth-2500-36m-178-sep30", "cmhk-5g-limited-50-129", "cmhk-5g-limited-100-149", "cmhk-5g-limited-60-98-youth", "cmhk-5g-limited-4places-50-149", "cmhk-5g-limited-4places-50-209", "hkbn-5g-30-78-youth", "hkbn-5g-elder-15-79", "hkbn-5g-elder-30-109"],
     );
     assert.deepEqual(
       PLANS.filter((p) => p.quotePick).map((p) => p.id),
@@ -194,7 +221,7 @@ describe("HKBN student/youth 5G 30GB", () => {
     const hkbnMobile = PLANS.filter((p) => p.category === "mobile" && p.providerId === "hkbn");
     assert.equal(hkbnMobile.filter((p) => p.id === "hkbn-5g-30-78-youth").length, 1);
     assert.ok(hkbnMobile.length >= 10);
-    assert.ok(hkbnMobile.filter((p) => !p.id.startsWith("hkbn-5g-elder")).every((p) => /3,?000/.test(p.voice ?? "")));
+    assert.ok(hkbnMobile.filter((p) => !p.id.startsWith("hkbn-5g-elder") && !p.id.startsWith("hkbn-5g-staff")).every((p) => /3,?000/.test(p.voice ?? "")));
 
     assert.equal(toEnglish(youth.name), "5G 30GB Local (incl. monthly 3GB Mainland China & Macau)");
     assert.equal(toEnglish(youth.fupNote ?? ""), "Thereafter local unlimited, speed not exceeding 1Mbps");

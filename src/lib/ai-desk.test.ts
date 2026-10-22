@@ -480,6 +480,7 @@ describe("AI desk safety", () => {
       const gb = item.plan.dataGb ?? item.plan.highSpeedGb ?? 0;
       assert.ok(gb >= 30 && gb <= 100, item.plan.id);
       assert.equal(item.plan.providerId === "cmhk", false);
+      assert.equal(/員工證/.test(item.plan.limits ?? ""), false);
     }
     const gba = filterPlans({ cat: "mobile", gba: true, need: "gba" });
     const gbaPicked = pickScreenPlans(gba, undefined, "mobile");

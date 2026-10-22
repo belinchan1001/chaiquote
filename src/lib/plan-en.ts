@@ -79,6 +79,8 @@ const EXACT: Record<string, string> = {
     "Prepaid HK$3,600; HK$150 rebate/month in months 1–24",
   "此流動通訊計劃使用 3香港網絡。客戶須承諾最短合約期 24 個月。所有優惠及服務受條款及細則約束。":
     "This mobile plan uses the 3HK network. Minimum 24-month contract. All offers and services are subject to terms.",
+  "香港寬頻企業員工優惠。登記時須出示員工證或員工卡。此流動通訊計劃使用中國移動香港（CMHK）網絡。客戶須承諾最短合約期 24 個月。禮券、轉台優惠及家居寬頻現有客戶回贈以電訊商確認為準。":
+    "HKBN corporate staff offer. Show a staff card or staff ID at signup. This mobile plan uses the CMHK network. Minimum 24-month contract. Vouchers, port-in offers and the existing home-broadband rebate are confirmed by the carrier.",
   "須年滿 60 歲並出示身份證。此流動通訊計劃使用中國移動香港網絡。香港寬頻現有客戶適用以下月費；非現有客戶以原價為準。客戶須承諾最短合約期 24 個月。實際月費、數據用量及申請資格以電訊商確認為準。":
     "Must be 60 or above with Hong Kong ID. This mobile plan uses the CMHK network. HKBN existing-customer monthly fees apply below; others pay the original price. Minimum 24-month contract. Monthly fee, data and eligibility are confirmed by the carrier.",
 };
@@ -94,6 +96,16 @@ const PHRASES: [string, string][] = [
   ["60GB 後以 1Mbps 任用", "60GB then unlimited at 1Mbps"],
   ["100GB 後以 1Mbps 任用", "100GB then unlimited at 1Mbps"],
   ["5G 20GB（24 個月）", "5G 20GB (24 months)"],
+  ["5G 100GB + 3GB 大灣區（24 個月）", "5G 100GB + 3GB Greater Bay Area (24 months)"],
+  ["5G 200GB + 4GB 大灣區（24 個月）", "5G 200GB + 4GB Greater Bay Area (24 months)"],
+  ["須出示香港寬頻企業員工證或員工卡", "HKBN corporate staff card or staff ID required"],
+  ["送 HK$200 麥當勞禮券", "HK$200 McDonald's voucher"],
+  ["家居寬頻現有客戶可享每月回贈", "Monthly rebate for existing home-broadband customers"],
+  ["家居寬頻現有客戶每月回贈 HK$20", "HK$20 monthly rebate for existing home-broadband customers"],
+  ["攜號轉台免 1 個月月費（第 13 個月），並豁免每月行政費 HK$18", "Port-in waives 1 month (month 13) and the HK$18 monthly admin fee"],
+  ["每月 3GB 大灣區數據", "3GB Greater Bay Area data per month"],
+  ["每月 4GB 大灣區數據", "4GB Greater Bay Area data per month"],
+  ["本地通話無限", "Unlimited local calls"],
   ["5G 20GB（36 個月）", "5G 20GB (36 months)"],
   ["5G 中小學學生 10GB（24 個月）", "5G primary/secondary student 10GB (24 months)"],
   ["5G 中小學學生 10GB（36 個月）", "5G primary/secondary student 10GB (36 months)"],
@@ -938,6 +950,8 @@ const BEST_FOR: [string, string][] = [
   ["適合高本地數據用量之用戶", "For high local data use"],
   ["適合高本地數據用量，以及使用串流應用之用戶", "For high local data plus streaming"],
   ["適合高本地數據用量，以及需要內地及澳門數據之用戶", "For high local data plus Mainland and Macao data"],
+  ["適合持有香港寬頻企業員工證，並需要大灣區數據之用戶", "For HKBN corporate staff who need Greater Bay Area data"],
+  ["適合持有香港寬頻企業員工證，並需要較多大灣區數據之用戶", "For HKBN corporate staff who need more Greater Bay Area data"],
   ["適合高本地數據用量，以及需要較多內地數據之用戶", "For high local data plus extra Mainland data"],
   ["適合高流量企業", "For high-traffic businesses"],
 ];

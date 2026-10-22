@@ -1,2 +1,2 @@
 /** Display count on the homepage. Keep equal to PLANS.length. */
-export const PLAN_COUNT = 186;
+export const PLAN_COUNT = 189;
