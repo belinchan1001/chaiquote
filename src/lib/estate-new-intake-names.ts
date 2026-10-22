@@ -249,6 +249,9 @@ export const HKBN_FLASH_OFFER_ESTATES = [
   "啟福居",
 ] as const;
 
+/** $0 / 24-month HKBN fibre. The flash list, plus 白田邨 and 彩頤居. */
+export const HKBN_ZERO_FEE_ESTATES = [...HKBN_FLASH_OFFER_ESTATES, "白田邨", "彩頤居"] as const;
+
 /** HKBN flash fibre for listed LPR estates (public / HOS / private). */
 export const HKBN_LPR_FLASH_ESTATES = [
   "安泰邨",

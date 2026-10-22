@@ -21,6 +21,7 @@ import {
 } from "./estate-pages.ts";
 import {
   HKBN_FLASH_OFFER_ESTATES,
+  HKBN_ZERO_FEE_ESTATES,
   HKBN_INTAKE_OFFER_ESTATES,
   HKBN_LPR_FLASH_ESTATES,
   NETVIGATOR_INTAKE_OFFER_ESTATES,
@@ -469,24 +470,26 @@ describe("estate SEO pages", () => {
     );
   });
 
-  it("hides HKBN flash fibre until a listed estate is searched, excluding 白田邨", () => {
-    const ids = ["hkbn-ftth-1000-24m-0-flash", "hkbn-ftth-2500-36m-148-flash"] as const;
-    for (const id of ids) {
-      const plan = getPlan(id);
-      assert.ok(plan, id);
-      assert.equal(plan.providerId, "hkbn", id);
-      assert.equal(plan.flashOffer, true, id);
-      assert.equal(plan.quotePick, true, id);
-      assert.equal(plan.newIntakeOffer, undefined, id);
-      assert.ok(plan.onlyEstates?.includes("長沙灣邨"), id);
-      assert.equal(plan.onlyEstates?.includes("白田邨"), false, id);
-    }
+  it("hides the HKBN $0 fibre plan until a listed estate is searched", () => {
     const zero = getPlan("hkbn-ftth-1000-24m-0-flash")!;
+    const giga = getPlan("hkbn-ftth-2500-36m-148-flash")!;
+    assert.equal(zero.providerId, "hkbn");
+    assert.equal(zero.flashOffer, true);
+    assert.equal(zero.latestOffer, true);
+    assert.equal(zero.quotePick, true);
+    assert.equal(zero.newIntakeOffer, undefined);
     assert.equal(zero.monthlyFee, 0);
     assert.equal(zero.contractMonths, 24);
     assert.equal(zero.speedMbps, 1000);
-    assert.equal(zero.install, "須繳付 HK$780 安裝費");
-    const giga = getPlan("hkbn-ftth-2500-36m-148-flash")!;
+    assert.equal(zero.install, "豁免安裝費");
+    assert.match(zero.prepaid ?? "", /HK\$200/);
+    assert.match(zero.limits ?? "", /不須預繳 HK\$780/);
+    assert.ok(zero.perks.includes("名額有限"));
+    assert.ok(zero.onlyEstates?.includes("長沙灣邨"));
+    assert.ok(zero.onlyEstates?.includes("白田邨"));
+    assert.ok(zero.onlyEstates?.includes("彩頤居"));
+    assert.equal(giga.onlyEstates?.includes("白田邨"), false);
+    assert.equal(giga.onlyEstates?.includes("彩頤居"), true);
     assert.equal(giga.monthlyFee, 148);
     assert.equal(giga.contractMonths, 36);
     assert.equal(giga.speedMbps, 2500);
@@ -494,30 +497,34 @@ describe("estate SEO pages", () => {
     assert.match(giga.perks.join(" "), /BE230/);
     assert.match(giga.perks.join(" "), /現金券/);
     const hidden = filterPlans({ cat: "broadband" }).map((plan) => plan.id);
-    for (const id of ids) assert.equal(hidden.includes(id), false, id);
+    assert.equal(hidden.includes(zero.id), false);
+    assert.equal(hidden.includes(giga.id), false);
     const intake = filterPlans({ cat: "broadband", intake: true }).map((plan) => plan.id);
-    for (const id of ids) assert.equal(intake.includes(id), false, id);
-    const pakTin = filterPlans({ cat: "broadband", housing: "public", estate: "白田邨" }).map((plan) => plan.id);
-    for (const id of ids) assert.equal(pakTin.includes(id), false, id);
+    assert.equal(intake.includes(zero.id), false);
     assert.equal(estateUnlocksPlan("白田邨", HKBN_FLASH_OFFER_ESTATES), false);
+    assert.equal(estateUnlocksPlan("白田邨", HKBN_ZERO_FEE_ESTATES), true);
+    assert.equal(estateUnlocksPlan("彩頤居", HKBN_ZERO_FEE_ESTATES), true);
+    for (const name of HKBN_ZERO_FEE_ESTATES) {
+      assert.equal(estateUnlocksPlan(name, HKBN_ZERO_FEE_ESTATES), true, name);
+    }
     assert.equal(estateUnlocksPlan("長沙灣邨", HKBN_FLASH_OFFER_ESTATES), true);
-    assert.equal(estateUnlocksPlan("錦暉苑", HKBN_FLASH_OFFER_ESTATES), true);
-    assert.equal(estateUnlocksPlan("樂翹樓", HKBN_FLASH_OFFER_ESTATES), true);
-    assert.equal(estateUnlocksPlan("寶庭居", HKBN_FLASH_OFFER_ESTATES), true);
-    assert.equal(matchKnownEstate("寶庭居")?.name, "寶庭居");
-    assert.equal(matchKnownEstate("賢庭居")?.name, "賢庭居");
-    assert.equal(matchKnownEstate("仁愛居")?.name, "仁愛居");
-    assert.equal(matchKnownEstate("樂翹樓")?.name, "樂翹樓");
-    assert.equal(matchKnownEstate("啟福居")?.name, "啟福居");
-    assert.equal(searchEstates("樂翹樓", 8)[0]?.name, "樂翹樓");
+    const pakTin = filterPlans({ cat: "broadband", housing: "public", estate: "白田邨" }).map((plan) => plan.id);
+    assert.equal(pakTin.includes(zero.id), true);
+    assert.equal(pakTin.includes(giga.id), false);
     const unlocked = filterPlans({ cat: "broadband", housing: "public", estate: "長沙灣邨" }).map((plan) => plan.id);
-    for (const id of ids) assert.equal(unlocked.includes(id), true, id);
+    assert.equal(unlocked.includes(zero.id), true);
+    assert.equal(unlocked.includes(giga.id), true);
     const kamFai = filterPlans({ cat: "broadband", housing: "hos", estate: "錦暉苑" }).map((plan) => plan.id);
-    for (const id of ids) assert.equal(kamFai.includes(id), true, id);
+    assert.equal(kamFai.includes(zero.id), true);
+    const cheerful = filterPlans({ cat: "broadband", housing: "hos", estate: "彩頤居" }).map((plan) => plan.id);
+    assert.equal(cheerful.includes(zero.id), true);
+    const elsewhere = filterPlans({ cat: "broadband", housing: "public", estate: "天耀邨" }).map((plan) => plan.id);
+    assert.equal(elsewhere.includes(zero.id), false);
     const cheung = estatePlans(ESTATES.find((item) => item.name === "長沙灣邨")!);
-    assert.ok(ids.every((id) => cheung.broadband.some((plan) => plan.id === id)));
+    assert.ok(cheung.broadband.some((plan) => plan.id === zero.id));
     const pakTinPage = estatePlans(ESTATES.find((item) => item.name === "白田邨")!);
-    assert.ok(ids.every((id) => !pakTinPage.broadband.some((plan) => plan.id === id)));
+    assert.ok(pakTinPage.broadband.some((plan) => plan.id === zero.id));
+    assert.equal(pakTinPage.broadband.some((plan) => plan.id === giga.id), false);
   });
 
   it("hides HKBN LPR flash fibre until a listed estate is searched", () => {

@@ -6,9 +6,10 @@ export {
   NETVIGATOR_INTAKE_OFFER_ESTATES,
   NETVIGATOR_ONLY_ESTATES,
   HKBN_FLASH_OFFER_ESTATES,
+  HKBN_ZERO_FEE_ESTATES,
   HKBN_LPR_FLASH_ESTATES,
 } from "./estate-new-intake-names.ts";
-import { NEW_INTAKE, NEW_INTAKE_NAMES, NETVIGATOR_ONLY_ESTATES, HKBN_FLASH_OFFER_ESTATES, HKBN_LPR_FLASH_ESTATES } from "./estate-new-intake-names.ts";
+import { NEW_INTAKE, NEW_INTAKE_NAMES, NETVIGATOR_ONLY_ESTATES, HKBN_ZERO_FEE_ESTATES, HKBN_LPR_FLASH_ESTATES } from "./estate-new-intake-names.ts";
 
 const NEW_INTAKE_PARENTS = ESTATES.filter((estate) => NEW_INTAKE_NAMES.has(estate.name));
 const NEW_INTAKE_BLOCK_NAMES = new Set<string>();
@@ -56,7 +57,7 @@ export function isNetvigatorOnlyEstate(query?: string): boolean {
 
 export function isHkbnFlashEstate(query?: string): boolean {
   return (
-    estateUnlocksPlan(query, HKBN_FLASH_OFFER_ESTATES) ||
+    estateUnlocksPlan(query, HKBN_ZERO_FEE_ESTATES) ||
     estateUnlocksPlan(query, HKBN_LPR_FLASH_ESTATES)
   );
 }
