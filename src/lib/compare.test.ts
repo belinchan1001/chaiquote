@@ -125,7 +125,9 @@ describe("HKBN corporate staff 5G", () => {
     assert.equal(low.contractMonths, 24);
     assert.equal(low.freeMonths, 0);
     assert.equal(low.staffOffer, undefined);
-    assert.match(low.limits ?? "", /員工證或員工卡/);
+    assert.equal(low.perks[0], "企業員工優惠：任何企業員工證或卡片均可");
+    assert.match(low.limits ?? "", /任何企業的員工證或員工卡均可/);
+    assert.doesNotMatch(low.limits ?? "", /只限香港寬頻|須出示香港寬頻/);
     assert.match(low.limits ?? "", /CMHK/);
     assert.equal(low.perks[1], "送 HK$200 麥當勞禮券");
     assert.match(low.perks[2] ?? "", /每月回贈/);
