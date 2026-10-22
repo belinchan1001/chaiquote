@@ -1626,7 +1626,6 @@ export const PLANS: Plan[] = [
     install: "豁免安裝費",
     housing: ["public", "hos"],
     network: "光纖入屋",
-    prepaid: PREPAID_HKBN_200,
     perks: ["名額有限", "指定屋苑專享"],
     limits: LIMITS_HKBN_FLASH,
     quotePick: true,

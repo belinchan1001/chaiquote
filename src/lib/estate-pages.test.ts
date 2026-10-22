@@ -482,7 +482,7 @@ describe("estate SEO pages", () => {
     assert.equal(zero.contractMonths, 24);
     assert.equal(zero.speedMbps, 1000);
     assert.equal(zero.install, "豁免安裝費");
-    assert.match(zero.prepaid ?? "", /HK\$200/);
+    assert.equal(zero.prepaid, undefined);
     assert.match(zero.limits ?? "", /不須預繳 HK\$780/);
     assert.ok(zero.perks.includes("名額有限"));
     assert.ok(zero.onlyEstates?.includes("長沙灣邨"));
