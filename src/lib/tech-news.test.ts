@@ -29,7 +29,8 @@ describe("tech news channel", () => {
         "/images/news-gaming.jpg",
       ],
     );
-    assert.equal(TECH_NEWS_ARTICLES.length, 22);
+    assert.equal(TECH_NEWS_ARTICLES.length, 23);
+    assert.ok(getTechNewsArticle("3business-ai-marketplace-oct21"));
     assert.ok(getTechNewsArticle("cmhk-u6ghz-mongkok-oct17"));
     assert.ok(getTechNewsArticle("smartone-ceo-resign-oct14"));
     assert.ok(getTechNewsArticle("sim-realname-offence-draft"));
@@ -62,7 +63,7 @@ describe("tech news channel", () => {
     const byDesk = { telecom: 0, phones: 0, gadgets: 0, gaming: 0 };
     for (const article of TECH_NEWS_ARTICLES) {
       assert.match(article.description, /以電訊商確認為準|以官方及平台商店確認為準|以官方公布為準|以 SmarTone 及通訊辦公布為準|以商店確認為準/);
-      assert.match(article.published, /^2026-09-(18|21|24|28)$|^2026-10-(0[1258]|15|19)$/);
+      assert.match(article.published, /^2026-09-(18|21|24|28)$|^2026-10-(0[1258]|15|19|22)$/);
       assert.ok(article.editorNote.length > 80, article.slug);
       if (article.category in byDesk) byDesk[article.category] += 1;
     }
@@ -121,6 +122,7 @@ describe("tech news channel", () => {
       "sosim-esim-hk",
       "hkt-ai-data-waiver-oct7",
       "assemble-nintendo-switch-wanchai",
+      "3business-ai-marketplace-oct21",
       "cmhk-u6ghz-mongkok-oct17",
     ]) {
       assert.ok(

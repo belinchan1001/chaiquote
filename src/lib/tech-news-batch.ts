@@ -3,6 +3,70 @@ import type { TechNewsArticle } from "./tech-news.ts";
 /** Extra news pieces. GTA 6 still lives in TECH_NEWS_ARTICLES. */
 export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
   {
+    slug: "3business-ai-marketplace-oct21",
+    category: "gadgets",
+    minutes: 4,
+    published: "2026-10-22",
+    seoTitle: "3Business聯AWS推出AI Marketplace｜齊Quote",
+    h1: "3Business聯AWS推出AI Marketplace",
+    description:
+      "3Business同Amazon Web Services於2026年10月21日宣布推出3Business AI Marketplace，匯聚逾60個全球AI方案，為全港唯一獲AWS認可嘅電訊商AI平台。企業同中小企可一站式選用，11月10日有方案體驗日。內容僅供參考，以官方及平台商店確認為準。",
+    excerpt: "3Business同AWS 10月21日宣布推出AI Marketplace，匯聚逾60個全球AI方案。全港唯一電訊商獲AWS認可平台，11月10日銅鑼灣有方案體驗日。以官方確認為準。",
+    seoTitleEn: "3Business and AWS launch AI Marketplace | 齊Quote",
+    h1En: "3Business and AWS launch the AI Marketplace",
+    descriptionEn:
+      "On 21 October 2026 3Business and Amazon Web Services announced the 3Business AI Marketplace, bringing together more than 60 global AI solutions. It is described as Hong Kong’s only AWS-endorsed AI marketplace from a telecoms operator. Enterprises and SMEs can select and manage solutions on one platform. A Solution Day is set for 10 November. Confirm with the official platform.",
+    excerptEn: "3Business and AWS announced the AI Marketplace on 21 October, gathering over 60 global AI solutions. Hong Kong’s only AWS-endorsed telecom AI platform. Solution Day on 10 November in Causeway Bay.",
+    bullets: [
+      "2026年10月21日宣布：3Business聯同AWS推出AI Marketplace，逾60個全球AI方案。",
+      "形容為全港唯一獲AWS認可嘅電訊商AI方案平台，適合大企業同中小企。",
+      "涵蓋零售、物流、酒店餐飲、專業服務、物業管理、建造、教育及中小企專用工具。",
+      "11月10日14:30–17:00於銅鑼灣AWS Agentic AI Experience Centre舉辦方案體驗日，可登記。",
+    ],
+    bulletsEn: [
+      "Announced 21 October 2026: 3Business and AWS launch the AI Marketplace with over 60 global AI solutions.",
+      "Described as Hong Kong’s only AWS-endorsed AI marketplace offered by a telecoms operator, for large enterprises and SMEs.",
+      "Covers retail, logistics, hospitality, professional services, property management, construction, education and SME tools.",
+      "Solution Day on 10 November 14:30–17:00 at the AWS Agentic AI Experience Centre in Causeway Bay; registration open.",
+    ],
+    body: [
+      {
+        heading: "公告寫死咗咩",
+        headingEn: "What the announcement states",
+        paragraphs: [
+          "和記電訊香港有限公司旗下企業品牌3Business同Amazon Web Services於2026年10月21日宣布推出3Business AI Marketplace。新聞稿形容為全港唯一獲AWS認可嘅電訊商AI方案平台。平台匯聚逾60項來自環球科技供應商嘅AI方案，大企業同中小企可以透過單一平台搜尋、選用及管理所需方案，同時簡化賬單處理。",
+          "方案按行業分類，包括零售、物流、酒店及餐飲、專業服務、物業管理、建造業、教育界，以及中小企專用。可用工具包括全渠道通訊管理平台、AI聊天機械人、AI市場推廣工具、AI影像分析及AI教學工具等。3Business Empower團隊具備AWS Certified AI Practitioner認證，提供本地售前售後支援，包括需求評估、方案設計、部署整合、培訓同24/7技術支援。",
+        ],
+        paragraphsEn: [
+          "On 21 October 2026 the corporate brand 3Business of Hutchison Telecommunications (Hong Kong) Limited and Amazon Web Services announced the 3Business AI Marketplace. The release describes it as Hong Kong’s only AWS-endorsed AI marketplace offered by a telecoms operator. The platform brings together more than 60 AI solutions from global providers so large enterprises and SMEs can search, select and manage what they need on one platform, with simplified billing.",
+          "Solutions are grouped by sector: retail, logistics, hospitality, professional services, property management, construction, education and SME-specific tools. Available items include omnichannel platforms, AI chatbots, AI marketing tools, AI-video analytics and AI-powered teaching tools. The 3Business Empower team holds AWS Certified AI Practitioner credentials and provides local pre- and post-sales support covering needs assessment, solution design, deployment and integration, training and 24/7 technical support.",
+        ],
+      },
+      {
+        heading: "點核對同下一步",
+        headingEn: "How to check and next step",
+        paragraphs: [
+          "想睇平台詳情，到3Business官方AI Marketplace頁面核對最新方案同條款。新聞稿提及彈性月費訂閱模式降低門檻，但具體價錢同合約以平台當日頁面為準，呢篇唔寫死任何月費數字。",
+          "3Business同AWS將於2026年11月10日14:30至17:00在銅鑼灣AWS Agentic AI Experience Centre舉辦AI Marketplace方案體驗日。活動有方案展示區、Amazon Quick體驗同限時優惠，企業客戶可登記參加。詳情同登記連結以官方活動頁為準。",
+        ],
+        paragraphsEn: [
+          "To see the platform, check the official 3Business AI Marketplace page for the latest solutions and terms. The release mentions a flexible monthly subscription model to lower the barrier; specific prices and contracts follow the platform page on the day. This piece does not write any monthly fee.",
+          "3Business and AWS will host the AI Marketplace Solution Day on 10 November 2026 from 14:30 to 17:00 at the AWS Agentic AI Experience Centre in Causeway Bay. There will be solution showcase zones, an Amazon Quick experience and limited-time offers. Enterprise customers can register. Details and the registration link follow the official event page.",
+        ],
+      },
+    ],
+    tags: ["3Business", "AWS", "AI Marketplace", "中小企", "科技"],
+    tagsEn: ["3Business", "AWS", "AI Marketplace", "SME", "tech"],
+    editorNote:
+      "科技專區今次唔係再講一次U6GHz驗證或者SmarTone人事。新事實係10月21日官方新聞稿：3Business聯同AWS推出AI Marketplace，逾60個全球AI方案，稱為全港唯一獲AWS認可嘅電訊商平台。11月10日有方案體驗日。\n\n我唔會代填任何月費或者保證邊個方案最啱。平台係事實，具體價錢同適用性以官方頁為準。中小企或者企業想試AI工具，可以對官方平台或者登記體驗日，唔好當呢篇係報價。",
+    editorNoteEn:
+      "This is not another note on the U6GHz validation or the SmarTone personnel change. The new fact is the 21 October official release: 3Business and AWS launched the AI Marketplace with over 60 global AI solutions, described as Hong Kong’s only AWS-endorsed telecom AI platform. Solution Day is on 10 November.\n\nNo monthly fee is filled in and no solution is called the best. The platform is the fact; prices and fit follow the official page. SMEs or enterprises wanting to try AI tools can check the platform or register for the event. This page is not a quote.",
+    sourceUrl: "https://web.three.com.hk/3business/ai-aimktabout-en.html",
+    image: "/images/news-3business-ai-marketplace.jpg",
+    imageAlt: "3Business同AWS AI Marketplace方案體驗日宣傳圖",
+    imageCredit: "3Business / Media OutReach",
+  },
+  {
     slug: "cmhk-u6ghz-mongkok-oct17",
     category: "telecom",
     minutes: 4,
