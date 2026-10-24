@@ -1910,6 +1910,7 @@ export const PLANS: Plan[] = [
     perks: ["免還機", "送指定 Wi-Fi 6 路由器", PERK_THREE_HOME_MOVE, PERK_THREE_HOME_COOL, PERK_THREE_HOME_VISIT],
     limits: LIMITS_HOME5G_SPEED,
     hot: true,
+    unpublished: true,
     bestFor: "適合需要較長合約、免還機及 300GB 高速數據之住戶",
   },
   {
@@ -4093,7 +4094,7 @@ export function staffOfferLabel(offerId: string, locale: "zh" | "en" = "zh") {
 }
 
 export function isListedPlan(plan: Plan) {
-  return !plan.onlyEstates?.length && !plan.staffOffer;
+  return !plan.onlyEstates?.length && !plan.staffOffer && !plan.unpublished;
 }
 
 export function formatFee(value: number) {
@@ -4137,6 +4138,7 @@ export function cheapestPlan(category: Category): Plan | undefined {
       if (plan.category !== category) return false;
       if (plan.onlyEstates?.length) return false;
       if (plan.staffOffer) return false;
+      if (plan.unpublished) return false;
       if (category === "broadband" && isVillageOnly(plan)) return false;
       return true;
     }),
@@ -4144,7 +4146,7 @@ export function cheapestPlan(category: Category): Plan | undefined {
 }
 
 export function cheapestVillageBroadbandPlan(): Plan | undefined {
-  return pickCheapest(PLANS.filter((plan) => plan.category === "broadband" && isVillageCapable(plan) && !plan.onlyEstates?.length && !plan.staffOffer));
+  return pickCheapest(PLANS.filter((plan) => plan.category === "broadband" && isVillageCapable(plan) && !plan.onlyEstates?.length && !plan.staffOffer && !plan.unpublished));
 }
 
 export function formatMonthly(value: number) {

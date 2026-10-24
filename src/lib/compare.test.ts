@@ -2022,6 +2022,9 @@ describe("cheapest plan auto-picks", () => {
     assert.ok(village);
     assert.equal(fiber.id, "icable-ftth-1000-48m-58");
     assert.equal(fiber.monthlyFee, 58);
+    assert.equal(getPlan("three-home5g-w6")?.unpublished, true);
+    assert.equal(filterPlans({ cat: "home5g" }).some((plan) => plan.id === "three-home5g-w6"), false);
+    assert.notEqual(home5g.id, "three-home5g-w6");
     assert.equal(home5g.monthlyFee, minMonthlyFee("home5g"));
     assert.equal(mobile.monthlyFee, minMonthlyFee("mobile"));
     assert.equal(village.monthlyFee, minVillageBroadbandFee());
