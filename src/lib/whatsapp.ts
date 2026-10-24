@@ -48,7 +48,6 @@ export function quoteDeskFromPlans(plans: readonly Plan[]): QuoteDesk | null {
 
 function deskNumber(desk: QuoteDesk) {
   if (desk === "hkt") return { e164: SITE.hktWhatsappE164, display: SITE.hktPhoneDisplay };
-  if (desk === "hkbn") return { e164: SITE.hkbnWhatsappE164, display: SITE.hkbnPhoneDisplay };
   return { e164: SITE.whatsappE164, display: SITE.phoneDisplay };
 }
 
