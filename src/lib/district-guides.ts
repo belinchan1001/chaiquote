@@ -59,10 +59,10 @@ export const DISTRICT_GUIDES: Guide[] = [
     slug: "tin-shui-wai",
     minutes: 7,
     category: "fiber",
-    seoTitle: "天水圍寬頻比較｜公屋居屋嘉湖參考月費｜齊Quote",
+    seoTitle: "天水圍寬頻報價｜公屋／居屋／嘉湖月費比較｜齊Quote",
     h1: "天水圍寬頻點揀：先分公屋、居屋、嘉湖",
     description:
-      "天水圍寬頻唔係一張區價。天耀邨、天瑞邨等公屋，天盛苑等居屋，同嘉湖山莊私樓，計劃通常分開報。下列係站內列出參考月費，覆蓋同安裝以電訊商確認為準。",
+      "2026年10月天水圍寬頻要先分公屋、居屋同嘉湖山莊私樓。可以比較參考月費，再查你座樓覆蓋。實際價錢以電訊商確認為準。",
     title: "天水圍寬頻點揀：先分公屋、居屋、嘉湖",
     excerpt: "天水圍唔係一區一價。公屋、居屋、嘉湖私樓分開睇參考月費，再填地址查核。",
     titleEn: "Tin Shui Wai broadband: public, HOS and Kingswood first",

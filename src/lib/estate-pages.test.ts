@@ -68,7 +68,7 @@ describe("estate SEO pages", () => {
       broadband.every((plan) => plan.housing === "all" || plan.housing.includes("public")),
     );
     assert.ok(broadband.every((plan) => plan.housing === "all" || !plan.housing.every((h) => h === "private")));
-    assert.match(estateSeoTitle(tinYiu.estate), /天耀邨寬頻比較｜公屋｜齊Quote/);
+    assert.match(estateSeoTitle(tinYiu.estate), /天耀邨寬頻｜元朗天水圍公屋適用計劃月費｜齊Quote/);
   });
 
   it("indexes flagship and exclusive-plan estate pages, not every catalogue row", () => {

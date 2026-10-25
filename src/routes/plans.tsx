@@ -18,6 +18,7 @@ import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { isHkbnFlashEstate, isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
 import { compactSearch, parsePlansSearch, planListReplayKey } from "@/lib/search";
 import { CATEGORY_SEO, plansCategoryPath, canonicalUrl, shareHead } from "@/lib/canonical";
+import { indexableEstateNavLinks } from "@/lib/estate-pages";
 import { categoryJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 import { bringPlanListIntoView, holdPlanListScroll, isPlanListInView, watchPlanListInView } from "@/lib/plan-list-fade";
@@ -90,7 +91,9 @@ function PlansPage() {
   const listRef = useRef<HTMLDivElement>(null);
   const replayKey = planListReplayKey(search);
   const prevReplayKey = useRef(replayKey);
-  const { t, providerName, categoryLabel, housingLabel, updated } = useI18n();
+  const { t, providerName, categoryLabel, housingLabel, updated, locale } = useI18n();
+  const estateNav =
+    search.cat === "broadband" || search.cat === "home5g" ? indexableEstateNavLinks(locale) : [];
   usePageTitle(CATEGORY_SEO[search.cat].title);
 
   useEffect(() => {
@@ -571,6 +574,25 @@ function PlansPage() {
           ) : null}
         </>
       )}
+      {estateNav.length ? (
+        <nav className="mt-12" aria-label={locale === "en" ? "Estate broadband pages" : "屋苑寬頻"}>
+          <h2 className="text-lg font-semibold">{locale === "en" ? "Estate pages" : "指定屋苑寬頻"}</h2>
+          <p className="mt-1 max-w-2xl text-sm text-muted">
+            {locale === "en"
+              ? "Open an estate to see plans for that housing type, then check coverage. A listed plan is not confirmation the line can be installed."
+              : "開屋苑頁睇該樓類嘅參考計劃，再查覆蓋。列出嚟唔等於一定裝到。"}
+          </p>
+          <ul className="mt-3 flex flex-wrap gap-2">
+            {estateNav.map((item) => (
+              <li key={item.href}>
+                <a href={item.href} className="inline-flex h-11 items-center rounded-full bg-surface px-3 text-sm">
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ) : null}
     </div>
   );
 }

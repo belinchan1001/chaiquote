@@ -944,11 +944,11 @@ export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
     category: "telecom",
     minutes: 6,
     published: "2026-09-21",
-    seoTitle: "iPhone 18 上台：先對官價再拆合約｜齊Quote",
-    h1: "iPhone 18 上台：機價折扣同月費要分開計",
+    seoTitle: "iPhone 18上台邊間抵？機價折扣＋月費一齊計｜齊Quote",
+    h1: "iPhone 18上台邊間抵？機價折扣同月費要一齊計",
     description:
-      "iPhone 18 Pro 香港官價 HK$10,499 起，Pro Max HK$11,499 起，9 月 18 日開賣。上台優惠要分開對官價、機價折扣同合約月費，內容僅供參考，實際上台條件以電訊商確認為準。",
-    excerpt: "官價已出、舖頭亦開賣。上台唔好只睇減幾多機，要一齊計合約月費同年期。",
+      "2026年10月對iPhone 18上台，要將機價折扣同合約月費一齊計，唔好只睇減幾多。可以比較手機月費，上台條件以電訊商確認為準。",
+    excerpt: "減機價唔等於成個合約平。機價折扣同月費要一齊計，再對手機月費。",
     seoTitleEn: "iPhone 18 contracts: split handset discount and monthly fee | 齊Quote",
     h1En: "iPhone 18 contracts: price the phone and the plan separately",
     descriptionEn:

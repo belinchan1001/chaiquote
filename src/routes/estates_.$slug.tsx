@@ -6,6 +6,7 @@ import { useDesk, useHydrateDesk } from "@/lib/desk";
 import {
   estateHousingLabel,
   estateIntro,
+  estatePageFacts,
   estateSearchNote,
   estatePagePath,
   estatePageTitle,
@@ -81,6 +82,7 @@ function EstatePage() {
 
   const guideSlug = relatedGuideSlug(estate);
   const indexable = isIndexableEstatePage(page);
+  const facts = estatePageFacts(estate, locale);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
@@ -94,7 +96,52 @@ function EstatePage() {
       </p>
       <h1 className="mt-2 text-title font-semibold">{pageTitle}</h1>
       <p className="mt-2 text-xs text-subtle">{t("dataUpdated", { date: updated })}</p>
-      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{estateIntro(estate, locale)}</p>
+      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{facts.lead}</p>
+      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-fg">{facts.provider}</p>
+      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
+        {locale === "en" ? "Compare monthly fees: " : "想對月費可以睇"}
+        <Link
+          to="/guides/$slug"
+          params={{ slug: facts.guide.slug }}
+          className="text-accent underline-offset-4 hover:underline"
+        >
+          {facts.guide.label}
+        </Link>
+        {facts.housingGuide.slug !== facts.guide.slug ? (
+          <>
+            {" · "}
+            <Link
+              to="/guides/$slug"
+              params={{ slug: facts.housingGuide.slug }}
+              className="text-accent underline-offset-4 hover:underline"
+            >
+              {facts.housingGuide.label}
+            </Link>
+          </>
+        ) : null}
+        {locale === "en" ? ", then check coverage." : "，再查覆蓋。"}
+      </p>
+      {facts.neighbors.length ? (
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
+          {locale === "en" ? "Same district: " : "同區可以再睇"}
+          {facts.neighbors.map((item, index) => (
+            <span key={item.href}>
+              {index ? (locale === "en" ? ", " : "、") : ""}
+              <Link
+                to="/estates/$slug"
+                params={{ slug: item.slug }}
+                className="text-accent underline-offset-4 hover:underline"
+              >
+                {item.label}
+              </Link>
+            </span>
+          ))}
+          {locale === "en" ? "." : "。"}
+        </p>
+      ) : null}
+      {locale === "en" ? (
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{estateIntro(estate, locale)}</p>
+      ) : null}
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
         {t(
           estate.housing === "public"
@@ -108,7 +155,7 @@ function EstatePage() {
         {locale === "en" ? " " : ""}
         {t("estateHousingNoteConfirm")}
       </p>
-      {estateSearchNote(estate, locale) ? (
+      {locale === "en" && estateSearchNote(estate, locale) ? (
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-fg">{estateSearchNote(estate, locale)}</p>
       ) : null}
       {isNetvigatorOnlyEstate(estate.name) ? (

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { JsonLd } from "@/components/json-ld";
 import { QuoteLink } from "@/components/quote-link";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { crawlEstateLinksForGuide, mergeEstateLinks } from "@/lib/estate-pages";
 import { getGuide, guideCopy, guideManuscriptDates, type GuideTable } from "@/lib/guides";
 import { guideTopicImage } from "@/lib/guide-media";
 import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
@@ -138,10 +139,13 @@ function GuidePage() {
     .filter((item): item is NonNullable<typeof item> => Boolean(item));
   const plans = guide.plans ?? [];
   const primaryPlan = plans[0];
-  const estates = guide.estates ?? [
-    { href: "/estates", label: "屋苑目錄" },
-    { href: "/estates/tin-yiu", label: "天耀邨" },
-  ];
+  const estates = mergeEstateLinks(
+    guide.estates ?? [
+      { href: "/estates", label: "屋苑目錄" },
+      { href: "/estates/tin-yiu", label: "天耀邨" },
+    ],
+    crawlEstateLinksForGuide(guide.slug, locale),
+  );
   const toc = [
     ...copy.body.map((section) => ({ id: headingId(section.heading), label: section.heading })),
     ...(copy.faq.length ? [{ id: "faq", label: t("faqHeading") }] : []),

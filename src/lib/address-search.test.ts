@@ -154,10 +154,10 @@ describe("locale-aware address display", () => {
     assert.match(estateIntro(tinYiu, "en"), /Housing type is Public housing/);
     assert.match(estateIntro(tinYiu, "en"), /Coverage and install dates are confirmed by the carrier/);
     assert.doesNotMatch(estateIntro(tinYiu, "en"), /位於|樓類為|實際覆蓋/);
-    assert.equal(estatePageTitle(tinYiu, "zh"), "天耀邨寬頻比較｜公屋｜齊Quote");
+    assert.equal(estatePageTitle(tinYiu, "zh"), "天耀邨寬頻｜元朗天水圍公屋適用計劃月費｜齊Quote");
     assert.equal(estatePageTitle(tinYiu, "en"), "Tin Yiu Estate broadband comparison | Public housing | 齊Quote");
     const yoho = estate("YOHO Midtown")!;
-    assert.equal(estatePageTitle(yoho, "zh"), "YOHO Midtown寬頻比較｜私樓｜齊Quote");
+    assert.equal(estatePageTitle(yoho, "zh"), "YOHO Midtown寬頻｜元朗私樓適用計劃月費｜齊Quote");
     assert.equal(estatePageTitle(yoho, "en"), "YOHO Midtown broadband comparison | Private | 齊Quote");
     assert.doesNotMatch(estatePageTitle(yoho, "en"), /寬頻比較|私樓/);
   });
@@ -244,7 +244,7 @@ describe("locale-aware address display", () => {
     assert.equal(estatePagePath(tinYiu), "/estates/tin-yiu");
     assert.equal(getEstatePage("kingswood-villas")?.estate.name, "天水圍嘉湖山莊");
     assert.equal(getEstatePage("taikoo-shing")?.estate.name, "太古城");
-    assert.match(estateSeoTitle(tinYiu.estate), /^天耀邨寬頻比較｜公屋｜齊Quote$/);
+    assert.match(estateSeoTitle(tinYiu.estate), /^天耀邨寬頻｜元朗天水圍公屋適用計劃月費｜齊Quote$/);
     assert.equal(estatePageTitle(tinYiu.estate, "zh"), estateSeoTitle(tinYiu.estate));
     const pages = readFileSync(join(ROOT, "src/lib/estate-pages.ts"), "utf8");
     assert.match(pages, /function slugFromEstate\(estate: Estate\)/);

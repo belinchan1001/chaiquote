@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "node scripts/with-app-env.mjs vite dev --host 0.0.0.0 --port 8080",
     "images:opt": "node scripts/optimize-images.mjs",
-    "build": "node scripts/restore-truncated-catalogues.mjs && node scripts/check-messages.mjs && node scripts/optimize-images.mjs && node scripts/with-app-env.mjs vite build && npm run db:migrate",
+    "build": "node scripts/restore-truncated-catalogues.mjs && node scripts/check-messages.mjs && node --experimental-strip-types scripts/write-sitemap.ts && node scripts/optimize-images.mjs && node scripts/with-app-env.mjs vite build && npm run db:migrate",
     "db:migrate": "node scripts/migrate.mjs",
     "build:dev": "node scripts/with-app-env.mjs vite build --mode development",
     "preview": "node scripts/with-app-env.mjs vite preview",
