@@ -1737,6 +1737,7 @@ describe("SmarTone mobile catalogue", () => {
     assert.equal(mobiles.length, 14);
     assert.ok(getPlan("smartone-ftth-1000"));
     assert.ok(getPlan("smartone-home5g-w6"));
+    assert.equal(getPlan("smartone-home5g-w6")?.contractMonths, 30);
     const youth98 = plan("smartone-5g-youth-60-98");
     assert.equal(youth98.monthlyFee, 98);
     assert.equal(youth98.contractMonths, 36);

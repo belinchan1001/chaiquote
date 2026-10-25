@@ -1955,7 +1955,7 @@ export const PLANS: Plan[] = [
     name: "5G 家居寬頻計劃（齋 SIM 卡）",
     monthlyFee: 98,
     freeMonths: 0,
-    contractMonths: 24,
+    contractMonths: 30,
     speedMbps: 1000,
     install: "免拉線，隨插即用",
     housing: "all",
