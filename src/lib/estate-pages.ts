@@ -1,7 +1,7 @@
 import { ESTATES, estateDisplayName, estateEnglishName, firstEnglishAlias, parentEstate, placeDisplayName, type Estate } from "./estates.ts";
 import { NETVIGATOR_ONLY_ESTATES } from "./estate-new-intake.ts";
 import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
-import { matchesHousing, PLANS, type Housing, type Plan } from "./plans.ts";
+import { matchesHousing, PLANS, PROVIDER_MAP, type Housing, type Plan } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
 import { DISTRICTS } from "./site.ts";
 
@@ -425,23 +425,21 @@ export function estateHousingLabel(housing: Housing, locale: Locale = "zh"): str
   return ESTATE_HOUSING_LABEL[housing];
 }
 
-const SEARCH_PAGE_TITLES: Record<string, string> = {
-  太古城: "太古城寬頻｜東區私樓月費｜齊Quote",
-  天水圍嘉湖山莊: "嘉湖山莊寬頻｜元朗私樓月費｜齊Quote",
-  沙田第一城: "沙田第一城寬頻｜沙田私樓月費｜齊Quote",
-  "YOHO Town": "YOHO寬頻｜YOHO Town 私樓月費｜齊Quote",
+/** Search-facing short names. The catalogue name stays on the slug and the page. */
+const ESTATE_SEO_SHORT_NAME: Record<string, string> = {
+  天水圍嘉湖山莊: "嘉湖山莊",
+  "YOHO Town": "YOHO",
 };
 
 export function estateSeoTitle(estate: Estate): string {
-  return SEARCH_PAGE_TITLES[estate.name] ?? `${estate.name}寬頻比較｜${estateHousingLabel(estate.housing)}｜齊Quote`;
+  const name = ESTATE_SEO_SHORT_NAME[estate.name] ?? estate.name;
+  const place = estatePlacePhrase(estate, "zh");
+  return `${name}寬頻｜${place}${estateHousingLabel(estate.housing)}適用計劃月費｜齊Quote`;
 }
 
 export function estateSeoDescription(estate: Estate): string {
-  const note = estateSearchSeo(estate);
-  if (note) return note;
-  const place = estate.area ? `${estate.district}${estate.area}` : estate.district;
-  const street = estate.street ? `${estate.street}，` : "";
-  return `${estate.name}位於${street}${place}，樓類為${estateHousingLabel(estate.housing)}。以下只列出適用該樓類的參考計劃。實際覆蓋同安裝期以電訊商確認為準。`;
+  const facts = estatePageFacts(estate, "zh");
+  return `${facts.lead}${facts.provider}${facts.neighborSentence}${facts.ctaSentence}`;
 }
 
 const SEARCH_INDEX_ESTATES = new Set(["YOHO Town"]);
@@ -524,7 +522,7 @@ function fillMessage(locale: Locale, key: MessageKey, vars: Record<string, strin
 }
 
 export function estatePageTitle(estate: Estate, locale: Locale = "zh"): string {
-  if (locale === "zh" && SEARCH_PAGE_TITLES[estate.name]) return SEARCH_PAGE_TITLES[estate.name];
+  if (locale === "zh") return estateSeoTitle(estate);
   return fillMessage(locale, "estateTitle", {
     name: estateDisplayName(estate, locale),
     housing: estateHousingLabel(estate.housing, locale),
@@ -602,6 +600,243 @@ export function isIndexableEstatePage(page: EstatePage): boolean {
 }
 
 export const INDEXABLE_ESTATE_PAGES: readonly EstatePage[] = ESTATE_PAGES.filter(isIndexableEstatePage);
+
+const HOUSING_GUIDE: Record<Housing, { slug: string; label: string }> = {
+  public: { slug: "public-hos-fees", label: "公屋寬頻報價" },
+  hos: { slug: "public-hos-fees", label: "居屋寬頻報價" },
+  private: { slug: "private-1000-fees", label: "私樓寬頻報價" },
+  village: { slug: "village-fees", label: "村屋寬頻報價" },
+};
+
+const GUIDE_LABEL_EN: Record<string, string> = {
+  "public-hos-fees": "Public and HOS fees",
+  "private-1000-fees": "Private 1000M fees",
+  "village-fees": "Village broadband fees",
+  "tin-shui-wai": "Tin Shui Wai broadband",
+  "ma-on-shan": "Ma On Shan broadband",
+  "tseung-kwan-o": "Tseung Kwan O broadband",
+  "sha-tin": "Sha Tin broadband",
+  "kwun-tong": "Kwun Tong broadband",
+  "tuen-mun": "Tuen Mun broadband",
+  "yuen-long": "Yuen Long broadband",
+};
+
+function estatePlacePhrase(estate: Estate, locale: Locale): string {
+  const district = placeDisplayName(estate.district, locale);
+  const area = estate.area ? placeDisplayName(estate.area, locale) : "";
+  if (!area || area === district) return district;
+  return locale === "en" ? `${area}, ${district}` : `${district}${area}`;
+}
+
+function housingGuide(estate: Estate): { slug: string; label: string } {
+  return HOUSING_GUIDE[estate.housing];
+}
+
+/** District guide when one exists. 天水圍／將軍澳／馬鞍山 follow the area, not only the admin district. */
+export function estateDistrictGuide(estate: Estate): { slug: string; label: string } | undefined {
+  if (estate.area === "天水圍" || estate.name.includes("天水圍")) {
+    return { slug: "tin-shui-wai", label: "天水圍寬頻報價" };
+  }
+  if (estate.area === "馬鞍山" || estate.name.includes("馬鞍山")) {
+    return { slug: "ma-on-shan", label: "馬鞍山寬頻報價" };
+  }
+  if (estate.area === "將軍澳") return { slug: "tseung-kwan-o", label: "將軍澳寬頻報價" };
+  switch (estate.district) {
+    case "沙田":
+      return { slug: "sha-tin", label: "沙田寬頻報價" };
+    case "觀塘":
+      return { slug: "kwun-tong", label: "觀塘寬頻報價" };
+    case "屯門":
+      return { slug: "tuen-mun", label: "屯門寬頻報價" };
+    case "元朗":
+      return { slug: "yuen-long", label: "元朗寬頻報價" };
+    default:
+      return undefined;
+  }
+}
+
+function providerNames(plans: readonly Plan[], locale: Locale, limit = 4): string[] {
+  const names: string[] = [];
+  for (const plan of plans) {
+    const row = PROVIDER_MAP[plan.providerId];
+    const name = locale === "en" ? row?.nameEn : row?.name;
+    if (name && !names.includes(name)) names.push(name);
+    if (names.length >= limit) break;
+  }
+  return names;
+}
+
+/** Same-district indexable neighbours, rotating so two estates do not share the same pair. */
+export function neighborIndexableEstates(estate: Estate, limit = 2): EstatePage[] {
+  const pool = INDEXABLE_ESTATE_PAGES.filter(
+    (page) => page.estate.district === estate.district && page.estate.name !== estate.name,
+  );
+  const names = [...pool].sort((a, b) => a.estate.name.localeCompare(b.estate.name, "zh-Hant"));
+  if (!names.length) return [];
+  const start = names.findIndex((page) => page.estate.name.localeCompare(estate.name, "zh-Hant") > 0);
+  const index = start === -1 ? 0 : start;
+  const count = Math.min(limit, names.length);
+  const out: EstatePage[] = [];
+  for (let n = 0; n < count; n += 1) out.push(names[(index + n) % names.length]!);
+  return out;
+}
+
+export type EstateGuideLink = { slug: string; href: string; label: string };
+
+export type EstatePageFacts = {
+  lead: string;
+  provider: string;
+  neighborSentence: string;
+  ctaSentence: string;
+  guide: EstateGuideLink;
+  housingGuide: EstateGuideLink;
+  neighbors: { href: string; slug: string; label: string }[];
+};
+
+function guideLink(slug: string, label: string): EstateGuideLink {
+  return { slug, href: `/guides/${slug}`, label };
+}
+
+/** Opening copy that is not just the estate name swapped into one sentence. */
+export function estatePageFacts(estate: Estate, locale: Locale = "zh"): EstatePageFacts {
+  const en = locale === "en";
+  const name = en ? estateDisplayName(estate, "en") : estate.name;
+  const housing = estateHousingLabel(estate.housing, locale);
+  const place = estatePlacePhrase(estate, locale);
+  const street = estate.street ? (en ? `${estate.street}, ` : `${estate.street}，`) : "";
+  const check = estate.coverageCheck
+    ? en
+      ? " Coverage for this address still needs a check."
+      : "呢個地址嘅覆蓋要再核對。"
+    : "";
+  const specific = !en ? estateSearchSeo(estate) : undefined;
+  const lead = specific
+    ? `${specific}${check}`
+    : en
+      ? `${name} is at ${street}${place}. Housing type: ${housing}.${check} `
+      : `${name}喺${street}${place}，屬${housing}。${check}`;
+
+  const { broadband, home5g } = estatePlans(estate);
+  const plans = [...broadband, ...home5g];
+  const exclusive = plans.filter((plan) => plan.onlyEstates?.includes(estate.name));
+  const exclusiveNames = providerNames(exclusive, locale);
+  const listed = providerNames(plans, locale);
+  let provider: string;
+  if (exclusiveNames.length) {
+    provider = en
+      ? `The catalogue lists a named-estate reference from ${exclusiveNames.join(", ")} for ${name}. It does not apply to other estates automatically. `
+      : `目錄有${exclusiveNames.join("、")}指定${estate.name}先列出嘅參考計劃，唔會自動套用去其他屋苑。`;
+  } else if (listed.length) {
+    provider = en
+      ? `Providers on the ${housing} filter include ${listed.join(", ")}. That list is not confirmed coverage. `
+      : `按${housing}篩出嘅參考供應商有${listed.join("、")}，名單唔等於已經確認覆蓋。`;
+  } else {
+    provider = en
+      ? `No reference plan is listed for this housing type yet. `
+      : "呢個樓類暫時未有列出參考計劃。";
+  }
+
+  const neighbors = neighborIndexableEstates(estate).map((page) => ({
+    href: estatePagePath(page),
+    slug: page.slug,
+    label: en ? estateDisplayName(page.estate, "en") : page.estate.name,
+  }));
+  const neighborSentence = neighbors.length
+    ? en
+      ? `Nearby: ${neighbors.map((item) => item.label).join(", ")}. `
+      : `同區可以再睇${neighbors.map((item) => item.label).join("、")}。`
+    : "";
+
+  const district = estateDistrictGuide(estate);
+  const housingLink = housingGuide(estate);
+  const primary = district ?? housingLink;
+  const labelFor = (slug: string, zh: string) => (en ? (GUIDE_LABEL_EN[slug] ?? zh) : zh);
+  const guide = guideLink(primary.slug, labelFor(primary.slug, primary.label));
+  const housingGuideLink = guideLink(housingLink.slug, labelFor(housingLink.slug, housingLink.label));
+  const ctaSentence = en
+    ? `Compare monthly fees in the ${guide.label} guide, then check coverage. The carrier confirms the fee and install.`
+    : `想對月費可以睇${guide.label}，再查覆蓋。實際價錢同安裝以電訊商確認為準。`;
+
+  return {
+    lead,
+    provider,
+    neighborSentence,
+    ctaSentence,
+    guide,
+    housingGuide: housingGuideLink,
+    neighbors,
+  };
+}
+
+const GUIDE_ESTATE_MATCH: Record<string, (estate: Estate) => boolean> = {
+  fiber: () => true,
+  "home-broadband-2026": () => true,
+  "public-hos-fees": (estate) => estate.housing === "public" || estate.housing === "hos",
+  "public-vs-hos": (estate) => estate.housing === "public" || estate.housing === "hos",
+  "private-1000-fees": (estate) => estate.housing === "private",
+  "village-fees": (estate) => estate.housing === "village",
+  village: (estate) => estate.housing === "village",
+  home5g: (estate) => estate.housing === "village" || estate.housing === "private",
+  "tin-shui-wai": (estate) => estate.area === "天水圍" || estate.name.includes("天水圍"),
+  "sha-tin": (estate) => estate.district === "沙田",
+  "ma-on-shan": (estate) => estate.area === "馬鞍山" || estate.name.includes("馬鞍山"),
+  "tseung-kwan-o": (estate) => estate.area === "將軍澳",
+  "kwun-tong": (estate) => estate.district === "觀塘",
+  "tuen-mun": (estate) => estate.district === "屯門",
+  "yuen-long": (estate) => estate.district === "元朗" && estate.area !== "天水圍",
+};
+
+export function crawlEstateLinksForGuide(
+  slug: string,
+  locale: Locale = "zh",
+): { href: string; label: string }[] {
+  const match = GUIDE_ESTATE_MATCH[slug];
+  if (!match) return [];
+  return INDEXABLE_ESTATE_PAGES.filter((page) => match(page.estate)).map((page) => ({
+    href: estatePagePath(page),
+    label: estateDisplayName(page.estate, locale),
+  }));
+}
+
+export function mergeEstateLinks(
+  existing: readonly { href: string; label: string }[],
+  extra: readonly { href: string; label: string }[],
+): { href: string; label: string }[] {
+  const seen = new Set(existing.map((item) => item.href));
+  const out = [...existing];
+  for (const item of extra) {
+    if (seen.has(item.href)) continue;
+    seen.add(item.href);
+    out.push(item);
+  }
+  return out;
+}
+
+export function indexableEstateNavLinks(locale: Locale = "zh"): { href: string; label: string }[] {
+  return INDEXABLE_ESTATE_PAGES.map((page) => ({
+    href: estatePagePath(page),
+    label: estateDisplayName(page.estate, locale),
+  }));
+}
+
+/** Plan pages link a few indexable estates of the same housing type. Exclusive addresses come first. */
+export function planEstateLinks(plan: Plan, locale: Locale = "zh", limit = 8): { href: string; label: string }[] {
+  if (plan.category !== "broadband" && plan.category !== "home5g") return [];
+  const exclusive = new Set(plan.onlyEstates ?? []);
+  const pages = INDEXABLE_ESTATE_PAGES.filter(
+    (page) => plan.housing === "all" || plan.housing.includes(page.estate.housing),
+  );
+  const ranked = [...pages].sort((a, b) => {
+    const ae = exclusive.has(a.estate.name) ? 0 : 1;
+    const be = exclusive.has(b.estate.name) ? 0 : 1;
+    if (ae !== be) return ae - be;
+    return a.estate.name.localeCompare(b.estate.name, "zh-Hant");
+  });
+  return ranked.slice(0, limit).map((page) => ({
+    href: estatePagePath(page),
+    label: estateDisplayName(page.estate, locale),
+  }));
+}
 
 export function nearbyEstatePages(estate: Estate, limit = 6): EstatePage[] {
   const same = ESTATE_PAGES.filter((page) => page.estate.name !== estate.name && page.estate.district === estate.district);

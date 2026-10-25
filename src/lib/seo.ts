@@ -18,6 +18,7 @@ import {
   canonicalUrl,
   canonicalUrlFromMatches,
   canonicalRedirectLocation,
+  catalogueMonthLabel,
   plansCatRedirectLocation,
   documentFallbackTitle,
   documentRobots,
@@ -220,17 +221,14 @@ export function planSeoTitle(plan: Plan): string {
   const speed = planSpeedLabel(plan);
   const mid = speed ? `${provider} ${speed}` : provider;
   const term = /個月/.test(plan.name) ? "" : `｜${plan.contractMonths}個月`;
-  return `${plan.name}｜${mid}${term}｜月費 ${formatFee(plan.monthlyFee)}｜齊Quote`;
+  return `${plan.name}｜月費 ${formatFee(plan.monthlyFee)}｜${mid}${term}｜齊Quote`;
 }
 
 export function planSeoDescription(plan: Plan): string {
   const provider = PROVIDER_MAP[plan.providerId].name;
   const speed = planSpeedLabel(plan);
-  const speedBit = speed ? `網絡${speed}。` : "";
-  let text = `${plan.name}由${provider}提供，月費${formatFee(plan.monthlyFee)}，${plan.contractMonths}個月合約。適用樓類：${planHousingLabel(plan)}。${speedBit}實際月費、覆蓋及安裝安排以電訊商確認為準。`;
-  if (text.length < 70) {
-    text = text.replace("以電訊商確認為準。", "詳情請向銷售員查詢，以電訊商確認為準。");
-  }
+  const speedBit = speed ? `${speed}，` : "";
+  const text = `${catalogueMonthLabel()}可以比較${provider}${speedBit}${plan.name}，月費${formatFee(plan.monthlyFee)}，${plan.contractMonths}個月，適用${planHousingLabel(plan)}。想對其他月費或者查覆蓋，可以再篩樓類。實際價錢同安裝以電訊商確認為準。`;
   return text;
 }
 
@@ -253,10 +251,12 @@ export function planJsonLdImage(plan: Pick<Plan, "providerId">): string {
 }
 
 export function planJsonLd(plan: Plan) {
+  const priceValidUntil = siteOfferValidUntil();
   return {
     "@context": "https://schema.org",
     "@type": "Product",
     name: plan.name,
+    sku: plan.id,
     image: planJsonLdImage(plan),
     brand: { "@type": "Brand", name: PROVIDER_MAP[plan.providerId].name },
     description: planSeoDescription(plan),
@@ -264,7 +264,24 @@ export function planJsonLd(plan: Plan) {
       "@type": "Offer",
       price: plan.monthlyFee,
       priceCurrency: "HKD",
+      availability: "https://schema.org/InStock",
+      ...(priceValidUntil ? { priceValidUntil } : {}),
       url: canonicalUrl(`/plans/${plan.id}`),
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: plan.monthlyFee,
+        priceCurrency: "HKD",
+        unitText: "MONTH",
+      },
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "HK",
+        returnPolicyCategory: "https://schema.org/MerchantReturnNotPermitted",
+      },
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        doesNotShip: true,
+      },
     },
     additionalProperty: [
       { "@type": "PropertyValue", name: "合約期", value: `${plan.contractMonths}個月` },
@@ -306,7 +323,7 @@ export function categoryJsonLd(cat: Category) {
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "首頁", item: canonicalUrl("/") },
-          { "@type": "ListItem", position: 2, name: seo.title.replace(/^齊Quote｜/, ""), item: url },
+          { "@type": "ListItem", position: 2, name: seo.title.replace(/^齊Quote｜/, "").replace(/｜齊Quote$/, ""), item: url },
         ],
       },
     ],

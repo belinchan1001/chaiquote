@@ -15,6 +15,7 @@ import {
 } from "@/lib/plans";
 import { parseEstateParam, parseHousingParam, relatedComparePlans } from "@/lib/related-plans";
 import { canonicalUrl, notFoundHead } from "@/lib/canonical";
+import { planEstateLinks } from "@/lib/estate-pages";
 import { resolvePlan } from "@/lib/plan-overrides";
 import { planJsonLd, planSeoDescription, planSeoTitle } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
@@ -86,8 +87,9 @@ function PlanDetailPage() {
   useHydrateDesk();
   const avg = averageFee(plan);
   const related = relatedComparePlans(plan, housing, estate);
-  const { t, tx, categoryLabel, housingList } = useI18n();
+  const { t, tx, categoryLabel, housingList, locale } = useI18n();
   usePageTitle(planSeoTitle(plan));
+  const estateLinks = planEstateLinks(plan, locale);
 
   const dash = t("dash");
   const rows: [string, string | undefined][] = [
@@ -160,6 +162,31 @@ function PlanDetailPage() {
           </div>
         ))}
       </dl>
+
+      {estateLinks.length ? (
+        <section className="mt-12 max-w-3xl">
+          <h2 className="text-lg font-semibold">{locale === "en" ? "Estates on this housing filter" : "適用樓類嘅屋苑"}</h2>
+          <p className="mt-1 text-sm text-muted">
+            {locale === "en"
+              ? "These estate pages use the same housing filter. Coverage is still confirmed by the carrier."
+              : "呢啲屋苑頁用同一個樓類篩選。覆蓋仍然要再查，唔代表一定裝到。"}
+          </p>
+          <ul className="mt-3 flex flex-wrap gap-2">
+            {estateLinks.map((item) => (
+              <li key={item.href}>
+                <a href={item.href} className="inline-flex h-11 items-center rounded-full bg-surface px-3 text-sm">
+                  {item.label}
+                </a>
+              </li>
+            ))}
+            <li>
+              <Link to="/estates" className="inline-flex h-11 items-center rounded-full bg-surface px-3 text-sm">
+                {locale === "en" ? "All estates" : "屋苑目錄"}
+              </Link>
+            </li>
+          </ul>
+        </section>
+      ) : null}
 
       {related.length ? (
         <div className="mt-12">

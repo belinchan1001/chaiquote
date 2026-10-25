@@ -116,16 +116,27 @@ export function plansCategoryPath(cat: unknown): string {
   return CATEGORY_PATHS.broadband;
 }
 
-/** Locked zh-HK share/SEO copy. Do not paraphrase; never add 最抵／最低／最平. */
+/** zh-HK share/SEO copy. Query first, 齊Quote last. Never add 最抵／最低／最平. */
 export type SeoCopy = {
   title: string;
   description: string;
 };
 
+/** `2026-10-25` or `2026年10月` → `2026年10月`. Falls back to the year only. */
+export function catalogueMonthLabel(stamp: string = SITE.updated): string {
+  const iso = /^(\d{4})-(\d{2})/.exec(stamp);
+  if (iso) return `${iso[1]}年${Number(iso[2])}月`;
+  const zh = /^(\d{4})年(\d{1,2})月/.exec(stamp);
+  if (zh) return `${zh[1]}年${Number(zh[2])}月`;
+  const year = /^(\d{4})/.exec(stamp);
+  return year ? `${year[1]}年` : "2026年";
+}
+
+const CATALOGUE_MONTH = catalogueMonthLabel();
+
 export const HOME_SEO = {
-  title: "齊Quote｜香港寬頻報價、電訊報價",
-  description:
-    "一次過比較香港寬頻報價同電訊報價，涵蓋光纖、5G 家居、商業同手機計劃，可按公屋、居屋、私樓或村屋篩選。所列月費僅供參考，實際價格、覆蓋同安裝以電訊商確認為準。",
+  title: "香港寬頻報價2026｜1000M月費比較｜公屋居屋私樓村屋｜齊Quote",
+  description: `${CATALOGUE_MONTH}可以一次過比較1000M光纖月費，公屋、居屋、私樓同村屋分開列。想對2500M或者查屋苑覆蓋，可以入去格價。實際價錢同安裝以電訊商確認為準。`,
 } as const satisfies SeoCopy;
 
 export const HOME_SEO_TITLE = HOME_SEO.title;
@@ -141,21 +152,18 @@ export const PRIVACY_SEO = {
 } as const satisfies SeoCopy;
 
 export const GUIDES_SEO = {
-  title: "齊Quote｜寬頻報價同手機攻略",
-  description:
-    "齊Quote 寬頻報價同手機攻略：點揀光纖、5G 家居、手機同商業寬頻，以及轉台、月費同覆蓋注意事項。內容僅供參考，實際條款同安裝以電訊商確認為準。",
+  title: "寬頻報價攻略｜光纖、村屋同5G家居月費｜齊Quote",
+  description: `${CATALOGUE_MONTH}嘅寬頻同手機攻略：點比較光纖月費、村屋同5G家居，再查覆蓋。內容僅供參考，實際條款同安裝以電訊商確認為準。`,
 } as const satisfies SeoCopy;
 
 export const CATEGORY_SEO: Record<Category, SeoCopy> = {
   broadband: {
-    title: "齊Quote｜光纖寬頻報價",
-    description:
-      "一次過比較香港光纖寬頻報價，涵蓋公屋、居屋、私樓同村屋光纖計劃，並可按地區同樓類篩選。所列月費僅供參考，實際價格、覆蓋同安裝以電訊商確認為準。",
+    title: "香港寬頻報價2026｜光纖1000M／2500M月費比較｜齊Quote",
+    description: `${CATALOGUE_MONTH}比較香港光纖1000M同2500M月費，包括香港寬頻同網上行嘅參考價。揀樓類之後可以查屋苑覆蓋。實際月費以電訊商確認為準。`,
   },
   home5g: {
-    title: "齊Quote｜5G 家居寬頻報價",
-    description:
-      "一次過比較香港 5G 家居寬頻報價，適合未有光纖或想免拉線嘅地址，可按樓類同地區篩選。所列月費僅供參考，實際速度、覆蓋同安裝以電訊商確認為準。",
+    title: "5G家居寬頻報價｜免拉線月費比較｜齊Quote",
+    description: `${CATALOGUE_MONTH}比較5G家居寬頻月費，適合未有光纖或者想免拉線嘅地址。可以同光纖一齊睇，再查覆蓋。實際速度以電訊商確認為準。`,
   },
   mobile: {
     title: "齊Quote｜手機月費報價",
