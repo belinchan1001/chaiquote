@@ -8,7 +8,7 @@ export type Locale = "zh" | "en";
  * `scripts/check-messages.mjs` (hotfix #102 floor) will fail the build if a
  * locale table is missing or drops below the key-count floor.
  */
-/** Catalogue stamp paired with SITE.updated 2026-10-26. */
+/** Catalogue stamp paired with SITE.updated 2026-10-27. */
 export const MESSAGES = {
   zh: {
     tagline: "搵寬頻唔使四圍問",
@@ -1130,4 +1130,3 @@ export const MESSAGES = {
 } as const;
 
 export type MessageKey = keyof (typeof MESSAGES)["zh"];
-
