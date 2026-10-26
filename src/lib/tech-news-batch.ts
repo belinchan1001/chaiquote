@@ -3,6 +3,70 @@ import type { TechNewsArticle } from "./tech-news.ts";
 /** Extra news pieces. GTA 6 still lives in TECH_NEWS_ARTICLES. */
 export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
   {
+    slug: "hkbn-5g-mobile-plus-oct22",
+    category: "telecom",
+    minutes: 4,
+    published: "2026-10-26",
+    seoTitle: "香港寬頻推出5G Mobile+流動品牌｜齊Quote",
+    h1: "香港寬頻推出升級「5G Mobile+」品牌",
+    description:
+      "香港寬頻於2026年10月22日正式推出升級流動通訊服務品牌「5G Mobile+」，同日於尖沙咀K11 MUSEA舉辦iPhone Duo首日即取活動。新品牌結合增值服務同中港跨境數據。內容僅供參考，以電訊商確認為準。",
+    excerpt: "香港寬頻10月22日推出「5G Mobile+」品牌，於尖沙咀K11 MUSEA舉辦iPhone Duo首日取機活動。結合增值服務同中港數據，以電訊商確認為準。",
+    seoTitleEn: "HKBN launches upgraded 5G Mobile+ brand | 齊Quote",
+    h1En: "HKBN launches the upgraded 5G Mobile+ brand",
+    descriptionEn:
+      "On 22 October 2026 Hong Kong Broadband Network officially launched its upgraded mobile service brand 5G Mobile+. The same day it hosted an iPhone Duo same-day pickup event at K11 MUSEA in Tsim Sha Tsui. The brand combines value-added services with cross-border data for Hong Kong and mainland China. Confirm with the carrier.",
+    excerptEn: "HKBN launched the 5G Mobile+ brand on 22 October and held an iPhone Duo same-day pickup event at K11 MUSEA in Tsim Sha Tsui. Combines value-added services with cross-border data.",
+    bullets: [
+      "2026年10月22日官方新聞稿：推出升級流動通訊品牌「5G Mobile+」。",
+      "同日於尖沙咀K11 MUSEA Nature Discovery Park舉辦iPhone Duo首日即取機尊尚活動。",
+      "新品牌結合多元化增值服務同中港兩地數據，應對本地及跨境連接需求。",
+      "具體計劃、月費同條款以香港寬頻官方確認為準，呢篇唔寫數字。",
+    ],
+    bulletsEn: [
+      "Official release 22 October 2026: upgraded mobile brand 5G Mobile+ launched.",
+      "Same day hosted iPhone Duo same-day pickup event at K11 MUSEA Nature Discovery Park in Tsim Sha Tsui.",
+      "The brand combines value-added services with cross-border data covering Hong Kong and mainland China.",
+      "Specific plans, fees and terms follow HKBN confirmation; none are written here.",
+    ],
+    body: [
+      {
+        heading: "公告寫死咗咩",
+        headingEn: "What the announcement states",
+        paragraphs: [
+          "香港寬頻有限公司於2026年10月22日透過新聞稿宣布，正式推出升級流動通訊服務品牌「5G Mobile+」。同日於尖沙咀K11 MUSEA Nature Discovery Park舉辦「iPhone Duo 率先體驗 · 5G Mobile+ 全面啟動 · 香港寬頻釋放無限可能」尊尚活動，獲邀客戶可於iPhone Duo開售首日即場取機。",
+          "新聞稿指，新流動服務結合增值服務同跨境數據用量，覆蓋香港同中國內地，旨在同時滿足本地及跨境連接需求。主流媒體亦引述官方消息確認品牌發布同活動。",
+        ],
+        paragraphsEn: [
+          "On 22 October 2026 Hong Kong Broadband Network announced via press release the launch of its upgraded mobile service brand 5G Mobile+. The same day it held a privileged event at K11 MUSEA Nature Discovery Park in Tsim Sha Tsui titled around iPhone Duo first experience and 5G Mobile+ full launch, where invited customers could collect the device on launch day.",
+          "The release states the new mobile service combines value-added services with cross-border data allowances covering Hong Kong and mainland China, addressing both local and cross-border connectivity needs. Mainstream media quoting the official source confirm the brand launch and event.",
+        ],
+      },
+      {
+        heading: "點核對同下一步",
+        headingEn: "How to check and next step",
+        paragraphs: [
+          "想了解「5G Mobile+」具體計劃、數據用量、增值服務同條款，到香港寬頻官方流動通訊頁面或門市核對。活動已舉行，現時可查官方有冇相關優惠或上台安排。",
+          "呢篇唔寫任何月費數字，亦唔會話邊個計劃最啱。所有價錢、覆蓋同合約以電訊商當日確認為準。",
+        ],
+        paragraphsEn: [
+          "To see the specific 5G Mobile+ plans, data allowances, value-added services and terms, check the official HKBN mobile page or a store. The event has taken place; check the official site for any related offers or sign-up arrangements.",
+          "This piece writes no monthly fee and does not call any plan the best. All prices, coverage and contracts follow the carrier’s confirmation on the day.",
+        ],
+      },
+    ],
+    tags: ["香港寬頻", "HKBN", "5G Mobile+", "iPhone Duo", "流動通訊"],
+    tagsEn: ["HKBN", "5G Mobile+", "iPhone Duo", "mobile", "telecom"],
+    editorNote:
+      "電訊專區今次唔係再講一次中移香港U6GHz或者3Business AI。新事實係10月22日官方新聞稿：香港寬頻推出升級流動品牌「5G Mobile+」，同日於尖沙咀K11 MUSEA舉辦iPhone Duo首日取機活動。品牌強調結合增值服務同中港跨境數據。\n\n我唔會代填任何月費或者保證邊個最啱。品牌同活動係事實，具體計劃同價錢以官方確認為準。想對自己適唔適合，問電訊商或者到門市，唔好當呢篇係報價。",
+    editorNoteEn:
+      "This is not another note on the CMHK U6GHz validation or the 3Business AI marketplace. The new fact is the 22 October official release: HKBN launched the upgraded mobile brand 5G Mobile+ and held an iPhone Duo same-day pickup event at K11 MUSEA in Tsim Sha Tsui. The brand combines value-added services with cross-border data.\n\nNo monthly fee is filled in and no plan is called the best. The brand and event are facts; plans and prices follow official confirmation. Check with the carrier or a store rather than treating this as a quote.",
+    sourceUrl: "https://www.hkbn.net/group/en/newsroom/press-releases",
+    image: "/images/news-hkbn-5g-mobile-plus.jpg",
+    imageAlt: "香港寬頻 HKBN 標誌",
+    imageCredit: "香港寬頻 HKBN",
+  },
+  {
     slug: "3business-ai-marketplace-oct21",
     category: "gadgets",
     minutes: 4,
