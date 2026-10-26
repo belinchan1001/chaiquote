@@ -5,11 +5,11 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { SITE } from "./site.ts";
 import { getPlan } from "./plans.ts";
-import { HOME_SEO, CATEGORY_SEO, GUIDES_SEO, catalogueMonthLabel } from "./canonical.ts";
+import { HOME_SEO, CATEGORY_SEO, GUIDES_SEO, PLAN_DETAIL_ROUTE_ID, catalogueMonthLabel, canonicalUrlFromMatches } from "./canonical.ts";
 import { getGuide } from "./guides.ts";
 import { getTechNewsArticle } from "./tech-news.ts";
 import { getEstatePage, estateSeoDescription, isIndexableEstatePage } from "./estate-pages.ts";
-import { planJsonLd, planSeoDescription, planSeoTitle, renderSitemapXml, siteDataLastmod, sitemapLastmod, SITEMAP_PAGES } from "./seo.ts";
+import { planJsonLd, planPageCanonicalUrl, planSeoDescription, planSeoTitle, renderSitemapXml, siteDataLastmod, sitemapLastmod, SITEMAP_PAGES } from "./seo.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -58,11 +58,43 @@ describe("search-first titles", () => {
     assert.match(planSeoDescription(hkbn), /公屋、居屋、私樓/);
     assert.match(planSeoDescription(hkbn), /查覆蓋/);
     const ld = planJsonLd(hkbn);
+    assert.equal(ld.url, "https://www.chaiquote.hk/plans/hkbn-ftth-1000-24m-109");
+    assert.equal(ld.offers.url, ld.url);
     assert.equal(ld.offers.availability, "https://schema.org/InStock");
     assert.equal(ld.offers.priceValidUntil, "2026-10-31");
     assert.equal(ld.offers.hasMerchantReturnPolicy.returnPolicyCategory, "https://schema.org/MerchantReturnNotPermitted");
     assert.equal(ld.offers.shippingDetails.doesNotShip, true);
     assert.equal(ld.sku, hkbn.id);
+  });
+});
+
+describe("plan document canonical", () => {
+  it("self-canonicalises the CMHK village 1000M plan and resolves aliases to one catalogue URL", () => {
+    const village = "https://www.chaiquote.hk/plans/cmhk-ftth-1000-village-24m-218";
+    assert.equal(planPageCanonicalUrl("cmhk-ftth-1000-village-24m-218"), village);
+    assert.equal(planPageCanonicalUrl("csl-5g-20"), "https://www.chaiquote.hk/plans/csl-5g-20-108-24m");
+    assert.equal(planPageCanonicalUrl("three-home5g-w6"), null);
+    assert.equal(planPageCanonicalUrl("netvigator-ftth-1000-private-36m"), null);
+    assert.equal(planPageCanonicalUrl("missing-plan"), null);
+
+    const plan = getPlan("cmhk-ftth-1000-village-24m-218");
+    assert.ok(plan);
+    const ld = planJsonLd(plan);
+    assert.equal(ld.url, village);
+    assert.equal(ld.offers.url, village);
+    assert.equal(ld.sku, "cmhk-ftth-1000-village-24m-218");
+
+    assert.equal(
+      canonicalUrlFromMatches([
+        { routeId: "__root__", pathname: "/" },
+        { routeId: PLAN_DETAIL_ROUTE_ID, pathname: "/plans/csl-5g-20" },
+      ]),
+      undefined,
+    );
+    assert.equal(
+      canonicalUrlFromMatches([{ routeId: "/about", pathname: "/about" }]),
+      "https://www.chaiquote.hk/about",
+    );
   });
 });
 

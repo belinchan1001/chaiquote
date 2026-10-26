@@ -1,4 +1,4 @@
-import { formatFee, isListedPlan, PLANS, PROVIDER_MAP, type Category, type Housing, type Plan, type ProviderId } from "./plans.ts";
+import { formatFee, getPlan, isListedPlan, PLANS, PROVIDER_MAP, type Category, type Housing, type Plan, type ProviderId } from "./plans.ts";
 import { INDEXABLE_ESTATE_PAGES, estatePagePath, estateSeoDescription, estateSeoTitle, type EstatePage } from "./estate-pages.ts";
 import { GUIDES, getGuide, type Guide } from "./guides.ts";
 import { TECH_NEWS_ARTICLES, TECH_NEWS_CATEGORIES } from "./tech-news.ts";
@@ -250,13 +250,33 @@ export function planJsonLdImage(plan: Pick<Plan, "providerId">): string {
   return `${SITE.url}${src}`;
 }
 
+/**
+ * Canonical for a public plan document. Retired aliases (`csl-5g-20`) resolve
+ * to the catalogue id. Staff and unpublished plans are not indexable.
+ * The CMHK village 1000M page is its own document:
+ * `https://www.chaiquote.hk/plans/cmhk-ftth-1000-village-24m-218`.
+ */
+export function planPageCanonicalUrl(planId: string): string | null {
+  let id = planId.trim();
+  try {
+    id = decodeURIComponent(id);
+  } catch {
+    /* keep the raw slug */
+  }
+  const plan = getPlan(id);
+  if (!plan || plan.staffOffer || plan.unpublished) return null;
+  return canonicalUrl(`/plans/${plan.id}`);
+}
+
 export function planJsonLd(plan: Plan) {
   const priceValidUntil = siteOfferValidUntil();
+  const url = canonicalUrl(`/plans/${plan.id}`);
   return {
     "@context": "https://schema.org",
     "@type": "Product",
     name: plan.name,
     sku: plan.id,
+    url,
     image: planJsonLdImage(plan),
     brand: { "@type": "Brand", name: PROVIDER_MAP[plan.providerId].name },
     description: planSeoDescription(plan),
@@ -266,7 +286,7 @@ export function planJsonLd(plan: Plan) {
       priceCurrency: "HKD",
       availability: "https://schema.org/InStock",
       ...(priceValidUntil ? { priceValidUntil } : {}),
-      url: canonicalUrl(`/plans/${plan.id}`),
+      url,
       priceSpecification: {
         "@type": "UnitPriceSpecification",
         price: plan.monthlyFee,

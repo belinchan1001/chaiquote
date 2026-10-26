@@ -99,7 +99,9 @@ describe("plan detail share landing", () => {
     const page = src("../routes/plans_.$planId.tsx");
     assert.match(page, /const title = planSeoTitle\(plan\)/);
     assert.match(page, /const description = planSeoDescription\(plan\)/);
-    assert.match(page, /canonicalUrl\(`\/plans\/\$\{plan\.id\}`\)/);
+    assert.match(page, /const url = planPageCanonicalUrl\(plan\.id\)/);
+    assert.match(page, /if \(!url\) return notFoundHead\(\)/);
+    assert.match(page, /link: `<\$\{url\}>; rel="canonical"`/);
     assert.match(page, /\{ property: "og:title", content: title \}/);
     assert.match(page, /\{ property: "og:description", content: description \}/);
     assert.match(page, /\{ property: "og:url", content: url \}/);

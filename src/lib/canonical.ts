@@ -33,10 +33,24 @@ export function canonicalUrl(pathname: string): string {
   return `${DEFAULT_SEO_ORIGIN}${path}`;
 }
 
+/** File-route id for `/plans/$planId`. That route owns the catalogue canonical. */
+export const PLAN_DETAIL_ROUTE_ID = "/plans_/$planId";
+
+/**
+ * Absolute canonical for the leaf match, or `undefined` when the leaf route
+ * emits its own. Plan detail must not also get a root tag: the URL slug can
+ * differ from `plan.id` (retired aliases), and two `rel=canonical` values
+ * make Google drop both ("duplicate without user-selected canonical").
+ */
 export function canonicalUrlFromMatches(
-  matches: ReadonlyArray<{ pathname?: string; search?: Record<string, unknown> }>,
-): string {
+  matches: ReadonlyArray<{
+    pathname?: string;
+    search?: Record<string, unknown>;
+    routeId?: string;
+  }>,
+): string | undefined {
   const last = [...matches].at(-1);
+  if (last?.routeId === PLAN_DETAIL_ROUTE_ID) return undefined;
   const path = last?.pathname ?? "/";
   if (path === "/plans" || path === "/plans/") {
     return canonicalUrl(plansCategoryPath(last?.search?.cat));
