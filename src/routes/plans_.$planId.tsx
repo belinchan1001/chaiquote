@@ -14,10 +14,10 @@ import {
   isNetvigatorVillage,
 } from "@/lib/plans";
 import { parseEstateParam, parseHousingParam, relatedComparePlans } from "@/lib/related-plans";
-import { canonicalUrl, notFoundHead } from "@/lib/canonical";
+import { notFoundHead } from "@/lib/canonical";
 import { planEstateLinks } from "@/lib/estate-pages";
 import { resolvePlan } from "@/lib/plan-overrides";
-import { planJsonLd, planSeoDescription, planSeoTitle } from "@/lib/seo";
+import { planJsonLd, planPageCanonicalUrl, planSeoDescription, planSeoTitle } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 
 export const Route = createFileRoute("/plans_/$planId")({
@@ -37,12 +37,18 @@ export const Route = createFileRoute("/plans_/$planId")({
     if (!plan || plan.staffOffer || plan.unpublished) throw notFound();
     return { plan };
   },
+  headers: ({ loaderData }) => {
+    const url = loaderData ? planPageCanonicalUrl(loaderData.plan.id) : null;
+    if (!url) return {};
+    return { link: `<${url}>; rel="canonical"` };
+  },
   head: ({ loaderData }) => {
     if (!loaderData) return notFoundHead();
     const { plan } = loaderData;
     const title = planSeoTitle(plan);
     const description = planSeoDescription(plan);
-    const url = canonicalUrl(`/plans/${plan.id}`);
+    const url = planPageCanonicalUrl(plan.id);
+    if (!url) return notFoundHead();
     return {
       meta: [
         { title },

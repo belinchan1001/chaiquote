@@ -37,6 +37,7 @@ export const Route = createRootRoute({
   head: ({ matches }) => {
     const pageUrl = canonicalUrlFromMatches(matches);
     const notFoundDoc = isNotFoundDocument(matches);
+    const shareUrl = notFoundDoc ? undefined : pageUrl;
     return {
       meta: [
         { charSet: "utf-8" },
@@ -49,10 +50,10 @@ export const Route = createRootRoute({
         { name: "mobile-web-app-capable", content: "yes" },
         { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
         { name: "robots", content: documentRobots(matches) },
-        ...(notFoundDoc ? [] : [{ property: "og:url", content: pageUrl }]),
+        ...(shareUrl ? [{ property: "og:url", content: shareUrl }] : []),
       ],
       links: [
-        ...(notFoundDoc ? [] : [{ rel: "canonical", href: pageUrl }]),
+        ...(shareUrl ? [{ rel: "canonical", href: shareUrl }] : []),
         { rel: "icon", href: "/favicon.ico", sizes: "48x48" },
         { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
         { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32.png" },
