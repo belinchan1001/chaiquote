@@ -46,7 +46,10 @@ export function quoteDeskFromPlans(plans: readonly Plan[]): QuoteDesk | null {
     plans.every(
       (plan) =>
         plan.providerId === "hkbn" &&
-        (plan.category === "broadband" || plan.category === "mobile" || plan.category === "business"),
+        (plan.category === "broadband" ||
+          plan.category === "mobile" ||
+          plan.category === "business" ||
+          plan.category === "home5g"),
     )
   ) {
     return "hkbn";
