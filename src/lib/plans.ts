@@ -1780,7 +1780,7 @@ export const PLANS: Plan[] = [
     id: "hkbn-ftth-2500-36m-158-sep30",
     providerId: "hkbn",
     category: "broadband",
-    name: "2500M 限時快閃連家居電話（36 個月・公屋居屋）",
+    name: "2500M 限時快閃連家居電話（36 個月・公屋居屋・包 Disney+ 標準版一年及 myTV SUPER 智能電視版三年）",
     monthlyFee: 158,
     freeMonths: 3,
     contractMonths: 36,

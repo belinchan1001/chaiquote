@@ -25,7 +25,10 @@ describe("HKBN Sep 30 flash fibre", () => {
       assert.match(plan.install, /豁免安裝費/);
     }
     assert.deepEqual(getPlan("hkbn-ftth-2500-36m-158-sep30")!.housing, ["public", "hos"]);
-    assert.ok(getPlan("hkbn-ftth-2500-36m-158-sep30")!.perks.includes("免費送 12 個月 Disney+ 標準版"));
+    assert.equal(
+      getPlan("hkbn-ftth-2500-36m-158-sep30")!.name,
+      "2500M 限時快閃連家居電話（36 個月・公屋居屋・包 Disney+ 標準版一年及 myTV SUPER 智能電視版三年）",
+    );
     assert.ok(getPlan("hkbn-ftth-2500-36m-158-sep30")!.perks.includes("免費送 36 個月 myTV SUPER（智能電視版）"));
     assert.deepEqual(getPlan("hkbn-ftth-2500-36m-178-sep30")!.housing, ["private"]);
   });

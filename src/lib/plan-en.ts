@@ -163,7 +163,7 @@ const PHRASES: [string, string][] = [
   ["1000M 限時快閃連 Wi-Fi 7（36 個月）", "1000M flash offer with Wi-Fi 7 (36 months)"],
   ["1000M 限時快閃連影視會籍（36 個月）", "1000M flash offer with streaming (36 months)"],
   ["2500M 限時快閃連家居電話（24 個月）", "2500M flash offer with home phone (24 months)"],
-  ["2500M 限時快閃連家居電話（36 個月・公屋居屋）", "2500M flash offer with home phone (36 months, public/HOS)"],
+  ["2500M 限時快閃連家居電話（36 個月・公屋居屋・包 Disney+ 標準版一年及 myTV SUPER 智能電視版三年）", "2500M flash offer with home phone (36 months, public/HOS, includes 1 year of Disney+ Standard and 3 years of myTV SUPER smart TV)"],
   ["2500M 限時快閃連影視會籍（36 個月・私樓）", "2500M flash offer with streaming (36 months, private)"],
   ["三選一：Disney+ 標準計劃 24 個月、Netflix 標準計劃 24 個月或 HBO Max 標準計劃 24 個月", "Pick one: 24 months Disney+ Standard, 24 months Netflix Standard, or 24 months HBO Max Standard"],
   ["24 個月 5G 流動通訊 30GB 本地數據，送任用 15 款熱門串流及社交數據（原價每月 HK$98）", "24 months 5G mobile 30GB local data plus unlimited data for 15 streaming and social apps (HK$98/month value)"],
