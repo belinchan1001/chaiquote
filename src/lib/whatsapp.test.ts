@@ -141,23 +141,25 @@ describe("HKT plan-card WhatsApp routing", () => {
     assert.equal(quoteWhatsappE164([three]), SITE.whatsappE164);
     assert.equal(quoteWhatsappE164(mixed), SITE.whatsappE164);
     assert.match(whatsappHref("你好"), /phone=85263099966/);
-    assert.doesNotMatch(whatsappHref("你好"), /54363004|96642675/);
+    assert.doesNotMatch(whatsappHref("你好"), /54363004|96642675|61118499/);
   });
 });
 
 describe("HKBN plan-card WhatsApp routing", () => {
-  it("sends HKBN fibre, mobile and business quotes to 6309 9966", () => {
+  it("sends HKBN fibre, mobile and business quotes to 6111 8499", () => {
     const fibre = plan("hkbn-ftth-1000-36m-98");
     const mobile = plan("hkbn-5g-30");
     const biz = plan("hkbn-biz-1000");
-    assert.equal(quoteWhatsappE164([fibre]), SITE.whatsappE164);
-    assert.equal(quoteWhatsappE164([mobile]), SITE.whatsappE164);
-    assert.equal(quoteWhatsappE164([biz]), SITE.whatsappE164);
-    assert.equal(quoteWhatsappE164([fibre, mobile, biz]), SITE.whatsappE164);
-    assert.equal(quoteWhatsappE164([], { targetProvider: "香港寬頻" }), SITE.whatsappE164);
-    assert.equal(quoteWhatsappDisplay([fibre]), SITE.phoneDisplay);
-    assert.match(whatsappHref("你好", quoteWhatsappE164([fibre])), /phone=85263099966/);
-    assert.doesNotMatch(whatsappHref("你好", quoteWhatsappE164([fibre])), /96642675/);
+    const home5g = plan("hkbn-home5g");
+    assert.equal(quoteWhatsappE164([fibre]), SITE.hkbnWhatsappE164);
+    assert.equal(quoteWhatsappE164([mobile]), SITE.hkbnWhatsappE164);
+    assert.equal(quoteWhatsappE164([biz]), SITE.hkbnWhatsappE164);
+    assert.equal(quoteWhatsappE164([fibre, mobile, biz]), SITE.hkbnWhatsappE164);
+    assert.equal(quoteWhatsappE164([], { targetProvider: "香港寬頻" }), SITE.hkbnWhatsappE164);
+    assert.equal(quoteWhatsappE164([home5g]), SITE.whatsappE164);
+    assert.equal(quoteWhatsappDisplay([fibre]), SITE.hkbnPhoneDisplay);
+    assert.match(whatsappHref("你好", quoteWhatsappE164([fibre])), /phone=85261118499/);
+    assert.doesNotMatch(whatsappHref("你好", quoteWhatsappE164([fibre])), /96642675|63099966/);
   });
 });
 

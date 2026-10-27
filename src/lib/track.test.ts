@@ -20,9 +20,9 @@ describe("track helpers", () => {
     assert.equal(row.event, "wa_click");
     assert.equal(row.planId, "hkbn-ftth-1000-36m-98");
     assert.equal(row.providerId, "hkbn");
-    assert.equal(row.waPhone, "85296642675");
+    assert.equal(row.waPhone, "85261118499");
     assert.equal(row.source, "home");
-    assert.equal(waPhoneLabel(row.waPhone), "9664 2675（香港寬頻）");
+    assert.equal(waPhoneLabel(row.waPhone), "6111 8499（香港寬頻）");
   });
 
   it("rejects unknown events", () => {
