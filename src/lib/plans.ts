@@ -1793,6 +1793,8 @@ export const PLANS: Plan[] = [
       PERK_HKBN_SEP30_FREE3,
       "免費送 36 個月家居電話服務",
       "免費送 36 個月 Wi-Fi 7 TP-Link Archer BE230 路由器",
+      "免費送 12 個月 Disney+ 標準版",
+      "免費送 36 個月 myTV SUPER（智能電視版）",
     ],
     limits: LIMITS_HKBN_SEP30_PUBLIC_HOS,
     flashOffer: true,
