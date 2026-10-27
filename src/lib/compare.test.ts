@@ -1057,6 +1057,8 @@ describe("HKBN 2.5Gbps / 5Gbps 24-month GigaFast cards", () => {
 
     assert.equal(plan("hkbn-ftth-2500-24m-149").monthlyFee, 149);
     assert.equal(plan("hkbn-ftth-5000").monthlyFee, 249);
+    assert.equal(plan("hkbn-ftth-5000").unpublished, true);
+    assert.equal(filterPlans({ cat: "broadband" }).some((row) => row.id === "hkbn-ftth-5000"), false);
     assert.equal(toEnglish(loan.perks[0]), "Loan TP-Link Aginet EB610v router (24 months, return after contract)");
     assert.equal(
       toEnglish(mesh.perks[0]),

@@ -512,6 +512,7 @@ export const PLANS: Plan[] = [
     prepaid: PREPAID_HKBN_200,
     perks: ["家居電話服務", PERK_HKBN_SAFE, PERK_HKBN_365, PERK_HKBN_MONEYBACK],
     limits: LIMITS_HKBN_5G,
+    unpublished: true,
     bestFor: "適合公屋、居屋或私人住宅，需要 5000M 光纖及家居電話之住戶",
   },
   {
