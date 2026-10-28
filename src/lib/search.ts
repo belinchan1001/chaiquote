@@ -112,3 +112,24 @@ export function planListReplayKey(search: PlansSearch) {
     search.intake ? "1" : "",
   ].join("|");
 }
+
+const PLANS_RETURN_KEY = "chaiquote-plans-return";
+
+/** Remember the plans list the customer was filtering, so compare and plan pages can return to it. */
+export function rememberPlansSearch(search: PlansSearch) {
+  if (typeof sessionStorage === "undefined") return;
+  sessionStorage.setItem(PLANS_RETURN_KEY, JSON.stringify(compactSearch(search)));
+}
+
+export function readPlansSearch(): PlansSearch | null {
+  if (typeof sessionStorage === "undefined") return null;
+  try {
+    const raw = sessionStorage.getItem(PLANS_RETURN_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as Record<string, unknown>;
+    if (!parsed || typeof parsed !== "object") return null;
+    return compactSearch(parsePlansSearch(parsed));
+  } catch {
+    return null;
+  }
+}

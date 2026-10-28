@@ -16,7 +16,7 @@ import { type Category, type Housing, type PlansSearch } from "@/lib/plans";
 import { filterPlans } from "@/lib/plan-filter";
 import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { isHkbnFlashEstate, isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
-import { compactSearch, parsePlansSearch, planListReplayKey } from "@/lib/search";
+import { compactSearch, parsePlansSearch, planListReplayKey, rememberPlansSearch } from "@/lib/search";
 import { CATEGORY_SEO, plansCategoryPath, canonicalUrl, shareHead } from "@/lib/canonical";
 import { indexableEstateNavLinks } from "@/lib/estate-pages";
 import { categoryJsonLd } from "@/lib/seo";
@@ -95,6 +95,10 @@ function PlansPage() {
   const estateNav =
     search.cat === "broadband" || search.cat === "home5g" ? indexableEstateNavLinks(locale) : [];
   usePageTitle(CATEGORY_SEO[search.cat].title);
+
+  useEffect(() => {
+    rememberPlansSearch(search);
+  }, [search]);
 
   useEffect(() => {
     setVisible(PAGE_SIZE);

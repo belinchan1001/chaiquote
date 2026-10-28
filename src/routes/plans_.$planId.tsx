@@ -16,6 +16,7 @@ import {
 import { parseEstateParam, parseHousingParam, relatedComparePlans } from "@/lib/related-plans";
 import { notFoundHead } from "@/lib/canonical";
 import { planEstateLinks } from "@/lib/estate-pages";
+import { compactSearch, readPlansSearch } from "@/lib/search";
 import { resolvePlan } from "@/lib/plan-overrides";
 import { planJsonLd, planPageCanonicalUrl, planSeoDescription, planSeoTitle } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
@@ -95,6 +96,11 @@ function PlanDetailPage() {
   const related = relatedComparePlans(plan, housing, estate);
   const { t, tx, categoryLabel, housingList, locale } = useI18n();
   usePageTitle(planSeoTitle(plan));
+  const remembered = readPlansSearch();
+  const backSearch =
+    remembered?.cat === plan.category
+      ? remembered
+      : compactSearch({ cat: plan.category, housing, estate });
   const estateLinks = planEstateLinks(plan, locale);
 
   const dash = t("dash");
@@ -129,7 +135,7 @@ function PlanDetailPage() {
       <JsonLd data={planJsonLd(plan)} />
       <Link
         to="/plans"
-        search={{ cat: plan.category }}
+        search={backSearch}
         className="inline-flex items-center py-1 text-sm font-medium text-muted hover:text-fg"
       >
         {t("backTo", { cat: categoryLabel(plan.category) })}

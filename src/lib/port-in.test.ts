@@ -15,7 +15,7 @@ import {
   targetOptions,
   toPortInSearch,
 } from "./port-in.ts";
-import { parsePlansSearch, compactSearch } from "./search.ts";
+import { compactSearch, parsePlansSearch, readPlansSearch, rememberPlansSearch } from "./search.ts";
 
 describe("port-in intake", () => {
   it("requires an address only for fibre", () => {
@@ -325,5 +325,42 @@ describe("port-in intake", () => {
     assert.match(newNumber, /申請方式：新號碼/);
     assert.doesNotMatch(newNumber, /現時電訊商：新號碼/);
     assert.doesNotMatch(newNumber, /轉台客戶/);
+  });
+});
+
+describe("plans filter return", () => {
+  it("restores the last plans filter after leaving for compare or a plan", () => {
+    const store = new Map<string, string>();
+    const previous = globalThis.sessionStorage;
+    Object.defineProperty(globalThis, "sessionStorage", {
+      configurable: true,
+      value: {
+        getItem: (key: string) => store.get(key) ?? null,
+        setItem: (key: string, value: string) => {
+          store.set(key, value);
+        },
+      },
+    });
+    try {
+      rememberPlansSearch(
+        parsePlansSearch({
+          cat: "broadband",
+          housing: "public",
+          exclude: "hkbn",
+          provider: "netvigator",
+          expiry: "1m",
+          estate: "天耀邨",
+        }),
+      );
+      const back = readPlansSearch();
+      assert.equal(back?.cat, "broadband");
+      assert.equal(back?.housing, "public");
+      assert.equal(back?.exclude, "hkbn");
+      assert.equal(back?.provider, "netvigator");
+      assert.equal(back?.expiry, "1m");
+      assert.equal(back?.estate, "天耀邨");
+    } finally {
+      Object.defineProperty(globalThis, "sessionStorage", { configurable: true, value: previous });
+    }
   });
 });

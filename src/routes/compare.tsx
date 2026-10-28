@@ -13,11 +13,14 @@ import {
   shortProviderName,
   visibleCompareFields,
 } from "@/lib/compare";
-import { formatFee, getPlan, planPerks, type Category } from "@/lib/plans";
+import { formatFee, getPlan, planPerks, type Category, type PlansSearch } from "@/lib/plans";
+import { readPlansSearch } from "@/lib/search";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-function plansListSearch(plans: { category: Category }[]): { cat: Category } {
+function plansListSearch(plans: { category: Category }[]): PlansSearch {
+  const remembered = readPlansSearch();
+  if (remembered) return remembered;
   const cat = plans[0]?.category;
   if (cat && plans.every((plan) => plan.category === cat)) return { cat };
   return { cat: "broadband" };
