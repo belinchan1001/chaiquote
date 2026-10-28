@@ -204,6 +204,7 @@ describe("HKBN student/youth 5G 30GB", () => {
         "cmhk-5g-limited-60-98-youth",
         "cmhk-5g-limited-4places-50-149",
         "cmhk-5g-limited-4places-50-209",
+        "hkbn-5g-30",
         "hkbn-5g-30-78-youth",
       ],
     );
@@ -212,13 +213,11 @@ describe("HKBN student/youth 5G 30GB", () => {
     assert.doesNotMatch(JSON.stringify(youth), /MT5G|108/);
 
     const existing = plan("hkbn-5g-30");
-    assert.equal(existing.monthlyFee, 98);
-    assert.equal(existing.freeMonths, 0);
+    assert.equal(existing.monthlyFee, 88.5);
+    assert.equal(existing.freeMonths, 2);
     assert.equal(existing.contractMonths, 24);
-    assert.equal(existing.name, "5G 30GB + 4GB（24 個月）");
-    assert.equal(existing.hot, true);
-    assert.ok(existing.portInPerk);
-    assert.equal(existing.voice, "本地 3,000 分鐘");
+    assert.equal(existing.flashOffer, true);
+    assert.equal(existing.quotePick, true);
 
     const hkbnMobile = PLANS.filter((p) => p.category === "mobile" && p.providerId === "hkbn");
     assert.equal(hkbnMobile.filter((p) => p.id === "hkbn-5g-30-78-youth").length, 1);
@@ -284,38 +283,45 @@ describe("電競神線 shortcut", () => {
   });
 });
 
-describe("HKBN 5G 30GB + 4GB $98", () => {
-  it("keeps the $98 poster extras on the 24-month 30GB plan", () => {
+describe("HKBN 5G 30GB + 4GB", () => {
+  it("lists the HK$88.5 24-month plan with two free months, flash and quote pick", () => {
     const row = plan("hkbn-5g-30");
     assert.equal(row.providerId, "hkbn");
     assert.equal(row.category, "mobile");
-    assert.equal(row.name, "5G 30GB + 4GB（24 個月）");
-    assert.equal(row.monthlyFee, 98);
-    assert.equal(row.freeMonths, 0);
+    assert.equal(row.name, "5G 30GB 連串流社交任用 + 4GB 內地及澳門（24 個月）");
+    assert.equal(row.monthlyFee, 88.5);
+    assert.equal(row.freeMonths, 2);
+    assert.equal(averageFee(row), 81.1);
     assert.equal(row.contractMonths, 24);
     assert.equal(row.dataGb, 30);
     assert.equal(row.highSpeedGb, 30);
-    assert.equal(row.fupNote, "其後不高於 1Mbps 任用");
-    assert.equal(row.voice, "本地 3,000 分鐘");
-    assert.equal(row.roaming, "每月 4GB 中國內地及澳門數據");
+    assert.equal(row.fupNote, "超過首 30GB 後，本地數據速度不高於 1Mbps");
+    assert.equal(row.voice, "本地 3,000 分鐘；其後 HK$1／分鐘");
+    assert.equal(row.roaming, "每月 4GB 中國內地及澳門數據；其後可經 SMS 增值 HK$38／2GB");
     assert.equal(row.network, "5G");
     assert.equal(row.hot, true);
+    assert.equal(row.flashOffer, true);
+    assert.equal(row.quotePick, true);
+    assert.equal(row.portInPerk, undefined);
     assert.deepEqual(row.perks, [
-      "4GB 中國內地及澳門數據",
-      "免每月行政費 HK$28",
-      "15 個常用流動應用程式數據任用（須受條款約束）",
-      "24 個月 myTV SUPER 基本版（智能電視版）（價值 $1,152）",
+      "首 24 個繳費月任用指定串流及社交數據",
+      "每月 4GB 中國內地及澳門數據",
       "每月 10 分鐘中國內地及澳門通話",
+      "合約期內豁免行政費",
     ]);
-    assert.equal(row.portInPerk, "攜號轉台免 2 個月月費（第 13、14 個月）");
     assert.match(row.limits ?? "", /3香港網絡/);
-    assert.match(row.limits ?? "", /24 個月/);
-    assert.equal(toEnglish(row.name), "5G 30GB + 4GB (24 months)");
-    assert.equal(toEnglish(row.fupNote ?? ""), "Then unlimited at up to 1Mbps");
-    assert.equal(toEnglish(row.roaming ?? ""), "4GB Mainland & Macao data/month");
-    assert.equal(toEnglish(row.perks[1]), "HK$28 admin/month waived");
-    assert.equal(toEnglish(row.perks[3]), "24 months myTV SUPER basic (smart TV) (value $1,152)");
-    assert.equal(toEnglish(row.portInPerk ?? ""), "Port-in waives 2 months (months 13 and 14)");
+    assert.match(row.limits ?? "", /第 13 及第 14 個月免月費/);
+    assert.match(row.limits ?? "", /另送 15GB/);
+    assert.match(row.limits ?? "", /HK\$38／2GB/);
+    assert.match(row.limits ?? "", /30 日內延遲生效/);
+    assert.match(row.limits ?? "", /180 日內延遲生效/);
+    assert.match(row.limits ?? "", /HK\$178/);
+    assert.doesNotMatch(row.limits ?? "", /MT5G/);
+    assert.equal(toEnglish(row.name), "5G 30GB with unlimited streaming and social data + monthly 4GB Mainland and Macau (24 months)");
+    assert.equal(toEnglish(row.fupNote ?? ""), "After the first 30GB, local speed is no higher than 1Mbps");
+    assert.equal(toEnglish(row.voice ?? ""), "3,000 local minutes; HK$1 per minute thereafter");
+    assert.equal(toEnglish(row.roaming ?? ""), "4GB Mainland China and Macau data per month; then HK$38 per 2GB by SMS");
+    assert.equal(toEnglish(row.perks[0]), "Unlimited designated streaming and social data for the first 24 billable months");
   });
 });
 

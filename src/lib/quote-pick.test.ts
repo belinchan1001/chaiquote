@@ -86,6 +86,7 @@ describe("齊Quote pick badge", () => {
         "cmhk-5g-limited-60-98-youth",
         "cmhk-5g-limited-4places-50-149",
         "cmhk-5g-limited-4places-50-209",
+        "hkbn-5g-30",
         "hkbn-5g-30-78-youth",
       ],
     );
