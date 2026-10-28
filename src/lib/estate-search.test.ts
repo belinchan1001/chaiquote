@@ -997,8 +997,13 @@ describe("housing type audit 2026", () => {
     assert.equal(estate("華富中邨")?.coverageCheck, true);
     assert.equal(matchKnownEstate("華樂徑")?.name, "華富中邨");
     assert.equal(estate("麗玥苑")?.housing, "hos");
+    assert.equal(estate("麗玥苑")?.district, "深水埗");
     assert.equal(estate("麗玥苑")?.street, "東京街3號");
     assert.equal(estate("麗玥苑")?.area, "長沙灣");
+    assert.equal(estate("麗玥苑")?.coverageCheck, true);
+    assert.equal(isNewIntakeEstate("麗玥苑"), false);
+    assert.equal(matchKnownEstate("Lai Yuet Court")?.name, "麗玥苑");
+    assert.equal(estateEnglishName(estate("麗玥苑")!), "Lai Yuet Court");
     assert.equal(estate("南灣")?.housing, "private");
     assert.equal(matchKnownEstate("Larvotto")?.name, "南灣");
     assert.equal(estate("南灣")?.street, "鴨脷洲海旁道8號");
