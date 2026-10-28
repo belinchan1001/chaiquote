@@ -87,11 +87,15 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
 
   const sort = search.sort ?? "fee";
   if (sort === "speed") {
-    return [...rows].sort((a, b) => (b.speedMbps ?? 0) - (a.speedMbps ?? 0) || a.id.localeCompare(b.id));
+    return pinNewIntakeOffers(
+      [...rows].sort((a, b) => (b.speedMbps ?? 0) - (a.speedMbps ?? 0) || a.id.localeCompare(b.id)),
+    );
   }
   if (sort === "data") {
-    return [...rows].sort(
-      (a, b) => (b.dataGb ?? b.highSpeedGb ?? 0) - (a.dataGb ?? a.highSpeedGb ?? 0) || a.id.localeCompare(b.id),
+    return pinNewIntakeOffers(
+      [...rows].sort(
+        (a, b) => (b.dataGb ?? b.highSpeedGb ?? 0) - (a.dataGb ?? a.highSpeedGb ?? 0) || a.id.localeCompare(b.id),
+      ),
     );
   }
   const companyOrder =
@@ -102,7 +106,14 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
         : search.cat === "home5g"
           ? HOME5G_COMPANY_ORDER
           : undefined;
-  return pinHkbn98Flash(interleaveCheapestFirst(rows, companyOrder));
+  return pinNewIntakeOffers(pinHkbn98Flash(interleaveCheapestFirst(rows, companyOrder)));
+}
+
+/** Named new-move-in offers stay ahead of the usual ladder when the address unlocks them. */
+function pinNewIntakeOffers(rows: Plan[]): Plan[] {
+  const pinned = rows.filter((plan) => plan.newIntakeOffer);
+  if (!pinned.length || pinned.length === rows.length) return rows;
+  return [...pinned, ...rows.filter((plan) => !plan.newIntakeOffer)];
 }
 
 /** 1000M $98 / 36 個月送 3 個月. Other offers keep the ladder order. */

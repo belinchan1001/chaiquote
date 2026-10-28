@@ -388,8 +388,13 @@ describe("estate SEO pages", () => {
     for (const id of ids) assert.equal(tinYiuIntake.includes(id), false, id);
     const tinYiu = filterPlans({ cat: "broadband", housing: "public", estate: "天耀邨" }).map((plan) => plan.id);
     for (const id of ids) assert.equal(tinYiu.includes(id), false, id);
-    const unlocked = filterPlans({ cat: "broadband", housing: "hos", estate: "盛緻苑" }).map((plan) => plan.id);
-    for (const id of ids) assert.equal(unlocked.includes(id), true, id);
+    const unlocked = filterPlans({ cat: "broadband", housing: "hos", estate: "盛緻苑" });
+    const unlockedIds = unlocked.map((plan) => plan.id);
+    for (const id of ids) assert.equal(unlockedIds.includes(id), true, id);
+    const intakeCount = unlocked.filter((plan) => plan.newIntakeOffer).length;
+    assert.ok(intakeCount > 0);
+    assert.ok(unlocked.slice(0, intakeCount).every((plan) => plan.newIntakeOffer));
+    assert.ok(unlocked.slice(intakeCount).every((plan) => !plan.newIntakeOffer));
     assert.equal(estateUnlocksPlan("盛緻苑", HKBN_INTAKE_OFFER_ESTATES), true);
     assert.equal(estateUnlocksPlan("宋皇臺站簡約公屋", HKBN_INTAKE_OFFER_ESTATES), true);
     assert.equal(estateUnlocksPlan("樂嶺樓", HKBN_INTAKE_OFFER_ESTATES), true);
