@@ -3,6 +3,70 @@ import type { TechNewsArticle } from "./tech-news.ts";
 /** Extra news pieces. GTA 6 still lives in TECH_NEWS_ARTICLES. */
 export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
   {
+    slug: "hkt-ai-exchange-loop-oct28",
+    category: "telecom",
+    minutes: 4,
+    published: "2026-10-29",
+    seoTitle: "香港電訊河套創新科技中心暨AI機樓開幕｜齊Quote",
+    h1: "香港電訊河套創新科技中心暨AI機樓開幕",
+    description:
+      "香港電訊於2026年10月28日正式開幕位處河套港深創科園的創新科技中心暨AI機樓，透過3.2Tbps AI DCI Superhighway連接全港數據中心集群，支援北部都會區同大灣區數據流通。內容僅供參考，以電訊商確認為準。",
+    excerpt: "香港電訊10月28日於河套港深創科園開幕創新科技中心暨AI機樓。以空芯光纖3.2Tbps AI DCI Superhighway連接數據中心，包括明年沙嶺數據園區。以電訊商確認為準。",
+    seoTitleEn: "HKT opens Innovation & Technology Centre and AI Exchange in the Loop | 齊Quote",
+    h1En: "HKT opens Innovation & Technology Centre and AI Exchange in the Loop",
+    descriptionEn:
+      "On 28 October 2026 HKT officially opened its Innovation & Technology Centre and AI Exchange in the Loop at the Hong Kong-Shenzhen Innovation and Technology Park. It connects major data centre clusters via a 3.2Tbps AI DCI Superhighway on hollow core fibre, supporting the Northern Metropolis and future cross-boundary data flows. Confirm with the carrier.",
+    excerptEn: "HKT opened its Innovation & Technology Centre and AI Exchange in the Loop on 28 October. A 3.2Tbps AI DCI Superhighway on hollow core fibre links data centres including the Sandy Ridge cluster next year.",
+    bullets: [
+      "2026年10月28日官方新聞稿：河套港深創科園創新科技中心暨AI機樓正式開幕。",
+      "AI機樓設於港深創科園8號大樓，以先進空芯光纖運行3.2Tbps AI DCI Superhighway，連接全港主要數據中心集群。",
+      "包括預計明年首階段運作的沙嶺數據園區；同香港應用科技研究院（ASTRI）設聯合研發實驗室。",
+      "政府創新科技及工業局局長孫東主禮。基建支援北部都會區同大灣區數據流通，具體服務以電訊商確認為準。",
+    ],
+    bulletsEn: [
+      "Official release 28 October 2026: Innovation & Technology Centre and AI Exchange in the Loop officially open.",
+      "AI Exchange in Building 8 of HSITP uses a 3.2Tbps AI DCI Superhighway on advanced hollow core fibre to connect major Hong Kong data centre clusters.",
+      "Includes the Sandy Ridge Data Facility Cluster, expected to start first phase next year; joint R&D lab with ASTRI on site.",
+      "Officiated by Secretary for Innovation, Technology and Industry Professor Sun Dong. Infrastructure supports Northern Metropolis and GBA data flows; services follow carrier confirmation.",
+    ],
+    body: [
+      {
+        heading: "公告寫死咗咩",
+        headingEn: "What the announcement states",
+        paragraphs: [
+          "香港電訊（股份代號：6823）於2026年10月28日透過新聞稿宣布，位處河套港深創科園（HSITP）的創新科技中心暨AI機樓正式開幕。創新科技及工業局局長孫東教授擔任主禮嘉賓，香港電訊財務總裁潘智豪、商業客戶業務董事總經理吳家隆，以及網絡工程主管兼Fiber Link Global行政總裁鄺偉銓共同主持。",
+          "AI機樓設於港深創科園8號大樓，將透過先進空芯光纖技術上運行的高速、超低時延3.2Tbps AI DCI Superhighway，連接全港主要數據中心集群，包括預計於明年開始首階段運作的沙嶺數據園區。支援大學、科研機構及大型企業的高效能AI運算應用。集團與香港應用科技研究院合作設立的聯合研發實驗室亦設於同一地點，加速北部都會區科研成果商品化。",
+        ],
+        paragraphsEn: [
+          "On 28 October 2026 HKT (SEHK: 6823) announced via press release that its Innovation & Technology Centre and AI Exchange in the Loop at the Hong Kong-Shenzhen Innovation and Technology Park (HSITP) officially opened. Professor Sun Dong, Secretary for Innovation, Technology and Industry, officiated, together with Patrick Poon, Chief Financial Officer, HKT; Steve Ng, Managing Director of Commercial Group, HKT; and Ricky Kwong, Head of Fixed Network Engineering, HKT and CEO, Fiber Link Global.",
+          "The AI Exchange is located in Building 8 of HSITP. It will connect Hong Kong’s major data centre clusters, including the Sandy Ridge Data Facility Cluster expected to commence first-phase operations next year, through a high-speed, ultra-low-latency 3.2Tbps AI DCI Superhighway running on advanced hollow core fibre. This supports high-performance AI computing for universities, research institutions and large enterprises. The HKT-ASTRI Joint R&D Lab is also at the same site to accelerate commercialisation of research outcomes in the Northern Metropolis.",
+        ],
+      },
+      {
+        heading: "對香港網絡同下一步",
+        headingEn: "What it means for Hong Kong networks and next step",
+        paragraphs: [
+          "新聞稿強調，項目以網絡基建支持香港創科及產業發展，為日後大灣區數據在河套區流通作好準備，並為北部都會區以大學城、創科、產業和宜居宜業宜遊為重點的布局提供支撐。這是基建層面的新設施，唔係消費者月費計劃或新手機SKU。",
+          "想了解更多基建詳情或相關企業服務，到香港電訊官方網站或新聞室核對最新資料。呢篇唔寫任何月費或保證覆蓋範圍。所有服務條款以電訊商確認為準。",
+        ],
+        paragraphsEn: [
+          "The release emphasises that the initiative supports Hong Kong’s I&T and industrial development through network infrastructure, lays the groundwork for future cross-boundary data flows within the Greater Bay Area through the Loop, and provides solid support for the Northern Metropolis. This is new infrastructure, not a consumer monthly plan or new handset SKU.",
+          "For more on the infrastructure or related enterprise services, check the official HKT website or newsroom. This piece writes no monthly fee and makes no coverage guarantee. All service terms follow carrier confirmation.",
+        ],
+      },
+    ],
+    tags: ["香港電訊", "HKT", "河套", "AI機樓", "北部都會區", "數據中心"],
+    tagsEn: ["HKT", "Loop", "AI Exchange", "Northern Metropolis", "data centre"],
+    editorNote:
+      "電訊專區今次唔係再講一次5G Mobile+或者U6GHz驗證。新事實係10月28日官方新聞稿：香港電訊於河套港深創科園開幕創新科技中心暨AI機樓，以空芯光纖3.2Tbps AI DCI Superhighway連接數據中心集群，支援沙嶺數據園區同ASTRI聯合實驗室。\\n\\n我唔會代填任何月費或者保證即時覆蓋。開幕同基建細節係事實，具體企業服務同日後數據流通安排以官方確認為準。想了解對自己有冇影響，對香港電訊企業頁或者新聞室，唔好當呢篇係消費者報價。",
+    editorNoteEn:
+      "This is not another note on the 5G Mobile+ brand or the U6GHz validation. The new fact is the 28 October official release: HKT opened its Innovation & Technology Centre and AI Exchange in the Loop at HSITP, linking data centres with a 3.2Tbps AI DCI Superhighway on hollow core fibre, supporting Sandy Ridge and the ASTRI joint lab.\\n\\nNo monthly fee is filled in and no coverage is guaranteed. The opening and infrastructure details are facts; enterprise services and future data-flow arrangements follow official confirmation. Check the HKT enterprise page or newsroom rather than treating this as a consumer quote.",
+    sourceUrl: "https://www.pccw.com/assets/Common/files/press-release/2026/Oct/Press%20Release_HKT%20inaugurates%20I&T%20Centre%20and%20AI%20Exchange_EN.pdf",
+    image: "/images/news-hkt-ai-exchange-loop.jpg",
+    imageAlt: "香港電訊河套區創新科技中心暨AI機樓開幕典禮：孫東局長同香港電訊高層",
+    imageCredit: "IT PRO Magazine（官方活動照片）",
+  },
+  {
     slug: "hkbn-5g-mobile-plus-oct22",
     category: "telecom",
     minutes: 4,

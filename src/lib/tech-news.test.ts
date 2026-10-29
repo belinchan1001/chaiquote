@@ -29,7 +29,8 @@ describe("tech news channel", () => {
         "/images/news-gaming.jpg",
       ],
     );
-    assert.equal(TECH_NEWS_ARTICLES.length, 24);
+    assert.equal(TECH_NEWS_ARTICLES.length, 25);
+    assert.ok(getTechNewsArticle("hkt-ai-exchange-loop-oct28"));
     assert.ok(getTechNewsArticle("hkbn-5g-mobile-plus-oct22"));
     assert.ok(getTechNewsArticle("3business-ai-marketplace-oct21"));
     assert.ok(getTechNewsArticle("cmhk-u6ghz-mongkok-oct17"));
@@ -64,7 +65,7 @@ describe("tech news channel", () => {
     const byDesk = { telecom: 0, phones: 0, gadgets: 0, gaming: 0 };
     for (const article of TECH_NEWS_ARTICLES) {
       assert.match(article.description, /以電訊商確認為準|以官方及平台商店確認為準|以官方公布為準|以 SmarTone 及通訊辦公布為準|以商店確認為準/);
-      assert.match(article.published, /^2026-09-(18|21|24|28)$|^2026-10-(0[1258]|15|19|22|26)$/);
+      assert.match(article.published, /^2026-09-(18|21|24|28)$|^2026-10-(0[1258]|15|19|22|26|29)$/);
       assert.ok(article.editorNote.length > 80, article.slug);
       if (article.category in byDesk) byDesk[article.category] += 1;
     }
@@ -126,6 +127,7 @@ describe("tech news channel", () => {
       "hkbn-5g-mobile-plus-oct22",
       "3business-ai-marketplace-oct21",
       "cmhk-u6ghz-mongkok-oct17",
+      "hkt-ai-exchange-loop-oct28",
     ]) {
       assert.ok(
         SITEMAP_PAGES.some((page) => page.path === `/tech-news/${slug}`),
