@@ -31,7 +31,7 @@ function memoryStore() {
 }
 
 describe("lead source label", () => {
-  it("classifies google ads, meta, organic and other", () => {
+  it("classifies unknown, google ads, meta, organic and other", () => {
     assert.deepEqual(classifyLeadSource({ gclid: "CjwKCAjwSECRET" }), { source: "google_ads" });
     assert.deepEqual(
       classifyLeadSource({
@@ -45,11 +45,35 @@ describe("lead source label", () => {
     assert.equal(classifyLeadSource({ fbclid: "IwAR2click" }).source, "meta");
     assert.equal(classifyLeadSource({ utm_source: "facebook", utm_medium: "paid" }).source, "meta");
     assert.equal(classifyLeadSource({ utm_source: "instagram" }).source, "meta");
-    assert.equal(classifyLeadSource({}).source, "organic");
-    assert.equal(classifyLeadSource(null).source, "organic");
+    assert.equal(classifyLeadSource({}).source, "unknown");
+    assert.equal(classifyLeadSource(null).source, "unknown");
+    assert.equal(classifyLeadSource(undefined).source, "unknown");
+    assert.equal(classifyLeadSource({ utm_source: "  ", utm_medium: "" }).source, "unknown");
     assert.equal(classifyLeadSource({ utm_source: "google", utm_medium: "organic" }).source, "organic");
+    assert.equal(classifyLeadSource({ utm_source: "organic" }).source, "organic");
+    assert.equal(classifyLeadSource({ utm_medium: "organic" }).source, "organic");
+    assert.equal(classifyLeadSource({ utm_source: "direct" }).source, "organic");
     assert.equal(classifyLeadSource({ utm_source: "newsletter", utm_campaign: "spring" }).source, "other");
     assert.equal(classifyLeadSource({ utm_source: "Google", utm_medium: "CPC" }).source, "google_ads");
+  });
+
+  it("maps empty touches to #0, organic evidence to #1, and ads to #2", () => {
+    assert.equal(customerInquiryLine({}), "【查詢】網站 #0");
+    assert.equal(customerInquiryLine(null), "【查詢】網站 #0");
+    assert.equal(customerInquiryLine(touchFromSearch("?cat=broadband&housing=private")), "【查詢】私人樓宇 #0");
+    assert.equal(
+      customerInquiryLine(touchFromSearch("?cat=broadband&housing=private&utm_source=google&utm_medium=organic")),
+      "【查詢】私人樓宇 #1",
+    );
+    assert.equal(customerInquiryLine({ utm_source: "organic" }), "【查詢】網站 #1");
+    assert.equal(customerInquiryLine(touchFromSearch("?from=ad")), "【查詢】網站 #2");
+    assert.equal(customerInquiryLine({ gclid: "CjwKCAjwSECRET" }), "【查詢】網站 #2");
+    assert.equal(
+      customerInquiryLine(touchFromSearch("?utm_source=google&utm_medium=cpc&utm_campaign=search-trial")),
+      "【查詢】網站 #2",
+    );
+    assert.equal(customerInquiryLine({ fbclid: "IwAR2click" }), "【查詢】網站 #3");
+    assert.equal(customerInquiryLine({ utm_source: "newsletter", utm_campaign: "spring" }), "【查詢】網站 #4");
   });
 
   it("keeps the desk line short and drops personal or click-id noise from the campaign", () => {
@@ -87,9 +111,9 @@ describe("lead source label", () => {
     assert.equal(touchFromSearch("?from=ad").from, "ad");
     assert.equal(customerInquiryLine(touchFromSearch("?cat=broadband&housing=public&from=ad")), "【查詢】公屋寬頻 #2");
     assert.equal(customerInquiryLine(touchFromSearch("?cat=home5g&utm_source=google&utm_medium=cpc")), "【查詢】5G 家居寬頻 #2");
-    assert.equal(customerInquiryLine(touchFromSearch("?cat=broadband&housing=private")), "【查詢】私人樓宇 #1");
+    assert.equal(customerInquiryLine(touchFromSearch("?cat=broadband&housing=private")), "【查詢】私人樓宇 #0");
     assert.equal(customerInquiryLine({ fbclid: "IwAR2click" }), "【查詢】網站 #3");
-    assert.equal(customerInquiryLine({}), "【查詢】網站 #1");
+    assert.equal(customerInquiryLine({}), "【查詢】網站 #0");
     assert.doesNotMatch(customerInquiryLine({ from: "ad", gclid: "secret" }), /google|ads|secret/i);
     assert.match(
       readFileSync(join(here, "ads-attribution.ts"), "utf8"),
