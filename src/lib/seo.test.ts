@@ -9,7 +9,18 @@ import { HOME_SEO, CATEGORY_SEO, GUIDES_SEO, PLAN_DETAIL_ROUTE_ID, catalogueMont
 import { getGuide } from "./guides.ts";
 import { getTechNewsArticle } from "./tech-news.ts";
 import { getEstatePage, estateSeoDescription, isIndexableEstatePage } from "./estate-pages.ts";
-import { planJsonLd, planPageCanonicalUrl, planSeoDescription, planSeoTitle, renderSitemapXml, siteDataLastmod, sitemapLastmod, SITEMAP_PAGES } from "./seo.ts";
+import {
+  AI_CRAWLER_USER_AGENTS,
+  planJsonLd,
+  planPageCanonicalUrl,
+  planSeoDescription,
+  planSeoTitle,
+  renderRobotsTxt,
+  renderSitemapXml,
+  siteDataLastmod,
+  sitemapLastmod,
+  SITEMAP_PAGES,
+} from "./seo.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -115,5 +126,24 @@ describe("estate discovery", () => {
     const file = readFileSync(join(here, "../../public/sitemap.xml"), "utf8");
     assert.equal(file, renderSitemapXml());
     assert.match(file, /\/estates\/cheerful-court/);
+  });
+});
+
+describe("robots.txt", () => {
+  it("disallows AI crawlers and keeps search crawlers on the star group", () => {
+    const robots = renderRobotsTxt();
+    for (const agent of ["PerplexityBot", "GPTBot", "ClaudeBot", "Bytespider"]) {
+      assert.match(robots, new RegExp(`User-agent: ${agent}\\nDisallow: /\\n`));
+    }
+    for (const agent of AI_CRAWLER_USER_AGENTS) {
+      assert.match(robots, new RegExp(`User-agent: ${agent}\\nDisallow: /\\n`));
+    }
+    assert.match(robots, /^User-agent: \*\nAllow: \//);
+    assert.match(robots, /Sitemap: https:\/\/www\.chaiquote\.hk\/sitemap\.xml\n$/);
+    assert.doesNotMatch(robots, /User-agent: Googlebot/);
+    assert.doesNotMatch(robots, /User-agent: AdsBot/);
+    assert.doesNotMatch(robots, /User-agent: Bingbot/);
+    const file = readFileSync(join(here, "../../public/robots.txt"), "utf8");
+    assert.equal(file, robots);
   });
 });
