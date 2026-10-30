@@ -1,6 +1,6 @@
 export const SITE = {
   name: "齊Quote",
-  tagline: "搥寬頻唔使四圍問",
+  tagline: "搵寬頻唔使四圍問",
   searchHint: "電訊報價",
   url: "https://www.chaiquote.hk",
   description:
@@ -139,6 +139,6 @@ export const FAQ = [
   },
   {
     q: "點樣查核報價？",
-    a: "最快用 WhatsApp 6309 9966。唔有 WhatsApp 可以撓「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 info@chaiquote.hk。",
+    a: "最快用 WhatsApp 6309 9966。冇 WhatsApp 可以撳「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 info@chaiquote.hk。",
   },
 ] as const;
