@@ -446,8 +446,34 @@ export function renderSitemapXml(
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>\n`;
 }
 
+/**
+ * Training and answer-engine crawlers. Search crawlers (Googlebot, AdsBot,
+ * Bingbot) stay on `User-agent: *` and are not listed here.
+ * `public/robots.txt` must stay byte-identical to `renderRobotsTxt()`.
+ */
+export const AI_CRAWLER_USER_AGENTS = [
+  "PerplexityBot",
+  "Perplexity-User",
+  "GPTBot",
+  "ChatGPT-User",
+  "OAI-SearchBot",
+  "ClaudeBot",
+  "anthropic-ai",
+  "Bytespider",
+  "CCBot",
+  "Amazonbot",
+  "meta-externalagent",
+  "FacebookBot",
+  "Google-Extended",
+] as const;
+
 export function renderRobotsTxt(origin: string = DEFAULT_SEO_ORIGIN): string {
   const host = seoOrigin(origin);
+  const aiBlocks = AI_CRAWLER_USER_AGENTS.flatMap((agent) => [
+    `User-agent: ${agent}`,
+    "Disallow: /",
+    "",
+  ]);
   return [
     "User-agent: *",
     "Allow: /",
@@ -463,6 +489,7 @@ export function renderRobotsTxt(origin: string = DEFAULT_SEO_ORIGIN): string {
     "Disallow: /__grok/",
     "Disallow: /api/",
     "",
+    ...aiBlocks,
     `Sitemap: ${host}/sitemap.xml`,
     "",
   ].join("\n");
