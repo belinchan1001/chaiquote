@@ -469,7 +469,6 @@ const NON_ESTATE_RAW = `
 濕地公園路|濕地公園
 新城市廣場|New Town Plaza
 形點|Yoho Mall
-海麗商場|Hoi Lai Shopping Centre,海麗商場長沙灣
 荃灣廣場|Tsuen Wan Plaza
 新時代廣場|屯門市廣場,Tuen Mun Town Plaza
 `.trim();

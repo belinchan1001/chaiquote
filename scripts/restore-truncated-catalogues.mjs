@@ -33,6 +33,16 @@ const FILES = [
 ];
 
 async function restoreOne(file) {
+  const fs = await import("node:fs");
+  try {
+    const current = fs.readFileSync(file.dest, "utf8");
+    if (Buffer.byteLength(current) >= file.minBytes) {
+      console.log(`[restore-catalogues] ${file.dest} already complete (${Buffer.byteLength(current)} bytes), skipping`);
+      return;
+    }
+  } catch (e) {
+    // file missing, proceed to restore
+  }
   const res = await fetch(file.url, { headers: { Accept: "text/plain" } });
   if (!res.ok) throw new Error(`${file.dest}: HTTP ${res.status}`);
   let text = await res.text();
