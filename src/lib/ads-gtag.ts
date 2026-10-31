@@ -1,12 +1,20 @@
 /** Google Ads account tag from Tag Assistant (AW-18335486204). */
 export const GOOGLE_ADS_ID = "AW-18335486204";
 
+/** GA4 web stream. Override with VITE_GA4_MEASUREMENT_ID; empty or invalid values keep this default. */
+export const GA4_MEASUREMENT_ID_DEFAULT = "G-HYHDCZN8KG";
+
 const QUOTE_SEND_TO_FALLBACK = "AW-18335486204";
 const QUOTE_CONVERSION_DEBOUNCE_MS = 800;
+const GA4_MEASUREMENT_ID_PATTERN = /^G-[A-Z0-9]+$/;
+
+/** Windows that already received both config commands. A second install must not send another GA4 page_view. */
+const configuredWindows = new WeakSet<object>();
 
 declare global {
   interface ImportMetaEnv {
     readonly VITE_GOOGLE_ADS_QUOTE_SEND_TO?: string;
+    readonly VITE_GA4_MEASUREMENT_ID?: string;
   }
   interface Window {
     dataLayer?: unknown[];
@@ -22,6 +30,22 @@ export function readQuoteSendToEnv(env: { VITE_GOOGLE_ADS_QUOTE_SEND_TO?: string
 }
 
 export const GOOGLE_ADS_QUOTE_SEND_TO = readQuoteSendToEnv(import.meta.env);
+
+/** GA4 measurement id from env when it looks like `G-...`, otherwise `G-HYHDCZN8KG`. */
+export function readGa4MeasurementId(env: { VITE_GA4_MEASUREMENT_ID?: string } | undefined): string {
+  const raw = env?.VITE_GA4_MEASUREMENT_ID;
+  if (typeof raw === "string" && GA4_MEASUREMENT_ID_PATTERN.test(raw.trim())) return raw.trim();
+  return GA4_MEASUREMENT_ID_DEFAULT;
+}
+
+export const GA4_MEASUREMENT_ID = readGa4MeasurementId(import.meta.env);
+
+function configAdsAndGa4(gtag: (...args: unknown[]) => void) {
+  // Two config commands on one gtag. Do not route GA4 through the Ads tag destination:
+  // Google's setup wizard warns that reusing that destination can overwrite Ads settings.
+  gtag("config", GOOGLE_ADS_ID);
+  gtag("config", GA4_MEASUREMENT_ID);
+}
 
 export function isCompleteQuoteSendTo(sendTo: string): boolean {
   return /^AW-18335486204\/[A-Za-z0-9_-]+$/.test(sendTo.trim());
@@ -41,18 +65,25 @@ export function adsQuoteConversionEvents(sendTo: string | null): { name: string;
 
 export function installGoogleAdsTag() {
   if (typeof window === "undefined") return;
-  if (window.gtag) {
-    window.gtag("config", GOOGLE_ADS_ID);
+  if (configuredWindows.has(window) && typeof window.gtag === "function") return;
+  if (typeof window.gtag === "function") {
+    configAdsAndGa4(window.gtag);
+    configuredWindows.add(window);
     return;
   }
   window.dataLayer = window.dataLayer ?? [];
-  window.gtag = function gtag(...args: unknown[]) {
-    window.dataLayer?.push(args);
+  // gtag.js only reads an `arguments` object. Pushing a rest array drops both the Ads hit and the GA4 page view.
+  window.gtag = function gtag() {
+    // eslint-disable-next-line prefer-rest-params -- gtag.js ignores a rest array and then sends no Ads or GA4 hit
+    window.dataLayer?.push(arguments);
   };
   window.gtag("js", new Date());
-  window.gtag("config", GOOGLE_ADS_ID);
+  configAdsAndGa4(window.gtag);
+  configuredWindows.add(window);
   const script = document.createElement("script");
   script.async = true;
+  // Keep the loader on the Ads id so gtag/js still fetches the AW tag.
+  // GA4 is a second config command, not a replacement for that loader.
   script.src = `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`;
   document.head.appendChild(script);
 }
