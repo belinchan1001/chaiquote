@@ -191,6 +191,6 @@ describe("WhatsApp source mark", () => {
     }
 
     const blank = new URL(quoteWhatsappHref("")).searchParams.get("text") ?? "";
-    assert.equal(blank, "【查詢】網站 #1");
+    assert.equal(blank, "【查詢】網站 #0");
   });
 });

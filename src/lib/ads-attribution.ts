@@ -29,7 +29,7 @@ export type LeadTouch = Partial<Record<LeadTouchField, string>> & {
   housing?: string;
 };
 
-export type LeadSource = "google_ads" | "meta" | "organic" | "other";
+export type LeadSource = "unknown" | "organic" | "google_ads" | "meta" | "other";
 
 export type SourceLabel = {
   source: LeadSource;
@@ -82,10 +82,12 @@ export function classifyLeadSource(touch: LeadTouch | null | undefined): SourceL
   const tagged = Boolean(
     source || medium || touch?.utm_campaign || touch?.utm_content || touch?.utm_term || hasGclid || hasFbclid || fromAd,
   );
-  return label(tagged ? "other" : "organic");
+  // No source signal is unset (#0). Explicit organic markers above stay organic (#1).
+  return label(tagged ? "other" : "unknown");
 }
 
 const CHANNEL_CODE: Record<LeadSource, string> = {
+  unknown: "0",
   organic: "1",
   google_ads: "2",
   meta: "3",
