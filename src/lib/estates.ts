@@ -103,6 +103,7 @@ const RAW = `
 李鄭屋邨|李鄭屋,Lei Cheng Uk,Lei Cheng Uk Estate|深水埗|public
 蘇屋邨|蘇屋,So Uk,So Uk Estate|深水埗|public
 長沙灣邨|長沙灣,Cheung Sha Wan Estate|深水埗|public
+麗玥苑|麗玥,Lai Yuet Court|深水埗|hos|長沙灣|覆蓋需查核|東京街3號
 南山邨|南山,Nam Shan,Nam Shan Estate|深水埗|public
 麗閣邨|麗閣,Lai Kok,Lai Kok Estate|深水埗|public
 海麗邨|海麗,Hoi Lai,Hoi Lai Estate|深水埗|public
