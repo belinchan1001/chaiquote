@@ -108,7 +108,7 @@ export const DISTRICT_GUIDES: Guide[] = [
         heading: "天水圍唔係一區一價",
         paragraphs: [
           "搜「天水圍寬頻」見到嘅，多數仍然要先分樓類。天耀邨、天瑞邨、天華邨、俊宏軒係公屋；天盛苑、天富苑、天頌苑係居屋；嘉湖山莊、慧景軒係私樓。同一條 1000M，三種樓類計劃可以完全唔同。",
-          "齊Quote 資料庫將天水圍地址歸入元朗區。下列月費係**站內列出**例子，**僅供參考**，唔代表你座樓一定有。呢張表**唔係排名**。覆蓋同安裝以電訊商確認為準。",
+          "全港用同一套表：公居屋 1000M 站內列出由 HK$58 起，見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)；私樓見 [私樓 1000M 參考月費](/guides/private-1000-fees)；村屋見 [村屋光纖月費](/guides/village-fees)。本頁唔另抄一套價。齊Quote 資料庫將天水圍地址歸入元朗區。下列月費係**站內列出**例子，**僅供參考**，唔代表你座樓一定有。呢張表**唔係排名**。覆蓋同安裝以電訊商確認為準。",
         ],
       },
       {
@@ -145,7 +145,7 @@ export const DISTRICT_GUIDES: Guide[] = [
         heading: "Not one district price",
         paragraphs: [
           "Tin Shui Wai searches still start with housing type. Tin Yiu and Tin Shui are public; Tin Shing Court is HOS; Kingswood Villas is private. The same 1000M line can be a different plan in each.",
-          "ChaiQuote files Tin Shui Wai under Yuen Long. Fees below are **listed on this site**, **for reference only**. This table is **not a ranking**. Coverage is confirmed by the carrier.",
+          "Use the same Hong Kong tables: listed public / HOS 1000M starts at HK$58 ([public / HOS 1000M](/guides/public-hos-fees)); private estates ([private 1000M](/guides/private-1000-fees)); villages ([village fibre fees](/guides/village-fees)). This page does not copy a second price list. ChaiQuote files Tin Shui Wai under Yuen Long. Fees below are **listed on this site**, **for reference only**. This table is **not a ranking**. Coverage is confirmed by the carrier.",
         ],
       },
       {
@@ -177,7 +177,7 @@ export const DISTRICT_GUIDES: Guide[] = [
     faq: [
       {
         q: "天水圍寬頻月費係咪全區一樣？",
-        a: "唔係。公屋、居屋、嘉湖私樓通常分開報。頁上數字係站內列出、僅供參考，以電訊商確認為準。",
+        a: "公屋 1000M 站內列出由 HK$58 起，完整表見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)；私樓見 [私樓 1000M 參考月費](/guides/private-1000-fees)。天水圍唔係全區一價，公屋、居屋、嘉湖私樓分開報。頁上數字僅供參考。",
       },
       {
         q: "天耀邨可唔可以用嘉湖嗰行價？",
@@ -191,7 +191,7 @@ export const DISTRICT_GUIDES: Guide[] = [
     faqEn: [
       {
         q: "Is Tin Shui Wai one broadband fee?",
-        a: "No. Public, HOS and Kingswood private estates are usually quoted separately. Figures here are listed on the site, for reference only.",
+        a: "Listed public / HOS 1000M starts at HK$58. Full table: [public / HOS 1000M](/guides/public-hos-fees). Private estates: [private 1000M](/guides/private-1000-fees). Tin Shui Wai is not one fee. Figures here are for reference only.",
       },
       {
         q: "Can Tin Yiu use a Kingswood row?",
@@ -253,7 +253,7 @@ export const DISTRICT_GUIDES: Guide[] = [
         heading: "沙田範圍大，唔好當一區價",
         paragraphs: [
           "搜「沙田寬頻」時，沙田第一城係私樓；瀝源邨、禾輋邨、水泉澳邨係公屋；廣林苑、豐盛苑係居屋；名城、迎海、新港城多數當私樓，而且有部分喺大圍、馬鞍山。樓類唔對，月費表就會睇錯。",
-          "下列係**站內列出**例子，**僅供參考**。呢張表**唔係排名**。指定屋苑閃購（例如美盈苑、錦暉苑）只喺搜該屋苑時出現，**唔入**摘要表。",
+          "全港用同一套表：公居屋 1000M 站內列出由 HK$58 起，見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)；私樓見 [私樓 1000M 參考月費](/guides/private-1000-fees)；村屋見 [村屋光纖月費](/guides/village-fees)。本頁唔另抄一套價。下列係**站內列出**例子，**僅供參考**。呢張表**唔係排名**。指定屋苑閃購（例如美盈苑、錦暉苑）只喺搜該屋苑時出現，**唔入**摘要表。",
         ],
       },
       {
@@ -288,7 +288,7 @@ export const DISTRICT_GUIDES: Guide[] = [
         heading: "Sha Tin is not one fee",
         paragraphs: [
           "City One is private; Lek Yuen, Wo Che and Shui Chuen O are public; Festival City and Double Cove are usually private, and some sit in Tai Wai or Ma On Shan.",
-          "Rows below are **listed on this site**, **for reference only**. This table is **not a ranking**. Named-estate flash offers stay off this summary.",
+          "Use the same Hong Kong tables: listed public / HOS 1000M starts at HK$58 ([public / HOS 1000M](/guides/public-hos-fees)); private estates ([private 1000M](/guides/private-1000-fees)); villages ([village fibre fees](/guides/village-fees)). This page does not copy a second price list. Rows below are **listed on this site**, **for reference only**. This table is **not a ranking**. Named-estate flash offers stay off this summary.",
         ],
       },
       {
@@ -320,7 +320,7 @@ export const DISTRICT_GUIDES: Guide[] = [
     faq: [
       {
         q: "沙田第一城同瀝源邨月費會唔會一樣？",
-        a: "通常唔會。第一城係私樓，瀝源邨係公屋。分開用樓類篩。頁上數字僅供參考。",
+        a: "公屋 1000M 站內列出由 HK$58 起，完整表見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)；私樓見 [私樓 1000M 參考月費](/guides/private-1000-fees)。第一城係私樓，瀝源邨係公屋，唔好用同一張價。頁上數字僅供參考。",
       },
       {
         q: "馬鞍山算唔算沙田寬頻？",
@@ -334,7 +334,7 @@ export const DISTRICT_GUIDES: Guide[] = [
     faqEn: [
       {
         q: "Are City One and Lek Yuen the same fee?",
-        a: "Usually not. City One is private; Lek Yuen is public. Filter by housing type. Figures here are for reference only.",
+        a: "Listed public / HOS 1000M starts at HK$58. Full table: [public / HOS 1000M](/guides/public-hos-fees). Private estates: [private 1000M](/guides/private-1000-fees). City One is private; Lek Yuen is public. Figures here are for reference only.",
       },
       {
         q: "Does Ma On Shan count as Sha Tin broadband?",
@@ -396,7 +396,7 @@ export const DISTRICT_GUIDES: Guide[] = [
         heading: "將軍澳行政上屬西貢，報價仍先睇樓類",
         paragraphs: [
           "日出康城、維景灣畔、天晉、將軍澳中心、新都城多數當私樓；坑口邨、寶林邨、尚德邨、厚德邨、健明邨係公屋；廣明苑、英明苑、彩明苑係居屋。村屋（例如坑口村）係**另一套**計劃，見 [村屋光纖月費](/guides/village-fees)。",
-          "下列係**站內列出**例子，**僅供參考**。呢張表**唔係排名**。寶庭居、賢庭居等指定屋苑如果有獨家計劃，只喺該屋苑頁出現，**唔入**全區摘要。",
+          "全港用同一套表：公居屋 1000M 站內列出由 HK$58 起，見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)；私樓見 [私樓 1000M 參考月費](/guides/private-1000-fees)；村屋見 [村屋光纖月費](/guides/village-fees)。本頁唔另抄一套價。下列係**站內列出**例子，**僅供參考**。呢張表**唔係排名**。寶庭居、賢庭居等指定屋苑如果有獨家計劃，只喺該屋苑頁出現，**唔入**全區摘要。",
         ],
       },
       {
@@ -431,7 +431,7 @@ export const DISTRICT_GUIDES: Guide[] = [
         heading: "Tseung Kwan O sits in Sai Kung; quotes still follow housing type",
         paragraphs: [
           "LOHAS Park, Ocean Shores, The Wings and Park Central are usually private; Hang Hau, Po Lam and Sheung Tak are public. Village houses use a **separate** set: [village fibre fees](/guides/village-fees).",
-          "Rows below are **listed on this site**, **for reference only**. This table is **not a ranking**. Named-estate exclusives stay on those estate pages.",
+          "Use the same Hong Kong tables: listed public / HOS 1000M starts at HK$58 ([public / HOS 1000M](/guides/public-hos-fees)); private estates ([private 1000M](/guides/private-1000-fees)); villages ([village fibre fees](/guides/village-fees)). This page does not copy a second price list. Rows below are **listed on this site**, **for reference only**. This table is **not a ranking**. Named-estate exclusives stay on those estate pages.",
         ],
       },
       {
@@ -463,7 +463,7 @@ export const DISTRICT_GUIDES: Guide[] = [
     faq: [
       {
         q: "日出康城同坑口邨月費會唔會一樣？",
-        a: "通常唔會。康城係私樓，坑口邨係公屋。分開用樓類篩。頁上數字僅供參考。",
+        a: "公屋 1000M 站內列出由 HK$58 起，完整表見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)；私樓見 [私樓 1000M 參考月費](/guides/private-1000-fees)。康城係私樓，坑口邨係公屋，唔好用同一張價。頁上數字僅供參考。",
       },
       {
         q: "將軍澳村屋可唔可以用康城表？",
@@ -477,7 +477,7 @@ export const DISTRICT_GUIDES: Guide[] = [
     faqEn: [
       {
         q: "Are LOHAS Park and Hang Hau the same fee?",
-        a: "Usually not. LOHAS Park is private; Hang Hau is public. Filter by housing type.",
+        a: "Listed public / HOS 1000M starts at HK$58. Full table: [public / HOS 1000M](/guides/public-hos-fees). Private estates: [private 1000M](/guides/private-1000-fees). LOHAS Park is private; Hang Hau is public. Figures here are for reference only.",
       },
       {
         q: "Can a Tseung Kwan O village house use the LOHAS table?",

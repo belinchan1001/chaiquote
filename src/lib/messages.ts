@@ -356,10 +356,10 @@ export const MESSAGES = {
       "唔係。我哋係獨立比較網站，將公開渠道同市場常見優惠擺埋一齊。最終月費、覆蓋同安裝期，都以電訊商確認為準。",
     faq2q: "公屋同埋居屋價錢會唔會唔同？",
     faq2a:
-      "公屋同埋居屋好多時有指定供應商同批量價，不過每個屋邨／屋苑合約都可能唔同。篩選時可以分開揀；問價記得填齊屋苑名稱。",
+      "公屋 1000M 站內列出由 HK$58／48 個月起，完整表見「公屋／居屋 1000M 參考月費」。公屋同居屋好多時分開批量價，篩選時分開揀，問價填齊屋苑名稱。僅供參考，以電訊商確認為準。",
     faq3q: "村屋有冇光纖？",
     faq3a:
-      "村屋光纖而家主要由香港寬頻、HGC 同網上行提供指定計劃；公屋、居屋同私樓計劃一般唔適用於村屋地址。未有光纖嘅地址，可以一併比較 5G 家居寬頻。實際覆蓋要核對門牌。",
+      "村屋光纖站內列出由特選村屋 2000M HK$229／24 個月起，完整表見「村屋光纖月費」。公屋、居屋同私樓計劃一般唔適用。未有光纖可以比較 5G 家居寬頻。實際覆蓋要核對門牌。",
     faq4q: "商業寬頻同家居計劃有咩分別？",
     faq4a:
       "商業寬頻多可加購固定 IP 同辦公時間技術支援，安裝以工商地址為準。月費一般高於家居計劃，適合店舖、寫字樓及工作室。",
@@ -915,10 +915,10 @@ export const MESSAGES = {
       "No. This is an independent comparison site. Final fees, coverage and install dates are confirmed by the carrier.",
     faq2q: "Do public housing and HOS prices differ?",
     faq2a:
-      "Yes. Public housing and HOS often have bulk rates. Filter them separately and include the full estate name when you request a quote.",
+      "Listed public-housing 1000M starts at HK$58 for 48 months. The full table is Public / HOS 1000M reference fees. Public and HOS often have separate bulk rates — filter them apart and include the estate name. For reference only.",
     faq3q: "Can village houses get fibre?",
     faq3a:
-      "Village fibre is mainly from HKBN, HGC and Netvigator. Public/HOS/private plans usually do not apply. If there is no fibre, compare 5G home broadband. Coverage must be checked.",
+      "Listed village fibre starts at HK$229 for a selected 2000M plan on a 24-month contract. The full table is village fibre fees. Public, HOS and private plans usually do not apply. If there is no fibre, compare 5G home broadband. Coverage must be checked.",
     faq4q: "How is business broadband different?",
     faq4a:
       "Business plans can add a fixed IP and office-hour support. Install is for commercial addresses. Fees are usually higher than home plans.",
