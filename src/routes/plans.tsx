@@ -348,6 +348,17 @@ function PlansPage() {
         <div>
           <h1 className="text-title font-semibold">{categoryLabel(search.cat)}</h1>
           <p className="mt-1 text-xs text-subtle">{t("dataUpdated", { date: updated })}</p>
+          {search.cat === "broadband" ? (
+            <p className="mt-2 text-sm">
+              <Link
+                to="/guides/$slug"
+                params={{ slug: "home-broadband-2026" }}
+                className="text-accent underline-offset-4 hover:underline"
+              >
+                {locale === "en" ? "Six-carrier 1000M reference fees" : "六大電訊 1000M 參考月費表"}
+              </Link>
+            </p>
+          ) : null}
         </div>
         <p className="text-sm text-muted" aria-live="polite">
           {t("foundPlans", { n: rows.length })}

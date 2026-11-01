@@ -52,7 +52,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   usePageTitle(HOME_SEO.title);
   const categories: {
     to: "/guides/$slug";
@@ -200,6 +200,17 @@ function Home() {
                     {t("orReadGuide")}
                   </Link>
                 </p>
+                {item.slug === "fiber" ? (
+                  <p className="mt-1">
+                    <Link
+                      to="/guides/$slug"
+                      params={{ slug: "home-broadband-2026" }}
+                      className="text-muted underline-offset-4 hover:underline"
+                    >
+                      {locale === "en" ? "Six-carrier 1000M reference fees" : "六大電訊 1000M 參考月費表"}
+                    </Link>
+                  </p>
+                ) : null}
               </div>
             </div>
             );

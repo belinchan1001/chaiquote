@@ -157,7 +157,7 @@ export const GUIDE_ARTICLE_KEYWORDS: Record<string, string> = {
   "public-hos-fees": "公屋寬頻月費,居屋1000M,公屋光纖參考月費",
   "private-1000-fees": "私樓寬頻月費,私樓1000M,私人樓宇光纖參考月費",
   "village-fees": "村屋光纖月費,丁屋光纖月費,村屋寬頻月費,丁屋寬頻,村屋光纖參考月費",
-  "home-broadband-2026": "2026家居寬頻,家居光纖參考月費,1000M月費,2500M月費",
+  "home-broadband-2026": "2026家居寬頻,六大電訊,1000M月費,香港寬頻,網上行,HGC,有線寬頻,中國移動香港,數碼通",
   "estate-filter": "屋苑篩,齊Quote屋苑,寬頻覆蓋查核",
   "switch-broadband": "轉寬頻,轉台寬頻,先裝後停",
   "tin-shui-wai": "天水圍寬頻,天耀邨寬頻,嘉湖山莊寬頻,天水圍光纖",

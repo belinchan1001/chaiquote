@@ -135,7 +135,7 @@ export const DISTRICT_GUIDES: Guide[] = [
       {
         heading: "下一步",
         paragraphs: [
-          "返首頁輸入座數同街道，或者開 [公屋光纖格價](/plans?cat=broadband&housing=public)。附近地區：[沙田寬頻](/guides/sha-tin)、[將軍澳寬頻](/guides/tseung-kwan-o)。屏山、洪水橋、厦村等村屋見 [村屋光纖月費](/guides/village-fees)。2026 年表見 [2026 家居寬頻格價](/guides/home-broadband-2026)。",
+          "返首頁輸入座數同街道，或者開 [公屋光纖格價](/plans?cat=broadband&housing=public)。附近地區：[沙田寬頻](/guides/sha-tin)、[將軍澳寬頻](/guides/tseung-kwan-o)。屏山、洪水橋、厦村等村屋見 [村屋光纖月費](/guides/village-fees)。六大電訊 1000M 表見 [2026 家居寬頻 1000M](/guides/home-broadband-2026)。",
           DISCLAIMER,
         ],
       },
