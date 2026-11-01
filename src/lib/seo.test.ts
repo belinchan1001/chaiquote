@@ -26,21 +26,21 @@ const here = dirname(fileURLToPath(import.meta.url));
 
 describe("catalogue stamp", () => {
   it("pins the homepage data stamp to today as YYYY-MM-DD", () => {
-    assert.equal(SITE.updated, "2026-11-01");
+    assert.equal(SITE.updated, "2026-11-02");
     assert.match(SITE.updated, /^\d{4}-\d{2}-\d{2}$/);
     assert.doesNotMatch(SITE.updated, /\u5e74|\u6708|\u65e5/);
-    assert.equal(siteDataLastmod(), "2026-11-01");
-    assert.equal(sitemapLastmod("/"), "2026-11-01");
-    assert.equal(sitemapLastmod("/plans"), "2026-11-01");
-    assert.equal(sitemapLastmod("/estates"), "2026-11-01");
+    assert.equal(siteDataLastmod(), "2026-11-02");
+    assert.equal(sitemapLastmod("/"), "2026-11-02");
+    assert.equal(sitemapLastmod("/plans"), "2026-11-02");
+    assert.equal(sitemapLastmod("/estates"), "2026-11-02");
   });
 });
 
 describe("search-first titles", () => {
   it("puts the query before 齊Quote and names the catalogue month", () => {
-    assert.equal(catalogueMonthLabel(), "2026年10月");
+    assert.equal(catalogueMonthLabel(), "2026年11月");
     assert.equal(HOME_SEO.title, "香港寬頻報價2026｜1000M月費比較｜公屋居屋私樓村屋｜齊Quote");
-    assert.match(HOME_SEO.description, /^2026年10月/);
+    assert.match(HOME_SEO.description, /^2026年11月/);
     assert.match(HOME_SEO.description, /查屋苑覆蓋/);
     assert.equal(CATEGORY_SEO.broadband.title, "香港寬頻報價2026｜光纖1000M／2500M月費比較｜齊Quote");
     assert.match(CATEGORY_SEO.broadband.description, /網上行/);
@@ -65,14 +65,14 @@ describe("search-first titles", () => {
     assert.ok(smartone);
     assert.equal(planSeoTitle(hkbn), "1000M 家居寬頻（24 個月）｜月費 HK$109｜香港寬頻 1000M｜齊Quote");
     assert.equal(planSeoTitle(smartone), "1000M 家居寬頻（36 個月）｜月費 HK$88｜數碼通 1000M｜齊Quote");
-    assert.match(planSeoDescription(hkbn), /2026年10月/);
+    assert.match(planSeoDescription(hkbn), /2026年11月/);
     assert.match(planSeoDescription(hkbn), /公屋、居屋、私樓/);
     assert.match(planSeoDescription(hkbn), /查覆蓋/);
     const ld = planJsonLd(hkbn);
     assert.equal(ld.url, "https://www.chaiquote.hk/plans/hkbn-ftth-1000-24m-109");
     assert.equal(ld.offers.url, ld.url);
     assert.equal(ld.offers.availability, "https://schema.org/InStock");
-    assert.equal(ld.offers.priceValidUntil, "2026-11-01");
+    assert.equal(ld.offers.priceValidUntil, "2026-11-30");
     assert.equal(ld.offers.hasMerchantReturnPolicy.returnPolicyCategory, "https://schema.org/MerchantReturnNotPermitted");
     assert.equal(ld.offers.shippingDetails.doesNotShip, true);
     assert.equal(ld.sku, hkbn.id);
