@@ -3,7 +3,13 @@ import { GUIDE_ARTICLES } from "./guide-articles.ts";
 import { DISTRICT_GUIDES } from "./district-guides.ts";
 import { salesQuoteMessage } from "./whatsapp.ts";
 
-export type GuideSection = { heading: string; paragraphs: string[]; table?: GuideTable };
+export type GuideSection = {
+  heading: string;
+  paragraphs: string[];
+  table?: GuideTable;
+  /** Multi-column HTML table. Used when a two-column card list is not enough to extract. */
+  matrix?: GuideMatrix;
+};
 export type GuideCategory = "fiber" | "home5g" | "mobile" | "business";
 
 export type GuideCta = {
@@ -25,6 +31,13 @@ export type GuideTable = {
   caption: string;
   headers: [string, string];
   rows: GuideTableRow[];
+};
+
+export type GuideMatrix = {
+  caption: string;
+  headers: string[];
+  rows: string[][];
+  notes?: string[];
 };
 
 export type Guide = {

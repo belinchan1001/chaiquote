@@ -5,7 +5,7 @@ import { JsonLd } from "@/components/json-ld";
 import { QuoteLink } from "@/components/quote-link";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { crawlEstateLinksForGuide, mergeEstateLinks } from "@/lib/estate-pages";
-import { getGuide, guideCopy, guideManuscriptDates, type GuideTable } from "@/lib/guides";
+import { getGuide, guideCopy, guideManuscriptDates, type GuideMatrix, type GuideTable } from "@/lib/guides";
 import { guideTopicImage } from "@/lib/guide-media";
 import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
 import { useI18n, usePageTitle } from "@/lib/i18n";
@@ -80,6 +80,55 @@ function GuideRichText({ text }: { text: string }) {
   );
 }
 
+function GuideMatrixTable({ matrix }: { matrix: GuideMatrix }) {
+  return (
+    <div className="mt-4">
+      <div className="overflow-x-auto rounded-xl shadow-[var(--shadow-border)]">
+        <table className="w-full min-w-[52rem] border-collapse bg-card text-left text-sm">
+          <caption className="border-b border-border px-3 py-3 text-left text-xs leading-relaxed text-subtle">
+            {matrix.caption}
+          </caption>
+          <thead>
+            <tr className="border-b border-border">
+              {matrix.headers.map((header) => (
+                <th key={header} scope="col" className="px-3 py-3 align-bottom font-semibold text-fg">
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {matrix.rows.map((row) => (
+              <tr key={row[0]} className="border-b border-border last:border-b-0">
+                {row.map((cell, index) =>
+                  index === 0 ? (
+                    <th key={index} scope="row" className="px-3 py-3 align-top font-semibold text-fg">
+                      <GuideRichText text={cell} />
+                    </th>
+                  ) : (
+                    <td key={index} className="px-3 py-3 align-top leading-relaxed text-muted">
+                      <GuideRichText text={cell} />
+                    </td>
+                  ),
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {matrix.notes?.length ? (
+        <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-muted">
+          {matrix.notes.map((note) => (
+            <li key={note}>
+              <GuideRichText text={note} />
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  );
+}
+
 function GuideCompareCards({ table, seeDetail }: { table: GuideTable; seeDetail: string }) {
   return (
     <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -150,11 +199,12 @@ function GuidePage() {
     ...copy.body.map((section) => ({ id: headingId(section.heading), label: section.heading })),
     ...(copy.faq.length ? [{ id: "faq", label: t("faqHeading") }] : []),
   ];
-  const firstTableHeading = copy.body.find((section) => section.table)?.heading;
+  const firstTableHeading = copy.body.find((section) => section.table || section.matrix)?.heading;
+  const wide = copy.body.some((section) => section.matrix);
   const topicImage = guideTopicImage(guide.slug);
 
   return (
-    <article className="mx-auto max-w-2xl px-4 py-10">
+    <article className={`mx-auto px-4 py-10 ${wide ? "max-w-5xl" : "max-w-2xl"}`}>
       <JsonLd data={guideJsonLd(guide)} />
       <nav aria-label={t("crumbNav")} className="text-sm text-muted">
         <ol className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
@@ -222,6 +272,7 @@ function GuidePage() {
               <GuideRichText text={p} />
             </p>
           ))}
+          {section.matrix ? <GuideMatrixTable matrix={section.matrix} /> : null}
           {section.table ? <GuideCompareCards table={section.table} seeDetail={t("seeDetail")} /> : null}
           {section.heading === firstTableHeading && primaryPlan ? (
             <Button asChild className="mt-5 w-full sm:w-auto">

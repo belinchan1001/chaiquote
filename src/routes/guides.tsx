@@ -63,6 +63,15 @@ function GuidesPage() {
       </nav>
       <h1 className="mt-6 text-title font-semibold">{t("guidesIndexH1")}</h1>
       <p className="mt-3 max-w-2xl text-muted">{t("guidesIndexLead")}</p>
+      <p className="mt-2 max-w-2xl text-sm">
+        <Link
+          to="/guides/$slug"
+          params={{ slug: "home-broadband-2026" }}
+          className="font-medium text-accent underline-offset-4 hover:underline"
+        >
+          {locale === "en" ? "Six-carrier 1000M reference fees" : "六大電訊 1000M 參考月費表"}
+        </Link>
+      </p>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {GUIDE_CATEGORY_META.map((cat) => {
