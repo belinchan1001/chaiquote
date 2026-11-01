@@ -35,6 +35,7 @@ export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "世運道簡約公屋", group: "九龍" },
   { name: "柴灣常安街簡約公屋", group: "港島" },
   { name: "宏緻苑", group: "九龍" },
+  { name: "麗玥苑", group: "九龍" },
   { name: "彩石邨", group: "新界" },
   { name: "安楹苑", group: "九龍" },
   { name: "上然", group: "大埔" },
