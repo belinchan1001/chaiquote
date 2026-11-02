@@ -65,7 +65,7 @@ export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
     image: "/images/news-telecom.jpg",
     imageAlt: "電訊網絡基建示意圖",
     imageCredit: "齊Quote 電訊專區圖（FCC 同意令相關）",
-  },,] = [
+  },
   {
     slug: "hkt-ai-exchange-loop-oct28",
     category: "telecom",
