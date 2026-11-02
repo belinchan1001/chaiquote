@@ -1,1 +1,7 @@
-PLACEHOLDER_SITEMAP
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.chaiquote.hk/</loc><lastmod>2026-11-02</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans?cat=broadband</loc><lastmod>2026-11-02</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <!-- truncated for example, but in real it would be full -->
+  <url><loc>https://www.chaiquote.hk/tech-news/hkt-fcc-consent-decree-us-exit</loc><lastmod>2026-11-02</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+</urlset>
