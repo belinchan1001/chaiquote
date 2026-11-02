@@ -62,9 +62,9 @@ export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
     editorNoteEn:
       "This is not another note on the Loop AI Exchange or 5G Mobile+. The new fact is the 30 October FCC consent decree: HKT must end US international and domestic telecom services by 1 September 2027, file to discontinue within 30 days and surrender authorizations; the company confirmed the Order to Show Cause has ceased.\\n\\nNo monthly fee is filled in and no guarantee is made that Hong Kong services are completely unaffected. The decree and company confirmation are facts; the exact wind-down and customer notices follow official sources. Check the FCC document or HKT rather than treating this as a local quote.",
     sourceUrl: "https://www.fcc.gov/document/fcc-enters-consent-decree-hkt-and-its-subsidiaries",
-    image: "/images/news-telecom.jpg",
-    imageAlt: "電訊網絡基建示意圖",
-    imageCredit: "齊Quote 電訊專區圖（FCC 同意令相關）",
+    image: "/images/news-hkt-fcc-consent.jpg",
+    imageAlt: "美國聯邦通訊委員會（FCC）總部標誌，背景有美國國旗",
+    imageCredit: "Reuters（Kylie Cooper / File Photo，FCC 總部）",
   },
   {
     slug: "hkt-ai-exchange-loop-oct28",
