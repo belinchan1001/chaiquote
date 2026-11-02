@@ -1,4 +1,5 @@
 /** String lists for new-intake / flash offers. Keep this file free of the estate catalogue. */
+// Daily clean verified 2026-11-02: unfinished 居屋2025 (匯熙苑、裕豐苑、朗風苑、啟陽苑、影輝苑) not marked as new intake.
 
 export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "雋東邨", group: "東涌" },
@@ -266,4 +267,3 @@ export const HKBN_LPR_FLASH_ESTATES = [
   "帝景灣",
   "彩頤居",
 ] as const;
-
