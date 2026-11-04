@@ -12,7 +12,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 
 describe("guide manuscript dates vs catalogue stamp", () => {
   it("keeps guide lastmod on the manuscript date, not SITE.updated", () => {
-    assert.equal(SITE.updated, "2026-11-04");
+    assert.equal(SITE.updated, "2026-11-05");
     const fiber = getGuide("fiber");
     assert.ok(fiber);
     assert.equal(fiber.published, "2026-09-09");
