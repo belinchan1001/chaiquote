@@ -195,7 +195,8 @@ describe("homepage first-load images", () => {
     assert.match(src("../components/idle-mount.tsx"), /requestIdleCallback/);
     assert.doesNotMatch(src("../components/whatsapp-widget.tsx"), /import \{ getPlan \} from "@\/lib\/plans"/);
     assert.match(src("../components/whatsapp-widget.tsx"), /import\("@\/lib\/plans"\)/);
-    assert.match(home, /id="entry-prices"/);
+    assert.doesNotMatch(home, /entry-prices|ENTRY_PLAN_LINKS/);
+    assert.match(home, /HomeBestPicks/);
     assert.match(home, /t\("heroAnswer"/);
     assert.match(home, /faq1q/);
   });
