@@ -3,6 +3,11 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { MESSAGES } from "./messages.ts";
+import { FAQ, SITE } from "./site.ts";
+import { homeJsonLd } from "./canonical.ts";
+import { formatFee, getPlan } from "./plans.ts";
+import { filterPlans } from "./plan-filter.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const CLAIM_WORDS = ["最抵", "最低", "最平"] as const;
@@ -258,6 +263,22 @@ describe("homepage hero title", () => {
     assert.equal(quoted(messages, "heroLead")[0], "輸入你住邊，即刻比較各大電訊商而家嘅月費同優惠。");
     assert.match(home, /t\("heroTitle1"\)/);
     assert.match(home, /t\("heroLead"/);
+    assert.match(home, /t\("heroAnswer"/);
+    assert.match(home, /providers: HOME_PROVIDER_COUNT/);
+    assert.match(home, /plans: PLAN_COUNT/);
+    assert.match(home, /estates: ESTATE_COUNT/);
+    assert.match(home, /icable-ftth-1000-48m-58/);
+    assert.match(home, /cmhk-home5g-350-48-88/);
+    assert.match(home, /cmhk-21m-3-3-38/);
+    assert.match(home, /cmhk-ftth-1000-village-24m-218/);
+    const answer = quoted(messages, "heroAnswer")[0] ?? "";
+    assert.equal(answer.includes("189"), false);
+    assert.equal(answer.includes("3729"), false);
+    assert.match(answer, /HK\$58 起/);
+    assert.match(answer, /HK\$88 起/);
+    assert.match(answer, /HK\$38 起/);
+    assert.match(answer, /HK\$218 起/);
+    assert.match(answer, /唔代表全港最平/);
     assert.doesNotMatch(home, /heroTitle2/);
     assert.doesNotMatch(quoted(messages, "heroTitle1")[0], /，|。/);
     assert.doesNotMatch(messages, /heroTitle2:/);
@@ -343,5 +364,78 @@ describe("i18n catalogue and error chrome", () => {
     assert.match(error, /<I18nProvider>[\s\S]*<AppErrorInner/);
     assert.match(i18n, /FALLBACK_I18N/);
     assert.doesNotMatch(i18n, /throw new Error\("useI18n must be used within I18nProvider"\)/);
+  });
+});
+
+describe("homepage FAQ matches FAQPage JSON-LD", () => {
+  it("keeps the six zh answers identical once phone and email placeholders are filled", () => {
+    const fill = (text: string) =>
+      text.replaceAll("{phone}", SITE.phoneDisplay).replaceAll("{email}", SITE.leadEmail);
+    const ui = [
+      [MESSAGES.zh.faq1q, MESSAGES.zh.faq1a],
+      [MESSAGES.zh.faq2q, MESSAGES.zh.faq2a],
+      [MESSAGES.zh.faq3q, MESSAGES.zh.faq3a],
+      [MESSAGES.zh.faq4q, MESSAGES.zh.faq4a],
+      [MESSAGES.zh.faq5q, MESSAGES.zh.faq5a],
+      [MESSAGES.zh.faq6q, MESSAGES.zh.faq6a],
+    ] as const;
+    assert.equal(FAQ.length, ui.length);
+    ui.forEach(([q, a], index) => {
+      assert.equal(q, FAQ[index]?.q);
+      assert.equal(fill(a), FAQ[index]?.a);
+    });
+    const graph = JSON.stringify(homeJsonLd());
+    assert.equal(graph.includes("sameAs"), false);
+    assert.equal(graph.includes("擣"), false);
+    assert.equal(graph.includes("有唔有"), false);
+    assert.match(FAQ[2]?.a ?? "", /HK\$218／月起/);
+    assert.equal((FAQ[2]?.a ?? "").includes("HK$229／月起"), false);
+    assert.equal((FAQ[2]?.a ?? "").includes("229／24 個月起"), false);
+    assert.match(FAQ[2]?.q ?? "", /有冇/);
+    assert.match(FAQ[5]?.a ?? "", /撳「留低電話」/);
+    assert.equal(getPlan("icable-ftth-1000-48m-58")?.monthlyFee, 58);
+    assert.equal(getPlan("cmhk-ftth-1000-village-24m-218")?.monthlyFee, 218);
+    assert.equal(getPlan("hkbn-village-2000-24m")?.monthlyFee, 229);
+    assert.equal(getPlan("cmhk-home5g-350-48-88")?.monthlyFee, 88);
+  });
+});
+
+describe("broadband hub answer-first summary", () => {
+  it("binds the live fibre count and the audited entry plans", () => {
+    const plans = readFileSync(join(here, "../routes/plans.tsx"), "utf8");
+    const summary = MESSAGES.zh.broadbandHubSummary;
+    assert.equal(summary.includes("71"), false);
+    assert.match(plans, /filterPlans\(\{ cat: "broadband" \}\)\.length/);
+    assert.match(plans, /t\("broadbandHubSummary"/);
+    const fibre58 = getPlan("icable-ftth-1000-48m-58");
+    const fibre75 = getPlan("hgc-ftth-1000-public-36m");
+    const fibre98 = getPlan("hkbn-ftth-1000-36m-98-sep30");
+    const fibre218 = getPlan("cmhk-ftth-1000-village-24m-218");
+    assert.ok(fibre58 && fibre75 && fibre98 && fibre218);
+    assert.equal(fibre58.monthlyFee, 58);
+    assert.equal(fibre58.contractMonths, 48);
+    assert.equal(fibre75.monthlyFee, 75);
+    assert.equal(fibre75.contractMonths, 36);
+    assert.equal(fibre98.monthlyFee, 98);
+    assert.equal(fibre98.contractMonths, 36);
+    assert.match(fibre98.limits ?? "", /2026 年 9 月 22 日/);
+    assert.match(fibre98.limits ?? "", /11 月 30 日/);
+    assert.equal(fibre218.monthlyFee, 218);
+    assert.equal(filterPlans({ cat: "broadband" }).length, 71);
+    const filled = summary
+      .replaceAll("{date}", SITE.updated)
+      .replaceAll("{name}", SITE.name)
+      .replaceAll("{n}", "71")
+      .replaceAll("{fee58}", formatFee(fibre58.monthlyFee))
+      .replaceAll("{months58}", String(fibre58.contractMonths))
+      .replaceAll("{fee75}", formatFee(fibre75.monthlyFee))
+      .replaceAll("{months75}", String(fibre75.contractMonths))
+      .replaceAll("{fee98}", formatFee(fibre98.monthlyFee))
+      .replaceAll("{months98}", String(fibre98.contractMonths))
+      .replaceAll("{fee218}", formatFee(fibre218.monthlyFee));
+    assert.equal(
+      filled,
+      "2026-11-05，齊Quote 光纖分類共 71 個參考計劃。站內可見入門例：指定屋苑 1000M 約 HK$58／月（48 個月）；公居屋轉台 1000M 約 HK$75／月（36 個月，HGC）；香港寬頻 1000M 限時快閃連 Wi-Fi 7 標示 HK$98／月（36 個月，須 2026-09-22 至 2026-11-30 成功預約安裝）。村屋計劃分開列（入門約 HK$218／月起），唔好用私樓價估。月費、覆蓋、安裝以電訊商確認為準；本站無收取電訊商佣金或廣告費。",
+    );
   });
 });

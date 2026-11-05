@@ -11,6 +11,16 @@ import { HOME_SEO, canonicalUrl, homeJsonLd, shareHead } from "@/lib/canonical";
 import { JsonLd } from "@/components/json-ld";
 import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
 
+/** Matches PROVIDERS.length. The homepage shell must not import the plan catalogue. */
+const HOME_PROVIDER_COUNT = 8;
+
+const ENTRY_PLAN_LINKS = [
+  ["icable-ftth-1000-48m-58", "catBroadband", "HK$58"],
+  ["cmhk-home5g-350-48-88", "catHome5g", "HK$88"],
+  ["cmhk-21m-3-3-38", "catMobile", "HK$38"],
+  ["cmhk-ftth-1000-village-24m-218", "villageFibre", "HK$218"],
+] as const satisfies readonly (readonly [string, MessageKey, string])[];
+
 const SearchPanel = lazy(() =>
   import("@/components/search-panel").then((mod) => ({ default: mod.SearchPanel })),
 );
@@ -103,10 +113,31 @@ function Home() {
             <h1 className="font-display text-display font-semibold leading-none tracking-tight">
               {t("heroTitle1")}
             </h1>
-            <p className="mt-3 max-w-lg text-sm text-primary-foreground/80 sm:mt-5 sm:text-lead">{t("heroLead")}</p>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-primary-foreground/90 sm:mt-4">
+              {t("heroAnswer", {
+                name: SITE.name,
+                providers: HOME_PROVIDER_COUNT,
+                plans: PLAN_COUNT,
+                estates: ESTATE_COUNT,
+                date: SITE.updated,
+              })}
+            </p>
+            <p className="mt-2 flex max-w-xl flex-wrap gap-x-3 gap-y-1 text-xs text-primary-foreground/80">
+              {ENTRY_PLAN_LINKS.map(([planId, label, fee]) => (
+                <Link
+                  key={planId}
+                  to="/plans/$planId"
+                  params={{ planId }}
+                  className="underline-offset-4 hover:underline"
+                >
+                  {t(label)} {fee}
+                </Link>
+              ))}
+            </p>
+            <p className="mt-3 max-w-lg text-sm text-primary-foreground/80 sm:mt-4 sm:text-lead">{t("heroLead")}</p>
             <div className="mt-8 hidden gap-6 text-sm text-primary-foreground/75 sm:flex">
               <p className="flex items-baseline gap-1.5">
-                <span className="font-display text-lg font-semibold tabular-nums text-primary-foreground">8</span>
+                <span className="font-display text-lg font-semibold tabular-nums text-primary-foreground">{HOME_PROVIDER_COUNT}</span>
                 {t("statProvidersUnit")}
               </p>
               <p className="flex items-baseline gap-1.5">

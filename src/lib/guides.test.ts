@@ -125,3 +125,31 @@ describe("2026 six-carrier 1000M table", () => {
     assert.match(route, /section\.matrix/);
   });
 });
+
+describe("fibre vs 5G home comparison", () => {
+  it("keeps the lead and adds the 2026-11-05 entry table", () => {
+    const guide = getGuide("fiber-vs-5g");
+    assert.ok(guide);
+    assert.equal(guide.excerpt, "可以拉光纖就優先光纖。拉唔到或者村屋未有線，先睇 5G 家居。");
+    assert.match(guide.body[0]?.paragraphs[0] ?? "", /^可以拉光纖就優先光纖。拉唔到或者村屋未有線，先睇 5G 家居。/);
+    assert.equal(guide.modified, "2026-11-05");
+    assert.equal(sitemapLastmod("/guides/fiber-vs-5g"), "2026-11-05");
+    const matrix = guide.body[0]?.matrix;
+    assert.ok(matrix);
+    assert.deepEqual(matrix.headers, ["項目", "光纖入屋", "5G 家居寬頻"]);
+    assert.equal(matrix.rows.length, 7);
+    assert.match(matrix.rows[3]?.[1] ?? "", /HK\$58／月起/);
+    assert.match(matrix.rows[3]?.[1] ?? "", /icable-ftth-1000-48m-58/);
+    assert.match(matrix.rows[3]?.[2] ?? "", /HK\$88／月起/);
+    assert.match(matrix.rows[3]?.[2] ?? "", /cmhk-home5g-350-48-88/);
+    assert.match(matrix.rows[5]?.[1] ?? "", /HK\$218／月起/);
+    assert.match(matrix.rows[5]?.[1] ?? "", /cmhk-ftth-1000-village-24m-218/);
+    assert.equal((matrix.rows[5]?.[1] ?? "").includes("229"), false);
+    assert.equal(guide.faq?.length, 3);
+    assert.match(guide.faq?.[2]?.a ?? "", /HK\$218／月起/);
+    for (const id of ["icable-ftth-1000-48m-58", "cmhk-home5g-350-48-88", "cmhk-ftth-1000-village-24m-218"] as const) {
+      assert.ok(getPlan(id), id);
+    }
+    assert.match(JSON.stringify(guide.body), /cmhk-home5g-350-48-88/);
+  });
+});
