@@ -15,13 +15,6 @@ import { IdleMount } from "@/components/idle-mount";
 /** Matches PROVIDERS.length. The homepage shell must not import the plan catalogue. */
 const HOME_PROVIDER_COUNT = 8;
 
-const ENTRY_PLAN_LINKS = [
-  ["icable-ftth-1000-48m-58", "catBroadband", "HK$58"],
-  ["cmhk-home5g-350-48-88", "catHome5g", "HK$88"],
-  ["cmhk-21m-3-3-38", "catMobile", "HK$38"],
-  ["cmhk-ftth-1000-village-24m-218", "villageFibre", "HK$218"],
-] as const satisfies readonly (readonly [string, MessageKey, string])[];
-
 const SearchPanel = lazy(() =>
   import("@/components/search-panel").then((mod) => ({ default: mod.SearchPanel })),
 );
@@ -125,23 +118,6 @@ function Home() {
           )}
         </div>
       </section>
-
-      <nav id="entry-prices" aria-label={locale === "en" ? "Entry reference fees" : "入門參考月費"} className="border-b border-border bg-card">
-        <ul className="mx-auto flex max-w-6xl gap-2 overflow-x-auto px-4 py-3">
-          {ENTRY_PLAN_LINKS.map(([planId, label, fee]) => (
-            <li key={planId} className="shrink-0">
-              <Link
-                to="/plans/$planId"
-                params={{ planId }}
-                className="inline-flex h-11 items-center gap-1.5 rounded-full border border-border bg-bg px-3 text-sm"
-              >
-                <span>{t(label)}</span>
-                <span className="font-semibold tabular-nums text-primary">{fee}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
 
       <IdleMount fallback={<PicksSkeleton />}>
         <Suspense fallback={<PicksSkeleton />}>
