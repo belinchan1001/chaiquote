@@ -3984,6 +3984,8 @@ export type PlansSearch = {
   exclude?: ProviderId;
   expiry?: "1m" | "2-3m" | "4-6m" | "6m+";
   from?: "ad";
+  /** UI locale only. Not a plan filter. */
+  lang?: "en";
 };
 
 export const ESPORTS_LINE_MIN_SPEED = 2500;

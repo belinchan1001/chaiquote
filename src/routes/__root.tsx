@@ -1,4 +1,4 @@
-import { createRootRoute, HeadContent, Link, Outlet, Scripts } from "@tanstack/react-router";
+import { createRootRoute, HeadContent, Link, Outlet, Scripts, useRouterState } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
@@ -12,6 +12,7 @@ import { GoogleAdsTag } from "@/components/google-ads-tag";
 import { IdleMount } from "@/components/idle-mount";
 import { PwaServiceWorker } from "@/components/pwa-service-worker";
 import { I18nProvider, useI18n, usePageTitle } from "@/lib/i18n";
+import { keepLangSearch, localeFromHref } from "@/lib/locale";
 import { AppErrorComponent } from "@/lib/error-component";
 import { SITE } from "@/lib/site";
 import { PWA } from "@/lib/pwa";
@@ -34,6 +35,12 @@ const FirstVisitTour = lazy(() =>
 );
 
 export const Route = createRootRoute({
+  validateSearch: (search: Record<string, unknown>) => ({
+    lang: search.lang === "en" ? ("en" as const) : undefined,
+  }),
+  search: {
+    middlewares: [keepLangSearch as never],
+  },
   head: ({ matches }) => {
     const pageUrl = canonicalUrlFromMatches(matches);
     const notFoundDoc = isNotFoundDocument(matches);
@@ -121,15 +128,23 @@ function PageShell() {
 }
 
 function RootLayout() {
+  const href = useRouterState({ select: (s) => s.location.href });
+  const locale = localeFromHref(href);
   return (
-    <html lang="zh-HK" className="antialiased" style={{ backgroundColor: "#F4F8FF" }} suppressHydrationWarning>
+    <html
+      lang={locale === "en" ? "en" : "zh-HK"}
+      data-boot={locale === "en" ? "en" : "zh"}
+      className="antialiased"
+      style={{ backgroundColor: "#F4F8FF" }}
+      suppressHydrationWarning
+    >
       <head>
         <HeadContent />
       </head>
       <body className="min-h-dvh bg-bg text-fg">
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{if(localStorage.getItem("chaiquote-lang")==="en")document.documentElement.setAttribute("data-boot","en")}catch(e){}`,
+            __html: `try{if(new URLSearchParams(location.search).get("lang")==="en")document.documentElement.setAttribute("data-boot","en")}catch(e){}`,
           }}
         />
         <BootSplash />

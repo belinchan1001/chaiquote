@@ -19,7 +19,7 @@ import { addressHitValue } from "@/lib/address-search";
 import { planLine } from "@/lib/whatsapp";
 import type { MessageKey } from "@/lib/messages";
 
-type QuoteSearch = { plan?: string };
+type QuoteSearch = { plan?: string; lang?: "en" };
 
 const CAT_KEYS: Record<Category, MessageKey> = {
   broadband: "catBroadband",
@@ -38,6 +38,7 @@ const HOUSING_KEYS: Record<Housing, MessageKey> = {
 export const Route = createFileRoute("/quote")({
   validateSearch: (search: Record<string, unknown>): QuoteSearch => ({
     plan: typeof search.plan === "string" ? search.plan : undefined,
+    ...(search.lang === "en" ? { lang: "en" as const } : {}),
   }),
   component: QuotePage,
   head: () => ({
