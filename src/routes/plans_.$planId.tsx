@@ -29,6 +29,7 @@ export const Route = createFileRoute("/plans_/$planId")({
     return {
       ...(housing ? { housing } : {}),
       ...(estate ? { estate } : {}),
+      ...(search.lang === "en" ? { lang: "en" as const } : {}),
     };
   },
   component: PlanDetailPage,

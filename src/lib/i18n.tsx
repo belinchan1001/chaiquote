@@ -1,5 +1,7 @@
-import { createContext, startTransition, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { loadPlanEn, toEnglishLazy } from "@/lib/plan-en-lazy";
+import { localeFromHref } from "@/lib/locale";
 import { MESSAGES, type Locale, type MessageKey } from "@/lib/messages";
 import { PROVIDER_MAP, type Category, type Housing, type ProviderId } from "@/lib/plans";
 import { SITE } from "@/lib/site";
@@ -94,27 +96,20 @@ function createI18nValue(locale: Locale, setLocale: (locale: Locale) => void): I
 /** zh-only fallback for chrome that can render outside I18nProvider (root error / 404). */
 const FALLBACK_I18N = createI18nValue("zh", () => {});
 
-function readStored(): Locale {
-  try {
-    const value = localStorage.getItem(STORAGE_KEY);
-    if (value === "en" || value === "zh") return value;
-  } catch {
-    /* ignore */
-  }
-  return "zh";
-}
-
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("zh");
+  const href = useRouterState({ select: (s) => s.location.href });
+  const locale = localeFromHref(href);
+  const navigate = useNavigate();
   const [enReady, setEnReady] = useState(false);
-
-  useEffect(() => {
-    setLocaleState(readStored());
-  }, []);
 
   useEffect(() => {
     document.documentElement.lang = locale === "en" ? "en" : "zh-HK";
     document.documentElement.setAttribute("data-boot", locale === "en" ? "en" : "zh");
+    try {
+      localStorage.setItem(STORAGE_KEY, locale);
+    } catch {
+      /* ignore */
+    }
   }, [locale]);
 
   useEffect(() => {
@@ -149,12 +144,18 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       } catch {
         /* ignore */
       }
-      startTransition(() => {
-        setLocaleState(next);
+      void navigate({
+        to: ".",
+        search: ((prev: Record<string, unknown>) => ({
+          ...prev,
+          lang: next === "en" ? "en" : undefined,
+        })) as never,
+        replace: true,
+        resetScroll: false,
       });
     }
     return createI18nValue(locale, setLocale);
-  }, [locale, enReady]);
+  }, [locale, enReady, navigate]);
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }
