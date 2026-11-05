@@ -146,13 +146,38 @@ export const CORE_GUIDES: Guide[] = [
       "Choose fibre when a line can be pulled. Use 5G home for rentals, waits, and village houses with no fibre. Village fibre is not a private-estate price.",
     h1En: "5G home or fibre",
     published: "2026-09-05",
-    modified: "2026-10-05",
+    modified: "2026-11-05",
     body: [
       {
         heading: "點揀",
         paragraphs: [
-          "可以拉光纖就優先光纖。拉唔到、租約短，或者村屋未有線，先睇 5G 家居。村屋要另外對 [村屋光纖](/guides/village)，唔好用私樓月費去估。",
+          "可以拉光纖就優先光纖。拉唔到或者村屋未有線，先睇 5G 家居。租約短都係同一個次序。村屋要另外對 [村屋光纖](/guides/village)，唔好用私樓月費去估。",
         ],
+        matrix: {
+          caption: "光纖入屋同 5G 家居對照。月費係 2026-11-05 站內入門參考，以電訊商確認為準。",
+          headers: ["項目", "光纖入屋", "5G 家居寬頻"],
+          rows: [
+            ["點樣裝", "穿牆拉線、預約師傅；舊樓／業主唔同意可能裝唔到", "路由器插電即用"],
+            ["速度體感", "常見由 1000M 起；延遲低，啱上傳／多路 4K／開會", "站內例標示約 100M–1000M，視訊號、裝置、擺位"],
+            ["用量", "跟該光纖合約條款", "多數有高速數據上限；用完降速／降優先權"],
+            [
+              "站內入門例（2026-11-05）",
+              "約 [HK$58／月起](/plans/icable-ftth-1000-48m-58)（指定屋苑 1000M／48 個月）",
+              "約 [HK$88／月起](/plans/cmhk-home5g-350-48-88)（350GB／48 個月，租借 Wi-Fi 7）",
+            ],
+            ["適合", "長住、要穩、要上傳", "租樓、等光纖、未有線、即日上網"],
+            [
+              "村屋",
+              "分開計劃；入門約 [HK$218／月起](/plans/cmhk-ftth-1000-village-24m-218)，唔等於公屋價",
+              "可作未有光纖時選項；繁忙時間可能慢",
+            ],
+            [
+              "查計劃",
+              "[指定屋苑 1000M](/plans/icable-ftth-1000-48m-58) 同 [光纖格價](/plans?cat=broadband)",
+              "[5G 家居 350GB](/plans/cmhk-home5g-350-48-88) 同 [5G 家居格價](/plans?cat=home5g)",
+            ],
+          ],
+        },
       },
       {
         heading: "光纖入屋",
@@ -185,6 +210,7 @@ export const CORE_GUIDES: Guide[] = [
         heading: "數據上限",
         paragraphs: [
           "5G 家居好多時有高速數據用量，用完會降速或降低優先權。光纖入屋通常按該計劃條款提供本地用量，細節以合約為準。",
+          "站內例：[5G 家居 350GB（48 個月，租借 Wi-Fi 7）](/plans/cmhk-home5g-350-48-88) 標示高速數據 350GB，用完跟該計劃公平使用條款。",
         ],
       },
       {
@@ -199,8 +225,33 @@ export const CORE_GUIDES: Guide[] = [
       {
         heading: "How to choose",
         paragraphs: [
-          "Pull fibre if you can. Use 5G home for a short rental, or a village house with no line. Village fibre is a separate page: [village fibre](/guides/village). Do not reuse a private-estate fee.",
+          "Pull fibre if you can. If you cannot, or a village house has no line yet, look at 5G home. A short rental uses the same order. Village fibre is a separate page: [village fibre](/guides/village). Do not reuse a private-estate fee.",
         ],
+        matrix: {
+          caption: "Fibre and 5G home compared. Fees are on-site entry references as of 2026-11-05. The carrier confirms.",
+          headers: ["Item", "Fibre to the home", "5G home broadband"],
+          rows: [
+            ["How it is installed", "A technician runs a line through the wall. An older building or a landlord can block it.", "Plug in a router."],
+            ["How speed feels", "Often from 1000M, with low latency. Suits uploads, several 4K streams and calls.", "Listed examples are about 100M–1000M, depending on signal, devices and placement."],
+            ["Usage", "Follows that fibre contract.", "Most plans cap high-speed data, then slow down or lose priority."],
+            [
+              "On-site entry example (2026-11-05)",
+              "About [HK$58/month](/plans/icable-ftth-1000-48m-58) (designated-estate 1000M / 48 months)",
+              "About [HK$88/month](/plans/cmhk-home5g-350-48-88) (350GB / 48 months, Wi-Fi 7 rental)",
+            ],
+            ["Fits", "Long stay, stability, uploads", "Renting, waiting for fibre, no line yet, internet today"],
+            [
+              "Village house",
+              "Separate plans; from about [HK$218/month](/plans/cmhk-ftth-1000-village-24m-218). Not a public-housing price.",
+              "An option where fibre is not in. Busy hours can be slower.",
+            ],
+            [
+              "See plans",
+              "[Designated-estate 1000M](/plans/icable-ftth-1000-48m-58) and [fibre compare](/plans?cat=broadband)",
+              "[5G home 350GB](/plans/cmhk-home5g-350-48-88) and [5G home compare](/plans?cat=home5g)",
+            ],
+          ],
+        },
       },
       {
         heading: "Fibre to the home",
@@ -233,6 +284,7 @@ export const CORE_GUIDES: Guide[] = [
         heading: "Data caps",
         paragraphs: [
           "5G home often has a high-speed data cap, then slows down or is deprioritised. Fibre to the home usually follows that plan’s local-usage terms. Details are in the contract.",
+          "On-site example: [5G home 350GB (48 months, Wi-Fi 7 rental)](/plans/cmhk-home5g-350-48-88) lists 350GB of high-speed data, then follows that plan’s fair-use terms.",
         ],
       },
       {
@@ -244,6 +296,34 @@ export const CORE_GUIDES: Guide[] = [
       },
     ],
     related: ["fiber", "home5g", "village"],
+    faq: [
+      {
+        q: "香港應該揀光纖定 5G 家居？",
+        a: "可以拉光纖就優先光纖。拉唔到或者村屋未有線，先睇 5G 家居。村屋要另外對 [村屋光纖](/guides/village)，唔好用公屋或私樓價去估。",
+      },
+      {
+        q: "光纖同 5G 家居站內入門參考大約幾錢？",
+        a: "2026-11-05 站內入門參考：光纖約 [HK$58／月起](/plans/icable-ftth-1000-48m-58)（指定屋苑 1000M／48 個月）；5G 家居約 [HK$88／月起](/plans/cmhk-home5g-350-48-88)（350GB／48 個月，租借 Wi-Fi 7）。僅供參考，以電訊商確認為準。",
+      },
+      {
+        q: "村屋一定有光纖嗎？",
+        a: "唔一定。村屋光纖要核對門牌，入門約 [HK$218／月起](/plans/cmhk-ftth-1000-village-24m-218)，唔等於公屋價。未有光纖可以比較 5G 家居。實際覆蓋以電訊商確認為準。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Should I choose fibre or 5G home in Hong Kong?",
+        a: "Pull fibre if you can. If you cannot, or the village house has no line yet, look at 5G home. Compare village fibre separately. Do not reuse a public-housing or private-estate fee.",
+      },
+      {
+        q: "What are the on-site entry references for fibre and 5G home?",
+        a: "On 2026-11-05 the on-site references are about HK$58/month for fibre (designated-estate 1000M, 48 months) and about HK$88/month for 5G home (350GB, 48 months, Wi-Fi 7 rental). For reference only; the carrier confirms.",
+      },
+      {
+        q: "Does every village house have fibre?",
+        a: "Not necessarily. Coverage has to be checked against the address. Village fibre starts at about HK$218/month, which is not a public-housing price. Where there is no fibre, compare 5G home. The carrier confirms coverage.",
+      },
+    ],
     plans: [
       { href: "/plans?cat=broadband", label: "去光纖格價" },
       { href: "/plans?cat=home5g", label: "去 5G 家居格價" },

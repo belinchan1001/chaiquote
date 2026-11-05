@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import { type Category, type Housing, type PlansSearch } from "@/lib/plans";
+import { formatFee, getPlan, type Category, type Housing, type PlansSearch } from "@/lib/plans";
 import { filterPlans } from "@/lib/plan-filter";
 import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { isHkbnFlashEstate, isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
@@ -22,7 +22,7 @@ import { indexableEstateNavLinks } from "@/lib/estate-pages";
 import { categoryJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 import { bringPlanListIntoView, holdPlanListScroll, isPlanListInView, watchPlanListInView } from "@/lib/plan-list-fade";
-import { CATEGORY_OPTIONS } from "@/lib/site";
+import { CATEGORY_OPTIONS, SITE } from "@/lib/site";
 import {
   currentLabel,
   currentOptions,
@@ -38,6 +38,13 @@ import {
 import type { MessageKey } from "@/lib/messages";
 
 const PAGE_SIZE = 12;
+
+const FIBRE_ENTRY_IDS = [
+  "icable-ftth-1000-48m-58",
+  "hgc-ftth-1000-public-36m",
+  "hkbn-ftth-1000-36m-98-sep30",
+  "cmhk-ftth-1000-village-24m-218",
+] as const;
 
 const CAT_KEYS: Record<Category, MessageKey> = {
   broadband: "catBroadband",
@@ -82,6 +89,11 @@ function PlansPage() {
   const saved = useDesk((s) => s.saved);
   const setInquiry = useDesk((s) => s.setInquiry);
   const rows = filterPlans(search, saved);
+  const fibreCatalogueCount = search.cat === "broadband" ? filterPlans({ cat: "broadband" }).length : 0;
+  const fibreEntries = FIBRE_ENTRY_IDS.map((id) => getPlan(id));
+  const [fibre58, fibre75, fibre98, fibre218] = fibreEntries;
+  const showFibreSummary =
+    search.cat === "broadband" && fibre58 && fibre75 && fibre98 && fibre218;
   const showHousing = search.cat === "broadband" || search.cat === "home5g";
   const intake = fromPortInSearch(search);
   const [visible, setVisible] = useState(PAGE_SIZE);
@@ -367,6 +379,40 @@ function PlansPage() {
           ) : null}
         </p>
       </div>
+
+      {showFibreSummary && fibre58 && fibre75 && fibre98 && fibre218 ? (
+        <div className="mt-4 max-w-3xl">
+          <p className="text-sm leading-relaxed text-muted">
+            {t("broadbandHubSummary", {
+              date: updated,
+              name: SITE.name,
+              n: fibreCatalogueCount,
+              fee58: formatFee(fibre58.monthlyFee),
+              months58: fibre58.contractMonths,
+              fee75: formatFee(fibre75.monthlyFee),
+              months75: fibre75.contractMonths,
+              fee98: formatFee(fibre98.monthlyFee),
+              months98: fibre98.contractMonths,
+              fee218: formatFee(fibre218.monthlyFee),
+            })}
+          </p>
+          <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm">
+            {fibreEntries.map((plan) =>
+              plan ? (
+                <li key={plan.id}>
+                  <Link
+                    to="/plans/$planId"
+                    params={{ planId: plan.id }}
+                    className="text-accent underline-offset-4 hover:underline"
+                  >
+                    {plan.name}
+                  </Link>
+                </li>
+              ) : null,
+            )}
+          </ul>
+        </div>
+      ) : null}
 
       {search.exclude && search.provider ? (
         <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
