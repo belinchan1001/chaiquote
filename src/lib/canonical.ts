@@ -286,6 +286,7 @@ export function homeJsonLd() {
         name: SITE.name,
         alternateName: ["齊Quote寬頻報價", "齊Quote電訊報價"],
         url: SITE.url,
+        sameAs: SITE.sameAs,
         logo: { "@type": "ImageObject", url: `${SITE.url}/icon-512.png` },
         email: SITE.leadEmail,
         telephone: `+${SITE.whatsappE164}`,

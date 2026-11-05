@@ -389,8 +389,14 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
       assert.equal(q, FAQ[index]?.q);
       assert.equal(fill(a), FAQ[index]?.a);
     });
-    const graph = JSON.stringify(homeJsonLd());
-    assert.equal(graph.includes("sameAs"), false);
+    const ld = homeJsonLd();
+    const org = ld["@graph"].find((node) => node["@type"] === "Organization");
+    assert.deepEqual(org?.sameAs, [
+      "https://www.instagram.com/chaiquote.hk/",
+      "https://www.facebook.com/p/%E9%BD%8AQuote-61594256257767/",
+    ]);
+    const graph = JSON.stringify(ld);
+    assert.equal(graph.split('"sameAs"').length - 1, 1);
     assert.equal(graph.includes("擣"), false);
     assert.equal(graph.includes("有唔有"), false);
     assert.match(FAQ[2]?.a ?? "", /HK\$218／月起/);
