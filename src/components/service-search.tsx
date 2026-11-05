@@ -1,13 +1,11 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, useNavigate, useRouter } from "@tanstack/react-router";
 import { Building2, Loader2, Signal, Smartphone, Wifi, X } from "lucide-react";
 import { AiFilterEntry } from "@/components/ai-filter-entry";
 import { LazyEstateSuggest as EstateSuggest } from "@/components/lazy-estate-suggest";
-import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import { IntakeFields } from "@/components/intake-fields";
 import { Button } from "@/components/ui/button";
-import { addressHitValue, type AddressHit } from "@/lib/address-search";
 import { useDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
 import type { Category, Housing } from "@/lib/plans";
@@ -28,6 +26,27 @@ import {
 } from "@/lib/port-in";
 import { compactSearch } from "@/lib/search";
 import type { MessageKey } from "@/lib/messages";
+
+const HousingGuessNote = lazy(() =>
+  import("@/components/housing-guess").then((mod) => ({ default: mod.HousingGuessNote })),
+);
+
+type PickedHit = {
+  name: string;
+  nameEN?: string;
+  address: string;
+  addressEN?: string;
+  district: string;
+  housing?: Housing;
+};
+
+/** Same zh/en join as addressHitValue, without pulling the estate catalogue into the hero. */
+function pickedEstateLabel(hit: PickedHit, locale: "zh" | "en") {
+  const name = locale === "en" && hit.nameEN?.trim() ? hit.nameEN.trim() : hit.name;
+  const address = (locale === "en" && hit.addressEN?.trim() ? hit.addressEN : hit.address).trim();
+  if (!address) return name;
+  return locale === "en" ? `${name}, ${address}` : `${name}，${address}`;
+}
 
 const SERVICES: {
   cat: Category;
@@ -64,12 +83,27 @@ export function ServiceSearch() {
   const [esports, setEsports] = useState(false);
   const [error, setError] = useState<"address" | "current" | "">("");
   const [searching, setSearching] = useState(false);
+  const [guessedHousing, setGuessedHousing] = useState<Housing | "">("");
 
   const open = openCat !== null;
   const addressOptional = openCat !== "broadband";
 
+  useEffect(() => {
+    if (!openCat || openCat === "business" || housing || !estate.trim()) {
+      setGuessedHousing("");
+      return;
+    }
+    let cancel = false;
+    void import("@/components/housing-guess").then((mod) => {
+      if (!cancel) setGuessedHousing(mod.resolvedHousing(estate.trim()) ?? "");
+    });
+    return () => {
+      cancel = true;
+    };
+  }, [openCat, housing, estate]);
+
   const housingValue = (
-    !openCat || openCat === "business" ? "" : housing || resolvedHousing(estate.trim()) || ""
+    !openCat || openCat === "business" ? "" : housing || guessedHousing || ""
   ) as Housing | "";
   const pendingSearch = openCat
     ? compactSearch(
@@ -116,15 +150,28 @@ export function ServiceSearch() {
     });
   }
 
-  function onPickEstate(hit: AddressHit) {
-    const nextHousing = hit.housing ?? resolvedHousing(hit.name) ?? housing;
-    const nextEstate = addressHitValue(hit);
+  function onPickEstate(hit: PickedHit) {
+    const nextEstate = pickedEstateLabel(hit, locale);
+    const nextHousing = hit.housing;
     setEstate(nextEstate);
     if (nextHousing) setHousing(nextHousing);
+    else {
+      void import("@/components/housing-guess").then((mod) => {
+        const guessed = mod.resolvedHousing(hit.name);
+        if (!guessed) return;
+        setHousing(guessed);
+        setInquiry({
+          estate: nextEstate,
+          housing: guessed,
+          district: hit.district,
+          block,
+        });
+      });
+    }
     if (hit.district) setDistrict(hit.district);
     rememberAddress({
       estate: nextEstate,
-      housing: nextHousing,
+      housing: nextHousing ?? housing,
       district: hit.district,
       block,
     });
@@ -196,7 +243,11 @@ export function ServiceSearch() {
           placeholder={t("intakeAddressPh")}
           onSelect={onPickEstate}
         />
-        <HousingGuessNote query={estate} applied={(housing || undefined) as Housing | undefined} />
+        {estate.trim() ? (
+          <Suspense fallback={null}>
+            <HousingGuessNote query={estate} applied={(housing || undefined) as Housing | undefined} />
+          </Suspense>
+        ) : null}
         <p className="text-xs text-muted">{t("intakeAddressHint")}</p>
         <AiFilterEntry className="pt-1" />
       </div>

@@ -32,7 +32,10 @@ describe("homepage first-load images", () => {
     assert.match(home, /srcSet=\{webpSrcSet\(item\.webp\)\}/);
     assert.match(home, /sizes=\{CARD_IMAGE_SIZES\}/);
     assert.match(src("image-src.ts"), /\(max-width: 767px\) 400px, 800px/);
-    assert.match(home, /loading=\{eager \? "eager" : "lazy"\}/);
+    assert.match(home, /loading="lazy"/);
+    assert.match(home, /fetchPriority="low"/);
+    assert.match(home, /height=\{550\}/);
+    assert.doesNotMatch(home, /fetchPriority=\{eager/);
     assert.match(home, /webp: "\/images\/cat-broadband\.webp"/);
     assert.match(home, /photo-strip photo-strip-card/);
     assert.doesNotMatch(home, /aspect-\[16\/10\]/);
@@ -126,7 +129,7 @@ describe("homepage first-load images", () => {
     assert.match(css, /--color-accent: #00a8c5;/);
     assert.match(home, /t\(item\.text\)/);
     assert.doesNotMatch(home, /line-clamp/);
-    assert.match(featured, /<PlanCard key=\{plan\.id\} plan=\{plan\} imagePriority=\{index < 2\} \/>/);
+    assert.match(featured, /<PlanCard key=\{plan\.id\} plan=\{plan\} imagePriority=\{false\} \/>/);
     assert.doesNotMatch(home, /className="plan"/);
 
     const chips = src("../components/filter-link.tsx");
@@ -165,6 +168,9 @@ describe("homepage first-load images", () => {
     assert.match(lazy, /onFocus=\{\(\) => setActive\(true\)\}/);
     assert.doesNotMatch(lazy, /requestIdleCallback/);
     assert.doesNotMatch(lazy, /setTimeout\(start, 2500\)/);
+    assert.doesNotMatch(service, /from "@\/lib\/address-search"/);
+    assert.doesNotMatch(service, /from "@\/components\/housing-guess"/);
+    assert.match(service, /import\("@\/components\/housing-guess"\)/);
   });
 
   it("does not import the full plan catalogue on the homepage shell", () => {
@@ -187,6 +193,11 @@ describe("homepage first-load images", () => {
     assert.doesNotMatch(teaser, /editorNote|body:|paragraphs/);
     assert.match(root, /IdleMount/);
     assert.match(src("../components/idle-mount.tsx"), /requestIdleCallback/);
+    assert.doesNotMatch(src("../components/whatsapp-widget.tsx"), /import \{ getPlan \} from "@\/lib\/plans"/);
+    assert.match(src("../components/whatsapp-widget.tsx"), /import\("@\/lib\/plans"\)/);
+    assert.match(home, /id="entry-prices"/);
+    assert.match(home, /t\("heroAnswer"/);
+    assert.match(home, /faq1q/);
   });
 
   it("does not wait on the database before the page or a filter change", () => {

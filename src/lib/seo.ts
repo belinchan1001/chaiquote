@@ -1,4 +1,4 @@
-import { formatFee, getPlan, isListedPlan, PLANS, PROVIDER_MAP, type Category, type Housing, type Plan, type ProviderId } from "./plans.ts";
+import { formatFee, formatPlanSpeed, getPlan, isListedPlan, PLANS, PROVIDER_MAP, type Category, type Housing, type Plan, type ProviderId } from "./plans.ts";
 import { INDEXABLE_ESTATE_PAGES, estatePagePath, estateSeoDescription, estateSeoTitle, type EstatePage } from "./estate-pages.ts";
 import { GUIDES, getGuide, type Guide } from "./guides.ts";
 import { TECH_NEWS_ARTICLES, TECH_NEWS_CATEGORIES } from "./tech-news.ts";
@@ -228,7 +228,7 @@ export function planSeoDescription(plan: Plan): string {
   const provider = PROVIDER_MAP[plan.providerId].name;
   const speed = planSpeedLabel(plan);
   const speedBit = speed ? `${speed}，` : "";
-  const text = `${catalogueMonthLabel()}可以比較${provider}${speedBit}${plan.name}，月費${formatFee(plan.monthlyFee)}，${plan.contractMonths}個月，適用${planHousingLabel(plan)}。想對其他月費或者查覆蓋，可以再篩樓類。實際價錢同安裝以電訊商確認為準。`;
+  const text = `${catalogueMonthLabel()}可以比較${provider}${speedBit}${plan.name}。月費${formatFee(plan.monthlyFee)}，合約${plan.contractMonths}個月，適用${planHousingLabel(plan)}。想對其他月費或者查覆蓋，可以再篩樓類。實際價錢同安裝以電訊商確認為準。`;
   return text;
 }
 
@@ -306,6 +306,7 @@ export function planJsonLd(plan: Plan) {
     additionalProperty: [
       { "@type": "PropertyValue", name: "合約期", value: `${plan.contractMonths}個月` },
       { "@type": "PropertyValue", name: "樓類", value: planHousingLabel(plan) },
+      { "@type": "PropertyValue", name: "速度", value: formatPlanSpeed(plan) },
     ],
   };
 }

@@ -12,6 +12,7 @@ import {
   formatPlanSpeed,
   getPlan,
   isNetvigatorVillage,
+  PROVIDER_MAP,
 } from "@/lib/plans";
 import { parseEstateParam, parseHousingParam, relatedComparePlans } from "@/lib/related-plans";
 import { notFoundHead } from "@/lib/canonical";
@@ -94,7 +95,7 @@ function PlanDetailPage() {
   useHydrateDesk();
   const avg = averageFee(plan);
   const related = relatedComparePlans(plan, housing, estate);
-  const { t, tx, categoryLabel, housingList, locale } = useI18n();
+  const { t, tx, categoryLabel, housingList, locale, updated } = useI18n();
   usePageTitle(planSeoTitle(plan));
   const remembered = readPlansSearch();
   const backSearch =
@@ -142,6 +143,33 @@ function PlanDetailPage() {
       </Link>
 
       <h1 className="sr-only">{tx(plan.name)}</h1>
+      <p className="mt-4 max-w-3xl text-sm leading-relaxed text-fg">
+        {locale === "en"
+          ? `As of ${updated}, ${PROVIDER_MAP[plan.providerId].nameEn} lists ${tx(plan.name)} at ${formatFee(plan.monthlyFee)} per month for ${plan.contractMonths} months. Housing: ${housingList(plan.housing)}. Speed: ${tx(formatPlanSpeed(plan))}.`
+          : planSeoDescription(plan)}
+      </p>
+      <table className="mt-4 w-full max-w-3xl border-collapse text-sm">
+        <caption className="mb-2 text-left text-xs text-muted">
+          {locale === "en" ? "Catalogue labels on this page" : "呢頁目錄標示"}
+        </caption>
+        <tbody>
+          {(
+            [
+              [t("rowFee"), formatFee(plan.monthlyFee)],
+              [t("rowContract"), t("months", { n: plan.contractMonths })],
+              [t("speed"), tx(formatPlanSpeed(plan))],
+              [t("rowHousing"), housingList(plan.housing)],
+            ] as const
+          ).map(([label, value]) => (
+            <tr key={label} className="border-b border-border">
+              <th scope="row" className="py-2 pr-3 text-left font-medium text-muted">
+                {label}
+              </th>
+              <td className="py-2">{value}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       <div className="mt-6 max-w-3xl">
         <PlanCard plan={plan} />
       </div>

@@ -10,6 +10,7 @@ import type { MessageKey } from "@/lib/messages";
 import { HOME_SEO, canonicalUrl, homeJsonLd, shareHead } from "@/lib/canonical";
 import { JsonLd } from "@/components/json-ld";
 import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
+import { IdleMount } from "@/components/idle-mount";
 
 /** Matches PROVIDERS.length. The homepage shell must not import the plan catalogue. */
 const HOME_PROVIDER_COUNT = 8;
@@ -113,42 +114,7 @@ function Home() {
             <h1 className="font-display text-display font-semibold leading-none tracking-tight">
               {t("heroTitle1")}
             </h1>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-primary-foreground/90 sm:mt-4">
-              {t("heroAnswer", {
-                name: SITE.name,
-                providers: HOME_PROVIDER_COUNT,
-                plans: PLAN_COUNT,
-                estates: ESTATE_COUNT,
-                date: SITE.updated,
-              })}
-            </p>
-            <p className="mt-2 flex max-w-xl flex-wrap gap-x-3 gap-y-1 text-xs text-primary-foreground/80">
-              {ENTRY_PLAN_LINKS.map(([planId, label, fee]) => (
-                <Link
-                  key={planId}
-                  to="/plans/$planId"
-                  params={{ planId }}
-                  className="underline-offset-4 hover:underline"
-                >
-                  {t(label)} {fee}
-                </Link>
-              ))}
-            </p>
             <p className="mt-3 max-w-lg text-sm text-primary-foreground/80 sm:mt-4 sm:text-lead">{t("heroLead")}</p>
-            <div className="mt-8 hidden gap-6 text-sm text-primary-foreground/75 sm:flex">
-              <p className="flex items-baseline gap-1.5">
-                <span className="font-display text-lg font-semibold tabular-nums text-primary-foreground">{HOME_PROVIDER_COUNT}</span>
-                {t("statProvidersUnit")}
-              </p>
-              <p className="flex items-baseline gap-1.5">
-                <span className="font-display text-lg font-semibold tabular-nums text-primary-foreground">{PLAN_COUNT}</span>
-                {t("statPlansUnit")}
-              </p>
-              <p className="flex items-baseline gap-1.5">
-                <span className="font-display text-lg font-semibold tabular-nums text-primary-foreground">{ESTATE_COUNT}</span>
-                {t("statEstatesUnit")}
-              </p>
-            </div>
           </div>
           {HOME_SEARCH_V2 ? (
             <ServiceSearch />
@@ -160,9 +126,28 @@ function Home() {
         </div>
       </section>
 
-      <Suspense fallback={null}>
-        <HomeBestPicks />
-      </Suspense>
+      <nav id="entry-prices" aria-label={locale === "en" ? "Entry reference fees" : "入門參考月費"} className="border-b border-border bg-card">
+        <ul className="mx-auto flex max-w-6xl gap-2 overflow-x-auto px-4 py-3">
+          {ENTRY_PLAN_LINKS.map(([planId, label, fee]) => (
+            <li key={planId} className="shrink-0">
+              <Link
+                to="/plans/$planId"
+                params={{ planId }}
+                className="inline-flex h-11 items-center gap-1.5 rounded-full border border-border bg-bg px-3 text-sm"
+              >
+                <span>{t(label)}</span>
+                <span className="font-semibold tabular-nums text-primary">{fee}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <IdleMount fallback={<PicksSkeleton />}>
+        <Suspense fallback={<PicksSkeleton />}>
+          <HomeBestPicks />
+        </Suspense>
+      </IdleMount>
 
       <section className="home-below-fold mx-auto max-w-6xl px-4 py-8 sm:py-10">
         <Link
@@ -182,8 +167,7 @@ function Home() {
           </span>
         </Link>
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-          {categories.map((item, index) => {
-            const eager = index < 2;
+          {categories.map((item) => {
             return (
             <div
               key={item.label}
@@ -196,10 +180,10 @@ function Home() {
                     src={item.src}
                     alt={t(item.label)}
                     width={800}
-                    height={600}
+                    height={550}
                     sizes={CARD_IMAGE_SIZES}
-                    loading={eager ? "eager" : "lazy"}
-                    fetchPriority={eager ? "high" : "auto"}
+                    loading="lazy"
+                    fetchPriority="low"
                     decoding="async"
                     className="outline outline-1 -outline-offset-1 outline-fg/10"
                   />
@@ -249,17 +233,30 @@ function Home() {
         </div>
       </section>
 
-      <Suspense fallback={null}>
-        <HomeNewsRail />
-      </Suspense>
+      <IdleMount fallback={<NewsSkeleton />}>
+        <Suspense fallback={<NewsSkeleton />}>
+          <HomeNewsRail />
+        </Suspense>
+      </IdleMount>
 
-      <Suspense fallback={null}>
-        <HomeFeatured />
-      </Suspense>
+      <IdleMount fallback={<FeaturedSkeleton />}>
+        <Suspense fallback={<FeaturedSkeleton />}>
+          <HomeFeatured />
+        </Suspense>
+      </IdleMount>
 
       <section className="home-below-fold border-t border-border">
         <div className="mx-auto max-w-3xl px-4 py-8 sm:py-10">
-          <div className="rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-home)] sm:p-5">
+          <p className="text-sm leading-relaxed text-muted">
+            {t("heroAnswer", {
+              name: SITE.name,
+              providers: HOME_PROVIDER_COUNT,
+              plans: PLAN_COUNT,
+              estates: ESTATE_COUNT,
+              date: SITE.updated,
+            })}
+          </p>
+          <div className="mt-6 rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-home)] sm:p-5">
             <h2 className="home-section-title">{t("faqTitle")}</h2>
             <div className="mt-3 divide-y divide-border">
               {faqs.map((item) => (
@@ -276,5 +273,44 @@ function Home() {
         </div>
       </section>
     </div>
+  );
+}
+
+function PicksSkeleton() {
+  return (
+    <section className="home-below-fold border-b border-border" aria-hidden="true">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:py-7">
+        <div className="h-5 w-36 rounded bg-surface" />
+        <div className="mt-2 h-9 max-w-xl rounded bg-surface" />
+        <div className="mt-3 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          {["a", "b", "c", "d"].map((id) => (
+            <div key={id} className="min-h-[5.5rem] rounded-lg border border-border bg-card" />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function NewsSkeleton() {
+  return (
+    <section className="home-below-fold border-t border-border" aria-hidden="true">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:py-7">
+        <div className="h-5 w-28 rounded bg-surface" />
+        <div className="mt-3 h-24 rounded bg-surface" />
+      </div>
+    </section>
+  );
+}
+
+function FeaturedSkeleton() {
+  return (
+    <section className="home-below-fold bg-surface" aria-hidden="true">
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
+        <div className="h-5 w-32 rounded bg-card" />
+        <div className="mt-2 h-8 max-w-md rounded bg-card" />
+        <div className="mt-5 h-40 rounded-2xl border border-border bg-card" />
+      </div>
+    </section>
   );
 }

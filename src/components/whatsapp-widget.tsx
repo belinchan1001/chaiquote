@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
-import { getPlan } from "@/lib/plans";
+import type { Plan } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 import {
   QUICK_REPLIES,
@@ -21,6 +21,32 @@ import { cn } from "@/lib/utils";
 import type { MessageKey } from "@/lib/messages";
 
 type Bubble = { id: string; from: "biz" | "me"; text: string };
+
+/** Resolve compare ids after idle paint so the root shell does not parse the plan catalogue. */
+function useComparedPlans(ids: readonly string[]): Plan[] {
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const key = ids.join("\0");
+  useEffect(() => {
+    if (!key) {
+      setPlans([]);
+      return;
+    }
+    let cancel = false;
+    void import("@/lib/plans").then((mod) => {
+      if (cancel) return;
+      setPlans(
+        key
+          .split("\0")
+          .map((id) => mod.getPlan(id))
+          .filter((plan): plan is Plan => Boolean(plan)),
+      );
+    });
+    return () => {
+      cancel = true;
+    };
+  }, [key]);
+  return plans;
+}
 
 const QUICK_LABEL: Record<(typeof QUICK_REPLIES)[number]["id"], MessageKey> = {
   broadband: "catBroadband",
@@ -40,7 +66,7 @@ export function WhatsAppWidget() {
   const open = useDesk((s) => s.waOpen);
   const toggleWa = useDesk((s) => s.toggleWa);
   const closeWa = useDesk((s) => s.closeWa);
-  const plans = compare.map(getPlan).filter((p): p is NonNullable<typeof p> => Boolean(p));
+  const plans = useComparedPlans(compare);
   const lifted = compare.length > 0;
   const { t, locale } = useI18n();
   const deskPhone = quoteWhatsappDisplay(plans, inquiry);
@@ -218,7 +244,7 @@ export function DeferredWhatsApp() {
   useHydrateDesk();
   const compare = useDesk((s) => s.compare);
   const inquiry = useDesk((s) => s.inquiry);
-  const plans = compare.map(getPlan).filter((p): p is NonNullable<typeof p> => Boolean(p));
+  const plans = useComparedPlans(compare);
   const lifted = compare.length > 0;
   const { t } = useI18n();
   const deskE164 = quoteWhatsappE164(plans, inquiry);
