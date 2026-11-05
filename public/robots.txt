@@ -12,26 +12,117 @@ Disallow: /go/
 Disallow: /__grok/
 Disallow: /api/
 
-User-agent: PerplexityBot
-Disallow: /
-
-User-agent: Perplexity-User
-Disallow: /
-
 User-agent: GPTBot
-Disallow: /
+Allow: /
+Allow: /plans
+Allow: /estates
+Allow: /guides
+Allow: /tech-news
+Allow: /about
+Disallow: /brand
+Disallow: /tech-news/desk
+Disallow: /offers/
+Disallow: /go/
+Disallow: /__grok/
+Disallow: /api/
 
 User-agent: ChatGPT-User
-Disallow: /
+Allow: /
+Allow: /plans
+Allow: /estates
+Allow: /guides
+Allow: /tech-news
+Allow: /about
+Disallow: /brand
+Disallow: /tech-news/desk
+Disallow: /offers/
+Disallow: /go/
+Disallow: /__grok/
+Disallow: /api/
 
 User-agent: OAI-SearchBot
-Disallow: /
+Allow: /
+Allow: /plans
+Allow: /estates
+Allow: /guides
+Allow: /tech-news
+Allow: /about
+Disallow: /brand
+Disallow: /tech-news/desk
+Disallow: /offers/
+Disallow: /go/
+Disallow: /__grok/
+Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /plans
+Allow: /estates
+Allow: /guides
+Allow: /tech-news
+Allow: /about
+Disallow: /brand
+Disallow: /tech-news/desk
+Disallow: /offers/
+Disallow: /go/
+Disallow: /__grok/
+Disallow: /api/
+
+User-agent: Perplexity-User
+Allow: /
+Allow: /plans
+Allow: /estates
+Allow: /guides
+Allow: /tech-news
+Allow: /about
+Disallow: /brand
+Disallow: /tech-news/desk
+Disallow: /offers/
+Disallow: /go/
+Disallow: /__grok/
+Disallow: /api/
 
 User-agent: ClaudeBot
-Disallow: /
+Allow: /
+Allow: /plans
+Allow: /estates
+Allow: /guides
+Allow: /tech-news
+Allow: /about
+Disallow: /brand
+Disallow: /tech-news/desk
+Disallow: /offers/
+Disallow: /go/
+Disallow: /__grok/
+Disallow: /api/
 
 User-agent: anthropic-ai
-Disallow: /
+Allow: /
+Allow: /plans
+Allow: /estates
+Allow: /guides
+Allow: /tech-news
+Allow: /about
+Disallow: /brand
+Disallow: /tech-news/desk
+Disallow: /offers/
+Disallow: /go/
+Disallow: /__grok/
+Disallow: /api/
+
+User-agent: Google-Extended
+Allow: /
+Allow: /plans
+Allow: /estates
+Allow: /guides
+Allow: /tech-news
+Allow: /about
+Disallow: /brand
+Disallow: /tech-news/desk
+Disallow: /offers/
+Disallow: /go/
+Disallow: /__grok/
+Disallow: /api/
 
 User-agent: Bytespider
 Disallow: /
@@ -46,9 +137,6 @@ User-agent: meta-externalagent
 Disallow: /
 
 User-agent: FacebookBot
-Disallow: /
-
-User-agent: Google-Extended
 Disallow: /
 
 Sitemap: https://www.chaiquote.hk/sitemap.xml

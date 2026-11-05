@@ -447,49 +447,72 @@ export function renderSitemapXml(
 }
 
 /**
- * Training and answer-engine crawlers. Search crawlers (Googlebot, AdsBot,
- * Bingbot) stay on `User-agent: *` and are not listed here.
+ * Public marketing paths, plus the private paths every crawler must skip.
+ * A named user-agent group does not inherit `User-agent: *`, so citation
+ * bots repeat this list in their own groups.
  * `public/robots.txt` must stay byte-identical to `renderRobotsTxt()`.
  */
-export const AI_CRAWLER_USER_AGENTS = [
-  "PerplexityBot",
-  "Perplexity-User",
+const PUBLIC_ROBOTS_RULES = [
+  "Allow: /",
+  "Allow: /plans",
+  "Allow: /estates",
+  "Allow: /guides",
+  "Allow: /tech-news",
+  "Allow: /about",
+  "Disallow: /brand",
+  "Disallow: /tech-news/desk",
+  "Disallow: /offers/",
+  "Disallow: /go/",
+  "Disallow: /__grok/",
+  "Disallow: /api/",
+] as const;
+
+/**
+ * AI search and citation crawlers. They may read public pages (same rules as
+ * `User-agent: *`) so answer engines can cite them. A previous blanket
+ * `Disallow: /` blocked GEO citations; that was broader than stopping
+ * abusive scrapers.
+ */
+export const AI_CITATION_USER_AGENTS = [
   "GPTBot",
   "ChatGPT-User",
   "OAI-SearchBot",
+  "PerplexityBot",
+  "Perplexity-User",
   "ClaudeBot",
   "anthropic-ai",
+  "Google-Extended",
+] as const;
+
+/**
+ * Scrape-heavy or training-corpus crawlers. Full-site disallow. These are
+ * not the citation bots used for GEO answers.
+ *
+ * - Bytespider: ByteDance training crawl
+ * - CCBot: Common Crawl dataset scraper
+ * - Amazonbot: Amazon crawl, not an answer-engine citation bot
+ * - meta-externalagent / FacebookBot: Meta fetch agents, not GEO citation crawlers
+ *
+ * Search crawlers (Googlebot, AdsBot, Bingbot) stay on `User-agent: *`.
+ */
+export const BLOCKED_SCRAPER_USER_AGENTS = [
   "Bytespider",
   "CCBot",
   "Amazonbot",
   "meta-externalagent",
   "FacebookBot",
-  "Google-Extended",
 ] as const;
+
+function robotsGroup(agent: string, rules: readonly string[]): string[] {
+  return [`User-agent: ${agent}`, ...rules, ""];
+}
 
 export function renderRobotsTxt(origin: string = DEFAULT_SEO_ORIGIN): string {
   const host = seoOrigin(origin);
-  const aiBlocks = AI_CRAWLER_USER_AGENTS.flatMap((agent) => [
-    `User-agent: ${agent}`,
-    "Disallow: /",
-    "",
-  ]);
   return [
-    "User-agent: *",
-    "Allow: /",
-    "Allow: /plans",
-    "Allow: /estates",
-    "Allow: /guides",
-    "Allow: /tech-news",
-    "Allow: /about",
-    "Disallow: /brand",
-    "Disallow: /tech-news/desk",
-    "Disallow: /offers/",
-    "Disallow: /go/",
-    "Disallow: /__grok/",
-    "Disallow: /api/",
-    "",
-    ...aiBlocks,
+    ...robotsGroup("*", PUBLIC_ROBOTS_RULES),
+    ...AI_CITATION_USER_AGENTS.flatMap((agent) => robotsGroup(agent, PUBLIC_ROBOTS_RULES)),
+    ...BLOCKED_SCRAPER_USER_AGENTS.flatMap((agent) => robotsGroup(agent, ["Disallow: /"])),
     `Sitemap: ${host}/sitemap.xml`,
     "",
   ].join("\n");

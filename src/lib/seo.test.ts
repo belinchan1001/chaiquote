@@ -10,7 +10,8 @@ import { getGuide } from "./guides.ts";
 import { getTechNewsArticle } from "./tech-news.ts";
 import { getEstatePage, estateSeoDescription, isIndexableEstatePage } from "./estate-pages.ts";
 import {
-  AI_CRAWLER_USER_AGENTS,
+  AI_CITATION_USER_AGENTS,
+  BLOCKED_SCRAPER_USER_AGENTS,
   planJsonLd,
   planPageCanonicalUrl,
   planSeoDescription,
@@ -129,16 +130,32 @@ describe("estate discovery", () => {
   });
 });
 
+function robotsGroupBody(robots: string, agent: string): string {
+  const body = robots.split(`User-agent: ${agent}\n`)[1] ?? "";
+  return body.split(/\n(?:User-agent: |Sitemap: )/)[0] ?? "";
+}
+
 describe("robots.txt", () => {
-  it("disallows AI crawlers and keeps search crawlers on the star group", () => {
+  it("lets citation bots read public pages and still blocks scrapers and private paths", () => {
     const robots = renderRobotsTxt();
-    for (const agent of ["PerplexityBot", "GPTBot", "ClaudeBot", "Bytespider"]) {
-      assert.match(robots, new RegExp(`User-agent: ${agent}\\nDisallow: /\\n`));
+    const privatePaths = ["/brand", "/tech-news/desk", "/offers/", "/go/", "/__grok/", "/api/"];
+    const star = robotsGroupBody(robots, "*");
+
+    assert.match(star, /^Allow: \/\n/);
+    for (const path of privatePaths) {
+      assert.match(star, new RegExp(`^Disallow: ${path}$`, "m"));
     }
-    for (const agent of AI_CRAWLER_USER_AGENTS) {
-      assert.match(robots, new RegExp(`User-agent: ${agent}\\nDisallow: /\\n`));
+
+    for (const agent of AI_CITATION_USER_AGENTS) {
+      const block = robotsGroupBody(robots, agent);
+      assert.equal(block, star);
+      assert.doesNotMatch(block, /^Disallow: \/$/m);
     }
-    assert.match(robots, /^User-agent: \*\nAllow: \//);
+
+    for (const agent of BLOCKED_SCRAPER_USER_AGENTS) {
+      assert.equal(robotsGroupBody(robots, agent), "Disallow: /\n");
+    }
+
     assert.match(robots, /Sitemap: https:\/\/www\.chaiquote\.hk\/sitemap\.xml\n$/);
     assert.doesNotMatch(robots, /User-agent: Googlebot/);
     assert.doesNotMatch(robots, /User-agent: AdsBot/);
