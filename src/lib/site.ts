@@ -1,6 +1,6 @@
 export const SITE = {
   name: "齊Quote",
-  tagline: "搟寬頻唔使四圍問",
+  tagline: "搯寬頻唔使四圍問",
   searchHint: "電訊報價",
   url: "https://www.chaiquote.hk",
   /** Confirmed public profiles for Organization.sameAs. */
@@ -11,7 +11,7 @@ export const SITE = {
   description:
     "齊Quote 係獨立電訊比較平台，提供香港寬頻報價同電訊報價，一次過比較家居寬頻、5G 家居、商業寬頻同手機計劃。所列月費僅供參考，實際以電訊商確認為準。",
   /** Catalogue stamp shown on the homepage hero as YYYY-MM-DD. */
-  updated: "2026-11-05",
+  updated: "2026-11-06",
   phoneDisplay: "6309 9966",
   whatsappE164: "85263099966",
   hktPhoneDisplay: "5436 3004",
@@ -128,7 +128,7 @@ export const FAQ = [
   },
   {
     q: "公屋同埋居屋價錢會唔會唔同？",
-    a: "公屋同埋居屋好多時有指定供應商同批量價，每個屋邨／屋苑合約都可能唔同。站內光纖入門參考可見「指定屋苑 1000M 光纖入屋（48 個月）」約 HK$58／月起（有線寬頻）；篩選時分開揀公屋／居屋，問價填齊屋苑名稱。僅供參考，以電訊商確認為準。",
+    a: "公屋同埋居屋好多時有指定供應商同批量價，每個屋邨／屋苑合約都可能唔同。站內光纖入門參考可見「指定屋苑 1000M 光纖入屋（48 個月）」約 HK$58／月起（有線寬頻）；篩選時分開擇公屋／居屋，問價填齊屋苑名稱。僅供參考，以電訊商確認為準。",
   },
   {
     q: "村屋有冇光纖？",
