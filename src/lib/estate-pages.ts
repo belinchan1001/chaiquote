@@ -1,9 +1,9 @@
 import { ESTATES, estateDisplayName, estateEnglishName, firstEnglishAlias, parentEstate, placeDisplayName, type Estate } from "./estates.ts";
 import { NETVIGATOR_ONLY_ESTATES } from "./estate-new-intake.ts";
 import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
-import { matchesHousing, PLANS, PROVIDER_MAP, type Housing, type Plan } from "./plans.ts";
+import { formatFee, formatPlanSpeed, matchesHousing, PLANS, PROVIDER_MAP, type Housing, type Plan } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
-import { DISTRICTS } from "./site.ts";
+import { DISTRICTS, SITE } from "./site.ts";
 
 /** First-batch SEO estate pages. Their slugs stay stable. */
 export const ESTATE_PAGE_NAMES = [
@@ -695,6 +695,64 @@ export type EstatePageFacts = {
 
 function guideLink(slug: string, label: string): EstateGuideLink {
   return { slug, href: `/guides/${slug}`, label };
+}
+
+export type EstateCiteRow = {
+  id: string;
+  name: string;
+  fee: string;
+  contract: string;
+  speed: string;
+};
+
+export type EstateCite = {
+  sentences: string[];
+  caption: string;
+  headers: [string, string, string, string];
+  rows: EstateCiteRow[];
+};
+
+/** Answer-first cite for an estate page. Fees come from the filtered catalogue, never a ranking. */
+export function estateCite(estate: Estate, locale: Locale = "zh"): EstateCite {
+  const en = locale === "en";
+  const name = en ? estateDisplayName(estate, "en") : estate.name;
+  const place = estatePlacePhrase(estate, locale);
+  const housing = estateHousingLabel(estate.housing, locale);
+  const { broadband, home5g } = estatePlans(estate);
+  const preview = broadband.slice(0, 4);
+  const first = preview[0];
+  const provider = first ? (en ? PROVIDER_MAP[first.providerId].nameEn : PROVIDER_MAP[first.providerId].name) : "";
+  const sentences = en
+    ? [
+        `${name} is in ${place}. Housing type: ${housing}.`,
+        `On ${SITE.updated} the ${housing} filter lists ${broadband.length} fibre reference plans and ${home5g.length} 5G home reference plans.`,
+        ...(first
+          ? [
+              `The first listed row is ${provider} ${first.name} at ${formatFee(first.monthlyFee)} per month for ${first.contractMonths} months.`,
+            ]
+          : []),
+        "Coverage and installation are confirmed by the carrier.",
+      ]
+    : [
+        `${name}喺${place}，屬${housing}。`,
+        `${SITE.updated} 按${housing}篩到 ${broadband.length} 個光纖參考計劃同 ${home5g.length} 個 5G 家居參考計劃。`,
+        ...(first
+          ? [`列表第一條係${provider}${first.name}，月費${formatFee(first.monthlyFee)}，合約${first.contractMonths}個月。`]
+          : []),
+        "覆蓋同裝唔裝到，要再同電訊商確認。",
+      ];
+  return {
+    sentences,
+    caption: en ? "First fibre rows on this housing filter" : "呢個樓類列表頭幾個光纖參考計劃",
+    headers: en ? ["Plan", "Monthly fee", "Contract", "Speed"] : ["計劃", "月費", "合約", "速度"],
+    rows: preview.map((plan) => ({
+      id: plan.id,
+      name: `${en ? PROVIDER_MAP[plan.providerId].nameEn : PROVIDER_MAP[plan.providerId].name} ${plan.name}`,
+      fee: formatFee(plan.monthlyFee),
+      contract: en ? `${plan.contractMonths} months` : `${plan.contractMonths}個月`,
+      speed: formatPlanSpeed(plan),
+    })),
+  };
 }
 
 /** Opening copy that is not just the estate name swapped into one sentence. */

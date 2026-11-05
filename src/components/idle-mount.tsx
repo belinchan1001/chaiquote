@@ -4,9 +4,11 @@ import { useEffect, useState, type ReactNode } from "react";
 export function IdleMount({
   children,
   timeoutMs = 2500,
+  fallback = null,
 }: {
   children: ReactNode;
   timeoutMs?: number;
+  fallback?: ReactNode;
 }) {
   const [ready, setReady] = useState(false);
 
@@ -28,6 +30,6 @@ export function IdleMount({
     };
   }, [timeoutMs]);
 
-  if (!ready) return null;
+  if (!ready) return fallback;
   return children;
 }

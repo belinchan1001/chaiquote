@@ -6,6 +6,7 @@ import { useDesk, useHydrateDesk } from "@/lib/desk";
 import {
   estateHousingLabel,
   estateIntro,
+  estateCite,
   estatePageFacts,
   estateSearchNote,
   estatePagePath,
@@ -83,6 +84,7 @@ function EstatePage() {
   const guideSlug = relatedGuideSlug(estate);
   const indexable = isIndexableEstatePage(page);
   const facts = estatePageFacts(estate, locale);
+  const cite = estateCite(estate, locale);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
@@ -96,6 +98,45 @@ function EstatePage() {
       </p>
       <h1 className="mt-2 text-title font-semibold">{pageTitle}</h1>
       <p className="mt-2 text-xs text-subtle">{t("dataUpdated", { date: updated })}</p>
+      <div className="mt-4 max-w-3xl">
+        {cite.sentences.map((sentence, index) => (
+          <p key={index} className="mt-2 text-sm leading-relaxed text-muted first:mt-0">
+            {sentence}
+          </p>
+        ))}
+        {cite.rows.length ? (
+          <table className="mt-4 w-full border-collapse text-sm">
+            <caption className="mb-2 text-left text-xs text-muted">{cite.caption}</caption>
+            <thead>
+              <tr className="border-b border-border text-left text-xs text-muted">
+                {cite.headers.map((header) => (
+                  <th key={header} scope="col" className="py-2 pr-3 font-medium">
+                    {header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {cite.rows.map((row) => (
+                <tr key={row.id} className="border-b border-border">
+                  <td className="py-2 pr-3">
+                    <Link
+                      to="/plans/$planId"
+                      params={{ planId: row.id }}
+                      className="text-accent underline-offset-4 hover:underline"
+                    >
+                      {row.name}
+                    </Link>
+                  </td>
+                  <td className="py-2 pr-3 tabular-nums">{row.fee}</td>
+                  <td className="py-2 pr-3">{row.contract}</td>
+                  <td className="py-2">{row.speed}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : null}
+      </div>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{facts.lead}</p>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-fg">{facts.provider}</p>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">

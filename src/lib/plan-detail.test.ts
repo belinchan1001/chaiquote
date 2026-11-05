@@ -107,6 +107,9 @@ describe("plan detail share landing", () => {
     assert.match(page, /\{ property: "og:url", content: url \}/);
     assert.match(page, /links: \[\{ rel: "canonical", href: url \}\]/);
     assert.match(page, /<JsonLd data=\{planJsonLd\(plan\)\} \/>/);
+    assert.match(page, /planSeoDescription\(plan\)/);
+    assert.match(page, /formatFee\(plan\.monthlyFee\)/);
+    assert.doesNotMatch(page, /offers:\s*\{|price:\s*plan/);
     assert.match(page, /usePageTitle\(planSeoTitle\(plan\)\)/);
   });
 });

@@ -4,10 +4,11 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ESTATES, matchKnownEstate, searchEstates } from "./estates.ts";
-import { getPlan } from "./plans.ts";
+import { formatFee, getPlan } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
 import {
   ESTATE_PAGES,
+  estateCite,
   estateIntro,
   estatePlans,
   estateSearchNote,
@@ -587,5 +588,28 @@ describe("estate SEO pages", () => {
       onTaiPage.broadband.some((plan) => plan.id === "hkbn-ftth-1000-24m-0-flash"),
       false,
     );
+  });
+
+  it("cites Tin Yiu from the filtered catalogue without a lowest-price claim", () => {
+    const estate = getEstatePage("tin-yiu")!.estate;
+    const cite = estateCite(estate, "zh");
+    const { broadband, home5g } = estatePlans(estate);
+    const text = cite.sentences.join("");
+    assert.ok(cite.sentences.length >= 2 && cite.sentences.length <= 4);
+    assert.match(text, /天耀邨/);
+    assert.match(text, /公屋/);
+    assert.match(text, new RegExp(`${broadband.length} 個光纖`));
+    assert.match(text, new RegExp(`${home5g.length} 個 5G`));
+    assert.equal(cite.rows.length, Math.min(4, broadband.length));
+    assert.equal(cite.rows[0]?.fee, formatFee(broadband[0]!.monthlyFee));
+    assert.match(text, new RegExp(String(broadband[0]!.monthlyFee)));
+    for (const word of ["最抵", "最低", "最平", "保證價"]) {
+      assert.equal(text.includes(word), false, word);
+    }
+    const page = readFileSync(join(here, "../routes/estates_.$slug.tsx"), "utf8");
+    assert.match(page, /estateCite\(estate, locale\)/);
+    const en = estateCite(estate, "en").sentences.join(" ");
+    assert.match(en, /Tin Yiu/);
+    assert.match(en, /public housing/i);
   });
 });

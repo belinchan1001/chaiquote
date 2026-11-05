@@ -6,7 +6,14 @@ import { installGoogleAdsTag } from "@/lib/ads-gtag";
 export function GoogleAdsTag() {
   useEffect(() => {
     captureLeadAttribution();
-    installGoogleAdsTag();
+    const run = () => installGoogleAdsTag();
+    const ric = window.requestIdleCallback;
+    if (typeof ric === "function") {
+      const id = ric(run, { timeout: 3000 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const timer = window.setTimeout(run, 1500);
+    return () => window.clearTimeout(timer);
   }, []);
   return null;
 }
