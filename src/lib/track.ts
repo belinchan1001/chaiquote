@@ -1,5 +1,6 @@
 import { getPlan, type Plan } from "./plans.ts";
 import { quoteWhatsappE164 } from "./whatsapp.ts";
+import { canonicalProviderId } from "./wa-click-report.ts";
 
 export const TRACK_EVENTS = [
   "wa_click",
@@ -57,6 +58,12 @@ export type SiteEventRow = {
 
 const EVENT_SET = new Set<string>(TRACK_EVENTS);
 const SOURCE_SET = new Set<string>(TRACK_SOURCES);
+const CATEGORY_SET = new Set(["broadband", "mobile", "home5g", "business"]);
+
+function extraText(extra: TrackPayload["extra"], key: string) {
+  const value = extra?.[key];
+  return typeof value === "string" ? value.trim() : "";
+}
 
 export function isTrackEventName(value: string): value is TrackEventName {
   return EVENT_SET.has(value);
@@ -94,14 +101,18 @@ export function normalizeTrackPayload(input: TrackPayload): {
   const uniqueIds = [...new Set((input.planIds ?? []).map((id) => id.trim()).filter(Boolean))].slice(0, 8);
   const plans = plansFromIds(uniqueIds);
   const first = plans[0];
+  const hintedPlan = uniqueIds.length === 0 ? getPlan(extraText(input.extra, "plan")) : undefined;
+  const hintedProvider =
+    canonicalProviderId(extraText(input.extra, "provider")) ?? canonicalProviderId(extraText(input.extra, "company"));
+  const hintedCategory = extraText(input.extra, "cat");
   const source = input.source && SOURCE_SET.has(input.source) ? input.source : inferTrackSource(input.path ?? "");
   const waPhone = (input.waPhone || (input.event === "wa_click" ? quoteWhatsappE164(plans) : "")).replace(/\D/g, "");
   return {
     event: input.event,
-    planId: first?.id ?? uniqueIds[0] ?? null,
+    planId: first?.id ?? uniqueIds[0] ?? hintedPlan?.id ?? null,
     planIds: uniqueIds.join(","),
-    providerId: first?.providerId ?? null,
-    category: first?.category ?? null,
+    providerId: first?.providerId ?? hintedPlan?.providerId ?? hintedProvider,
+    category: first?.category ?? hintedPlan?.category ?? (CATEGORY_SET.has(hintedCategory) ? hintedCategory : null),
     waPhone: waPhone || null,
     source,
     path: (input.path ?? "").slice(0, 240) || null,

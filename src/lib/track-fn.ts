@@ -9,6 +9,13 @@ import {
   type SiteEventRow,
   type TrackPayload,
 } from "@/lib/track";
+import {
+  WA_CLICK_REPORT_ROW_CAP,
+  defaultWaClickRange,
+  parseWaClickRange,
+  summarizeWaClicks,
+  type WaClickReport,
+} from "@/lib/wa-click-report";
 
 function interestToken() {
   return (process.env.INTEREST_TOKEN || process.env.STATS_TOKEN || "").trim();
@@ -76,6 +83,48 @@ export const loadInterestSummary = createServerFn({ method: "POST" })
       };
     } catch (err) {
       console.error("[track] summary failed", err);
+      return { ok: false, reason: "query-failed" };
+    }
+  });
+
+export const loadWaClickReport = createServerFn({ method: "POST" })
+  .inputValidator((data: { token?: string; from?: string; until?: string }) => data)
+  .handler(async ({ data }): Promise<{ ok: false; reason: string } | { ok: true; report: WaClickReport }> => {
+    if (!tokenOk(data.token)) {
+      return { ok: false, reason: interestToken() ? "bad-token" : "no-token" };
+    }
+    const fallback = defaultWaClickRange();
+    const parsed = parseWaClickRange(data.from || fallback.from, data.until || fallback.until);
+    if (!parsed.ok) return { ok: false, reason: parsed.reason };
+    try {
+      const sql = await getSql();
+      const counted = await sql.query<{ n: number }>(
+        `select count(*)::int as n
+           from site_events
+          where event_name = 'wa_click'
+            and created_at >= $1::timestamptz
+            and created_at <= $2::timestamptz`,
+        [parsed.fromIso, parsed.untilIso],
+      );
+      const matched = Number(counted[0]?.n ?? 0);
+      const rows = await sql.query<SiteEventRow>(
+        `select id, created_at::text as created_at, event_name, plan_id, plan_ids, provider_id,
+                category, wa_phone, source, path, extra
+           from site_events
+          where event_name = 'wa_click'
+            and created_at >= $1::timestamptz
+            and created_at <= $2::timestamptz
+          order by created_at desc
+          limit $3`,
+        [parsed.fromIso, parsed.untilIso, WA_CLICK_REPORT_ROW_CAP],
+      );
+      const summary = summarizeWaClicks(rows, parsed.from, parsed.until);
+      return {
+        ok: true,
+        report: { ...summary, matched, truncated: matched > rows.length },
+      };
+    } catch (err) {
+      console.error("[track] wa report failed", err);
       return { ok: false, reason: "query-failed" };
     }
   });
