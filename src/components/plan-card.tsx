@@ -184,12 +184,6 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
             ? `Average monthly fee. Listed ${formatFee(plan.monthlyFee)}/mo, with ${plan.freeMonths} free months included.`
             : `平均月費。標示月費 ${formatFee(plan.monthlyFee)}／月，已計免 ${plan.freeMonths} 個月。`}
         </p>
-      ) : plan.double11Offer ? (
-        <p className="mt-1 text-sm text-accent">
-          {locale === "en"
-            ? `Average monthly fee ${formatFee(plan.monthlyFee)}/mo. Three free months apply to S addresses only, so they are not in this figure.`
-            : `平均月費 ${formatFee(plan.monthlyFee)}／月。免 3 個月只限 S 地址，所以未計入。`}
-        </p>
       ) : avg !== plan.monthlyFee ? (
         <p className="mt-1 text-sm text-accent">{t("avgFee", { fee: formatFee(avg) })}</p>
       ) : null}

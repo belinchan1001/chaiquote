@@ -1665,16 +1665,17 @@ describe("CMHK 11.11 home fibre", () => {
 
     const m2500 = plan("cmhk-ftth-2500-24m-148-1111");
     assert.equal(m2500.monthlyFee, 148);
-    assert.equal(m2500.freeMonths, 0);
-    assert.equal(averageFee(m2500), 148);
-    assert.equal(cardHeadlineFee(m2500), 148);
+    assert.equal(m2500.freeMonths, 3);
+    assert.equal(averageFee(m2500), 129.5);
+    assert.equal(cardHeadlineFee(m2500), 129.5);
     assert.equal(m2500.contractMonths, 24);
     assert.equal(m2500.speedMbps, 2500);
     assert.equal(m2500.double11Offer, true);
     assert.equal(m2500.quotePick, true);
     assert.match(m2500.perks.join(" "), /BE230/);
     assert.match(m2500.perks.join(" "), /30,000 MyLink/);
-    assert.match(m2500.perks.join(" "), /S 地址/);
+    assert.match(m2500.perks.join(" "), /第 3、第 5 及第 7 個月/);
+    assert.doesNotMatch(`${m2500.perks.join(" ")} ${m2500.limits}`, /只限 S|S 地址/);
     assert.match(m2500.limits ?? "", /11 月 19 日前成功申請/);
     assert.equal(m2500.offerEndsAt, "2026-11-19T23:59:59+08:00");
     assert.equal(toEnglish(m2500.name), "2500M 11.11 offer (24 months) with 30,000 MyLink points");
