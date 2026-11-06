@@ -1652,8 +1652,8 @@ describe("CMHK 11.11 home fibre", () => {
     assert.equal(m1000.quotePick, true);
     assert.equal(m1000.flashOffer, undefined);
     assert.deepEqual(m1000.housing, ["public", "hos", "private"]);
-    assert.match(m1000.perks[0], /HK\$20/);
-    assert.match(m1000.perks[0], /手機月費/);
+    assert.match(m1000.perks.join(" "), /HK\$20/);
+    assert.match(m1000.perks.join(" "), /手機月費/);
     assert.match(m1000.perks.join(" "), /第 3、第 5 及第 7 個月/);
     assert.match(m1000.perks.join(" "), /myTV SUPER 12 個月/);
     assert.match(m1000.perks.join(" "), /50,000 MyLink/);

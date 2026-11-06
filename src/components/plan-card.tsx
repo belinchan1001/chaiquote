@@ -38,12 +38,14 @@ const SERVICE_TONE: Record<Category, string> = {
 
 function cardSpecLines(plan: Plan) {
   const lines: string[] = [];
-  if (plan.category === "home5g" || plan.speedMbps) lines.push(formatPlanSpeed(plan));
-  if (plan.category !== "mobile" && plan.install) lines.push(formatInstall(plan));
+  const offerFirst = Boolean(plan.double11Offer);
+  if (!offerFirst && (plan.category === "home5g" || plan.speedMbps)) lines.push(formatPlanSpeed(plan));
+  if (!offerFirst && plan.category !== "mobile" && plan.install) lines.push(formatInstall(plan));
   if (plan.highSpeedGb || plan.dataGb) lines.push(`${plan.highSpeedGb ?? plan.dataGb}GB`);
   if (plan.voice) lines.push(plan.voice);
   for (const perk of planPerks(plan)) lines.push(perk);
   if (plan.portInPerk) lines.push(plan.portInPerk);
+  if (offerFirst && plan.install) lines.push(formatInstall(plan));
   const seen = new Set<string>();
   return lines.filter((line) => {
     const key = line.trim();
@@ -51,6 +53,13 @@ function cardSpecLines(plan: Plan) {
     seen.add(key);
     return true;
   });
+}
+
+function termLines(text: string | undefined) {
+  return (text ?? "")
+    .split(/(?<=。)/)
+    .map((line) => line.trim())
+    .filter(Boolean);
 }
 
 export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePriority?: boolean }) {
@@ -103,14 +112,8 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
   const specs = cardSpecLines(plan);
   const face = specs.slice(0, 3);
   const more = specs.slice(3);
-  const detailBits = [
-    ...more,
-    plan.prepaid ? formatPrepaidShort(plan.prepaid) : "",
-    plan.fupNote ?? "",
-    plan.limits ?? "",
-    plan.bestFor ?? "",
-    isNetvigatorVillage(plan) ? t("villageFeeNote") : "",
-  ].filter(Boolean);
+  const terms = termLines(plan.limits);
+  const notes = [plan.prepaid ? formatPrepaidShort(plan.prepaid) : "", plan.fupNote ?? "", isNetvigatorVillage(plan) ? t("villageFeeNote") : ""].filter(Boolean);
 
   return (
     <article
@@ -181,8 +184,8 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
       {plan.double11Offer && headline !== plan.monthlyFee ? (
         <p className="mt-1 text-sm text-accent">
           {locale === "en"
-            ? `Average monthly fee. Listed ${formatFee(plan.monthlyFee)}/mo, with ${plan.freeMonths} free months included.`
-            : `平均月費。標示月費 ${formatFee(plan.monthlyFee)}／月，已計免 ${plan.freeMonths} 個月。`}
+            ? `Listed ${formatFee(plan.monthlyFee)}/mo, ${plan.freeMonths} free months included.`
+            : `標示 ${formatFee(plan.monthlyFee)}／月，已計免 ${plan.freeMonths} 個月。`}
         </p>
       ) : avg !== plan.monthlyFee ? (
         <p className="mt-1 text-sm text-accent">{t("avgFee", { fee: formatFee(avg) })}</p>
@@ -197,16 +200,40 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
         ))}
       </ul>
 
-      {detailBits.length || plan.category === "business" ? (
+      {more.length || terms.length || notes.length || plan.bestFor || plan.category === "business" ? (
         <details className="mt-3">
           <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 rounded-full bg-[#EFF6FF] px-3 py-1.5 text-sm font-medium text-[#1D4ED8] transition-colors hover:bg-[#DBEAFE] [&::-webkit-details-marker]:hidden">
             {locale === "en" ? "Details: prepay, cooling-off and terms" : "睇詳情：預繳、冷靜期等"}
             <span className="text-xs opacity-70">▾</span>
           </summary>
-          <div className="mt-2 space-y-1 text-sm text-[#374151]">
-            {detailBits.map((line) => (
-              <p key={line}>{tx(line)}</p>
-            ))}
+          <div className="mt-3 space-y-3 rounded-xl bg-[#F9FAFB] px-3 py-3 text-sm leading-relaxed text-[#374151]">
+            {more.length ? (
+              <ul className="space-y-1.5">
+                {more.map((line) => (
+                  <li key={line} className="flex items-start gap-2">
+                    <Check className="mt-0.5 size-3.5 shrink-0 text-[#0F62FE]" aria-hidden="true" />
+                    <span>{tx(line)}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+            {terms.length ? (
+              <ul className={cn("space-y-1.5", more.length && "border-t border-[#E5E7EB] pt-3")}>
+                {terms.map((line) => (
+                  <li key={line}>{tx(line)}</li>
+                ))}
+              </ul>
+            ) : null}
+            {notes.length ? (
+              <ul className={cn("space-y-1.5", (more.length || terms.length) && "border-t border-[#E5E7EB] pt-3")}>
+                {notes.map((line) => (
+                  <li key={line}>{tx(line)}</li>
+                ))}
+              </ul>
+            ) : null}
+            {plan.bestFor ? (
+              <p className={cn((more.length || terms.length || notes.length) && "border-t border-[#E5E7EB] pt-3")}>{tx(plan.bestFor)}</p>
+            ) : null}
           </div>
         </details>
       ) : null}
@@ -222,13 +249,11 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
         >
           {locale === "en" ? "WhatsApp this plan" : "WhatsApp 問呢個計劃"}
         </QuoteLink>
-        <p className="text-center text-[11px] leading-relaxed text-[#6B7280]">
-          {hasCertifiedStaff(plan)
-            ? locale === "en"
-              ? "A verified authorised salesperson replies"
-              : "由已核實身份嘅授權銷售回覆"
-            : t("referencePrice")}
-        </p>
+        {hasCertifiedStaff(plan) ? (
+          <p className="text-center text-[11px] leading-relaxed text-[#6B7280]">
+            {locale === "en" ? "A verified authorised salesperson replies" : "由已核實身份嘅授權銷售回覆"}
+          </p>
+        ) : null}
         <div className="flex gap-2">
           <Button
             type="button"

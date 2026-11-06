@@ -95,10 +95,10 @@ const EXACT: Record<string, string> = {
   "送 TP-Link Archer BE230 Wi-Fi 7 路由器": "TP-Link Archer BE230 Wi-Fi 7 router",
   "送 50,000 MyLink 積分（10,000 分 = HK$100 電子繳費券；寬頻啟動後 120 日派發）":
     "50,000 MyLink points (10,000 points = HK$100 e-voucher; issued 120 days after broadband activation)",
-  "雙11限時優惠。必須於 2026 年 11 月 19 日前成功申請。適用於公屋、居屋及私人樓宇。不適用於村屋。原價 HK$158。免月費在第 3、第 5 及第 7 個月。特選自建公居屋地址可再減 HK$10，長者客戶可再減 HK$10，不是全部地址，確認前不要當已減。每月 HK$20 回贈只限中國移動香港手機月費客戶，回贈在手機月費，不計入寬頻月費。50,000 MyLink 積分於寬頻啟動後 120 日派發，10,000 分 = HK$100 電子繳費券。安裝費傳單未列，以電訊商確認為準。":
-    "11.11 limited offer. Must apply successfully by 19 Nov 2026. For public housing, HOS and private buildings. Not for village houses. List price HK$158. Monthly fee waived in months 3, 5 and 7. Selected self-built public or HOS addresses can take another HK$10 off, and elderly customers another HK$10. Not every address — do not treat it as already deducted until confirmed. The HK$20 monthly rebate is only for CMHK mobile customers and is credited to the mobile bill, not the broadband fee. 50,000 MyLink points are issued 120 days after broadband activation; 10,000 points = HK$100 e-voucher. The flyer does not list the installation fee. The carrier confirms it.",
-  "雙11限時優惠。必須於 2026 年 11 月 19 日前成功申請。適用於公屋、居屋及私人樓宇，地址有覆蓋就可以。不適用於村屋。原價 HK$398。免月費在第 3、第 5 及第 7 個月。每月 HK$20 回贈只限中國移動香港手機月費客戶，回贈在手機月費，不計入寬頻月費。30,000 MyLink 積分於寬頻啟動後 120 日派發，10,000 分 = HK$100 電子繳費券。安裝費傳單未列，以電訊商確認為準。":
-    "11.11 limited offer. Must apply successfully by 19 Nov 2026. For public housing, HOS and private buildings where the address has coverage. Not for village houses. List price HK$398. Monthly fee waived in months 3, 5 and 7. The HK$20 monthly rebate is only for CMHK mobile customers and is credited to the mobile bill, not the broadband fee. 30,000 MyLink points are issued 120 days after broadband activation; 10,000 points = HK$100 e-voucher. The flyer does not list the installation fee. The carrier confirms it.",
+  "須於 2026 年 11 月 19 日前成功申請。適用公屋、居屋及私人樓宇，不適用村屋。原價 HK$158。特選自建公居屋可再減 HK$10，長者可再減 HK$10。不是全部地址，確認前不要當已減。":
+    "Apply successfully by 19 Nov 2026. For public housing, HOS and private buildings. Not for village houses. List price HK$158. Selected self-built public or HOS homes can take another HK$10 off, and elderly customers another HK$10. Not every address. Do not treat it as already deducted until confirmed.",
+  "須於 2026 年 11 月 19 日前成功申請。適用公屋、居屋及私人樓宇，地址有覆蓋就可以。不適用村屋。原價 HK$398。":
+    "Apply successfully by 19 Nov 2026. For public housing, HOS and private buildings where the address has coverage. Not for village houses. List price HK$398.",
   "適合公屋、居屋或私人樓宇，同時有中國移動香港手機月費之 1000M 住戶":
     "For public, HOS or private homes on 1000M that also have a CMHK mobile plan",
   "適合公屋、居屋或私人樓宇，需要 2500M 光纖之住戶":
