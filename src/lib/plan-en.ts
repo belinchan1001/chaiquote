@@ -97,8 +97,8 @@ const EXACT: Record<string, string> = {
     "50,000 MyLink points (10,000 points = HK$100 e-voucher; issued 120 days after broadband activation)",
   "須於 2026 年 11 月 19 日前成功申請。適用公屋、居屋及私人樓宇，不適用村屋。原價 HK$158。特選自建公居屋可再減 HK$10，長者可再減 HK$10。不是全部地址，確認前不要當已減。":
     "Apply successfully by 19 Nov 2026. For public housing, HOS and private buildings. Not for village houses. List price HK$158. Selected self-built public or HOS homes can take another HK$10 off, and elderly customers another HK$10. Not every address. Do not treat it as already deducted until confirmed.",
-  "須於 2026 年 11 月 19 日前成功申請。適用公屋、居屋及私人樓宇，地址有覆蓋就可以。不適用村屋。原價 HK$398。":
-    "Apply successfully by 19 Nov 2026. For public housing, HOS and private buildings where the address has coverage. Not for village houses. List price HK$398.",
+  "須於 2026 年 11 月 19 日前成功申請。適用公屋、居屋及私人樓宇，不適用村屋。原價 HK$398。":
+    "Apply successfully by 19 Nov 2026. For public housing, HOS and private buildings. Not for village houses. List price HK$398.",
   "適合公屋、居屋或私人樓宇，同時有中國移動香港手機月費之 1000M 住戶":
     "For public, HOS or private homes on 1000M that also have a CMHK mobile plan",
   "適合公屋、居屋或私人樓宇，需要 2500M 光纖之住戶":
