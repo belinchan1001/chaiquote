@@ -190,6 +190,8 @@ describe("HKBN student/youth 5G 30GB", () => {
         "netvigator-ftth-2500-private-36m-176",
         "icable-ftth-1000-48m-58",
         "cmhk-ftth-1000",
+        "cmhk-ftth-1000-36m-98-1111",
+        "cmhk-ftth-2500-24m-148-1111",
         "hkbn-ftth-1000-24m-0-flash",
         "hkbn-ftth-2500-36m-148-flash",
         "hkbn-ftth-1000-36m-63-flash",
@@ -1633,6 +1635,47 @@ describe("CMHK 1000M FTTH $88 36-month", () => {
     assert.equal(row.install, "豁免安裝費");
     assert.deepEqual(row.housing, ["public", "hos", "private"]);
     assert.notEqual(plan("cmhk-ftth-1000").monthlyFee, 88);
+  });
+});
+
+describe("CMHK 11.11 home fibre", () => {
+  it("lists the 1000M and 2500M cards with the new badge, without cutting the broadband fee by the mobile rebate", () => {
+    const m1000 = plan("cmhk-ftth-1000-36m-98-1111");
+    assert.equal(m1000.monthlyFee, 98);
+    assert.equal(m1000.freeMonths, 3);
+    assert.equal(m1000.contractMonths, 36);
+    assert.equal(m1000.speedMbps, 1000);
+    assert.equal(m1000.rebate, undefined);
+    assert.equal(averageFee(m1000), 89.8);
+    assert.equal(m1000.double11Offer, true);
+    assert.equal(m1000.quotePick, true);
+    assert.equal(m1000.flashOffer, undefined);
+    assert.deepEqual(m1000.housing, ["public", "hos", "private"]);
+    assert.match(m1000.perks[0], /HK\$20/);
+    assert.match(m1000.perks[0], /手機月費/);
+    assert.match(m1000.perks.join(" "), /第 3、第 5 及第 7 個月/);
+    assert.match(m1000.perks.join(" "), /myTV SUPER 12 個月/);
+    assert.match(m1000.perks.join(" "), /50,000 MyLink/);
+    assert.doesNotMatch(m1000.perks.join(" "), /30,000/);
+    assert.match(m1000.limits ?? "", /11 月 19 日前成功申請/);
+    assert.equal(m1000.offerEndsAt, "2026-11-19T23:59:59+08:00");
+    assert.equal(toEnglish(m1000.name), "1000M 11.11 offer (36 months) with 50,000 MyLink points");
+    assert.equal(filterPlans({ cat: "broadband", housing: "village" }).some((item) => item.id === m1000.id), false);
+
+    const m2500 = plan("cmhk-ftth-2500-24m-148-1111");
+    assert.equal(m2500.monthlyFee, 148);
+    assert.equal(m2500.freeMonths, 0);
+    assert.equal(averageFee(m2500), 148);
+    assert.equal(m2500.contractMonths, 24);
+    assert.equal(m2500.speedMbps, 2500);
+    assert.equal(m2500.double11Offer, true);
+    assert.equal(m2500.quotePick, true);
+    assert.match(m2500.perks.join(" "), /BE230/);
+    assert.match(m2500.perks.join(" "), /30,000 MyLink/);
+    assert.match(m2500.perks.join(" "), /S 地址/);
+    assert.match(m2500.limits ?? "", /11 月 19 日前成功申請/);
+    assert.equal(m2500.offerEndsAt, "2026-11-19T23:59:59+08:00");
+    assert.equal(toEnglish(m2500.name), "2500M 11.11 offer (24 months) with 30,000 MyLink points");
   });
 });
 

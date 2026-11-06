@@ -6,13 +6,15 @@ const pillClass = "rounded-full bg-hot px-2.5 py-1 text-sm font-medium text-hot-
 const quotePickClass = "rounded-full bg-fg px-2.5 py-1 text-sm font-medium text-white";
 const intakeClass = "rounded-full bg-intake px-2.5 py-1 text-sm font-medium text-intake-foreground";
 const flashClass = "rounded-full bg-flash px-2.5 py-1 text-sm font-medium text-flash-foreground";
+const double11Class = "rounded-full bg-double11 px-2.5 py-1 text-sm font-medium text-double11-foreground";
 
 export function PlanBadges({ plan, className }: { plan: Plan; className?: string }) {
   const { t } = useI18n();
-  if (!plan.quotePick && !plan.latestOffer && !plan.hot && !plan.newIntakeOffer && !plan.flashOffer) return null;
+  if (!plan.quotePick && !plan.latestOffer && !plan.hot && !plan.newIntakeOffer && !plan.flashOffer && !plan.double11Offer) return null;
 
   return (
     <div className={cn("mt-3 flex flex-wrap items-center gap-1.5", className)}>
+      {plan.double11Offer ? <span className={double11Class}>{t("double11Offer")}</span> : null}
       {plan.flashOffer ? <span className={flashClass}>⏰ {t("flashOffer")}</span> : null}
       {plan.newIntakeOffer ? <span className={intakeClass}>{t("newIntakeOffer")}</span> : null}
       {plan.quotePick ? <span className={quotePickClass}>👍 {t("quotePick")}</span> : null}

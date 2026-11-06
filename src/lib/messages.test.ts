@@ -432,11 +432,11 @@ describe("broadband hub answer-first summary", () => {
     assert.match(fibre98.limits ?? "", /2026 年 9 月 22 日/);
     assert.match(fibre98.limits ?? "", /11 月 30 日/);
     assert.equal(fibre218.monthlyFee, 218);
-    assert.equal(filterPlans({ cat: "broadband" }).length, 71);
+    assert.equal(filterPlans({ cat: "broadband" }).length, 73);
     const filled = summary
       .replaceAll("{date}", SITE.updated)
       .replaceAll("{name}", SITE.name)
-      .replaceAll("{n}", "71")
+      .replaceAll("{n}", "73")
       .replaceAll("{fee58}", formatFee(fibre58.monthlyFee))
       .replaceAll("{months58}", String(fibre58.contractMonths))
       .replaceAll("{fee75}", formatFee(fibre75.monthlyFee))
@@ -446,7 +446,7 @@ describe("broadband hub answer-first summary", () => {
       .replaceAll("{fee218}", formatFee(fibre218.monthlyFee));
     assert.equal(
       filled,
-      "2026-11-05，齊Quote 光纖分類共 71 個參考計劃。站內可見入門例：指定屋苑 1000M 約 HK$58／月（48 個月）；公居屋轉台 1000M 約 HK$75／月（36 個月，HGC）；香港寬頻 1000M 限時快閃連 Wi-Fi 7 標示 HK$98／月（36 個月，須 2026-09-22 至 2026-11-30 成功預約安裝）。村屋計劃分開列（入門約 HK$218／月起），唔好用私樓價估。月費、覆蓋、安裝以電訊商確認為準；本站無收取電訊商佣金或廣告費。",
+      "2026-11-06，齊Quote 光纖分類共 73 個參考計劃。站內可見入門例：指定屋苑 1000M 約 HK$58／月（48 個月）；公居屋轉台 1000M 約 HK$75／月（36 個月，HGC）；香港寬頻 1000M 限時快閃連 Wi-Fi 7 標示 HK$98／月（36 個月，須 2026-09-22 至 2026-11-30 成功預約安裝）。村屋計劃分開列（入門約 HK$218／月起），唔好用私樓價估。月費、覆蓋、安裝以電訊商確認為準；本站無收取電訊商佣金或廣告費。",
     );
   });
 });

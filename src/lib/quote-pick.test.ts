@@ -27,8 +27,12 @@ describe("齊Quote pick badge", () => {
     assert.match(badges, /intakeClass = "[^"]*bg-intake[^"]*text-intake-foreground"/);
     assert.match(messages, /newIntakeOffer: "新入伙優惠"/);
     assert.match(messages, /flashOffer: "超限定快閃優惠"/);
+    assert.match(messages, /double11Offer: "雙11限時優惠"/);
+    assert.match(messages, /double11Offer: "11.11 limited offer"/);
     assert.match(badges, /flashClass = "[^"]*bg-flash[^"]*text-flash-foreground"/);
     assert.match(badges, /⏰ \{t\("flashOffer"\)\}/);
+    assert.match(badges, /double11Class = "[^"]*bg-double11[^"]*text-double11-foreground"/);
+    assert.match(badges, /\{t\("double11Offer"\)\}/);
     assert.match(badges, /<span className=\{/);
     assert.doesNotMatch(badges, /<button|onClick|FilterLink|aria-pressed/);
     assert.doesNotMatch(badges, /最平|保證|最優惠/);
@@ -72,6 +76,8 @@ describe("齊Quote pick badge", () => {
         "netvigator-ftth-2500-private-36m-176",
         "icable-ftth-1000-48m-58",
         "cmhk-ftth-1000",
+        "cmhk-ftth-1000-36m-98-1111",
+        "cmhk-ftth-2500-24m-148-1111",
         "hkbn-ftth-1000-24m-0-flash",
         "hkbn-ftth-2500-36m-148-flash",
         "hkbn-ftth-1000-36m-63-flash",

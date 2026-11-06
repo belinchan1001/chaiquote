@@ -70,6 +70,7 @@ const ROLE_KEY = { flash: "aiRoleFlash", pick: "aiRolePick", low: "aiRoleLow" } 
 
 function aiHighlights(plan: Plan, locale: string) {
   const lines: string[] = [];
+  if (plan.double11Offer) lines.push(locale === "en" ? "11.11 limited offer" : "雙11限時優惠");
   if (plan.freeMonths > 0) {
     lines.push(locale === "en" ? `${plan.freeMonths} months free` : `送 ${plan.freeMonths} 個月月費`);
   }

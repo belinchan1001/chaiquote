@@ -72,6 +72,8 @@ export type Plan = {
   quotePick?: boolean;
   newIntakeOffer?: boolean;
   flashOffer?: boolean;
+  /** 雙11限時優惠 badge. Not the HKBN flash countdown. */
+  double11Offer?: boolean;
   /** ISO timestamp; listing hides the plan after this instant. */
   offerEndsAt?: string;
   onlyEstates?: string[];
@@ -1616,6 +1618,56 @@ export const PLANS: Plan[] = [
     limits: "僅適用於村屋。不適用於公屋、居屋及私人樓宇。實際覆蓋須核對門牌。",
     latestOffer: true,
     bestFor: "適合村屋、需要 1000M 光纖之住戶",
+  },
+  {
+    id: "cmhk-ftth-1000-36m-98-1111",
+    providerId: "cmhk",
+    category: "broadband",
+    name: "1000M 雙11（36 個月）送 50,000 MyLink 積分",
+    monthlyFee: 98,
+    freeMonths: 3,
+    contractMonths: 36,
+    speedMbps: 1000,
+    install: "安裝費以電訊商確認為準",
+    housing: ["public", "hos", "private"],
+    network: "光纖入屋",
+    perks: [
+      "中國移動香港手機月費客戶每月回贈 HK$20（回贈於手機月費，不計入寬頻月費）",
+      "免月費在第 3、第 5 及第 7 個月",
+      "送 myTV SUPER 12 個月",
+      "送 50,000 MyLink 積分（10,000 分 = HK$100 電子繳費券；寬頻啟動後 120 日派發）",
+    ],
+    limits:
+      "雙11限時優惠。必須於 2026 年 11 月 19 日前成功申請。適用於公屋、居屋及私人樓宇。不適用於村屋。原價 HK$158。免月費在第 3、第 5 及第 7 個月。特選自建公居屋地址可再減 HK$10，長者客戶可再減 HK$10，不是全部地址，確認前不要當已減。每月 HK$20 回贈只限中國移動香港手機月費客戶，回贈在手機月費，不計入寬頻月費。50,000 MyLink 積分於寬頻啟動後 120 日派發，10,000 分 = HK$100 電子繳費券。安裝費傳單未列，以電訊商確認為準。",
+    double11Offer: true,
+    quotePick: true,
+    offerEndsAt: "2026-11-19T23:59:59+08:00",
+    bestFor: "適合公屋、居屋或私人樓宇，同時有中國移動香港手機月費之 1000M 住戶",
+  },
+  {
+    id: "cmhk-ftth-2500-24m-148-1111",
+    providerId: "cmhk",
+    category: "broadband",
+    name: "2500M 雙11（24 個月）送 30,000 MyLink 積分",
+    monthlyFee: 148,
+    freeMonths: 0,
+    contractMonths: 24,
+    speedMbps: 2500,
+    install: "安裝費以電訊商確認為準",
+    housing: ["public", "hos", "private"],
+    network: "光纖入屋",
+    perks: [
+      "中國移動香港手機月費客戶每月回贈 HK$20（回贈於手機月費，不計入寬頻月費）",
+      "送 TP-Link Archer BE230 Wi-Fi 7 路由器",
+      "送 30,000 MyLink 積分（10,000 分 = HK$100 電子繳費券；寬頻啟動後 120 日派發）",
+      "S 地址可享第 3、第 5 及第 7 個月免月費（不是全部地址）",
+    ],
+    limits:
+      "雙11限時優惠。必須於 2026 年 11 月 19 日前成功申請。樓宇類型傳單寫公居屋／私樓，頻寬欄為 (S/B)。不適用於村屋。原價 HK$398。第 3、第 5 及第 7 個月免月費只限 S 地址，所以標示月費仍為 HK$148，未確認地址前不要當已免三個月。每月 HK$20 回贈只限中國移動香港手機月費客戶，回贈在手機月費，不計入寬頻月費。30,000 MyLink 積分於寬頻啟動後 120 日派發，10,000 分 = HK$100 電子繳費券。安裝費傳單未列，以電訊商確認為準。",
+    double11Offer: true,
+    quotePick: true,
+    offerEndsAt: "2026-11-19T23:59:59+08:00",
+    bestFor: "適合公屋、居屋或私人樓宇，需要 2500M 光纖之住戶",
   },
   {
     id: "hkbn-ftth-1000-24m-0-flash",
@@ -4022,6 +4074,15 @@ export function flashBookByLabel(endsAt: string | undefined, locale: "zh" | "en"
   const day = match ? String(Number(match[3])) : "30";
   if (locale === "en") return `Must book installation by ${day} ${EN_MONTH[Number(month) - 1] ?? month}`;
   return `須於 ${month} 月 ${day} 日前成功預約安裝`;
+}
+
+/** 雙11 uses 成功申請, not the fibre flash 預約安裝 line. */
+export function double11ApplyByLabel(endsAt: string | undefined, locale: "zh" | "en") {
+  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(endsAt ?? "");
+  const month = match ? String(Number(match[2])) : "11";
+  const day = match ? String(Number(match[3])) : "19";
+  if (locale === "en") return `Must apply successfully by ${day} ${EN_MONTH[Number(month) - 1] ?? month}`;
+  return `須於 ${month} 月 ${day} 日前成功申請`;
 }
 
 export function matchesHousing(plan: Plan, housing?: Housing) {
