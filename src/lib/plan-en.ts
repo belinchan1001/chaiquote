@@ -95,8 +95,8 @@ const EXACT: Record<string, string> = {
   "送 TP-Link Archer BE230 Wi-Fi 7 路由器": "TP-Link Archer BE230 Wi-Fi 7 router",
   "送 50,000 MyLink 積分（10,000 分 = HK$100 電子繳費券；寬頻啟動後 120 日派發）":
     "50,000 MyLink points (10,000 points = HK$100 e-voucher; issued 120 days after broadband activation)",
-  "須於 2026 年 11 月 19 日前成功申請。適用公屋、居屋及私人樓宇，不適用村屋。原價 HK$158。特選自建公居屋可再減 HK$10，長者可再減 HK$10。不是全部地址，確認前不要當已減。":
-    "Apply successfully by 19 Nov 2026. For public housing, HOS and private buildings. Not for village houses. List price HK$158. Selected self-built public or HOS homes can take another HK$10 off, and elderly customers another HK$10. Not every address. Do not treat it as already deducted until confirmed.",
+  "須於 2026 年 11 月 19 日前成功申請。適用公屋、居屋及私人樓宇，不適用村屋。原價 HK$158。特選自建公居屋可再減 HK$10（只適用於自建指定公屋居屋，地址請向銷售員確認）。65歲以上長者可再減 HK$10。":
+    "Apply successfully by 19 Nov 2026. For public housing, HOS and private buildings. Not for village houses. List price HK$158. Selected self-built public or HOS homes can take another HK$10 off (named self-built public and HOS addresses only; ask the salesperson to confirm). Customers aged 65 or above can take another HK$10 off.",
   "須於 2026 年 11 月 19 日前成功申請。適用公屋、居屋及私人樓宇，不適用村屋。原價 HK$398。":
     "Apply successfully by 19 Nov 2026. For public housing, HOS and private buildings. Not for village houses. List price HK$398.",
   "適合公屋、居屋或私人樓宇，同時有中國移動香港手機月費之 1000M 住戶":
