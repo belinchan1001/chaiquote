@@ -4052,6 +4052,11 @@ export function averageFee(plan: Plan) {
   return Math.round(((plan.monthlyFee * (plan.contractMonths - plan.freeMonths) - rebate) / plan.contractMonths) * 10) / 10;
 }
 
+/** 11.11 cards lead with the average. Every other card keeps the listed fee. */
+export function cardHeadlineFee(plan: Plan) {
+  return plan.double11Offer ? averageFee(plan) : plan.monthlyFee;
+}
+
 export function isOfferExpired(plan: Plan, now = Date.now()) {
   if (!plan.offerEndsAt) return false;
   const ends = Date.parse(plan.offerEndsAt);

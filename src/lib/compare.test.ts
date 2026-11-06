@@ -14,7 +14,7 @@ import {
   type CompareCopy,
 } from "./compare.ts";
 import { toEnglish } from "./plan-en.ts";
-import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, getPlan, hasCertifiedStaff, isHgcVillage, isHkbnVillage, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, planPerks, staffOfferLabel, staffOfferPlans, averageFee, type Category } from "./plans.ts";
+import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, getPlan, hasCertifiedStaff, isHgcVillage, isHkbnVillage, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, planPerks, staffOfferLabel, staffOfferPlans, averageFee, cardHeadlineFee, type Category } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
 import {
   HGC_VILLAGE_COVERAGE,
@@ -1647,6 +1647,7 @@ describe("CMHK 11.11 home fibre", () => {
     assert.equal(m1000.speedMbps, 1000);
     assert.equal(m1000.rebate, undefined);
     assert.equal(averageFee(m1000), 89.8);
+    assert.equal(cardHeadlineFee(m1000), 89.8);
     assert.equal(m1000.double11Offer, true);
     assert.equal(m1000.quotePick, true);
     assert.equal(m1000.flashOffer, undefined);
@@ -1666,6 +1667,7 @@ describe("CMHK 11.11 home fibre", () => {
     assert.equal(m2500.monthlyFee, 148);
     assert.equal(m2500.freeMonths, 0);
     assert.equal(averageFee(m2500), 148);
+    assert.equal(cardHeadlineFee(m2500), 148);
     assert.equal(m2500.contractMonths, 24);
     assert.equal(m2500.speedMbps, 2500);
     assert.equal(m2500.double11Offer, true);

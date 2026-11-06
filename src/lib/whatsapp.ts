@@ -2,6 +2,7 @@ import {
   CATEGORY_LABEL,
   PROVIDER_MAP,
   formatFee,
+  cardHeadlineFee,
   isHktPlan,
   type Category,
   type Housing,
@@ -97,10 +98,19 @@ export function quoteWhatsappHref(text: string, phone: string = SITE.whatsappE16
 
 export function planLine(plan: Plan, locale: Locale = "zh") {
   const provider = PROVIDER_MAP[plan.providerId];
+  const headline = cardHeadlineFee(plan);
+  const listed =
+    plan.double11Offer && headline !== plan.monthlyFee
+      ? locale === "en"
+        ? `average ${formatFee(headline)}/mo, listed ${formatFee(plan.monthlyFee)}`
+        : `平均月費 ${formatFee(headline)}／月，標示 ${formatFee(plan.monthlyFee)}`
+      : locale === "en"
+        ? formatFee(plan.monthlyFee)
+        : `月費 ${formatFee(plan.monthlyFee)}`;
   if (locale === "en") {
-    return `${provider.nameEn} ${toEnglishLazy(plan.name)} (${toEnglishLazy(CATEGORY_LABEL[plan.category])}, ${formatFee(plan.monthlyFee)} / ${plan.contractMonths} months)`;
+    return `${provider.nameEn} ${toEnglishLazy(plan.name)} (${toEnglishLazy(CATEGORY_LABEL[plan.category])}, ${listed} / ${plan.contractMonths} months)`;
   }
-  return `${provider.name} ${plan.name}（${CATEGORY_LABEL[plan.category]}，月費 ${formatFee(plan.monthlyFee)}／${plan.contractMonths}個月）`;
+  return `${provider.name} ${plan.name}（${CATEGORY_LABEL[plan.category]}，${listed}／${plan.contractMonths}個月）`;
 }
 
 function housingLabel(value?: string, locale: Locale = "zh") {

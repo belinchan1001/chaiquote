@@ -14,6 +14,7 @@ import { registerFoilCard } from "@/lib/foil-scroll";
 import { useI18n } from "@/lib/i18n";
 import {
   averageFee,
+  cardHeadlineFee,
   formatPlanSpeed,
   formatFee,
   formatInstall,
@@ -61,6 +62,7 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
   const inCompare = compare.includes(plan.id);
   const inSaved = saved.includes(plan.id);
   const avg = averageFee(plan);
+  const headline = cardHeadlineFee(plan);
   const { t, tx, categoryLabel, locale } = useI18n();
   const housing = useRouterState({
     select: (s) => {
@@ -171,12 +173,24 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
       </h3>
 
       <div className="mt-4 flex flex-wrap items-end gap-2">
-        <p className="font-display text-[32px] font-bold tabular-nums leading-none">{formatFee(plan.monthlyFee)}</p>
+        <p className="font-display text-[32px] font-bold tabular-nums leading-none">{formatFee(headline)}</p>
         <span className="mb-0.5 rounded-full bg-[#F3F4F6] px-2.5 py-1 text-sm font-normal text-[#374151]">
           {t("perMonth", { n: plan.contractMonths })}
         </span>
       </div>
-      {avg !== plan.monthlyFee ? (
+      {plan.double11Offer && headline !== plan.monthlyFee ? (
+        <p className="mt-1 text-sm text-accent">
+          {locale === "en"
+            ? `Average monthly fee. Listed ${formatFee(plan.monthlyFee)}/mo, with ${plan.freeMonths} free months included.`
+            : `平均月費。標示月費 ${formatFee(plan.monthlyFee)}／月，已計免 ${plan.freeMonths} 個月。`}
+        </p>
+      ) : plan.double11Offer ? (
+        <p className="mt-1 text-sm text-accent">
+          {locale === "en"
+            ? `Average monthly fee ${formatFee(plan.monthlyFee)}/mo. Three free months apply to S addresses only, so they are not in this figure.`
+            : `平均月費 ${formatFee(plan.monthlyFee)}／月。免 3 個月只限 S 地址，所以未計入。`}
+        </p>
+      ) : avg !== plan.monthlyFee ? (
         <p className="mt-1 text-sm text-accent">{t("avgFee", { fee: formatFee(avg) })}</p>
       ) : null}
 

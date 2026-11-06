@@ -7,6 +7,7 @@ import { useHydrateDesk } from "@/lib/desk";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import {
   averageFee,
+  cardHeadlineFee,
   formatFee,
   formatInstall,
   formatPlanSpeed,
@@ -146,7 +147,9 @@ function PlanDetailPage() {
       <h1 className="sr-only">{tx(plan.name)}</h1>
       <p className="mt-4 max-w-3xl text-sm leading-relaxed text-fg">
         {locale === "en"
-          ? `As of ${updated}, ${PROVIDER_MAP[plan.providerId].nameEn} lists ${tx(plan.name)} at ${formatFee(plan.monthlyFee)} per month for ${plan.contractMonths} months. Housing: ${housingList(plan.housing)}. Speed: ${tx(formatPlanSpeed(plan))}.`
+          ? plan.double11Offer && avg !== plan.monthlyFee
+            ? `As of ${updated}, ${PROVIDER_MAP[plan.providerId].nameEn} lists ${tx(plan.name)} at an average of ${formatFee(avg)} per month (listed ${formatFee(plan.monthlyFee)}, ${plan.freeMonths} free months included) for ${plan.contractMonths} months. Housing: ${housingList(plan.housing)}. Speed: ${tx(formatPlanSpeed(plan))}.`
+            : `As of ${updated}, ${PROVIDER_MAP[plan.providerId].nameEn} lists ${tx(plan.name)} at ${formatFee(plan.monthlyFee)} per month for ${plan.contractMonths} months. Housing: ${housingList(plan.housing)}. Speed: ${tx(formatPlanSpeed(plan))}.`
           : planSeoDescription(plan)}
       </p>
       <table className="mt-4 w-full max-w-3xl border-collapse text-sm">
@@ -156,7 +159,12 @@ function PlanDetailPage() {
         <tbody>
           {(
             [
-              [t("rowFee"), formatFee(plan.monthlyFee)],
+              [
+                t("rowFee"),
+                plan.double11Offer && cardHeadlineFee(plan) !== plan.monthlyFee
+                  ? `${formatFee(cardHeadlineFee(plan))}（${locale === "en" ? "average" : "平均"}，${locale === "en" ? "listed" : "標示"} ${formatFee(plan.monthlyFee)}）`
+                  : formatFee(plan.monthlyFee),
+              ],
               [t("rowContract"), t("months", { n: plan.contractMonths })],
               [t("speed"), tx(formatPlanSpeed(plan))],
               [t("rowHousing"), housingList(plan.housing)],

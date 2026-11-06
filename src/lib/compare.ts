@@ -1,5 +1,6 @@
 import {
   averageFee,
+  cardHeadlineFee,
   formatFee,
   formatPlanSpeed,
   PROVIDER_MAP,
@@ -121,6 +122,6 @@ export function planSpecToken(plan: Plan) {
 }
 
 export function compareChipLabel(plan: Plan, locale: "zh" | "en") {
-  const fee = formatFee(plan.monthlyFee).replace(/^HK/, "");
+  const fee = formatFee(cardHeadlineFee(plan)).replace(/^HK/, "");
   return [shortProviderName(plan.providerId, locale), planSpecToken(plan), fee].filter(Boolean).join(" ");
 }

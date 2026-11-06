@@ -13,7 +13,7 @@ import {
   shortProviderName,
   visibleCompareFields,
 } from "@/lib/compare";
-import { formatFee, getPlan, planPerks, type Category, type PlansSearch } from "@/lib/plans";
+import { cardHeadlineFee, formatFee, getPlan, planPerks, type Category, type PlansSearch } from "@/lib/plans";
 import { readPlansSearch } from "@/lib/search";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -158,7 +158,7 @@ function ComparePage() {
                         {planSpecToken(plan) || tx(plan.name)}
                       </Link>
                       <p className="mt-0.5 font-display text-base font-semibold tabular-nums leading-none">
-                        {formatFee(plan.monthlyFee)}
+                        {formatFee(cardHeadlineFee(plan))}
                       </p>
                       {plan.freeMonths ? (
                         <p className="mt-0.5 text-[11px] leading-tight text-accent">

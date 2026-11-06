@@ -1,4 +1,4 @@
-import { formatFee, formatPlanSpeed, getPlan, isListedPlan, PLANS, PROVIDER_MAP, type Category, type Housing, type Plan, type ProviderId } from "./plans.ts";
+import { cardHeadlineFee, formatFee, formatPlanSpeed, getPlan, isListedPlan, PLANS, PROVIDER_MAP, type Category, type Housing, type Plan, type ProviderId } from "./plans.ts";
 import { INDEXABLE_ESTATE_PAGES, estatePagePath, estateSeoDescription, estateSeoTitle, type EstatePage } from "./estate-pages.ts";
 import { GUIDES, getGuide, type Guide } from "./guides.ts";
 import { TECH_NEWS_ARTICLES, TECH_NEWS_CATEGORIES } from "./tech-news.ts";
@@ -221,14 +221,24 @@ export function planSeoTitle(plan: Plan): string {
   const speed = planSpeedLabel(plan);
   const mid = speed ? `${provider} ${speed}` : provider;
   const term = /個月/.test(plan.name) ? "" : `｜${plan.contractMonths}個月`;
-  return `${plan.name}｜月費 ${formatFee(plan.monthlyFee)}｜${mid}${term}｜齊Quote`;
+  const headline = cardHeadlineFee(plan);
+  const feeBit =
+    plan.double11Offer && headline !== plan.monthlyFee
+      ? `平均月費 ${formatFee(headline)}（標示 ${formatFee(plan.monthlyFee)}）`
+      : `月費 ${formatFee(plan.monthlyFee)}`;
+  return `${plan.name}｜${feeBit}｜${mid}${term}｜齊Quote`;
 }
 
 export function planSeoDescription(plan: Plan): string {
   const provider = PROVIDER_MAP[plan.providerId].name;
   const speed = planSpeedLabel(plan);
   const speedBit = speed ? `${speed}，` : "";
-  const text = `${catalogueMonthLabel()}可以比較${provider}${speedBit}${plan.name}。月費${formatFee(plan.monthlyFee)}，合約${plan.contractMonths}個月，適用${planHousingLabel(plan)}。想對其他月費或者查覆蓋，可以再篩樓類。實際價錢同安裝以電訊商確認為準。`;
+  const headline = cardHeadlineFee(plan);
+  const feeBit =
+    plan.double11Offer && headline !== plan.monthlyFee
+      ? `平均月費${formatFee(headline)}（標示${formatFee(plan.monthlyFee)}，已計免${plan.freeMonths}個月）`
+      : `月費${formatFee(plan.monthlyFee)}`;
+  const text = `${catalogueMonthLabel()}可以比較${provider}${speedBit}${plan.name}。${feeBit}，合約${plan.contractMonths}個月，適用${planHousingLabel(plan)}。想對其他月費或者查覆蓋，可以再篩樓類。實際價錢同安裝以電訊商確認為準。`;
   return text;
 }
 

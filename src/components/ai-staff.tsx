@@ -26,7 +26,7 @@ import {
 } from "@/lib/ai-desk";
 import { useDesk, useHydrateDesk, type Inquiry } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
-import { formatFee, planPerks, type Category, type Housing, type Plan } from "@/lib/plans";
+import { averageFee, cardHeadlineFee, formatFee, planPerks, type Category, type Housing, type Plan } from "@/lib/plans";
 import {
   currentOptions,
   EXPIRY_OPTIONS,
@@ -800,8 +800,14 @@ export function AiStaffPanel() {
                             <ProviderMark id={plan.providerId} size="sm" showEn={false} />
                             <p className="mt-1 font-medium leading-snug">{tx(plan.name)}</p>
                             <p className="mt-1 tabular-nums">
-                              {formatFee(plan.monthlyFee)}{" "}
-                              <span className="text-xs text-muted">{t("months", { n: plan.contractMonths })}</span>
+                              {formatFee(cardHeadlineFee(plan))}{" "}
+                              <span className="text-xs text-muted">
+                                {plan.double11Offer && averageFee(plan) !== plan.monthlyFee
+                                  ? locale === "en"
+                                    ? `average · ${t("months", { n: plan.contractMonths })} · listed ${formatFee(plan.monthlyFee)}`
+                                    : `平均月費 · ${t("months", { n: plan.contractMonths })} · 標示 ${formatFee(plan.monthlyFee)}`
+                                  : t("months", { n: plan.contractMonths })}
+                              </span>
                             </p>
                             {highlights.length ? (
                               <ul className="mt-2 space-y-1 text-xs text-fg">
