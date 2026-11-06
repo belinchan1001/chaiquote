@@ -1,6 +1,6 @@
 export const SITE = {
   name: "齊Quote",
-  tagline: "搯寬頻唔使四圍問",
+  tagline: "措寬頻唔使四圍問",
   searchHint: "電訊報價",
   url: "https://www.chaiquote.hk",
   /** Confirmed public profiles for Organization.sameAs. */
@@ -11,7 +11,7 @@ export const SITE = {
   description:
     "齊Quote 係獨立電訊比較平台，提供香港寬頻報價同電訊報價，一次過比較家居寬頻、5G 家居、商業寬頻同手機計劃。所列月費僅供參考，實際以電訊商確認為準。",
   /** Catalogue stamp shown on the homepage hero as YYYY-MM-DD. */
-  updated: "2026-11-06",
+  updated: "2026-11-07",
   phoneDisplay: "6309 9966",
   whatsappE164: "85263099966",
   hktPhoneDisplay: "5436 3004",
@@ -131,7 +131,7 @@ export const FAQ = [
     a: "公屋同埋居屋好多時有指定供應商同批量價，每個屋邨／屋苑合約都可能唔同。站內光纖入門參考可見「指定屋苑 1000M 光纖入屋（48 個月）」約 HK$58／月起（有線寬頻）；篩選時分開擇公屋／居屋，問價填齊屋苑名稱。僅供參考，以電訊商確認為準。",
   },
   {
-    q: "村屋有冇光纖？",
+    q: "村屋有咪光纖？",
     a: "村屋光纖而家主要由香港寬頻、HGC 同網上行等提供指定計劃；公屋、居屋同私樓計劃一般唔適用於村屋地址。站內村屋光纖入門參考約 HK$218／月起（例如中國移動香港「村屋 1000M 光纖（24 個月）」）；另有香港寬頻「特選村屋 2000M 光纖（24 個月）」HK$229 等較高規格計劃。未有光纖可一併比較 5G 家居寬頻（站內約 HK$88 起）。實際覆蓋要核對門牌，以電訊商確認為準。",
   },
   {
@@ -144,6 +144,6 @@ export const FAQ = [
   },
   {
     q: "點樣查核報價？",
-    a: "最快用 WhatsApp 6309 9966。冇 WhatsApp 可以撳「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 info@chaiquote.hk。",
+    a: "最快用 WhatsApp 6309 9966。咪 WhatsApp 可以撳「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 info@chaiquote.hk。",
   },
 ] as const;
