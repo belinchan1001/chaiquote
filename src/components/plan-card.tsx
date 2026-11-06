@@ -43,9 +43,15 @@ function cardSpecLines(plan: Plan) {
   if (!offerFirst && plan.category !== "mobile" && plan.install) lines.push(formatInstall(plan));
   if (plan.highSpeedGb || plan.dataGb) lines.push(`${plan.highSpeedGb ?? plan.dataGb}GB`);
   if (plan.voice) lines.push(plan.voice);
-  for (const perk of planPerks(plan)) lines.push(perk);
+  const perks = planPerks(plan);
+  if (offerFirst) {
+    for (const perk of perks.slice(0, 2)) lines.push(perk);
+    if (plan.install) lines.push(formatInstall(plan));
+    for (const perk of perks.slice(2)) lines.push(perk);
+  } else {
+    for (const perk of perks) lines.push(perk);
+  }
   if (plan.portInPerk) lines.push(plan.portInPerk);
-  if (offerFirst && plan.install) lines.push(formatInstall(plan));
   const seen = new Set<string>();
   return lines.filter((line) => {
     const key = line.trim();

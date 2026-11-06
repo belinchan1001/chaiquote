@@ -1648,6 +1648,7 @@ describe("CMHK 11.11 home fibre", () => {
     assert.equal(m1000.rebate, undefined);
     assert.equal(averageFee(m1000), 89.8);
     assert.equal(cardHeadlineFee(m1000), 89.8);
+    assert.equal(m1000.install, "豁免安裝費");
     assert.equal(m1000.double11Offer, true);
     assert.equal(m1000.quotePick, true);
     assert.equal(m1000.flashOffer, undefined);
@@ -1670,6 +1671,7 @@ describe("CMHK 11.11 home fibre", () => {
     assert.equal(cardHeadlineFee(m2500), 129.5);
     assert.equal(m2500.contractMonths, 24);
     assert.equal(m2500.speedMbps, 2500);
+    assert.equal(m2500.install, "豁免安裝費");
     assert.equal(m2500.double11Offer, true);
     assert.equal(m2500.quotePick, true);
     assert.match(m2500.perks.join(" "), /BE230/);
