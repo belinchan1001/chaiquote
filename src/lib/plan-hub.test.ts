@@ -167,6 +167,13 @@ describe("plan category hub", () => {
     }
     assert.equal(MESSAGES.zh.planQuoteCta, "索取報價");
     assert.equal(MESSAGES.zh.feeSummaryTitle, "參考月費摘要");
+    assert.equal(MESSAGES.zh.hubFactsTitle, "分類說明");
+    assert.equal(MESSAGES.en.planQuoteCta, "Request a quote");
+    assert.equal(MESSAGES.en.feeSummaryTitle, "Reference fee summary");
+    assert.equal(MESSAGES.en.hubFactsTitle, "About this list");
+    assert.notEqual(MESSAGES.zh.planQuoteCta, "planQuoteCta");
+    assert.notEqual(MESSAGES.zh.feeSummaryTitle, "feeSummaryTitle");
+    assert.notEqual(MESSAGES.zh.hubFactsTitle, "hubFactsTitle");
   });
 
   it("puts search, scenario chips, and the quote button above the result count on every category page", () => {

@@ -9,10 +9,12 @@ import {
   CRITICAL_KEYS,
   DEFAULT_MESSAGES_PATH,
   MIN_LOCALE_KEYS,
+  PLAN_HUB_KEYS,
   assertCatalogueWriteAllowed,
   checkMessagesFile,
   checkMessagesSource,
   messagesCataloguePlugin,
+  missingPlanHubKeys,
   parseCheckMessagesArgs,
   parseLocaleTables,
 } from "./check-messages.mjs";
@@ -104,10 +106,49 @@ test("en below the floor with missing zh keys fails even when both tables exist"
   assert.ok(result.errors.some((error) => /en is missing/.test(error)));
 });
 
+function dropLocaleKeys(source, keys) {
+  const drop = new Set(keys);
+  const out = [];
+  let skipping = false;
+  for (const line of source.split("\n")) {
+    const key = line.match(/^    ([A-Za-z0-9_]+):/);
+    if (key) skipping = drop.has(key[1]);
+    if (!skipping) out.push(line);
+  }
+  return out.join("\n");
+}
+
 test("a full-size catalogue missing a homepage key fails", () => {
   const result = checkMessagesSource(tinyCatalogue({ dropCritical: true }));
   assert.equal(result.ok, false);
-  assert.ok(result.errors.some((error) => /critical homepage\/error keys missing: tagline/.test(error)));
+  assert.ok(result.errors.some((error) => /critical homepage\/error keys missing from zh: tagline/.test(error)));
+  assert.ok(result.errors.some((error) => /critical homepage\/error keys missing from en: tagline/.test(error)));
+});
+
+test("a catalogue above the floor still fails when plan hub labels are absent", () => {
+  const staleKeys = PLAN_HUB_KEYS.filter((key) => key !== "broadbandHubSummary");
+  const source = dropLocaleKeys(readFileSync(DEFAULT_MESSAGES_PATH, "utf8"), staleKeys);
+  const result = checkMessagesSource(source);
+  assert.equal(result.ok, false);
+  assert.ok(result.counts.zh >= MIN_LOCALE_KEYS, `zh ${result.counts.zh}`);
+  assert.ok(result.counts.en >= MIN_LOCALE_KEYS, `en ${result.counts.en}`);
+  const report = result.errors.join("\n");
+  for (const key of staleKeys) {
+    assert.match(report, new RegExp(`missing from zh:.*${key}`));
+    assert.match(report, new RegExp(`missing from en:.*${key}`));
+  }
+  assert.ok(missingPlanHubKeys(source).some((error) => error.includes("feeSummaryTitle")));
+  assert.deepEqual(missingPlanHubKeys(readFileSync(DEFAULT_MESSAGES_PATH, "utf8")), []);
+});
+
+test("zh and en plan hub labels are copy, not the raw key names", () => {
+  const source = readFileSync(DEFAULT_MESSAGES_PATH, "utf8");
+  assert.match(source, /planQuoteCta: "索取報價"/);
+  assert.match(source, /feeSummaryTitle: "參考月費摘要"/);
+  assert.match(source, /hubFactsTitle: "分類說明"/);
+  assert.match(source, /planQuoteCta: "Request a quote"/);
+  assert.match(source, /feeSummaryTitle: "Reference fee summary"/);
+  assert.match(source, /hubFactsTitle: "About this list"/);
 });
 
 test("a catalogue at the floor with matching zh/en keys passes", () => {
@@ -151,9 +192,15 @@ test("npm test, npm build, Vite, and Vercel all run the catalogue floor", () => 
   const pkg = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8"));
   const vercel = JSON.parse(readFileSync(join(ROOT, "vercel.json"), "utf8"));
   const vite = readFileSync(join(ROOT, "vite.config.ts"), "utf8");
-  assert.equal(pkg.scripts["check:messages"], "node scripts/check-messages.mjs");
+  assert.match(
+    pkg.scripts["check:messages"],
+    /node scripts\/restore-truncated-catalogues\.mjs && node scripts\/check-messages\.mjs/,
+  );
+  assert.match(pkg.scripts.test, /restore-truncated-catalogues\.mjs/);
   assert.match(pkg.scripts.test, /check-messages\.mjs/);
+  assert.match(pkg.scripts.build, /restore-truncated-catalogues\.mjs/);
   assert.match(pkg.scripts.build, /check-messages\.mjs/);
+  assert.match(vercel.buildCommand, /restore-truncated-catalogues\.mjs/);
   assert.match(vercel.buildCommand, /check-messages\.mjs/);
   assert.match(vite, /messagesCataloguePlugin\(\)/);
   const workflow = readFileSync(join(ROOT, ".github/workflows/messages-catalogue.yml"), "utf8");
