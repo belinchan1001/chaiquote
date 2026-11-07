@@ -4,7 +4,10 @@
  * PNG/JPEG logos are converted here on every build. Originals stay as fallback.
  *
  * Logos (public/images/providers, public/logos): WebP q80, max edge 96px.
- * Photos: extra 400w WebP for phones. The existing WebP remains the 800w+ file.
+ * Photos: full-size WebP (same pixels as the JPEG) plus a 400w WebP for phones.
+ * webpSrcSet requests both. A missing file 404s, and <picture> does not fall
+ * back to the JPEG. Full-size WebP is written only when absent, so a cover that
+ * was resized by hand is left as-is. Hero images stay on their own sizes.
  */
 import { existsSync } from "node:fs";
 import { readdir, stat, mkdir } from "node:fs/promises";
@@ -51,18 +54,32 @@ async function photoWidths() {
   for (const file of await filesIn(PHOTO_DIR)) {
     const name = basename(file);
     if (name.startsWith("hero-home")) continue;
-    const out = join(dirname(file), name.replace(/\.(png|jpe?g)$/i, "-400.webp"));
     const source = await stat(file);
-    if (existsSync(out)) {
-      const prev = await stat(out);
-      if (prev.mtimeMs >= source.mtimeMs) continue;
+    const variants = [
+      {
+        out: join(dirname(file), name.replace(/\.(png|jpe?g)$/i, ".webp")),
+        width: undefined,
+        refresh: false,
+      },
+      {
+        out: join(dirname(file), name.replace(/\.(png|jpe?g)$/i, "-400.webp")),
+        width: 400,
+        refresh: true,
+      },
+    ];
+    for (const { out, width, refresh } of variants) {
+      if (existsSync(out)) {
+        if (!refresh) continue;
+        const prev = await stat(out);
+        if (prev.mtimeMs >= source.mtimeMs) continue;
+      }
+      await writeWebp(file, out, { width });
+      count += 1;
     }
-    await writeWebp(file, out, { width: 400 });
-    count += 1;
   }
   return count;
 }
 
 const logoCount = await logos();
 const photoCount = await photoWidths();
-console.log(`webp q${QUALITY}: ${logoCount} logos, ${photoCount} new 400w photos`);
+console.log(`webp q${QUALITY}: ${logoCount} logos, ${photoCount} new photo variants`);

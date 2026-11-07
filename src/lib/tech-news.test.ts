@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -171,5 +171,17 @@ describe("tech news channel", () => {
       "shared",
     );
     assert.equal(shared[0]?.url, url);
+  });
+
+  it("ships a full WebP and a 400w WebP for every news JPEG cover", () => {
+    const dir = join(here, "../../public/images");
+    const jpegs = readdirSync(dir).filter((name) => /^news-.*\.jpe?g$/i.test(name));
+    assert.ok(jpegs.length >= 16, `expected news covers, found ${jpegs.length}`);
+    for (const name of jpegs) {
+      const webp = name.replace(/\.jpe?g$/i, ".webp");
+      const phone = name.replace(/\.jpe?g$/i, "-400.webp");
+      assert.equal(existsSync(join(dir, webp)), true, webp);
+      assert.equal(existsSync(join(dir, phone)), true, phone);
+    }
   });
 });
