@@ -29,7 +29,21 @@ export const MIN_LOCALE_KEYS = Math.ceil(BASELINE_ZH_KEYS * 0.9);
 
 export const REQUIRED_LOCALES = ["zh", "en"];
 
-/** Homepage + error-chrome keys that must survive any copy pass. */
+/**
+ * Plan-hub labels added in #154. The catalogue restore pin must include
+ * these or /plans renders the raw key in `<summary>` and drops the quote CTA.
+ */
+export const PLAN_HUB_KEYS = [
+  "broadbandHubSummary",
+  "home5gHubSummary",
+  "mobileHubSummary",
+  "businessHubSummary",
+  "planQuoteCta",
+  "feeSummaryTitle",
+  "hubFactsTitle",
+];
+
+/** Homepage, error-chrome, and plan-hub keys that must survive any copy pass. */
 export const CRITICAL_KEYS = [
   "tagline",
   "heroTitle1",
@@ -41,6 +55,7 @@ export const CRITICAL_KEYS = [
   "featuredTitle",
   "errorTitle",
   "notFound",
+  ...PLAN_HUB_KEYS,
 ];
 
 export function isMainModule(moduleUrl) {
@@ -279,10 +294,16 @@ export function checkMessagesCatalogue(parsed) {
     }
   }
 
-  const known = new Set([...zh, ...en]);
-  const missingCritical = CRITICAL_KEYS.filter((key) => !known.has(key));
-  if (missingCritical.length > 0) {
-    errors.push(`critical homepage/error keys missing: ${missingCritical.join(", ")}`);
+  for (const locale of REQUIRED_LOCALES) {
+    const entry = locales[locale];
+    if (!entry?.present || entry.unclosed) continue;
+    const have = new Set(entry.keys);
+    const missingCritical = CRITICAL_KEYS.filter((key) => !have.has(key));
+    if (missingCritical.length > 0) {
+      errors.push(
+        `critical homepage/error keys missing from ${locale}: ${missingCritical.join(", ")}`,
+      );
+    }
   }
 
   const counts = {
@@ -294,6 +315,24 @@ export function checkMessagesCatalogue(parsed) {
 
 export function checkMessagesSource(source) {
   return checkMessagesCatalogue(parseLocaleTables(source));
+}
+
+/** Keys a pinned messages.ts must contain before restore is allowed to overwrite the working tree. */
+export function missingPlanHubKeys(source) {
+  const parsed = parseLocaleTables(source);
+  if (parsed.error) return [parsed.error];
+  const errors = [];
+  for (const locale of REQUIRED_LOCALES) {
+    const entry = parsed.locales?.[locale];
+    if (!entry?.present) {
+      errors.push(`locale "${locale}" is missing`);
+      continue;
+    }
+    const have = new Set(entry.keys ?? []);
+    const missing = PLAN_HUB_KEYS.filter((key) => !have.has(key));
+    if (missing.length > 0) errors.push(`${locale} missing ${missing.join(", ")}`);
+  }
+  return errors;
 }
 
 /** Refuse a Daily copy overwrite that would drop the catalogue below the floor. */

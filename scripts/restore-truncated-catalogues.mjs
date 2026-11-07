@@ -5,6 +5,7 @@
  * check-messages and vite build.
  */
 import { writeFileSync } from "node:fs";
+import { missingPlanHubKeys } from "./check-messages.mjs";
 
 const WYLER = "偉恆昌新邨|偉恆昌,Wyler Gardens,Wyler Garden|九龍城|private|土瓜灣";
 
@@ -14,7 +15,7 @@ const FILES = [
     // Must be a main commit whose messages.ts already contains every key the
     // app renders. Bump this hash whenever src/lib/messages.ts changes, or the
     // build will ship an older catalogue and the UI will show raw key names.
-    url: "https://raw.githubusercontent.com/belinchan1001/chaiquote/b4d252c4f17edfb410778a7dd1fbca00230060af/src/lib/messages.ts",
+    url: "https://raw.githubusercontent.com/belinchan1001/chaiquote/0d8a3301cb17d0b18c4deaf7be7db2184e822ffd/src/lib/messages.ts",
     minBytes: 40000,
   },
   {
@@ -40,6 +41,15 @@ async function restoreOne(file) {
   const bytes = Buffer.byteLength(text);
   if (bytes < file.minBytes) {
     throw new Error(`${file.dest}: restored ${bytes} bytes, expected >= ${file.minBytes}`);
+  }
+  if (file.dest.endsWith("messages.ts")) {
+    const missing = missingPlanHubKeys(text);
+    if (missing.length > 0) {
+      throw new Error(
+        `${file.dest}: pinned catalogue is missing plan hub copy (${missing.join("; ")}). ` +
+          "Bump the messages.ts URL to a main commit that contains these keys.",
+      );
+    }
   }
   writeFileSync(file.dest, text);
   console.log(`[restore-catalogues] ${file.dest} ${bytes} bytes`);
