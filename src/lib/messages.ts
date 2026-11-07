@@ -212,6 +212,15 @@ export const MESSAGES = {
     foundPlans: "搵到 {n} 個計劃",
     broadbandHubSummary:
       "{date}，{name} 光纖分類共 {n} 個參考計劃。站內可見入門例：指定屋苑 1000M 約 {fee58}／月（{months58} 個月）；公居屋轉台 1000M 約 {fee75}／月（{months75} 個月，HGC）；香港寬頻 1000M 限時快閃連 Wi-Fi 7 標示 {fee98}／月（{months98} 個月，須 2026-09-22 至 2026-11-30 成功預約安裝）。村屋計劃分開列（入門約 {fee218}／月起），唔好用私樓價估。月費、覆蓋、安裝以電訊商確認為準；本站無收取電訊商佣金或廣告費。",
+    home5gHubSummary:
+      "{date}，{name} 5G 家居分類共 {n} 個參考計劃。站內可見入門例：{plan88} 標示 {fee88}／月（{months88} 個月）；{plan98} 標示 {fee98}／月（{months98} 個月）；{plan108} 標示 {fee108}／月（{months108} 個月，豁免 {free108} 個月）。免拉線入屋，實際速度視現場訊號。月費同覆蓋以電訊商確認為準；本站無收取電訊商佣金或廣告費。",
+    mobileHubSummary:
+      "{date}，{name} 手機分類共 {n} 個參考計劃。站內月費較低一例：{lowName} 標示 {lowFee}／月（{lowMonths} 個月），屬低用量參考，唔代表 5G 月費。5G 一例：{fiveName} 標示 {fiveFee}／月（{fiveMonths} 個月）。4G／5G、攜號轉台同大灣區數據另見計劃卡。月費以電訊商確認為準；本站無收取電訊商佣金或廣告費。",
+    businessHubSummary:
+      "{date}，{name} 商業寬頻分類共 {n} 個參考計劃。站內可見入門例：{provider1000}{name1000} 標示 {fee1000}／月（{months1000} 個月）；{provider1000b}{name1000b} 標示 {fee1000b}／月（{months1000b} 個月）。10000M 一例標示 {fee10000}／月（{months10000} 個月）。月費、安裝同舖址覆蓋僅供參考，以電訊商確認為準；本站無收取電訊商佣金或廣告費。",
+    planQuoteCta: "索取報價",
+    feeSummaryTitle: "參考月費摘要",
+    hubFactsTitle: "分類說明",
     coverageCheck: "覆蓋要查核",
     clearAll: "清晒",
     portIn: "轉台優惠",
@@ -774,7 +783,16 @@ export const MESSAGES = {
     filterPlans: "Filter plans",
     foundPlans: "{n} plans found",
     broadbandHubSummary:
-      "{date}: {name} lists {n} fibre reference plans. Examples on this site: designated-estate 1000M about {fee58}/month ({months58} months); public-housing and HOS port-in 1000M about {fee75}/month ({months75} months, HGC); HKBN 1000M limited flash with Wi-Fi 7 marked {fee98}/month ({months98} months; installation must be booked successfully from 2026-09-22 to 2026-11-30). Village plans are listed separately (from about {fee218}/month). Do not reuse a private-estate price. Fees, coverage and installation are confirmed by the carrier. This site does not take carrier commission or advertising fees.",
+      "{date}: {name} lists {n} fibre reference plans. Designated-estate 1000M is about {fee58}/month ({months58} months). Public-housing and HOS port-in 1000M is about {fee75}/month ({months75} months, HGC). HKBN 1000M limited flash with Wi-Fi 7 is marked {fee98}/month ({months98} months; installation must be booked successfully from 2026-09-22 to 2026-11-30). Village plans are listed separately, from about {fee218}/month. Do not reuse a private-estate price. Fees, coverage and installation are confirmed by the carrier. This site does not take carrier commission or advertising fees.",
+    home5gHubSummary:
+      "{date}: {name} lists {n} 5G home reference plans. {plan88} is marked {fee88}/month ({months88} months). {plan98} is marked {fee98}/month ({months98} months). {plan108} is marked {fee108}/month ({months108} months, {free108} free month). No cabling; actual speed depends on the signal. Fees and coverage are confirmed by the carrier. This site does not take carrier commission or advertising fees.",
+    mobileHubSummary:
+      "{date}: {name} lists {n} mobile reference plans. A lower monthly-fee example on this site: {lowName} at {lowFee}/month ({lowMonths} months). It is a low-usage reference and is not a 5G price. A 5G example: {fiveName} at {fiveFee}/month ({fiveMonths} months). 4G/5G, number porting and Greater Bay Area data are on the plan cards. Fees are confirmed by the carrier. This site does not take carrier commission or advertising fees.",
+    businessHubSummary:
+      "{date}: {name} lists {n} business broadband reference plans. {provider1000} {name1000} is marked {fee1000}/month ({months1000} months). {provider1000b} {name1000b} is marked {fee1000b}/month ({months1000b} months). A 10000M example is marked {fee10000}/month ({months10000} months). Fees, installation and shop coverage are for reference only and are confirmed by the carrier. This site does not take carrier commission or advertising fees.",
+    planQuoteCta: "Request a quote",
+    feeSummaryTitle: "Reference fee summary",
+    hubFactsTitle: "About this list",
     coverageCheck: "Coverage needs checking",
     clearAll: "Clear all",
     portIn: "Port-in offer",

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { PlanCard } from "@/components/plan-card";
 import { PageBackButton } from "@/components/page-back";
 import { AiFilterEntry } from "@/components/ai-filter-entry";
+import { QuoteLink } from "@/components/quote-link";
 import { LazyEstateSuggest as EstateSuggest } from "@/components/lazy-estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import { Chip, IntakeFields } from "@/components/intake-fields";
@@ -13,6 +14,15 @@ import { Select } from "@/components/ui/select";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { formatFee, getPlan, type Category, type Housing, type PlansSearch } from "@/lib/plans";
+import {
+  BUSINESS_SCENARIO_SPEEDS,
+  BUSINESS_SUMMARY_IDS,
+  categoryEntryPlan,
+  FIBRE_SUMMARY_IDS,
+  HOME5G_SUMMARY_IDS,
+  hubSummaryBullets,
+  MOBILE_SUMMARY_IDS,
+} from "@/lib/plan-hub";
 import { filterPlans } from "@/lib/plan-filter";
 import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { isHkbnFlashEstate, isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
@@ -38,13 +48,6 @@ import {
 import type { MessageKey } from "@/lib/messages";
 
 const PAGE_SIZE = 12;
-
-const FIBRE_ENTRY_IDS = [
-  "icable-ftth-1000-48m-58",
-  "hgc-ftth-1000-public-36m",
-  "hkbn-ftth-1000-36m-98-sep30",
-  "cmhk-ftth-1000-village-24m-218",
-] as const;
 
 const CAT_KEYS: Record<Category, MessageKey> = {
   broadband: "catBroadband",
@@ -90,10 +93,20 @@ function PlansPage() {
   const setInquiry = useDesk((s) => s.setInquiry);
   const rows = filterPlans(search, saved);
   const fibreCatalogueCount = search.cat === "broadband" ? filterPlans({ cat: "broadband" }).length : 0;
-  const fibreEntries = FIBRE_ENTRY_IDS.map((id) => getPlan(id));
+  const fibreEntries = FIBRE_SUMMARY_IDS.map((id) => getPlan(id));
   const [fibre58, fibre75, fibre98, fibre218] = fibreEntries;
   const showFibreSummary =
     search.cat === "broadband" && fibre58 && fibre75 && fibre98 && fibre218;
+  const home5gEntries = HOME5G_SUMMARY_IDS.map((id) => getPlan(id));
+  const [home88, home98, home108] = home5gEntries;
+  const showHome5gSummary = search.cat === "home5g" && home88 && home98 && home108;
+  const mobileEntries = MOBILE_SUMMARY_IDS.map((id) => getPlan(id));
+  const [mobileLow, mobile5g] = mobileEntries;
+  const showMobileSummary = search.cat === "mobile" && mobileLow && mobile5g;
+  const businessEntries = BUSINESS_SUMMARY_IDS.map((id) => getPlan(id));
+  const [biz1000, biz1000b, biz10000] = businessEntries;
+  const showBusinessSummary = search.cat === "business" && biz1000 && biz1000b && biz10000;
+  const entry = categoryEntryPlan(search.cat, search.housing);
   const showHousing = search.cat === "broadband" || search.cat === "home5g";
   const intake = fromPortInSearch(search);
   const [visible, setVisible] = useState(PAGE_SIZE);
@@ -103,7 +116,7 @@ function PlansPage() {
   const listRef = useRef<HTMLDivElement>(null);
   const replayKey = planListReplayKey(search);
   const prevReplayKey = useRef(replayKey);
-  const { t, providerName, categoryLabel, housingLabel, updated, locale } = useI18n();
+  const { t, tx, providerName, categoryLabel, housingLabel, updated, locale } = useI18n();
   const estateNav =
     search.cat === "broadband" || search.cat === "home5g" ? indexableEstateNavLinks(locale) : [];
   usePageTitle(CATEGORY_SEO[search.cat].title);
@@ -351,133 +364,185 @@ function PlansPage() {
   const shown = rows.slice(0, visible);
   const showCoverageCheck = Boolean(search.estate && matchKnownEstate(search.estate)?.coverageCheck);
 
+  function scenarioSearch(patch: Partial<PlansSearch>): PlansSearch {
+    return compactSearch({ ...search, ...patch });
+  }
+
+  const scenarioChips: { key: string; label: string; selected: boolean; search: PlansSearch }[] = [];
+  if (search.cat === "broadband" || search.cat === "home5g") {
+    const housingIds: { id: Housing; label: MessageKey }[] = [
+      { id: "public", label: "housingPublic" },
+      { id: "private", label: "housingPrivate" },
+      { id: "village", label: "housingVillage" },
+    ];
+    for (const item of housingIds) {
+      const selected = search.housing === item.id;
+      scenarioChips.push({
+        key: item.id,
+        label: t(item.label),
+        selected,
+        search: scenarioSearch({ housing: selected ? undefined : item.id }),
+      });
+    }
+    if (search.cat === "broadband") {
+      const selected = Boolean(search.esports);
+      scenarioChips.push({
+        key: "esports",
+        label: t("shortcutGaming"),
+        selected,
+        search: scenarioSearch(
+          selected
+            ? { esports: undefined, minSpeed: undefined }
+            : { esports: true, minSpeed: 2500, sort: "speed" },
+        ),
+      });
+    } else {
+      const selected = search.maxFee === 120;
+      scenarioChips.push({
+        key: "cheap",
+        label: t("shortcutCheap"),
+        selected,
+        search: scenarioSearch({ maxFee: selected ? undefined : 120 }),
+      });
+    }
+  } else if (search.cat === "mobile") {
+    const clearMobile = {
+      generation: undefined,
+      portIn: undefined,
+      gba: undefined,
+      need: undefined,
+    };
+    const fiveOn = search.generation === "5g" && !search.portIn && !search.gba && !search.need;
+    const fourOn = search.generation === "4g" && !search.portIn && !search.gba && !search.need;
+    const portOn = Boolean(search.portIn) && !search.generation && !search.gba && !search.need;
+    const gbaOn = Boolean(search.gba) && !search.generation && !search.portIn && !search.need;
+    scenarioChips.push(
+      {
+        key: "5g",
+        label: t("gen5"),
+        selected: fiveOn,
+        search: scenarioSearch(fiveOn ? clearMobile : { ...clearMobile, generation: "5g" }),
+      },
+      {
+        key: "4g",
+        label: t("gen45"),
+        selected: fourOn,
+        search: scenarioSearch(fourOn ? clearMobile : { ...clearMobile, generation: "4g" }),
+      },
+      {
+        key: "port",
+        label: t("shortcutExpiry"),
+        selected: portOn,
+        search: scenarioSearch(portOn ? clearMobile : { ...clearMobile, portIn: true }),
+      },
+      {
+        key: "gba",
+        label: t("gba"),
+        selected: gbaOn,
+        search: scenarioSearch(gbaOn ? clearMobile : { ...clearMobile, gba: true }),
+      },
+    );
+  } else {
+    for (const speed of BUSINESS_SCENARIO_SPEEDS) {
+      const selected = search.speed === speed;
+      scenarioChips.push({
+        key: String(speed),
+        label: `${speed}M`,
+        selected,
+        search: scenarioSearch({ speed: selected ? undefined : speed, minSpeed: undefined }),
+      });
+    }
+  }
+
+  const summaryPlans = (
+    search.cat === "broadband"
+      ? fibreEntries
+      : search.cat === "home5g"
+        ? home5gEntries
+        : search.cat === "mobile"
+          ? mobileEntries
+          : businessEntries
+  ).flatMap((plan) => (plan ? [plan] : []));
+
+  const hubText =
+    showFibreSummary && fibre58 && fibre75 && fibre98 && fibre218
+      ? t("broadbandHubSummary", {
+          date: updated,
+          name: SITE.name,
+          n: fibreCatalogueCount,
+          fee58: formatFee(fibre58.monthlyFee),
+          months58: fibre58.contractMonths,
+          fee75: formatFee(fibre75.monthlyFee),
+          months75: fibre75.contractMonths,
+          fee98: formatFee(fibre98.monthlyFee),
+          months98: fibre98.contractMonths,
+          fee218: formatFee(fibre218.monthlyFee),
+        })
+      : showHome5gSummary && home88 && home98 && home108
+        ? t("home5gHubSummary", {
+            date: updated,
+            name: SITE.name,
+            n: filterPlans({ cat: "home5g" }).length,
+            plan88: tx(home88.name),
+            fee88: formatFee(home88.monthlyFee),
+            months88: home88.contractMonths,
+            plan98: tx(home98.name),
+            fee98: formatFee(home98.monthlyFee),
+            months98: home98.contractMonths,
+            plan108: tx(home108.name),
+            fee108: formatFee(home108.monthlyFee),
+            months108: home108.contractMonths,
+            free108: home108.freeMonths,
+          })
+        : showMobileSummary && mobileLow && mobile5g
+          ? t("mobileHubSummary", {
+              date: updated,
+              name: SITE.name,
+              n: filterPlans({ cat: "mobile" }).length,
+              lowName: tx(mobileLow.name),
+              lowFee: formatFee(mobileLow.monthlyFee),
+              lowMonths: mobileLow.contractMonths,
+              fiveName: tx(mobile5g.name),
+              fiveFee: formatFee(mobile5g.monthlyFee),
+              fiveMonths: mobile5g.contractMonths,
+            })
+          : showBusinessSummary && biz1000 && biz1000b && biz10000
+            ? t("businessHubSummary", {
+                date: updated,
+                name: SITE.name,
+                n: filterPlans({ cat: "business" }).length,
+                provider1000: providerName(biz1000.providerId),
+                name1000: tx(biz1000.name),
+                fee1000: formatFee(biz1000.monthlyFee),
+                months1000: biz1000.contractMonths,
+                provider1000b: providerName(biz1000b.providerId),
+                name1000b: tx(biz1000b.name),
+                fee1000b: formatFee(biz1000b.monthlyFee),
+                months1000b: biz1000b.contractMonths,
+                fee10000: formatFee(biz10000.monthlyFee),
+                months10000: biz10000.contractMonths,
+              })
+            : "";
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <JsonLd data={categoryJsonLd(search.cat)} />
       <PageBackButton />
       <p className="text-xs font-medium tracking-wider text-accent">{t("filterPlans")}</p>
-      <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h1 className="text-title font-semibold">{categoryLabel(search.cat)}</h1>
-          <p className="mt-1 text-xs text-subtle">{t("dataUpdated", { date: updated })}</p>
-          {search.cat === "broadband" ? (
-            <p className="mt-2 text-sm">
-              <Link
-                to="/guides/$slug"
-                params={{ slug: "home-broadband-2026" }}
-                className="text-accent underline-offset-4 hover:underline"
-              >
-                {locale === "en" ? "Six-carrier 1000M reference fees" : "六大電訊 1000M 參考月費表"}
-              </Link>
-            </p>
+      <div className="mt-2">
+        <h1 className="text-title font-semibold">{categoryLabel(search.cat)}</h1>
+        <p className="mt-1 text-sm text-muted">
+          {entry ? (
+            <>
+              <span className="font-medium tabular-nums text-fg">
+                {t("fromFee", { fee: formatFee(entry.monthlyFee) })}
+              </span>
+              <span aria-hidden="true"> · </span>
+            </>
           ) : null}
-        </div>
-        <p className="text-sm text-muted" aria-live="polite">
-          {t("foundPlans", { n: rows.length })}
-          {showCoverageCheck ? (
-            <span className="mt-1 block text-xs text-subtle sm:mt-0 sm:ml-2 sm:inline">{t("coverageCheck")}</span>
-          ) : null}
+          <span className="text-xs text-subtle">{t("dataUpdated", { date: updated })}</span>
         </p>
       </div>
-
-      {showFibreSummary && fibre58 && fibre75 && fibre98 && fibre218 ? (
-        <div className="mt-4 max-w-3xl">
-          <p className="text-sm leading-relaxed text-muted">
-            {t("broadbandHubSummary", {
-              date: updated,
-              name: SITE.name,
-              n: fibreCatalogueCount,
-              fee58: formatFee(fibre58.monthlyFee),
-              months58: fibre58.contractMonths,
-              fee75: formatFee(fibre75.monthlyFee),
-              months75: fibre75.contractMonths,
-              fee98: formatFee(fibre98.monthlyFee),
-              months98: fibre98.contractMonths,
-              fee218: formatFee(fibre218.monthlyFee),
-            })}
-          </p>
-          <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm">
-            {fibreEntries.map((plan) =>
-              plan ? (
-                <li key={plan.id}>
-                  <Link
-                    to="/plans/$planId"
-                    params={{ planId: plan.id }}
-                    className="text-accent underline-offset-4 hover:underline"
-                  >
-                    {plan.name}
-                  </Link>
-                </li>
-              ) : null,
-            )}
-          </ul>
-        </div>
-      ) : null}
-
-      {search.exclude && search.provider ? (
-        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
-          {t("intakeTargetNote", {
-            current: providerName(search.exclude),
-            target: providerName(search.provider),
-          })}
-        </p>
-      ) : search.exclude ? (
-        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
-          {t("intakeExcludeNote", { name: providerName(search.exclude) })}
-        </p>
-      ) : null}
-
-      {active.length ? (
-        <div className={chipRowClass}>
-          {active.map((chip) => (
-            <FilterLink key={chip.key} selected={false} search={chip.search}>
-              {chip.label}
-              <span className="ml-1 text-subtle">×</span>
-            </FilterLink>
-          ))}
-          <Link
-            to="/plans"
-            search={resetSearch}
-            resetScroll={false}
-            className="inline-flex h-11 items-center px-3 text-sm text-muted underline-offset-4 hover:underline"
-          >
-            {t("clearAll")}
-          </Link>
-        </div>
-      ) : null}
-
-      {search.cat === "business" ? (
-        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("businessDisclaimer")}</p>
-      ) : null}
-
-      {search.housing === "village" && search.cat === "broadband" ? (
-        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
-          {t("villageNote")}{" "}
-          <Link
-            to="/plans"
-            search={{ cat: "home5g", housing: "village", from: search.from }}
-            resetScroll={false}
-            className="text-accent underline"
-          >
-            {t("villageNoteLink")}
-          </Link>
-          {t("villageNoteEnd")}
-        </p>
-      ) : null}
-
-      {search.intake && search.cat === "broadband" ? (
-        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("plansIntakeNote")}</p>
-      ) : null}
-
-      {isNetvigatorOnlyEstate(search.estate) && (search.cat === "broadband" || search.cat === "home5g") ? (
-        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("plansNetvigatorOnlyNote")}</p>
-      ) : null}
-
-      {isHkbnFlashEstate(search.estate) && search.cat === "broadband" ? (
-        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("plansFlashNote")}</p>
-      ) : null}
-
-      <AiFilterEntry className="mt-6" />
 
       <div className="mt-3 space-y-4 rounded-lg border border-border bg-card p-3.5 shadow-[var(--shadow-home)] sm:p-5">
         <div className="space-y-2">
@@ -512,6 +577,20 @@ function PlansPage() {
                 : t("intakeAddressOptionalHint")}
           </p>
         </div>
+        <fieldset>
+          <legend className="text-xs font-medium tracking-wider text-muted">{t("wantWhat")}</legend>
+          <div className={chipRowClass} data-scenario-chips>
+            {scenarioChips.map((chip) => (
+              <FilterLink key={chip.key} selected={chip.selected} search={chip.search}>
+                {chip.label}
+              </FilterLink>
+            ))}
+          </div>
+        </fieldset>
+        <QuoteLink size="lg" className="h-12 w-full sm:w-auto">
+          {t("planQuoteCta")}
+        </QuoteLink>
+        <AiFilterEntry className="pt-1" />
         <fieldset>
           <legend className="text-xs font-medium tracking-wider text-muted">{t("planType")}</legend>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -596,8 +675,78 @@ function PlansPage() {
         </div>
       </div>
 
+      {search.exclude && search.provider ? (
+        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
+          {t("intakeTargetNote", {
+            current: providerName(search.exclude),
+            target: providerName(search.provider),
+          })}
+        </p>
+      ) : search.exclude ? (
+        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
+          {t("intakeExcludeNote", { name: providerName(search.exclude) })}
+        </p>
+      ) : null}
+
+      {active.length ? (
+        <div className={chipRowClass}>
+          {active.map((chip) => (
+            <FilterLink key={chip.key} selected={false} search={chip.search}>
+              {chip.label}
+              <span className="ml-1 text-subtle">×</span>
+            </FilterLink>
+          ))}
+          <Link
+            to="/plans"
+            search={resetSearch}
+            resetScroll={false}
+            className="inline-flex h-11 items-center px-3 text-sm text-muted underline-offset-4 hover:underline"
+          >
+            {t("clearAll")}
+          </Link>
+        </div>
+      ) : null}
+
+      {search.cat === "business" ? (
+        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("businessDisclaimer")}</p>
+      ) : null}
+
+      {search.housing === "village" && search.cat === "broadband" ? (
+        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
+          {t("villageNote")}{" "}
+          <Link
+            to="/plans"
+            search={{ cat: "home5g", housing: "village", from: search.from }}
+            resetScroll={false}
+            className="text-accent underline"
+          >
+            {t("villageNoteLink")}
+          </Link>
+          {t("villageNoteEnd")}
+        </p>
+      ) : null}
+
+      {search.intake && search.cat === "broadband" ? (
+        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("plansIntakeNote")}</p>
+      ) : null}
+
+      {isNetvigatorOnlyEstate(search.estate) && (search.cat === "broadband" || search.cat === "home5g") ? (
+        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("plansNetvigatorOnlyNote")}</p>
+      ) : null}
+
+      {isHkbnFlashEstate(search.estate) && search.cat === "broadband" ? (
+        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("plansFlashNote")}</p>
+      ) : null}
+
+      <p className="mt-8 text-sm text-muted" aria-live="polite">
+        {t("foundPlans", { n: rows.length })}
+        {showCoverageCheck ? (
+          <span className="mt-1 block text-xs text-subtle">{t("coverageCheck")}</span>
+        ) : null}
+      </p>
+
       {rows.length === 0 ? (
-        <div id="plan-list" className="mt-10 scroll-mt-24 rounded-xl bg-card px-6 py-16 text-center shadow-[var(--shadow-border)]">
+        <div id="plan-list" className="mt-4 scroll-mt-24 rounded-xl bg-card px-6 py-16 text-center shadow-[var(--shadow-border)]">
           <p className="font-medium">{t("emptyPlans")}</p>
           <p className="mt-2 text-sm text-muted">{t("emptyPlansLead")}</p>
           <Link
@@ -616,8 +765,8 @@ function PlansPage() {
             ref={listRef}
             className={
               (listEntering
-                ? "plan-list plan-list-enter mt-8 scroll-mt-24 grid gap-4 md:grid-cols-2"
-                : "plan-list mt-8 scroll-mt-24 grid gap-4 md:grid-cols-2") + (search.esports ? " plan-list-esports" : "")
+                ? "plan-list plan-list-enter mt-4 scroll-mt-24 grid gap-4 md:grid-cols-2"
+                : "plan-list mt-4 scroll-mt-24 grid gap-4 md:grid-cols-2") + (search.esports ? " plan-list-esports" : "")
             }
           >
             {shown.map((plan, index) => (
@@ -635,6 +784,55 @@ function PlansPage() {
           ) : null}
         </>
       )}
+      {summaryPlans.length || hubText ? (
+        <div className="mt-10 rounded-lg border border-border bg-card px-4 shadow-[var(--shadow-home)]">
+          {summaryPlans.length ? (
+            <details className="group border-b border-border py-2">
+              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 text-left text-sm font-semibold">
+                {t("feeSummaryTitle")}
+                <span className="text-muted transition-transform duration-150 group-open:rotate-45">+</span>
+              </summary>
+              <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1 pb-2 text-sm">
+                {summaryPlans.map((plan) => (
+                  <li key={plan.id}>
+                    <Link
+                      to="/plans/$planId"
+                      params={{ planId: plan.id }}
+                      className="text-accent underline-offset-4 hover:underline"
+                    >
+                      {tx(plan.name)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              {search.cat === "broadband" ? (
+                <p className="pb-3 text-sm">
+                  <Link
+                    to="/guides/$slug"
+                    params={{ slug: "home-broadband-2026" }}
+                    className="text-accent underline-offset-4 hover:underline"
+                  >
+                    {locale === "en" ? "Six-carrier 1000M reference fees" : "六大電訊 1000M 參考月費表"}
+                  </Link>
+                </p>
+              ) : null}
+            </details>
+          ) : null}
+          {hubText ? (
+            <details className="group py-2">
+              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 text-left text-sm font-semibold">
+                {t("hubFactsTitle")}
+                <span className="text-muted transition-transform duration-150 group-open:rotate-45">+</span>
+              </summary>
+              <ul className="mt-2 list-disc space-y-1 pb-3 pl-5 text-sm leading-relaxed text-muted">
+                {hubSummaryBullets(hubText).map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </details>
+          ) : null}
+        </div>
+      ) : null}
       {estateNav.length ? (
         <nav className="mt-12" aria-label={locale === "en" ? "Estate broadband pages" : "屋苑寬頻"}>
           <h2 className="text-lg font-semibold">{locale === "en" ? "Estate pages" : "指定屋苑寬頻"}</h2>
