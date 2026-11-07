@@ -138,7 +138,7 @@ function robotsGroupBody(robots: string, agent: string): string {
 describe("robots.txt", () => {
   it("lets citation bots read public pages and still blocks scrapers and private paths", () => {
     const robots = renderRobotsTxt();
-    const privatePaths = ["/brand", "/tech-news/desk", "/offers/", "/go/", "/__grok/", "/api/"];
+    const privatePaths = ["/brand", "/tech-news/desk", "/ops/wa-clicks", "/offers/", "/go/", "/__grok/", "/api/"];
     const star = robotsGroupBody(robots, "*");
 
     assert.match(star, /^Allow: \/\n/);

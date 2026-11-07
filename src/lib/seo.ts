@@ -472,6 +472,7 @@ const PUBLIC_ROBOTS_RULES = [
   "Allow: /about",
   "Disallow: /brand",
   "Disallow: /tech-news/desk",
+  "Disallow: /ops/wa-clicks",
   "Disallow: /offers/",
   "Disallow: /go/",
   "Disallow: /__grok/",

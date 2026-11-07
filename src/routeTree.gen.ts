@@ -27,6 +27,7 @@ import { Route as OffersOfferIdRouteImport } from './routes/offers_.$offerId'
 import { Route as TechNewsRouteImport } from './routes/tech-news'
 import { Route as TechNewsSlugRouteImport } from './routes/tech-news_.$slug'
 import { Route as TechNewsDeskRouteImport } from './routes/tech-news_.desk'
+import { Route as OpsWaClicksRouteImport } from './routes/ops_.wa-clicks'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -118,6 +119,11 @@ const TechNewsDeskRoute = TechNewsDeskRouteImport.update({
   path: '/tech-news/desk',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OpsWaClicksRoute = OpsWaClicksRouteImport.update({
+  id: '/ops_/wa-clicks',
+  path: '/ops/wa-clicks',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -138,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/tech-news': typeof TechNewsRoute
   '/tech-news/$slug': typeof TechNewsSlugRoute
   '/tech-news/desk': typeof TechNewsDeskRoute
+  '/ops/wa-clicks': typeof OpsWaClicksRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/tech-news': typeof TechNewsRoute
   '/tech-news/$slug': typeof TechNewsSlugRoute
   '/tech-news/desk': typeof TechNewsDeskRoute
+  '/ops/wa-clicks': typeof OpsWaClicksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -179,6 +187,7 @@ export interface FileRoutesById {
   '/tech-news': typeof TechNewsRoute
   '/tech-news_/$slug': typeof TechNewsSlugRoute
   '/tech-news_/desk': typeof TechNewsDeskRoute
+  '/ops_/wa-clicks': typeof OpsWaClicksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -201,6 +210,7 @@ export interface FileRouteTypes {
     | '/tech-news'
     | '/tech-news/$slug'
     | '/tech-news/desk'
+    | '/ops/wa-clicks'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -221,6 +231,7 @@ export interface FileRouteTypes {
     | '/tech-news'
     | '/tech-news/$slug'
     | '/tech-news/desk'
+    | '/ops/wa-clicks'
   id:
     | '__root__'
     | '/'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '/tech-news'
     | '/tech-news_/$slug'
     | '/tech-news_/desk'
+    | '/ops_/wa-clicks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -262,6 +274,7 @@ export interface RootRouteChildren {
   TechNewsRoute: typeof TechNewsRoute
   TechNewsSlugRoute: typeof TechNewsSlugRoute
   TechNewsDeskRoute: typeof TechNewsDeskRoute
+  OpsWaClicksRoute: typeof OpsWaClicksRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -392,6 +405,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TechNewsDeskRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ops_/wa-clicks': {
+      id: '/ops_/wa-clicks'
+      path: '/ops/wa-clicks'
+      fullPath: '/ops/wa-clicks'
+      preLoaderRoute: typeof OpsWaClicksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -414,6 +434,7 @@ const rootRouteChildren: RootRouteChildren = {
   TechNewsRoute: TechNewsRoute,
   TechNewsSlugRoute: TechNewsSlugRoute,
   TechNewsDeskRoute: TechNewsDeskRoute,
+  OpsWaClicksRoute: OpsWaClicksRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
