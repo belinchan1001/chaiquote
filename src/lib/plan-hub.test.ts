@@ -176,9 +176,12 @@ describe("plan category hub", () => {
     assert.notEqual(MESSAGES.zh.hubFactsTitle, "hubFactsTitle");
   });
 
-  it("puts search, scenario chips, and the quote button above the result count on every category page", () => {
+  it("puts search and compact filters above plan cards, and keeps quotes on each card", () => {
     const plans = readFileSync(join(here, "../routes/plans.tsx"), "utf8");
     const card = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
+    const root = readFileSync(join(here, "../routes/__root.tsx"), "utf8");
+    const widget = readFileSync(join(here, "../components/whatsapp-widget.tsx"), "utf8");
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
     const at = (needle: string) => {
       const index = plans.indexOf(needle);
       assert.ok(index >= 0, needle);
@@ -187,9 +190,13 @@ describe("plan category hub", () => {
     assert.ok(at("categoryEntryPlan") < at('id="plans-estate"'));
     assert.ok(at('t("fromFee"') < at('id="plans-estate"'));
     assert.ok(at('id="plans-estate"') < at("data-scenario-chips"));
-    assert.ok(at("data-scenario-chips") < at('t("planQuoteCta")'));
-    assert.ok(at('t("planQuoteCta")') < at("<AiFilterEntry"));
-    assert.ok(at("<AiFilterEntry") < at('t("foundPlans"'));
+    assert.ok(at("data-scenario-chips") < at('t("planType")'));
+    assert.ok(at('t("planType")') < at("<AiFilterEntry"));
+    assert.ok(at("<AiFilterEntry") < at("data-plan-more"));
+    assert.ok(at("data-plan-more") < at('t("moreFilters")'));
+    assert.ok(at('t("moreFilters")') < at('t("intakeCurrentBb")'));
+    assert.ok(at('t("intakeCurrentBb")') < at("<IntakeFields"));
+    assert.ok(at("<IntakeFields") < at('t("foundPlans"'));
     assert.ok(at('t("foundPlans"') < at("<PlanCard"));
     assert.ok(at("<PlanCard") < at('t("feeSummaryTitle")'));
     assert.ok(at('t("feeSummaryTitle")') < at("hubSummaryBullets(hubText)"));
@@ -198,9 +205,15 @@ describe("plan category hub", () => {
     assert.match(plans, /t\("home5gHubSummary"/);
     assert.match(plans, /t\("mobileHubSummary"/);
     assert.match(plans, /t\("businessHubSummary"/);
-    assert.match(plans, /<QuoteLink size="lg"/);
+    assert.doesNotMatch(plans, /planQuoteCta|<QuoteLink/);
     assert.doesNotMatch(plans, /leading-relaxed text-muted">\s*\{t\("broadbandHubSummary"/);
     assert.match(card, /<article[\s\S]*plan\.quotePick && "plan-card-shine"/);
+    assert.match(card, /<QuoteLink plan=\{plan\}/);
+    assert.match(card, /WhatsApp 問呢個計劃/);
     assert.doesNotMatch(card, /feeSummaryTitle|hubSummaryBullets|planQuoteCta/);
+    assert.match(root, /<DeferredWhatsApp \/>/);
+    assert.match(widget, /fixed right-4/);
+    assert.match(widget, /bg-whatsapp/);
+    assert.doesNotMatch(home, /planQuoteCta/);
   });
 });

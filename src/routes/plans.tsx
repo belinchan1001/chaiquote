@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { PlanCard } from "@/components/plan-card";
 import { PageBackButton } from "@/components/page-back";
 import { AiFilterEntry } from "@/components/ai-filter-entry";
-import { QuoteLink } from "@/components/quote-link";
 import { LazyEstateSuggest as EstateSuggest } from "@/components/lazy-estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import { Chip, IntakeFields } from "@/components/intake-fields";
@@ -113,6 +112,20 @@ function PlansPage() {
   const [estateDraft, setEstateDraft] = useState(search.estate ?? "");
   const [qDraft, setQDraft] = useState(search.q ?? "");
   const [listEntering, setListEntering] = useState(false);
+  const moreFiltersActive = Boolean(
+    search.exclude ||
+      search.provider ||
+      search.expiry ||
+      search.intake ||
+      search.housing === "hos" ||
+      search.q ||
+      search.saved ||
+      (search.sort && search.sort !== "fee") ||
+      (search.cat === "broadband" && search.minSpeed && !search.esports) ||
+      (search.cat === "business" && search.minSpeed) ||
+      (search.cat === "mobile" && search.need),
+  );
+  const [moreOpen, setMoreOpen] = useState(moreFiltersActive);
   const listRef = useRef<HTMLDivElement>(null);
   const replayKey = planListReplayKey(search);
   const prevReplayKey = useRef(replayKey);
@@ -136,6 +149,10 @@ function PlansPage() {
   useEffect(() => {
     setQDraft(search.q ?? "");
   }, [search.q]);
+
+  useEffect(() => {
+    if (moreFiltersActive) setMoreOpen(true);
+  }, [moreFiltersActive]);
 
   useEffect(() => {
     if (
@@ -525,7 +542,7 @@ function PlansPage() {
             : "";
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <div className="mx-auto max-w-6xl px-4 py-4 sm:py-6">
       <JsonLd data={categoryJsonLd(search.cat)} />
       <PageBackButton />
       <p className="text-xs font-medium tracking-wider text-accent">{t("filterPlans")}</p>
@@ -587,10 +604,6 @@ function PlansPage() {
             ))}
           </div>
         </fieldset>
-        <QuoteLink size="lg" className="h-12 w-full sm:w-auto">
-          {t("planQuoteCta")}
-        </QuoteLink>
-        <AiFilterEntry className="pt-1" />
         <fieldset>
           <legend className="text-xs font-medium tracking-wider text-muted">{t("planType")}</legend>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -605,74 +618,93 @@ function PlansPage() {
             ))}
           </div>
         </fieldset>
-
-        <IntakeFields
-          cat={search.cat}
-          housing={search.housing ?? ""}
-          onHousing={(id) => applyIntake({ housing: id })}
-          current={intake.current}
-          onCurrent={(id) => applyIntake({ current: id })}
-          target={intake.target}
-          onTarget={(id) => applyIntake({ target: id })}
-          expiry={intake.expiry}
-          onExpiry={(id) => applyIntake({ expiry: id })}
-          fibreSpeed={intake.fibreSpeed}
-          onFibreSpeed={(id) => applyIntake({ fibreSpeed: id, esports: false })}
-          businessSpeed={intake.businessSpeed}
-          onBusinessSpeed={(id) => applyIntake({ businessSpeed: id })}
-          mobileNeed={intake.mobileNeed}
-          onMobileNeed={(id) => applyIntake({ mobileNeed: id })}
-          esports={intake.esports}
-          onEsports={(next) => applyIntake({ esports: next, fibreSpeed: next ? "2500" : "any" })}
-          extraHousing={
-            search.cat === "broadband" ? (
-              <Chip selected={!!search.intake} onSelect={() => patch({ intake: search.intake ? undefined : true })}>
-                {t("estatesNewIntakeTag")}
-              </Chip>
-            ) : null
-          }
-        />
-
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <label className="block text-xs text-muted">
-            {t("sort")}
-            <Select
-              className="mt-1"
-              value={search.sort ?? "fee"}
-              onChange={(e) => patch({ sort: e.target.value as PlansSearch["sort"] })}
-            >
-              <option value="fee">{t("sortFee")}</option>
-              <option value="avg">{t("sortAvg")}</option>
-              {search.cat !== "mobile" ? <option value="speed">{t("sortSpeed")}</option> : null}
-              {search.cat === "mobile" || search.cat === "home5g" ? (
-                <option value="data">{t("sortData")}</option>
-              ) : null}
-            </Select>
-          </label>
-          <label className="block text-xs text-muted">
-            {t("searchPlan")}
-            <Input
-              className="mt-1"
-              value={qDraft}
-              placeholder={t("searchPlanPh")}
-              onChange={(e) => setQDraft(e.target.value)}
-            />
-          </label>
-          <div className="flex items-end gap-2">
-            <Link
-              to="/plans"
-              search={compactSearch({ ...search, saved: search.saved ? undefined : true })}
-              resetScroll={false}
-              className={
-                search.saved
-                  ? "inline-flex h-11 flex-1 items-center justify-center rounded-md bg-accent px-4 text-sm font-medium text-accent-foreground"
-                  : "inline-flex h-11 flex-1 items-center justify-center rounded-md border border-border bg-card px-4 text-sm font-medium"
+        <AiFilterEntry className="pt-1" />
+        <details
+          className="group"
+          data-plan-more
+          open={moreOpen}
+          onToggle={(event) => setMoreOpen(event.currentTarget.open)}
+        >
+          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 text-left text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg">
+            <span className="min-w-0">
+              <span>{t("moreFilters")}</span>
+              <span className="mt-0.5 block text-xs font-normal text-muted sm:mt-0 sm:ml-2 sm:inline">
+                {search.cat === "mobile" ? t("intakeCurrentMobile") : t("intakeCurrentBb")}
+              </span>
+            </span>
+            <span className="text-muted transition-transform duration-150 group-open:rotate-45" aria-hidden="true">
+              +
+            </span>
+          </summary>
+          <div className="mt-3 space-y-4">
+            <IntakeFields
+              cat={search.cat}
+              housing={search.housing ?? ""}
+              onHousing={(id) => applyIntake({ housing: id })}
+              current={intake.current}
+              onCurrent={(id) => applyIntake({ current: id })}
+              target={intake.target}
+              onTarget={(id) => applyIntake({ target: id })}
+              expiry={intake.expiry}
+              onExpiry={(id) => applyIntake({ expiry: id })}
+              fibreSpeed={intake.fibreSpeed}
+              onFibreSpeed={(id) => applyIntake({ fibreSpeed: id, esports: false })}
+              businessSpeed={intake.businessSpeed}
+              onBusinessSpeed={(id) => applyIntake({ businessSpeed: id })}
+              mobileNeed={intake.mobileNeed}
+              onMobileNeed={(id) => applyIntake({ mobileNeed: id })}
+              esports={intake.esports}
+              onEsports={(next) => applyIntake({ esports: next, fibreSpeed: next ? "2500" : "any" })}
+              extraHousing={
+                search.cat === "broadband" ? (
+                  <Chip selected={!!search.intake} onSelect={() => patch({ intake: search.intake ? undefined : true })}>
+                    {t("estatesNewIntakeTag")}
+                  </Chip>
+                ) : null
               }
-            >
-              {search.saved ? t("savedNow") : t("savedOnly")}
-            </Link>
+            />
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <label className="block text-xs text-muted">
+                {t("sort")}
+                <Select
+                  className="mt-1"
+                  value={search.sort ?? "fee"}
+                  onChange={(e) => patch({ sort: e.target.value as PlansSearch["sort"] })}
+                >
+                  <option value="fee">{t("sortFee")}</option>
+                  <option value="avg">{t("sortAvg")}</option>
+                  {search.cat !== "mobile" ? <option value="speed">{t("sortSpeed")}</option> : null}
+                  {search.cat === "mobile" || search.cat === "home5g" ? (
+                    <option value="data">{t("sortData")}</option>
+                  ) : null}
+                </Select>
+              </label>
+              <label className="block text-xs text-muted">
+                {t("searchPlan")}
+                <Input
+                  className="mt-1"
+                  value={qDraft}
+                  placeholder={t("searchPlanPh")}
+                  onChange={(e) => setQDraft(e.target.value)}
+                />
+              </label>
+              <div className="flex items-end gap-2">
+                <Link
+                  to="/plans"
+                  search={compactSearch({ ...search, saved: search.saved ? undefined : true })}
+                  resetScroll={false}
+                  className={
+                    search.saved
+                      ? "inline-flex h-11 flex-1 items-center justify-center rounded-md bg-accent px-4 text-sm font-medium text-accent-foreground"
+                      : "inline-flex h-11 flex-1 items-center justify-center rounded-md border border-border bg-card px-4 text-sm font-medium"
+                  }
+                >
+                  {search.saved ? t("savedNow") : t("savedOnly")}
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
+        </details>
       </div>
 
       {search.exclude && search.provider ? (
@@ -738,7 +770,7 @@ function PlansPage() {
         <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("plansFlashNote")}</p>
       ) : null}
 
-      <p className="mt-8 text-sm text-muted" aria-live="polite">
+      <p className="mt-4 text-sm text-muted" aria-live="polite">
         {t("foundPlans", { n: rows.length })}
         {showCoverageCheck ? (
           <span className="mt-1 block text-xs text-subtle">{t("coverageCheck")}</span>
