@@ -150,21 +150,21 @@ export const FEE_RANGE_ANSWER =
 export const FEE_RANGE_ANSWER_EN =
   `No. There is no single reference monthly fee for every district and housing type. Public housing, HOS, private estates and village houses are quoted separately. As of {date}, examples listed on this site: public / HOS 1000M about ${PUBLIC_HOS_1000_BAND_EN}/month (i-Cable designated estate, 48 months, from HK$58; HKBN 36 months HK$98); private-estate 1000M about ${PRIVATE_1000_BAND_EN}/month (i-Cable private buildings, 36 months, from HK$88; HKBN 24 months HK$109); village fibre from ${VILLAGE_FIBRE_FROM_EN}/month (CMHK village 1000M, 24 months), with village-table examples up to HK$376/month; 5G home about HK$88 to HK$190/month (CMHK 350GB, 48 months, from HK$88). These are listed examples, not a ranking, and they do not mean your building has them. The carrier confirms the final fee, coverage and installation.`;
 
-/** Cite-ready /plans broadband H1. Shorter than the homepage FAQ; same bands and stamp. */
-export const PLANS_BROADBAND_H1 = "香港寬頻月費要按樓類分開報";
-export const PLANS_BROADBAND_H1_EN = "Hong Kong broadband fees are quoted by housing type";
+/** Final /plans broadband first screen. Wording is fixed; do not paraphrase. */
+export const PLANS_BROADBAND_H1 = "香港光纖寬頻報價比較";
+export const PLANS_BROADBAND_H1_EN = "Compare Hong Kong fibre broadband quotes";
 
 export const PLANS_BROADBAND_LEAD =
-  `冇一條適用所有樓類嘅單一參考月費。資料更新 {date}，站內列出例子：公居屋 1000M 約 ${PUBLIC_HOS_1000_BAND}／月；私樓 1000M 約 ${PRIVATE_1000_BAND}／月；村屋光纖由 ${VILLAGE_FIBRE_FROM}／月起。以上只係站內列出參考，最終以電訊商確認為準。`;
+  "齊Quote 係獨立寬頻比較站（非電訊商官網、無向電訊商收佣金或廣告費）。光纖參考月費按樓類：公居屋約 HK$58–98、私樓約 HK$88–109、村屋由 HK$218 起（資料更新 2026-11-08）；唔係全港劃一價，以電訊商確認為準。";
 
 export const PLANS_BROADBAND_LEAD_EN =
-  `There is no single reference fee for every housing type. As of {date}, examples listed on this site: public / HOS 1000M about ${PUBLIC_HOS_1000_BAND_EN}/month; private-estate 1000M about ${PRIVATE_1000_BAND_EN}/month; village fibre from ${VILLAGE_FIBRE_FROM_EN}/month. Listed examples only; the carrier confirms the final fee.`;
+  "ChaiQuote is an independent broadband comparison site (not a carrier website, and it does not take commission or advertising fees from carriers). Fibre reference fees by housing type: public / HOS about HK$58–98, private estates about HK$88–109, village houses from HK$218 (updated 2026-11-08); not one territory-wide fee. The carrier confirms.";
 
-export function plansBroadbandHero(locale: "zh" | "en", date: string = SITE.updated) {
+export function plansBroadbandHero(locale: "zh" | "en") {
   const en = locale === "en";
   return {
     h1: en ? PLANS_BROADBAND_H1_EN : PLANS_BROADBAND_H1,
-    lead: fillSiteTemplate(en ? PLANS_BROADBAND_LEAD_EN : PLANS_BROADBAND_LEAD, { date }),
+    lead: en ? PLANS_BROADBAND_LEAD_EN : PLANS_BROADBAND_LEAD,
   };
 }
 

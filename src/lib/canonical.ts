@@ -5,7 +5,7 @@
 import { ESTATE_COUNT } from "./estate-count.ts";
 import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
 import type { Category } from "./plans.ts";
-import { SITE, FAQ, PRIVATE_1000_BAND, PUBLIC_HOS_1000_BAND, VILLAGE_FIBRE_FROM } from "./site.ts";
+import { SITE, FAQ, PLANS_BROADBAND_H1, PLANS_BROADBAND_LEAD } from "./site.ts";
 
 export const DEFAULT_SEO_ORIGIN = "https://www.chaiquote.hk";
 
@@ -174,8 +174,8 @@ export const GUIDES_SEO = {
 
 export const CATEGORY_SEO: Record<Category, SeoCopy> = {
   broadband: {
-    title: "香港寬頻月費按樓類｜公居屋私樓村屋分開報｜齊Quote",
-    description: `${CATALOGUE_MONTH}香港寬頻冇一條適用所有樓類嘅單一參考月費。公居屋 1000M 約 ${PUBLIC_HOS_1000_BAND}；私樓 1000M 約 ${PRIVATE_1000_BAND}；村屋光纖由 ${VILLAGE_FIBRE_FROM} 起。揀樓類可以查屋苑覆蓋。實際月費以電訊商確認為準。`,
+    title: `${PLANS_BROADBAND_H1}｜齊Quote`,
+    description: PLANS_BROADBAND_LEAD,
   },
   home5g: {
     title: "5G家居寬頻報價｜免拉線月費比較｜齊Quote",

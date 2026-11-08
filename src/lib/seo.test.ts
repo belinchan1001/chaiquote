@@ -43,12 +43,11 @@ describe("search-first titles", () => {
     assert.equal(HOME_SEO.title, "香港寬頻報價2026｜1000M月費比較｜公屋居屋私樓村屋｜齊Quote");
     assert.match(HOME_SEO.description, /^2026年11月/);
     assert.match(HOME_SEO.description, /查屋苑覆蓋/);
-    assert.equal(CATEGORY_SEO.broadband.title, "香港寬頻月費按樓類｜公居屋私樓村屋分開報｜齊Quote");
-    assert.match(CATEGORY_SEO.broadband.description, /^2026年11月/);
-    assert.match(CATEGORY_SEO.broadband.description, /冇一條適用所有樓類嘅單一參考月費/);
-    assert.match(CATEGORY_SEO.broadband.description, /公居屋 1000M 約 HK\$58 至 HK\$98/);
-    assert.match(CATEGORY_SEO.broadband.description, /私樓 1000M 約 HK\$88 至 HK\$109/);
-    assert.match(CATEGORY_SEO.broadband.description, /村屋光纖由 HK\$218 起/);
+    assert.equal(CATEGORY_SEO.broadband.title, "香港光纖寬頻報價比較｜齊Quote");
+    assert.equal(
+      CATEGORY_SEO.broadband.description,
+      "齊Quote 係獨立寬頻比較站（非電訊商官網、無向電訊商收佣金或廣告費）。光纖參考月費按樓類：公居屋約 HK$58–98、私樓約 HK$88–109、村屋由 HK$218 起（資料更新 2026-11-08）；唔係全港劃一價，以電訊商確認為準。",
+    );
     assert.doesNotMatch(CATEGORY_SEO.broadband.title + CATEGORY_SEO.broadband.description, /最平|最抵|最低|全港最平/);
     assert.equal(CATEGORY_SEO.home5g.title, "5G家居寬頻報價｜免拉線月費比較｜齊Quote");
     assert.equal(GUIDES_SEO.title, "寬頻報價攻略｜光纖、村屋同5G家居月費｜齊Quote");

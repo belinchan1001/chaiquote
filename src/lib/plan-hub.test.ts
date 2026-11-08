@@ -209,7 +209,7 @@ describe("plan category hub", () => {
     const card = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
     const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
     assert.equal((plans.match(/<h1/g) ?? []).length, 1);
-    assert.match(plans, /plansBroadbandHero\(locale, updated\)/);
+    assert.match(plans, /plansBroadbandHero\(locale\)/);
     assert.match(plans, /broadbandHero \? broadbandHero\.h1 : categoryLabel\(search\.cat\)/);
     assert.match(plans, /<AiFilterEntry/);
     assert.match(plans, /<QuoteLink size="lg"/);
@@ -218,20 +218,20 @@ describe("plan category hub", () => {
     assert.match(home, /t\("heroTitle1"\)/);
     assert.doesNotMatch(home, /plansBroadbandHero|PLANS_BROADBAND_H1/);
 
-    const zh = plansBroadbandHero("zh", SITE.updated);
-    const en = plansBroadbandHero("en", SITE.updated);
-    assert.equal(zh.h1, "香港寬頻月費要按樓類分開報");
-    assert.match(zh.lead, /冇一條適用所有樓類嘅單一參考月費/);
-    assert.match(zh.lead, new RegExp(`資料更新 ${SITE.updated}`));
-    assert.match(zh.lead, /公居屋 1000M 約 HK\$58 至 HK\$98／月/);
-    assert.match(zh.lead, /私樓 1000M 約 HK\$88 至 HK\$109／月/);
-    assert.match(zh.lead, /村屋光纖由 HK\$218／月起/);
-    assert.match(zh.lead, /最終以電訊商確認為準/);
+    const zh = plansBroadbandHero("zh");
+    const en = plansBroadbandHero("en");
+    assert.equal(zh.h1, "香港光纖寬頻報價比較");
+    assert.equal(
+      zh.lead,
+      "齊Quote 係獨立寬頻比較站（非電訊商官網、無向電訊商收佣金或廣告費）。光纖參考月費按樓類：公居屋約 HK$58–98、私樓約 HK$88–109、村屋由 HK$218 起（資料更新 2026-11-08）；唔係全港劃一價，以電訊商確認為準。",
+    );
+    assert.equal(zh.lead.includes(SITE.updated), true);
     assert.doesNotMatch(`${zh.h1}${zh.lead}`, /最平|最抵|最低|全港最平/);
-    assert.match(en.lead, new RegExp(`As of ${SITE.updated}`));
-    assert.match(en.lead, /HK\$58 to HK\$98\/month/);
-    assert.match(en.lead, /HK\$88 to HK\$109\/month/);
-    assert.match(en.lead, /from HK\$218\/month/);
+    assert.equal(en.h1, "Compare Hong Kong fibre broadband quotes");
+    assert.match(en.lead, /HK\$58–98/);
+    assert.match(en.lead, /HK\$88–109/);
+    assert.match(en.lead, /HK\$218/);
+    assert.match(en.lead, /2026-11-08/);
     assert.doesNotMatch(`${en.h1}${en.lead}`, /cheapest|lowest|best-value|best price/i);
   });
 });

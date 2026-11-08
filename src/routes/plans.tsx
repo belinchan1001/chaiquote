@@ -117,7 +117,7 @@ function PlansPage() {
   const replayKey = planListReplayKey(search);
   const prevReplayKey = useRef(replayKey);
   const { t, tx, providerName, categoryLabel, housingLabel, updated, locale } = useI18n();
-  const broadbandHero = search.cat === "broadband" ? plansBroadbandHero(locale, updated) : null;
+  const broadbandHero = search.cat === "broadband" ? plansBroadbandHero(locale) : null;
   const estateNav =
     search.cat === "broadband" || search.cat === "home5g" ? indexableEstateNavLinks(locale) : [];
   usePageTitle(CATEGORY_SEO[search.cat].title);
