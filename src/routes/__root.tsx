@@ -2,7 +2,6 @@ import { createRootRoute, HeadContent, Link, Outlet, Scripts, useRouterState } f
 import { lazy, Suspense } from "react";
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
-import { BootSplash } from "@/components/boot-splash";
 import { CatalogLive } from "@/components/catalog-live";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -133,7 +132,6 @@ function RootLayout() {
   return (
     <html
       lang={locale === "en" ? "en" : "zh-HK"}
-      data-boot={locale === "en" ? "en" : "zh"}
       className="antialiased"
       style={{ backgroundColor: "#F4F8FF" }}
       suppressHydrationWarning
@@ -142,12 +140,6 @@ function RootLayout() {
         <HeadContent />
       </head>
       <body className="min-h-dvh bg-bg text-fg">
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `try{if(new URLSearchParams(location.search).get("lang")==="en")document.documentElement.setAttribute("data-boot","en")}catch(e){}`,
-          }}
-        />
-        <BootSplash />
         <PreviewHostBridge />
         <GoogleAdsTag />
         <PwaServiceWorker />
