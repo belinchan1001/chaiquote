@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { MESSAGES } from "./messages.ts";
-import { SITE } from "./site.ts";
+import { plansBroadbandHero, SITE } from "./site.ts";
 import { formatFee, getPlan } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
 import {
@@ -202,5 +202,36 @@ describe("plan category hub", () => {
     assert.doesNotMatch(plans, /leading-relaxed text-muted">\s*\{t\("broadbandHubSummary"/);
     assert.match(card, /<article[\s\S]*plan\.quotePick && "plan-card-shine"/);
     assert.doesNotMatch(card, /feeSummaryTitle|hubSummaryBullets|planQuoteCta/);
+  });
+
+  it("shows one citeable broadband H1 and keeps the plan-card quote path", () => {
+    const plans = readFileSync(join(here, "../routes/plans.tsx"), "utf8");
+    const card = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+    assert.equal((plans.match(/<h1/g) ?? []).length, 1);
+    assert.match(plans, /plansBroadbandHero\(locale, updated\)/);
+    assert.match(plans, /broadbandHero \? broadbandHero\.h1 : categoryLabel\(search\.cat\)/);
+    assert.match(plans, /<AiFilterEntry/);
+    assert.match(plans, /<QuoteLink size="lg"/);
+    assert.match(card, /WhatsApp 問呢個計劃/);
+    assert.doesNotMatch(plans, /WhatsApp 問呢個計劃/);
+    assert.match(home, /t\("heroTitle1"\)/);
+    assert.doesNotMatch(home, /plansBroadbandHero|PLANS_BROADBAND_H1/);
+
+    const zh = plansBroadbandHero("zh", SITE.updated);
+    const en = plansBroadbandHero("en", SITE.updated);
+    assert.equal(zh.h1, "香港寬頻月費要按樓類分開報");
+    assert.match(zh.lead, /冇一條適用所有樓類嘅單一參考月費/);
+    assert.match(zh.lead, new RegExp(`資料更新 ${SITE.updated}`));
+    assert.match(zh.lead, /公居屋 1000M 約 HK\$58 至 HK\$98／月/);
+    assert.match(zh.lead, /私樓 1000M 約 HK\$88 至 HK\$109／月/);
+    assert.match(zh.lead, /村屋光纖由 HK\$218／月起/);
+    assert.match(zh.lead, /最終以電訊商確認為準/);
+    assert.doesNotMatch(`${zh.h1}${zh.lead}`, /最平|最抵|最低|全港最平/);
+    assert.match(en.lead, new RegExp(`As of ${SITE.updated}`));
+    assert.match(en.lead, /HK\$58 to HK\$98\/month/);
+    assert.match(en.lead, /HK\$88 to HK\$109\/month/);
+    assert.match(en.lead, /from HK\$218\/month/);
+    assert.doesNotMatch(`${en.h1}${en.lead}`, /cheapest|lowest|best-value|best price/i);
   });
 });
