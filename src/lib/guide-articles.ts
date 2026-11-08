@@ -1,4 +1,11 @@
 import type { Guide } from "./guides.ts";
+import {
+  FEE_RANGE_ANSWER,
+  FEE_RANGE_ANSWER_EN,
+  FEE_RANGE_QUESTION,
+  FEE_RANGE_QUESTION_EN,
+  fillSiteTemplate,
+} from "./site.ts";
 import { salesQuoteMessage } from "./whatsapp.ts";
 
 const DISCLAIMER =
@@ -58,6 +65,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "香港光纖唔係一張價表",
         paragraphs: [
+          fillSiteTemplate(FEE_RANGE_ANSWER),
           "同一句「1000M 光纖」，公屋、居屋、私樓、村屋見到嘅計劃同月費通常唔同。電訊商會按屋苑類型、批量合約、入線路經報價，所以齊Quote 先叫你揀樓類，而唔係丟一張全港劃一價。",
           "網上記錄嘅月費係參考。覆蓋、完工期、豁免安裝費同路由器條款，申請時先由電訊商確認。想一次過對實際計劃，可開 [光纖格價](/plans?cat=broadband)。六大電訊 1000M 參考月費表見 [2026 家居寬頻 1000M](/guides/home-broadband-2026)。",
         ],
@@ -135,6 +143,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "Fibre is not one price list",
         paragraphs: [
+          fillSiteTemplate(FEE_RANGE_ANSWER_EN),
           "The same 1000M fibre offer is usually different for public housing, HOS, private and village homes. Carriers quote by estate type and install path. Open the [fibre compare page](/plans?cat=broadband) for reference plans.",
           "Fees on this site are a reference. Coverage, install dates and router terms are confirmed by the carrier. Six-carrier 1000M table: [2026 home broadband 1000M](/guides/home-broadband-2026).",
         ],
@@ -209,6 +218,10 @@ export const GUIDE_ARTICLES: Guide[] = [
     ],
     faq: [
       {
+        q: FEE_RANGE_QUESTION,
+        a: fillSiteTemplate(FEE_RANGE_ANSWER),
+      },
+      {
         q: "公屋同居屋光纖月費會唔會唔同？",
         a: "會。公屋 1000M 站內列出由 HK$58 起，完整表見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees)。公屋同居屋多數有指定批量價，唔好用私樓價去估。每個屋邨合約都可能唔同，篩選時分開揀。詳見 [公屋同居屋有咩分別](/guides/public-vs-hos)。",
       },
@@ -230,6 +243,10 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
     ],
     faqEn: [
+      {
+        q: FEE_RANGE_QUESTION_EN,
+        a: fillSiteTemplate(FEE_RANGE_ANSWER_EN),
+      },
       {
         q: "Are public-housing and HOS fibre fees the same?",
         a: "Usually not. Listed public-housing 1000M starts at HK$58. Full table: [public / HOS 1000M](/guides/public-hos-fees). Filter public and HOS separately. See [public vs HOS](/guides/public-vs-hos).",
@@ -1235,6 +1252,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "六大電訊 1000M 參考月費",
         paragraphs: [
+          fillSiteTemplate(FEE_RANGE_ANSWER),
           "2026 年家居寬頻，1000M 係最常見嘅速度。下表係站內六大電訊商（香港寬頻、網上行、HGC、有線寬頻、中國移動香港、數碼通）嘅 1000M 參考月費範圍。",
           "數字沿用站內現價，待核實，**僅供參考**。呢張表**唔係**全港劃一價，亦**唔係**排名。實際覆蓋、月費同合約以電訊商確認為準。",
           "想對自己屋苑：用 [齊Quote 點用屋苑篩](/guides/estate-filter) 入 [光纖格價](/plans?cat=broadband)，或者 WhatsApp **6309 9966** 免費核實。非官方客服，唔好傳銀行戶口或信用卡密碼。",
@@ -1421,6 +1439,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "Six carriers: 1000M reference fees",
         paragraphs: [
+          fillSiteTemplate(FEE_RANGE_ANSWER_EN),
           "In 2026, 1000M is the usual home-broadband speed. The table below is this site's 1000M reference range for six carriers: HKBN, Netvigator, HGC, i-Cable, CMHK and SmarTone.",
           "Figures follow prices listed on this site and still need checking. They are **for reference only**. This table is **not** one Hong Kong-wide price, and it is **not** a ranking. The carrier confirms coverage, fees and the contract.",
           "To check your estate, use the [estate filter](/guides/estate-filter) and open [fibre compare](/plans?cat=broadband), or confirm free on WhatsApp **6309 9966**. Not official customer service. Do not send bank or card passwords.",
@@ -1607,6 +1626,10 @@ export const GUIDE_ARTICLES: Guide[] = [
     ],
     faq: [
       {
+        q: FEE_RANGE_QUESTION,
+        a: fillSiteTemplate(FEE_RANGE_ANSWER),
+      },
+      {
         q: "六大電訊 1000M 大約幾錢？",
         a: "有線 1000M 站內列出由 HK$58 起，分樓類表見 [公屋／居屋 1000M 參考月費](/guides/public-hos-fees) 同 [私樓 1000M 參考月費](/guides/private-1000-fees)。本頁係六大電訊一眼範圍（沿用站內現價，待核實）：香港寬頻約 HK$98–109；網上行約 HK$108；HGC 約 HK$75–89（私樓常見約 HK$89）；有線約 HK$58–68（唔計 myTV）；中國移動香港約 HK$88–98；數碼通約 HK$88。唔係劃一價，亦唔係保證價。快閃另計，唔入主表。村屋見 [村屋光纖月費](/guides/village-fees)。",
       },
@@ -1636,6 +1659,10 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
     ],
     faqEn: [
+      {
+        q: FEE_RANGE_QUESTION_EN,
+        a: fillSiteTemplate(FEE_RANGE_ANSWER_EN),
+      },
       {
         q: "What do the six carriers charge for 1000M?",
         a: "Listed i-Cable 1000M starts at HK$58. Housing tables: [public / HOS 1000M](/guides/public-hos-fees) and [private 1000M](/guides/private-1000-fees). This page is the six-carrier range, still to be confirmed: HKBN about HK$98–109; Netvigator about HK$108; HGC about HK$75–89 (private estates often about HK$89); i-Cable about HK$58–68 (myTV not included); CMHK about HK$88–98; SmarTone about HK$88. Not one flat price and not a guaranteed fee. Flash offers stay off this table. Villages: [village fibre fees](/guides/village-fees).",

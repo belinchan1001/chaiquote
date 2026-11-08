@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { PLAN_COUNT } from "./plan-count.ts";
+import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
 import { PLANS, PROVIDERS } from "./plans.ts";
 import { ESTATE_COUNT } from "./estate-count.ts";
 
@@ -13,6 +13,7 @@ describe("plan-count", () => {
   it("stays in lockstep with the live catalogue", () => {
     assert.equal(PLAN_COUNT, PLANS.length);
     assert.equal(PROVIDERS.length, 8);
+    assert.equal(PROVIDER_COUNT, PROVIDERS.length);
     assert.equal(ESTATE_COUNT, 3729);
     const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
     assert.match(home, /HOME_PROVIDER_COUNT = 8/);

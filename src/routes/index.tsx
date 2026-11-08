@@ -74,6 +74,7 @@ function Home() {
   ];
   const faqs: { q: MessageKey; a: MessageKey }[] = [
     { q: "faq1q", a: "faq1a" },
+    { q: "faq7q", a: "faq7a" },
     { q: "faq2q", a: "faq2a" },
     { q: "faq3q", a: "faq3a" },
     { q: "faq4q", a: "faq4a" },
@@ -241,7 +242,16 @@ function Home() {
                     {t(item.q)}
                     <span className="text-muted transition-transform duration-150 group-open:rotate-45">+</span>
                   </summary>
-                  <p className="mt-2 text-xs leading-relaxed text-muted">{t(item.a, { phone: SITE.phoneDisplay, email: SITE.leadEmail })}</p>
+                  <p className="mt-2 text-xs leading-relaxed text-muted">
+                    {t(item.a, {
+                      phone: SITE.phoneDisplay,
+                      email: SITE.leadEmail,
+                      date: SITE.updated,
+                      providers: HOME_PROVIDER_COUNT,
+                      plans: PLAN_COUNT,
+                      estates: ESTATE_COUNT,
+                    })}
+                  </p>
                 </details>
               ))}
             </div>

@@ -118,7 +118,11 @@ describe("2026 six-carrier 1000M table", () => {
     assert.equal(page.includes("保證最平"), false);
     assert.match(page, /6309 9966/);
     assert.match(page, /本網站並沒有向任何電訊商收取佣金或廣告費/);
-    assert.equal(guide.faq?.length, 7);
+    assert.equal(guide.faq?.length, 8);
+    assert.equal(guide.faq?.[0]?.q, "香港寬頻月費大概幾錢？有冇一條適用全港嘅價？");
+    assert.match(guide.faq?.[0]?.a ?? "", /冇一條適用所有地區、所有樓類嘅單一參考月費/);
+    assert.equal((guide.faq?.[0]?.a ?? "").includes("最平"), false);
+    assert.equal((guide.faq?.[0]?.a ?? "").includes("最抵"), false);
 
     const route = readFileSync(join(here, "../routes/guides_.$slug.tsx"), "utf8");
     assert.match(route, /<table/);
