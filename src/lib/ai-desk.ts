@@ -17,6 +17,7 @@ import {
   type SpeedMbps,
 } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
+import { FAQ } from "./site.ts";
 import {
   currentIdFromLabel,
   currentLabel,
@@ -639,9 +640,9 @@ export const QUESTION_CHIPS = [
 const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
   {
     id: "official",
-    re: /官網|官方|係咪電訊|chaiquote.*(carrier|official)|independent/i,
-    zh: "齊Quote 唔係電訊商官網，係獨立比較網站。覆蓋、安裝期同實際條款以電訊商確認為準。",
-    en: "ChaiQuote is not a carrier website. It is an independent comparison site. Coverage, install dates and terms are confirmed by the carrier.",
+    re: /官網|官方|係咪電訊|係咪獨立|獨立比較|chaiquote.*(carrier|official)|independent/i,
+    zh: FAQ[0].a,
+    en: "Yes. ChaiQuote (chaiquote.hk) is an independent comparison site, not a carrier website, and it does not take commission or advertising fees from carriers. The carrier confirms the final fee, coverage and installation.",
     attach: false,
     href: "/about",
     linkZh: "關於齊Quote",

@@ -1,4 +1,4 @@
-import { LEGAL } from "./site.ts";
+import { FAQ_EN, FAQ_ZH, INDEPENDENT_BODY, INDEPENDENT_BODY_EN, LEGAL } from "./site.ts";
 
 export type Locale = "zh" | "en";
 
@@ -285,14 +285,13 @@ export const MESSAGES = {
     removeCompare: "移出比較：{name}",
     aboutTitle: "關於我們",
     aboutWho: "我哋係邊個",
-    aboutWhoText:
-      "齊Quote 係香港獨立電訊比較平台，將家居寬頻、5G 家居、商業寬頻同手機月費擺埋一齊。公開、中立，唔幫任何一間電訊商講嘢。",
+    aboutWhoText: INDEPENDENT_BODY,
     aboutWhy: "點解要有齊Quote",
     aboutWhyText:
       "市面上合約同額外收費好亂。我哋將各電訊商方案整理好，等你快啲揀到啱預算、啱需要嘅計劃。",
     aboutIndependent: "獨立聲明",
     aboutIndependentText:
-      "本平台唔係任何一間電訊商嘅附屬。資料只作中立參考。資料更新：{date}。而家收錄 {providers} 間供應商、{plans} 個參考計劃。",
+      "本平台唔係任何一間電訊商嘅附屬。資料只作中立參考。資料更新：{date}。而家收錄 {providers} 間電訊商、{plans} 個參考計劃同 {estates} 個屋苑。",
     noCommission:
       "本網站並沒有向任何電訊商收取佣金或廣告費。所列月費僅供參考，實際以電訊商確認為準。",
     aboutProviders: "而家收錄嘅電訊商",
@@ -365,24 +364,20 @@ export const MESSAGES = {
     waClose: "關閉對話",
     contract: "合約",
     months: "{n} 個月",
-    faq1q: "齊Quote 係咪電訊商官網？",
-    faq1a:
-      "唔係。我哋係獨立比較網站，將公開渠道同市場常見優惠擺埋一齊。最終月費、覆蓋同安裝期，都以電訊商確認為準。",
-    faq2q: "公屋同埋居屋價錢會唔會唔同？",
-    faq2a:
-      "公屋同埋居屋好多時有指定供應商同批量價，每個屋邨／屋苑合約都可能唔同。站內光纖入門參考可見「指定屋苑 1000M 光纖入屋（48 個月）」約 HK$58／月起（有線寬頻）；篩選時分開揀公屋／居屋，問價填齊屋苑名稱。僅供參考，以電訊商確認為準。",
-    faq3q: "村屋有冇光纖？",
-    faq3a:
-      "村屋光纖而家主要由香港寬頻、HGC 同網上行等提供指定計劃；公屋、居屋同私樓計劃一般唔適用於村屋地址。站內村屋光纖入門參考約 HK$218／月起（例如中國移動香港「村屋 1000M 光纖（24 個月）」）；另有香港寬頻「特選村屋 2000M 光纖（24 個月）」HK$229 等較高規格計劃。未有光纖可一併比較 5G 家居寬頻（站內約 HK$88 起）。實際覆蓋要核對門牌，以電訊商確認為準。",
-    faq4q: "商業寬頻同家居計劃有咩分別？",
-    faq4a:
-      "商業寬頻多可加購固定 IP 同辦公時間技術支援，安裝以工商地址為準。月費一般高於家居計劃，適合店舖、寫字樓及工作室。",
-    faq5q: "大灣區數據包唔包中國內地？",
-    faq5a:
-      "流動通訊計劃可篩選「大灣區數據」，即包含中國內地及／或澳門用量，或三地共享數據池。實際適用地區及用量以電訊商條款為準。",
-    faq6q: "點樣查核報價？",
-    faq6a:
-      "最快用 WhatsApp {phone}。冇 WhatsApp 可以撳「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 {email}。",
+    faq1q: FAQ_ZH[0].q,
+    faq1a: FAQ_ZH[0].a,
+    faq2q: FAQ_ZH[2].q,
+    faq2a: FAQ_ZH[2].a,
+    faq3q: FAQ_ZH[3].q,
+    faq3a: FAQ_ZH[3].a,
+    faq4q: FAQ_ZH[4].q,
+    faq4a: FAQ_ZH[4].a,
+    faq5q: FAQ_ZH[5].q,
+    faq5a: FAQ_ZH[5].a,
+    faq6q: FAQ_ZH[6].q,
+    faq6a: FAQ_ZH[6].a,
+    faq7q: FAQ_ZH[1].q,
+    faq7a: FAQ_ZH[1].a,
     disclaimer1:
       "本網站所列之所有月費計劃、禮券優惠及安裝條款僅供參考，實際收費及服務細則受相關電訊供應商之最新合約條款約束。",
     disclaimer2:
@@ -858,14 +853,13 @@ export const MESSAGES = {
     removeCompare: "Remove from compare: {name}",
     aboutTitle: "About us",
     aboutWho: "Who we are",
-    aboutWhoText:
-      "ChaiQuote is an independent Hong Kong telecom comparison site. We publish home broadband, 5G home, business broadband and mobile plans in one place, openly and without speaking for any one carrier.",
+    aboutWhoText: INDEPENDENT_BODY_EN,
     aboutWhy: "Why ChaiQuote exists",
     aboutWhyText:
       "Contracts and extra charges are messy. We organise current offers so you can pick a plan that fits budget and need in minutes.",
     aboutIndependent: "Independence",
     aboutIndependentText:
-      "We are not part of any one carrier. Information is for neutral reference. Updated {date}. Currently {providers} providers and {plans} reference plans.",
+      "We are not part of any one carrier. Information is for neutral reference. Updated {date}. Currently {providers} carriers, {plans} reference plans and {estates} estates.",
     noCommission:
       "We do not receive commission or advertising fees from any carrier. Fees are for reference only; the carrier confirms the final terms.",
     aboutProviders: "Providers listed",
@@ -938,24 +932,20 @@ export const MESSAGES = {
     waClose: "Close chat",
     contract: "Contract",
     months: "{n} months",
-    faq1q: "Is ChaiQuote a carrier website?",
-    faq1a:
-      "No. This is an independent comparison site. Final fees, coverage and install dates are confirmed by the carrier.",
-    faq2q: "Do public housing and HOS prices differ?",
-    faq2a:
-      "Public housing and HOS often have designated providers and bulk rates, and each estate contract can differ. The on-site fibre entry reference is “指定屋苑 1000M 光纖入屋（48 個月）”, about HK$58/month (i-Cable). Filter public housing and HOS separately, and include the estate name. For reference only; the carrier confirms.",
-    faq3q: "Can village houses get fibre?",
-    faq3a:
-      "Village fibre is mainly offered on designated plans from HKBN, HGC and Netvigator. Public, HOS and private plans usually do not apply to a village address. The on-site entry reference is about HK$218/month (for example CMHK “村屋 1000M 光纖（24 個月）”). HKBN “特選村屋 2000M 光纖（24 個月）” at HK$229 is a higher-spec plan. Where there is no fibre, also compare 5G home broadband (about HK$88 on this site). Coverage must be checked against the address; the carrier confirms.",
-    faq4q: "How is business broadband different?",
-    faq4a:
-      "Business plans can add a fixed IP and office-hour support. Install is for commercial addresses. Fees are usually higher than home plans.",
-    faq5q: "Does Greater Bay Area data include Mainland China?",
-    faq5a:
-      "Mobile plans tagged Greater Bay Area include Mainland and/or Macao data, or a shared pool. Regions and quotas follow the carrier’s terms.",
-    faq6q: "How do I check a quote?",
-    faq6a:
-      "Fastest: WhatsApp {phone}. No WhatsApp? Tap Leave a number. You can also call the same number, or email {email}.",
+    faq1q: FAQ_EN[0].q,
+    faq1a: FAQ_EN[0].a,
+    faq2q: FAQ_EN[2].q,
+    faq2a: FAQ_EN[2].a,
+    faq3q: FAQ_EN[3].q,
+    faq3a: FAQ_EN[3].a,
+    faq4q: FAQ_EN[4].q,
+    faq4a: FAQ_EN[4].a,
+    faq5q: FAQ_EN[5].q,
+    faq5a: FAQ_EN[5].a,
+    faq6q: FAQ_EN[6].q,
+    faq6a: FAQ_EN[6].a,
+    faq7q: FAQ_EN[1].q,
+    faq7a: FAQ_EN[1].a,
     disclaimer1:
       "All monthly fees, gifts and installation terms on this site are for reference only. Actual charges follow the carrier’s latest contract.",
     disclaimer2:

@@ -4,7 +4,9 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { MESSAGES } from "./messages.ts";
-import { FAQ, SITE } from "./site.ts";
+import { ESTATE_COUNT } from "./estate-count.ts";
+import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
+import { FAQ, FEE_RANGE_QUESTION, fillSiteTemplate, SITE } from "./site.ts";
 import { homeJsonLd } from "./canonical.ts";
 import { formatFee, getPlan } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
@@ -373,11 +375,10 @@ describe("i18n catalogue and error chrome", () => {
 });
 
 describe("homepage FAQ matches FAQPage JSON-LD", () => {
-  it("keeps the six zh answers identical once phone and email placeholders are filled", () => {
-    const fill = (text: string) =>
-      text.replaceAll("{phone}", SITE.phoneDisplay).replaceAll("{email}", SITE.leadEmail);
+  it("keeps the zh answers identical once catalogue placeholders are filled", () => {
     const ui = [
       [MESSAGES.zh.faq1q, MESSAGES.zh.faq1a],
+      [MESSAGES.zh.faq7q, MESSAGES.zh.faq7a],
       [MESSAGES.zh.faq2q, MESSAGES.zh.faq2a],
       [MESSAGES.zh.faq3q, MESSAGES.zh.faq3a],
       [MESSAGES.zh.faq4q, MESSAGES.zh.faq4a],
@@ -387,8 +388,14 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.equal(FAQ.length, ui.length);
     ui.forEach(([q, a], index) => {
       assert.equal(q, FAQ[index]?.q);
-      assert.equal(fill(a), FAQ[index]?.a);
+      assert.equal(fillSiteTemplate(a), FAQ[index]?.a);
+      assert.equal((FAQ[index]?.a ?? "").includes("{"), false);
     });
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+    assert.match(home, /faq1q[\s\S]*faq7q[\s\S]*faq2q/);
+    assert.match(home, /providers: HOME_PROVIDER_COUNT/);
+    assert.match(home, /estates: ESTATE_COUNT/);
+    assert.match(home, /t\("heroTitle1"\)/);
     const ld = homeJsonLd();
     const org = ld["@graph"].find((node) => node["@type"] === "Organization");
     assert.deepEqual(org?.sameAs, [
@@ -396,18 +403,69 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
       "https://www.facebook.com/p/%E9%BD%8AQuote-61594256257767/",
     ]);
     const graph = JSON.stringify(ld);
+    JSON.parse(graph);
+    const faqLd = ld["@graph"].find((node) => node["@type"] === "FAQPage");
+    assert.equal(faqLd?.["@type"], "FAQPage");
+    assert.equal(faqLd?.mainEntity.length, FAQ.length);
+    for (const entity of faqLd?.mainEntity ?? []) {
+      assert.equal(entity["@type"], "Question");
+      assert.equal(entity.acceptedAnswer["@type"], "Answer");
+      assert.equal(entity.name.length > 0, true);
+      assert.equal(entity.acceptedAnswer.text.length > 0, true);
+    }
     assert.equal(graph.split('"sameAs"').length - 1, 1);
     assert.equal(graph.includes("擣"), false);
     assert.equal(graph.includes("有唔有"), false);
-    assert.match(FAQ[2]?.a ?? "", /HK\$218／月起/);
-    assert.equal((FAQ[2]?.a ?? "").includes("HK$229／月起"), false);
-    assert.equal((FAQ[2]?.a ?? "").includes("229／24 個月起"), false);
-    assert.match(FAQ[2]?.q ?? "", /有冇/);
-    assert.match(FAQ[5]?.a ?? "", /撳「留低電話」/);
+    assert.equal(graph.includes("摶"), false);
+    const independent = FAQ[0];
+    assert.match(independent?.q ?? "", /獨立/);
+    assert.match(independent?.a ?? "", /^有。齊Quote（chaiquote\.hk）係香港獨立比較網站/);
+    assert.match(independent?.a ?? "", /無向電訊商收取佣金或廣告費/);
+    assert.match(independent?.a ?? "", new RegExp(`${PROVIDER_COUNT} 間電訊商`));
+    assert.match(independent?.a ?? "", new RegExp(`${PLAN_COUNT} 個參考計劃`));
+    assert.match(independent?.a ?? "", new RegExp(`${ESTATE_COUNT} 個屋苑`));
+    assert.match(independent?.a ?? "", new RegExp(SITE.updated));
+    assert.match(independent?.a ?? "", /最終月費、覆蓋同安裝以電訊商確認為準/);
+    const fees = FAQ.find((item) => item.q === FEE_RANGE_QUESTION);
+    assert.ok(fees);
+    assert.match(fees.a, /^冇。香港寬頻冇一條適用所有地區、所有樓類嘅單一參考月費/);
+    assert.match(fees.a, /公居屋 1000M 約 HK\$58 至 HK\$98／月/);
+    assert.match(fees.a, /私樓 1000M 約 HK\$88 至 HK\$109／月/);
+    assert.match(fees.a, /村屋光纖由 HK\$218／月起/);
+    assert.match(fees.a, /HK\$376／月/);
+    assert.match(fees.a, /5G 家居約 HK\$88 至 HK\$190／月/);
+    assert.match(fees.a, new RegExp(SITE.updated));
+    assert.match(fees.a, /唔係排名，亦唔代表你座樓一定有/);
+    for (const word of ["最平", "最抵", "最低", "全港最平", "保證"]) {
+      assert.equal(independent?.a.includes(word), false, independent?.q);
+      assert.equal(independent?.q.includes(word), false, independent?.q);
+      assert.equal(fees.a.includes(word), false, fees.q);
+      assert.equal(fees.q.includes(word), false, fees.q);
+    }
+    const village = FAQ.find((item) => item.q.includes("村屋有冇光纖"));
+    assert.match(village?.a ?? "", /HK\$218／月起/);
+    assert.equal((village?.a ?? "").includes("HK$229／月起"), false);
+    assert.equal((village?.a ?? "").includes("229／24 個月起"), false);
+    assert.match(village?.q ?? "", /有冇/);
+    const contact = FAQ.find((item) => item.q === "點樣查核報價？");
+    assert.match(contact?.a ?? "", /撳「留低電話」/);
     assert.equal(getPlan("icable-ftth-1000-48m-58")?.monthlyFee, 58);
+    assert.equal(getPlan("icable-ftth-1000-48m-58")?.contractMonths, 48);
+    assert.equal(getPlan("hkbn-ftth-1000-36m-98")?.monthlyFee, 98);
+    assert.equal(getPlan("icable-ftth-1000-private-36m")?.monthlyFee, 88);
+    assert.equal(getPlan("hkbn-ftth-1000-24m-109")?.monthlyFee, 109);
     assert.equal(getPlan("cmhk-ftth-1000-village-24m-218")?.monthlyFee, 218);
     assert.equal(getPlan("hkbn-village-2000-24m")?.monthlyFee, 229);
+    assert.equal(getPlan("netvigator-ftth-2500-village-36m")?.monthlyFee, 376);
     assert.equal(getPlan("cmhk-home5g-350-48-88")?.monthlyFee, 88);
+    assert.equal(getPlan("three-home5g-c-190")?.monthlyFee, 190);
+    assert.equal(PLAN_COUNT, 191);
+    assert.equal(PROVIDER_COUNT, 8);
+    assert.equal(ESTATE_COUNT, 3729);
+    assert.match(fillSiteTemplate(MESSAGES.zh.aboutWhoText), /無向電訊商收取佣金或廣告費/);
+    assert.match(fillSiteTemplate(MESSAGES.zh.aboutWhoText), new RegExp(`${ESTATE_COUNT} 個屋苑`));
+    assert.doesNotMatch(MESSAGES.en.faq7a, /cheapest|lowest|best price|best-value/i);
+    assert.doesNotMatch(home, /全港最平/);
   });
 });
 

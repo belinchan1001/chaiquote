@@ -5,6 +5,7 @@ import { QuoteLink } from "@/components/quote-link";
 import { ProviderMark } from "@/components/provider-mark";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { ABOUT_SEO, canonicalUrl, shareHead } from "@/lib/canonical";
+import { ESTATE_COUNT } from "@/lib/estate-count";
 import { PLANS, PROVIDERS } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 
@@ -22,7 +23,14 @@ function AboutPage() {
 
       <section className="mt-10">
         <h2 className="text-lg font-semibold">{t("aboutWho")}</h2>
-        <p className="mt-3 text-sm leading-relaxed text-muted">{t("aboutWhoText")}</p>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          {t("aboutWhoText", {
+            date: updated,
+            providers: PROVIDERS.length,
+            plans: PLANS.length,
+            estates: ESTATE_COUNT,
+          })}
+        </p>
       </section>
 
       <section className="mt-8">
@@ -37,6 +45,7 @@ function AboutPage() {
             date: updated,
             providers: PROVIDERS.length,
             plans: PLANS.length,
+            estates: ESTATE_COUNT,
           })}
         </p>
         <p className="mt-3 text-sm leading-relaxed text-muted">{t("noCommission")}</p>
