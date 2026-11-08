@@ -16,11 +16,15 @@ export const Route = createFileRoute("/guides")({
 function GuideCardDate({ guide }: { guide: Guide }) {
   const { t } = useI18n();
   const { published, modified } = guideManuscriptDates(guide);
-  const date = published
-    ? modified
-      ? t("manuscriptUpdated", { published, modified })
-      : t("manuscriptDate", { date: published })
-    : null;
+  const date = guide.answer
+    ? published
+      ? t("dataUpdated", { date: modified ?? published })
+      : null
+    : published
+      ? modified
+        ? t("manuscriptUpdated", { published, modified })
+        : t("manuscriptDate", { date: published })
+      : null;
   return (
     <p className="mt-3 text-xs text-subtle">
       {date ? `${date} · ${t("minutesRead", { n: guide.minutes })}` : t("minutesRead", { n: guide.minutes })}

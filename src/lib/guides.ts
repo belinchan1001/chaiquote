@@ -3,9 +3,17 @@ import { GUIDE_ARTICLES } from "./guide-articles.ts";
 import { DISTRICT_GUIDES } from "./district-guides.ts";
 import { salesQuoteMessage } from "./whatsapp.ts";
 
+export type GuideFlowBlock =
+  | { kind: "p"; text: string }
+  | { kind: "h3"; text: string }
+  | { kind: "ul"; items: string[] }
+  | { kind: "ol"; items: string[] };
+
 export type GuideSection = {
   heading: string;
   paragraphs: string[];
+  /** Richer body (subheads and lists). When set, the article page renders this instead of `paragraphs`. */
+  flow?: GuideFlowBlock[];
   table?: GuideTable;
   /** Multi-column HTML table. Used when a two-column card list is not enough to extract. */
   matrix?: GuideMatrix;
@@ -21,7 +29,18 @@ export type GuideCta = {
   waTextEn: string;
 };
 
-export type GuideLink = { href: string; label: string };
+export type GuideLink = { href: string; label: string; labelEn?: string };
+
+/** Scannable answer placed above the long article: short lead, cite sentence, housing-fee table. */
+export type GuideAnswer = {
+  lead: string[];
+  cite: string;
+  table: {
+    caption: string;
+    headers: [string, string, string];
+    rows: [string, string, string][];
+  };
+};
 
 export type GuideFaq = { q: string; a: string };
 
@@ -64,6 +83,16 @@ export type Guide = {
   faqEn?: GuideFaq[];
   published?: string;
   modified?: string;
+  /** Cite + fee table rendered before the TOC and the long body. */
+  answer?: GuideAnswer;
+  answerEn?: GuideAnswer;
+  /** One closing note. Not repeated through the body. */
+  disclaimer?: string;
+  disclaimerEn?: string;
+  /** End card is a single plan button. No WhatsApp button beside it. */
+  plansOnlyCta?: boolean;
+  /** Show this many estate chips, then a link to /estates. Skips the full estate crawl. */
+  estateChipLimit?: number;
 };
 
 export const CORE_GUIDES: Guide[] = [
@@ -542,6 +571,8 @@ export function guideCopy(guide: Guide, locale: "zh" | "en") {
       excerpt: guide.excerptEn,
       description: guide.descriptionEn ?? guide.excerptEn,
       body: guide.bodyEn,
+      answer: guide.answerEn,
+      disclaimer: guide.disclaimerEn,
       ctaLead: guide.cta?.leadEn,
       ctaButton: guide.cta?.buttonEn,
       waText: guide.cta?.waTextEn,
@@ -554,6 +585,8 @@ export function guideCopy(guide: Guide, locale: "zh" | "en") {
     excerpt: guide.excerpt,
     description: guide.description,
     body: guide.body,
+    answer: guide.answer,
+    disclaimer: guide.disclaimer,
     ctaLead: guide.cta?.lead,
     ctaButton: guide.cta?.button,
     waText: guide.cta?.waText,
