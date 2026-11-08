@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { MESSAGES } from "./messages.ts";
-import { SITE } from "./site.ts";
+import { plansBroadbandHero, SITE } from "./site.ts";
 import { formatFee, getPlan } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
 import {
@@ -202,5 +202,36 @@ describe("plan category hub", () => {
     assert.doesNotMatch(plans, /leading-relaxed text-muted">\s*\{t\("broadbandHubSummary"/);
     assert.match(card, /<article[\s\S]*plan\.quotePick && "plan-card-shine"/);
     assert.doesNotMatch(card, /feeSummaryTitle|hubSummaryBullets|planQuoteCta/);
+  });
+
+  it("shows one citeable broadband H1 and keeps the plan-card quote path", () => {
+    const plans = readFileSync(join(here, "../routes/plans.tsx"), "utf8");
+    const card = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+    assert.equal((plans.match(/<h1/g) ?? []).length, 1);
+    assert.match(plans, /plansBroadbandHero\(locale\)/);
+    assert.match(plans, /broadbandHero \? broadbandHero\.h1 : categoryLabel\(search\.cat\)/);
+    assert.match(plans, /<AiFilterEntry/);
+    assert.match(plans, /<QuoteLink size="lg"/);
+    assert.match(card, /WhatsApp 問呢個計劃/);
+    assert.doesNotMatch(plans, /WhatsApp 問呢個計劃/);
+    assert.match(home, /t\("heroTitle1"\)/);
+    assert.doesNotMatch(home, /plansBroadbandHero|PLANS_BROADBAND_H1/);
+
+    const zh = plansBroadbandHero("zh");
+    const en = plansBroadbandHero("en");
+    assert.equal(zh.h1, "香港光纖寬頻報價比較");
+    assert.equal(
+      zh.lead,
+      "齊Quote 係獨立寬頻比較站（非電訊商官網、無向電訊商收佣金或廣告費）。光纖參考月費按樓類：公居屋約 HK$58–98、私樓約 HK$88–109、村屋由 HK$218 起（資料更新 2026-11-08）；唔係全港劃一價，以電訊商確認為準。",
+    );
+    assert.equal(zh.lead.includes(SITE.updated), true);
+    assert.doesNotMatch(`${zh.h1}${zh.lead}`, /最平|最抵|最低|全港最平/);
+    assert.equal(en.h1, "Compare Hong Kong fibre broadband quotes");
+    assert.match(en.lead, /HK\$58–98/);
+    assert.match(en.lead, /HK\$88–109/);
+    assert.match(en.lead, /HK\$218/);
+    assert.match(en.lead, /2026-11-08/);
+    assert.doesNotMatch(`${en.h1}${en.lead}`, /cheapest|lowest|best-value|best price/i);
   });
 });

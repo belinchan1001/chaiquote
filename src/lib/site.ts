@@ -135,12 +135,38 @@ export const FEE_RANGE_QUESTION = "香港寬頻月費大概幾錢？有冇一條
 export const FEE_RANGE_QUESTION_EN =
   "How much is Hong Kong broadband a month? Is there one territory-wide fee?";
 
+/** Listed 1000M bands shared by the homepage fee answer and the /plans hero. */
+export const PUBLIC_HOS_1000_BAND = "HK$58 至 HK$98";
+export const PRIVATE_1000_BAND = "HK$88 至 HK$109";
+export const VILLAGE_FIBRE_FROM = "HK$218";
+export const PUBLIC_HOS_1000_BAND_EN = "HK$58 to HK$98";
+export const PRIVATE_1000_BAND_EN = "HK$88 to HK$109";
+export const VILLAGE_FIBRE_FROM_EN = "HK$218";
+
 /** Floor-type bands already printed on the public / HOS, private and village fee guides, plus listed 5G home. */
 export const FEE_RANGE_ANSWER =
-  "冇。香港寬頻冇一條適用所有地區、所有樓類嘅單一參考月費，公屋、居屋、私樓同村屋要分開報。資料更新 {date}，站內列出例子：公居屋 1000M 約 HK$58 至 HK$98／月（有線指定屋苑 48 個月 HK$58 起；香港寬頻 36 個月 HK$98）；私樓 1000M 約 HK$88 至 HK$109／月（有線私人樓宇 36 個月 HK$88 起；香港寬頻 24 個月 HK$109）；村屋光纖由 HK$218／月起（中國移動香港村屋 1000M、24 個月），村屋參考表例子去到 HK$376／月；5G 家居約 HK$88 至 HK$190／月（中國移動香港 350GB、48 個月 HK$88 起）。以上只係站內列出參考，唔係排名，亦唔代表你座樓一定有。最終月費、覆蓋同安裝以電訊商確認為準。";
+  `冇。香港寬頻冇一條適用所有地區、所有樓類嘅單一參考月費，公屋、居屋、私樓同村屋要分開報。資料更新 {date}，站內列出例子：公居屋 1000M 約 ${PUBLIC_HOS_1000_BAND}／月（有線指定屋苑 48 個月 HK$58 起；香港寬頻 36 個月 HK$98）；私樓 1000M 約 ${PRIVATE_1000_BAND}／月（有線私人樓宇 36 個月 HK$88 起；香港寬頻 24 個月 HK$109）；村屋光纖由 ${VILLAGE_FIBRE_FROM}／月起（中國移動香港村屋 1000M、24 個月），村屋參考表例子去到 HK$376／月；5G 家居約 HK$88 至 HK$190／月（中國移動香港 350GB、48 個月 HK$88 起）。以上只係站內列出參考，唔係排名，亦唔代表你座樓一定有。最終月費、覆蓋同安裝以電訊商確認為準。`;
 
 export const FEE_RANGE_ANSWER_EN =
-  "No. There is no single reference monthly fee for every district and housing type. Public housing, HOS, private estates and village houses are quoted separately. As of {date}, examples listed on this site: public / HOS 1000M about HK$58 to HK$98/month (i-Cable designated estate, 48 months, from HK$58; HKBN 36 months HK$98); private-estate 1000M about HK$88 to HK$109/month (i-Cable private buildings, 36 months, from HK$88; HKBN 24 months HK$109); village fibre from HK$218/month (CMHK village 1000M, 24 months), with village-table examples up to HK$376/month; 5G home about HK$88 to HK$190/month (CMHK 350GB, 48 months, from HK$88). These are listed examples, not a ranking, and they do not mean your building has them. The carrier confirms the final fee, coverage and installation.";
+  `No. There is no single reference monthly fee for every district and housing type. Public housing, HOS, private estates and village houses are quoted separately. As of {date}, examples listed on this site: public / HOS 1000M about ${PUBLIC_HOS_1000_BAND_EN}/month (i-Cable designated estate, 48 months, from HK$58; HKBN 36 months HK$98); private-estate 1000M about ${PRIVATE_1000_BAND_EN}/month (i-Cable private buildings, 36 months, from HK$88; HKBN 24 months HK$109); village fibre from ${VILLAGE_FIBRE_FROM_EN}/month (CMHK village 1000M, 24 months), with village-table examples up to HK$376/month; 5G home about HK$88 to HK$190/month (CMHK 350GB, 48 months, from HK$88). These are listed examples, not a ranking, and they do not mean your building has them. The carrier confirms the final fee, coverage and installation.`;
+
+/** Final /plans broadband first screen. Wording is fixed; do not paraphrase. */
+export const PLANS_BROADBAND_H1 = "香港光纖寬頻報價比較";
+export const PLANS_BROADBAND_H1_EN = "Compare Hong Kong fibre broadband quotes";
+
+export const PLANS_BROADBAND_LEAD =
+  "齊Quote 係獨立寬頻比較站（非電訊商官網、無向電訊商收佣金或廣告費）。光纖參考月費按樓類：公居屋約 HK$58–98、私樓約 HK$88–109、村屋由 HK$218 起（資料更新 2026-11-08）；唔係全港劃一價，以電訊商確認為準。";
+
+export const PLANS_BROADBAND_LEAD_EN =
+  "ChaiQuote is an independent broadband comparison site (not a carrier website, and it does not take commission or advertising fees from carriers). Fibre reference fees by housing type: public / HOS about HK$58–98, private estates about HK$88–109, village houses from HK$218 (updated 2026-11-08); not one territory-wide fee. The carrier confirms.";
+
+export function plansBroadbandHero(locale: "zh" | "en") {
+  const en = locale === "en";
+  return {
+    h1: en ? PLANS_BROADBAND_H1_EN : PLANS_BROADBAND_H1,
+    lead: en ? PLANS_BROADBAND_LEAD_EN : PLANS_BROADBAND_LEAD,
+  };
+}
 
 const FAQ_VARS = {
   phone: SITE.phoneDisplay,

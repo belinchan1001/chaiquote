@@ -5,7 +5,7 @@
 import { ESTATE_COUNT } from "./estate-count.ts";
 import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
 import type { Category } from "./plans.ts";
-import { SITE, FAQ } from "./site.ts";
+import { SITE, FAQ, PLANS_BROADBAND_H1, PLANS_BROADBAND_LEAD } from "./site.ts";
 
 export const DEFAULT_SEO_ORIGIN = "https://www.chaiquote.hk";
 
@@ -174,8 +174,8 @@ export const GUIDES_SEO = {
 
 export const CATEGORY_SEO: Record<Category, SeoCopy> = {
   broadband: {
-    title: "香港寬頻報價2026｜光纖1000M／2500M月費比較｜齊Quote",
-    description: `${CATALOGUE_MONTH}比較香港光纖1000M同2500M月費，包括香港寬頻同網上行嘅參考價。揀樓類之後可以查屋苑覆蓋。實際月費以電訊商確認為準。`,
+    title: `${PLANS_BROADBAND_H1}｜齊Quote`,
+    description: PLANS_BROADBAND_LEAD,
   },
   home5g: {
     title: "5G家居寬頻報價｜免拉線月費比較｜齊Quote",

@@ -32,7 +32,7 @@ import { indexableEstateNavLinks } from "@/lib/estate-pages";
 import { categoryJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 import { bringPlanListIntoView, holdPlanListScroll, isPlanListInView, watchPlanListInView } from "@/lib/plan-list-fade";
-import { CATEGORY_OPTIONS, SITE } from "@/lib/site";
+import { CATEGORY_OPTIONS, SITE, plansBroadbandHero } from "@/lib/site";
 import {
   currentLabel,
   currentOptions,
@@ -117,6 +117,7 @@ function PlansPage() {
   const replayKey = planListReplayKey(search);
   const prevReplayKey = useRef(replayKey);
   const { t, tx, providerName, categoryLabel, housingLabel, updated, locale } = useI18n();
+  const broadbandHero = search.cat === "broadband" ? plansBroadbandHero(locale) : null;
   const estateNav =
     search.cat === "broadband" || search.cat === "home5g" ? indexableEstateNavLinks(locale) : [];
   usePageTitle(CATEGORY_SEO[search.cat].title);
@@ -530,17 +531,22 @@ function PlansPage() {
       <PageBackButton />
       <p className="text-xs font-medium tracking-wider text-accent">{t("filterPlans")}</p>
       <div className="mt-2">
-        <h1 className="text-title font-semibold">{categoryLabel(search.cat)}</h1>
+        <h1 className="text-title font-semibold">{broadbandHero ? broadbandHero.h1 : categoryLabel(search.cat)}</h1>
+        {broadbandHero ? (
+          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted">{broadbandHero.lead}</p>
+        ) : null}
         <p className="mt-1 text-sm text-muted">
           {entry ? (
             <>
               <span className="font-medium tabular-nums text-fg">
                 {t("fromFee", { fee: formatFee(entry.monthlyFee) })}
               </span>
-              <span aria-hidden="true"> · </span>
+              {broadbandHero ? null : <span aria-hidden="true"> · </span>}
             </>
           ) : null}
-          <span className="text-xs text-subtle">{t("dataUpdated", { date: updated })}</span>
+          {broadbandHero ? null : (
+            <span className="text-xs text-subtle">{t("dataUpdated", { date: updated })}</span>
+          )}
         </p>
       </div>
 
