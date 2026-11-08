@@ -201,6 +201,24 @@ describe("homepage first-load images", () => {
     assert.match(home, /faq1q/);
   });
 
+  it("paints the shell without a boot splash or a blank first frame", () => {
+    const root = src("../routes/__root.tsx");
+    const css = src("../styles.css");
+    const i18n = src("i18n.tsx");
+
+    assert.doesNotMatch(root, /BootSplash|boot-splash|data-boot/);
+    assert.doesNotMatch(i18n, /data-boot/);
+    assert.match(root, /className="page-shell"/);
+    assert.match(root, /<GoogleAdsTag \/>/);
+    assert.match(root, /<DeferredWhatsApp \/>/);
+    assert.doesNotMatch(
+      css,
+      /\.page-enter > \*,\s*\.page-shell\s*\{[^}]*animation:\s*rise-in[^}]*both/,
+    );
+    assert.match(css, /\.page-shell,\s*\.page-enter > \*\s*\{[^}]*animation:\s*none/);
+    assert.match(css, /\.plan-list-enter > \*\s*\{[^}]*animation:\s*plan-card-in 240ms ease-out both/);
+  });
+
   it("does not wait on the database before the page or a filter change", () => {
     const root = src("../routes/__root.tsx");
     const plans = src("../routes/plans.tsx");
