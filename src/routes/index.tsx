@@ -101,8 +101,8 @@ function Home() {
             className="absolute inset-0 size-full object-cover"
           />
         </picture>
-        <div className="absolute inset-0 bg-primary/55" />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/50 to-primary/25" />
+        <div className="absolute inset-0 bg-primary/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-primary/15 to-primary/10" />
         <div className="relative mx-auto grid max-w-6xl gap-5 px-4 py-7 lg:grid-cols-2 lg:gap-8 lg:py-14">
           <div className="page-enter text-primary-foreground">
             <h1 className="font-display text-display font-semibold leading-none tracking-tight">
