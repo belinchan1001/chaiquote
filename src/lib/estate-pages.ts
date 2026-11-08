@@ -856,6 +856,25 @@ export function crawlEstateLinksForGuide(
   }));
 }
 
+/** Estate chips under a guide. A chip limit skips the full indexable-estate crawl. */
+export function guideFooterEstates(
+  slug: string,
+  curated: readonly { href: string; label: string }[] | undefined,
+  locale: Locale = "zh",
+  chipLimit?: number,
+): { href: string; label: string }[] {
+  if (chipLimit != null) {
+    return (curated ?? []).filter((item) => item.href !== "/estates").slice(0, chipLimit);
+  }
+  return mergeEstateLinks(
+    curated ?? [
+      { href: "/estates", label: "屋苑目錄" },
+      { href: "/estates/tin-yiu", label: "天耀邨" },
+    ],
+    crawlEstateLinksForGuide(slug, locale),
+  );
+}
+
 export function mergeEstateLinks(
   existing: readonly { href: string; label: string }[],
   extra: readonly { href: string; label: string }[],

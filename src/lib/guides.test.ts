@@ -3,10 +3,11 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { SITE } from "./site.ts";
+import { FEE_RANGE_ANSWER, FEE_RANGE_QUESTION, SITE } from "./site.ts";
 import { getGuide } from "./guides.ts";
 import { getPlan } from "./plans.ts";
 import { sitemapLastmod } from "./seo.ts";
+import { crawlEstateLinksForGuide, guideFooterEstates } from "./estate-pages.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -16,15 +17,15 @@ describe("guide manuscript dates vs catalogue stamp", () => {
     const fiber = getGuide("fiber");
     assert.ok(fiber);
     assert.equal(fiber.published, "2026-09-09");
-    assert.equal(fiber.modified, "2026-09-10");
-    assert.equal(sitemapLastmod("/guides/fiber"), "2026-09-10");
-    assert.notEqual(sitemapLastmod("/guides/fiber"), SITE.updated);
+    assert.equal(fiber.modified, "2026-11-08");
+    assert.equal(sitemapLastmod("/guides/fiber"), "2026-11-08");
 
     const port = getGuide("port-in");
     assert.ok(port);
     assert.equal(port.published, "2026-09-05");
     assert.equal(port.modified, "2026-09-06");
     assert.equal(sitemapLastmod("/guides/port-in"), "2026-09-06");
+    assert.notEqual(sitemapLastmod("/guides/port-in"), SITE.updated);
 
     for (const slug of ["broadband-total-cost", "1000m-or-2500m"] as const) {
       const guide = getGuide(slug);
@@ -127,6 +128,93 @@ describe("2026 six-carrier 1000M table", () => {
     const route = readFileSync(join(here, "../routes/guides_.$slug.tsx"), "utf8");
     assert.match(route, /<table/);
     assert.match(route, /section\.matrix/);
+  });
+});
+
+describe("fiber guide sample rewrite", () => {
+  it("leads with the Geo cite and housing table, then a short human body", () => {
+    const guide = getGuide("fiber");
+    assert.ok(guide);
+    assert.equal(guide.h1, "香港光纖點揀：先分樓類，再睇月費");
+    assert.equal(guide.plansOnlyCta, true);
+    assert.equal(guide.plans?.length, 1);
+    assert.equal(guide.plans?.[0]?.href, "/plans?cat=broadband");
+    assert.equal(guide.plans?.[0]?.label, "按樓類睇光纖計劃");
+    assert.equal(guide.cta, undefined);
+
+    const cite = guide.answer?.cite ?? "";
+    assert.match(cite, /香港光纖冇全港劃一價/);
+    assert.match(cite, /HK\$58–98／月/);
+    assert.match(cite, /HK\$88–109／月/);
+    assert.match(cite, /HK\$218／月起/);
+    assert.equal(cite.includes(FEE_RANGE_ANSWER.replace("{date}", SITE.updated)), false);
+
+    const table = guide.answer?.table;
+    assert.ok(table);
+    assert.deepEqual(table.headers, ["樓類", "1000M 參考月費", "備註"]);
+    assert.equal(table.rows.length, 3);
+    assert.match(table.rows[0][0], /公屋／居屋/);
+    assert.match(table.rows[0][0], /\/guides\/public-hos-fees/);
+    assert.equal(table.rows[0][1], "約 HK$58–98／月");
+    assert.match(table.rows[0][2], /\$58 起（48 個月）/);
+    assert.equal(table.rows[1][1], "約 HK$88–109／月");
+    assert.match(table.rows[1][0], /\/guides\/private-1000-fees/);
+    assert.equal(table.rows[2][1], "約 HK$218／月起");
+    assert.match(table.rows[2][0], /\/guides\/village-fees/);
+    assert.match(table.rows[2][2], /唔好套公屋／私樓價/);
+
+    assert.deepEqual(
+      guide.body.map((section) => section.heading),
+      [
+        "點解要先分樓類",
+        "公屋、居屋、私樓、村屋點睇",
+        "1000M 定 2500M",
+        "轉台前問清楚四件事",
+        "下一步：對自己地址格價",
+      ],
+    );
+    const housing = guide.body[1];
+    assert.deepEqual(
+      housing?.flow
+        ?.filter((block) => block.kind === "h3")
+        .map((block) => (block.kind === "h3" ? block.text : "")),
+      ["公屋／居屋", "私樓", "村屋／丁屋"],
+    );
+    const page = JSON.stringify(guide.body) + (guide.disclaimer ?? "");
+    assert.match(page, /HK\$218–229／月/);
+    assert.match(page, /HK\$376／月/);
+    assert.match(page, /\/guides\/1000m-or-2500m/);
+    assert.match(page, /\/guides\/home-broadband-2026/);
+    assert.equal(page.includes("保證最平"), false);
+    assert.match(guide.disclaimer ?? "", /2026-11-08/);
+    assert.match(guide.disclaimer ?? "", /無向電訊商收取佣金或廣告費/);
+
+    assert.equal(guide.faq?.[0]?.q, "香港光纖有冇一條全港劃一價？");
+    assert.notEqual(guide.faq?.[0]?.q, FEE_RANGE_QUESTION);
+    assert.match(guide.faq?.[0]?.a ?? "", /^冇。/);
+    assert.equal((guide.faq?.[0]?.a ?? "").includes("5G 家居約"), false);
+    assert.equal(guide.faq?.length, 6);
+
+    const chips = guideFooterEstates(guide.slug, guide.estates, "zh", guide.estateChipLimit);
+    assert.ok(chips.length <= (guide.estateChipLimit ?? 0));
+    assert.ok(crawlEstateLinksForGuide("fiber").length > chips.length);
+    assert.equal(
+      chips.some((item) => item.href === "/estates"),
+      false,
+    );
+    assert.deepEqual(
+      chips.map((item) => item.href),
+      ["/estates/tin-yiu", "/estates/taikoo-shing"],
+    );
+
+    const route = readFileSync(join(here, "../routes/guides_.$slug.tsx"), "utf8");
+    const answerAt = route.indexOf("copy.answer.cite");
+    const tocAt = route.indexOf("<GuideToc");
+    const bodyAt = route.indexOf("{copy.body.map((section)");
+    assert.ok(answerAt > 0 && tocAt > answerAt && bodyAt > tocAt);
+    assert.match(route, /guide\.plansOnlyCta/);
+    assert.match(route, /睇更多屋苑/);
+    assert.doesNotMatch(route, /variant="whatsapp"[\s\S]{0,400}plansOnlyCta/);
   });
 });
 

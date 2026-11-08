@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useRouterState } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
@@ -16,6 +17,9 @@ export function PwaInstallTip() {
   const [installEvent, setInstallEvent] = useState<BeforeInstallPromptEvent | null>(null);
   useHydrateDesk();
   const lifted = useDesk((s) => s.compare.length > 0 || Boolean(s.notice));
+  const flowTip = useRouterState({
+    select: (s) => /\/guides\/fiber\/?$/.test(s.location.pathname),
+  });
 
   const dismiss = useCallback(() => {
     try {
@@ -99,8 +103,15 @@ export function PwaInstallTip() {
       role="region"
       aria-label="加到主畫面"
       className={cn(
-        "fixed left-4 z-30 w-[min(20rem,calc(100vw-5.5rem))] rounded-xl bg-card px-3.5 py-3 shadow-[var(--shadow-border-hover)] transition-[bottom] duration-200 ease-out",
-        lifted ? "bottom-[calc(6.5rem+env(safe-area-inset-bottom))] sm:bottom-20" : "bottom-6",
+        "rounded-xl bg-card px-3.5 py-3 shadow-[var(--shadow-border-hover)]",
+        flowTip
+          ? "relative mx-auto mb-8 w-full max-w-sm"
+          : cn(
+              "fixed left-4 z-30 w-[min(20rem,calc(100vw-5.5rem))] transition-[bottom] duration-200 ease-out",
+              lifted
+                ? "bottom-[calc(6.5rem+env(safe-area-inset-bottom))] sm:bottom-20"
+                : "bottom-6",
+            ),
       )}
     >
       <div className="flex items-start gap-2">

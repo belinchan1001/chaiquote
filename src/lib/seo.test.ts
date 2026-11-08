@@ -53,7 +53,7 @@ describe("search-first titles", () => {
     assert.equal(GUIDES_SEO.title, "寬頻報價攻略｜光纖、村屋同5G家居月費｜齊Quote");
     assert.equal(getGuide("village-fees")?.seoTitle, "村屋寬頻報價｜光纖月費同覆蓋注意｜齊Quote");
     assert.equal(getGuide("tin-shui-wai")?.seoTitle, "天水圍寬頻報價｜公屋／居屋／嘉湖月費比較｜齊Quote");
-    assert.equal(getGuide("fiber")?.seoTitle, "香港光纖寬頻報價｜1000M／2500M月費比較｜齊Quote");
+    assert.equal(getGuide("fiber")?.seoTitle, "香港光纖點揀｜公屋居屋私樓村屋＋1000M月費｜齊Quote");
     assert.equal(getGuide("private-1000-fees")?.seoTitle, "私樓寬頻報價｜1000M月費比較｜齊Quote");
     assert.equal(getGuide("home-broadband-2026")?.seoTitle, "2026家居寬頻1000M｜六大電訊月費比較｜齊Quote");
     assert.equal(getGuide("home5g")?.seoTitle, "5G家居寬頻點擇｜免拉線月費同覆蓋注意｜齊Quote");
