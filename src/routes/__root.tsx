@@ -150,12 +150,16 @@ function RootLayout() {
             <div className="flex min-h-dvh flex-col">
               <SiteHeader />
               <PageShell />
+              <IdleMount>
+                <Suspense fallback={null}>
+                  <PwaInstallTip />
+                </Suspense>
+              </IdleMount>
               <SiteFooter />
             </div>
             <IdleMount>
               <Suspense fallback={null}>
                 <CompareBar />
-                <PwaInstallTip />
                 <AiStaffPanel />
                 <FirstVisitTour />
               </Suspense>

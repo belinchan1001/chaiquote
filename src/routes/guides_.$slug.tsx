@@ -78,11 +78,7 @@ function GuideRichText({ text }: { text: string }) {
         const link = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
         if (link) {
           return (
-            <a
-              key={index}
-              href={link[2]}
-              className="text-accent underline-offset-4 hover:underline"
-            >
+            <a key={index} href={link[2]} className="guide-inline-link">
               {link[1]}
             </a>
           );
@@ -241,7 +237,7 @@ function GuideToc({
 
 function GuideAnswerTable({ table }: { table: GuideAnswer["table"] }) {
   return (
-    <div className="mt-4 overflow-x-auto rounded-xl shadow-[var(--shadow-border)]">
+    <div id="guide-answer-table" className="mt-4 overflow-x-auto rounded-xl shadow-[var(--shadow-border)]">
       <table className="w-full border-collapse bg-card text-left text-sm">
         <caption className="border-b border-border px-3 py-3 text-left text-xs leading-relaxed text-subtle">
           {table.caption}
@@ -360,7 +356,13 @@ function GuidePage() {
 
   return (
     <article
-      className={`mx-auto px-4 pt-10 ${answerLed ? "max-w-2xl pb-28 lg:max-w-5xl" : `pb-10 ${wide ? "max-w-5xl" : "max-w-2xl"}`}`}
+      data-answer-led={answerLed ? "" : undefined}
+      data-guide-fab-clear={answerLed ? "" : undefined}
+      className={
+        answerLed
+          ? "mx-auto max-w-xl px-4 pt-8 pb-32 lg:max-w-[56rem] lg:pb-12"
+          : `mx-auto px-4 pt-10 pb-10 ${wide ? "max-w-5xl" : "max-w-2xl"}`
+      }
     >
       <JsonLd data={guideJsonLd(guide)} />
       <nav aria-label={t("crumbNav")} className="text-sm text-muted">
@@ -381,7 +383,7 @@ function GuidePage() {
       <div
         className={
           answerLed
-            ? "lg:grid lg:grid-cols-[minmax(0,42rem)_16rem] lg:items-start lg:gap-10"
+            ? "lg:grid lg:grid-cols-[minmax(0,36rem)_14rem] lg:items-start lg:gap-8"
             : undefined
         }
       >
@@ -412,7 +414,6 @@ function GuidePage() {
           {!answerLed && toc.length > 2 ? (
             <GuideToc items={toc} label={t("tocLabel")} className={tocClass} />
           ) : null}
-          {answerLed ? <GuideTopicPicture slug={guide.slug} locale={locale} /> : null}
           {copy.body.map((section) => (
             <section
               key={section.heading}
@@ -468,7 +469,7 @@ function GuidePage() {
               <GuideRichText text={copy.disclaimer} />
             </p>
           ) : null}
-          {related.length > 0 ? (
+          {related.length > 0 && !answerLed ? (
             <section className="mt-10">
               <h2 className="text-lg font-semibold">{t("relatedHeading")}</h2>
               <ul className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -490,8 +491,7 @@ function GuidePage() {
               </ul>
             </section>
           ) : null}
-
-          <section className="mt-10 rounded-xl bg-card p-5 shadow-[var(--shadow-border)]">
+          <section id="guide-end-cta" className="mt-10 rounded-xl bg-card p-5 shadow-[var(--shadow-border)]">
             <p className="font-semibold">{copy.ctaLead ?? t("guideCta")}</p>
             <p className="mt-2 text-sm leading-relaxed text-muted">{t("guideConfirm")}</p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
@@ -557,6 +557,29 @@ function GuidePage() {
               ) : null}
             </div>
           </section>
+          {related.length > 0 && answerLed ? (
+            <section className="mt-8" aria-labelledby="guide-related-heading">
+              <h2 id="guide-related-heading" className="text-sm font-medium text-subtle">
+                {t("relatedHeading")}
+              </h2>
+              <ul className="mt-1 columns-1 sm:columns-2">
+                {related.map((item) => {
+                  const relatedCopy = guideCopy(item, locale);
+                  return (
+                    <li key={item.slug} className="break-inside-avoid">
+                      <Link
+                        to="/guides/$slug"
+                        params={{ slug: item.slug }}
+                        className="guide-inline-link inline-flex min-h-11 items-center text-sm"
+                      >
+                        {relatedCopy.title}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          ) : null}
         </div>
         {answerLed && toc.length > 2 ? (
           <div className="sticky top-24 hidden lg:block">

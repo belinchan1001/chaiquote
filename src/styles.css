@@ -359,6 +359,40 @@
   .photo-strip-tile img {
     height: 10.5rem;
   }
+  .photo-strip-feature img {
+    height: 14rem;
+  }
+  @media (min-width: 768px) {
+    .photo-strip-feature img {
+      height: 100%;
+      min-height: 16rem;
+    }
+  }
+
+  /* One date line on answer-led guides: article meta, not the catalogue strip as well. */
+  body:has([data-answer-led]) .header-strip {
+    display: none;
+  }
+
+  .guide-inline-link {
+    color: color-mix(in srgb, var(--color-fg) 70%, var(--color-muted));
+    text-decoration-line: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-fg) 22%, transparent);
+    text-underline-offset: 0.22em;
+  }
+  .guide-inline-link:hover {
+    color: var(--color-fg);
+    text-decoration-color: color-mix(in srgb, var(--color-fg) 48%, transparent);
+  }
+
+  /* Hide the FAB until it is clear of the housing table, the plans button, or the fibre pillar. */
+  body:has([data-guide-fab-clear]) .guide-fab {
+    transition: opacity 150ms ease-out;
+  }
+  body:has([data-guide-fab-clear]) .guide-fab:not(.is-corner-clear) {
+    opacity: 0;
+    pointer-events: none;
+  }
 
   section.estate-dir-group {
     content-visibility: auto;

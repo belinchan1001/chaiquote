@@ -37,8 +37,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     estateChipLimit: 4,
     answer: {
       lead: [
-        "你問「香港光纖幾錢」，多數人期望一張全港價表——但現實唔係咁。電訊商多數按**樓類**同屋苑入線路經報價，所以公屋、居屋、私樓、村屋，同一句「1000M」都可以差好遠。",
-        "下面先畀你一個可以掃嘅答案同樓類表，再逐段講點揀速度、轉台前要問咩，最後用一個格價出口對自己地址。",
+        "電訊商多數按**樓類**同屋苑入線路經報價。公屋、居屋、私樓、村屋，同一句「1000M」都可以差好遠，所以要先分樓類，再睇月費。",
       ],
       cite: "香港光纖冇全港劃一價，要先分公屋、居屋、私樓定村屋。1000M 站內參考：公居屋約 HK$58–98／月、私樓約 HK$88–109／月、村屋由 HK$218／月起；一般家用 1000M 多數夠，人多或常上傳先睇 2500M。月費同覆蓋以電訊商確認為準。",
       table: {
@@ -61,8 +60,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     },
     answerEn: {
       lead: [
-        "Ask “how much is fibre in Hong Kong” and most people expect one territory-wide price list — it is not. Carriers usually quote by **housing type** and how the line enters the estate, so the same “1000M” can be far apart for public housing, HOS, private and village homes.",
-        "Below is a scannable answer and a housing-type table. Then, section by section: how to pick a speed, what to ask before you switch, and one compare exit for your own address.",
+        "Carriers usually quote by **housing type** and how the line enters the estate. The same “1000M” can be far apart for public housing, HOS, private and village homes, so sort the housing type before the monthly fee.",
       ],
       cite: "Hong Kong fibre has no territory-wide price. Sort public housing, HOS, private or village first. Listed 1000M reference fees: public / HOS about HK$58–98/month, private about HK$88–109/month, village from HK$218/month. 1000M is enough for most homes; look at 2500M if many people share the line or you upload often. The carrier confirms the fee and coverage.",
       table: {
@@ -88,9 +86,9 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
     },
     disclaimer:
-      "以上月費同例子來自齊Quote 站內列出計劃，資料更新標示 2026-11-08，僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。",
+      "以上月費同例子來自齊Quote 站內列出計劃，僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。",
     disclaimerEn:
-      "The fees and examples above are plans listed on ChaiQuote, marked updated 2026-11-08. They are a reference, not a ranking, and they do not mean your building has them. The carrier confirms coverage, install timing, the fee, the contract and router terms. This site does not take commission or advertising fees from carriers.",
+      "The fees and examples above are plans listed on ChaiQuote. They are a reference, not a ranking, and they do not mean your building has them. The carrier confirms coverage, install timing, the fee, the contract and router terms. This site does not take commission or advertising fees from carriers.",
     related: [
       "home-broadband-2026",
       "public-hos-fees",

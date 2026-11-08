@@ -186,8 +186,19 @@ describe("fiber guide sample rewrite", () => {
     assert.match(page, /\/guides\/1000m-or-2500m/);
     assert.match(page, /\/guides\/home-broadband-2026/);
     assert.equal(page.includes("保證最平"), false);
-    assert.match(guide.disclaimer ?? "", /2026-11-08/);
+    const lead = (guide.answer?.lead ?? []).join("\n");
+    const leadEn = (guide.answerEn?.lead ?? []).join("\n");
+    assert.match(lead, /先分樓類/);
+    assert.doesNotMatch(lead, /HK\$58|88–109|HK\$218/);
+    assert.match(leadEn, /housing type/);
+    assert.doesNotMatch(leadEn, /HK\$58|88–109|HK\$218/);
+    assert.equal(guide.answer?.lead.length, 1);
+    assert.equal(guide.answerEn?.lead.length, 1);
+
+    assert.doesNotMatch(guide.disclaimer ?? "", /2026-11-08|資料更新/);
     assert.match(guide.disclaimer ?? "", /無向電訊商收取佣金或廣告費/);
+    assert.doesNotMatch(guide.disclaimerEn ?? "", /2026-11-08|marked updated/);
+    assert.match(guide.disclaimerEn ?? "", /does not take commission/);
 
     assert.equal(guide.faq?.[0]?.q, "香港光纖有冇一條全港劃一價？");
     assert.notEqual(guide.faq?.[0]?.q, FEE_RANGE_QUESTION);
@@ -211,10 +222,51 @@ describe("fiber guide sample rewrite", () => {
     const answerAt = route.indexOf("copy.answer.cite");
     const tocAt = route.indexOf("<GuideToc");
     const bodyAt = route.indexOf("{copy.body.map((section)");
+    const endAt = route.indexOf('id="guide-end-cta"');
+    const relatedAt = route.indexOf('id="guide-related-heading"');
     assert.ok(answerAt > 0 && tocAt > answerAt && bodyAt > tocAt);
+    assert.ok(endAt > bodyAt && relatedAt > endAt);
+    assert.match(route, /data-answer-led/);
+    assert.match(route, /id="guide-answer-table"/);
+    assert.match(route, /lg:grid-cols-\[minmax\(0,36rem\)_14rem\]/);
+    assert.match(route, /guide-inline-link/);
+    assert.doesNotMatch(route, /answerLed \? <GuideTopicPicture/);
     assert.match(route, /guide\.plansOnlyCta/);
     assert.match(route, /睇更多屋苑/);
     assert.doesNotMatch(route, /variant="whatsapp"[\s\S]{0,400}plansOnlyCta/);
+
+    const css = readFileSync(join(here, "../styles.css"), "utf8");
+    assert.match(css, /body:has\(\[data-answer-led\]\) \.header-strip/);
+    assert.match(css, /\.guide-inline-link/);
+    assert.match(css, /guide-fab:not\(\.is-corner-clear\)/);
+    const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
+    assert.match(header, /header-strip/);
+    assert.match(header, /t\("headerStrip", \{ date: updated \}\)/);
+
+    const widget = readFileSync(join(here, "../components/whatsapp-widget.tsx"), "utf8");
+    assert.match(widget, /guide-answer-table/);
+    assert.match(widget, /guide-end-cta/);
+    assert.match(widget, /guide-hub-fiber/);
+    assert.match(widget, /is-corner-clear/);
+    assert.match(widget, /trackWaClick\(/);
+
+    const tip = readFileSync(join(here, "../components/pwa-install-tip.tsx"), "utf8");
+    assert.match(tip, /guides\\\/fiber/);
+    assert.match(tip, /relative z-0 mx-auto/);
+    const root = readFileSync(join(here, "../routes/__root.tsx"), "utf8");
+    const tipAt = root.indexOf("<PwaInstallTip");
+    const footerAt = root.indexOf("<SiteFooter");
+    assert.ok(tipAt > 0 && footerAt > tipAt);
+
+    const hub = readFileSync(join(here, "../routes/guides.tsx"), "utf8");
+    assert.match(hub, /cat\.id === "fiber"/);
+    assert.match(hub, /id=\{featured \? "guide-hub-fiber" : undefined\}/);
+    assert.match(hub, /data-guide-fab-clear/);
+    assert.match(hub, /md:col-span-3/);
+    assert.match(hub, /photo-strip photo-strip-tile/);
+    assert.match(hub, /t\("readGuide"\)/);
+    assert.match(hub, /t\("dataUpdated"/);
+    assert.doesNotMatch(hub, /goCompare|manuscriptUpdated|to="\/plans"/);
   });
 });
 

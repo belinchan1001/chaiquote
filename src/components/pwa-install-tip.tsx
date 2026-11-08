@@ -18,7 +18,7 @@ export function PwaInstallTip() {
   useHydrateDesk();
   const lifted = useDesk((s) => s.compare.length > 0 || Boolean(s.notice));
   const flowTip = useRouterState({
-    select: (s) => /\/guides\/fiber\/?$/.test(s.location.pathname),
+    select: (s) => /\/guides\/fiber\/?$/.test(s.location.pathname) || /\/guides\/?$/.test(s.location.pathname),
   });
 
   const dismiss = useCallback(() => {
@@ -105,7 +105,7 @@ export function PwaInstallTip() {
       className={cn(
         "rounded-xl bg-card px-3.5 py-3 shadow-[var(--shadow-border-hover)]",
         flowTip
-          ? "relative mx-auto mb-8 w-full max-w-sm"
+          ? "relative z-0 mx-auto mb-6 w-full max-w-sm self-center"
           : cn(
               "fixed left-4 z-30 w-[min(20rem,calc(100vw-5.5rem))] transition-[bottom] duration-200 ease-out",
               lifted

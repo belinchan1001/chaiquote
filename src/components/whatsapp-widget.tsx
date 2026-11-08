@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
+import { useRouterState } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { WhatsAppTip } from "@/components/whatsapp-tip";
@@ -48,6 +49,85 @@ function useComparedPlans(ids: readonly string[]): Plan[] {
   return plans;
 }
 
+const GUIDE_FAB_CLEAR_IDS = ["guide-answer-table", "guide-end-cta", "guide-hub-fiber"] as const;
+
+function isGuideFabPage(pathname: string) {
+  return /\/guides\/fiber\/?$/.test(pathname) || /\/guides\/?$/.test(pathname);
+}
+
+/** Hide the FAB while it would cover the housing table, the plans button, or the fibre pillar. */
+function useGuideCornerClear() {
+  const guard = useRouterState({
+    select: (s) => isGuideFabPage(s.location.pathname),
+  });
+  const [cornerClear, setCornerClear] = useState(false);
+  const [trackedPath, setTrackedPath] = useState(guard);
+  if (guard !== trackedPath) {
+    setTrackedPath(guard);
+    setCornerClear(false);
+  }
+
+  useEffect(() => {
+    if (!guard) return;
+    let frame = 0;
+
+    function blocked() {
+      const root = document.querySelector(".guide-fab");
+      const fab = root?.matches("a, button") ? root : root?.querySelector("button");
+      if (!fab) return true;
+      const zone = fab.getBoundingClientRect();
+      const pad = 8;
+      return GUIDE_FAB_CLEAR_IDS.some((id) => {
+        const node = document.getElementById(id);
+        if (!node) return false;
+        const rect = node.getBoundingClientRect();
+        return (
+          rect.bottom > zone.top - pad &&
+          rect.top < zone.bottom + pad &&
+          rect.right > zone.left - pad &&
+          rect.left < zone.right + pad
+        );
+      });
+    }
+
+    function update() {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const next = !blocked();
+        setCornerClear((prev) => (prev === next ? prev : next));
+      });
+    }
+
+    update();
+    const observer = new IntersectionObserver(update, { threshold: [0, 0.05, 0.25, 0.5, 1] });
+    function observe() {
+      observer.disconnect();
+      for (const id of GUIDE_FAB_CLEAR_IDS) {
+        const node = document.getElementById(id);
+        if (node) observer.observe(node);
+      }
+    }
+    observe();
+    const main = document.getElementById("main");
+    const mutations = new MutationObserver(() => {
+      observe();
+      update();
+    });
+    if (main) mutations.observe(main, { childList: true, subtree: true });
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      mutations.disconnect();
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [guard]);
+
+  return !guard || cornerClear;
+}
+
 const QUICK_LABEL: Record<(typeof QUICK_REPLIES)[number]["id"], MessageKey> = {
   broadband: "catBroadband",
   mobile: "catMobile",
@@ -55,7 +135,7 @@ const QUICK_LABEL: Record<(typeof QUICK_REPLIES)[number]["id"], MessageKey> = {
   home5g: "catHome5g",
 };
 
-export function WhatsAppWidget() {
+export function WhatsAppWidget({ cornerClear }: { cornerClear: boolean }) {
   const panelId = useId();
   const [draft, setDraft] = useState("");
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
@@ -121,9 +201,11 @@ export function WhatsAppWidget() {
   return (
     <div
       className={cn(
-        "fab-lift fixed right-4 z-50 flex flex-col items-end gap-3 transition-[bottom] duration-200 ease-out",
+        "guide-fab fab-lift fixed right-4 z-50 flex flex-col items-end gap-3 transition-[bottom] duration-200 ease-out",
+        cornerClear && "is-corner-clear",
         lifted ? "bottom-[calc(6.5rem+env(safe-area-inset-bottom))] sm:bottom-20" : "bottom-6",
       )}
+      inert={cornerClear ? undefined : true}
     >
       <div
         className={cn(
@@ -246,6 +328,7 @@ export function DeferredWhatsApp() {
   const inquiry = useDesk((s) => s.inquiry);
   const plans = useComparedPlans(compare);
   const lifted = compare.length > 0;
+  const cornerClear = useGuideCornerClear();
   const { t } = useI18n();
   const deskE164 = quoteWhatsappE164(plans, inquiry);
   const deskPhone = quoteWhatsappDisplay(plans, inquiry);
@@ -265,14 +348,16 @@ export function DeferredWhatsApp() {
           planIds: plans.map((plan) => plan.id),
         })}
         className={cn(
-          "wa-pulse wa-pulse-fab fixed right-4 z-50 flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)]",
+          "guide-fab wa-pulse wa-pulse-fab fixed right-4 z-50 flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)]",
+          cornerClear && "is-corner-clear",
           lifted ? "bottom-[calc(6.5rem+env(safe-area-inset-bottom))] sm:bottom-20" : "bottom-6",
         )}
+        inert={cornerClear ? undefined : true}
         aria-label={t("waQuoteWithNumber", { phone: deskPhone })}
       >
         <WhatsAppIcon className="size-7" />
       </a>
     );
   }
-  return <WhatsAppWidget />;
+  return <WhatsAppWidget cornerClear={cornerClear} />;
 }

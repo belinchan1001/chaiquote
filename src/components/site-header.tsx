@@ -119,7 +119,7 @@ export function SiteHeader() {
           </Button>
         </div>
       </div>
-      <p className="border-t border-border bg-bg px-3 py-1.5 text-[11px] font-medium leading-snug text-fg sm:px-4">
+      <p className="header-strip border-t border-border bg-bg px-3 py-1.5 text-[11px] font-medium leading-snug text-fg sm:px-4">
         <span className="mx-auto block max-w-6xl">{t("headerStrip", { date: updated })}</span>
       </p>
       <div className={cn("sheet-fold border-t border-border bg-bg lg:hidden", open && "open")}>
