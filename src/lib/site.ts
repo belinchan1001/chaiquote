@@ -13,7 +13,7 @@ export const SITE = {
   ],
   description: `齊Quote（chaiquote.hk）係獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。一次過比較 ${PROVIDER_COUNT} 間電訊商、${PLAN_COUNT} 個參考計劃同 ${ESTATE_COUNT} 個屋苑。所列月費僅供參考，實際以電訊商確認為準。`,
   /** Catalogue stamp shown on the homepage hero as YYYY-MM-DD. */
-  updated: "2026-11-09",
+  updated: "2026-11-10",
   phoneDisplay: "6309 9966",
   whatsappE164: "85263099966",
   hktPhoneDisplay: "5436 3004",
@@ -155,10 +155,10 @@ export const PLANS_BROADBAND_H1 = "香港光纖寬頻報價比較";
 export const PLANS_BROADBAND_H1_EN = "Compare Hong Kong fibre broadband quotes";
 
 export const PLANS_BROADBAND_LEAD =
-  "齊Quote 係獨立寬頻比較站（非電訊商官網、無向電訊商收佣金或廣告費）。光纖參考月費按樓類：公居屋約 HK$58–98、私樓約 HK$88–109、村屋由 HK$218 起（資料更新 2026-11-09）；唔係全港劃一價，以電訊商確認為準。";
+  "齊Quote 係獨立寬頻比較站（非電訊商官網、無向電訊商收佣金或廣告費）。光纖參考月費按樓類：公居屋約 HK$58–98、私樓約 HK$88–109、村屋由 HK$218 起（資料更新 2026-11-10）；唔係全港劃一價，以電訊商確認為準。";
 
 export const PLANS_BROADBAND_LEAD_EN =
-  "ChaiQuote is an independent broadband comparison site (not a carrier website, and it does not take commission or advertising fees from carriers). Fibre reference fees by housing type: public / HOS about HK$58–98, private estates about HK$88–109, village houses from HK$218 (updated 2026-11-09); not one territory-wide fee. The carrier confirms.";
+  "ChaiQuote is an independent broadband comparison site (not a carrier website, and it does not take commission or advertising fees from carriers). Fibre reference fees by housing type: public / HOS about HK$58–98, private estates about HK$88–109, village houses from HK$218 (updated 2026-11-10); not one territory-wide fee. The carrier confirms.";
 
 export function plansBroadbandHero(locale: "zh" | "en") {
   const en = locale === "en";
