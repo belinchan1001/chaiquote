@@ -33,6 +33,13 @@ describe("new intake landing", () => {
     assert.doesNotMatch(page, /最平|最低|平面圖|未有指定/);
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
     assert.match(messages, /newIntakeNoOffer: "可以比較\{housing\}計劃。"/);
+    assert.match(messages, /newIntakeOfferOnly: "有指定優惠"/);
+    assert.match(messages, /newIntakeGenericPrice: "樓類通用價"/);
+    assert.match(messages, /newIntakeMoreAreas: "更多地區"/);
+    assert.match(page, /newIntakeOfferOnly/);
+    assert.match(page, /newIntakeGenericPrice/);
+    assert.match(page, /offerOnly && card\.offers\.length === 0/);
+    assert.match(page, /card\.housing === "private"/);
     assert.doesNotMatch(messages, /未有指定新入伙/);
     const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
     assert.match(header, /to: "\/new-intake"/);

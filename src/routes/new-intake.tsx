@@ -16,6 +16,8 @@ const DESCRIPTION =
 const CARDS = newIntakeCards();
 const OFFER_COUNT = CARDS.filter((card) => card.offers.length > 0).length;
 const HOUSING_IDS: Housing[] = ["public", "hos", "private"];
+/** Stored groups mix towns (東涌、屯門) with regions (九龍、新界). Keep both, but tuck the regions behind one control. */
+const COARSE_INTAKE_AREAS = new Set(["九龍", "新界", "港島", "其他地區"]);
 
 export const Route = createFileRoute("/new-intake")({
   component: NewIntakePage,
@@ -50,6 +52,8 @@ function NewIntakePage() {
   const [housing, setHousing] = useState<Housing | "">("");
   const [district, setDistrict] = useState("");
   const [simpleOnly, setSimpleOnly] = useState(false);
+  const [offerOnly, setOfferOnly] = useState(false);
+  const [moreAreas, setMoreAreas] = useState(false);
   const districts = useMemo(() => {
     const order: string[] = [];
     for (const card of CARDS) {
@@ -57,19 +61,23 @@ function NewIntakePage() {
     }
     return order;
   }, []);
+  const fineDistricts = districts.filter((name) => !COARSE_INTAKE_AREAS.has(name));
+  const coarseDistricts = districts.filter((name) => COARSE_INTAKE_AREAS.has(name));
+  const showCoarse = moreAreas || COARSE_INTAKE_AREAS.has(district);
   const visible = useMemo(() => {
     const q = compact(query);
     return CARDS.filter((card) => {
       if (housing && card.housing !== housing) return false;
       if (district && card.district !== district) return false;
       if (simpleOnly && !card.simplePublic) return false;
+      if (offerOnly && card.offers.length === 0) return false;
       if (!q) return true;
       return compact(card.name).includes(q);
     });
-  }, [district, housing, query, simpleOnly]);
+  }, [district, housing, offerOnly, query, simpleOnly]);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <div className="mx-auto max-w-6xl px-4 py-5 sm:py-8">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -138,20 +146,10 @@ function NewIntakePage() {
           <li>{t("navNewIntake")}</li>
         </ol>
       </nav>
-      <h1 className="mt-6 text-title font-semibold">{t("newIntakeTitle")}</h1>
-      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{t("newIntakeLead")}</p>
-      <div className="mt-5 grid grid-cols-2 gap-2 sm:max-w-md">
-        <p className="rounded-xl bg-card px-3 py-3 shadow-[var(--shadow-border)]">
-          <span className="block text-[11px] font-medium tracking-wider text-muted">{t("navNewIntake")}</span>
-          <span className="mt-0.5 block font-display text-lg font-semibold tabular-nums">{CARDS.length}</span>
-        </p>
-        <p className="rounded-xl bg-card px-3 py-3 shadow-[var(--shadow-border)]">
-          <span className="block text-[11px] font-medium tracking-wider text-accent">{t("newIntakeOffer")}</span>
-          <span className="mt-0.5 block font-display text-lg font-semibold tabular-nums">{OFFER_COUNT}</span>
-        </p>
-      </div>
+      <h1 className="mt-4 text-title font-semibold sm:mt-6">{t("newIntakeTitle")}</h1>
+      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted sm:mt-3">{t("newIntakeLead")}</p>
 
-      <div className="mt-6 space-y-3">
+      <div className="mt-4 space-y-2 sm:mt-6 sm:space-y-3">
         <label htmlFor="new-intake-q" className="text-xs font-medium tracking-wider text-muted">
           {t("estateLabel")}
         </label>
@@ -163,7 +161,14 @@ function NewIntakePage() {
           className="h-11 w-full max-w-xl rounded-xl border border-border bg-card px-3 text-sm"
         />
         <div className="flex flex-wrap gap-2">
-          <FilterChip on={housing === "" && !simpleOnly} onClick={() => { setHousing(""); setSimpleOnly(false); }}>
+          <FilterChip
+            on={housing === "" && !simpleOnly && !offerOnly}
+            onClick={() => {
+              setHousing("");
+              setSimpleOnly(false);
+              setOfferOnly(false);
+            }}
+          >
             {t("newIntakeAll")}
           </FilterChip>
           {HOUSING_IDS.map((id) => (
@@ -187,21 +192,70 @@ function NewIntakePage() {
           >
             {t("newIntakeSimple")}
           </FilterChip>
+          <FilterChip
+            on={offerOnly}
+            onClick={() => {
+              setOfferOnly((on) => {
+                if (!on) {
+                  setHousing("");
+                  setSimpleOnly(false);
+                }
+                return !on;
+              });
+            }}
+          >
+            {t("newIntakeOfferOnly")}
+          </FilterChip>
         </div>
         <div className="flex flex-wrap gap-2">
-          {districts.map((name) => (
+          {fineDistricts.map((name) => (
             <FilterChip key={name} on={district === name} onClick={() => setDistrict((current) => (current === name ? "" : name))}>
               {placeDisplayName(name, locale)}
             </FilterChip>
           ))}
+          {coarseDistricts.length ? (
+            <button
+              type="button"
+              onClick={() => {
+                if (showCoarse) {
+                  if (COARSE_INTAKE_AREAS.has(district)) setDistrict("");
+                  setMoreAreas(false);
+                  return;
+                }
+                setMoreAreas(true);
+              }}
+              className="chip-press inline-flex h-11 items-center rounded-full px-3 text-sm font-medium text-accent"
+            >
+              {showCoarse ? t("newIntakeFewerAreas") : t("newIntakeMoreAreas")}
+            </button>
+          ) : null}
         </div>
+        {showCoarse ? (
+          <div className="flex flex-wrap gap-2">
+            {coarseDistricts.map((name) => (
+              <FilterChip key={name} on={district === name} onClick={() => setDistrict((current) => (current === name ? "" : name))}>
+                {placeDisplayName(name, locale)}
+              </FilterChip>
+            ))}
+          </div>
+        ) : null}
       </div>
 
-      <p className="mt-5 text-sm text-muted">{t("newIntakeShowing", { n: visible.length })}</p>
+      <div className="mt-3 flex flex-wrap items-center gap-2 sm:mt-4">
+        <p className="text-sm text-muted">{t("newIntakeShowing", { n: visible.length })}</p>
+        <p className="inline-flex items-baseline gap-1.5 rounded-full bg-card px-2.5 py-1 text-sm shadow-[var(--shadow-border)]">
+          <span className="font-display font-semibold tabular-nums">{CARDS.length}</span>
+          <span className="text-[11px] font-medium tracking-wider text-muted">{t("navNewIntake")}</span>
+        </p>
+        <p className="inline-flex items-baseline gap-1.5 rounded-full bg-card px-2.5 py-1 text-sm shadow-[var(--shadow-border)]">
+          <span className="font-display font-semibold tabular-nums text-accent">{OFFER_COUNT}</span>
+          <span className="text-[11px] font-medium tracking-wider text-accent">{t("newIntakeOffer")}</span>
+        </p>
+      </div>
       {visible.length === 0 ? (
         <p className="mt-4 rounded-xl bg-card p-5 text-sm text-muted shadow-[var(--shadow-border)]">{t("estatesEmptyFilter")}</p>
       ) : (
-        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+        <ul className="mt-3 grid gap-3 sm:mt-4 sm:grid-cols-2">
           {visible.map((card) => {
             const offer = card.offers[0];
             const body = (
@@ -222,11 +276,16 @@ function NewIntakePage() {
                     ) : null}
                   </>
                 ) : (
-                  <p className="mt-3 text-sm font-medium text-fg">
-                    {card.housing
-                      ? t("newIntakeNoOffer", { housing: housingLabel(card.housing) })
-                      : t("newIntakeFindLead")}
-                  </p>
+                  <>
+                    <p className="mt-3 text-sm font-medium text-fg">
+                      {card.housing
+                        ? t("newIntakeNoOffer", { housing: housingLabel(card.housing) })
+                        : t("newIntakeFindLead")}
+                    </p>
+                    {card.housing === "private" ? (
+                      <p className="mt-1 text-xs font-medium text-muted">{t("newIntakeGenericPrice")}</p>
+                    ) : null}
+                  </>
                 )}
                 <p className="mt-4 text-sm font-medium text-accent">
                   {card.housing ? t("newIntakeOpen") : t("newIntakeFind")}

@@ -140,7 +140,10 @@ describe("estate SEO pages", () => {
     assert.match(dir, /estateSelectTarget/);
     assert.match(dir, /<details/);
     assert.match(dir, /coverageCheck/);
-    assert.match(dir, /estatesFindCta/);
+    assert.match(dir, /estatesPlansCta/);
+    assert.match(dir, /skipBlockStep/);
+    assert.doesNotMatch(dir, /estatesFindCta/);
+    assert.doesNotMatch(dir, /<Select/);
     assert.doesNotMatch(dir, /startTransition/);
     assert.doesNotMatch(dir, /showCards|openDistricts/);
     assert.match(dir, /const collapseGroups = !compact\(estate\) && !activeDistrict && !newIntakeFilter/);

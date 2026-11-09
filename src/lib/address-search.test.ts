@@ -343,6 +343,7 @@ describe("phase 1 address suggest UX and filters", () => {
     assert.match(suggest, /keepTypedName/);
     assert.match(suggest, /skipParentName/);
     assert.match(suggest, /blockStepKind/);
+    assert.match(suggest, /if \(skipBlockStep\) \{\n {6}finalize\(hit\);\n {6}return;\n {4}\}/);
     assert.match(suggest, /lookupParentBlocks/);
     assert.match(suggest, /lookupGen/);
     assert.match(suggest, /if \(gen !== lookupGen\.current\) return;/);

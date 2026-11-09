@@ -62,6 +62,7 @@ export function EstateSuggest({
   onSelect,
   placeholder,
   name,
+  skipBlockStep = false,
 }: {
   id: string;
   value: string;
@@ -69,6 +70,8 @@ export function EstateSuggest({
   onSelect?: (hit: AddressHit) => void;
   placeholder?: string;
   name?: string;
+  /** Estate-name and street picks call onSelect immediately. A building row still selects that building. */
+  skipBlockStep?: boolean;
 }) {
   const listId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
@@ -188,6 +191,10 @@ export function EstateSuggest({
   }
 
   function pick(hit: AddressHit) {
+    if (skipBlockStep) {
+      finalize(hit);
+      return;
+    }
     lookupGen.current += 1;
     const kind = blockStepKind(hit);
     if (kind === "none") {

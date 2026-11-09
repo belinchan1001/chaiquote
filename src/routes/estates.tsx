@@ -4,14 +4,12 @@ import { EstateSuggest } from "@/components/estate-suggest";
 import { HousingGuessNote, resolvedHousing } from "@/components/housing-guess";
 import { JsonLd } from "@/components/json-ld";
 import { Button } from "@/components/ui/button";
-import { Select } from "@/components/ui/select";
 import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { useDesk } from "@/lib/desk";
 import { compact, estateDisplayName, ESTATES, placeDisplayName } from "@/lib/estates";
 import { estatePagesByDistrict, estateSelectTarget, ESTATE_PAGES, getEstatePage, INDEXABLE_ESTATE_PAGES } from "@/lib/estate-pages";
 import { isNewIntakeEstate, NEW_INTAKE_NAMES, newIntakeGroups } from "@/lib/estate-new-intake";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import { compactSearch, parsePlansSearch } from "@/lib/search";
 import { canonicalUrl } from "@/lib/canonical";
 import type { Housing } from "@/lib/plans";
 import { cn } from "@/lib/utils";
@@ -111,23 +109,6 @@ function EstatesIndexPage() {
     });
   }
 
-  function openPlans(next: { estate?: string; housing?: string; district?: string }) {
-    const estateValue = (next.estate ?? estate).trim();
-    const housingValue = next.housing || housing || resolvedHousing(estateValue) || undefined;
-    const districtValue = next.district ?? district;
-    remember({ estate: estateValue, housing: housingValue ?? "", district: districtValue });
-    void navigate({
-      to: "/plans",
-      search: compactSearch(
-        parsePlansSearch({
-          cat: "broadband",
-          estate: estateValue || undefined,
-          housing: housingValue,
-        }),
-      ),
-    });
-  }
-
   function goEstatePage(next: { estate: string; housing?: string; district?: string }) {
     const estateValue = next.estate.trim();
     if (!estateValue) {
@@ -218,6 +199,7 @@ function EstatesIndexPage() {
             onChange={setEstate}
             name="estate"
             placeholder={t("estatePlaceholder")}
+            skipBlockStep
             onSelect={(hit) => {
               const nextHousing = hit.housing ?? resolvedHousing(hit.name) ?? "";
               const nextEstate = addressHitValue(hit, locale);
@@ -261,12 +243,9 @@ function EstatesIndexPage() {
             ))}
           </div>
         </fieldset>
-        <div className="flex flex-col gap-2 sm:flex-row">
-          <Button type="submit">{t("estatesFindCta")}</Button>
-          <Button type="button" variant="outline" onClick={() => openPlans({ housing: housingFilter || housing })}>
-            {t("estatesPlansCta")}
-          </Button>
-        </div>
+        <Button type="submit" className="w-full sm:w-auto">
+          {t("estatesPlansCta")}
+        </Button>
         <p className="text-sm text-muted">
           {t("estatesPopular")}：
           {POPULAR_ESTATES.map((item, i) => (
@@ -283,28 +262,6 @@ function EstatesIndexPage() {
           ))}
         </p>
       </form>
-
-      <section className="mt-8">
-        <h2 className="text-lg font-semibold">指定屋苑計劃</h2>
-        <p className="mt-1 max-w-2xl text-sm text-muted">
-          呢啲屋苑有專屬或指定供應商參考計劃，唔係淨係樓類通用價。
-        </p>
-        <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
-          {INDEXABLE_ESTATE_PAGES.map((page) => (
-            <li key={page.slug}>
-              <a
-                href={`/estates/${page.slug}`}
-                className="estate-dir-card flex h-full min-h-11 flex-col justify-center rounded-xl bg-card px-2.5 py-2 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
-              >
-                <p className="text-sm font-medium leading-snug">{estateDisplayName(page.estate, locale)}</p>
-                <p className="mt-0.5 text-xs text-muted">
-                  {placeDisplayName(page.estate.district, locale)} · {housingLabel(page.estate.housing)}
-                </p>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
 
       <div className="mt-6 grid grid-cols-3 gap-2 lg:grid-cols-6">
         <button
@@ -354,23 +311,9 @@ function EstatesIndexPage() {
         ))}
       </div>
 
-      <div className="mt-4 max-w-xl space-y-2">
-        <label htmlFor="estate-dir-district" className="text-xs font-medium tracking-wider text-muted">
-          {t("estatesFilterDistrict")}
-        </label>
-        <Select
-          id="estate-dir-district"
-          value={activeDistrict}
-          onChange={(e) => setDistrictFilter(e.target.value)}
-        >
-          <option value="">{t("allDistricts")}</option>
-          {districtGroups.map((group) => (
-            <option key={group.district} value={group.district}>
-              {placeDisplayName(group.district, locale)}（{group.pages.length}）
-            </option>
-          ))}
-        </Select>
-        <div className="flex flex-wrap gap-2">
+      <div id="estate-dir-district" className="mt-4 max-w-none space-y-2">
+        <p className="text-xs font-medium tracking-wider text-muted">{t("estatesFilterDistrict")}</p>
+        <div className="flex flex-wrap gap-2" role="group" aria-label={t("estatesFilterDistrict")}>
           {districtGroups.map((group) => (
             <button
               key={group.district}
@@ -451,6 +394,32 @@ function EstatesIndexPage() {
           })
         )}
       </div>
+
+      <details className="estate-dir-group mt-10">
+        <summary className="flex cursor-pointer list-none items-center text-lg font-semibold">
+          <h2 className="text-lg font-semibold">指定屋苑計劃</h2>
+          <span className="ml-2 text-sm font-normal tabular-nums text-muted">{INDEXABLE_ESTATE_PAGES.length}</span>
+          <span className="ml-2 text-subtle">+</span>
+        </summary>
+        <p className="mt-1 max-w-2xl text-sm text-muted">
+          呢啲屋苑有專屬或指定供應商參考計劃，唔係淨係樓類通用價。
+        </p>
+        <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+          {INDEXABLE_ESTATE_PAGES.map((page) => (
+            <li key={page.slug}>
+              <a
+                href={`/estates/${page.slug}`}
+                className="estate-dir-card flex h-full min-h-11 flex-col justify-center rounded-xl bg-card px-2.5 py-2 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
+              >
+                <p className="text-sm font-medium leading-snug">{estateDisplayName(page.estate, locale)}</p>
+                <p className="mt-0.5 text-xs text-muted">
+                  {placeDisplayName(page.estate.district, locale)} · {housingLabel(page.estate.housing)}
+                </p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
     </div>
   );
 }
