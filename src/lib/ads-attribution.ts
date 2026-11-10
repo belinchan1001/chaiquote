@@ -22,12 +22,30 @@ export const LEAD_TOUCH_FIELDS = [
 
 export type LeadTouchField = (typeof LEAD_TOUCH_FIELDS)[number];
 
+const PLAN_PROVIDER_IDS = new Set([
+  "hkbn",
+  "netvigator",
+  "cmhk",
+  "hgc",
+  "smartone",
+  "three",
+  "csl",
+  "icable",
+]);
+
 export type LeadTouch = Partial<Record<LeadTouchField, string>> & {
   /** Existing Google Ads landing flag (`/go/*` → `from=ad`). Not shown in WhatsApp. */
   from?: "ad";
   cat?: string;
   housing?: string;
+  /** Plans provider filter (`/go/hkbn` → `provider=hkbn`). Not shown in WhatsApp. */
+  provider?: string;
 };
+
+function planProviderId(value: string | null | undefined): string | undefined {
+  const id = value?.trim();
+  return id && PLAN_PROVIDER_IDS.has(id) ? id : undefined;
+}
 
 export type LeadSource = "unknown" | "organic" | "google_ads" | "meta" | "other";
 
@@ -162,11 +180,17 @@ export function touchFromSearch(search: string): LeadTouch {
   if (housing === "public" || housing === "hos" || housing === "private" || housing === "village") {
     touch.housing = housing;
   }
+  const provider = planProviderId(params.get("provider"));
+  if (provider) touch.provider = provider;
   return touch;
 }
 
 function touchHasSignal(touch: LeadTouch): boolean {
-  return LEAD_TOUCH_FIELDS.some((key) => Boolean(touch[key])) || touch.from === "ad" || Boolean(touch.cat || touch.housing);
+  return (
+    LEAD_TOUCH_FIELDS.some((key) => Boolean(touch[key])) ||
+    touch.from === "ad" ||
+    Boolean(touch.cat || touch.housing || touch.provider)
+  );
 }
 
 function parseStoredTouch(raw: string | null): LeadTouch {
@@ -192,6 +216,8 @@ function parseStoredTouch(raw: string | null): LeadTouch {
     ) {
       touch.housing = record.housing;
     }
+    const provider = typeof record.provider === "string" ? planProviderId(record.provider) : undefined;
+    if (provider) touch.provider = provider;
     return touch;
   } catch {
     return {};
