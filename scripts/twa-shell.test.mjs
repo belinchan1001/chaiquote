@@ -198,3 +198,18 @@ test("adaptive launcher mipmaps keep the blue ring inside the mask", () => {
   assert.match(readme, /store_icon\.png/);
   assert.match(readme, /icon-512-adaptive\.png/);
 });
+
+test("URL bar runbook keeps version 1.0.2 and a Firewall bypass, not a new AAB", () => {
+  const readme = readFileSync(join(ROOT, "android/README.md"), "utf8");
+  assert.match(readme, /Allow Digital Asset Links/);
+  assert.match(readme, /Path/);
+  assert.match(readme, /\/\.well-known\/assetlinks\.json/);
+  assert.match(readme, /Bypass/);
+  assert.match(readme, /Attack Mode/);
+  assert.match(readme, /x-vercel-mitigated/);
+  assert.match(readme, /versionCode 維持 \*\*3\*\*/);
+  assert.match(readme, /唔好為呢件事加 versionCode/);
+  const vercel = JSON.parse(readFileSync(join(ROOT, "vercel.json"), "utf8"));
+  const mitigated = JSON.stringify(vercel.routes ?? []);
+  assert.doesNotMatch(mitigated, /"bypass"/);
+});
