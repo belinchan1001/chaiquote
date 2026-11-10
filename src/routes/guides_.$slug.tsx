@@ -237,42 +237,53 @@ function GuideToc({
 
 function GuideAnswerTable({ table }: { table: GuideAnswer["table"] }) {
   return (
-    <div id="guide-answer-table" className="mt-4 overflow-x-auto rounded-xl shadow-[var(--shadow-border)]">
-      <table className="w-full border-collapse bg-card text-left text-sm">
-        <caption className="border-b border-border px-3 py-3 text-left text-xs leading-relaxed text-subtle">
-          {table.caption}
-        </caption>
-        <thead>
-          <tr className="border-b border-border">
-            {table.headers.map((header) => (
-              <th key={header} scope="col" className="px-3 py-3 align-bottom font-semibold text-fg">
-                {header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {table.rows.map((row) => (
-            <tr key={row[0]} className="border-b border-border last:border-b-0">
-              {row.map((cell, index) =>
-                index === 0 ? (
-                  <th
-                    key={index}
-                    scope="row"
-                    className="px-3 py-3 align-top font-semibold whitespace-nowrap text-fg"
-                  >
-                    <GuideRichText text={cell} />
-                  </th>
-                ) : (
-                  <td key={index} className="px-3 py-3 align-top leading-relaxed text-muted">
-                    <GuideRichText text={cell} />
-                  </td>
-                ),
-              )}
+    <div className="mt-4">
+      <div id="guide-answer-table" className="overflow-x-auto rounded-xl shadow-[var(--shadow-border)]">
+        <table className="w-full border-collapse bg-card text-left text-sm">
+          <caption className="border-b border-border px-3 py-3 text-left text-xs leading-relaxed text-subtle">
+            {table.caption}
+          </caption>
+          <thead>
+            <tr className="border-b border-border">
+              {table.headers.map((header) => (
+                <th key={header} scope="col" className="px-3 py-3 align-bottom font-semibold text-fg">
+                  {header}
+                </th>
+              ))}
             </tr>
+          </thead>
+          <tbody>
+            {table.rows.map((row) => (
+              <tr key={row[0]} className="border-b border-border last:border-b-0">
+                {row.map((cell, index) =>
+                  index === 0 ? (
+                    <th
+                      key={index}
+                      scope="row"
+                      className="px-3 py-3 align-top font-semibold whitespace-nowrap text-fg"
+                    >
+                      <GuideRichText text={cell} />
+                    </th>
+                  ) : (
+                    <td key={index} className="px-3 py-3 align-top leading-relaxed text-muted">
+                      <GuideRichText text={cell} />
+                    </td>
+                  ),
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {table.notes?.length ? (
+        <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-muted">
+          {table.notes.map((note) => (
+            <li key={note}>
+              <GuideRichText text={note} />
+            </li>
           ))}
-        </tbody>
-      </table>
+        </ul>
+      ) : null}
     </div>
   );
 }
@@ -402,6 +413,11 @@ function GuidePage() {
               <blockquote className="mt-6 rounded-xl border-l-4 border-accent bg-card px-4 py-4 text-base leading-relaxed text-fg shadow-[var(--shadow-border)]">
                 <GuideRichText text={copy.answer.cite} />
               </blockquote>
+              {copy.answer.afterCite?.map((paragraph) => (
+                <p key={paragraph} className="mt-3 text-base leading-relaxed text-muted">
+                  <GuideRichText text={paragraph} />
+                </p>
+              ))}
               <GuideAnswerTable table={copy.answer.table} />
               {toc.length > 2 ? (
                 <GuideToc items={toc} label={t("tocLabel")} className={`${tocClass} lg:hidden`} />
