@@ -85,6 +85,12 @@ const EXACT: Record<string, string> = {
     "Must be 60 or above with Hong Kong ID. This mobile plan uses the CMHK network. HKBN existing-customer monthly fees apply below; others pay the original price. Minimum 24-month contract. Monthly fee, data and eligibility are confirmed by the carrier.",
   "1000M 雙11（36 個月）送 50,000 MyLink 積分": "1000M 11.11 offer (36 months) with 50,000 MyLink points",
   "2500M 雙11（24 個月）送 30,000 MyLink 積分": "2500M 11.11 offer (24 months) with 30,000 MyLink points",
+  "1000M 光纖入屋快閃（36 個月）": "1000M FTTH flash offer (36 months)",
+  "須於 2026 年 11 月 17 日前成功登記": "Must register successfully by 17 Nov 2026",
+  "快閃優惠。須於 2026 年 11 月 17 日前成功登記。適用於公屋、居屋及私人樓宇。不適用於村屋。":
+    "Flash offer. Must register successfully by 17 Nov 2026. For public housing, HOS and private buildings. Not for village houses.",
+  "適合公屋、居屋或私人樓宇，11 月 17 日前成功登記之 1000M 住戶":
+    "For public, HOS or private homes registering for 1000M by 17 Nov",
   "安裝費以電訊商確認為準": "Installation fee confirmed by the carrier",
   "中國移動香港手機月費客戶每月回贈 HK$20（回贈於手機月費，不計入寬頻月費）":
     "CMHK mobile customers get HK$20 back each month on the mobile bill, not off the broadband fee",

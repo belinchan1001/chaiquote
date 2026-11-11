@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n";
-import { double11ApplyByLabel, flashBookByLabel, remainingOfferMs, type Plan } from "@/lib/plans";
+import { double11ApplyByLabel, flashBookByLabel, registerByLabel, remainingOfferMs, type Plan } from "@/lib/plans";
 
 function parts(ms: number) {
   const total = Math.max(0, Math.floor(ms / 1000));
@@ -57,7 +57,9 @@ export function OfferCountdown({ plan }: { plan: Plan }) {
   const copy = COPY[locale] ?? COPY.zh;
   const bookBy = plan.double11Offer
     ? double11ApplyByLabel(plan.offerEndsAt, locale === "en" ? "en" : "zh")
-    : flashBookByLabel(plan.offerEndsAt, locale === "en" ? "en" : "zh");
+    : plan.deadline === "register"
+      ? registerByLabel(plan.offerEndsAt, locale === "en" ? "en" : "zh")
+      : flashBookByLabel(plan.offerEndsAt, locale === "en" ? "en" : "zh");
   const live = ms > 0;
   const clock = parts(ms);
   const values = [clock.d, clock.h, clock.m, clock.s];

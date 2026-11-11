@@ -74,6 +74,8 @@ export type Plan = {
   flashOffer?: boolean;
   /** 雙11限時優惠 badge. Not the HKBN flash countdown. */
   double11Offer?: boolean;
+  /** Countdown wording. Default is 成功預約安裝. */
+  deadline?: "register";
   /** ISO timestamp; listing hides the plan after this instant. */
   offerEndsAt?: string;
   onlyEstates?: string[];
@@ -1464,6 +1466,26 @@ export const PLANS: Plan[] = [
     latestOffer: true,
     quotePick: true,
     bestFor: "適合公屋、居屋或私人樓宇、需要 1000M 光纖之住戶",
+  },
+  {
+    id: "icable-ftth-1000-36m-58-flash",
+    providerId: "icable",
+    category: "broadband",
+    name: "1000M 光纖入屋快閃（36 個月）",
+    monthlyFee: 58,
+    freeMonths: 0,
+    contractMonths: 36,
+    speedMbps: 1000,
+    install: "豁免安裝費",
+    housing: ["public", "hos", "private"],
+    network: "光纖入屋",
+    perks: ["須於 2026 年 11 月 17 日前成功登記"],
+    limits: "快閃優惠。須於 2026 年 11 月 17 日前成功登記。適用於公屋、居屋及私人樓宇。不適用於村屋。",
+    flashOffer: true,
+    quotePick: true,
+    deadline: "register",
+    offerEndsAt: "2026-11-17T23:59:59+08:00",
+    bestFor: "適合公屋、居屋或私人樓宇，11 月 17 日前成功登記之 1000M 住戶",
   },
   {
     id: "icable-ftth-1000-private-36m",
@@ -4079,6 +4101,15 @@ export function flashBookByLabel(endsAt: string | undefined, locale: "zh" | "en"
   const day = match ? String(Number(match[3])) : "30";
   if (locale === "en") return `Must book installation by ${day} ${EN_MONTH[Number(month) - 1] ?? month}`;
   return `須於 ${month} 月 ${day} 日前成功預約安裝`;
+}
+
+/** 成功登記, for offers that are not an installation booking. */
+export function registerByLabel(endsAt: string | undefined, locale: "zh" | "en") {
+  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(endsAt ?? "");
+  const month = match ? String(Number(match[2])) : "11";
+  const day = match ? String(Number(match[3])) : "17";
+  if (locale === "en") return `Must register successfully by ${day} ${EN_MONTH[Number(month) - 1] ?? month}`;
+  return `須於 ${month} 月 ${day} 日前成功登記`;
 }
 
 /** 雙11 uses 成功申請, not the fibre flash 預約安裝 line. */
