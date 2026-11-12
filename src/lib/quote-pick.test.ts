@@ -88,6 +88,7 @@ describe("齊Quote pick badge", () => {
         "hkbn-ftth-2500-24m-148-sep30",
         "hkbn-ftth-2500-36m-158-sep30",
         "hkbn-ftth-2500-36m-178-sep30",
+        "three-home5g-unlimited-48-138-public",
         "cmhk-5g-limited-50-129",
         "cmhk-5g-limited-100-149",
         "cmhk-5g-limited-60-98-youth",

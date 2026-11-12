@@ -85,6 +85,12 @@ const EXACT: Record<string, string> = {
     "Must be 60 or above with Hong Kong ID. This mobile plan uses the CMHK network. HKBN existing-customer monthly fees apply below; others pay the original price. Minimum 24-month contract. Monthly fee, data and eligibility are confirmed by the carrier.",
   "1000M 雙11（36 個月）送 50,000 MyLink 積分": "1000M 11.11 offer (36 months) with 50,000 MyLink points",
   "2500M 雙11（24 個月）送 30,000 MyLink 積分": "2500M 11.11 offer (24 months) with 30,000 MyLink points",
+  "5G 家居寬頻真無限（48 個月・公屋居屋）": "3HK 5G home broadband, truly unlimited (48 months, public housing and HOS)",
+  "真無限上網": "Truly unlimited data",
+  "實際速度介乎 100M 至 1000M，視乎訊號覆蓋、裝置數量及現場環境而定。只限公屋及居屋。不適用於私人樓宇及村屋。":
+    "Real speed is about 100M to 1000M, depending on coverage, device count and the site. Public housing and HOS only. Not for private buildings or village houses.",
+  "適合公屋或居屋、需要 5G 真無限及隨插即用之住戶":
+    "For public housing or HOS homes that want 5G truly unlimited and plug-and-play",
   "1000M 光纖入屋快閃（36 個月）": "1000M FTTH flash offer (36 months)",
   "須於 2026 年 11 月 17 日前成功登記": "Must register successfully by 17 Nov 2026",
   "快閃優惠。須於 2026 年 11 月 17 日前成功登記。適用於公屋、居屋及私人樓宇。不適用於村屋。":

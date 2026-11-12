@@ -459,7 +459,7 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.equal(getPlan("netvigator-ftth-2500-village-36m")?.monthlyFee, 376);
     assert.equal(getPlan("cmhk-home5g-350-48-88")?.monthlyFee, 88);
     assert.equal(getPlan("three-home5g-c-190")?.monthlyFee, 190);
-    assert.equal(PLAN_COUNT, 192);
+    assert.equal(PLAN_COUNT, 193);
     assert.equal(PROVIDER_COUNT, 8);
     assert.equal(ESTATE_COUNT, 3729);
     assert.match(fillSiteTemplate(MESSAGES.zh.aboutWhoText), /無向電訊商收取佣金或廣告費/);
