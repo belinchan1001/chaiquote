@@ -30,6 +30,11 @@
       "statusCode": 302
     },
     {
+      "source": "/go/hkbn",
+      "destination": "/plans?cat=broadband&provider=hkbn&from=ad",
+      "statusCode": 302
+    },
+    {
       "source": "/sales",
       "destination": "https://chaiquote-office.vercel.app/",
       "statusCode": 302
