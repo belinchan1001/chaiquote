@@ -13,18 +13,19 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as BrandRouteImport } from './routes/brand'
 import { Route as CompareRouteImport } from './routes/compare'
+import { Route as EstatesRouteImport } from './routes/estates'
 import { Route as GuidesRouteImport } from './routes/guides'
+import { Route as NewIntakeRouteImport } from './routes/new-intake'
 import { Route as PlansRouteImport } from './routes/plans'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as SpendRouteImport } from './routes/spend'
-import { Route as EstatesRouteImport } from './routes/estates'
-import { Route as NewIntakeRouteImport } from './routes/new-intake'
-import { Route as GuidesSlugRouteImport } from './routes/guides_.$slug'
-import { Route as PlansPlanIdRouteImport } from './routes/plans_.$planId'
-import { Route as EstatesSlugRouteImport } from './routes/estates_.$slug'
-import { Route as OffersOfferIdRouteImport } from './routes/offers_.$offerId'
 import { Route as TechNewsRouteImport } from './routes/tech-news'
+import { Route as EstatesSlugRouteImport } from './routes/estates_.$slug'
+import { Route as GoDestRouteImport } from './routes/go_.$dest'
+import { Route as GuidesSlugRouteImport } from './routes/guides_.$slug'
+import { Route as OffersOfferIdRouteImport } from './routes/offers_.$offerId'
+import { Route as PlansPlanIdRouteImport } from './routes/plans_.$planId'
 import { Route as TechNewsSlugRouteImport } from './routes/tech-news_.$slug'
 import { Route as TechNewsDeskRouteImport } from './routes/tech-news_.desk'
 
@@ -48,9 +49,19 @@ const CompareRoute = CompareRouteImport.update({
   path: '/compare',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EstatesRoute = EstatesRouteImport.update({
+  id: '/estates',
+  path: '/estates',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GuidesRoute = GuidesRouteImport.update({
   id: '/guides',
   path: '/guides',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewIntakeRoute = NewIntakeRouteImport.update({
+  id: '/new-intake',
+  path: '/new-intake',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlansRoute = PlansRouteImport.update({
@@ -73,24 +84,9 @@ const SpendRoute = SpendRouteImport.update({
   path: '/spend',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EstatesRoute = EstatesRouteImport.update({
-  id: '/estates',
-  path: '/estates',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NewIntakeRoute = NewIntakeRouteImport.update({
-  id: '/new-intake',
-  path: '/new-intake',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GuidesSlugRoute = GuidesSlugRouteImport.update({
-  id: '/guides_/$slug',
-  path: '/guides/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PlansPlanIdRoute = PlansPlanIdRouteImport.update({
-  id: '/plans_/$planId',
-  path: '/plans/$planId',
+const TechNewsRoute = TechNewsRouteImport.update({
+  id: '/tech-news',
+  path: '/tech-news',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EstatesSlugRoute = EstatesSlugRouteImport.update({
@@ -98,14 +94,24 @@ const EstatesSlugRoute = EstatesSlugRouteImport.update({
   path: '/estates/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GoDestRoute = GoDestRouteImport.update({
+  id: '/go_/$dest',
+  path: '/go/$dest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesSlugRoute = GuidesSlugRouteImport.update({
+  id: '/guides_/$slug',
+  path: '/guides/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OffersOfferIdRoute = OffersOfferIdRouteImport.update({
   id: '/offers_/$offerId',
   path: '/offers/$offerId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TechNewsRoute = TechNewsRouteImport.update({
-  id: '/tech-news',
-  path: '/tech-news',
+const PlansPlanIdRoute = PlansPlanIdRouteImport.update({
+  id: '/plans_/$planId',
+  path: '/plans/$planId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TechNewsSlugRoute = TechNewsSlugRouteImport.update({
@@ -124,18 +130,19 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/brand': typeof BrandRoute
   '/compare': typeof CompareRoute
+  '/estates': typeof EstatesRoute
   '/guides': typeof GuidesRoute
+  '/new-intake': typeof NewIntakeRoute
   '/plans': typeof PlansRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/spend': typeof SpendRoute
-  '/estates': typeof EstatesRoute
-  '/new-intake': typeof NewIntakeRoute
-  '/guides/$slug': typeof GuidesSlugRoute
-  '/plans/$planId': typeof PlansPlanIdRoute
-  '/estates/$slug': typeof EstatesSlugRoute
-  '/offers/$offerId': typeof OffersOfferIdRoute
   '/tech-news': typeof TechNewsRoute
+  '/estates/$slug': typeof EstatesSlugRoute
+  '/go/$dest': typeof GoDestRoute
+  '/guides/$slug': typeof GuidesSlugRoute
+  '/offers/$offerId': typeof OffersOfferIdRoute
+  '/plans/$planId': typeof PlansPlanIdRoute
   '/tech-news/$slug': typeof TechNewsSlugRoute
   '/tech-news/desk': typeof TechNewsDeskRoute
 }
@@ -144,18 +151,19 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/brand': typeof BrandRoute
   '/compare': typeof CompareRoute
+  '/estates': typeof EstatesRoute
   '/guides': typeof GuidesRoute
+  '/new-intake': typeof NewIntakeRoute
   '/plans': typeof PlansRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/spend': typeof SpendRoute
-  '/estates': typeof EstatesRoute
-  '/new-intake': typeof NewIntakeRoute
-  '/guides/$slug': typeof GuidesSlugRoute
-  '/plans/$planId': typeof PlansPlanIdRoute
-  '/estates/$slug': typeof EstatesSlugRoute
-  '/offers/$offerId': typeof OffersOfferIdRoute
   '/tech-news': typeof TechNewsRoute
+  '/estates/$slug': typeof EstatesSlugRoute
+  '/go/$dest': typeof GoDestRoute
+  '/guides/$slug': typeof GuidesSlugRoute
+  '/offers/$offerId': typeof OffersOfferIdRoute
+  '/plans/$planId': typeof PlansPlanIdRoute
   '/tech-news/$slug': typeof TechNewsSlugRoute
   '/tech-news/desk': typeof TechNewsDeskRoute
 }
@@ -165,18 +173,19 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/brand': typeof BrandRoute
   '/compare': typeof CompareRoute
+  '/estates': typeof EstatesRoute
   '/guides': typeof GuidesRoute
+  '/new-intake': typeof NewIntakeRoute
   '/plans': typeof PlansRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/spend': typeof SpendRoute
-  '/estates': typeof EstatesRoute
-  '/new-intake': typeof NewIntakeRoute
-  '/guides_/$slug': typeof GuidesSlugRoute
-  '/plans_/$planId': typeof PlansPlanIdRoute
-  '/estates_/$slug': typeof EstatesSlugRoute
-  '/offers_/$offerId': typeof OffersOfferIdRoute
   '/tech-news': typeof TechNewsRoute
+  '/estates_/$slug': typeof EstatesSlugRoute
+  '/go_/$dest': typeof GoDestRoute
+  '/guides_/$slug': typeof GuidesSlugRoute
+  '/offers_/$offerId': typeof OffersOfferIdRoute
+  '/plans_/$planId': typeof PlansPlanIdRoute
   '/tech-news_/$slug': typeof TechNewsSlugRoute
   '/tech-news_/desk': typeof TechNewsDeskRoute
 }
@@ -187,18 +196,19 @@ export interface FileRouteTypes {
     | '/about'
     | '/brand'
     | '/compare'
+    | '/estates'
     | '/guides'
+    | '/new-intake'
     | '/plans'
     | '/privacy'
     | '/quote'
     | '/spend'
-    | '/estates'
-    | '/new-intake'
-    | '/guides/$slug'
-    | '/plans/$planId'
-    | '/estates/$slug'
-    | '/offers/$offerId'
     | '/tech-news'
+    | '/estates/$slug'
+    | '/go/$dest'
+    | '/guides/$slug'
+    | '/offers/$offerId'
+    | '/plans/$planId'
     | '/tech-news/$slug'
     | '/tech-news/desk'
   fileRoutesByTo: FileRoutesByTo
@@ -207,18 +217,19 @@ export interface FileRouteTypes {
     | '/about'
     | '/brand'
     | '/compare'
+    | '/estates'
     | '/guides'
+    | '/new-intake'
     | '/plans'
     | '/privacy'
     | '/quote'
     | '/spend'
-    | '/estates'
-    | '/new-intake'
-    | '/guides/$slug'
-    | '/plans/$planId'
-    | '/estates/$slug'
-    | '/offers/$offerId'
     | '/tech-news'
+    | '/estates/$slug'
+    | '/go/$dest'
+    | '/guides/$slug'
+    | '/offers/$offerId'
+    | '/plans/$planId'
     | '/tech-news/$slug'
     | '/tech-news/desk'
   id:
@@ -227,18 +238,19 @@ export interface FileRouteTypes {
     | '/about'
     | '/brand'
     | '/compare'
+    | '/estates'
     | '/guides'
+    | '/new-intake'
     | '/plans'
     | '/privacy'
     | '/quote'
     | '/spend'
-    | '/estates'
-    | '/new-intake'
-    | '/guides_/$slug'
-    | '/plans_/$planId'
-    | '/estates_/$slug'
-    | '/offers_/$offerId'
     | '/tech-news'
+    | '/estates_/$slug'
+    | '/go_/$dest'
+    | '/guides_/$slug'
+    | '/offers_/$offerId'
+    | '/plans_/$planId'
     | '/tech-news_/$slug'
     | '/tech-news_/desk'
   fileRoutesById: FileRoutesById
@@ -248,18 +260,19 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   BrandRoute: typeof BrandRoute
   CompareRoute: typeof CompareRoute
+  EstatesRoute: typeof EstatesRoute
   GuidesRoute: typeof GuidesRoute
+  NewIntakeRoute: typeof NewIntakeRoute
   PlansRoute: typeof PlansRoute
   PrivacyRoute: typeof PrivacyRoute
   QuoteRoute: typeof QuoteRoute
   SpendRoute: typeof SpendRoute
-  EstatesRoute: typeof EstatesRoute
-  NewIntakeRoute: typeof NewIntakeRoute
-  GuidesSlugRoute: typeof GuidesSlugRoute
-  PlansPlanIdRoute: typeof PlansPlanIdRoute
-  EstatesSlugRoute: typeof EstatesSlugRoute
-  OffersOfferIdRoute: typeof OffersOfferIdRoute
   TechNewsRoute: typeof TechNewsRoute
+  EstatesSlugRoute: typeof EstatesSlugRoute
+  GoDestRoute: typeof GoDestRoute
+  GuidesSlugRoute: typeof GuidesSlugRoute
+  OffersOfferIdRoute: typeof OffersOfferIdRoute
+  PlansPlanIdRoute: typeof PlansPlanIdRoute
   TechNewsSlugRoute: typeof TechNewsSlugRoute
   TechNewsDeskRoute: typeof TechNewsDeskRoute
 }
@@ -294,11 +307,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompareRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/estates': {
+      id: '/estates'
+      path: '/estates'
+      fullPath: '/estates'
+      preLoaderRoute: typeof EstatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guides': {
       id: '/guides'
       path: '/guides'
       fullPath: '/guides'
       preLoaderRoute: typeof GuidesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/new-intake': {
+      id: '/new-intake'
+      path: '/new-intake'
+      fullPath: '/new-intake'
+      preLoaderRoute: typeof NewIntakeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/plans': {
@@ -329,32 +356,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SpendRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/estates': {
-      id: '/estates'
-      path: '/estates'
-      fullPath: '/estates'
-      preLoaderRoute: typeof EstatesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/new-intake': {
-      id: '/new-intake'
-      path: '/new-intake'
-      fullPath: '/new-intake'
-      preLoaderRoute: typeof NewIntakeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/guides_/$slug': {
-      id: '/guides_/$slug'
-      path: '/guides/$slug'
-      fullPath: '/guides/$slug'
-      preLoaderRoute: typeof GuidesSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/plans_/$planId': {
-      id: '/plans_/$planId'
-      path: '/plans/$planId'
-      fullPath: '/plans/$planId'
-      preLoaderRoute: typeof PlansPlanIdRouteImport
+    '/tech-news': {
+      id: '/tech-news'
+      path: '/tech-news'
+      fullPath: '/tech-news'
+      preLoaderRoute: typeof TechNewsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/estates_/$slug': {
@@ -364,6 +370,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EstatesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/go_/$dest': {
+      id: '/go_/$dest'
+      path: '/go/$dest'
+      fullPath: '/go/$dest'
+      preLoaderRoute: typeof GoDestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides_/$slug': {
+      id: '/guides_/$slug'
+      path: '/guides/$slug'
+      fullPath: '/guides/$slug'
+      preLoaderRoute: typeof GuidesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/offers_/$offerId': {
       id: '/offers_/$offerId'
       path: '/offers/$offerId'
@@ -371,11 +391,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OffersOfferIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/tech-news': {
-      id: '/tech-news'
-      path: '/tech-news'
-      fullPath: '/tech-news'
-      preLoaderRoute: typeof TechNewsRouteImport
+    '/plans_/$planId': {
+      id: '/plans_/$planId'
+      path: '/plans/$planId'
+      fullPath: '/plans/$planId'
+      preLoaderRoute: typeof PlansPlanIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tech-news_/$slug': {
@@ -400,18 +420,19 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   BrandRoute: BrandRoute,
   CompareRoute: CompareRoute,
+  EstatesRoute: EstatesRoute,
   GuidesRoute: GuidesRoute,
+  NewIntakeRoute: NewIntakeRoute,
   PlansRoute: PlansRoute,
   PrivacyRoute: PrivacyRoute,
   QuoteRoute: QuoteRoute,
   SpendRoute: SpendRoute,
-  EstatesRoute: EstatesRoute,
-  NewIntakeRoute: NewIntakeRoute,
-  GuidesSlugRoute: GuidesSlugRoute,
-  PlansPlanIdRoute: PlansPlanIdRoute,
-  EstatesSlugRoute: EstatesSlugRoute,
-  OffersOfferIdRoute: OffersOfferIdRoute,
   TechNewsRoute: TechNewsRoute,
+  EstatesSlugRoute: EstatesSlugRoute,
+  GoDestRoute: GoDestRoute,
+  GuidesSlugRoute: GuidesSlugRoute,
+  OffersOfferIdRoute: OffersOfferIdRoute,
+  PlansPlanIdRoute: PlansPlanIdRoute,
   TechNewsSlugRoute: TechNewsSlugRoute,
   TechNewsDeskRoute: TechNewsDeskRoute,
 }

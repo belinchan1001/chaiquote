@@ -25,6 +25,7 @@ export function trackWaClick(input: Omit<TrackPayload, "event"> = {}) {
       ...(label.campaign ? { campaign: label.campaign } : {}),
       ...(touch.cat ? { cat: touch.cat } : {}),
       ...(touch.housing ? { housing: touch.housing } : {}),
+      ...(touch.provider ? { provider: touch.provider } : {}),
       ...input.extra,
     },
   });
