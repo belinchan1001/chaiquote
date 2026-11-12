@@ -130,7 +130,7 @@ export const INDEPENDENT_BODY =
 export const INDEPENDENT_BODY_EN =
   "ChaiQuote (chaiquote.hk) is an independent Hong Kong telecom comparison site, not a carrier website, and it does not take commission or advertising fees from carriers. As of {date}, you can compare {providers} carriers, {plans} reference plans and {estates} estates in one place. Public housing, HOS, private estates and village houses are listed separately. The carrier confirms the final fee, coverage and installation.";
 
-export const FEE_RANGE_QUESTION = "香港寬頻月費大概幾錢？有唔一條適用全港嘅價？";
+export const FEE_RANGE_QUESTION = "香港寬頻月費大概幾錢？有冇一條適用全港嘅價？";
 
 export const FEE_RANGE_QUESTION_EN =
   "How much is Hong Kong broadband a month? Is there one territory-wide fee?";
@@ -145,7 +145,7 @@ export const VILLAGE_FIBRE_FROM_EN = "HK$218";
 
 /** Floor-type bands already printed on the public / HOS, private and village fee guides, plus listed 5G home. */
 export const FEE_RANGE_ANSWER =
-  `唔。香港寬頻唔一條適用所有地區、所有樓類嘅單一參考月費，公屋、居屋、私樓同村屋要分開報。資料更新 {date}，站內列出例子：公居屋 1000M 約 ${PUBLIC_HOS_1000_BAND}／月（有線指定屋苑 48 個月 HK$58 起；香港寬頻 36 個月 HK$98）；私樓 1000M 約 ${PRIVATE_1000_BAND}／月（有線私人樓宇 36 個月 HK$88 起；香港寬頻 24 個月 HK$109）；村屋光纖由 ${VILLAGE_FIBRE_FROM}／月起（中國移動香港村屋 1000M、24 個月），村屋參考表例子去到 HK$376／月；5G 家居約 HK$88 至 HK$190／月（中國移動香港 350GB、48 個月 HK$88 起）。以上只係站內列出參考，唔係排名，亦唔代表你座樓一定有。最終月費、覆蓋同安裝以電訊商確認為準。`;
+  `冇。香港寬頻冇一條適用所有地區、所有樓類嘅單一參考月費，公屋、居屋、私樓同村屋要分開報。資料更新 {date}，站內列出例子：公居屋 1000M 約 ${PUBLIC_HOS_1000_BAND}／月（有線指定屋苑 48 個月 HK$58 起；香港寬頻 36 個月 HK$98）；私樓 1000M 約 ${PRIVATE_1000_BAND}／月（有線私人樓宇 36 個月 HK$88 起；香港寬頻 24 個月 HK$109）；村屋光纖由 ${VILLAGE_FIBRE_FROM}／月起（中國移動香港村屋 1000M、24 個月），村屋參考表例子去到 HK$376／月；5G 家居約 HK$88 至 HK$190／月（中國移動香港 350GB、48 個月 HK$88 起）。以上只係站內列出參考，唔係排名，亦唔代表你座樓一定有。最終月費、覆蓋同安裝以電訊商確認為準。`;
 
 export const FEE_RANGE_ANSWER_EN =
   `No. There is no single reference monthly fee for every district and housing type. Public housing, HOS, private estates and village houses are quoted separately. As of {date}, examples listed on this site: public / HOS 1000M about ${PUBLIC_HOS_1000_BAND_EN}/month (i-Cable designated estate, 48 months, from HK$58; HKBN 36 months HK$98); private-estate 1000M about ${PRIVATE_1000_BAND_EN}/month (i-Cable private buildings, 36 months, from HK$88; HKBN 24 months HK$109); village fibre from ${VILLAGE_FIBRE_FROM_EN}/month (CMHK village 1000M, 24 months), with village-table examples up to HK$376/month; 5G home about HK$88 to HK$190/month (CMHK 350GB, 48 months, from HK$88). These are listed examples, not a ranking, and they do not mean your building has them. The carrier confirms the final fee, coverage and installation.`;
@@ -185,7 +185,7 @@ export function fillSiteTemplate(template: string, extra?: Record<string, string
 /** zh templates. Homepage copy and FAQPage JSON-LD both read this list. */
 export const FAQ_ZH = [
   {
-    q: "香港有唔獨立寬頻比較網站？齊Quote 係咪獨立？",
+    q: "香港有冇獨立寬頻比較網站？齊Quote 係咪獨立？",
     a: `有。${INDEPENDENT_BODY}`,
   },
   {
@@ -197,7 +197,7 @@ export const FAQ_ZH = [
     a: "公屋同埋居屋好多時有指定供應商同批量價，每個屋邨／屋苑合約都可能唔同。站內光纖入門參考可見「指定屋苑 1000M 光纖入屋（48 個月）」約 HK$58／月起（有線寬頻）；篩選時分開撿公屋／居屋，問價填齊屋苑名稱。僅供參考，以電訊商確認為準。",
   },
   {
-    q: "村屋有唔光纖？",
+    q: "村屋有冇光纖？",
     a: "村屋光纖而家主要由香港寬頻、HGC 同網上行等提供指定計劃；公屋、居屋同私樓計劃一般唔適用於村屋地址。站內村屋光纖入門參考約 HK$218／月起（例如中國移動香港「村屋 1000M 光纖（24 個月）」）；另有香港寬頻「特選村屋 2000M 光纖（24 個月）」HK$229 等較高規格計劃。未有光纖可一併比較 5G 家居寬頻（站內約 HK$88 起）。實際覆蓋要核對門牌，以電訊商確認為準。",
   },
   {
@@ -210,7 +210,7 @@ export const FAQ_ZH = [
   },
   {
     q: "點樣查核報價？",
-    a: "最快用 WhatsApp {phone}。唔 WhatsApp 可以撲「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 {email}。",
+    a: "最快用 WhatsApp {phone}。冇 WhatsApp 可以撲「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 {email}。",
   },
 ] as const;
 
