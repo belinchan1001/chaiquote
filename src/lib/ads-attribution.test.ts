@@ -109,6 +109,17 @@ describe("lead source label", () => {
     assert.equal(second.utm_source, "google");
     assert.equal(captureLeadTouch("", memoryStore()).utm_source, undefined);
     assert.equal(touchFromSearch("?from=ad").from, "ad");
+    const hkbnHop = touchFromSearch("?cat=broadband&provider=hkbn&from=ad&gclid=CjwKCAjwSECRET");
+    assert.equal(hkbnHop.provider, "hkbn");
+    assert.equal(hkbnHop.cat, "broadband");
+    assert.equal(hkbnHop.from, "ad");
+    assert.equal(customerInquiryLine(hkbnHop), "【查詢】家居寬頻 #2");
+    assert.doesNotMatch(customerInquiryLine(hkbnHop), /hkbn|香港寬頻/);
+    assert.equal(touchFromSearch("?cat=broadband&housing=village&from=ad").provider, undefined);
+    assert.equal(touchFromSearch("?provider=not-a-carrier").provider, undefined);
+    const hkbnStore = memoryStore();
+    assert.equal(captureLeadTouch("?cat=broadband&provider=hkbn&from=ad", hkbnStore).provider, "hkbn");
+    assert.equal(captureLeadTouch("?provider=netvigator", hkbnStore).provider, "hkbn");
     assert.equal(customerInquiryLine(touchFromSearch("?cat=broadband&housing=public&from=ad")), "【查詢】公屋寬頻 #2");
     assert.equal(customerInquiryLine(touchFromSearch("?cat=home5g&utm_source=google&utm_medium=cpc")), "【查詢】5G 家居寬頻 #2");
     assert.equal(customerInquiryLine(touchFromSearch("?cat=broadband&housing=private")), "【查詢】私人樓宇 #0");
@@ -154,6 +165,9 @@ describe("conversion is not wired to page load", () => {
     assert.deepEqual(hits, ["lib/ads-gtag.ts", "lib/track-client.ts"]);
     const track = readFileSync(join(here, "track-client.ts"), "utf8");
     assert.match(track, /if \(payload\.event === "wa_click"\) fireAdsQuoteConversion\(\)/);
+    assert.match(track, /\.\.\.\(touch\.cat \? \{ cat: touch\.cat \} : \{\}\)/);
+    assert.match(track, /\.\.\.\(touch\.housing \? \{ housing: touch\.housing \} : \{\}\)/);
+    assert.match(track, /\.\.\.\(touch\.provider \? \{ provider: touch\.provider \} : \{\}\)/);
     const tag = readFileSync(join(here, "../components/google-ads-tag.tsx"), "utf8");
     assert.match(tag, /captureLeadAttribution\(\)/);
     assert.match(tag, /installGoogleAdsTag\(\)/);

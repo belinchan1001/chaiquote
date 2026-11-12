@@ -3,6 +3,66 @@ import type { TechNewsArticle } from "./tech-news.ts";
 /** Extra news pieces. GTA 6 still lives in TECH_NEWS_ARTICLES. */
 export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
 {
+    slug: "blast-premier-rivals-hk-2026-netvigator-csl",
+    category: "gaming",
+    minutes: 4,
+    published: "2026-11-12",
+    seoTitle: "BLAST Premier Rivals 香港電競｜網上行 csl 任網絡夥伴｜齊Quote",
+    h1: "BLAST Premier Rivals 香港電競：網上行 csl 任網絡夥伴",
+    description: "BLAST Premier Hong Kong Rivals 2026 於11月13至15日在亞洲國際博覽館舉行。香港電訊旗下網上行同 csl 出任官方網絡合作夥伴，為賽事提供低時延光纖同5G連線。Now TV App 全程免費直播。內容僅供參考，以官方及平台商店確認為準。",
+    excerpt: "BLAST Premier Rivals 11月13至15日亞博舉行。網上行同 csl 任官方網絡夥伴。Now TV App 免費直播八強至決賽。以官方確認為準。",
+    seoTitleEn: "BLAST Premier Rivals Hong Kong: Netvigator and csl as network partners | 齊Quote",
+    h1En: "BLAST Premier Rivals Hong Kong: Netvigator and csl as official network partners",
+    descriptionEn: "BLAST Premier Hong Kong Rivals 2026 runs 13–15 November at AsiaWorld-Arena. HKT brands Netvigator and csl are the official network partners providing low-latency fibre and 5G. Now TV App offers free live coverage. Confirm with official and platform stores.",
+    excerptEn: "BLAST Premier Rivals 13–15 November at AsiaWorld-Arena. Netvigator and csl as official network partners. Free live on Now TV App.",
+    bullets: [
+      "賽事11月13至15日在亞洲國際博覽館 Arena 舉行，獲「M」品牌認可，八支 CS2 戰隊爭100萬美元獎金。",
+      "香港電訊旗下網上行同 csl 出任官方網絡合作夥伴，提供低時延光纖骨幹同5G連線予主擂台及場內需求。",
+      "Now TV App 全程免費直播：13日八強、14日四強、15日決賽，下午3:15開賽。",
+      "想現場睇，門票經 HK Ticketing；想在家睇，用 Now ID 登入 Now TV App 體育專頁。",
+    ],
+    bulletsEn: [
+      "Event 13–15 November at AsiaWorld-Arena, M Mark recognised, eight CS2 teams for US$1 million.",
+      "HKT’s Netvigator and csl are official network partners supplying low-latency fibre backbone and 5G for the main stage and venue needs.",
+      "Now TV App free live: 13th quarter-finals, 14th semi-finals, 15th final, starting 3:15pm.",
+      "Tickets via HK Ticketing for the arena; watch at home with Now ID on the Now TV App sports page.",
+    ],
+    body: [
+      {
+        heading: "賽事同網絡夥伴寫死咗咩",
+        headingEn: "What is confirmed on the event and partners",
+        paragraphs: [
+          "BLAST Premier Hong Kong Rivals 2026 於2026年11月13至15日一連三日在亞洲國際博覽館舉行，獲大型體育活動事務委員會「M」品牌認可。八支全球頂尖《Counter-Strike 2》戰隊爭奪100萬美元總獎金。Now 新聞等主流媒體引述，香港電訊旗下網上行同 csl 出任今屆官方網絡合作夥伴。",
+          "網上行官方 Instagram 早前亦宣布成為大會指定網絡伙伴，以全港及東亞地區領先寬頻網絡支援賽事。BLAST 官方資料同宣傳物料列明 HKT 為官方網絡夥伴。",
+        ],
+        paragraphsEn: [
+          "BLAST Premier Hong Kong Rivals 2026 runs 13–15 November 2026 at AsiaWorld-Arena and holds M Mark recognition from the Major Sports Events Committee. Eight top CS2 teams compete for a US$1 million prize pool. Mainstream outlets including Now News report that HKT brands Netvigator and csl are the official network partners.",
+          "Netvigator’s official Instagram earlier announced the partnership, citing its leading broadband network for Hong Kong and East Asia. BLAST materials list HKT as the official network partner.",
+        ],
+      },
+      {
+        heading: "點睇同下一步",
+        headingEn: "How to watch and next step",
+        paragraphs: [
+          "Now TV 將一連三日免費直播八強至決賽。用 Now ID 登入 Now TV App 或網頁版，到「體育專頁 > 其他項目」（有 APP EXTRA 標記）即可收看。開賽時間為下午3:15。現場門票經 HK Ticketing 發售。",
+          "電競對低時延、零封包遺失同穩定頻寬要求高。想在家睇直播或者自己打機，可到網上行或 csl 官方頁核對家居寬頻同流動覆蓋。所有安排以官方及平台商店確認為準。",
+        ],
+        paragraphsEn: [
+          "Now TV offers free live coverage of the quarter-finals through the final over three days. Sign in with a Now ID on the Now TV App or web, go to Sports > Other (marked APP EXTRA). Matches start at 3:15pm. Arena tickets are via HK Ticketing.",
+          "Esports needs low latency, zero packet loss and stable bandwidth. To watch at home or play yourself, check home broadband and mobile coverage on the official Netvigator or csl pages. All arrangements follow official and platform-store confirmation.",
+        ],
+      },
+    ],
+    tags: ["BLAST Premier", "Rivals", "電競", "網上行", "csl", "CS2"],
+    tagsEn: ["BLAST Premier", "Rivals", "esports", "Netvigator", "csl", "CS2"],
+    editorNote: "電玩專區今次唔係再講一次 GTA 6 延期。新事實係11月13至15日亞博 BLAST Premier Rivals，香港電訊網上行同 csl 出任官方網絡夥伴，Now TV App 免費直播。\\n\\n我唔會代填任何月費或者保證最抵。賽事日期、夥伴同直播方式係主流媒體引述官方嘅事實。想現場或者在家睇，對 HK Ticketing 同 Now TV App，唔好當呢篇係合約報價。",
+    editorNoteEn: "This is not another GTA 6 delay note. The new fact is BLAST Premier Rivals 13–15 November at AsiaWorld-Arena, with HKT’s Netvigator and csl as official network partners and free live on the Now TV App.\\n\\nNo monthly fee is filled in and no deal claim is made. The dates, partnership and stream method are facts reported by mainstream media quoting official sources. Check HK Ticketing or the Now TV App rather than treating this as a contract quote.",
+    sourceUrl: "https://news.now.com/home/technology/player?newsId=669141",
+    image: "/images/news-blast-rivals-hk-2026.jpg",
+    imageAlt: "BLAST Premier Hong Kong Rivals 2026 官方宣傳圖，顯示亞博館賽事同 HKT 官方網絡夥伴標誌",
+    imageCredit: "Brand Hong Kong / BLAST Premier 官方宣傳",
+  },
+{
     slug: "honor-magic9-pro-max-hk-launch",
     category: "phones",
     minutes: 4,

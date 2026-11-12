@@ -35,7 +35,7 @@ function assertBulletsCover(text: string) {
 
 describe("plan category hub", () => {
   it("derives the hero entry fee from the existing catalogue helpers", () => {
-    assert.equal(categoryEntryPlan("broadband")?.id, "icable-ftth-1000-48m-58");
+    assert.equal(categoryEntryPlan("broadband")?.id, "icable-ftth-1000-36m-58-flash");
     assert.equal(categoryEntryPlan("broadband")?.monthlyFee, 58);
     assert.equal(categoryEntryPlan("broadband", "public")?.monthlyFee, 58);
     assert.equal(categoryEntryPlan("broadband", "village")?.id, "cmhk-ftth-1000-village-24m-218");
@@ -73,7 +73,7 @@ describe("plan category hub", () => {
     const home98 = getPlan(HOME5G_SUMMARY_IDS[1]);
     const home108 = getPlan(HOME5G_SUMMARY_IDS[2]);
     assert.ok(home88 && home98 && home108);
-    assert.equal(filterPlans({ cat: "home5g" }).length, 15);
+    assert.equal(filterPlans({ cat: "home5g" }).length, 16);
     assert.equal(home88.monthlyFee, 88);
     assert.equal(home98.monthlyFee, 98);
     assert.equal(home108.monthlyFee, 108);
@@ -81,7 +81,7 @@ describe("plan category hub", () => {
     const home = fill(MESSAGES.zh.home5gHubSummary, {
       date: SITE.updated,
       name: SITE.name,
-      n: 15,
+      n: 16,
       plan88: home88.name,
       fee88: formatFee(home88.monthlyFee),
       months88: home88.contractMonths,

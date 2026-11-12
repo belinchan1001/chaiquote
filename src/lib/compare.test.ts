@@ -14,7 +14,7 @@ import {
   type CompareCopy,
 } from "./compare.ts";
 import { toEnglish } from "./plan-en.ts";
-import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, getPlan, hasCertifiedStaff, isHgcVillage, isHkbnVillage, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, planPerks, staffOfferLabel, staffOfferPlans, averageFee, cardHeadlineFee, type Category } from "./plans.ts";
+import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, getPlan, hasCertifiedStaff, isHgcVillage, isHkbnVillage, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, planPerks, staffOfferLabel, staffOfferPlans, averageFee, cardHeadlineFee, registerByLabel, type Category } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
 import {
   HGC_VILLAGE_COVERAGE,
@@ -189,6 +189,7 @@ describe("HKBN student/youth 5G 30GB", () => {
         "netvigator-ftth-2500-public-36m-158",
         "netvigator-ftth-2500-private-36m-176",
         "icable-ftth-1000-48m-58",
+        "icable-ftth-1000-36m-58-flash",
         "cmhk-ftth-1000",
         "cmhk-ftth-1000-36m-98-1111",
         "cmhk-ftth-2500-24m-148-1111",
@@ -201,6 +202,7 @@ describe("HKBN student/youth 5G 30GB", () => {
         "hkbn-ftth-2500-24m-148-sep30",
         "hkbn-ftth-2500-36m-158-sep30",
         "hkbn-ftth-2500-36m-178-sep30",
+        "three-home5g-unlimited-48-138-public",
         "cmhk-5g-limited-50-129",
         "cmhk-5g-limited-100-149",
         "cmhk-5g-limited-60-98-youth",
@@ -1585,11 +1587,26 @@ describe("iCable 1000M FTTH $58 48-month", () => {
     assert.equal(toEnglish(mytv.name), "1000M fibre + myTV Gold bundle (smart TV, 36 months)");
     assert.equal(toEnglish(mytv.perks[1]), "First relocation fee waived");
 
+    const flash = plan("icable-ftth-1000-36m-58-flash");
+    assert.equal(flash.monthlyFee, 58);
+    assert.equal(flash.contractMonths, 36);
+    assert.equal(flash.install, "豁免安裝費");
+    assert.equal(flash.flashOffer, true);
+    assert.equal(flash.quotePick, true);
+    assert.equal(flash.deadline, "register");
+    assert.equal(flash.offerEndsAt, "2026-11-17T23:59:59+08:00");
+    assert.deepEqual(flash.housing, ["public", "hos", "private"]);
+    assert.equal(registerByLabel(flash.offerEndsAt, "zh"), "須於 11 月 17 日前成功登記");
+    assert.equal(registerByLabel(flash.offerEndsAt, "en"), "Must register successfully by 17 Nov");
+    assert.equal(toEnglish(flash.name), "1000M FTTH flash offer (36 months)");
+    assert.equal(filterPlans({ cat: "broadband", housing: "village" }).some((item) => item.id === flash.id), false);
+
     assert.deepEqual(
       PLANS.filter((p) => p.providerId === "icable" && p.category === "broadband").map((p) => p.id),
       [
         "icable-ftth-200-36m",
         "icable-ftth-1000-48m-58",
+        "icable-ftth-1000-36m-58-flash",
         "icable-ftth-1000-private-36m",
         "icable-ftth-1000-public-48m",
         "icable-ftth-1000-public-36m",
@@ -2077,11 +2094,22 @@ describe("cheapest plan auto-picks", () => {
     assert.ok(home5g);
     assert.ok(mobile);
     assert.ok(village);
-    assert.equal(fiber.id, "icable-ftth-1000-48m-58");
+    assert.equal(fiber.id, "icable-ftth-1000-36m-58-flash");
     assert.equal(fiber.monthlyFee, 58);
     assert.equal(getPlan("three-home5g-w6")?.unpublished, true);
     assert.equal(filterPlans({ cat: "home5g" }).some((plan) => plan.id === "three-home5g-w6"), false);
     assert.notEqual(home5g.id, "three-home5g-w6");
+    const publicUnlimited = getPlan("three-home5g-unlimited-48-138-public");
+    assert.ok(publicUnlimited);
+    assert.equal(publicUnlimited.monthlyFee, 138);
+    assert.equal(publicUnlimited.contractMonths, 48);
+    assert.equal(publicUnlimited.quotePick, true);
+    assert.deepEqual(publicUnlimited.housing, ["public", "hos"]);
+    assert.equal(publicUnlimited.install, "免拉線，隨插即用");
+    assert.deepEqual(publicUnlimited.perks, ["真無限上網"]);
+    assert.equal(filterPlans({ cat: "home5g", housing: "public" }).some((plan) => plan.id === publicUnlimited.id), true);
+    assert.equal(filterPlans({ cat: "home5g", housing: "private" }).some((plan) => plan.id === publicUnlimited.id), false);
+    assert.equal(filterPlans({ cat: "home5g", housing: "village" }).some((plan) => plan.id === publicUnlimited.id), false);
     assert.equal(home5g.monthlyFee, minMonthlyFee("home5g"));
     assert.equal(mobile.monthlyFee, minMonthlyFee("mobile"));
     assert.equal(village.monthlyFee, minVillageBroadbandFee());
