@@ -1,6 +1,7 @@
 name: messages-catalogue
 
-# Fail PRs and main pushes that wipe src/lib/messages.ts (Daily copy 2026-09-19).
+# Fail PRs and main pushes that wipe src/lib/messages.ts (Daily copy 2026-09-19),
+# and the production sitemap step that GitHub's check otherwise skips.
 on:
   pull_request:
   push:
@@ -14,4 +15,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - run: node scripts/restore-truncated-catalogues.mjs && node scripts/check-messages.mjs
+      - run: node scripts/restore-truncated-catalogues.mjs && node scripts/check-messages.mjs && node --experimental-strip-types scripts/write-sitemap.ts
