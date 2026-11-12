@@ -7,7 +7,7 @@ import { MESSAGES } from "./messages.ts";
 import { ESTATE_COUNT } from "./estate-count.ts";
 import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
 import { FAQ, FEE_RANGE_QUESTION, fillSiteTemplate, SITE } from "./site.ts";
-import { homeJsonLd } from "./canonical.ts";
+import { aboutJsonLd, homeJsonLd } from "./canonical.ts";
 import { formatFee, getPlan } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
 
@@ -466,6 +466,39 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.match(fillSiteTemplate(MESSAGES.zh.aboutWhoText), new RegExp(`${ESTATE_COUNT} 個屋苑`));
     assert.doesNotMatch(MESSAGES.en.faq7a, /cheapest|lowest|best price|best-value/i);
     assert.doesNotMatch(home, /全港最平/);
+  });
+});
+
+describe("about page Organization JSON-LD", () => {
+  it("reuses the homepage Organization node and the live catalogue counts", () => {
+    const about = readFileSync(join(here, "../routes/about.tsx"), "utf8");
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+    const messages = readFileSync(join(here, "messages.ts"), "utf8");
+    assert.equal(quoted(messages, "heroTitle1")[0], "搵寬頻唔使四圍問");
+    assert.match(home, /t\("heroTitle1"\)/);
+    assert.match(about, /<JsonLd data=\{aboutJsonLd\(\)\} \/>/);
+    assert.match(about, /providers: PROVIDERS\.length/);
+    assert.match(about, /plans: PLANS\.length/);
+    assert.match(about, /estates: ESTATE_COUNT/);
+    assert.match(about, /date: updated/);
+    assert.doesNotMatch(about, /providers:\s*8|plans:\s*193|estates:\s*3729|2026-11-12/);
+    const aboutLd = aboutJsonLd();
+    const { "@context": aboutContext, ...aboutOrg } = aboutLd;
+    const homeLd = homeJsonLd();
+    const homeOrg = homeLd["@graph"].find((node) => node["@type"] === "Organization");
+    assert.equal(aboutContext, "https://schema.org");
+    assert.equal(aboutLd["@type"], "Organization");
+    assert.equal(aboutOrg["@id"], `${SITE.url}/#organization`);
+    assert.equal(aboutOrg.name, SITE.name);
+    assert.equal(aboutOrg.url, SITE.url);
+    assert.equal(aboutOrg.email, SITE.leadEmail);
+    assert.equal(aboutOrg.telephone, `+${SITE.whatsappE164}`);
+    assert.equal(aboutOrg.description, SITE.description);
+    assert.deepEqual(aboutOrg.sameAs, [...SITE.sameAs]);
+    assert.deepEqual(aboutOrg.logo, { "@type": "ImageObject", url: `${SITE.url}/icon-512.png` });
+    assert.deepEqual(aboutOrg, homeOrg);
+    assert.equal(homeLd["@graph"].filter((node) => node["@type"] === "Organization").length, 1);
+    assert.equal(JSON.stringify(aboutLd).split(`${SITE.url}/#organization`).length - 1, 1);
   });
 });
 

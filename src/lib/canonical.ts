@@ -277,24 +277,37 @@ export function shareHead(seo: SeoCopy, url?: string): {
   return url ? { meta, links: [{ rel: "canonical", href: url }] } : { meta };
 }
 
+/** Organization node shared by the homepage graph and /about. One `@id` only. */
+export function organizationJsonLd() {
+  return {
+    "@type": "Organization",
+    "@id": `${SITE.url}/#organization`,
+    name: SITE.name,
+    alternateName: ["齊Quote寬頻報價", "齊Quote電訊報價"],
+    url: SITE.url,
+    sameAs: SITE.sameAs,
+    logo: { "@type": "ImageObject", url: `${SITE.url}/icon-512.png` },
+    email: SITE.leadEmail,
+    telephone: `+${SITE.whatsappE164}`,
+    description: SITE.description,
+    areaServed: { "@type": "Country", name: "HK" },
+  };
+}
+
+/** About page document: the homepage Organization node, with page context. */
+export function aboutJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    ...organizationJsonLd(),
+  };
+}
+
 /** Homepage graph. Lives here so `/` does not import the estate catalogue. */
 export function homeJsonLd() {
   return {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "Organization",
-        "@id": `${SITE.url}/#organization`,
-        name: SITE.name,
-        alternateName: ["齊Quote寬頻報價", "齊Quote電訊報價"],
-        url: SITE.url,
-        sameAs: SITE.sameAs,
-        logo: { "@type": "ImageObject", url: `${SITE.url}/icon-512.png` },
-        email: SITE.leadEmail,
-        telephone: `+${SITE.whatsappE164}`,
-        description: SITE.description,
-        areaServed: { "@type": "Country", name: "HK" },
-      },
+      organizationJsonLd(),
       {
         "@type": "WebSite",
         "@id": `${SITE.url}/#website`,

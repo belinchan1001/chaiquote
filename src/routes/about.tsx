@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Mail } from "lucide-react";
+import { JsonLd } from "@/components/json-ld";
 import { Button } from "@/components/ui/button";
 import { QuoteLink } from "@/components/quote-link";
 import { ProviderMark } from "@/components/provider-mark";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import { ABOUT_SEO, canonicalUrl, shareHead } from "@/lib/canonical";
+import { ABOUT_SEO, aboutJsonLd, canonicalUrl, shareHead } from "@/lib/canonical";
 import { ESTATE_COUNT } from "@/lib/estate-count";
 import { PLANS, PROVIDERS } from "@/lib/plans";
 import { SITE } from "@/lib/site";
@@ -19,6 +20,7 @@ function AboutPage() {
   usePageTitle(ABOUT_SEO.title);
   return (
     <div className="mx-auto max-w-2xl px-4 py-10">
+      <JsonLd data={aboutJsonLd()} />
       <h1 className="text-title font-semibold">{t("aboutTitle")}</h1>
 
       <section className="mt-10">
