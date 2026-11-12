@@ -61,8 +61,7 @@ export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
     image: "/images/news-blast-rivals-hk-2026.jpg",
     imageAlt: "BLAST Premier Hong Kong Rivals 2026 官方宣傳圖，顯示亞博館賽事同 HKT 官方網絡夥伴標誌",
     imageCredit: "Brand Hong Kong / BLAST Premier 官方宣傳",
-  },,
-
+  },
 {
     slug: "honor-magic9-pro-max-hk-launch",
     category: "phones",
