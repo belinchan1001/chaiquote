@@ -26,6 +26,7 @@ import { estateDisplayName, parentEstate, placeDisplayName } from "@/lib/estates
 import { estateJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 import { isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
+import { confirmedFibreProviders } from "@/lib/estate-fibre-coverage";
 
 export const Route = createFileRoute("/estates_/$slug")({
   loader: ({ params }) => {
@@ -201,6 +202,13 @@ function EstatePage() {
       ) : null}
       {isNetvigatorOnlyEstate(estate.name) ? (
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{t("plansNetvigatorOnlyNote")}</p>
+      ) : null}
+      {confirmedFibreProviders(estate.name) ? (
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
+          {locale === "en"
+            ? "Home fibre coverage for this address has been checked. Carriers without coverage are not listed."
+            : "這個地址的家居寬頻覆蓋已核對，沒有覆蓋的公司不會列出。"}
+        </p>
       ) : null}
       <div className="mt-6">
         <QuoteLink inquiry={inquiry}>{t("waQuote")}</QuoteLink>

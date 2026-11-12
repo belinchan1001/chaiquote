@@ -1,5 +1,6 @@
 import { ESTATES, estateDisplayName, estateEnglishName, firstEnglishAlias, parentEstate, placeDisplayName, type Estate } from "./estates.ts";
 import { NETVIGATOR_ONLY_ESTATES } from "./estate-new-intake.ts";
+import { CONFIRMED_FIBRE_COVERAGE } from "./estate-fibre-coverage.ts";
 import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
 import { formatFee, formatPlanSpeed, matchesHousing, PLANS, PROVIDER_MAP, type Housing, type Plan } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
@@ -573,6 +574,9 @@ function indexableEstateNames(): Set<string> {
   }
   for (const seed of NETVIGATOR_ONLY_ESTATES) {
     if (ESTATES.some((item) => item.name === seed)) names.add(seed);
+  }
+  for (const name of Object.keys(CONFIRMED_FIBRE_COVERAGE)) {
+    if (ESTATES.some((item) => item.name === name)) names.add(name);
   }
   return names;
 }

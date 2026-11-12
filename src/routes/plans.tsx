@@ -25,6 +25,7 @@ import {
 import { filterPlans } from "@/lib/plan-filter";
 import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { isHkbnFlashEstate, isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
+import { confirmedFibreProviders } from "@/lib/estate-fibre-coverage";
 import { compactSearch, parsePlansSearch, planListReplayKey, rememberPlansSearch } from "@/lib/search";
 import { CATEGORY_SEO, plansCategoryPath, canonicalUrl, shareHead } from "@/lib/canonical";
 import { indexableEstateNavLinks } from "@/lib/estate-pages";
@@ -770,6 +771,14 @@ function PlansPage() {
 
       {isNetvigatorOnlyEstate(search.estate) && (search.cat === "broadband" || search.cat === "home5g") ? (
         <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">{t("plansNetvigatorOnlyNote")}</p>
+      ) : null}
+
+      {confirmedFibreProviders(search.estate) && search.cat === "broadband" ? (
+        <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
+          {locale === "en"
+            ? "Home fibre coverage for this address has been checked. Carriers without coverage are not listed."
+            : "這個地址的家居寬頻覆蓋已核對，沒有覆蓋的公司不會列出。"}
+        </p>
       ) : null}
 
       {isHkbnFlashEstate(search.estate) && search.cat === "broadband" ? (

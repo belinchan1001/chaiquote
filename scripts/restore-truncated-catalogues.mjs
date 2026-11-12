@@ -23,12 +23,16 @@ const FILES = [
     url: "https://raw.githubusercontent.com/belinchan1001/chaiquote/1d8a1fcbfe6fbc29de75211d7e2ee9dc40c73b4b/src/lib/estate-extra-raw.ts",
     minBytes: 50000,
     after: (text) => {
-      if (text.includes("Wyler Gardens")) return text;
-      const row = WYLER + "\n";
-      const needle = "`.trim();";
-      const idx = text.lastIndexOf(needle);
-      if (idx === -1) return text + "\n" + row;
-      return text.slice(0, idx) + row + text.slice(idx);
+      if (!text.includes("Wyler Gardens")) {
+        const row = WYLER + "\n";
+        const needle = "`.trim();";
+        const idx = text.lastIndexOf(needle);
+        text = idx === -1 ? text + "\n" + row : text.slice(0, idx) + row + text.slice(idx);
+      }
+      const from = "柏傲莊III|The Pavilia Farm III,Pavilia Farm 3,柏傲莊 III,車公廟路18號柏傲莊|";
+      const to = "柏傲莊III|The Pavilia Farm III,Pavilia Farm 3,柏傲莊 III,柏傲莊三期,柏傲莊3期,車公廟路18號柏傲莊|";
+      if (text.includes(from)) text = text.replace(from, to);
+      return text;
     },
   },
 ];
