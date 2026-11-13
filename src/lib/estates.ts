@@ -418,6 +418,15 @@ YOHO Midtown|YOHO Midtown|元朗|private
 海壩南台|海壩南台,海壩(南台),Hoi Pa Village South Terrace,荃灣海壩南台,荃灣海壩村,荃灣海壩|荃灣|village
 下洋新村|下洋新村,Ha Yeung San Tsuen|西貢|village
 大坳門|大坳門,Tai Au Mun|西貢|village
+
+曉茵邨|曉茵,Hiu Yan Estate|觀塘|public|||曉明街9號
+錦柏苑|錦柏,Kam Pak Court|沙田|hos|馬鞍山||恆泰路2號
+裕興苑|裕興,Yu Hing Court|離島|hos|東涌||匯東街16號
+麗玥苑|麗玥,Lai Yuet Court|深水埗|hos|長沙灣||東京街3號
+翔東邨|翔東,Cheung Tung Estate|離島|public|東涌||迎東路11號
+雋東邨|雋東,Chun Tung Estate|離島|public|東涌||迎東路
+鳳凰嶺邨|鳳凰嶺,Fung Wong Leng Estate|北區|public|粉嶺||馬適路
+滿田邨|滿田,Moon Tin Estate|屯門|public|||滿田里6號
 `.trim();
 
 export const ESTATES: Estate[] = `${RAW}\n${EXTRA_RAW}\n${PRH_BLOCKS_RAW}\n${VILLAGE_RAW}`
