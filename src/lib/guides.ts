@@ -8,7 +8,11 @@ export type GuideFlowBlock =
   | { kind: "p"; text: string }
   | { kind: "h3"; text: string }
   | { kind: "ul"; items: string[] }
-  | { kind: "ol"; items: string[] };
+  | { kind: "ol"; items: string[] }
+  /** Formula reflow. `text` is the formula; lines join back to that string. */
+  | { kind: "formula"; text: string }
+  /** Worked-example clauses. `items` join back to the sentence. */
+  | { kind: "rows"; items: string[] };
 
 export type GuideSection = {
   heading: string;
@@ -603,4 +607,73 @@ export function guideCopy(guide: Guide, locale: "zh" | "en") {
     waText: guide.cta?.waText,
     faq: guide.faq ?? [],
   };
+}
+
+/** Split a formula on its operators. Joining the lines returns `text`. */
+export function formulaLines(text: string): string[] {
+  const parts = text.split(/(＋|−|÷)/);
+  const lines: string[] = [];
+  for (let i = 0; i < parts.length; i += 1) {
+    const part = parts[i] ?? "";
+    if (part === "＋" || part === "−" || part === "÷") {
+      lines.push(part + (parts[i + 1] ?? ""));
+      i += 1;
+    } else if (part) {
+      lines.push(part);
+    }
+  }
+  return lines;
+}
+
+/** Drop sentence punctuation that only joined the worked-example row. Words and figures stay. */
+export function rowDisplayText(text: string): string {
+  return text.replace(/[、，。：]+$/u, "");
+}
+
+/** Pull a trailing price onto its own column. Returns null unless the words stay intact. */
+export function splitTrailingFigure(text: string): { label: string; value: string } | null {
+  const match = /^(.*\S) (\*\*(?:HK\$[\d,.]+)\*\*(?:／月)?[、：，。]?)$/.exec(text);
+  if (!match) return null;
+  const label = match[1] ?? "";
+  const value = match[2] ?? "";
+  if (`${label} ${value}` !== text) return null;
+  return { label, value };
+}
+
+export function splitGuideTitle(
+  h1: string,
+): { title: string; mark: string; subtitle: string } | null {
+  const full = h1.indexOf("：");
+  if (full > 0) return { title: h1.slice(0, full), mark: "：", subtitle: h1.slice(full + 1) };
+  const ascii = h1.indexOf(": ");
+  if (ascii > 0) return { title: h1.slice(0, ascii), mark: ": ", subtitle: h1.slice(ascii + 2) };
+  return null;
+}
+
+/**
+ * Chinese manuscript length for the default page, rounded up.
+ * 300 characters a minute is the round pace of /guides/fiber
+ * (that page’s rendered Chinese is about 280 characters a minute).
+ * Not a marketing duration. Other guides keep the minutes stored on the article.
+ */
+export const GUIDE_READING_CHARS_PER_MINUTE = 300;
+
+function flowBlockText(block: GuideFlowBlock): string {
+  if (block.kind === "p" || block.kind === "h3" || block.kind === "formula") return block.text;
+  return block.items.join("");
+}
+
+export function guideReadingMinutes(
+  guide: Pick<Guide, "h1" | "excerpt" | "body" | "faq" | "disclaimer">,
+): number {
+  const chunks: string[] = [guide.h1, guide.excerpt];
+  if (guide.disclaimer) chunks.push(guide.disclaimer);
+  for (const section of guide.body) {
+    chunks.push(section.heading);
+    if (section.flow?.length) chunks.push(...section.flow.map(flowBlockText));
+    else chunks.push(...section.paragraphs);
+  }
+  for (const item of guide.faq ?? []) chunks.push(item.q, item.a);
+  const chars = [...guidePlainText(chunks.join("")).replace(/\s+/g, "")].length;
+  return Math.max(1, Math.ceil(chars / GUIDE_READING_CHARS_PER_MINUTE));
 }

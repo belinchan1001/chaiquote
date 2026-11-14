@@ -6,9 +6,12 @@ import { QuoteLink } from "@/components/quote-link";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { guideFooterEstates } from "@/lib/estate-pages";
 import {
+  formulaLines,
   getGuide,
   guideCopy,
   guideManuscriptDates,
+  rowDisplayText,
+  splitTrailingFigure,
   type GuideAnswer,
   type GuideFlowBlock,
   type GuideLink,
@@ -80,31 +83,44 @@ function GuideRichText({
   text,
   prices = false,
   strong = "semibold",
+  figures = false,
 }: {
   text: string;
   prices?: boolean;
   strong?: "semibold" | "bold";
+  /** Cost-guide figures already marked in the manuscript. Joins ／月 onto the price. */
+  figures?: boolean;
 }) {
-  const source = prices ? markGuidePrices(text) : text;
+  const source = figures
+    ? text.replace(/\*\*(HK\$\d[\d,]*(?:\.\d+)?)\*\*／月/g, "**$1／月**")
+    : prices
+      ? markGuidePrices(text)
+      : text;
   const parts = source.split(/(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*)/g);
   return (
     <>
       {parts.map((part, index) => {
         const bold = part.match(/^\*\*([^*]+)\*\*$/);
         if (bold) {
-          const price = prices && /HK\$\d/.test(bold[1]);
+          const token = bold[1] ?? "";
+          const price = figures
+            ? /^HK\$\d[\d,]*(?:\.\d+)?(?:／月)?$/.test(token)
+            : prices && /HK\$\d/.test(token);
+          const count = figures && /^\d+(?:\.\d+)?$/.test(token);
           return (
             <strong
               key={index}
               className={
                 price
                   ? "font-bold whitespace-nowrap tabular-nums text-accent"
-                  : strong === "bold"
-                    ? "font-bold text-fg"
-                    : "font-semibold text-fg"
+                  : count
+                    ? "font-bold whitespace-nowrap tabular-nums text-fg"
+                    : strong === "bold"
+                      ? "font-bold text-fg"
+                      : "font-semibold text-fg"
               }
             >
-              {bold[1]}
+              {token}
             </strong>
           );
         }
@@ -134,7 +150,9 @@ function GuideRichText({
 const FIGURE_SPLIT = /(HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?(?:／月(?:起)?|\/month)?|\d{3,5}M)/g;
 
 function isFigure(part: string) {
-  return /^HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?(?:／月(?:起)?|\/month)?$/.test(part) || /^\d{3,5}M$/.test(part);
+  return (
+    /^HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?(?:／月(?:起)?|\/month)?$/.test(part) || /^\d{3,5}M$/.test(part)
+  );
 }
 
 function FigureText({ text }: { text: string }) {
@@ -318,7 +336,10 @@ function GuideCite({ text, part }: { text: string; part: CitePlacement }) {
         }
         if (role === "compare-intro") {
           return (
-            <p key={role} className="border-t border-border pt-3 text-sm font-semibold break-keep text-fg">
+            <p
+              key={role}
+              className="border-t border-border pt-3 text-sm font-semibold break-keep text-fg"
+            >
               <CiteSentence text={group.map((piece) => piece.text).join("")} />
             </p>
           );
@@ -329,7 +350,10 @@ function GuideCite({ text, part }: { text: string; part: CitePlacement }) {
             return (
               <ul key={role} className="space-y-1.5">
                 {group.map((piece) => (
-                  <li key={piece.id} className="break-keep text-base font-medium leading-snug text-fg">
+                  <li
+                    key={piece.id}
+                    className="break-keep text-base font-medium leading-snug text-fg"
+                  >
                     <CiteSentence text={piece.text} />
                   </li>
                 ))}
@@ -629,12 +653,15 @@ function GuideFlow({
   blocks,
   article = false,
   emphasize,
+  figures = false,
 }: {
   blocks: GuideFlowBlock[];
   article?: boolean;
   emphasize?: (text: string) => string;
+  figures?: boolean;
 }) {
   const prose = article ? "text-fg" : "text-muted";
+  const weight = article || figures ? "bold" : "semibold";
   const show = (value: string) => (emphasize ? emphasize(value) : value);
   return (
     <>
@@ -644,11 +671,77 @@ function GuideFlow({
             <h3
               key={index}
               className={
-                article ? "mt-8 text-xl font-bold text-fg" : "mt-6 text-base font-semibold text-fg"
+                article || figures
+                  ? "mt-8 text-xl font-bold text-fg"
+                  : "mt-6 text-base font-semibold text-fg"
               }
             >
               {block.text}
             </h3>
+          );
+        }
+        if (block.kind === "formula") {
+          return (
+            <div
+              key={index}
+              className="mt-3 overflow-x-auto rounded-xl border-l-4 border-accent bg-card px-4 py-3 shadow-[var(--shadow-border)]"
+            >
+              {formulaLines(block.text).map((line, lineIndex) => (
+                <p
+                  key={lineIndex}
+                  className="whitespace-nowrap text-base leading-8 font-bold tabular-nums text-fg"
+                >
+                  {line}
+                </p>
+              ))}
+            </div>
+          );
+        }
+        if (block.kind === "rows") {
+          return (
+            <ul
+              key={index}
+              className="mt-3 overflow-hidden rounded-xl bg-card shadow-[var(--shadow-border)]"
+            >
+              {block.items.map((item) => {
+                const row = splitTrailingFigure(item);
+                if (!row) {
+                  return (
+                    <li
+                      key={item}
+                      className="border-b border-border px-3 py-2.5 text-sm leading-snug text-fg last:border-b-0"
+                    >
+                      <GuideRichText
+                        text={rowDisplayText(item)}
+                        figures={figures}
+                        strong={weight}
+                      />
+                    </li>
+                  );
+                }
+                return (
+                  <li
+                    key={item}
+                    className="flex items-baseline justify-between gap-3 border-b border-border px-3 py-2.5 last:border-b-0"
+                  >
+                    <span className="min-w-0 text-sm leading-snug text-fg">
+                      <GuideRichText
+                        text={rowDisplayText(row.label)}
+                        figures={figures}
+                        strong={weight}
+                      />
+                    </span>
+                    <span className="shrink-0 text-base leading-none whitespace-nowrap">
+                      <GuideRichText
+                        text={rowDisplayText(row.value)}
+                        figures={figures}
+                        strong={weight}
+                      />
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
           );
         }
         if (block.kind === "ul" || block.kind === "ol") {
@@ -660,7 +753,7 @@ function GuideFlow({
             >
               {block.items.map((item) => (
                 <li key={item}>
-                  <GuideRichText text={show(item)} strong={article ? "bold" : "semibold"} />
+                  <GuideRichText text={show(item)} figures={figures} strong={weight} />
                 </li>
               ))}
             </List>
@@ -668,7 +761,7 @@ function GuideFlow({
         }
         return (
           <p key={index} className={`mt-3 text-base leading-relaxed ${prose}`}>
-            <GuideRichText text={show(block.text)} strong={article ? "bold" : "semibold"} />
+            <GuideRichText text={show(block.text)} figures={figures} strong={weight} />
           </p>
         );
       })}
@@ -715,6 +808,7 @@ function GuidePage() {
   const wide = copy.body.some((section) => section.matrix);
   const answerLed = Boolean(copy.answer);
   const article = guide.slug === "hkbn-vs-netvigator" || guide.slug === "village-cmhk";
+  const costGuide = guide.slug === "broadband-total-cost" || guide.slug === "contract-fees";
   const tocClass = "mt-6 rounded-xl bg-card px-4 py-3 shadow-[var(--shadow-border)]";
   const showInlinePlan = !guide.plansOnlyCta;
   const emphasizeBody = article
@@ -733,7 +827,7 @@ function GuidePage() {
       className={
         answerLed
           ? "mx-auto max-w-xl px-4 pt-8 pb-32 lg:max-w-[56rem] lg:pb-12"
-          : `mx-auto px-4 pt-10 pb-10 ${wide ? "max-w-5xl" : "max-w-2xl"}`
+          : `mx-auto px-4 pt-10 pb-10 ${wide ? "max-w-5xl" : "max-w-2xl"}${costGuide ? " guide-article" : ""}`
       }
     >
       <JsonLd data={guideJsonLd(guide)} />
@@ -763,7 +857,7 @@ function GuidePage() {
           <p className="mt-6 text-xs text-subtle">
             <GuideDateLine guide={guide} minutes={guide.minutes} single={answerLed} />
           </p>
-          <GuideTitle text={copy.h1} split={article} />
+          <GuideTitle text={copy.h1} split={article || costGuide} />
           {copy.answer ? (
             <>
               {copy.answer.lead.map((paragraph) => (
@@ -821,13 +915,22 @@ function GuidePage() {
             <section
               key={section.heading}
               id={headingId(section.heading)}
-              className={article ? "mt-12 scroll-mt-24" : "mt-8 scroll-mt-24"}
+              className={article || costGuide ? "mt-12 scroll-mt-24" : "mt-8 scroll-mt-24"}
             >
-              <h2 className={article ? "text-2xl font-bold text-fg" : "text-lg font-semibold"}>
+              <h2
+                className={
+                  article || costGuide ? "text-2xl font-bold text-fg" : "text-lg font-semibold"
+                }
+              >
                 {section.heading}
               </h2>
               {section.flow?.length ? (
-                <GuideFlow blocks={section.flow} article={article} emphasize={emphasizeBody} />
+                <GuideFlow
+                  blocks={section.flow}
+                  article={article}
+                  emphasize={emphasizeBody}
+                  figures={costGuide}
+                />
               ) : (
                 section.paragraphs.map((p) => (
                   <p
@@ -836,7 +939,8 @@ function GuidePage() {
                   >
                     <GuideRichText
                       text={emphasizeBody ? emphasizeBody(p) : p}
-                      strong={article ? "bold" : "semibold"}
+                      figures={costGuide}
+                      strong={article || costGuide ? "bold" : "semibold"}
                     />
                   </p>
                 ))
@@ -856,8 +960,15 @@ function GuidePage() {
             </section>
           ))}
           {copy.faq.length > 0 ? (
-            <section id="faq" className={article ? "mt-12 scroll-mt-24" : "mt-10 scroll-mt-24"}>
-              <h2 className={article ? "text-2xl font-bold text-fg" : "text-lg font-semibold"}>
+            <section
+              id="faq"
+              className={article || costGuide ? "mt-12 scroll-mt-24" : "mt-10 scroll-mt-24"}
+            >
+              <h2
+                className={
+                  article || costGuide ? "text-2xl font-bold text-fg" : "text-lg font-semibold"
+                }
+              >
                 {t("faqHeading")}
               </h2>
               <div className="mt-3 divide-y divide-border rounded-xl bg-card px-4 shadow-[var(--shadow-border)]">
@@ -874,7 +985,8 @@ function GuidePage() {
                     >
                       <GuideRichText
                         text={emphasizeBody ? emphasizeBody(item.a) : item.a}
-                        strong={article ? "bold" : "semibold"}
+                        figures={costGuide}
+                        strong={article || costGuide ? "bold" : "semibold"}
                       />
                     </p>
                   </details>
@@ -887,7 +999,7 @@ function GuidePage() {
               <GuideRichText text={copy.disclaimer} />
             </p>
           ) : null}
-          {related.length > 0 && !answerLed ? (
+          {related.length > 0 && !answerLed && !costGuide ? (
             <section className="mt-10">
               <h2 className="text-lg font-semibold">{t("relatedHeading")}</h2>
               <ul className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -978,7 +1090,7 @@ function GuidePage() {
               ) : null}
             </div>
           </section>
-          {related.length > 0 && answerLed ? (
+          {related.length > 0 && (answerLed || costGuide) ? (
             <section className="mt-8" aria-labelledby="guide-related-heading">
               <h2 id="guide-related-heading" className="text-sm font-medium text-subtle">
                 {t("relatedHeading")}
