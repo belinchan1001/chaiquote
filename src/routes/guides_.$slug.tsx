@@ -424,7 +424,9 @@ function GuidePage() {
               ) : null}
             </>
           ) : (
-            <p className="mt-3 text-base leading-relaxed text-muted">{copy.excerpt}</p>
+            <p className="mt-3 text-base leading-relaxed text-muted">
+              <GuideRichText text={copy.excerpt} />
+            </p>
           )}
           {answerLed ? null : <GuideTopicPicture slug={guide.slug} locale={locale} />}
           {!answerLed && toc.length > 2 ? (
