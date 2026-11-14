@@ -374,15 +374,16 @@
     display: none;
   }
 
+  /* Article links: accent and underline, not a button. */
   .guide-inline-link {
-    color: color-mix(in srgb, var(--color-fg) 70%, var(--color-muted));
+    color: var(--color-accent);
     text-decoration-line: underline;
-    text-decoration-color: color-mix(in srgb, var(--color-fg) 22%, transparent);
-    text-underline-offset: 0.22em;
+    text-decoration-color: color-mix(in srgb, var(--color-accent) 70%, transparent);
+    text-underline-offset: 0.18em;
   }
   .guide-inline-link:hover {
-    color: var(--color-fg);
-    text-decoration-color: color-mix(in srgb, var(--color-fg) 48%, transparent);
+    color: color-mix(in srgb, var(--color-accent) 72%, var(--color-fg));
+    text-decoration-color: currentColor;
   }
 
   /* Hide the FAB until it is clear of the housing table, the plans button, or the fibre pillar. */

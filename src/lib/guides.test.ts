@@ -3,7 +3,20 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { SITE, VILLAGE_CMHK_OPENING, VILLAGE_SPECIFIED_ADDRESS_CITE, linkCmhkVillageAmounts } from "./site.ts";
+import {
+  SITE,
+  VILLAGE_CMHK_OPENING,
+  VILLAGE_SPECIFIED_ADDRESS_CITE,
+  linkCmhkVillageAmounts,
+} from "./site.ts";
+import {
+  CITE_VISUAL_ROLES,
+  GUIDE_INTRO_TERMS_ZH,
+  cmhkVillageCitePieces,
+  emphasizeGuideTerms,
+  hkbnNetvigatorCitePieces,
+  splitGuideTitle,
+} from "./guide-typography.ts";
 import { GUIDES, getGuide, guidePlainText } from "./guides.ts";
 import { SITEMAP_PAGES, sitemapLastmod } from "./seo.ts";
 
@@ -63,7 +76,8 @@ describe("guide manuscript dates vs catalogue stamp", () => {
 describe("village guide cite", () => {
   const opening = `${linkCmhkVillageAmounts(VILLAGE_SPECIFIED_ADDRESS_CITE)}唔好用私樓或公屋價。有冇線睇條村、條街，列出嘅月費係參考例子。完整表見 [村屋光纖月費](/guides/village-fees)。新選擇見 [中國移動香港村屋 1000M](/guides/village-cmhk)。`;
   const cite = `${VILLAGE_SPECIFIED_ADDRESS_CITE}唔好用太古城、嘉湖或公屋價去估。有冇線睇條村、條街，列出嘅月費係參考例子。覆蓋要填完整地址。`;
-  const who = "站內村屋光纖包括中國移動香港、香港寬頻、網上行同 HGC。有線同數碼通嘅家居光纖計劃唔適用村屋。";
+  const who =
+    "站內村屋光纖包括中國移動香港、香港寬頻、網上行同 HGC。有線同數碼通嘅家居光纖計劃唔適用村屋。";
   const fees = `${linkCmhkVillageAmounts(VILLAGE_SPECIFIED_ADDRESS_CITE)}香港寬頻特選村屋 2000M（24 個月）HK$229。網上行村屋 1000M（24 個月）HK$278。HGC 村屋 1G 連電話（24 個月）HK$319。完整表見 [村屋光纖月費](/guides/village-fees)。新選擇見 [中國移動香港村屋 1000M](/guides/village-cmhk)。`;
 
   it("locks the specified-address cite, and keeps CMHK in the provider list", () => {
@@ -194,7 +208,11 @@ describe("HKBN vs Netvigator guide", () => {
 
     const table = guide.answer?.table;
     assert.ok(table);
-    assert.deepEqual(table.headers, ["樓類／速率", "香港寬頻（站內可見例子）", "網上行（站內可見例子）"]);
+    assert.deepEqual(table.headers, [
+      "樓類／速率",
+      "香港寬頻（站內可見例子）",
+      "網上行（站內可見例子）",
+    ]);
     assert.equal(table.rows.length, 5);
     assert.equal(table.rows[1]?.[2], "約 HK$108／月（36 個月＋路由器）；綑綁方案約 HK$186–198／月");
     assert.match(table.rows[4]?.[1] ?? "", /特選 2000M 約 HK\$229／月/);
@@ -239,8 +257,20 @@ describe("HKBN vs Netvigator guide", () => {
       guide.body.map((section) => section.heading),
       ["點樣睇呢張表", "月費比較", "計劃比較", "公司比較", "下一步：按樓類睇光纖計劃"],
     );
+    const company = guide.body.find((section) => section.heading === "公司比較");
+    assert.deepEqual(company?.flow?.filter((block) => block.kind === "p").slice(0, 3).map((block) => block.kind === "p" ? block.text : ""), [
+      "網上行係香港電訊（HKT）嘅家居寬頻品牌，服務由 Hong Kong Telecommunications (HKT) Limited 提供。香港寬頻係另一間獨立電訊商，同樣做家居光纖，但兩間唔屬同一集團。",
+      "對用家嚟講，分別主要喺報價同配套點組：網上行同一集團仲有流動同媒體服務，所以站內私樓計劃有時會連電話、電視或者其他會籍一齊報。香港寬頻家居計劃多數以寬頻合約同配備為主，部分價錢屬限時快閃，預約安裝有期限。呢啲只係營運同報價方式嘅分別，唔等於邊間覆蓋更廣、安裝更快，或者整體較好。",
+      "控股股東係中國移動香港有限公司，仍然獨立上市、分開報價，呢篇比較嘅係香港寬頻家居光纖計劃，唔等同中國移動香港嘅村屋計劃。",
+    ]);
+    assert.equal(JSON.stringify(company).includes("2025 年 9 月"), false);
+    assert.equal(JSON.stringify(company).includes("78%"), false);
+    assert.equal(JSON.stringify(guide.body).includes("HK$148"), false);
+    assert.match(company?.flow?.at(-1) && company.flow.at(-1)?.kind === "p" ? company.flow.at(-1)?.text ?? "" : "", /^呢四樣要以電訊商確認為準/);
     assert.equal(
-      GUIDES.filter((item) => item.category === "fiber").some((item) => item.slug === "hkbn-vs-netvigator"),
+      GUIDES.filter((item) => item.category === "fiber").some(
+        (item) => item.slug === "hkbn-vs-netvigator",
+      ),
       true,
     );
     assert.equal(
@@ -252,8 +282,101 @@ describe("HKBN vs Netvigator guide", () => {
     const citeAt = route.indexOf("copy.answer.cite");
     const afterAt = route.indexOf("copy.answer.afterCite");
     const tableAt = route.indexOf("<GuideAnswerTable");
-    assert.ok(citeAt > 0 && afterAt > citeAt && tableAt > afterAt);
+    const laterAt = route.indexOf('part="later"');
+    assert.ok(citeAt > 0 && afterAt > citeAt && tableAt > afterAt && laterAt > tableAt);
     assert.match(route, /guide\.plansOnlyCta/);
+    assert.equal(route.includes("sr-only"), false);
+    assert.equal(route.includes("visually-hidden"), false);
+  });
+
+  it("breaks the locked cite into visible pieces without changing a character", () => {
+    const guide = getGuide("hkbn-vs-netvigator");
+    assert.ok(guide?.answer && guide.answerEn);
+    for (const cite of [guide.answer.cite, guide.answerEn.cite]) {
+      const pieces = hkbnNetvigatorCitePieces(cite);
+      assert.ok(pieces);
+      assert.equal(pieces.map((piece) => piece.text).join(""), cite);
+      assert.equal(
+        pieces.some((piece) => piece.role === "note"),
+        true,
+      );
+      assert.equal(
+        pieces.some((piece) => piece.role === "site-caveat"),
+        true,
+      );
+      for (const role of CITE_VISUAL_ROLES) {
+        assert.equal(
+          pieces.some((piece) => piece.role === role),
+          true,
+          role,
+        );
+      }
+    }
+    assert.equal(guide.answer.cite.includes(VILLAGE_SPECIFIED_ADDRESS_CITE), true);
+    const zhPieces = hkbnNetvigatorCitePieces(guide.answer.cite);
+    assert.ok(zhPieces);
+    const opening = zhPieces
+      .filter((piece) => piece.placement === "opening")
+      .map((piece) => piece.text)
+      .join("");
+    const later = zhPieces
+      .filter((piece) => piece.placement === "later")
+      .map((piece) => piece.text)
+      .join("");
+    assert.equal(opening.includes("HK$58–98"), true);
+    assert.equal(opening.includes("HK$98／月"), true);
+    assert.equal(opening.includes("HK$108／月"), true);
+    assert.equal(opening.includes("呢條中國移動香港計劃唔屬呢篇兩間比較"), false);
+    assert.equal(opening.includes("HK$108 只係"), false);
+    assert.equal(opening.includes("HK$229 只係"), false);
+    assert.equal(opening.includes("月費、覆蓋同安裝以電訊商確認為準"), false);
+    assert.equal(later.includes("豁免安裝費原價 HK$680"), true);
+    assert.equal(later.includes("唔等於所有村屋都係呢個價"), true);
+    assert.equal(later.includes("同系列正價為 HK$378"), true);
+    assert.equal(later.includes("呢條中國移動香港計劃唔屬呢篇兩間比較"), true);
+    assert.equal(later.includes("HK$108 只係網上行公居屋／私樓 1000M 例子"), true);
+    assert.equal(later.includes("HK$229 只係香港寬頻特選村屋 2000M 例子"), true);
+    assert.equal(later.includes("月費、覆蓋同安裝以電訊商確認為準"), true);
+    const visible = hkbnNetvigatorCitePieces(guide.answer.cite)
+      ?.map((piece) => piece.text)
+      .join("");
+    for (const fact of [
+      "網上行係 HKT 家居寬頻品牌。",
+      "全站（各電訊商）光纖參考：",
+      "公居屋約 HK$58–98／月",
+      "私樓約 HK$88–109／月",
+      "村屋由指定地址優惠 HK$218／月起",
+      "中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680",
+      "唔等於所有村屋都係呢個價",
+      "同系列正價為 HK$378。",
+      "呢條中國移動香港計劃唔屬呢篇兩間比較。",
+      "2026 年 11 月站內可見，呢篇只比較香港寬頻同網上行：",
+      "公居屋／私樓 1000M 香港寬頻約 HK$98／月（24 或 36 個月）",
+      "網上行約 HK$108／月（36 個月＋路由器）",
+      "村屋係另一套",
+      "網上行村屋 1000M 約 HK$278／月",
+      "香港寬頻特選村屋 2000M 約 HK$229／月",
+      "香港寬頻村屋 1000M（27 個月）約 HK$378／月",
+      "HK$108 只係網上行公居屋／私樓 1000M 例子，唔係全站私樓參考",
+      "HK$229 只係香港寬頻特選村屋 2000M 例子，唔係全站村屋起步價",
+      "月費、覆蓋同安裝以電訊商確認為準。",
+    ]) {
+      assert.equal(visible?.includes(fact), true, fact);
+    }
+    assert.equal(hkbnNetvigatorCitePieces(getGuide("fiber")?.answer?.cite ?? ""), null);
+    const title = splitGuideTitle(guide.h1);
+    assert.ok(title);
+    assert.equal(title.title + title.mark + title.subtitle, guide.h1);
+    assert.equal(title.title, "香港寬頻 vs 網上行");
+    assert.equal(title.subtitle, "月費、計劃同公司比較");
+    const intro = emphasizeGuideTerms(guide.answer.afterCite?.[0] ?? "", GUIDE_INTRO_TERMS_ZH);
+    assert.equal(intro.replaceAll("**", ""), guide.answer.afterCite?.[0]);
+    assert.match(intro, /\*\*香港寬頻\*\*/);
+    assert.match(intro, /\*\*網上行\*\*/);
+    assert.match(intro, /\*\*樓類\*\*/);
+    assert.match(intro, /\*\*速率\*\*/);
+    assert.doesNotMatch(intro, /\*\*公居屋\*\*/);
+    assert.equal(intro.includes("最平"), false);
   });
 });
 
@@ -347,10 +470,19 @@ describe("CMHK village 1000M guide", () => {
     assert.equal(guide.published, "2026-11-14");
     assert.equal(guide.modified, "2026-11-14");
     assert.equal(sitemapLastmod("/guides/village-cmhk"), "2026-11-14");
-    assert.equal(SITEMAP_PAGES.some((item) => item.path === "/guides/village-cmhk"), true);
+    assert.equal(
+      SITEMAP_PAGES.some((item) => item.path === "/guides/village-cmhk"),
+      true,
+    );
     assert.equal(guide.plansOnlyCta, true);
     assert.equal(guide.cta, undefined);
-    assert.deepEqual(guide.plans, [{ href: "/plans?cat=broadband&housing=village", label: "村屋光纖計劃", labelEn: "Village fibre plans" }]);
+    assert.deepEqual(guide.plans, [
+      {
+        href: "/plans?cat=broadband&housing=village",
+        label: "村屋光纖計劃",
+        labelEn: "Village fibre plans",
+      },
+    ]);
     assert.deepEqual(guide.related, ["village", "village-fees", "fiber"]);
     assert.equal(getGuide("fiber")?.related?.includes("village-cmhk"), true);
     assert.equal(getGuide("village")?.related?.includes("village-cmhk"), true);
@@ -358,6 +490,27 @@ describe("CMHK village 1000M guide", () => {
 
     assert.equal(guide.answer?.lead.length, 0);
     assert.equal(guidePlainText(guide.answer?.cite ?? ""), VILLAGE_CMHK_OPENING);
+    const cmhkPieces = cmhkVillageCitePieces(guide.answer?.cite ?? "");
+    const cmhkEn = cmhkVillageCitePieces(guide.answerEn?.cite ?? "");
+    assert.ok(cmhkPieces && cmhkEn);
+    assert.equal(
+      cmhkPieces.map((piece) => piece.text).join(""),
+      guide.answer?.cite,
+    );
+    assert.equal(
+      cmhkEn.map((piece) => piece.text).join(""),
+      guide.answerEn?.cite,
+    );
+    assert.equal(
+      cmhkPieces.every((piece) => piece.placement === "opening"),
+      true,
+    );
+    assert.equal(guidePlainText(cmhkPieces.map((piece) => piece.text).join("")), VILLAGE_CMHK_OPENING);
+    const cmhkTitle = splitGuideTitle(guide.h1);
+    assert.ok(cmhkTitle);
+    assert.equal(cmhkTitle.title + cmhkTitle.mark + cmhkTitle.subtitle, guide.h1);
+    assert.equal(cmhkTitle.title, "村屋光纖新選擇");
+    assert.equal(cmhkTitle.subtitle, "中國移動香港 1000M");
     assert.equal(guidePlainText(guide.excerpt), VILLAGE_CMHK_OPENING);
     assert.match(guide.answer?.cite ?? "", /\/plans\/cmhk-ftth-1000-village-24m-378/);
     assert.match(guide.answer?.cite ?? "", /\/plans\/cmhk-ftth-1000-village-24m-218/);
@@ -382,11 +535,17 @@ describe("CMHK village 1000M guide", () => {
     assert.match(table.notes?.[0] ?? "", /\/guides\/village-fees/);
 
     const route = readFileSync(join(here, "../routes/guides_.$slug.tsx"), "utf8");
-    const tableFn = route.slice(route.indexOf("function GuideAnswerTable"), route.indexOf("function GuideFlow"));
+    const tableFn = route.slice(
+      route.indexOf("function GuideAnswerTable"),
+      route.indexOf("function GuideFlow"),
+    );
     const scrollAt = tableFn.indexOf("overflow-x-auto");
     const notesAt = tableFn.indexOf("table.notes");
     const scrollClose = tableFn.indexOf("</div>", scrollAt);
-    assert.ok(scrollAt > 0 && notesAt > scrollClose, "table notes sit outside the horizontal scroll");
+    assert.ok(
+      scrollAt > 0 && notesAt > scrollClose,
+      "table notes sit outside the horizontal scroll",
+    );
 
     const page = JSON.stringify(guide);
     assert.equal(page.includes("最平"), false);

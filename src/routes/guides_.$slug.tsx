@@ -16,6 +16,20 @@ import {
   type GuideTable,
 } from "@/lib/guides";
 import { guideTopicImage } from "@/lib/guide-media";
+import {
+  CITE_VISUAL_ROLES,
+  GUIDE_BODY_TERMS_EN,
+  GUIDE_BODY_TERMS_ZH,
+  GUIDE_INTRO_TERMS_EN,
+  GUIDE_INTRO_TERMS_ZH,
+  emphasizeGuideTerms,
+  guideCitePieces,
+  markGuidePrices,
+  splitGuideTitle,
+  type CitePiece,
+  type CitePlacement,
+  type CiteRole,
+} from "@/lib/guide-typography";
 import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { canonicalUrl, notFoundHead } from "@/lib/canonical";
@@ -62,23 +76,51 @@ function headingId(heading: string) {
   return heading.replace(/\s+/g, "");
 }
 
-function GuideRichText({ text }: { text: string }) {
-  const parts = text.split(/(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*)/g);
+function GuideRichText({
+  text,
+  prices = false,
+  strong = "semibold",
+}: {
+  text: string;
+  prices?: boolean;
+  strong?: "semibold" | "bold";
+}) {
+  const source = prices ? markGuidePrices(text) : text;
+  const parts = source.split(/(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*)/g);
   return (
     <>
       {parts.map((part, index) => {
         const bold = part.match(/^\*\*([^*]+)\*\*$/);
         if (bold) {
+          const price = prices && /HK\$\d/.test(bold[1]);
           return (
-            <strong key={index} className="font-semibold text-fg">
+            <strong
+              key={index}
+              className={
+                price
+                  ? "font-bold whitespace-nowrap tabular-nums text-accent"
+                  : strong === "bold"
+                    ? "font-bold text-fg"
+                    : "font-semibold text-fg"
+              }
+            >
               {bold[1]}
             </strong>
           );
         }
         const link = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
         if (link) {
+          const priceLink = /^HK\$\d/.test(link[1]);
           return (
-            <a key={index} href={link[2]} className="guide-inline-link">
+            <a
+              key={index}
+              href={link[2]}
+              className={
+                priceLink
+                  ? "guide-inline-link font-bold whitespace-nowrap tabular-nums"
+                  : "guide-inline-link"
+              }
+            >
               {link[1]}
             </a>
           );
@@ -86,6 +128,261 @@ function GuideRichText({ text }: { text: string }) {
         return <span key={index}>{part}</span>;
       })}
     </>
+  );
+}
+
+const FIGURE_SPLIT = /(HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?(?:／月(?:起)?|\/month)?|\d{3,5}M)/g;
+
+function isFigure(part: string) {
+  return /^HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?(?:／月(?:起)?|\/month)?$/.test(part) || /^\d{3,5}M$/.test(part);
+}
+
+function FigureText({ text }: { text: string }) {
+  const parts = text.split(FIGURE_SPLIT);
+  return (
+    <>
+      {parts.map((part, index) =>
+        isFigure(part) ? (
+          <strong key={index} className="font-bold whitespace-nowrap tabular-nums text-accent">
+            {part}
+          </strong>
+        ) : (
+          <span key={index}>{part}</span>
+        ),
+      )}
+    </>
+  );
+}
+
+function trimRowPunctuation(text: string) {
+  return text.replace(/^[\s、，；。,;]+/u, "").replace(/[\s、，；。,;]+$/u, "");
+}
+
+/** Drop list punctuation from a split row. Words, figures, and inner qualifiers stay. */
+function unwrapRow(raw: string) {
+  const text = raw.trim();
+  if (text.startsWith("（") && text.endsWith("）。")) return text.slice(1, -2);
+  if (text.startsWith("(") && text.endsWith(").")) return text.slice(1, -2);
+  return text;
+}
+
+function parsePriceRow(raw: string) {
+  const text = trimRowPunctuation(unwrapRow(raw));
+  const match = /^(.*?)(HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?)(.*)$/.exec(text);
+  if (!match) return null;
+  const unitMatch = /^(\s*(?:／月(?:起)?|\/month))([\s\S]*)$/.exec(match[3]);
+  return {
+    label: trimRowPunctuation(match[1]),
+    price: match[2],
+    unit: unitMatch ? unitMatch[1].trim() : "",
+    qualifier: trimRowPunctuation(unitMatch ? unitMatch[2] : match[3]),
+  };
+}
+
+function CiteChip({ text }: { text: string }) {
+  const match = /^(.*?)(HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?)(.*)$/.exec(text);
+  if (!match) return <FigureText text={text} />;
+  const [, prefix, price, suffix] = match;
+  const shownSuffix = trimRowPunctuation(suffix);
+  return (
+    <>
+      <span className="block break-keep text-xs font-medium leading-snug text-muted">
+        {prefix.trim()}
+      </span>
+      <span className="mt-1 block text-lg leading-none font-bold whitespace-nowrap tabular-nums text-accent">
+        {price}
+        {shownSuffix ? (
+          <span className="text-sm font-semibold whitespace-nowrap text-fg">{shownSuffix}</span>
+        ) : null}
+      </span>
+    </>
+  );
+}
+
+function PriceRow({ text }: { text: string }) {
+  const row = parsePriceRow(text);
+  if (!row) {
+    return (
+      <p className="break-keep text-base font-medium leading-snug text-fg">
+        <CiteSentence text={text} />
+      </p>
+    );
+  }
+  const price = (
+    <p className="shrink-0 text-lg leading-none font-bold whitespace-nowrap tabular-nums text-accent">
+      {row.price}
+      {row.unit ? <span className="text-sm font-semibold text-fg">{row.unit}</span> : null}
+    </p>
+  );
+  const qualifier = row.qualifier ? (
+    <p className="mt-1 break-keep text-xs leading-snug text-muted">{row.qualifier}</p>
+  ) : null;
+  if (row.label.length > 18) {
+    return (
+      <div className="rounded-lg bg-surface px-3 py-2.5">
+        <p className="break-keep text-sm font-medium leading-snug text-fg">{row.label}</p>
+        <div className="mt-1">{price}</div>
+        {qualifier}
+      </div>
+    );
+  }
+  return (
+    <div className="rounded-lg bg-surface px-3 py-2.5">
+      <div className="flex items-baseline justify-between gap-3">
+        <p className="min-w-0 break-keep text-sm font-medium leading-snug text-fg">{row.label}</p>
+        {price}
+      </div>
+      {qualifier}
+    </div>
+  );
+}
+
+function citeGroup(pieces: CitePiece[], role: CiteRole) {
+  return pieces.filter((piece) => piece.role === role);
+}
+
+function CiteSentence({ text }: { text: string }) {
+  if (text.includes("](")) {
+    return <GuideRichText text={text} prices strong="bold" />;
+  }
+  return <FigureText text={text} />;
+}
+
+function GuideCite({ text, part }: { text: string; part: CitePlacement }) {
+  const pieces = guideCitePieces(text);
+  if (!pieces) {
+    if (part === "later") return null;
+    return <GuideRichText text={text} />;
+  }
+  const visible = pieces.filter((piece) => piece.placement === part);
+  if (!visible.length) return null;
+  if (part === "later") {
+    return (
+      <blockquote className="mt-4 border-l-4 border-border px-4 py-1 text-xs leading-relaxed break-keep text-muted">
+        <div className="space-y-2">
+          {visible.map((piece) => (
+            <p key={piece.id}>
+              <CiteSentence text={piece.text} />
+            </p>
+          ))}
+        </div>
+      </blockquote>
+    );
+  }
+  const grouped = CITE_VISUAL_ROLES.map((role) => ({ role, pieces: citeGroup(visible, role) }));
+  return (
+    <div className="space-y-3">
+      {grouped.map(({ role, pieces: group }) => {
+        if (!group.length) return null;
+        if (role === "lead") {
+          return (
+            <p key={role} className="text-base leading-relaxed text-fg">
+              <CiteSentence text={group.map((piece) => piece.text).join("")} />
+            </p>
+          );
+        }
+        if (role === "site-label") {
+          return (
+            <p key={role} className="text-xs font-semibold tracking-wide text-subtle">
+              <CiteSentence text={group.map((piece) => piece.text).join("")} />
+            </p>
+          );
+        }
+        if (role === "site-chip") {
+          return (
+            <ul key={role} className="grid grid-cols-2 gap-2">
+              {group.map((piece, index) => (
+                <li
+                  key={piece.id}
+                  className={`rounded-lg bg-surface px-3 py-2 ${index === group.length - 1 ? "col-span-2" : ""}`}
+                >
+                  <CiteChip text={piece.text} />
+                </li>
+              ))}
+            </ul>
+          );
+        }
+        if (role === "site-qualifier") {
+          return (
+            <p key={role} className="text-sm leading-relaxed text-muted">
+              <CiteSentence text={group.map((piece) => piece.text).join("")} />
+            </p>
+          );
+        }
+        if (role === "site-caveat") {
+          return (
+            <p key={role} className="text-xs leading-relaxed text-muted">
+              <CiteSentence text={group.map((piece) => piece.text).join("")} />
+            </p>
+          );
+        }
+        if (role === "compare-intro") {
+          return (
+            <p key={role} className="border-t border-border pt-3 text-sm font-semibold break-keep text-fg">
+              <CiteSentence text={group.map((piece) => piece.text).join("")} />
+            </p>
+          );
+        }
+        if (role === "compare-row" || role === "village-row") {
+          const linked = group.some((piece) => piece.text.includes("]("));
+          if (linked) {
+            return (
+              <ul key={role} className="space-y-1.5">
+                {group.map((piece) => (
+                  <li key={piece.id} className="break-keep text-base font-medium leading-snug text-fg">
+                    <CiteSentence text={piece.text} />
+                  </li>
+                ))}
+              </ul>
+            );
+          }
+          return (
+            <ul key={role} className="grid gap-2">
+              {group.map((piece) => (
+                <li key={piece.id}>
+                  <PriceRow text={piece.text} />
+                </li>
+              ))}
+            </ul>
+          );
+        }
+        if (role === "village-label") {
+          return (
+            <p key={role} className="text-sm font-bold break-keep text-fg">
+              {trimRowPunctuation(group.map((piece) => piece.text).join(""))}
+            </p>
+          );
+        }
+        return (
+          <div
+            key={role}
+            className="space-y-1.5 border-t border-border pt-3 text-xs leading-relaxed text-muted"
+          >
+            {group.map((piece) => (
+              <p key={piece.id}>
+                <CiteSentence text={piece.text} />
+              </p>
+            ))}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function GuideTitle({ text, split }: { text: string; split: boolean }) {
+  const parts = split ? splitGuideTitle(text) : null;
+  if (!parts) return <h1 className="mt-2 text-title font-semibold">{text}</h1>;
+  return (
+    <h1 className="mt-3 text-fg">
+      <span className="block text-[2rem] leading-[1.15] font-bold text-fg sm:text-[2.65rem]">
+        {parts.title}
+        <span className="text-subtle">{parts.mark}</span>
+      </span>
+      <span className="mt-2 block text-lg leading-snug font-medium text-muted sm:text-xl">
+        {parts.subtitle}
+      </span>
+    </h1>
   );
 }
 
@@ -235,18 +532,43 @@ function GuideToc({
   );
 }
 
-function GuideAnswerTable({ table }: { table: GuideAnswer["table"] }) {
+function GuideAnswerTable({
+  table,
+  article = false,
+}: {
+  table: GuideAnswer["table"];
+  article?: boolean;
+}) {
   return (
-    <div className="mt-4">
-      <div id="guide-answer-table" className="overflow-x-auto rounded-xl shadow-[var(--shadow-border)]">
+    <div className={article ? "mt-3" : "mt-4"}>
+      <div
+        id="guide-answer-table"
+        className="overflow-x-auto rounded-xl shadow-[var(--shadow-border)]"
+      >
         <table className="w-full border-collapse bg-card text-left text-sm">
-          <caption className="border-b border-border px-3 py-3 text-left text-xs leading-relaxed text-subtle">
+          <caption
+            className={
+              article
+                ? "border-b border-border px-3 py-3 text-left text-sm leading-relaxed font-semibold text-fg"
+                : "border-b border-border px-3 py-3 text-left text-xs leading-relaxed text-subtle"
+            }
+          >
             {table.caption}
           </caption>
           <thead>
-            <tr className="border-b border-border">
+            <tr
+              className={article ? "border-b-2 border-fg/15 bg-surface" : "border-b border-border"}
+            >
               {table.headers.map((header) => (
-                <th key={header} scope="col" className="px-3 py-3 align-bottom font-semibold text-fg">
+                <th
+                  key={header}
+                  scope="col"
+                  className={
+                    article
+                      ? "px-3 py-3.5 align-bottom text-sm font-bold text-fg"
+                      : "px-3 py-3 align-bottom font-semibold text-fg"
+                  }
+                >
                   {header}
                 </th>
               ))}
@@ -260,13 +582,28 @@ function GuideAnswerTable({ table }: { table: GuideAnswer["table"] }) {
                     <th
                       key={index}
                       scope="row"
-                      className="px-3 py-3 align-top font-semibold whitespace-nowrap text-fg"
+                      className={
+                        article
+                          ? "px-3 py-3 align-top font-bold whitespace-nowrap text-fg"
+                          : "px-3 py-3 align-top font-semibold whitespace-nowrap text-fg"
+                      }
                     >
-                      <GuideRichText text={cell} />
+                      <GuideRichText
+                        text={cell}
+                        prices={article}
+                        strong={article ? "bold" : "semibold"}
+                      />
                     </th>
                   ) : (
-                    <td key={index} className="px-3 py-3 align-top leading-relaxed text-muted">
-                      <GuideRichText text={cell} />
+                    <td
+                      key={index}
+                      className={
+                        article
+                          ? "px-3 py-3 align-top text-sm leading-relaxed text-fg"
+                          : "px-3 py-3 align-top leading-relaxed text-muted"
+                      }
+                    >
+                      <GuideRichText text={cell} prices={article} />
                     </td>
                   ),
                 )}
@@ -279,7 +616,7 @@ function GuideAnswerTable({ table }: { table: GuideAnswer["table"] }) {
         <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-muted">
           {table.notes.map((note) => (
             <li key={note}>
-              <GuideRichText text={note} />
+              <GuideRichText text={note} prices={article} />
             </li>
           ))}
         </ul>
@@ -288,13 +625,28 @@ function GuideAnswerTable({ table }: { table: GuideAnswer["table"] }) {
   );
 }
 
-function GuideFlow({ blocks }: { blocks: GuideFlowBlock[] }) {
+function GuideFlow({
+  blocks,
+  article = false,
+  emphasize,
+}: {
+  blocks: GuideFlowBlock[];
+  article?: boolean;
+  emphasize?: (text: string) => string;
+}) {
+  const prose = article ? "text-fg" : "text-muted";
+  const show = (value: string) => (emphasize ? emphasize(value) : value);
   return (
     <>
       {blocks.map((block, index) => {
         if (block.kind === "h3") {
           return (
-            <h3 key={index} className="mt-6 text-base font-semibold text-fg">
+            <h3
+              key={index}
+              className={
+                article ? "mt-8 text-xl font-bold text-fg" : "mt-6 text-base font-semibold text-fg"
+              }
+            >
               {block.text}
             </h3>
           );
@@ -304,19 +656,19 @@ function GuideFlow({ blocks }: { blocks: GuideFlowBlock[] }) {
           return (
             <List
               key={index}
-              className={`mt-3 space-y-2 pl-5 text-base leading-relaxed text-muted ${block.kind === "ol" ? "list-decimal" : "list-disc"}`}
+              className={`mt-3 space-y-2 pl-5 text-base leading-relaxed ${prose} ${block.kind === "ol" ? "list-decimal" : "list-disc"}`}
             >
               {block.items.map((item) => (
                 <li key={item}>
-                  <GuideRichText text={item} />
+                  <GuideRichText text={show(item)} strong={article ? "bold" : "semibold"} />
                 </li>
               ))}
             </List>
           );
         }
         return (
-          <p key={index} className="mt-3 text-base leading-relaxed text-muted">
-            <GuideRichText text={block.text} />
+          <p key={index} className={`mt-3 text-base leading-relaxed ${prose}`}>
+            <GuideRichText text={show(block.text)} strong={article ? "bold" : "semibold"} />
           </p>
         );
       })}
@@ -362,8 +714,17 @@ function GuidePage() {
   const firstTableHeading = copy.body.find((section) => section.table || section.matrix)?.heading;
   const wide = copy.body.some((section) => section.matrix);
   const answerLed = Boolean(copy.answer);
+  const article = guide.slug === "hkbn-vs-netvigator" || guide.slug === "village-cmhk";
   const tocClass = "mt-6 rounded-xl bg-card px-4 py-3 shadow-[var(--shadow-border)]";
   const showInlinePlan = !guide.plansOnlyCta;
+  const emphasizeBody = article
+    ? (value: string) =>
+        emphasizeGuideTerms(
+          value,
+          locale === "en" ? GUIDE_BODY_TERMS_EN : GUIDE_BODY_TERMS_ZH,
+          true,
+        )
+    : undefined;
 
   return (
     <article
@@ -402,7 +763,7 @@ function GuidePage() {
           <p className="mt-6 text-xs text-subtle">
             <GuideDateLine guide={guide} minutes={guide.minutes} single={answerLed} />
           </p>
-          <h1 className="mt-2 text-title font-semibold">{copy.h1}</h1>
+          <GuideTitle text={copy.h1} split={article} />
           {copy.answer ? (
             <>
               {copy.answer.lead.map((paragraph) => (
@@ -410,15 +771,39 @@ function GuidePage() {
                   <GuideRichText text={paragraph} />
                 </p>
               ))}
-              <blockquote className="mt-6 rounded-xl border-l-4 border-accent bg-card px-4 py-4 text-base leading-relaxed text-fg shadow-[var(--shadow-border)]">
-                <GuideRichText text={copy.answer.cite} />
+              <blockquote
+                className={
+                  article
+                    ? "mt-4 rounded-xl border-l-4 border-accent bg-card px-4 py-3 text-base leading-snug text-fg shadow-[var(--shadow-border)]"
+                    : "mt-6 rounded-xl border-l-4 border-accent bg-card px-4 py-4 text-base leading-relaxed text-fg shadow-[var(--shadow-border)]"
+                }
+              >
+                <GuideCite text={copy.answer.cite} part="opening" />
               </blockquote>
               {copy.answer.afterCite?.map((paragraph) => (
-                <p key={paragraph} className="mt-3 text-base leading-relaxed text-muted">
-                  <GuideRichText text={paragraph} />
+                <p
+                  key={paragraph}
+                  className={
+                    article
+                      ? "mt-3 text-base leading-relaxed text-fg"
+                      : "mt-3 text-base leading-relaxed text-muted"
+                  }
+                >
+                  <GuideRichText
+                    text={
+                      article
+                        ? emphasizeGuideTerms(
+                            paragraph,
+                            locale === "en" ? GUIDE_INTRO_TERMS_EN : GUIDE_INTRO_TERMS_ZH,
+                          )
+                        : paragraph
+                    }
+                    strong={article ? "bold" : "semibold"}
+                  />
                 </p>
               ))}
-              <GuideAnswerTable table={copy.answer.table} />
+              <GuideAnswerTable table={copy.answer.table} article={article} />
+              <GuideCite text={copy.answer.cite} part="later" />
               {toc.length > 2 ? (
                 <GuideToc items={toc} label={t("tocLabel")} className={`${tocClass} lg:hidden`} />
               ) : null}
@@ -436,15 +821,23 @@ function GuidePage() {
             <section
               key={section.heading}
               id={headingId(section.heading)}
-              className="mt-8 scroll-mt-24"
+              className={article ? "mt-12 scroll-mt-24" : "mt-8 scroll-mt-24"}
             >
-              <h2 className="text-lg font-semibold">{section.heading}</h2>
+              <h2 className={article ? "text-2xl font-bold text-fg" : "text-lg font-semibold"}>
+                {section.heading}
+              </h2>
               {section.flow?.length ? (
-                <GuideFlow blocks={section.flow} />
+                <GuideFlow blocks={section.flow} article={article} emphasize={emphasizeBody} />
               ) : (
                 section.paragraphs.map((p) => (
-                  <p key={p} className="mt-3 text-base leading-relaxed text-muted">
-                    <GuideRichText text={p} />
+                  <p
+                    key={p}
+                    className={`mt-3 text-base leading-relaxed ${article ? "text-fg" : "text-muted"}`}
+                  >
+                    <GuideRichText
+                      text={emphasizeBody ? emphasizeBody(p) : p}
+                      strong={article ? "bold" : "semibold"}
+                    />
                   </p>
                 ))
               )}
@@ -463,8 +856,10 @@ function GuidePage() {
             </section>
           ))}
           {copy.faq.length > 0 ? (
-            <section id="faq" className="mt-10 scroll-mt-24">
-              <h2 className="text-lg font-semibold">{t("faqHeading")}</h2>
+            <section id="faq" className={article ? "mt-12 scroll-mt-24" : "mt-10 scroll-mt-24"}>
+              <h2 className={article ? "text-2xl font-bold text-fg" : "text-lg font-semibold"}>
+                {t("faqHeading")}
+              </h2>
               <div className="mt-3 divide-y divide-border rounded-xl bg-card px-4 shadow-[var(--shadow-border)]">
                 {copy.faq.map((item) => (
                   <details key={item.q} className="group py-3">
@@ -474,8 +869,13 @@ function GuidePage() {
                         +
                       </span>
                     </summary>
-                    <p className="pb-3 text-sm leading-relaxed text-muted">
-                      <GuideRichText text={item.a} />
+                    <p
+                      className={`pb-3 text-sm leading-relaxed ${article ? "text-fg" : "text-muted"}`}
+                    >
+                      <GuideRichText
+                        text={emphasizeBody ? emphasizeBody(item.a) : item.a}
+                        strong={article ? "bold" : "semibold"}
+                      />
                     </p>
                   </details>
                 ))}
@@ -509,7 +909,10 @@ function GuidePage() {
               </ul>
             </section>
           ) : null}
-          <section id="guide-end-cta" className="mt-10 rounded-xl bg-card p-5 shadow-[var(--shadow-border)]">
+          <section
+            id="guide-end-cta"
+            className="mt-10 rounded-xl bg-card p-5 shadow-[var(--shadow-border)]"
+          >
             <p className="font-semibold">{copy.ctaLead ?? t("guideCta")}</p>
             <p className="mt-2 text-sm leading-relaxed text-muted">{t("guideConfirm")}</p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
