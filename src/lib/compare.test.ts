@@ -1725,6 +1725,15 @@ describe("CMHK village 1000M $218", () => {
     assert.equal(filterPlans({ cat: "broadband", housing: "public" }).some((item) => item.id === row.id), false);
     assert.equal(filterPlans({ cat: "broadband", housing: "private" }).some((item) => item.id === row.id), false);
     assert.equal(plan("cmhk-ftth-1000").monthlyFee, 98);
+    const higher = plan("cmhk-ftth-1000-village-24m-378");
+    assert.equal(higher.providerId, "cmhk");
+    assert.equal(higher.monthlyFee, 378);
+    assert.equal(higher.contractMonths, 24);
+    assert.equal(higher.install, "豁免安裝費");
+    assert.deepEqual(higher.housing, ["village"]);
+    assert.equal(filterPlans({ cat: "broadband", housing: "village" }).some((item) => item.id === higher.id), true);
+    assert.equal(filterPlans({ cat: "broadband", housing: "public" }).some((item) => item.id === higher.id), false);
+    assert.equal(cheapestVillageBroadbandPlan()?.id, "cmhk-ftth-1000-village-24m-218");
   });
 });
 
