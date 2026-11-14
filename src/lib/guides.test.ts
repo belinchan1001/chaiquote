@@ -825,3 +825,209 @@ describe("total-cost and contract-fee guides", () => {
     );
   });
 });
+
+describe("switch and renewal guides", () => {
+  const DISCLAIMER =
+    "以上僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。";
+
+  function shown(section: {
+    paragraphs: string[];
+    flow?: { kind: string; text?: string; items?: string[] }[];
+  }) {
+    const source = section.flow?.length
+      ? section.flow
+          .map((block) => (block.text != null ? block.text : (block.items ?? []).join("")))
+          .join("")
+      : section.paragraphs.join("");
+    return guidePlainText(source).replace(/\s+/g, "");
+  }
+
+  it("keeps the draft H1s, one plans exit, and the manuscript dates", () => {
+    const switched = getGuide("switch-broadband");
+    const renewal = getGuide("broadband-renewal");
+    assert.ok(switched && renewal);
+
+    assert.equal(switched.h1, "轉台寬頻：舊約、安裝期、點樣術接");
+    assert.equal(switched.title, switched.h1);
+    assert.equal(switched.seoTitle, "轉寬頻點樣減少斷網｜齊Quote");
+    assert.equal(
+      switched.description,
+      "轉寬頻先查舊約完約日同新線安裝期，避免空窗。寬頻唔能夠攜號，要先裝後停。唔好自行違法解約。實際安排以電訊商確認。",
+    );
+    assert.equal(switched.excerpt, "先查完約日，再約新線。寬頻唔能夠攜號，要先裝後停。手機轉台見攜號文。");
+    assert.equal(switched.published, "2026-09-09");
+    assert.equal(switched.modified, "2026-09-11");
+    assert.equal(sitemapLastmod("/guides/switch-broadband"), "2026-09-11");
+
+    assert.equal(renewal.h1, "寬頻續約點做：新客價同續約價點計");
+    assert.equal(renewal.title, renewal.h1);
+    assert.equal(renewal.seoTitle, "寬頻續約點做｜新客價 vs 續約價｜齊Quote");
+    assert.equal(
+      renewal.description,
+      "寬頻續約要同時睇續約價同新客價。標示月費未計免月費、回贈同合約期，平均月費先反映真正支出，然後先決定續約或者轉台。最終報價以電訊商確認為準。站內數字只作參考。",
+    );
+    assert.equal(renewal.excerpt, "新客價多數吸引轉台，續約價可能較高。點計實際月費同決定續約定轉台。");
+    assert.equal(renewal.published, "2026-10-21");
+    assert.equal(renewal.modified, "2026-10-21");
+    assert.equal(sitemapLastmod("/guides/broadband-renewal"), "2026-10-21");
+
+    for (const guide of [switched, renewal]) {
+      const title = splitGuideTitle(guide.h1);
+      assert.ok(title);
+      assert.equal(title.title + title.mark + title.subtitle, guide.h1);
+      assert.equal(guide.plansOnlyCta, true);
+      assert.equal(guide.cta, undefined);
+      assert.equal(guide.plans?.length, 1);
+      assert.equal(guide.plans?.[0]?.href, "/plans?cat=broadband");
+      assert.equal(guide.plans?.[0]?.label, "按樓類着光纖計劃");
+      assert.deepEqual(guide.estates, []);
+      assert.equal(guide.answer, undefined);
+      assert.equal(guide.disclaimer, DISCLAIMER);
+      assert.equal(guide.minutes, guideReadingMinutes(guide));
+      assert.equal(guide.body[0]?.paragraphs.includes(guide.disclaimer ?? ""), false);
+      assert.equal(guide.excerpt.includes(guide.disclaimer ?? ""), false);
+
+      const page = JSON.stringify({
+        excerpt: guide.excerpt,
+        body: guide.body,
+        faq: guide.faq,
+        disclaimer: guide.disclaimer,
+        plans: guide.plans,
+      });
+      assert.equal(page.includes("最平"), false);
+      assert.equal(page.includes("WhatsApp"), false);
+      assert.equal(page.includes("wa.me"), false);
+      assert.equal(page.includes("HK$218"), false);
+      assert.equal(page.includes("HK$378"), false);
+      for (const section of guide.body) {
+        assert.equal(
+          shown(section),
+          guidePlainText(section.paragraphs.join("")).replace(/\s+/g, ""),
+        );
+        for (const block of section.flow ?? []) {
+          if (block.kind !== "ul" && block.kind !== "ol") continue;
+          for (const item of block.items) {
+            const visible = rowDisplayText(item);
+            assert.equal(/[、，。：]$/u.test(visible), false, item);
+            assert.equal(item.startsWith(visible), true, item);
+          }
+        }
+      }
+    }
+
+    assert.equal(switched.minutes, 4);
+    assert.equal(renewal.minutes, 5);
+    assert.deepEqual(
+      switched.body.map((section) => section.heading),
+      [
+        "先查舊約完約日",
+        "轉台前對一次嘅清單",
+        "新線安裝期",
+        "重疊幾日，好過空窗",
+        "安裝費、預繳、路由器",
+        "下一步：對自己地址格價",
+      ],
+    );
+    assert.deepEqual(
+      renewal.body.map((section) => section.heading),
+      [
+        "新客價同續約價通常唔同",
+        "點計實際平均月費",
+        "續約前要問清楚嘅清單",
+        "續約常見陷阱",
+        "邊種情況續約、邊種轉台",
+        "下一步：對市場參考計劃",
+      ],
+    );
+
+    const checklist = switched.body.find((section) => section.heading === "轉台前對一次嘅清單");
+    assert.match(checklist?.paragraphs.join("\n") ?? "", /\[月費以外\]\(\/guides\/contract-fees\)/);
+    assert.match(
+      checklist?.paragraphs.join("\n") ?? "",
+      /\[寬頻合約總成本點計\]\(\/guides\/broadband-total-cost\)/,
+    );
+    assert.match(checklist?.paragraphs.join("\n") ?? "", /有冊提早終止費/);
+    assert.match(
+      switched.body.find((section) => section.heading === "新線安裝期")?.paragraphs[0] ?? "",
+      /\[村屋實地視察\]\(\/guides\/village-onsite\)/,
+    );
+    assert.match(
+      switched.body.find((section) => section.heading === "安裝費、預繳、路由器")?.paragraphs[1] ?? "",
+      /\[攜號轉台\]\(\/guides\/port-in\)/,
+    );
+    assert.match(
+      switched.body.at(-1)?.paragraphs[0] ?? "",
+      /\[光纖格價\]\(\/plans\?cat=broadband\)/,
+    );
+    assert.match(switched.body.at(-1)?.paragraphs[0] ?? "", /據啲樓類，或者咽係首頁/);
+    assert.deepEqual(
+      switched.faq?.map((item) => item.q),
+      [
+        "轉寬頻會唔會斷網？",
+        "申請要唔要證件？",
+        "寬頻可唔可以攜號？",
+        "新線同舊約點樣術接先唔會空窗？",
+      ],
+    );
+    assert.match(switched.faq?.[2]?.a ?? "", /\[攜號轉台\]\(\/guides\/port-in\)/);
+
+    const method = renewal.body.find((section) => section.heading === "點計實際平均月費");
+    assert.match(method?.paragraphs[0] ?? "", /\[寬頻合約總成本點計\]\(\/guides\/broadband-total-cost\)/);
+    assert.match(method?.paragraphs[2] ?? "", /呢頁唔放具體數字例子/);
+    assert.doesNotMatch(method?.paragraphs.join("\n") ?? "", /HK\$/);
+    const ask = renewal.body.find((section) => section.heading === "續約前要問清楚嘅清單");
+    assert.match(ask?.paragraphs.join("\n") ?? "", /\[寬頻路由器點據\]\(\/guides\/router-wifi\)/);
+    assert.match(ask?.paragraphs.join("\n") ?? "", /\[月費以外\]\(\/guides\/contract-fees\)/);
+    assert.match(ask?.paragraphs.join("\n") ?? "", /就嚾搬家/);
+    assert.match(
+      renewal.body.find((section) => section.heading === "邊種情況續約、邊種轉台")?.paragraphs[1] ?? "",
+      /\[轉台寬頻\]\(\/guides\/switch-broadband\)/,
+    );
+    assert.deepEqual(
+      renewal.faq?.map((item) => item.q),
+      [
+        "續約價會唔會同新客價一樣？",
+        "點計續約嘅實際平均月費？",
+        "續約定轉台好？",
+        "完約冊回覆會唔會自動續？",
+      ],
+    );
+    assert.match(renewal.faq?.[1]?.a ?? "", /\[寬頻合約總成本點計\]\(\/guides\/broadband-total-cost\)/);
+    assert.match(renewal.faq?.[2]?.a ?? "", /\[轉台寬頻\]\(\/guides\/switch-broadband\)/);
+    assert.match(renewal.faq?.[3]?.a ?? "", /\[月費以外\]\(\/guides\/contract-fees\)/);
+    const traps = renewal.body.find((section) => section.heading === "續約常見陷阱");
+    const trapItems = traps?.flow?.[0]?.kind === "ul" ? traps.flow[0].items : [];
+    assert.match(traps?.paragraphs.at(-1) ?? "", /本頁唔教避約。/);
+    assert.equal(trapItems.at(-1), traps?.paragraphs.at(-1));
+    for (const item of trapItems) {
+      assert.equal(item.startsWith(rowDisplayText(item)), true, item);
+      assert.equal(guidePlainText(rowDisplayText(item)).length > 0, true, item);
+    }
+
+    const route = readFileSync(join(here, "../routes/guides_.$slug.tsx"), "utf8");
+    const css = readFileSync(join(here, "../styles.css"), "utf8");
+    const tip = readFileSync(join(here, "../components/pwa-install-tip.tsx"), "utf8");
+    assert.match(route, /switch-broadband/);
+    assert.match(route, /broadband-renewal/);
+    assert.match(route, /rowDisplayText/);
+    assert.match(route, /id="guide-end-cta"/);
+    assert.match(route, /guide\.plansOnlyCta/);
+    assert.doesNotMatch(route, /guide-end-cta[\s\S]{0,800}wa-pulse-fab/);
+    assert.match(css, /\.guide-inline-link \{[^}]*color: var\(--color-accent\)/);
+    assert.doesNotMatch(css, /\.guide-article \.guide-inline-link/);
+    assert.match(
+      css,
+      /#guide-end-cta[\s\S]*padding-bottom:\s*calc\(11rem \+ env\(safe-area-inset-bottom, 0px\)\)/,
+    );
+    assert.match(
+      css,
+      /article\[data-guide-fab-clear\][\s\S]*padding-bottom:\s*calc\(11rem \+ env\(safe-area-inset-bottom, 0px\)\)/,
+    );
+    assert.match(
+      css,
+      /body:has\(#guide-end-cta\) \.guide-fab:not\(\.is-lifted\)[\s\S]*bottom:\s*calc\(2\.75rem \+ env\(safe-area-inset-bottom, 0px\)\)/,
+    );
+    assert.match(tip, /aria-label="加到主畫面"/);
+    assert.match(tip, /加到主畫面/);
+  });
+});
