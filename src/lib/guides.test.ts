@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { SITE } from "./site.ts";
+import { SITE, VILLAGE_CMHK_OPENING, VILLAGE_SPECIFIED_ADDRESS_CITE, linkCmhkVillageAmounts } from "./site.ts";
 import { GUIDES, getGuide, guidePlainText } from "./guides.ts";
 import { SITEMAP_PAGES, sitemapLastmod } from "./seo.ts";
 
@@ -15,8 +15,8 @@ describe("guide manuscript dates vs catalogue stamp", () => {
     const fiber = getGuide("fiber");
     assert.ok(fiber);
     assert.equal(fiber.published, "2026-09-09");
-    assert.equal(fiber.modified, "2026-11-08");
-    assert.equal(sitemapLastmod("/guides/fiber"), "2026-11-08");
+    assert.equal(fiber.modified, "2026-11-14");
+    assert.equal(sitemapLastmod("/guides/fiber"), "2026-11-14");
 
     const port = getGuide("port-in");
     assert.ok(port);
@@ -61,15 +61,12 @@ describe("guide manuscript dates vs catalogue stamp", () => {
 });
 
 describe("village guide cite", () => {
-  const opening =
-    "村屋光纖站內由[中國移動香港村屋 1000M](/plans/cmhk-ftth-1000-village-24m-218) HK$218／24 個月起，唔好用私樓或公屋價。有冇線睇條村、條街，列出嘅月費係參考例子。完整表見 [村屋光纖月費](/guides/village-fees)。";
-  const cite =
-    "村屋光纖站內由中國移動香港村屋 1000M HK$218／24 個月起，唔好用太古城、嘉湖或公屋價去估。有冇線睇條村、條街，列出嘅月費係參考例子。覆蓋要填完整地址。";
+  const opening = `${linkCmhkVillageAmounts(VILLAGE_SPECIFIED_ADDRESS_CITE)}唔好用私樓或公屋價。有冇線睇條村、條街，列出嘅月費係參考例子。完整表見 [村屋光纖月費](/guides/village-fees)。新選擇見 [中國移動香港村屋 1000M](/guides/village-cmhk)。`;
+  const cite = `${VILLAGE_SPECIFIED_ADDRESS_CITE}唔好用太古城、嘉湖或公屋價去估。有冇線睇條村、條街，列出嘅月費係參考例子。覆蓋要填完整地址。`;
   const who = "站內村屋光纖包括中國移動香港、香港寬頻、網上行同 HGC。有線同數碼通嘅家居光纖計劃唔適用村屋。";
-  const fees =
-    "站內村屋光纖由[中國移動香港村屋 1000M](/plans/cmhk-ftth-1000-village-24m-218)（24 個月）HK$218 起。香港寬頻特選村屋 2000M（24 個月）HK$229。網上行村屋 1000M（24 個月）HK$278。HGC 村屋 1G 連電話（24 個月）HK$319。完整表見 [村屋光纖月費](/guides/village-fees)。";
+  const fees = `${linkCmhkVillageAmounts(VILLAGE_SPECIFIED_ADDRESS_CITE)}香港寬頻特選村屋 2000M（24 個月）HK$229。網上行村屋 1000M（24 個月）HK$278。HGC 村屋 1G 連電話（24 個月）HK$319。完整表見 [村屋光纖月費](/guides/village-fees)。新選擇見 [中國移動香港村屋 1000M](/guides/village-cmhk)。`;
 
-  it("locks the opening, meta cite, and fee examples on CMHK village 1000M HK$218", () => {
+  it("locks the specified-address cite, and keeps CMHK in the provider list", () => {
     const guide = getGuide("village");
     assert.ok(guide);
     assert.equal(guide.h1, "村屋光纖點算：邊間有、幾多錢");
@@ -81,24 +78,21 @@ describe("village guide cite", () => {
       "有冇線睇條村、條街，甚至左右鄰。下面月費係站內列出嘅參考，唔等於新界每條村都裝到。",
     );
     assert.equal(guide.body[1]?.paragraphs[0], fees);
-    assert.equal(
-      guide.excerptEn,
-      "Village fibre on this site starts at [CMHK village 1000M](/plans/cmhk-ftth-1000-village-24m-218), HK$218 for 24 months. Do not reuse a private-estate or public-housing fee. A line depends on the village and the street; listed fees are examples. Full table: [village fibre fees](/guides/village-fees).",
-    );
-    assert.equal(
-      guide.descriptionEn,
-      "Village fibre on this site starts at CMHK village 1000M, HK$218 for 24 months. Do not reuse Taikoo Shing, Kingswood or public-housing fees. Coverage needs the full address. Listed fees are examples, not a promise for every village.",
-    );
+    assert.match(guide.excerptEn, /specified-address promo of \[HK\$218\/month\]/);
+    assert.match(guide.excerptEn, /list price in the same series is \[HK\$378\]/);
+    assert.match(guide.descriptionEn ?? "", /specified-address promo of HK\$218\/month/);
+    assert.match(guide.descriptionEn ?? "", /list price in the same series is HK\$378/);
     assert.equal(
       guide.bodyEn[0]?.paragraphs[0],
       "Village fibre on this site includes CMHK, HKBN, Netvigator and HGC. i-Cable and SmarTone home-fibre plans are not for village houses.",
     );
     assert.equal(
       guide.bodyEn[1]?.paragraphs[0],
-      "Sitewide village fibre starts at [CMHK village 1000M](/plans/cmhk-ftth-1000-village-24m-218) (24 months), HK$218. HKBN selected village 2000M (24 months) is HK$229. Netvigator village 1000M (24 months) is HK$278. HGC village 1G with a phone line (24 months) is HK$319. Full table: [village fibre fees](/guides/village-fees).",
+      "Village houses from a specified-address promo of [HK$218/month](/plans/cmhk-ftth-1000-village-24m-218) (CMHK village 1000M, 24 months, installation waived from HK$680) are not that price at every village house; the list price in the same series is [HK$378](/plans/cmhk-ftth-1000-village-24m-378). HKBN selected village 2000M (24 months) is HK$229. Netvigator village 1000M (24 months) is HK$278. HGC village 1G with a phone line (24 months) is HK$319. Full table: [village fibre fees](/guides/village-fees). New choice: [CMHK village 1000M](/guides/village-cmhk).",
     );
     assert.equal(guidePlainText(opening).includes("["), false);
-    assert.match(guidePlainText(opening), /中國移動香港村屋 1000M HK\$218／24 個月起/);
+    assert.equal(guidePlainText(opening).includes(VILLAGE_SPECIFIED_ADDRESS_CITE), true);
+    assert.doesNotMatch(guidePlainText(opening), /村屋由 HK\$218(?:／月)?起/);
     assert.equal(sitemapLastmod("/guides/village"), "2026-11-14");
 
     const blob = [
@@ -131,9 +125,13 @@ describe("village guide cite", () => {
     assert.doesNotMatch(blob, /中國移動[^。\n]{0,16}唔適用/);
     assert.equal((fees.match(/HK\$229/g) ?? []).length, 1);
     assert.match(opening, /\/plans\/cmhk-ftth-1000-village-24m-218/);
+    assert.match(opening, /\/plans\/cmhk-ftth-1000-village-24m-378/);
     assert.match(opening, /\/guides\/village-fees/);
+    assert.match(opening, /\/guides\/village-cmhk/);
     assert.match(fees, /\/plans\/cmhk-ftth-1000-village-24m-218/);
+    assert.match(fees, /\/plans\/cmhk-ftth-1000-village-24m-378/);
     assert.match(fees, /\/guides\/village-fees/);
+    assert.equal(guide.related?.includes("village-cmhk"), true);
     assert.deepEqual(
       guide.plans?.map((item) => item.href),
       ["/plans?cat=broadband&housing=village", "/plans?cat=home5g"],
@@ -170,7 +168,8 @@ describe("HKBN vs Netvigator guide", () => {
       "同一句 1000M，兩間喺公居屋、私樓、村屋見到嘅月費同合約都可以唔同。下面用站內可見例子分開睇。",
     );
     assert.equal(guide.published, "2026-11-10");
-    assert.equal(sitemapLastmod("/guides/hkbn-vs-netvigator"), "2026-11-10");
+    assert.equal(guide.modified, "2026-11-14");
+    assert.equal(sitemapLastmod("/guides/hkbn-vs-netvigator"), "2026-11-14");
     assert.equal(guide.plansOnlyCta, true);
     assert.equal(guide.cta, undefined);
     assert.equal(guide.plans?.length, 1);
@@ -178,12 +177,19 @@ describe("HKBN vs Netvigator guide", () => {
     assert.equal(guide.plans?.[0]?.label, "按樓類睇光纖計劃");
     assert.deepEqual(guide.estates, []);
 
-    const cite =
-      "網上行係 HKT 家居寬頻品牌。全站（各電訊商）光纖參考：公居屋約 HK$58–98／月、私樓約 HK$88–109／月、村屋由 HK$218／月起（中國移動香港村屋 1000M、24 個月）。呢條中國移動香港計劃唔屬呢篇兩間比較。2026 年 11 月站內可見，呢篇只比較香港寬頻同網上行：公居屋／私樓 1000M 香港寬頻約 HK$98／月（24 或 36 個月）、網上行約 HK$108／月（36 個月＋路由器）；村屋係另一套，網上行村屋 1000M 約 HK$278／月，香港寬頻特選村屋 2000M 約 HK$229／月（1000M 村屋例子約 HK$378／月）。HK$108 只係網上行公居屋／私樓 1000M 例子，唔係全站私樓參考；HK$229 只係香港寬頻特選村屋 2000M 例子，唔係全站村屋起步價。月費、覆蓋同安裝以電訊商確認為準。";
+    const cite = `網上行係 HKT 家居寬頻品牌。全站（各電訊商）光纖參考：公居屋約 HK$58–98／月、私樓約 HK$88–109／月、${VILLAGE_SPECIFIED_ADDRESS_CITE}呢條中國移動香港計劃唔屬呢篇兩間比較。2026 年 11 月站內可見，呢篇只比較香港寬頻同網上行：公居屋／私樓 1000M 香港寬頻約 HK$98／月（24 或 36 個月）、網上行約 HK$108／月（36 個月＋路由器）；村屋係另一套，網上行村屋 1000M 約 HK$278／月，香港寬頻特選村屋 2000M 約 HK$229／月（香港寬頻村屋 1000M（27 個月）約 HK$378／月）。HK$108 只係網上行公居屋／私樓 1000M 例子，唔係全站私樓參考；HK$229 只係香港寬頻特選村屋 2000M 例子，唔係全站村屋起步價。月費、覆蓋同安裝以電訊商確認為準。`;
     assert.equal(guide.answer?.lead.length, 0);
     assert.equal(guide.answer?.cite, cite);
-    assert.match(guide.answer?.cite ?? "", /村屋由 HK\$218／月起/);
+    assert.equal(guide.answer?.cite.includes(VILLAGE_SPECIFIED_ADDRESS_CITE), true);
+    assert.doesNotMatch(guide.answer?.cite ?? "", /村屋由 HK\$218(?:／月)?起/);
+    assert.match(guide.answer?.cite ?? "", /香港寬頻村屋 1000M（27 個月）約 HK\$378／月/);
+    assert.equal((guide.answer?.cite ?? "").includes("1000M 村屋例子約 HK$378"), false);
     assert.match(guide.answer?.cite ?? "", /呢條中國移動香港計劃唔屬呢篇兩間比較/);
+    assert.match(
+      guide.answerEn?.cite ?? "",
+      /HKBN village 1000M is about HK\$378\/month for 27 months/,
+    );
+    assert.equal((guide.answerEn?.cite ?? "").includes("a village 1000M example is about HK$378/month"), false);
     assert.match(guide.answer?.afterCite?.[0] ?? "", /^你想對香港寬頻同網上行/);
 
     const table = guide.answer?.table;
@@ -215,6 +221,8 @@ describe("HKBN vs Netvigator guide", () => {
     }
     assert.equal(page.includes("最平"), false);
     assert.equal(page.includes("村屋由 HK$229"), false);
+    assert.equal(page.includes("村屋由 HK$218 起"), false);
+    assert.equal(page.includes("村屋由 HK$218／月起"), false);
     assert.equal(page.includes("HK$229／月起"), false);
     assert.equal(headToHead.includes("HK$58–98"), false);
     assert.equal(headToHead.includes("HK$88–109"), false);
@@ -250,16 +258,16 @@ describe("HKBN vs Netvigator guide", () => {
 });
 
 describe("village fibre fee guide", () => {
-  it("starts the listed table at CMHK village 1000M HK$218 and keeps HK$229 as the HKBN selected 2000M example", () => {
+  it("lists the HK$378 list price and keeps HK$218 as the specified-address promo", () => {
     const guide = getGuide("village-fees");
     assert.ok(guide);
     assert.equal(
       guide.excerpt,
-      "村屋光纖月費係另一套計劃。站內列出由中國移動香港村屋 1000M HK$218／月（24 個月）起，僅供參考。唔好套用公屋／居屋／私樓月費。",
+      `村屋光纖月費係另一套計劃。${VILLAGE_SPECIFIED_ADDRESS_CITE}僅供參考。唔好套用公屋／居屋／私樓月費。`,
     );
     assert.equal(
       guide.description,
-      "2026年10月村屋同丁屋光纖係另一套月費，唔好套用公屋或私樓價。站內列出由中國移動香港村屋 1000M HK$218／月（24 個月）起。可以比較參考計劃，再查你個地址覆蓋。實際安裝以電訊商確認為準。",
+      `2026年10月村屋同丁屋光纖係另一套月費，唔好套用公屋或私樓價。${VILLAGE_SPECIFIED_ADDRESS_CITE}可以比較參考計劃，再查你個地址覆蓋。實際安裝以電訊商確認為準。`,
     );
     assert.equal(guide.plans?.length, 1);
     assert.equal(guide.plans?.[0]?.href, "/plans?cat=broadband&housing=village");
@@ -268,33 +276,42 @@ describe("village fibre fee guide", () => {
 
     const table = guide.body[0]?.table;
     assert.ok(table);
-    assert.equal(table.rows[0]?.label, "中國移動香港｜村屋 1000M 光纖（24 個月）");
-    assert.equal(table.rows[0]?.value, "村屋｜HK$218");
-    assert.equal(table.rows[0]?.href, "/plans/cmhk-ftth-1000-village-24m-218");
-    assert.equal(table.rows[1]?.label, "香港寬頻｜特選村屋 2000M 光纖（24 個月）");
-    assert.equal(table.rows[1]?.value, "村屋｜HK$229");
-    assert.equal(table.rows[1]?.href, "/plans/hkbn-village-2000-24m");
-    assert.equal(guide.bodyEn[0]?.table?.rows[0]?.href, "/plans/cmhk-ftth-1000-village-24m-218");
-    assert.equal(guide.bodyEn[0]?.table?.rows[0]?.value, "Village | HK$218");
+    assert.equal(table.rows[0]?.label, "中國移動香港｜村屋 1000M 光纖（24 個月）正價");
+    assert.equal(table.rows[0]?.value, "村屋｜HK$378");
+    assert.equal(table.rows[0]?.href, "/plans/cmhk-ftth-1000-village-24m-378");
+    assert.equal(table.rows[1]?.label, "中國移動香港｜村屋 1000M 光纖（24 個月）指定地址優惠");
+    assert.equal(table.rows[1]?.value, "村屋｜HK$218");
+    assert.equal(table.rows[1]?.href, "/plans/cmhk-ftth-1000-village-24m-218");
+    assert.equal(table.rows[2]?.label, "香港寬頻｜特選村屋 2000M 光纖（24 個月）");
+    assert.equal(table.rows[2]?.value, "村屋｜HK$229");
+    assert.equal(table.rows[2]?.href, "/plans/hkbn-village-2000-24m");
+    assert.equal(table.rows.length, 8);
+    assert.equal(guide.bodyEn[0]?.table?.rows[0]?.href, "/plans/cmhk-ftth-1000-village-24m-378");
+    assert.equal(guide.bodyEn[0]?.table?.rows[0]?.value, "Village | HK$378");
+    assert.equal(guide.bodyEn[0]?.table?.rows[1]?.href, "/plans/cmhk-ftth-1000-village-24m-218");
+    assert.equal(guide.bodyEn[0]?.table?.rows[1]?.value, "Village | HK$218");
 
     const separate = guide.body.find((section) => section.heading === "點解村屋光纖月費通常分開報");
     assert.equal(
       separate?.paragraphs[0],
-      "公屋、居屋好多時有批量合約；村屋、丁屋入線睇條村、條街、井蓋同屋地，所以月費、安裝費、完工期都係另一套。表上由中國移動香港村屋 1000M HK$218／24 個月起。香港寬頻特選村屋 2000M HK$229 係另一行例子，唔等於新界每條村都有。",
+      `公屋、居屋好多時有批量合約；村屋、丁屋入線睇條村、條街、井蓋同屋地，所以月費、安裝費、完工期都係另一套。${VILLAGE_SPECIFIED_ADDRESS_CITE}香港寬頻特選村屋 2000M HK$229 係另一行例子，唔等於新界每條村都有。`,
     );
     assert.equal(
       guide.faq[0]?.a,
-      "村屋光纖站內列出由中國移動香港村屋 1000M HK$218／24 個月起，完整表就係本頁，去到網上行村屋 2500M HK$376／36 個月。香港寬頻特選村屋 2000M 係 HK$229／24 個月，係表上另一個例子，唔係全站村屋起步價。呢啲唔係保證價，亦唔等於你條村一定有。實際以電訊商確認為準。",
+      `${VILLAGE_SPECIFIED_ADDRESS_CITE}完整表就係本頁，去到網上行村屋 2500M HK$376／36 個月。香港寬頻特選村屋 2000M 係 HK$229／24 個月，係表上另一個例子，唔係全站村屋起步價。呢啲唔係保證價，亦唔等於你條村一定有。實際以電訊商確認為準。`,
     );
     assert.equal(
       guide.faq.find((item) => item.q === "特選村屋計劃係咪每條村都有？")?.a,
-      "唔係。香港寬頻特選村屋 2000M HK$229 係特選村屋例子，唔等於新界每條村都有，亦唔係表上起步價。表上由中國移動香港村屋 1000M HK$218／24 個月起。覆蓋以電訊商確認為準。",
+      `唔係。香港寬頻特選村屋 2000M HK$229 係特選村屋例子，唔等於新界每條村都有，亦唔係表上起步價。${VILLAGE_SPECIFIED_ADDRESS_CITE}覆蓋以電訊商確認為準。`,
     );
 
     const page = JSON.stringify(guide);
     assert.equal(page.includes("最平"), false);
     assert.equal(page.includes("村屋由 HK$229 起"), false);
     assert.equal(page.includes("表上由 HK$229 起"), false);
+    assert.equal(page.includes("村屋由 HK$218 起"), false);
+    assert.equal(page.includes("村屋由 HK$218／月起"), false);
+    assert.equal(page.includes(VILLAGE_SPECIFIED_ADDRESS_CITE), true);
     assert.equal(page.includes("由特選村屋 2000M HK$229"), false);
     for (const href of [
       "/plans?cat=broadband&housing=village",
@@ -309,8 +326,84 @@ describe("village fibre fee guide", () => {
       "/guides/estate-filter",
       "/plans/hkbn-village-2000-24m",
       "/plans/cmhk-ftth-1000-village-24m-218",
+      "/plans/cmhk-ftth-1000-village-24m-378",
+      "/guides/village-cmhk",
     ]) {
       assert.equal(page.includes(href), true, href);
     }
+    assert.equal(guide.related?.includes("village-cmhk"), true);
+    assert.equal(guide.plansOnlyCta, undefined);
+    assert.equal(sitemapLastmod("/guides/village-fees"), "2026-11-14");
+  });
+});
+
+describe("CMHK village 1000M guide", () => {
+  it("locks the GEO opening, the two-price table, and a single plans exit", () => {
+    const guide = getGuide("village-cmhk");
+    assert.ok(guide);
+    assert.equal(guide.h1, "村屋光纖新選擇：中國移動香港 1000M");
+    assert.equal(guide.seoTitle, "村屋光纖新選擇：中國移動香港 1000M｜齊Quote");
+    assert.equal(guide.description, VILLAGE_CMHK_OPENING);
+    assert.equal(guide.published, "2026-11-14");
+    assert.equal(guide.modified, "2026-11-14");
+    assert.equal(sitemapLastmod("/guides/village-cmhk"), "2026-11-14");
+    assert.equal(SITEMAP_PAGES.some((item) => item.path === "/guides/village-cmhk"), true);
+    assert.equal(guide.plansOnlyCta, true);
+    assert.equal(guide.cta, undefined);
+    assert.deepEqual(guide.plans, [{ href: "/plans?cat=broadband&housing=village", label: "村屋光纖計劃", labelEn: "Village fibre plans" }]);
+    assert.deepEqual(guide.related, ["village", "village-fees", "fiber"]);
+    assert.equal(getGuide("fiber")?.related?.includes("village-cmhk"), true);
+    assert.equal(getGuide("village")?.related?.includes("village-cmhk"), true);
+    assert.equal(getGuide("village-fees")?.related?.includes("village-cmhk"), true);
+
+    assert.equal(guide.answer?.lead.length, 0);
+    assert.equal(guidePlainText(guide.answer?.cite ?? ""), VILLAGE_CMHK_OPENING);
+    assert.equal(guidePlainText(guide.excerpt), VILLAGE_CMHK_OPENING);
+    assert.match(guide.answer?.cite ?? "", /\/plans\/cmhk-ftth-1000-village-24m-378/);
+    assert.match(guide.answer?.cite ?? "", /\/plans\/cmhk-ftth-1000-village-24m-218/);
+    assert.match(guide.answer?.afterCite?.[0] ?? "", /\[村屋光纖月費\]\(\/guides\/village-fees\)/);
+    assert.match(guide.answer?.afterCite?.[0] ?? "", /\[村屋光纖點算\]\(\/guides\/village\)/);
+
+    const table = guide.answer?.table;
+    assert.ok(table);
+    assert.deepEqual(table.headers, ["計劃", "月費", "安裝費", "適用"]);
+    assert.equal(table.rows.length, 5);
+    assert.match(table.rows[0]?.[0] ?? "", /正價/);
+    assert.equal(table.rows[0]?.[1], "HK$378");
+    assert.equal(table.rows[0]?.[2], "豁免安裝費");
+    assert.match(table.rows[0]?.[0] ?? "", /\/plans\/cmhk-ftth-1000-village-24m-378/);
+    assert.match(table.rows[1]?.[0] ?? "", /指定地址優惠/);
+    assert.equal(table.rows[1]?.[1], "HK$218");
+    assert.equal(table.rows[1]?.[2], "豁免安裝費（原價 HK$680）");
+    assert.match(table.rows[1]?.[0] ?? "", /\/plans\/cmhk-ftth-1000-village-24m-218/);
+    assert.equal(table.rows[2]?.[1], "HK$229");
+    assert.equal(table.rows[3]?.[1], "HK$278");
+    assert.equal(table.rows[4]?.[1], "HK$319");
+    assert.match(table.notes?.[0] ?? "", /\/guides\/village-fees/);
+
+    const route = readFileSync(join(here, "../routes/guides_.$slug.tsx"), "utf8");
+    const tableFn = route.slice(route.indexOf("function GuideAnswerTable"), route.indexOf("function GuideFlow"));
+    const scrollAt = tableFn.indexOf("overflow-x-auto");
+    const notesAt = tableFn.indexOf("table.notes");
+    const scrollClose = tableFn.indexOf("</div>", scrollAt);
+    assert.ok(scrollAt > 0 && notesAt > scrollClose, "table notes sit outside the horizontal scroll");
+
+    const page = JSON.stringify(guide);
+    assert.equal(page.includes("最平"), false);
+    assert.equal(page.includes("村屋由 HK$229 起"), false);
+    assert.equal(page.includes("表上由 HK$229 起"), false);
+    assert.equal(page.includes("村屋由 HK$218 起"), false);
+    assert.equal(page.includes("村屋由 HK$218／月起"), false);
+    assert.equal(page.includes("查核報價"), false);
+    assert.equal(page.includes("WhatsApp"), false);
+    assert.match(page, /\/plans\?cat=broadband&housing=village/);
+    assert.match(page, /\/guides\/village/);
+    assert.match(page, /\/guides\/village-fees/);
+
+    const fiber = getGuide("fiber");
+    assert.equal(fiber?.answer?.cite.includes(VILLAGE_SPECIFIED_ADDRESS_CITE), true);
+    assert.doesNotMatch(fiber?.answer?.cite ?? "", /村屋由 HK\$218(?:／月)?起/);
+    assert.equal(sitemapLastmod("/guides/home-broadband-2026"), "2026-11-14");
+    assert.equal(sitemapLastmod("/guides/fiber-vs-5g"), "2026-11-14");
   });
 });

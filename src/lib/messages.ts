@@ -215,7 +215,7 @@ export const MESSAGES = {
     filterPlans: "格價",
     foundPlans: "搵到 {n} 個計劃",
     broadbandHubSummary:
-      "{date}，{name} 光纖分類共 {n} 個參考計劃。站內可見入門例：指定屋苑 1000M 約 {fee58}／月（{months58} 個月）；公居屋轉台 1000M 約 {fee75}／月（{months75} 個月，HGC）；香港寬頻 1000M 限時快閃連 Wi-Fi 7 標示 {fee98}／月（{months98} 個月，須 2026-09-22 至 2026-11-30 成功預約安裝）。村屋計劃分開列（入門約 {fee218}／月起），唔好用私樓價估。月費、覆蓋、安裝以電訊商確認為準；本站無收取電訊商佣金或廣告費。",
+      "{date}，{name} 光纖分類共 {n} 個參考計劃。站內可見入門例：指定屋苑 1000M 約 {fee58}／月（{months58} 個月）；公居屋轉台 1000M 約 {fee75}／月（{months75} 個月，HGC）；香港寬頻 1000M 限時快閃連 Wi-Fi 7 標示 {fee98}／月（{months98} 個月，須 2026-09-22 至 2026-11-30 成功預約安裝）。村屋計劃分開列。村屋由指定地址優惠 {fee218}／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。唔好用私樓價估。月費、覆蓋、安裝以電訊商確認為準；本站無收取電訊商佣金或廣告費。",
     home5gHubSummary:
       "{date}，{name} 5G 家居分類共 {n} 個參考計劃。站內可見入門例：{plan88} 標示 {fee88}／月（{months88} 個月）；{plan98} 標示 {fee98}／月（{months98} 個月）；{plan108} 標示 {fee108}／月（{months108} 個月，豁免 {free108} 個月）。免拉線入屋，實際速度視現場訊號。月費同覆蓋以電訊商確認為準；本站無收取電訊商佣金或廣告費。",
     mobileHubSummary:
@@ -230,7 +230,7 @@ export const MESSAGES = {
     portIn: "轉台優惠",
     savedOnly: "淨係睇收藏",
     villageNote:
-      "村屋光纖主要由香港寬頻、HGC 同網上行提供；一般公屋／居屋／私樓計劃唔適用。實際覆蓋要核對門牌。未有光纖可以睇",
+      "村屋光纖包括中國移動香港、香港寬頻、HGC 同網上行；一般公屋／居屋／私樓計劃唔適用。實際覆蓋要核對門牌。未有光纖可以睇",
     villageNoteLink: "5G 家居寬頻",
     plansIntakeNote: "呢啲係指定新入伙屋苑先睇到嘅光纖計劃。實際覆蓋同安裝期以電訊商確認為準。",
     plansNetvigatorOnlyNote: "呢個屋苑暫時只列出網上行光纖，同 5G 家居寬頻作參考。實際覆蓋以電訊商確認為準。",
@@ -786,7 +786,7 @@ export const MESSAGES = {
     filterPlans: "Filter plans",
     foundPlans: "{n} plans found",
     broadbandHubSummary:
-      "{date}: {name} lists {n} fibre reference plans. Designated-estate 1000M is about {fee58}/month ({months58} months). Public-housing and HOS port-in 1000M is about {fee75}/month ({months75} months, HGC). HKBN 1000M limited flash with Wi-Fi 7 is marked {fee98}/month ({months98} months; installation must be booked successfully from 2026-09-22 to 2026-11-30). Village plans are listed separately, from about {fee218}/month. Do not reuse a private-estate price. Fees, coverage and installation are confirmed by the carrier. This site does not take carrier commission or advertising fees.",
+      "{date}: {name} lists {n} fibre reference plans. Designated-estate 1000M is about {fee58}/month ({months58} months). Public-housing and HOS port-in 1000M is about {fee75}/month ({months75} months, HGC). HKBN 1000M limited flash with Wi-Fi 7 is marked {fee98}/month ({months98} months; installation must be booked successfully from 2026-09-22 to 2026-11-30). Village plans are listed separately. Village houses from a specified-address promo of {fee218}/month (CMHK village 1000M, 24 months, installation waived from HK$680) are not that price at every village house; the list price in the same series is HK$378. Do not reuse a private-estate price. Fees, coverage and installation are confirmed by the carrier. This site does not take carrier commission or advertising fees.",
     home5gHubSummary:
       "{date}: {name} lists {n} 5G home reference plans. {plan88} is marked {fee88}/month ({months88} months). {plan98} is marked {fee98}/month ({months98} months). {plan108} is marked {fee108}/month ({months108} months, {free108} free month). No cabling; actual speed depends on the signal. Fees and coverage are confirmed by the carrier. This site does not take carrier commission or advertising fees.",
     mobileHubSummary:
@@ -801,7 +801,7 @@ export const MESSAGES = {
     portIn: "Port-in offer",
     savedOnly: "Saved only",
     villageNote:
-      "Village fibre is mainly from HKBN, HGC and Netvigator. Public/HOS/private plans usually do not apply. Coverage must be checked. If there is no fibre, see",
+      "Village fibre on this site includes China Mobile Hong Kong, HKBN, HGC and Netvigator. Public/HOS/private plans usually do not apply. Coverage must be checked. If there is no fibre, see",
     villageNoteLink: "5G home broadband",
     plansIntakeNote: "These fibre plans show for selected new-move-in estates. Coverage is confirmed when you apply.",
     plansNetvigatorOnlyNote: "This estate currently lists Netvigator fibre, plus 5G home broadband for reference. Coverage is confirmed when you apply.",

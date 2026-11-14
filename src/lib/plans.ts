@@ -1661,7 +1661,7 @@ export const PLANS: Plan[] = [
     housing: ["village"],
     network: "光纖入屋",
     perks: [],
-    limits: "僅適用於村屋。不適用於公屋、居屋及私人樓宇。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須核對門牌。",
+    limits: "指定地址優惠。僅適用於村屋。不適用於公屋、居屋及私人樓宇。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須核對門牌。",
     latestOffer: true,
     bestFor: "適合村屋、需要 1000M 光纖之住戶",
   },
@@ -1678,7 +1678,7 @@ export const PLANS: Plan[] = [
     housing: ["village"],
     network: "光纖入屋",
     perks: [],
-    limits: "僅適用於村屋。不適用於公屋、居屋及私人樓宇。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須核對門牌。",
+    limits: "正價。僅適用於村屋。不適用於公屋、居屋及私人樓宇。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須核對門牌。",
     bestFor: "適合村屋、需要 1000M 光纖之住戶",
   },
   {

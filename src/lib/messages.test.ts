@@ -431,7 +431,9 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.match(fees.a, /^冇。香港寬頻冇一條適用所有地區、所有樓類嘅單一參考月費/);
     assert.match(fees.a, /公居屋 1000M 約 HK\$58 至 HK\$98／月/);
     assert.match(fees.a, /私樓 1000M 約 HK\$88 至 HK\$109／月/);
-    assert.match(fees.a, /村屋光纖由 HK\$218／月起/);
+    assert.match(fees.a, /村屋由指定地址優惠 HK\$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK\$680），唔等於所有村屋都係呢個價；同系列正價為 HK\$378。/);
+    assert.doesNotMatch(fees.a, /村屋由 HK\$218(?:／月)?起/);
+    assert.doesNotMatch(fees.a, /村屋光纖由 HK\$218／月起/);
     assert.match(fees.a, /HK\$376／月/);
     assert.match(fees.a, /5G 家居約 HK\$88 至 HK\$190／月/);
     assert.match(fees.a, new RegExp(SITE.updated));
@@ -537,7 +539,7 @@ describe("broadband hub answer-first summary", () => {
       .replaceAll("{fee218}", formatFee(fibre218.monthlyFee));
     assert.equal(
       filled,
-      `${SITE.updated}，齊Quote 光纖分類共 76 個參考計劃。站內可見入門例：指定屋苑 1000M 約 HK$58／月（48 個月）；公居屋轉台 1000M 約 HK$75／月（36 個月，HGC）；香港寬頻 1000M 限時快閃連 Wi-Fi 7 標示 HK$98／月（36 個月，須 2026-09-22 至 2026-11-30 成功預約安裝）。村屋計劃分開列（入門約 HK$218／月起），唔好用私樓價估。月費、覆蓋、安裝以電訊商確認為準；本站無收取電訊商佣金或廣告費。`,
+      `${SITE.updated}，齊Quote 光纖分類共 76 個參考計劃。站內可見入門例：指定屋苑 1000M 約 HK$58／月（48 個月）；公居屋轉台 1000M 約 HK$75／月（36 個月，HGC）；香港寬頻 1000M 限時快閃連 Wi-Fi 7 標示 HK$98／月（36 個月，須 2026-09-22 至 2026-11-30 成功預約安裝）。村屋計劃分開列。村屋由指定地址優惠 HK$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。唔好用私樓價估。月費、覆蓋、安裝以電訊商確認為準；本站無收取電訊商佣金或廣告費。`,
     );
   });
 });

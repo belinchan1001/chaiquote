@@ -1726,7 +1726,7 @@ describe("CMHK village 1000M $218", () => {
     assert.deepEqual(row.housing, ["village"]);
     assert.equal(row.quotePick, undefined);
     assert.equal(row.latestOffer, true);
-    assert.equal(row.limits, "僅適用於村屋。不適用於公屋、居屋及私人樓宇。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須核對門牌。");
+    assert.equal(row.limits, "指定地址優惠。僅適用於村屋。不適用於公屋、居屋及私人樓宇。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須核對門牌。");
     assert.equal(toEnglish(row.name), "Village 1000M fibre (24 months)");
     assert.equal(toEnglish(row.install), "Installation waived (was HK$680)");
 
@@ -1739,6 +1739,7 @@ describe("CMHK village 1000M $218", () => {
     assert.equal(higher.monthlyFee, 378);
     assert.equal(higher.contractMonths, 24);
     assert.equal(higher.install, "豁免安裝費");
+    assert.equal(higher.limits, "正價。僅適用於村屋。不適用於公屋、居屋及私人樓宇。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須核對門牌。");
     assert.deepEqual(higher.housing, ["village"]);
     assert.equal(filterPlans({ cat: "broadband", housing: "village" }).some((item) => item.id === higher.id), true);
     assert.equal(filterPlans({ cat: "broadband", housing: "public" }).some((item) => item.id === higher.id), false);

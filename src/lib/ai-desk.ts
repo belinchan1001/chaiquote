@@ -661,8 +661,8 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
   {
     id: "village",
     re: /村屋|丁屋|village house/i,
-    zh: "村屋光纖而家主要由香港寬頻、HGC 同網上行提供指定計劃；公屋、居屋同私樓計劃一般唔適用。未有光纖可以一併比較 5G 家居。實際覆蓋要核對門牌。",
-    en: "Village fibre is mainly from HKBN, HGC and Netvigator on designated plans. Public, HOS and private plans usually do not apply. If there is no fibre yet, compare 5G home. Coverage must be checked against the address.",
+    zh: "村屋光纖包括中國移動香港、香港寬頻、HGC 同網上行嘅指定計劃；公屋、居屋同私樓計劃一般唔適用。村屋由指定地址優惠 HK$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。未有光纖可以一併比較 5G 家居。實際覆蓋要核對門牌。",
+    en: "Village fibre on this site includes designated plans from China Mobile Hong Kong, HKBN, HGC and Netvigator. Public, HOS and private plans usually do not apply. Village houses from a specified-address promo of HK$218/month (CMHK village 1000M, 24 months, installation waived from HK$680) are not that price at every village house; the list price in the same series is HK$378. If there is no fibre yet, compare 5G home. Coverage must be checked against the address.",
     attach: true,
     href: "/guides/village",
     linkZh: "村屋光纖點睇",

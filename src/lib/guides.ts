@@ -1,6 +1,7 @@
 import type { Inquiry } from "./desk.ts";
 import { GUIDE_ARTICLES } from "./guide-articles.ts";
 import { DISTRICT_GUIDES } from "./district-guides.ts";
+import { VILLAGE_SPECIFIED_ADDRESS_CITE, linkCmhkVillageAmounts } from "./site.ts";
 import { salesQuoteMessage } from "./whatsapp.ts";
 
 export type GuideFlowBlock =
@@ -39,8 +40,8 @@ export type GuideAnswer = {
   afterCite?: string[];
   table: {
     caption: string;
-    headers: [string, string, string];
-    rows: [string, string, string][];
+    headers: readonly string[];
+    rows: readonly (readonly string[])[];
     notes?: string[];
   };
 };
@@ -178,7 +179,7 @@ export const CORE_GUIDES: Guide[] = [
       "Choose fibre when a line can be pulled. Use 5G home for rentals, waits, and village houses with no fibre. Village fibre is not a private-estate price.",
     h1En: "5G home or fibre",
     published: "2026-09-05",
-    modified: "2026-11-05",
+    modified: "2026-11-14",
     body: [
       {
         heading: "點揀",
@@ -200,7 +201,7 @@ export const CORE_GUIDES: Guide[] = [
             ["適合", "長住、要穩、要上傳", "租樓、等光纖、未有線、即日上網"],
             [
               "村屋",
-              "分開計劃；入門約 [HK$218／月起](/plans/cmhk-ftth-1000-village-24m-218)，唔等於公屋價",
+              `分開計劃。${linkCmhkVillageAmounts(VILLAGE_SPECIFIED_ADDRESS_CITE)}唔等於公屋價`,
               "可作未有光纖時選項；繁忙時間可能慢",
             ],
             [
@@ -274,7 +275,7 @@ export const CORE_GUIDES: Guide[] = [
             ["Fits", "Long stay, stability, uploads", "Renting, waiting for fibre, no line yet, internet today"],
             [
               "Village house",
-              "Separate plans; from about [HK$218/month](/plans/cmhk-ftth-1000-village-24m-218). Not a public-housing price.",
+              "Separate plans. Village houses from a specified-address promo of [HK$218/month](/plans/cmhk-ftth-1000-village-24m-218) (CMHK village 1000M, 24 months, installation waived from HK$680) are not that price at every village house; the list price in the same series is [HK$378](/plans/cmhk-ftth-1000-village-24m-378). Not a public-housing price.",
               "An option where fibre is not in. Busy hours can be slower.",
             ],
             [
@@ -339,7 +340,7 @@ export const CORE_GUIDES: Guide[] = [
       },
       {
         q: "村屋一定有光纖嗎？",
-        a: "唔一定。村屋光纖要核對門牌，入門約 [HK$218／月起](/plans/cmhk-ftth-1000-village-24m-218)，唔等於公屋價。未有光纖可以比較 5G 家居。實際覆蓋以電訊商確認為準。",
+        a: `唔一定。${linkCmhkVillageAmounts(VILLAGE_SPECIFIED_ADDRESS_CITE)}要核對門牌，唔等於公屋價。未有光纖可以比較 5G 家居。實際覆蓋以電訊商確認為準。`,
       },
     ],
     faqEn: [
@@ -353,7 +354,7 @@ export const CORE_GUIDES: Guide[] = [
       },
       {
         q: "Does every village house have fibre?",
-        a: "Not necessarily. Coverage has to be checked against the address. Village fibre starts at about HK$218/month, which is not a public-housing price. Where there is no fibre, compare 5G home. The carrier confirms coverage.",
+        a: "Not necessarily. Coverage has to be checked against the address. Village houses from a specified-address promo of HK$218/month (CMHK village 1000M, 24 months, installation waived from HK$680) are not that price at every village house; the list price in the same series is HK$378. That is not a public-housing price. Where there is no fibre, compare 5G home. The carrier confirms coverage.",
       },
     ],
     plans: [
@@ -372,15 +373,15 @@ export const CORE_GUIDES: Guide[] = [
     seoTitle: "村屋光纖點算｜邊間有、參考月費｜齊Quote",
     h1: "村屋光纖點算：邊間有、幾多錢",
     description:
-      "村屋光纖站內由中國移動香港村屋 1000M HK$218／24 個月起，唔好用太古城、嘉湖或公屋價去估。有冇線睇條村、條街，列出嘅月費係參考例子。覆蓋要填完整地址。",
+      `${VILLAGE_SPECIFIED_ADDRESS_CITE}唔好用太古城、嘉湖或公屋價去估。有冇線睇條村、條街，列出嘅月費係參考例子。覆蓋要填完整地址。`,
     title: "村屋光纖點算：邊間有、幾多錢",
     excerpt:
-      "村屋光纖站內由[中國移動香港村屋 1000M](/plans/cmhk-ftth-1000-village-24m-218) HK$218／24 個月起，唔好用私樓或公屋價。有冇線睇條村、條街，列出嘅月費係參考例子。完整表見 [村屋光纖月費](/guides/village-fees)。",
+      `${linkCmhkVillageAmounts(VILLAGE_SPECIFIED_ADDRESS_CITE)}唔好用私樓或公屋價。有冇線睇條村、條街，列出嘅月費係參考例子。完整表見 [村屋光纖月費](/guides/village-fees)。新選擇見 [中國移動香港村屋 1000M](/guides/village-cmhk)。`,
     titleEn: "Village fibre: who offers it, and the listed fees",
     excerptEn:
-      "Village fibre on this site starts at [CMHK village 1000M](/plans/cmhk-ftth-1000-village-24m-218), HK$218 for 24 months. Do not reuse a private-estate or public-housing fee. A line depends on the village and the street; listed fees are examples. Full table: [village fibre fees](/guides/village-fees).",
+      "Village houses from a specified-address promo of [HK$218/month](/plans/cmhk-ftth-1000-village-24m-218) (CMHK village 1000M, 24 months, installation waived from HK$680) are not that price at every village house; the list price in the same series is [HK$378](/plans/cmhk-ftth-1000-village-24m-378). Do not reuse a private-estate or public-housing fee. A line depends on the village and the street; listed fees are examples. Full table: [village fibre fees](/guides/village-fees). New choice: [CMHK village 1000M](/guides/village-cmhk).",
     descriptionEn:
-      "Village fibre on this site starts at CMHK village 1000M, HK$218 for 24 months. Do not reuse Taikoo Shing, Kingswood or public-housing fees. Coverage needs the full address. Listed fees are examples, not a promise for every village.",
+      "Village houses from a specified-address promo of HK$218/month (CMHK village 1000M, 24 months, installation waived from HK$680) are not that price at every village house; the list price in the same series is HK$378. Do not reuse Taikoo Shing, Kingswood or public-housing fees. Coverage needs the full address. Listed fees are examples, not a promise for every village.",
     h1En: "Village fibre: who offers it, and what it costs",
     published: "2026-09-05",
     modified: "2026-11-14",
@@ -395,7 +396,7 @@ export const CORE_GUIDES: Guide[] = [
       {
         heading: "站內參考月費",
         paragraphs: [
-          "站內村屋光纖由[中國移動香港村屋 1000M](/plans/cmhk-ftth-1000-village-24m-218)（24 個月）HK$218 起。香港寬頻特選村屋 2000M（24 個月）HK$229。網上行村屋 1000M（24 個月）HK$278。HGC 村屋 1G 連電話（24 個月）HK$319。完整表見 [村屋光纖月費](/guides/village-fees)。",
+          `${linkCmhkVillageAmounts(VILLAGE_SPECIFIED_ADDRESS_CITE)}香港寬頻特選村屋 2000M（24 個月）HK$229。網上行村屋 1000M（24 個月）HK$278。HGC 村屋 1G 連電話（24 個月）HK$319。完整表見 [村屋光纖月費](/guides/village-fees)。新選擇見 [中國移動香港村屋 1000M](/guides/village-cmhk)。`,
           "太古城、嘉湖山莊、沙田第一城同 YOHO 係私樓，見 [太古城寬頻](/estates/taikoo-shing)、[嘉湖山莊寬頻](/estates/kingswood-villas)、[沙田第一城寬頻](/estates/city-one)、[YOHO寬頻](/estates/yoho)。嗰啲月費唔可以搬去村屋。公屋批量價同樣唔適用，分別見 [公屋居屋寬頻分別](/guides/public-vs-hos)。",
         ],
       },
@@ -418,7 +419,7 @@ export const CORE_GUIDES: Guide[] = [
       {
         heading: "Listed reference fees",
         paragraphs: [
-          "Sitewide village fibre starts at [CMHK village 1000M](/plans/cmhk-ftth-1000-village-24m-218) (24 months), HK$218. HKBN selected village 2000M (24 months) is HK$229. Netvigator village 1000M (24 months) is HK$278. HGC village 1G with a phone line (24 months) is HK$319. Full table: [village fibre fees](/guides/village-fees).",
+          "Village houses from a specified-address promo of [HK$218/month](/plans/cmhk-ftth-1000-village-24m-218) (CMHK village 1000M, 24 months, installation waived from HK$680) are not that price at every village house; the list price in the same series is [HK$378](/plans/cmhk-ftth-1000-village-24m-378). HKBN selected village 2000M (24 months) is HK$229. Netvigator village 1000M (24 months) is HK$278. HGC village 1G with a phone line (24 months) is HK$319. Full table: [village fibre fees](/guides/village-fees). New choice: [CMHK village 1000M](/guides/village-cmhk).",
           "Taikoo Shing, Kingswood Villas, City One and YOHO are private estates. Those fees do not carry over to a village house. Public-housing bulk prices do not either.",
         ],
       },
@@ -430,7 +431,7 @@ export const CORE_GUIDES: Guide[] = [
         ],
       },
     ],
-    related: ["village-onsite", "fiber", "fiber-vs-5g", "estate-filter", "home-broadband-2026", "village-fees"],
+    related: ["village-cmhk", "village-onsite", "fiber", "fiber-vs-5g", "estate-filter", "home-broadband-2026", "village-fees"],
     plans: [
       { href: "/plans?cat=broadband&housing=village", label: "村屋光纖計劃" },
       { href: "/plans?cat=home5g", label: "5G 家居格價" },
