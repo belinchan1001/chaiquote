@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import { MESSAGES } from "./messages.ts";
 import { ESTATE_COUNT } from "./estate-count.ts";
 import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
-import { FAQ, FEE_RANGE_QUESTION, fillSiteTemplate, SITE } from "./site.ts";
+import { FAQ, FEE_RANGE_QUESTION, fillSiteTemplate, INDEPENDENT_BODY, SITE } from "./site.ts";
 import { aboutJsonLd, homeJsonLd } from "./canonical.ts";
 import { formatFee, getPlan } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
@@ -76,9 +76,14 @@ describe("trust/compliance copy", () => {
     const footer = readFileSync(join(here, "../components/site-footer.tsx"), "utf8");
     const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
     const picks = readFileSync(join(here, "../components/home-best-picks.tsx"), "utf8");
-    assert.match(about, /t\("aboutIndependent"\)/);
-    assert.match(about, /t\("noCommission"\)/);
-    assert.match(about, /t\("aboutDisclaimer"\)/);
+    assert.match(
+      about,
+      /齊Quote（chaiquote\.hk）係香港獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。/,
+    );
+    assert.equal((about.match(/無向電訊商收取佣金或廣告費/g) ?? []).length, 1);
+    assert.match(about, /https:\/\/wa\.me\/\$\{SITE\.whatsappE164\}/);
+    assert.doesNotMatch(about, /t\("aboutIndependent"\)|t\("noCommission"\)|t\("aboutDisclaimer"\)|t\("aboutProviders"\)/);
+    assert.doesNotMatch(about, /間電訊商|個參考計劃|個屋苑|資料更新|轉台獨家優惠|排版備註|\/brand|QuoteLink|61118499/);
     assert.match(footer, /t\("noCommission"\)/);
     assert.match(footer, /t\("disclaimer1"\)/);
     assert.match(home, /HomeBestPicks/);
@@ -447,6 +452,7 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.equal((village?.a ?? "").includes("HK$229／月起"), false);
     assert.equal((village?.a ?? "").includes("229／24 個月起"), false);
     assert.match(village?.q ?? "", /有冇/);
+    assert.match(fillSiteTemplate(INDEPENDENT_BODY), new RegExp(`${ESTATE_COUNT} 個屋苑`));
     const contact = FAQ.find((item) => item.q === "點樣查核報價？");
     assert.match(contact?.a ?? "", /撳「留低電話」/);
     assert.equal(getPlan("icable-ftth-1000-48m-58")?.monthlyFee, 58);
@@ -462,8 +468,6 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.equal(PLAN_COUNT, 195);
     assert.equal(PROVIDER_COUNT, 8);
     assert.equal(ESTATE_COUNT, 3729);
-    assert.match(fillSiteTemplate(MESSAGES.zh.aboutWhoText), /無向電訊商收取佣金或廣告費/);
-    assert.match(fillSiteTemplate(MESSAGES.zh.aboutWhoText), new RegExp(`${ESTATE_COUNT} 個屋苑`));
     assert.doesNotMatch(MESSAGES.en.faq7a, /cheapest|lowest|best price|best-value/i);
     assert.doesNotMatch(home, /全港最平/);
   });
@@ -477,14 +481,12 @@ describe("about page Organization JSON-LD", () => {
     assert.equal(quoted(messages, "heroTitle1")[0], "搵寬頻唔使四圍問");
     assert.match(home, /t\("heroTitle1"\)/);
     assert.match(about, /<JsonLd data=\{aboutJsonLd\(\)\} \/>/);
-    assert.match(about, /providers: PROVIDERS\.length/);
-    assert.match(about, /plans: PLANS\.length/);
-    assert.match(about, /estates: ESTATE_COUNT/);
-    assert.match(about, /date: updated/);
-    assert.match(about, /<QuoteLink showNumber siteNumber \/>/);
-    assert.doesNotMatch(about, /\/brand/);
+    assert.match(about, /https:\/\/wa\.me\/\$\{SITE\.whatsappE164\}/);
+    assert.doesNotMatch(about, /quoteWhatsAppActivateProps|quoteMessage|QuoteLink|quoteWhatsappE164|text=/);
+    assert.doesNotMatch(about, /providers:|plans:|estates:|date: updated|\/brand/);
     assert.equal(existsSync(join(here, "../routes/brand.tsx")), false);
     assert.doesNotMatch(readFileSync(join(here, "../routeTree.gen.ts"), "utf8"), /\/brand/);
+    assert.match(readFileSync(join(here, "../routes/privacy.tsx"), "utf8"), /<QuoteLink showNumber siteNumber \/>/);
     assert.doesNotMatch(about, /providers:\s*8|plans:\s*193|estates:\s*3729|2026-11-12/);
     const aboutLd = aboutJsonLd();
     const { "@context": aboutContext, ...aboutOrg } = aboutLd;
@@ -498,6 +500,9 @@ describe("about page Organization JSON-LD", () => {
     assert.equal(aboutOrg.email, SITE.leadEmail);
     assert.equal(aboutOrg.telephone, `+${SITE.whatsappE164}`);
     assert.equal(aboutOrg.description, SITE.description);
+    assert.match(aboutOrg.description, /亦無向電訊商收取佣金或廣告費/);
+    assert.doesNotMatch(aboutOrg.description, /間電訊商|個參考計劃|個屋苑|資料更新/);
+    assert.doesNotMatch(JSON.stringify(aboutLd), /8 間電訊商|195 個參考計劃|3729 個屋苑/);
     assert.deepEqual(aboutOrg.sameAs, [...SITE.sameAs]);
     assert.deepEqual(aboutOrg.logo, { "@type": "ImageObject", url: `${SITE.url}/icon-512.png` });
     assert.deepEqual(aboutOrg, homeOrg);

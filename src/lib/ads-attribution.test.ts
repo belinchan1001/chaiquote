@@ -180,7 +180,10 @@ describe("conversion is not wired to page load", () => {
       "../components/whatsapp-widget.tsx",
       "../routes/guides_.$slug.tsx",
     ]) {
-      assert.match(readFileSync(join(here, file), "utf8"), /quoteWhatsAppActivateProps\(|quoteWhatsappHref\(/);
+      assert.match(
+        readFileSync(join(here, file), "utf8"),
+        /quoteWhatsAppActivateProps\(|quoteWhatsappHref\(|bareWhatsAppActivateProps\(/,
+      );
     }
     assert.doesNotMatch(readFileSync(join(here, "news-share.ts"), "utf8"), /fireAdsQuoteConversion|trackWaClick/);
   });

@@ -2,8 +2,6 @@
  * Official canonical host helpers. Kept separate from sitemap generation so
  * homepage / shell do not load the full estate catalogue on first paint.
  */
-import { ESTATE_COUNT } from "./estate-count.ts";
-import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
 import type { Category } from "./plans.ts";
 import { SITE, FAQ, PLANS_BROADBAND_H1, PLANS_BROADBAND_LEAD } from "./site.ts";
 
@@ -159,7 +157,7 @@ export const HOME_SEO_TITLE = HOME_SEO.title;
 
 export const ABOUT_SEO = {
   title: "齊Quote｜關於我們",
-  description: `齊Quote 唔係電訊商官網，無向電訊商收取佣金或廣告費。一次過比較 ${PROVIDER_COUNT} 間電訊商、${PLAN_COUNT} 個參考計劃同 ${ESTATE_COUNT} 個屋苑。月費僅供參考，以電訊商確認為準。`,
+  description: `齊Quote 唔係電訊商官網，無向電訊商收取佣金或廣告費。月費僅供參考，以電訊商確認為準。`,
 } as const satisfies SeoCopy;
 
 export const PRIVACY_SEO = {

@@ -11,7 +11,7 @@ export const SITE = {
     "https://www.instagram.com/chaiquote.hk/",
     "https://www.facebook.com/p/%E9%BD%8AQuote-61594256257767/",
   ],
-  description: `齊Quote（chaiquote.hk）係獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。一次過比較 ${PROVIDER_COUNT} 間電訊商、${PLAN_COUNT} 個參考計劃同 ${ESTATE_COUNT} 個屋苑。所列月費僅供參考，實際以電訊商確認為準。`,
+  description: `齊Quote（chaiquote.hk）係獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。所列月費僅供參考，實際以電訊商確認為準。`,
   /** Catalogue stamp shown on the homepage hero as YYYY-MM-DD. */
   updated: "2026-11-14",
   phoneDisplay: "6309 9966",

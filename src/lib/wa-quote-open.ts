@@ -39,3 +39,16 @@ export function quoteWhatsAppActivateProps(
     onAuxClick: (event: MouseEvent<HTMLAnchorElement>) => run(event),
   };
 }
+
+/** Header, footer, and the sitewide button: record the click and leave the href as bare wa.me. */
+export function bareWhatsAppActivateProps(phone: string, track?: Omit<TrackPayload, "event">) {
+  const run = (event: QuoteActivateEvent) => {
+    if (!shouldRecordQuoteOpen(event.type, event.button)) return;
+    trackWaClick({ waPhone: phone, ...track });
+  };
+  return {
+    onPointerDown: (event: PointerEvent<HTMLAnchorElement>) => run(event),
+    onClick: (event: MouseEvent<HTMLAnchorElement>) => run(event),
+    onAuxClick: (event: MouseEvent<HTMLAnchorElement>) => run(event),
+  };
+}

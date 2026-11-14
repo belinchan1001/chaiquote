@@ -11,13 +11,13 @@ import type { Plan } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 import {
   QUICK_REPLIES,
-  quoteMessage,
+  fabInquiryMessage,
   quoteWhatsappDisplay,
   quoteWhatsappE164,
   quoteWhatsappHref,
 } from "@/lib/whatsapp";
 import { trackWaClick } from "@/lib/track-client";
-import { quoteWhatsAppActivateProps } from "@/lib/wa-quote-open";
+import { bareWhatsAppActivateProps } from "@/lib/wa-quote-open";
 import { cn } from "@/lib/utils";
 import type { MessageKey } from "@/lib/messages";
 
@@ -176,12 +176,13 @@ export function WhatsAppWidget({ cornerClear }: { cornerClear: boolean }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, closeWa]);
 
-  function send(text: string) {
+  function send(text: string, allowPlansOnly = false) {
     const trimmed = text.trim();
-    if (!trimmed) return;
+    if (!trimmed && (!allowPlansOnly || plans.length === 0)) return;
+    const outbound = fabInquiryMessage(trimmed, plans, locale);
     setBubbles((prev) => [
       ...prev,
-      { id: `${Date.now()}`, from: "me", text: trimmed },
+      { id: `${Date.now()}`, from: "me", text: trimmed || outbound },
       {
         id: `${Date.now()}-ack`,
         from: "biz",
@@ -189,7 +190,6 @@ export function WhatsAppWidget({ cornerClear }: { cornerClear: boolean }) {
       },
     ]);
     setDraft("");
-    const outbound = trimmed.includes("轉台獨家優惠") ? trimmed : quoteMessage(plans, inquiry, locale, trimmed);
     window.open(quoteWhatsappHref(outbound, deskE164), "_blank", "noopener,noreferrer");
     trackWaClick({
       source: "widget",
@@ -270,7 +270,7 @@ export function WhatsAppWidget({ cornerClear }: { cornerClear: boolean }) {
                 <button
                   type="button"
                   className="h-11 rounded-full bg-accent px-3 text-sm font-medium text-accent-foreground"
-                  onClick={() => send(quoteMessage(plans, inquiry, locale))}
+                  onClick={() => send("", true)}
                 >
                   {t("waQuoteThese")}
                 </button>
@@ -342,7 +342,7 @@ export function DeferredWhatsApp() {
         href={`https://wa.me/${deskE164}`}
         target="_blank"
         rel="noopener noreferrer"
-        {...quoteWhatsAppActivateProps("", deskE164, {
+        {...bareWhatsAppActivateProps(deskE164, {
           source: "widget",
           waPhone: deskE164,
           planIds: plans.map((plan) => plan.id),
