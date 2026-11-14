@@ -236,7 +236,7 @@ describe("plan category hub", () => {
     assert.equal(zh.h1, "香港光纖寬頻報價比較");
     assert.equal(
       zh.lead,
-      "齊Quote 係獨立寬頻比較站（非電訊商官網、無向電訊商收佣金或廣告費）。光纖參考月費按樓類：公居屋約 HK$58–98、私樓約 HK$88–109、村屋由 HK$218 起（資料更新 2026-11-08）；唔係全港劃一價，以電訊商確認為準。",
+      "齊Quote 係獨立寬頻比較站（非電訊商官網、無向電訊商收佣金或廣告費）。光纖參考月費按樓類：公居屋約 HK$58–98、私樓約 HK$88–109、村屋由指定地址優惠 HK$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。（資料更新 2026-11-14）；唔係全港劃一價，以電訊商確認為準。",
     );
     assert.equal(zh.lead.includes(SITE.updated), true);
     assert.doesNotMatch(`${zh.h1}${zh.lead}`, /最平|最抵|最低|全港最平/);
@@ -244,7 +244,10 @@ describe("plan category hub", () => {
     assert.match(en.lead, /HK\$58–98/);
     assert.match(en.lead, /HK\$88–109/);
     assert.match(en.lead, /HK\$218/);
-    assert.match(en.lead, /2026-11-08/);
+    assert.match(en.lead, /specified-address promo of HK\$218\/month/);
+    assert.match(en.lead, /list price in the same series is HK\$378/);
+    assert.match(en.lead, /2026-11-14/);
+    assert.doesNotMatch(zh.lead, /村屋由 HK\$218 起/);
     assert.doesNotMatch(`${en.h1}${en.lead}`, /cheapest|lowest|best-value|best price/i);
   });
 });

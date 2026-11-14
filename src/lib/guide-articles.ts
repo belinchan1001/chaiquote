@@ -4,7 +4,12 @@ import {
   FEE_RANGE_ANSWER_EN,
   FEE_RANGE_QUESTION,
   FEE_RANGE_QUESTION_EN,
+  VILLAGE_CMHK_OPENING,
+  VILLAGE_CMHK_OPENING_EN,
+  VILLAGE_SPECIFIED_ADDRESS_CITE,
+  VILLAGE_SPECIFIED_ADDRESS_CITE_EN,
   fillSiteTemplate,
+  linkCmhkVillageAmounts,
 } from "./site.ts";
 import { salesQuoteMessage } from "./whatsapp.ts";
 
@@ -32,14 +37,14 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Hong Kong fibre is not one price. Sort public housing, HOS, private or village first, then compare 1000M and 2500M reference fees. No commission. The carrier confirms the price and coverage.",
     h1En: "Hong Kong fibre: sort the housing type, then the monthly fee",
     published: "2026-09-09",
-    modified: "2026-11-08",
+    modified: "2026-11-14",
     plansOnlyCta: true,
     estateChipLimit: 4,
     answer: {
       lead: [
         "電訊商多數按**樓類**同屋苑入線路經報價。公屋、居屋、私樓、村屋，同一句「1000M」都可以差好遠，所以要先分樓類，再睇月費。",
       ],
-      cite: "香港光纖冇全港劃一價，要先分公屋、居屋、私樓定村屋。1000M 站內參考：公居屋約 HK$58–98／月、私樓約 HK$88–109／月、村屋由 HK$218／月起；一般家用 1000M 多數夠，人多或常上傳先睇 2500M。月費同覆蓋以電訊商確認為準。",
+      cite: `香港光纖冇全港劃一價，要先分公屋、居屋、私樓定村屋。1000M 站內參考：公居屋約 HK$58–98／月、私樓約 HK$88–109／月、${VILLAGE_SPECIFIED_ADDRESS_CITE}一般家用 1000M 多數夠，人多或常上傳先睇 2500M。月費同覆蓋以電訊商確認為準。`,
       table: {
         caption: "樓類同 1000M 站內參考月費",
         headers: ["樓類", "1000M 參考月費", "備註"],
@@ -54,7 +59,11 @@ export const GUIDE_ARTICLES: Guide[] = [
             "約 HK$88–109／月",
             "有線私人樓宇 $88 起；HKBN 約 $109（24 個月）",
           ],
-          ["[村屋](/guides/village-fees)", "約 HK$218／月起", "另一套計劃，唔好套公屋／私樓價"],
+          [
+            "[村屋](/guides/village-fees)",
+            "指定地址優惠 HK$218／月；正價 HK$378",
+            "唔等於所有村屋。見 [中國移動香港村屋 1000M](/guides/village-cmhk)。",
+          ],
         ],
       },
     },
@@ -62,7 +71,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       lead: [
         "Carriers usually quote by **housing type** and how the line enters the estate. The same “1000M” can be far apart for public housing, HOS, private and village homes, so sort the housing type before the monthly fee.",
       ],
-      cite: "Hong Kong fibre has no territory-wide price. Sort public housing, HOS, private or village first. Listed 1000M reference fees: public / HOS about HK$58–98/month, private about HK$88–109/month, village from HK$218/month. 1000M is enough for most homes; look at 2500M if many people share the line or you upload often. The carrier confirms the fee and coverage.",
+      cite: `Hong Kong fibre has no territory-wide price. Sort public housing, HOS, private or village first. Listed 1000M reference fees: public / HOS about HK$58–98/month, private about HK$88–109/month. ${VILLAGE_SPECIFIED_ADDRESS_CITE_EN} 1000M is enough for most homes; look at 2500M if many people share the line or you upload often. The carrier confirms the fee and coverage.`,
       table: {
         caption: "Housing type and listed 1000M reference fees",
         headers: ["Housing", "1000M reference fee", "Note"],
@@ -79,8 +88,8 @@ export const GUIDE_ARTICLES: Guide[] = [
           ],
           [
             "[Village](/guides/village-fees)",
-            "from about HK$218/month",
-            "A separate set of plans. Do not reuse public or private prices.",
+            "specified-address promo HK$218/month; list price HK$378",
+            "Not every village house. See [CMHK village 1000M](/guides/village-cmhk).",
           ],
         ],
       },
@@ -94,6 +103,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "public-hos-fees",
       "private-1000-fees",
       "village-fees",
+      "village-cmhk",
       "public-vs-hos",
       "village",
       "fiber-vs-5g",
@@ -135,8 +145,8 @@ export const GUIDE_ARTICLES: Guide[] = [
           "想知點解要分開報，可以睇 [公屋同居屋寬頻有咩分別](/guides/public-vs-hos)。屋苑例子例如 [天耀邨](/estates/tin-yiu)：用公屋表，唔好用嘉湖私樓價去估。",
           "選擇通常多啲。站內列出嘅私樓 1000M 例子大約 **HK$88–109／月**（例如有線私人樓宇 36 個月 HK$88 起；香港寬頻 24 個月 HK$109）。部分計劃卡會標明同時適用公屋／居屋——以計劃卡為準，唔好反過來用公居屋最低價估所有私樓。",
           "屋苑例子例如 [太古城](/estates/taikoo-shing)：先確認樓類係私樓，再對計劃。",
-          "村屋光纖唔等於公屋價，亦唔等於一定拉到。站內列出例子由約 **HK$218–229／月**起，表上可以去到約 **HK$376／月**；供應商同覆蓋要因應地址再問。",
-          "你如果住新界村屋，應該先睇 [村屋光纖點算](/guides/village) 同 [村屋光纖月費表](/guides/village-fees)。拉唔到線，或者想同無線方案一齊比較，可以再睇 [光纖定 5G 家居](/guides/fiber-vs-5g)。",
+          `${VILLAGE_SPECIFIED_ADDRESS_CITE}香港寬頻特選村屋 2000M 約 **HK$229／月**係另一個例子，表上可以去到約 **HK$376／月**；供應商同覆蓋要因應地址再問。`,
+          "你如果住新界村屋，應該先睇 [中國移動香港村屋 1000M](/guides/village-cmhk)、[村屋光纖點算](/guides/village) 同 [村屋光纖月費表](/guides/village-fees)。拉唔到線，或者想同無線方案一齊比較，可以再睇 [光纖定 5G 家居](/guides/fiber-vs-5g)。",
         ],
         flow: [
           { kind: "h3", text: "公屋／居屋" },
@@ -164,11 +174,11 @@ export const GUIDE_ARTICLES: Guide[] = [
           { kind: "h3", text: "村屋／丁屋" },
           {
             kind: "p",
-            text: "村屋光纖唔等於公屋價，亦唔等於一定拉到。站內列出例子由約 **HK$218–229／月**起，表上可以去到約 **HK$376／月**；供應商同覆蓋要因應地址再問。",
+            text: `${VILLAGE_SPECIFIED_ADDRESS_CITE}香港寬頻特選村屋 2000M 約 **HK$229／月**係另一個例子，表上可以去到約 **HK$376／月**；供應商同覆蓋要因應地址再問。`,
           },
           {
             kind: "p",
-            text: "你如果住新界村屋，應該先睇 [村屋光纖點算](/guides/village) 同 [村屋光纖月費表](/guides/village-fees)。拉唔到線，或者想同無線方案一齊比較，可以再睇 [光纖定 5G 家居](/guides/fiber-vs-5g)。",
+            text: "你如果住新界村屋，應該先睇 [中國移動香港村屋 1000M](/guides/village-cmhk)、[村屋光纖點算](/guides/village) 同 [村屋光纖月費表](/guides/village-fees)。拉唔到線，或者想同無線方案一齊比較，可以再睇 [光纖定 5G 家居](/guides/fiber-vs-5g)。",
           },
         ],
       },
@@ -277,8 +287,8 @@ export const GUIDE_ARTICLES: Guide[] = [
           "Why the quotes are separate: [public vs HOS broadband](/guides/public-vs-hos). Example estate: [Tin Yiu Estate](/estates/tin-yiu). Use the public-housing table. Do not estimate it with a Kingswood Villas private-estate price.",
           "There are usually more choices. Listed private 1000M examples are about **HK$88–109/month** (i-Cable private buildings, 36 months, from HK$88; HKBN, 24 months, HK$109). Some plan cards say they also apply to public housing or HOS — follow the plan card. Do not use the lowest public / HOS price for every private flat.",
           "Example estate: [Taikoo Shing](/estates/taikoo-shing). Confirm it is private, then compare plans.",
-          "Village fibre is not a public-housing price, and it is not a promise the line can be pulled. Listed examples start at about **HK$218–229/month**, and the table goes up to about **HK$376/month**. The provider and coverage still depend on the address.",
-          "If you live in a New Territories village house, start with [village fibre](/guides/village) and the [village fibre fee table](/guides/village-fees). If a line cannot be pulled, or you want a wireless option beside it, see [fibre or 5G home](/guides/fiber-vs-5g).",
+          `${VILLAGE_SPECIFIED_ADDRESS_CITE_EN} HKBN selected village 2000M at about **HK$229/month** is another example, and the table goes up to about **HK$376/month**. The provider and coverage still depend on the address.`,
+          "If you live in a New Territories village house, start with [CMHK village 1000M](/guides/village-cmhk), [village fibre](/guides/village) and the [village fibre fee table](/guides/village-fees). If a line cannot be pulled, or you want a wireless option beside it, see [fibre or 5G home](/guides/fiber-vs-5g).",
         ],
         flow: [
           { kind: "h3", text: "Public / HOS" },
@@ -306,11 +316,11 @@ export const GUIDE_ARTICLES: Guide[] = [
           { kind: "h3", text: "Village house" },
           {
             kind: "p",
-            text: "Village fibre is not a public-housing price, and it is not a promise the line can be pulled. Listed examples start at about **HK$218–229/month**, and the table goes up to about **HK$376/month**. The provider and coverage still depend on the address.",
+            text: `${VILLAGE_SPECIFIED_ADDRESS_CITE_EN} HKBN selected village 2000M at about **HK$229/month** is another example, and the table goes up to about **HK$376/month**. The provider and coverage still depend on the address.`,
           },
           {
             kind: "p",
-            text: "If you live in a New Territories village house, start with [village fibre](/guides/village) and the [village fibre fee table](/guides/village-fees). If a line cannot be pulled, or you want a wireless option beside it, see [fibre or 5G home](/guides/fiber-vs-5g).",
+            text: "If you live in a New Territories village house, start with [CMHK village 1000M](/guides/village-cmhk), [village fibre](/guides/village) and the [village fibre fee table](/guides/village-fees). If a line cannot be pulled, or you want a wireless option beside it, see [fibre or 5G home](/guides/fiber-vs-5g).",
           },
         ],
       },
@@ -1402,7 +1412,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Compare 2026 1000M reference fees for HKBN, Netvigator, HGC, i-Cable, CMHK and SmarTone by public, HOS and private housing. Compare free on ChaiQuote, or confirm on WhatsApp 6309 9966. For reference only; the carrier confirms.",
     h1En: "2026 home broadband 1000M: six-carrier reference monthly fees",
     published: "2026-09-12",
-    modified: "2026-11-01",
+    modified: "2026-11-14",
     related: [
       "public-hos-fees",
       "private-1000-fees",
@@ -2079,18 +2089,18 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "村屋寬頻報價｜光纖月費同覆蓋注意｜齊Quote",
     h1: "村屋光纖常見參考月費幾多？",
     description:
-      "2026年10月村屋同丁屋光纖係另一套月費，唔好套用公屋或私樓價。站內列出由中國移動香港村屋 1000M HK$218／月（24 個月）起。可以比較參考計劃，再查你個地址覆蓋。實際安裝以電訊商確認為準。",
+      `2026年10月村屋同丁屋光纖係另一套月費，唔好套用公屋或私樓價。${VILLAGE_SPECIFIED_ADDRESS_CITE}可以比較參考計劃，再查你個地址覆蓋。實際安裝以電訊商確認為準。`,
     title: "村屋光纖月費幾多？站內列出參考",
-    excerpt: "村屋光纖月費係另一套計劃。站內列出由中國移動香港村屋 1000M HK$218／月（24 個月）起，僅供參考。唔好套用公屋／居屋／私樓月費。",
+    excerpt: `村屋光纖月費係另一套計劃。${VILLAGE_SPECIFIED_ADDRESS_CITE}僅供參考。唔好套用公屋／居屋／私樓月費。`,
     titleEn: "Village fibre: listed reference monthly fees",
     excerptEn:
-      "Village fibre is a separate set of plans. Listed examples start at CMHK village 1000M HK$218/month (24 months), for reference only. Do not apply public / HOS / private fees.",
+      `Village fibre is a separate set of plans. ${VILLAGE_SPECIFIED_ADDRESS_CITE_EN} For reference only. Do not apply public / HOS / private fees.`,
     descriptionEn:
-      "Village fibre is a separate set of plans. Listed examples start at CMHK village 1000M HK$218/month (24 months). Do not apply public, HOS or private fees. Coverage and install are confirmed by the carrier.",
+      `Village fibre is a separate set of plans. ${VILLAGE_SPECIFIED_ADDRESS_CITE_EN} Do not apply public, HOS or private fees. Coverage and install are confirmed by the carrier.`,
     h1En: "What are common listed village fibre monthly fees?",
     published: "2026-09-12",
-    modified: "2026-09-13",
-    related: ["village", "home-broadband-2026", "village-onsite", "fiber", "estate-filter", "tseung-kwan-o", "tin-shui-wai"],
+    modified: "2026-11-14",
+    related: ["village-cmhk", "village", "home-broadband-2026", "village-onsite", "fiber", "estate-filter", "tseung-kwan-o", "tin-shui-wai"],
     plans: [{ href: "/plans?cat=broadband&housing=village", label: "村屋光纖計劃" }],
     estates: [
       { href: "/guides/village", label: "村屋點算" },
@@ -2110,14 +2120,19 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "村屋係另一套",
         paragraphs: [
-          "村屋光纖月費係**另一套**計劃，**唔好**套用公屋／居屋／私樓月費。站內列出由中國移動香港村屋 1000M **HK$218／月**（24 個月）起。下列係**站內列出**例子，僅供參考。",
+          `村屋光纖月費係**另一套**計劃，**唔好**套用公屋／居屋／私樓月費。${VILLAGE_SPECIFIED_ADDRESS_CITE}下列係**站內列出**例子，僅供參考。詳見 [中國移動香港村屋 1000M](/guides/village-cmhk)。`,
         ],
         table: {
           caption: "站內列出｜僅供參考",
           headers: ["供應商／計劃例子", "樓類／站內列出"],
           rows: [
             {
-              label: "中國移動香港｜村屋 1000M 光纖（24 個月）",
+              label: "中國移動香港｜村屋 1000M 光纖（24 個月）正價",
+              value: "村屋｜HK$378",
+              href: "/plans/cmhk-ftth-1000-village-24m-378",
+            },
+            {
+              label: "中國移動香港｜村屋 1000M 光纖（24 個月）指定地址優惠",
               value: "村屋｜HK$218",
               href: "/plans/cmhk-ftth-1000-village-24m-218",
             },
@@ -2164,7 +2179,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "點解村屋光纖月費通常分開報",
         paragraphs: [
-          "公屋、居屋好多時有批量合約；村屋、丁屋入線睇條村、條街、井蓋同屋地，所以月費、安裝費、完工期都係另一套。表上由中國移動香港村屋 1000M HK$218／24 個月起。香港寬頻特選村屋 2000M HK$229 係另一行例子，唔等於新界每條村都有。",
+          `公屋、居屋好多時有批量合約；村屋、丁屋入線睇條村、條街、井蓋同屋地，所以月費、安裝費、完工期都係另一套。${VILLAGE_SPECIFIED_ADDRESS_CITE}香港寬頻特選村屋 2000M HK$229 係另一行例子，唔等於新界每條村都有。`,
           "報價一定要填完整地址，唔好只寫「元朗村屋」。需要可以約 [實地視察同現場測 5G](/guides/village-onsite)。",
         ],
       },
@@ -2193,14 +2208,19 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "Village is a separate set",
         paragraphs: [
-          "Village fibre monthly fees are a **separate set** of plans. Do **not** apply public / HOS / private fees. Listed examples start at CMHK village 1000M **HK$218/month** (24 months). The rows below are **listed on this site**, for reference only.",
+          `Village fibre monthly fees are a **separate set** of plans. Do **not** apply public / HOS / private fees. ${VILLAGE_SPECIFIED_ADDRESS_CITE_EN} The rows below are **listed on this site**, for reference only. See [CMHK village 1000M](/guides/village-cmhk).`,
         ],
         table: {
           caption: "Listed on this site | for reference only",
           headers: ["Provider / example plan", "Housing / listed fee"],
           rows: [
             {
-              label: "CMHK | Village 1000M fibre (24 months)",
+              label: "CMHK | Village 1000M fibre (24 months), list price",
+              value: "Village | HK$378",
+              href: "/plans/cmhk-ftth-1000-village-24m-378",
+            },
+            {
+              label: "CMHK | Village 1000M fibre (24 months), specified-address promo",
               value: "Village | HK$218",
               href: "/plans/cmhk-ftth-1000-village-24m-218",
             },
@@ -2247,7 +2267,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "Why village fibre is quoted separately",
         paragraphs: [
-          "Public and HOS estates often have bulk contracts. Village houses depend on the village, the street and the install path, so the fee table is a **separate set**. The table starts at CMHK village 1000M HK$218 / 24 months. HKBN selected village 2000M at HK$229 is another listed example, not every village in the New Territories.",
+          `Public and HOS estates often have bulk contracts. Village houses depend on the village, the street and the install path, so the fee table is a **separate set**. ${VILLAGE_SPECIFIED_ADDRESS_CITE_EN} HKBN selected village 2000M at HK$229 is another listed example, not every village in the New Territories.`,
           "Give the full address. You can book [an on-site visit / 5G test](/guides/village-onsite).",
         ],
       },
@@ -2275,7 +2295,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     faq: [
       {
         q: "村屋光纖月費大概幾錢？",
-        a: "村屋光纖站內列出由中國移動香港村屋 1000M HK$218／24 個月起，完整表就係本頁，去到網上行村屋 2500M HK$376／36 個月。香港寬頻特選村屋 2000M 係 HK$229／24 個月，係表上另一個例子，唔係全站村屋起步價。呢啲唔係保證價，亦唔等於你條村一定有。實際以電訊商確認為準。",
+        a: `${VILLAGE_SPECIFIED_ADDRESS_CITE}完整表就係本頁，去到網上行村屋 2500M HK$376／36 個月。香港寬頻特選村屋 2000M 係 HK$229／24 個月，係表上另一個例子，唔係全站村屋起步價。呢啲唔係保證價，亦唔等於你條村一定有。實際以電訊商確認為準。`,
       },
       {
         q: "拉唔到光纖點算？",
@@ -2291,7 +2311,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         q: "特選村屋計劃係咪每條村都有？",
-        a: "唔係。香港寬頻特選村屋 2000M HK$229 係特選村屋例子，唔等於新界每條村都有，亦唔係表上起步價。表上由中國移動香港村屋 1000M HK$218／24 個月起。覆蓋以電訊商確認為準。",
+        a: `唔係。香港寬頻特選村屋 2000M HK$229 係特選村屋例子，唔等於新界每條村都有，亦唔係表上起步價。${VILLAGE_SPECIFIED_ADDRESS_CITE}覆蓋以電訊商確認為準。`,
       },
       {
         q: "係咪保證價？",
@@ -2301,7 +2321,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     faqEn: [
       {
         q: "What are typical village fibre monthly fees?",
-        a: "Listed village fibre starts at CMHK village 1000M HK$218 / 24 months. This page is the full table, up to Netvigator village 2500M HK$376 / 36 months. HKBN selected village 2000M at HK$229 / 24 months is another listed example, not the sitewide village starting fee. These are not guaranteed prices and do not mean every village has them.",
+        a: `${VILLAGE_SPECIFIED_ADDRESS_CITE_EN} This page is the full table, up to Netvigator village 2500M HK$376 / 36 months. HKBN selected village 2000M at HK$229 / 24 months is another listed example, not the sitewide village starting fee. These are not guaranteed prices and do not mean every village has them.`,
       },
       {
         q: "What if fibre cannot be pulled?",
@@ -2317,7 +2337,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         q: "Does every village have the selected-village plans?",
-        a: "No. HKBN selected village 2000M at HK$229 is a selected-village example. It is not every village in the New Territories, and it is not the starting row of this table. The table starts at CMHK village 1000M HK$218 / 24 months. Coverage is confirmed by the carrier.",
+        a: `No. HKBN selected village 2000M at HK$229 is a selected-village example. It is not every village in the New Territories, and it is not the sitewide village starting fee. ${VILLAGE_SPECIFIED_ADDRESS_CITE_EN} Coverage is confirmed by the carrier.`,
       },
       {
         q: "Is this a guaranteed price?",
@@ -6166,6 +6186,182 @@ export const GUIDE_ARTICLES: Guide[] = [
     ],
   },
   {
+    slug: "village-cmhk",
+    minutes: 6,
+    category: "fiber",
+    seoTitle: "村屋光纖新選擇：中國移動香港 1000M｜齊Quote",
+    h1: "村屋光纖新選擇：中國移動香港 1000M",
+    description: VILLAGE_CMHK_OPENING,
+    title: "村屋光纖新選擇：中國移動香港 1000M",
+    excerpt: linkCmhkVillageAmounts(VILLAGE_CMHK_OPENING),
+    titleEn: "A new village-fibre choice: China Mobile Hong Kong 1000M",
+    excerptEn: VILLAGE_CMHK_OPENING_EN,
+    descriptionEn: VILLAGE_CMHK_OPENING_EN,
+    h1En: "A new village-fibre choice: China Mobile Hong Kong 1000M",
+    published: "2026-11-14",
+    modified: "2026-11-14",
+    plansOnlyCta: true,
+    estates: [],
+    answer: {
+      lead: [],
+      cite: linkCmhkVillageAmounts(VILLAGE_CMHK_OPENING),
+      afterCite: [
+        "完整表見 [村屋光纖月費](/guides/village-fees)。覆蓋同價錢亦見 [村屋光纖點算](/guides/village)。",
+      ],
+      table: {
+        caption: "村屋光纖例子（站內列出，僅供參考）",
+        headers: ["計劃", "月費", "安裝費", "適用"],
+        rows: [
+          [
+            "[中國移動香港村屋 1000M（24 個月）正價](/plans/cmhk-ftth-1000-village-24m-378)",
+            "HK$378",
+            "豁免安裝費",
+            "村屋正價，要核對門牌",
+          ],
+          [
+            "[中國移動香港村屋 1000M（24 個月）指定地址優惠](/plans/cmhk-ftth-1000-village-24m-218)",
+            "HK$218",
+            "豁免安裝費（原價 HK$680）",
+            "指定地址，唔等於所有村屋",
+          ],
+          [
+            "[香港寬頻特選村屋 2000M（24 個月）](/plans/hkbn-village-2000-24m)",
+            "HK$229",
+            "豁免安裝費（原價 HK$680）",
+            "特選村屋例子",
+          ],
+          [
+            "[網上行村屋 1000M（24 個月）](/plans/netvigator-ftth-1000-village-24m)",
+            "HK$278",
+            "豁免安裝費",
+            "村屋例子",
+          ],
+          [
+            "[HGC 村屋 1G 連電話（24 個月）](/plans/hgc-village-1g-phone-24m)",
+            "HK$319",
+            "豁免安裝費",
+            "村屋例子，連電話",
+          ],
+        ],
+        notes: [
+          "完整表見 [村屋光纖月費](/guides/village-fees)。月費係例子。覆蓋同優惠要核對門牌，以電訊商確認為準。HK$229 只係香港寬頻特選村屋 2000M 例子，唔係全站村屋起步價。",
+        ],
+      },
+    },
+    answerEn: {
+      lead: [],
+      cite: VILLAGE_CMHK_OPENING_EN,
+      afterCite: [
+        "Full table: [village fibre fees](/guides/village-fees). Coverage and the fee are also on [village fibre](/guides/village).",
+      ],
+      table: {
+        caption: "Village fibre examples listed on this site, for reference only",
+        headers: ["Plan", "Monthly fee", "Installation", "Who it is for"],
+        rows: [
+          [
+            "[CMHK village 1000M (24 months), list price](/plans/cmhk-ftth-1000-village-24m-378)",
+            "HK$378",
+            "Installation waived",
+            "Village list price. Check the address.",
+          ],
+          [
+            "[CMHK village 1000M (24 months), specified-address promo](/plans/cmhk-ftth-1000-village-24m-218)",
+            "HK$218",
+            "Installation waived (was HK$680)",
+            "Specified addresses. Not every village house.",
+          ],
+          [
+            "[HKBN selected village 2000M (24 months)](/plans/hkbn-village-2000-24m)",
+            "HK$229",
+            "Installation waived (was HK$680)",
+            "Selected-village example",
+          ],
+          [
+            "[Netvigator village 1000M (24 months)](/plans/netvigator-ftth-1000-village-24m)",
+            "HK$278",
+            "Installation waived",
+            "Village example",
+          ],
+          [
+            "[HGC village 1G with phone (24 months)](/plans/hgc-village-1g-phone-24m)",
+            "HK$319",
+            "Installation waived",
+            "Village example, with a phone line",
+          ],
+        ],
+        notes: [
+          "Full table: [village fibre fees](/guides/village-fees). Fees are examples. Coverage and the promo must be checked against the address. The carrier confirms. HK$229 is only the HKBN selected village 2000M example, not the sitewide village starting fee.",
+        ],
+      },
+    },
+    related: ["village", "village-fees", "fiber"],
+    plans: [
+      {
+        href: "/plans?cat=broadband&housing=village",
+        label: "村屋光纖計劃",
+        labelEn: "Village fibre plans",
+      },
+    ],
+    body: [
+      {
+        heading: "正價同指定地址優惠",
+        paragraphs: [
+          "正價月費係 [HK$378](/plans/cmhk-ftth-1000-village-24m-378)（24 個月），豁免安裝費。指定地址先有優惠價 [HK$218](/plans/cmhk-ftth-1000-village-24m-218)，同樣 24 個月，並豁免安裝費（原價 HK$680）。",
+          "HK$218 唔等於所有村屋都係呢個價。覆蓋同可唔可以享優惠，要核對門牌，以電訊商確認為準。",
+        ],
+      },
+      {
+        heading: "覆蓋睇條村同條街",
+        paragraphs: [
+          "有冇線睇條村、條街，甚至左右鄰。上面月費係站內列出嘅例子，唔等於新界每條村都裝到。",
+          "想先了解邊間有村屋光纖，見 [村屋光纖點算](/guides/village)。完整月費表見 [村屋光纖月費](/guides/village-fees)。",
+        ],
+      },
+      {
+        heading: "同其他例子一齊睇",
+        paragraphs: [
+          "表上亦有香港寬頻特選村屋 2000M HK$229、網上行村屋 1000M HK$278、HGC 村屋 1G 連電話 HK$319。呢啲都係例子，唔好用公屋或者私樓價去估村屋。",
+          "有線同數碼通嘅家居光纖計劃唔適用村屋。未有光纖可以一併睇 [5G 家居](/guides/home5g)。",
+        ],
+      },
+      {
+        heading: "下一步",
+        paragraphs: [
+          "去 [村屋光纖計劃](/plans?cat=broadband&housing=village) 對卡。實際覆蓋、安裝期同月費以電訊商確認為準。",
+        ],
+      },
+    ],
+    bodyEn: [
+      {
+        heading: "List price and the specified-address promo",
+        paragraphs: [
+          "The list price is [HK$378](/plans/cmhk-ftth-1000-village-24m-378) for 24 months, with installation waived. A specified address can get [HK$218](/plans/cmhk-ftth-1000-village-24m-218), also for 24 months, with installation waived (the install fee was HK$680).",
+          "HK$218 is not the fee for every village house. Coverage, and whether the promo applies, must be checked against the address. The carrier confirms.",
+        ],
+      },
+      {
+        heading: "Coverage depends on the village and the street",
+        paragraphs: [
+          "A line depends on the village, the street, even the house next door. The fees above are examples listed on this site, not a promise for every village in the New Territories.",
+          "Who lists village fibre: [village fibre](/guides/village). The full fee table: [village fibre fees](/guides/village-fees).",
+        ],
+      },
+      {
+        heading: "Read it next to the other examples",
+        paragraphs: [
+          "The table also lists HKBN selected village 2000M at HK$229, Netvigator village 1000M at HK$278, and HGC village 1G with a phone line at HK$319. These are examples. Do not reuse a public-housing or private-estate fee.",
+          "i-Cable and SmarTone home-fibre plans are not for village houses. Where there is no fibre, also see [5G home](/guides/home5g).",
+        ],
+      },
+      {
+        heading: "Next step",
+        paragraphs: [
+          "Open [village fibre plans](/plans?cat=broadband&housing=village) and read the cards. The carrier confirms coverage, the install date and the fee.",
+        ],
+      },
+    ],
+  },
+  {
     slug: "hkbn-vs-netvigator",
     minutes: 7,
     category: "fiber",
@@ -6182,12 +6378,12 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Listed examples compare HKBN and Netvigator 1000M and 2500M reference fees, contracts and the two companies for public housing, private flats and village houses. The carrier confirms the price and coverage.",
     h1En: "HKBN vs Netvigator: monthly fees, plans and the companies",
     published: "2026-11-10",
-    modified: "2026-11-10",
+    modified: "2026-11-14",
     plansOnlyCta: true,
     estates: [],
     answer: {
       lead: [],
-      cite: "網上行係 HKT 家居寬頻品牌。全站（各電訊商）光纖參考：公居屋約 HK$58–98／月、私樓約 HK$88–109／月、村屋由 HK$218／月起（中國移動香港村屋 1000M、24 個月）。呢條中國移動香港計劃唔屬呢篇兩間比較。2026 年 11 月站內可見，呢篇只比較香港寬頻同網上行：公居屋／私樓 1000M 香港寬頻約 HK$98／月（24 或 36 個月）、網上行約 HK$108／月（36 個月＋路由器）；村屋係另一套，網上行村屋 1000M 約 HK$278／月，香港寬頻特選村屋 2000M 約 HK$229／月（1000M 村屋例子約 HK$378／月）。HK$108 只係網上行公居屋／私樓 1000M 例子，唔係全站私樓參考；HK$229 只係香港寬頻特選村屋 2000M 例子，唔係全站村屋起步價。月費、覆蓋同安裝以電訊商確認為準。",
+      cite: `網上行係 HKT 家居寬頻品牌。全站（各電訊商）光纖參考：公居屋約 HK$58–98／月、私樓約 HK$88–109／月、${VILLAGE_SPECIFIED_ADDRESS_CITE}呢條中國移動香港計劃唔屬呢篇兩間比較。2026 年 11 月站內可見，呢篇只比較香港寬頻同網上行：公居屋／私樓 1000M 香港寬頻約 HK$98／月（24 或 36 個月）、網上行約 HK$108／月（36 個月＋路由器）；村屋係另一套，網上行村屋 1000M 約 HK$278／月，香港寬頻特選村屋 2000M 約 HK$229／月（1000M 村屋例子約 HK$378／月）。HK$108 只係網上行公居屋／私樓 1000M 例子，唔係全站私樓參考；HK$229 只係香港寬頻特選村屋 2000M 例子，唔係全站村屋起步價。月費、覆蓋同安裝以電訊商確認為準。`,
       afterCite: [
         "你想對香港寬頻同網上行邊份計劃啱自己，唔好用一張全港劃一價去打。兩間都按樓類同速率報價，公居屋、私樓、村屋見到嘅月費、合約期同配備都可以唔同。下面再分開講月費、計劃同公司，最後用一個出口按你嘅樓類去睇光纖計劃。",
       ],
@@ -6228,7 +6424,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     },
     answerEn: {
       lead: [],
-      cite: "Netvigator is HKT’s consumer home-broadband brand. Sitewide fibre references (all carriers): public / HOS about HK$58–98/month, private about HK$88–109/month, and village houses from HK$218/month (CMHK village 1000M, 24 months). That CMHK plan is not part of this two-carrier comparison. In November 2026, this page only compares HKBN and Netvigator: public / HOS and private 1000M is about HK$98/month for HKBN (24 or 36 months) and about HK$108/month for Netvigator (36 months plus a router). Village houses are a separate set: Netvigator village 1000M is about HK$278/month, and the HKBN selected village 2000M example is about HK$229/month (a village 1000M example is about HK$378/month). HK$108 is only the Netvigator public / private 1000M example, not the sitewide private-housing reference. HK$229 is only the HKBN selected village 2000M example, not the sitewide village starting fee. The carrier confirms the monthly fee, coverage and installation.",
+      cite: `Netvigator is HKT’s consumer home-broadband brand. Sitewide fibre references (all carriers): public / HOS about HK$58–98/month, private about HK$88–109/month. ${VILLAGE_SPECIFIED_ADDRESS_CITE_EN} That CMHK plan is not part of this two-carrier comparison. In November 2026, this page only compares HKBN and Netvigator: public / HOS and private 1000M is about HK$98/month for HKBN (24 or 36 months) and about HK$108/month for Netvigator (36 months plus a router). Village houses are a separate set: Netvigator village 1000M is about HK$278/month, and the HKBN selected village 2000M example is about HK$229/month (a village 1000M example is about HK$378/month). HK$108 is only the Netvigator public / private 1000M example, not the sitewide private-housing reference. HK$229 is only the HKBN selected village 2000M example, not the sitewide village starting fee. The carrier confirms the monthly fee, coverage and installation.`,
       afterCite: [
         "When you compare an HKBN plan with a Netvigator plan, do not use one territory-wide price. Both quote by housing type and speed, so the monthly fee, contract length and what is included can differ across public housing and HOS, private flats, and village houses. The sections below separate the fee, the plan and the company, then one exit opens fibre plans for your housing type.",
       ],
