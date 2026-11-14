@@ -98,7 +98,7 @@ function GuideRichText({
               key={index}
               className={
                 price
-                  ? "font-bold tabular-nums text-accent"
+                  ? "font-bold whitespace-nowrap tabular-nums text-accent"
                   : strong === "bold"
                     ? "font-bold text-fg"
                     : "font-semibold text-fg"
@@ -115,7 +115,11 @@ function GuideRichText({
             <a
               key={index}
               href={link[2]}
-              className={priceLink ? "guide-inline-link font-bold tabular-nums" : "guide-inline-link"}
+              className={
+                priceLink
+                  ? "guide-inline-link font-bold whitespace-nowrap tabular-nums"
+                  : "guide-inline-link"
+              }
             >
               {link[1]}
             </a>
@@ -127,10 +131,10 @@ function GuideRichText({
   );
 }
 
-const FIGURE_SPLIT = /(HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?|\d{3,5}M)/g;
+const FIGURE_SPLIT = /(HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?(?:／月(?:起)?|\/month)?|\d{3,5}M)/g;
 
 function isFigure(part: string) {
-  return /^HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?$/.test(part) || /^\d{3,5}M$/.test(part);
+  return /^HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?(?:／月(?:起)?|\/month)?$/.test(part) || /^\d{3,5}M$/.test(part);
 }
 
 function FigureText({ text }: { text: string }) {
@@ -139,7 +143,7 @@ function FigureText({ text }: { text: string }) {
     <>
       {parts.map((part, index) =>
         isFigure(part) ? (
-          <strong key={index} className="font-bold tabular-nums text-accent">
+          <strong key={index} className="font-bold whitespace-nowrap tabular-nums text-accent">
             {part}
           </strong>
         ) : (
@@ -150,18 +154,86 @@ function FigureText({ text }: { text: string }) {
   );
 }
 
+function trimRowPunctuation(text: string) {
+  return text.replace(/^[\s、，；。,;]+/u, "").replace(/[\s、，；。,;]+$/u, "");
+}
+
+/** Drop list punctuation from a split row. Words, figures, and inner qualifiers stay. */
+function unwrapRow(raw: string) {
+  const text = raw.trim();
+  if (text.startsWith("（") && text.endsWith("）。")) return text.slice(1, -2);
+  if (text.startsWith("(") && text.endsWith(").")) return text.slice(1, -2);
+  return text;
+}
+
+function parsePriceRow(raw: string) {
+  const text = trimRowPunctuation(unwrapRow(raw));
+  const match = /^(.*?)(HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?)(.*)$/.exec(text);
+  if (!match) return null;
+  const unitMatch = /^(\s*(?:／月(?:起)?|\/month))([\s\S]*)$/.exec(match[3]);
+  return {
+    label: trimRowPunctuation(match[1]),
+    price: match[2],
+    unit: unitMatch ? unitMatch[1].trim() : "",
+    qualifier: trimRowPunctuation(unitMatch ? unitMatch[2] : match[3]),
+  };
+}
+
 function CiteChip({ text }: { text: string }) {
   const match = /^(.*?)(HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?)(.*)$/.exec(text);
   if (!match) return <FigureText text={text} />;
   const [, prefix, price, suffix] = match;
+  const shownSuffix = trimRowPunctuation(suffix);
   return (
     <>
-      <span className="block text-xs font-medium leading-snug text-muted">{prefix}</span>
-      <span className="mt-1 block text-lg font-bold tabular-nums leading-none text-accent">
-        {price}
+      <span className="block break-keep text-xs font-medium leading-snug text-muted">
+        {prefix.trim()}
       </span>
-      {suffix ? <span className="mt-1 block text-xs leading-snug text-muted">{suffix}</span> : null}
+      <span className="mt-1 block text-lg leading-none font-bold whitespace-nowrap tabular-nums text-accent">
+        {price}
+        {shownSuffix ? (
+          <span className="text-sm font-semibold whitespace-nowrap text-fg">{shownSuffix}</span>
+        ) : null}
+      </span>
     </>
+  );
+}
+
+function PriceRow({ text }: { text: string }) {
+  const row = parsePriceRow(text);
+  if (!row) {
+    return (
+      <p className="break-keep text-base font-medium leading-snug text-fg">
+        <CiteSentence text={text} />
+      </p>
+    );
+  }
+  const price = (
+    <p className="shrink-0 text-lg leading-none font-bold whitespace-nowrap tabular-nums text-accent">
+      {row.price}
+      {row.unit ? <span className="text-sm font-semibold text-fg">{row.unit}</span> : null}
+    </p>
+  );
+  const qualifier = row.qualifier ? (
+    <p className="mt-1 break-keep text-xs leading-snug text-muted">{row.qualifier}</p>
+  ) : null;
+  if (row.label.length > 18) {
+    return (
+      <div className="rounded-lg bg-surface px-3 py-2.5">
+        <p className="break-keep text-sm font-medium leading-snug text-fg">{row.label}</p>
+        <div className="mt-1">{price}</div>
+        {qualifier}
+      </div>
+    );
+  }
+  return (
+    <div className="rounded-lg bg-surface px-3 py-2.5">
+      <div className="flex items-baseline justify-between gap-3">
+        <p className="min-w-0 break-keep text-sm font-medium leading-snug text-fg">{row.label}</p>
+        {price}
+      </div>
+      {qualifier}
+    </div>
   );
 }
 
@@ -186,7 +258,7 @@ function GuideCite({ text, part }: { text: string; part: CitePlacement }) {
   if (!visible.length) return null;
   if (part === "later") {
     return (
-      <blockquote className="mt-4 border-l-4 border-border px-4 py-1 text-xs leading-relaxed text-muted">
+      <blockquote className="mt-4 border-l-4 border-border px-4 py-1 text-xs leading-relaxed break-keep text-muted">
         <div className="space-y-2">
           {visible.map((piece) => (
             <p key={piece.id}>
@@ -199,7 +271,7 @@ function GuideCite({ text, part }: { text: string; part: CitePlacement }) {
   }
   const grouped = CITE_VISUAL_ROLES.map((role) => ({ role, pieces: citeGroup(visible, role) }));
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {grouped.map(({ role, pieces: group }) => {
         if (!group.length) return null;
         if (role === "lead") {
@@ -246,17 +318,29 @@ function GuideCite({ text, part }: { text: string; part: CitePlacement }) {
         }
         if (role === "compare-intro") {
           return (
-            <p key={role} className="border-t border-border pt-4 text-sm leading-relaxed text-fg">
+            <p key={role} className="border-t border-border pt-3 text-sm font-semibold break-keep text-fg">
               <CiteSentence text={group.map((piece) => piece.text).join("")} />
             </p>
           );
         }
         if (role === "compare-row" || role === "village-row") {
+          const linked = group.some((piece) => piece.text.includes("]("));
+          if (linked) {
+            return (
+              <ul key={role} className="space-y-1.5">
+                {group.map((piece) => (
+                  <li key={piece.id} className="break-keep text-base font-medium leading-snug text-fg">
+                    <CiteSentence text={piece.text} />
+                  </li>
+                ))}
+              </ul>
+            );
+          }
           return (
-            <ul key={role} className="space-y-2">
+            <ul key={role} className="grid gap-2">
               {group.map((piece) => (
-                <li key={piece.id} className="text-base font-medium leading-relaxed text-fg">
-                  <CiteSentence text={piece.text} />
+                <li key={piece.id}>
+                  <PriceRow text={piece.text} />
                 </li>
               ))}
             </ul>
@@ -264,8 +348,8 @@ function GuideCite({ text, part }: { text: string; part: CitePlacement }) {
         }
         if (role === "village-label") {
           return (
-            <p key={role} className="text-sm font-bold text-fg">
-              <CiteSentence text={group.map((piece) => piece.text).join("")} />
+            <p key={role} className="text-sm font-bold break-keep text-fg">
+              {trimRowPunctuation(group.map((piece) => piece.text).join(""))}
             </p>
           );
         }
@@ -456,7 +540,7 @@ function GuideAnswerTable({
   article?: boolean;
 }) {
   return (
-    <div className="mt-4">
+    <div className={article ? "mt-3" : "mt-4"}>
       <div
         id="guide-answer-table"
         className="overflow-x-auto rounded-xl shadow-[var(--shadow-border)]"
@@ -687,7 +771,13 @@ function GuidePage() {
                   <GuideRichText text={paragraph} />
                 </p>
               ))}
-              <blockquote className="mt-6 rounded-xl border-l-4 border-accent bg-card px-4 py-4 text-base leading-relaxed text-fg shadow-[var(--shadow-border)]">
+              <blockquote
+                className={
+                  article
+                    ? "mt-4 rounded-xl border-l-4 border-accent bg-card px-4 py-3 text-base leading-snug text-fg shadow-[var(--shadow-border)]"
+                    : "mt-6 rounded-xl border-l-4 border-accent bg-card px-4 py-4 text-base leading-relaxed text-fg shadow-[var(--shadow-border)]"
+                }
+              >
                 <GuideCite text={copy.answer.cite} part="opening" />
               </blockquote>
               {copy.answer.afterCite?.map((paragraph) => (
@@ -695,7 +785,7 @@ function GuidePage() {
                   key={paragraph}
                   className={
                     article
-                      ? "mt-4 text-base leading-relaxed text-fg"
+                      ? "mt-3 text-base leading-relaxed text-fg"
                       : "mt-3 text-base leading-relaxed text-muted"
                   }
                 >

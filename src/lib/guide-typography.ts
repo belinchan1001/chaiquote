@@ -50,7 +50,7 @@ export const GUIDE_BODY_TERMS_EN = [
 ] as const;
 
 const MARKDOWN_TOKEN = /(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*)/g;
-const PRICE = /HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?/g;
+const PRICE = /HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?(?:／月(?:起)?|\/month)?/g;
 
 export type CiteRole =
   | "lead"
