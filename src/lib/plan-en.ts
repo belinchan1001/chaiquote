@@ -98,6 +98,13 @@ const EXACT: Record<string, string> = {
   "適合公屋、居屋或私人樓宇，11 月 17 日前成功登記之 1000M 住戶":
     "For public, HOS or private homes registering for 1000M by 17 Nov",
   "安裝費以電訊商確認為準": "Installation fee confirmed by the carrier",
+  "1000M 光纖＋家居電話＋Wi-Fi 7 路由器（36 個月）": "1000M fibre with home phone and Wi-Fi 7 router (36 months)",
+  "送 Wi-Fi 7 路由器（合約期後不需歸還）": "Wi-Fi 7 router included; no return after the contract",
+  "包家居固網電話": "Home landline included",
+  "可選擇先安裝後啟動服務（最長 365 日）。實際覆蓋視乎個別樓宇而定。適用於公屋、居屋及私人樓宇。不適用於村屋。":
+    "Install first, activate later (up to 365 days). Coverage depends on the building. For public housing, HOS and private buildings. Not for village houses.",
+  "適合公屋、居屋或私人樓宇，需要 1000M 光纖、家居電話及 Wi-Fi 7 之住戶":
+    "For public housing, HOS or private homes that want 1000M fibre, a home phone and Wi-Fi 7",
   "中國移動香港手機月費客戶每月回贈 HK$20（回贈於手機月費，不計入寬頻月費）":
     "CMHK mobile customers get HK$20 back each month on the mobile bill, not off the broadband fee",
   "免月費在第 3、第 5 及第 7 個月": "Monthly fee waived in months 3, 5 and 7",

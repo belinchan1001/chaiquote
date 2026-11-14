@@ -8,7 +8,7 @@ import {
   type PlansSearch,
   type ProviderId,
 } from "@/lib/plans";
-import { filterPlans } from "@/lib/plan-filter";
+import { filterPlans, FIBRE_COMPANY_ORDER } from "@/lib/plan-filter";
 import { compactSearch } from "@/lib/search";
 import { cn } from "@/lib/utils";
 
@@ -38,6 +38,16 @@ export function ProviderFilter({
   const { t, providerName } = useI18n();
 
   const visible = PROVIDERS.filter((p) => counts[p.id] > 0 || value === p.id);
+  const chips =
+    search.cat === "broadband"
+      ? [...visible].sort((a, b) => {
+          const rank = (id: ProviderId) => {
+            const index = FIBRE_COMPANY_ORDER.indexOf(id as (typeof FIBRE_COMPANY_ORDER)[number]);
+            return index === -1 ? FIBRE_COMPANY_ORDER.length : index;
+          };
+          return rank(a.id) - rank(b.id);
+        })
+      : visible;
   if (!visible.length) return null;
 
   return (
@@ -51,7 +61,7 @@ export function ProviderFilter({
           onChange={onChange}
           label={t("any")}
         />
-        {visible.map((p) => {
+        {chips.map((p) => {
           const count = counts[p.id];
           const selected = value === p.id;
           const disabled = count === 0 && !selected;

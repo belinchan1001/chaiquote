@@ -70,6 +70,7 @@ describe("齊Quote pick badge", () => {
         "hgc-ftth-2000-hos-36m",
         "hgc-ftth-1000-private-39m",
         "netvigator-ftth-1000-private-36m",
+        "netvigator-ftth-1000-36m-108-wifi7",
         "netvigator-ftth-1000-public-36m-98",
         "netvigator-ftth-1000-36m-78-intake",
         "netvigator-ftth-2500-public-36m-158",
@@ -205,6 +206,7 @@ describe("齊Quote pick badge", () => {
       PLANS.filter((plan) => plan.providerId === "netvigator" && plan.quotePick).map((plan) => plan.id),
       [
         "netvigator-ftth-1000-private-36m",
+        "netvigator-ftth-1000-36m-108-wifi7",
         "netvigator-ftth-1000-public-36m-98",
         "netvigator-ftth-1000-36m-78-intake",
         "netvigator-ftth-2500-public-36m-158",

@@ -33,7 +33,7 @@ describe("monthly fee ladder", () => {
       if (seen.includes(plan.providerId)) break;
       seen.push(plan.providerId);
     }
-    const order = ["hkbn", "netvigator", "icable", "hgc", "cmhk", "smartone"];
+    const order = ["netvigator", "hkbn", "icable", "hgc", "cmhk", "smartone"];
     assert.deepEqual(
       seen.filter((id) => order.includes(id)),
       order.filter((id) => rest.some((plan) => plan.providerId === id)),

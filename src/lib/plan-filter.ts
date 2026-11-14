@@ -134,8 +134,8 @@ function priceRank(plan: Plan) {
   return averageFee(plan);
 }
 
-/** Home fibre company order within each price tier. */
-const FIBRE_COMPANY_ORDER = ["hkbn", "netvigator", "icable", "hgc", "cmhk", "smartone"] as const;
+/** Home fibre company order within each price tier. Netvigator leads the search row. */
+export const FIBRE_COMPANY_ORDER = ["netvigator", "hkbn", "icable", "hgc", "cmhk", "smartone"] as const;
 /** Mobile company order within each price tier. */
 const MOBILE_COMPANY_ORDER = ["hkbn", "three", "cmhk", "csl", "smartone"] as const;
 /** 5G home company order within each price tier. */
