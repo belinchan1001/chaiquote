@@ -808,7 +808,11 @@ function GuidePage() {
   const wide = copy.body.some((section) => section.matrix);
   const answerLed = Boolean(copy.answer);
   const article = guide.slug === "hkbn-vs-netvigator" || guide.slug === "village-cmhk";
-  const costGuide = guide.slug === "broadband-total-cost" || guide.slug === "contract-fees";
+  const costGuide =
+    guide.slug === "broadband-total-cost" ||
+    guide.slug === "contract-fees" ||
+    guide.slug === "switch-broadband" ||
+    guide.slug === "broadband-renewal";
   const tocClass = "mt-6 rounded-xl bg-card px-4 py-3 shadow-[var(--shadow-border)]";
   const showInlinePlan = !guide.plansOnlyCta;
   const emphasizeBody = article
