@@ -5,6 +5,7 @@ import { useDesk, type Inquiry } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
 import type { Plan } from "@/lib/plans";
 import { portInQuoteFromInquiry, shouldUsePortInQuote } from "@/lib/port-in";
+import { SITE } from "@/lib/site";
 import { quoteMessage, quoteWhatsappDisplay, quoteWhatsappE164, whatsappHref } from "@/lib/whatsapp";
 import { quoteWhatsAppActivateProps } from "@/lib/wa-quote-open";
 import { cn } from "@/lib/utils";
@@ -18,6 +19,7 @@ export function QuoteLink({
   className,
   children,
   showNumber = false,
+  siteNumber = false,
   pulse,
 }: {
   plan?: Plan;
@@ -28,19 +30,21 @@ export function QuoteLink({
   className?: string;
   children?: ReactNode;
   showNumber?: boolean;
+  /** Contact-us buttons stay on 6309 9966 and do not follow the last carrier desk. */
+  siteNumber?: boolean;
   pulse?: "header";
 }) {
   const stored = useDesk((s) => s.inquiry);
   const selected = plans ?? (plan ? [plan] : []);
   const resolved = inquiry ?? stored;
   const { t, locale } = useI18n();
-  const phone = quoteWhatsappE164(selected, resolved);
-  const message = shouldUsePortInQuote(resolved)
-    ? portInQuoteFromInquiry(resolved, selected[0])
-    : quoteMessage(selected, resolved, locale);
-  const label = showNumber
-    ? t("waQuoteWithNumber", { phone: quoteWhatsappDisplay(selected, resolved) })
-    : t("waQuote");
+  const phone = siteNumber ? SITE.whatsappE164 : quoteWhatsappE164(selected, resolved);
+  const display = siteNumber ? SITE.phoneDisplay : quoteWhatsappDisplay(selected, resolved);
+  const message =
+    !siteNumber && shouldUsePortInQuote(resolved)
+      ? portInQuoteFromInquiry(resolved, selected[0])
+      : quoteMessage(selected, siteNumber ? {} : resolved, locale);
+  const label = showNumber ? t("waQuoteWithNumber", { phone: display }) : t("waQuote");
   return (
     <Button
       asChild

@@ -93,7 +93,7 @@ function AboutPage() {
           </a>
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <QuoteLink showNumber />
+          <QuoteLink showNumber siteNumber />
           <Button asChild variant="outline">
             <a href={`mailto:${SITE.leadEmail}`}>
               <Mail />

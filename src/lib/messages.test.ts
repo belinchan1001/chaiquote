@@ -335,10 +335,8 @@ describe("privacy Android app section", () => {
       "應用程式沿用網站同一套 Cookie／本機儲存及分析設定，並非另開追蹤。應用程式內的瀏覽技術資料、廣告識別相關處理（如有），以及你透過「留低電話」或 WhatsApp 提交的資料，處理目的、保存及權利與網站相同。查閱或改正個人資料，聯絡方式同上。",
     );
     assert.equal(quoted(messages, "privacyUpdate")[0], "更新");
-    assert.match(
-      privacy,
-      /privacyAndroid[\s\S]*privacyUpdate/,
-    );
+    assert.match(privacy, /privacyAndroid[\s\S]*privacyUpdate/);
+    assert.match(privacy, /<QuoteLink showNumber siteNumber \/>/);
     assert.doesNotMatch(privacy, /privacyUpdate[\s\S]*privacyAndroid/);
     for (const word of ["最平", "保證", "官方"]) {
       for (const key of ["privacyAndroid", "privacyAndroidP1", "privacyAndroidP2", "privacyAndroidP3"]) {
@@ -483,6 +481,7 @@ describe("about page Organization JSON-LD", () => {
     assert.match(about, /plans: PLANS\.length/);
     assert.match(about, /estates: ESTATE_COUNT/);
     assert.match(about, /date: updated/);
+    assert.match(about, /<QuoteLink showNumber siteNumber \/>/);
     assert.doesNotMatch(about, /providers:\s*8|plans:\s*193|estates:\s*3729|2026-11-12/);
     const aboutLd = aboutJsonLd();
     const { "@context": aboutContext, ...aboutOrg } = aboutLd;
