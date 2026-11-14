@@ -1109,7 +1109,7 @@ export const PLANS: Plan[] = [
     freeMonths: 0,
     contractMonths: 36,
     speedMbps: 1000,
-    install: "安裝費以電訊商確認為準",
+    install: "豁免安裝費",
     housing: ["public", "hos", "private"],
     network: "光纖入屋",
     perks: [
