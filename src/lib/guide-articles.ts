@@ -2559,84 +2559,309 @@ export const GUIDE_ARTICLES: Guide[] = [
   },
   {
     slug: "broadband-total-cost",
-    minutes: 7,
+    minutes: 5,
     category: "fiber",
     seoTitle: "寬頻合約總成本點計｜免月費同回贈點計｜齊Quote",
     h1: "寬頻合約總成本點計：標示月費同實際平均月費",
     description:
       "標示月費唔等於合約期內實際平均月費。要計合約期、免月費、回贈、預繳同安裝費。公屋、居屋、私樓同村屋唔好混用數字。僅供參考，以電訊商確認為準。",
     title: "寬頻合約總成本點計：標示月費同實際平均月費",
-    excerpt: "標示月費唔等於實際平均月費。要計合約期、免月費、回贈同預繳，樓類唔好混用。",
+    excerpt:
+      "標示月費唔等於實際平均月費。要計合約期、免月費、現金回贈、超市禮券、預繳、未豁免安裝費同行政費，樓類唔好混用。",
     titleEn: "How to calculate broadband total contract cost",
     excerptEn:
-      "The listed monthly fee is not the average over the contract. Count free months, rebates, prepayment and installation. Do not mix housing types.",
+      "The listed monthly fee is not the real average monthly fee. Count the contract length, free months, cash rebates, supermarket vouchers, prepayment, and any installation or admin fee that is not waived. Do not mix housing types.",
     descriptionEn:
       "The listed monthly fee is not the average you pay over the contract. Count free months, rebates, prepayment and installation fees. Public, HOS, private and village fees must not be mixed. For reference only.",
     h1En: "How to calculate broadband total contract cost",
     published: "2026-10-14",
     modified: "2026-10-14",
-    related: ["fiber", "home-broadband-2026", "public-vs-hos", "estate-filter", "contract-fees", "is-1000m-enough"],
-    plans: [{ href: "/plans?cat=broadband", label: "去光纖格價" }],
-    estates: [{ href: "/estates", label: "屋苑目錄" }],
+    plansOnlyCta: true,
+    related: [
+      "fiber",
+      "home-broadband-2026",
+      "public-vs-hos",
+      "estate-filter",
+      "contract-fees",
+      "is-1000m-enough",
+    ],
+    plans: [
+      {
+        href: "/plans?cat=broadband",
+        label: "按樓類睇光纖計劃",
+        labelEn: "Compare fibre by housing type",
+      },
+    ],
+    estates: [],
+    disclaimer:
+      "以上例子僅供示範計法，連同站內列出計劃一律只供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。",
+    disclaimerEn:
+      "The example above only shows the method. Plans listed on this site are a reference, not a ranking, and they do not mean your building has them. The carrier confirms coverage, install timing, the fee, the contract and router terms. This site does not take commission or advertising fees from carriers.",
+    faq: [
+      {
+        q: "標示月費同平均月費，邊個先係齊Quote 引用？",
+        a: "計劃卡、比較表同開首引用一律用牌面月費。平均月費係你計完條款之後用嚟判斷，唔會取代站內引用。",
+      },
+      {
+        q: "有免月費，係咪一定平過牌面？",
+        a: "唔一定。將安裝費、預繳、行政費同回贈一齊計，平均可以接近甚至高過牌面。",
+      },
+      {
+        q: "禮券同現金回贈點計？",
+        a: "現金回贈直接減總支出；禮券只計面值，並要睇領取時間、使用限期同門檻。未到手就當未減。",
+      },
+      {
+        q: "點解唔好用其他樓類嘅月費來計？",
+        a: "計劃同牌面通常按樓類分開。用私樓價估公屋，或者用指定地址村屋優惠估所有村屋，總成本會失準。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Which figure does ChaiQuote cite, the listed fee or the average?",
+        a: "Plan cards, comparison tables and the opening cite use the listed monthly fee. The average is what you use after you have counted the terms. It does not replace the cite on this site.",
+      },
+      {
+        q: "If some months are free, is the average always below the listed fee?",
+        a: "Not always. Count the installation fee, prepayment, admin fee and rebate together. The average can land close to the listed fee, or above it.",
+      },
+      {
+        q: "How do a voucher and a cash rebate count?",
+        a: "A cash rebate comes straight off the total. A voucher counts only as its face value, and you still check when you receive it, the expiry and any minimum spend. If you do not have it yet, do not subtract it.",
+      },
+      {
+        q: "Why not use another housing type’s fee?",
+        a: "Plans and listed fees are usually split by housing type. Using a private-flat fee for public housing, or a specified-address village promo for every village house, throws the total off.",
+      },
+    ],
     body: [
       {
-        heading: "標示月費同實際平均月費",
+        heading: "牌面月費係用來比較，平均月費要自己計",
         paragraphs: [
-          "計劃卡上的月費通常是標示月費。合約期內如果有免月費、回贈或預繳，實際平均月費會唔同。",
-          "計算時先分清：合約總月數、免月費月份、回贈金額、預繳金額，同有冇豁免安裝費。提早終止費亦要問清楚。",
+          "計劃卡、比較表同開首引用，齊Quote 一律用**牌面月費**（就係計劃卡上嘅標示月費）。呢個數方便並排比較，但唔等於你喺成段合約入面，平均每個月實際要出嘅錢。",
+          "實際平均月費要自己計：將合約期內所有要付嘅錢加起來，減走現金回贈同禮券面值，再除以**合約總月數**。計出嚟嘅平均數只供你判斷性價比，**唔好當成站內引用，亦唔好要求計劃卡改顯示呢個數**。",
+          "計之前先分清呢幾項：",
+          "**合約總月數**，同實際要付錢嘅月數（扣免月費月份）",
+          "**現金回贈**、**超市禮券**（只計面值，並要睇幾時先攞到、有冇使用限期）",
+          "**預繳**、未豁免嘅**安裝費／搬遷費**，以及合約列明嘅**行政費或服務費**",
+          "提早終止點計，簽約前要問清楚；未違約就唔好提早計入平均月費",
+          "雜費逐項拆解，見[月費以外：安裝費、預繳、合約](/guides/contract-fees)。",
+        ],
+        flow: [
+          {
+            kind: "p",
+            text: "計劃卡、比較表同開首引用，齊Quote 一律用**牌面月費**（就係計劃卡上嘅標示月費）。呢個數方便並排比較，但唔等於你喺成段合約入面，平均每個月實際要出嘅錢。",
+          },
+          {
+            kind: "p",
+            text: "實際平均月費要自己計：將合約期內所有要付嘅錢加起來，減走現金回贈同禮券面值，再除以**合約總月數**。計出嚟嘅平均數只供你判斷性價比，**唔好當成站內引用，亦唔好要求計劃卡改顯示呢個數**。",
+          },
+          { kind: "p", text: "計之前先分清呢幾項：" },
+          {
+            kind: "ul",
+            items: [
+              "**合約總月數**，同實際要付錢嘅月數（扣免月費月份）",
+              "**現金回贈**、**超市禮券**（只計面值，並要睇幾時先攞到、有冇使用限期）",
+              "**預繳**、未豁免嘅**安裝費／搬遷費**，以及合約列明嘅**行政費或服務費**",
+              "提早終止點計，簽約前要問清楚；未違約就唔好提早計入平均月費",
+            ],
+          },
+          {
+            kind: "p",
+            text: "雜費逐項拆解，見[月費以外：安裝費、預繳、合約](/guides/contract-fees)。",
+          },
         ],
       },
       {
-        heading: "點計平均月費",
+        heading: "點計真實平均月費",
         paragraphs: [
-          "簡單例子：標示 HK$98／月，36 個月合約，其中 3 個月免月費。合約期內實際付款月數是 33 個月。",
-          "總付款約 HK$98 × 33 = HK$3,234。除以 36 個月，平均約 HK$89.8／月。這只是站內列出例子，唔代表所有計劃。",
-          "如果有預繳或回贈，要先加回或減去，再計算平均。安裝費如果未豁免，亦要計入初期成本。",
+          "公式如下：",
+          "**（牌面月費 × 實付月數 ＋ 未豁免安裝費 ＋ 預繳 ＋ 其他一次性收費 − 現金回贈 − 禮券面值）÷ 合約總月數**",
+          "下面用一個**假設例子**示範計法，數字唔代表任何一張計劃卡，亦唔係站內引用。",
+          "假設牌面月費 **HK$98**／月、**36** 個月合約、其中 **3** 個月免月費：實付 33 個月，月費合計 **HK$3,234**。若只計月費，平均約 **HK$89.8**／月。",
+          "如果同一份合約仲有未豁免安裝費 **HK$800**、現金回贈 **HK$500**，總支出變成 **HK$3,534**，平均約 **HK$98.2**／月。免月費睇落平咗一截，加返安裝費、減走回贈之後，可以同牌面幾乎一樣，甚至更高。",
+          "仲有三處好易計漏：",
+          "禮券只計面值，使用限期同門檻都要睇；未到手就當未減。",
+          "合約若列明行政費或服務費，要一併加進總支出，再除以合約月數。",
+          "計劃卡上嘅牌面月費，有時已經綑綁流動電話、家居電話或者電視。呢類要用整份合約去計平均，唔好用淨寬頻嘅平均，去對已經包咗其他服務嘅牌面。",
+          "村屋要分清**指定地址優惠**同系列**正價**：兩筆都係牌面月費，唔係平均月費，亦唔等於所有村屋都用同一個數。數字以[村屋光纖月費](/guides/village-fees)為準。",
+        ],
+        flow: [
+          { kind: "p", text: "公式如下：" },
+          {
+            kind: "formula",
+            text: "（牌面月費 × 實付月數 ＋ 未豁免安裝費 ＋ 預繳 ＋ 其他一次性收費 − 現金回贈 − 禮券面值）÷ 合約總月數",
+          },
+          {
+            kind: "p",
+            text: "下面用一個**假設例子**示範計法，數字唔代表任何一張計劃卡，亦唔係站內引用。",
+          },
+          {
+            kind: "rows",
+            items: [
+              "假設牌面月費 **HK$98**／月、",
+              "**36** 個月合約、",
+              "其中 **3** 個月免月費：",
+              "實付 33 個月，",
+              "月費合計 **HK$3,234**。",
+              "若只計月費，平均約 **HK$89.8**／月。",
+            ],
+          },
+          {
+            kind: "rows",
+            items: [
+              "如果同一份合約仲有未豁免安裝費 **HK$800**、",
+              "現金回贈 **HK$500**，",
+              "總支出變成 **HK$3,534**，",
+              "平均約 **HK$98.2**／月。",
+            ],
+          },
+          {
+            kind: "p",
+            text: "免月費睇落平咗一截，加返安裝費、減走回贈之後，可以同牌面幾乎一樣，甚至更高。",
+          },
+          { kind: "p", text: "仲有三處好易計漏：" },
+          {
+            kind: "ul",
+            items: [
+              "禮券只計面值，使用限期同門檻都要睇；未到手就當未減。",
+              "合約若列明行政費或服務費，要一併加進總支出，再除以合約月數。",
+              "計劃卡上嘅牌面月費，有時已經綑綁流動電話、家居電話或者電視。呢類要用整份合約去計平均，唔好用淨寬頻嘅平均，去對已經包咗其他服務嘅牌面。",
+            ],
+          },
+          {
+            kind: "p",
+            text: "村屋要分清**指定地址優惠**同系列**正價**：兩筆都係牌面月費，唔係平均月費，亦唔等於所有村屋都用同一個數。數字以[村屋光纖月費](/guides/village-fees)為準。",
+          },
         ],
       },
       {
         heading: "樓類唔好混用",
         paragraphs: [
-          "公屋、居屋、私樓同村屋的計劃同月費通常唔同。批量合約、指定供應商同入線安排都會影響。",
-          "用錯樓類的數字去估自己屋苑，會令總成本計算失準。先用屋苑篩對樓類，再睇該樓類的計劃卡。",
+          "公屋、居屋、私樓同村屋通常唔同計劃、唔同牌面月費。批量合約、指定供應商同入線安排都會影響。用錯樓類嘅數字去估自己屋苑，平均月費會一開始就計錯。",
+          "先用屋苑篩對樓類，再睇該樓類計劃卡上嘅牌面月費、免月費、回贈同安裝條款，然後用上面公式計一次。",
         ],
       },
       {
-        heading: "下一步",
+        heading: "下一步：對自己地址格價",
         paragraphs: [
-          "輸入屋苑對樓類，再睇計劃卡上的月費、合約期同適用樓類。最後用 WhatsApp 核實覆蓋、安裝同實際條款。六大電訊 1000M 參考月費表見 [2026 家居寬頻 1000M](/guides/home-broadband-2026)。",
-          DISCLAIMER,
+          "開[光纖格價](/plans?cat=broadband)，揀啱樓類，或者喺首頁輸入屋苑。計劃卡對完牌面月費、合約期同適用樓類，用上面公式計平均，再向電訊商確認覆蓋、安裝期同條款。",
+          "六大電訊 1000M 參考月費表見[2026 家居寬頻 1000M](/guides/home-broadband-2026)。唔知點用屋苑篩，可以睇[齊Quote 點用屋苑篩](/guides/estate-filter)。",
         ],
       },
     ],
     bodyEn: [
       {
-        heading: "Listed fee versus average fee",
+        heading: "The listed fee is for comparison. You calculate the average",
         paragraphs: [
-          "The fee on a plan card is usually the listed monthly fee. Free months, rebates or prepayment change the average over the contract.",
-          "Count the total months, free months, rebate amount, prepayment and whether the installation fee is waived. Ask about early-termination fees.",
+          "Plan cards, comparison tables and the opening cite on ChaiQuote all use the **listed monthly fee** (the fee printed on the plan card). That number is there so you can compare plans side by side. It is not what you actually pay, on average, across the whole contract.",
+          "You calculate the real average yourself: add everything you pay during the contract, subtract the cash rebate and the face value of the vouchers, then divide by the **total contract months**. The average is only for judging value. **Do not treat it as a cite on this site, and do not ask for the plan card to display it.**",
+          "Separate these before you calculate:",
+          "**Total contract months**, and the months you actually pay (after free months)",
+          "**Cash rebate** and **supermarket vouchers** (face value only, and check when you receive them and whether they expire)",
+          "**Prepayment**, any **installation / relocation fee** that is not waived, and any **admin or service fee** the contract names",
+          "Ask how early termination is counted before you sign. Do not fold it into the average before you have broken the contract",
+          "Each extra charge is broken out in [beyond the monthly fee: install, prepay, contract](/guides/contract-fees).",
+        ],
+        flow: [
+          {
+            kind: "p",
+            text: "Plan cards, comparison tables and the opening cite on ChaiQuote all use the **listed monthly fee** (the fee printed on the plan card). That number is there so you can compare plans side by side. It is not what you actually pay, on average, across the whole contract.",
+          },
+          {
+            kind: "p",
+            text: "You calculate the real average yourself: add everything you pay during the contract, subtract the cash rebate and the face value of the vouchers, then divide by the **total contract months**. The average is only for judging value. **Do not treat it as a cite on this site, and do not ask for the plan card to display it.**",
+          },
+          { kind: "p", text: "Separate these before you calculate:" },
+          {
+            kind: "ul",
+            items: [
+              "**Total contract months**, and the months you actually pay (after free months)",
+              "**Cash rebate** and **supermarket vouchers** (face value only, and check when you receive them and whether they expire)",
+              "**Prepayment**, any **installation / relocation fee** that is not waived, and any **admin or service fee** the contract names",
+              "Ask how early termination is counted before you sign. Do not fold it into the average before you have broken the contract",
+            ],
+          },
+          {
+            kind: "p",
+            text: "Each extra charge is broken out in [beyond the monthly fee: install, prepay, contract](/guides/contract-fees).",
+          },
         ],
       },
       {
-        heading: "How to calculate the average",
+        heading: "How to calculate the real average monthly fee",
         paragraphs: [
-          "Example: listed HK$98 per month, 36-month contract, 3 free months. You pay for 33 months.",
-          "Total paid is roughly HK$98 × 33 = HK$3,234. Divided by 36 months, the average is about HK$89.8. This is a listed example only.",
-          "Add or subtract prepayment and rebates before averaging. Include any installation fee that is not waived.",
+          "The formula:",
+          "**(listed monthly fee × months paid ＋ installation not waived ＋ prepayment ＋ other one-off charges − cash rebate − voucher face value) ÷ total contract months**",
+          "The **hypothetical example** below only shows the method. The figures are not any plan card, and they are not a cite on this site.",
+          "Suppose the listed fee is **HK$98** a month, the contract is **36** months, and **3** of those months are free: you pay for 33 months, and the monthly fees total **HK$3,234**. If you count only the monthly fees, the average is about **HK$89.8** a month.",
+          "If the same contract also has an installation fee of **HK$800** that is not waived, and a cash rebate of **HK$500**, the total becomes **HK$3,534**, and the average is about **HK$98.2** a month. The free months look like a cut. After you add the installation fee and subtract the rebate, the average can sit almost on the listed fee, or above it.",
+          "Three things are easy to leave out:",
+          "A voucher counts only as its face value. Check the expiry and any minimum spend. If you do not have it yet, do not subtract it.",
+          "If the contract names an admin or service fee, add it to the total, then divide by the contract months.",
+          "The listed fee on a plan card is sometimes bundled with a mobile line, a home phone or TV. Average the whole contract. Do not compare a broadband-only average with a listed fee that already includes other services.",
+          "For a village house, keep the **specified-address promo** and the series **list price** apart. Both are listed monthly fees, not an average, and they are not one number for every village house. Use the figures on [village fibre fees](/guides/village-fees).",
+        ],
+        flow: [
+          { kind: "p", text: "The formula:" },
+          {
+            kind: "formula",
+            text: "(listed monthly fee × months paid ＋ installation not waived ＋ prepayment ＋ other one-off charges − cash rebate − voucher face value) ÷ total contract months",
+          },
+          {
+            kind: "p",
+            text: "The **hypothetical example** below only shows the method. The figures are not any plan card, and they are not a cite on this site.",
+          },
+          {
+            kind: "rows",
+            items: [
+              "Suppose the listed fee is **HK$98** a month, ",
+              "the contract is **36** months, ",
+              "and **3** of those months are free: ",
+              "you pay for 33 months, ",
+              "and the monthly fees total **HK$3,234**. ",
+              "If you count only the monthly fees, the average is about **HK$89.8** a month.",
+            ],
+          },
+          {
+            kind: "rows",
+            items: [
+              "If the same contract also has an installation fee of **HK$800** that is not waived, ",
+              "and a cash rebate of **HK$500**, ",
+              "the total becomes **HK$3,534**, ",
+              "and the average is about **HK$98.2** a month. ",
+            ],
+          },
+          {
+            kind: "p",
+            text: "The free months look like a cut. After you add the installation fee and subtract the rebate, the average can sit almost on the listed fee, or above it.",
+          },
+          { kind: "p", text: "Three things are easy to leave out:" },
+          {
+            kind: "ul",
+            items: [
+              "A voucher counts only as its face value. Check the expiry and any minimum spend. If you do not have it yet, do not subtract it.",
+              "If the contract names an admin or service fee, add it to the total, then divide by the contract months.",
+              "The listed fee on a plan card is sometimes bundled with a mobile line, a home phone or TV. Average the whole contract. Do not compare a broadband-only average with a listed fee that already includes other services.",
+            ],
+          },
+          {
+            kind: "p",
+            text: "For a village house, keep the **specified-address promo** and the series **list price** apart. Both are listed monthly fees, not an average, and they are not one number for every village house. Use the figures on [village fibre fees](/guides/village-fees).",
+          },
         ],
       },
       {
         heading: "Do not mix housing types",
         paragraphs: [
-          "Public, HOS, private and village plans usually differ. Bulk contracts, nominated providers and the pull path all affect the fee.",
-          "Using the wrong housing type produces an inaccurate total cost. Match the estate first, then read the plan card for that type.",
+          "Public housing, HOS, private flats and village houses usually have different plans and different listed fees. Bulk contracts, a nominated provider and how the line comes in all change the figure. Use another housing type’s number for your own estate, and the average is wrong from the start.",
+          "Match the housing type with the estate filter, then read that type’s listed fee, free months, rebate and installation terms, and run the formula above once.",
         ],
       },
       {
-        heading: "Next step",
+        heading: "Next: compare your own address",
         paragraphs: [
-          "Enter the estate to match the housing type, then check the fee, contract length and applicable type on the card. Confirm coverage and terms by WhatsApp. Six-carrier 1000M table: [2026 home broadband 1000M](/guides/home-broadband-2026).",
-          DISCLAIMER_EN,
+          "Open [fibre compare](/plans?cat=broadband) and pick the housing type, or type the estate on the home page. After the plan card, check the listed fee, the contract length and the housing type, run the formula above, then ask the carrier to confirm coverage, the install window and the terms.",
+          "The six-carrier 1000M reference table is [2026 home broadband 1000M](/guides/home-broadband-2026). For the estate filter, see [how ChaiQuote’s estate filter works](/guides/estate-filter).",
         ],
       },
     ],
@@ -3053,7 +3278,7 @@ export const GUIDE_ARTICLES: Guide[] = [
   },
   {
     slug: "contract-fees",
-    minutes: 8,
+    minutes: 4,
     category: "fiber",
     seoTitle: "寬頻安裝費、預繳、合約期點睇｜齊Quote",
     h1: "月費以外：安裝費、預繳、合約",
@@ -3062,57 +3287,184 @@ export const GUIDE_ARTICLES: Guide[] = [
     excerpt: "計首年總支出，唔好只睇標價。問路由器送定租、提早終止點計。",
     titleEn: "Beyond the monthly fee: install, prepay, contract",
     excerptEn: "Count year-one cost, router terms and early termination, not just the sticker fee.",
-    descriptionEn: "Install fees, prepayments, router ownership and early termination sit outside the monthly fee. The carrier confirms the contract.",
+    descriptionEn:
+      "Install fees, prepayments, router ownership and early termination sit outside the monthly fee. The carrier confirms the contract.",
     h1En: "Beyond the monthly fee: install, prepay, contract",
     published: "2026-09-09",
     modified: "2026-09-13",
+    plansOnlyCta: true,
     related: ["switch-broadband", "fiber", "shop-broadband"],
-    plans: [{ href: "/plans?cat=broadband", label: "去光纖格價" }],
-    estates: [
-      { href: "/estates/tin-yiu", label: "天耀邨" },
-      { href: "/estates/taikoo-shing", label: "太古城" },
+    plans: [
+      {
+        href: "/plans?cat=broadband",
+        label: "按樓類睇光纖計劃",
+        labelEn: "Compare fibre by housing type",
+      },
+    ],
+    estates: [],
+    disclaimer:
+      "以上僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。",
+    disclaimerEn:
+      "The above is a reference, not a ranking, and it does not mean your building has the plan. The carrier confirms coverage, install timing, the fee, the contract and router terms. This site does not take commission or advertising fees from carriers.",
+    faq: [
+      {
+        q: "計劃卡上嘅月費包唔包安裝費？",
+        a: "唔一定。有啲計劃豁免安裝，有啲要另付，有啲附帶預繳。以計劃卡同電訊商確認為準，唔好只睇牌面月費。",
+      },
+      {
+        q: "送路由器同包路由器有咩分別？",
+        a: "送出先至係你嘅；包用可能完約要還。5G 家居尤其常見要還。簽約前問型號、壞機同遺失點計。",
+      },
+      {
+        q: "完約冇回覆會唔會自動續？",
+        a: "有啲會自動續或者轉正價，有啲會停。問你嗰份合約點寫，唔好假設。",
+      },
+      {
+        q: "提早終止費係點計？",
+        a: "睇未完約期、要唔要補回優惠，同路由器係送定借。每份合約唔同，以條款原文為準。",
+      },
+    ],
+    faqEn: [
+      {
+        q: "Does the fee on the plan card include installation?",
+        a: "Not always. Some plans waive installation, some charge it, and some add a prepayment. Use the plan card and the carrier’s confirmation. Do not stop at the listed monthly fee.",
+      },
+      {
+        q: "What is the difference between a gifted router and an included router?",
+        a: "A gift is yours. An included router may have to go back at the end of the contract. 5G home routers especially often have to go back. Before you sign, ask the model and how a fault or a loss is counted.",
+      },
+      {
+        q: "If I do not reply when the contract ends, does it renew?",
+        a: "Some renew or move to the list price. Some stop. Ask how your contract is written. Do not assume.",
+      },
+      {
+        q: "How is the early-termination fee calculated?",
+        a: "It depends on the months left, whether the offer has to be paid back, and whether the router was a gift or a loan. Each contract is different. Use the original terms.",
+      },
     ],
     body: [
       {
-        heading: "表面月費 vs 首年支出",
+        heading: "表面月費同合約總支出唔係同一個數",
         paragraphs: [
-          "廣告月費可以已經扣咗首月、豁免安裝或者禮券。真正要計：安裝費、預繳、機頂盒／路由器按金、上門費、合約期內總月費。有時「好平嘅月費」只係把成本搬咗去預繳或者較長約。",
+          "廣告或者計劃卡上嘅牌面月費，有時已經反映咗首月減免、豁免安裝或者回贈，有時則未計其他收費。真正要核對嘅係成段合約要出幾多：",
+          "**安裝費／搬遷費／上門費**：有冇豁免、豁免條件係咩",
+          "**預繳**：一次過先付、可否退，同完約點對沖",
+          "**行政費或服務費**：合約有列明就要計入總支出",
+          "**機頂盒／路由器按金**：可退定唔可退",
+          "**現金回贈、超市禮券、免月費月份**：回贈同禮券只計已確認可以攞到嘅金額或面值",
+          "**合約期內全部要付嘅牌面月費**",
+          "有時睇落較低嘅牌面月費，只係將成本搬咗去預繳、較長約，或者完約後先至顯現。點樣將以上項目計成真實平均月費，見[寬頻合約總成本點計](/guides/broadband-total-cost)。呢頁只拆項目，計劃卡同比較表仍然顯示牌面月費。",
+        ],
+        flow: [
+          {
+            kind: "p",
+            text: "廣告或者計劃卡上嘅牌面月費，有時已經反映咗首月減免、豁免安裝或者回贈，有時則未計其他收費。真正要核對嘅係成段合約要出幾多：",
+          },
+          {
+            kind: "ul",
+            items: [
+              "**安裝費／搬遷費／上門費**：有冇豁免、豁免條件係咩",
+              "**預繳**：一次過先付、可否退，同完約點對沖",
+              "**行政費或服務費**：合約有列明就要計入總支出",
+              "**機頂盒／路由器按金**：可退定唔可退",
+              "**現金回贈、超市禮券、免月費月份**：回贈同禮券只計已確認可以攞到嘅金額或面值",
+              "**合約期內全部要付嘅牌面月費**",
+            ],
+          },
+          {
+            kind: "p",
+            text: "有時睇落較低嘅牌面月費，只係將成本搬咗去預繳、較長約，或者完約後先至顯現。點樣將以上項目計成真實平均月費，見[寬頻合約總成本點計](/guides/broadband-total-cost)。呢頁只拆項目，計劃卡同比較表仍然顯示牌面月費。",
+          },
         ],
       },
       {
         heading: "路由器：送、包，定到期要還",
         paragraphs: [
-          "「送路由器」同「包路由器」唔同。包用可能合約完要歸還；送出先先至係你嘅。5G 家居路由器尤其常見要還。簽約前問型號、壞機點換、遺失點計。",
+          "「送路由器」同「包路由器」唔同。包用可能合約完要歸還；送出先至係你嘅。5G 家居路由器尤其常見要還。",
+          "簽約前問清楚：型號、壞機點換、遺失點計、完約後係咪要還。呢筆如果當自己要買返一部，就會影響實際總成本。",
+        ],
+      },
+      {
+        heading: "完約後會唔會自動轉正價",
+        paragraphs: [
+          "部分合約完結後會自動續，或者轉去另一個較高嘅正價月費；亦有合約期滿就停，要自己再簽。呢頁唔假設全港同一套做法，簽約前問現有或新供應商：完約日、會唔會自動續、續約後牌面月費係幾多。",
+          "續約同新客價通常唔同，詳見[寬頻續約點做](/guides/broadband-renewal)。",
         ],
       },
       {
         heading: "提早終止",
         paragraphs: [
-          "未約滿就停，通常有終止費或者要補回優惠。搬屋、裝修、店舖結業都可能中招。本頁唔提供避約方法，只提醒你對住合約原文問清楚。",
-          "核對完參考月費，用 WhatsApp 查核報價，問安裝費、預繳、路由器同完約條款。下一步：[光纖格價](/plans?cat=broadband)。",
-          DISCLAIMER,
+          "未約滿就停，通常有終止費，或者要補回已經用咗嘅優惠。搬屋、裝修、店舖結業都可能中招。部分供應商合約期內包一次免費搬遷，搬屋前宜先問清楚再決定係搬遷舊約定另簽新約。",
+          "本頁唔提供避約方法，只提醒你對住合約原文問清楚。轉台銜接見[轉台寬頻](/guides/switch-broadband)。",
+        ],
+      },
+      {
+        heading: "下一步：對自己地址格價",
+        paragraphs: [
+          "開[光纖格價](/plans?cat=broadband)，揀啱樓類，或者喺首頁輸入屋苑。計劃卡對完牌面月費、合約期、安裝同路由器條款，再用總成本頁嘅公式計一次平均，向電訊商確認覆蓋、安裝期同條款。",
         ],
       },
     ],
     bodyEn: [
       {
-        heading: "Sticker fee vs year-one cost",
+        heading: "The listed fee and the contract total are not the same number",
         paragraphs: [
-          "The advertised monthly fee may already include a free first month, waived install or a voucher. What you actually count: install fee, prepayment, set-top / router deposit, visit charges, and the sum of monthly fees in the term. A “cheap” fee sometimes just moves the cost into prepay or a longer contract.",
+          "The listed monthly fee in an ad or on a plan card sometimes already reflects a first-month reduction, waived installation or a rebate, and sometimes it leaves other charges out. What you actually check is how much the whole contract costs:",
+          "**Installation / relocation / visit fee**: whether it is waived, and on what condition",
+          "**Prepayment**: paid up front, whether it can be refunded, and how it is set off at the end",
+          "**Admin or service fee**: if the contract names it, it goes into the total",
+          "**Set-top box / router deposit**: refundable or not",
+          "**Cash rebate, supermarket vouchers, free months**: count a rebate or a voucher only when it is confirmed you can receive the amount or the face value",
+          "**Every listed monthly fee you pay during the contract**",
+          "A listed fee that looks lower sometimes only moves the cost into prepayment, a longer contract, or a charge that shows up after the term. How to turn the items above into a real average is on [broadband contract total cost](/guides/broadband-total-cost). This page only splits the items. Plan cards and comparison tables still show the listed monthly fee.",
+        ],
+        flow: [
+          {
+            kind: "p",
+            text: "The listed monthly fee in an ad or on a plan card sometimes already reflects a first-month reduction, waived installation or a rebate, and sometimes it leaves other charges out. What you actually check is how much the whole contract costs:",
+          },
+          {
+            kind: "ul",
+            items: [
+              "**Installation / relocation / visit fee**: whether it is waived, and on what condition",
+              "**Prepayment**: paid up front, whether it can be refunded, and how it is set off at the end",
+              "**Admin or service fee**: if the contract names it, it goes into the total",
+              "**Set-top box / router deposit**: refundable or not",
+              "**Cash rebate, supermarket vouchers, free months**: count a rebate or a voucher only when it is confirmed you can receive the amount or the face value",
+              "**Every listed monthly fee you pay during the contract**",
+            ],
+          },
+          {
+            kind: "p",
+            text: "A listed fee that looks lower sometimes only moves the cost into prepayment, a longer contract, or a charge that shows up after the term. How to turn the items above into a real average is on [broadband contract total cost](/guides/broadband-total-cost). This page only splits the items. Plan cards and comparison tables still show the listed monthly fee.",
+          },
         ],
       },
       {
-        heading: "Router: gift, included, or return at the end",
+        heading: "Router: a gift, included, or returned at the end",
         paragraphs: [
-          "“Gifted router” and “router included” are not the same. Included often means you return it when the contract ends; gifted is yours. 5G home routers especially are often on loan. Ask the model, how a fault is swapped, and what a loss costs, before you sign.",
+          "“Router as a gift” and “router included” are not the same. Included may mean you return it when the contract ends. A gift is yours. 5G home routers especially often have to go back.",
+          "Before you sign, ask the model, how a fault is swapped, how a loss is counted, and whether you return it at the end. If you would have to buy one yourself, that changes the real total.",
+        ],
+      },
+      {
+        heading: "Does it move to the list price after the term?",
+        paragraphs: [
+          "Some contracts renew on their own, or move to a higher list price. Others stop when the term ends and you have to sign again. This page does not assume one practice for the whole of Hong Kong. Before you sign, ask your current or new provider: the end date, whether it renews on its own, and what the listed fee is after renewal.",
+          "A renewal price and a new-customer price are usually different. See [renewing broadband](/guides/broadband-renewal).",
         ],
       },
       {
         heading: "Early termination",
         paragraphs: [
-          "Stopping before the term usually means a termination fee or clawing back the offer. Moving house, renovation, or a shop closing can all trigger it. This page does not advise how to exit a contract — only to read the original terms.",
-          "After you have a reference fee, check the quote on WhatsApp and ask about install, prepay, the router and end-of-term rules. Next: [fibre compare](/plans?cat=broadband).",
-          DISCLAIMER_EN,
+          "Stopping before the term usually means a termination fee, or paying back an offer you have already used. Moving house, renovation, or a shop closing can all trigger it. Some providers include one free relocation during the contract. Before you move, ask, then decide whether to relocate the old contract or sign a new one.",
+          "This page does not explain how to exit a contract. It only tells you to read the original terms and ask. For the handover when you switch, see [switching broadband](/guides/switch-broadband).",
+        ],
+      },
+      {
+        heading: "Next: compare your own address",
+        paragraphs: [
+          "Open [fibre compare](/plans?cat=broadband) and pick the housing type, or type the estate on the home page. After the plan card, check the listed fee, the contract length, installation and the router terms, run the formula on the total-cost page once, then ask the carrier to confirm coverage, the install window and the terms.",
         ],
       },
     ],

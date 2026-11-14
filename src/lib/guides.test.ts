@@ -17,7 +17,14 @@ import {
   hkbnNetvigatorCitePieces,
   splitGuideTitle,
 } from "./guide-typography.ts";
-import { GUIDES, getGuide, guidePlainText } from "./guides.ts";
+import {
+  GUIDES,
+  formulaLines,
+  getGuide,
+  guidePlainText,
+  guideReadingMinutes,
+  splitTrailingFigure,
+} from "./guides.ts";
 import { SITEMAP_PAGES, sitemapLastmod } from "./seo.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -608,5 +615,168 @@ describe("guide end CTA mobile clearance", () => {
     assert.equal(village?.plansOnlyCta, undefined);
     assert.equal(village?.plans?.[0]?.href, "/plans?cat=broadband&housing=village");
     assert.equal(village?.cta?.button, "WhatsApp 查核村屋光纖月費");
+  });
+});
+
+describe("total-cost and contract-fee guides", () => {
+  const FORMULA =
+    "（牌面月費 × 實付月數 ＋ 未豁免安裝費 ＋ 預繳 ＋ 其他一次性收費 − 現金回贈 − 禮券面值）÷ 合約總月數";
+  const EXAMPLE =
+    "假設牌面月費 **HK$98**／月、**36** 個月合約、其中 **3** 個月免月費：實付 33 個月，月費合計 **HK$3,234**。若只計月費，平均約 **HK$89.8**／月。";
+  const WITH_EXTRAS =
+    "如果同一份合約仲有未豁免安裝費 **HK$800**、現金回贈 **HK$500**，總支出變成 **HK$3,534**，平均約 **HK$98.2**／月。免月費睇落平咗一截，加返安裝費、減走回贈之後，可以同牌面幾乎一樣，甚至更高。";
+
+  function shown(section: {
+    paragraphs: string[];
+    flow?: { kind: string; text?: string; items?: string[] }[];
+  }) {
+    const source = section.flow?.length
+      ? section.flow
+          .map((block) => (block.text != null ? block.text : (block.items ?? []).join("")))
+          .join("")
+      : section.paragraphs.join("");
+    return guidePlainText(source).replace(/\s+/g, "");
+  }
+
+  it("keeps the draft H1s, the new total-cost opening, and one plans exit", () => {
+    const total = getGuide("broadband-total-cost");
+    const fees = getGuide("contract-fees");
+    assert.ok(total && fees);
+
+    assert.equal(total.h1, "寬頻合約總成本點計：標示月費同實際平均月費");
+    assert.equal(total.seoTitle, "寬頻合約總成本點計｜免月費同回贈點計｜齊Quote");
+    assert.equal(
+      total.description,
+      "標示月費唔等於合約期內實際平均月費。要計合約期、免月費、回贈、預繳同安裝費。公屋、居屋、私樓同村屋唔好混用數字。僅供參考，以電訊商確認為準。",
+    );
+    assert.equal(
+      total.excerpt,
+      "標示月費唔等於實際平均月費。要計合約期、免月費、現金回贈、超市禮券、預繳、未豁免安裝費同行政費，樓類唔好混用。",
+    );
+    assert.match(total.excerpt, /安裝費/);
+    assert.match(total.excerpt, /行政費/);
+    assert.match(total.excerpt, /超市禮券/);
+    assert.equal(total.published, "2026-10-14");
+    assert.equal(total.modified, "2026-10-14");
+    assert.equal(sitemapLastmod("/guides/broadband-total-cost"), "2026-10-14");
+
+    assert.equal(fees.h1, "月費以外：安裝費、預繳、合約");
+    assert.equal(fees.seoTitle, "寬頻安裝費、預繳、合約期點睇｜齊Quote");
+    assert.equal(
+      fees.description,
+      "表面月費之外仲有安裝費、預繳、路由器同提早終止。實際條款以電訊商確認為準。",
+    );
+    assert.equal(fees.excerpt, "計首年總支出，唔好只睇標價。問路由器送定租、提早終止點計。");
+    assert.equal(fees.published, "2026-09-09");
+    assert.equal(fees.modified, "2026-09-13");
+    assert.equal(sitemapLastmod("/guides/contract-fees"), "2026-09-13");
+
+    for (const guide of [total, fees]) {
+      const title = splitGuideTitle(guide.h1);
+      assert.ok(title);
+      assert.equal(title.title + title.mark + title.subtitle, guide.h1);
+      assert.equal(guide.plansOnlyCta, true);
+      assert.equal(guide.cta, undefined);
+      assert.equal(guide.plans?.length, 1);
+      assert.equal(guide.plans?.[0]?.href, "/plans?cat=broadband");
+      assert.equal(guide.plans?.[0]?.label, "按樓類睇光纖計劃");
+      assert.deepEqual(guide.estates, []);
+      assert.equal(guide.minutes, guideReadingMinutes(guide));
+      assert.equal(guide.body[0]?.paragraphs.includes(guide.disclaimer ?? ""), false);
+      assert.equal(guide.excerpt.includes(guide.disclaimer ?? ""), false);
+
+      const page = JSON.stringify({
+        excerpt: guide.excerpt,
+        body: guide.body,
+        faq: guide.faq,
+        disclaimer: guide.disclaimer,
+        plans: guide.plans,
+      });
+      assert.equal(page.includes("最平"), false);
+      assert.equal(page.includes("WhatsApp"), false);
+      assert.equal(page.includes("wa.me"), false);
+      assert.equal(page.includes("HK$218"), false);
+      assert.equal(page.includes("HK$378"), false);
+      for (const section of guide.body) {
+        assert.equal(
+          shown(section),
+          guidePlainText(section.paragraphs.join("")).replace(/\s+/g, ""),
+        );
+      }
+    }
+
+    assert.equal(total.minutes, 5);
+    assert.equal(fees.minutes, 4);
+    assert.deepEqual(
+      total.body.map((section) => section.heading),
+      [
+        "牌面月費係用來比較，平均月費要自己計",
+        "點計真實平均月費",
+        "樓類唔好混用",
+        "下一步：對自己地址格價",
+      ],
+    );
+    assert.deepEqual(
+      fees.body.map((section) => section.heading),
+      [
+        "表面月費同合約總支出唔係同一個數",
+        "路由器：送、包，定到期要還",
+        "完約後會唔會自動轉正價",
+        "提早終止",
+        "下一步：對自己地址格價",
+      ],
+    );
+
+    const worked = total.body.find((section) => section.heading === "點計真實平均月費");
+    assert.equal(guidePlainText(worked?.paragraphs[1] ?? ""), FORMULA);
+    assert.equal(formulaLines(FORMULA).join(""), FORMULA);
+    assert.equal(worked?.paragraphs[3], EXAMPLE);
+    assert.equal(worked?.paragraphs[4], WITH_EXTRAS);
+    const exampleRows = worked?.flow?.find((block) => block.kind === "rows");
+    assert.ok(exampleRows && exampleRows.kind === "rows");
+    assert.equal(exampleRows.items.join(""), EXAMPLE);
+    assert.equal(splitTrailingFigure("假設牌面月費 **HK$98**／月、")?.value, "**HK$98**／月、");
+    assert.equal(splitTrailingFigure("**36** 個月合約、"), null);
+    assert.match(worked?.paragraphs.at(-1) ?? "", /\[村屋光纖月費\]\(\/guides\/village-fees\)/);
+    assert.doesNotMatch(worked?.paragraphs.at(-1) ?? "", /HK\$218|HK\$378/);
+
+    assert.equal(
+      total.disclaimer,
+      "以上例子僅供示範計法，連同站內列出計劃一律只供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。",
+    );
+    assert.equal(
+      fees.disclaimer,
+      "以上僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。",
+    );
+    assert.deepEqual(
+      total.faq?.map((item) => item.q),
+      [
+        "標示月費同平均月費，邊個先係齊Quote 引用？",
+        "有免月費，係咪一定平過牌面？",
+        "禮券同現金回贈點計？",
+        "點解唔好用其他樓類嘅月費來計？",
+      ],
+    );
+    assert.deepEqual(
+      fees.faq?.map((item) => item.q),
+      [
+        "計劃卡上嘅月費包唔包安裝費？",
+        "送路由器同包路由器有咩分別？",
+        "完約冇回覆會唔會自動續？",
+        "提早終止費係點計？",
+      ],
+    );
+
+    const route = readFileSync(join(here, "../routes/guides_.$slug.tsx"), "utf8");
+    const css = readFileSync(join(here, "../styles.css"), "utf8");
+    assert.match(route, /broadband-total-cost/);
+    assert.match(route, /contract-fees/);
+    assert.match(route, /guide\.plansOnlyCta/);
+    assert.match(css, /\.guide-inline-link \{[^}]*color: var\(--color-accent\)/);
+    assert.doesNotMatch(css, /\.guide-article \.guide-inline-link/);
+    assert.doesNotMatch(
+      css,
+      /color: color-mix\(in srgb, var\(--color-fg\) 70%, var\(--color-muted\)\)/,
+    );
   });
 });
