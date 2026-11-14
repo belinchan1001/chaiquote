@@ -847,7 +847,7 @@ describe("switch and renewal guides", () => {
     const renewal = getGuide("broadband-renewal");
     assert.ok(switched && renewal);
 
-    assert.equal(switched.h1, "轉台寬頻：舊約、安裝期、點樣術接");
+    assert.equal(switched.h1, "轉台寬頻：舊約、安裝期、點樣銜接");
     assert.equal(switched.title, switched.h1);
     assert.equal(switched.seoTitle, "轉寬頻點樣減少斷網｜齊Quote");
     assert.equal(
@@ -879,7 +879,7 @@ describe("switch and renewal guides", () => {
       assert.equal(guide.cta, undefined);
       assert.equal(guide.plans?.length, 1);
       assert.equal(guide.plans?.[0]?.href, "/plans?cat=broadband");
-      assert.equal(guide.plans?.[0]?.label, "按樓類着光纖計劃");
+      assert.equal(guide.plans?.[0]?.label, "按樓類睇光纖計劃");
       assert.deepEqual(guide.estates, []);
       assert.equal(guide.answer, undefined);
       assert.equal(guide.disclaimer, DISCLAIMER);
@@ -946,7 +946,7 @@ describe("switch and renewal guides", () => {
       checklist?.paragraphs.join("\n") ?? "",
       /\[寬頻合約總成本點計\]\(\/guides\/broadband-total-cost\)/,
     );
-    assert.match(checklist?.paragraphs.join("\n") ?? "", /有冊提早終止費/);
+    assert.match(checklist?.paragraphs.join("\n") ?? "", /有冇提早終止費/);
     assert.match(
       switched.body.find((section) => section.heading === "新線安裝期")?.paragraphs[0] ?? "",
       /\[村屋實地視察\]\(\/guides\/village-onsite\)/,
@@ -959,14 +959,14 @@ describe("switch and renewal guides", () => {
       switched.body.at(-1)?.paragraphs[0] ?? "",
       /\[光纖格價\]\(\/plans\?cat=broadband\)/,
     );
-    assert.match(switched.body.at(-1)?.paragraphs[0] ?? "", /據啲樓類，或者咽係首頁/);
+    assert.match(switched.body.at(-1)?.paragraphs[0] ?? "", /揀啱樓類，或者喺首頁/);
     assert.deepEqual(
       switched.faq?.map((item) => item.q),
       [
         "轉寬頻會唔會斷網？",
         "申請要唔要證件？",
         "寬頻可唔可以攜號？",
-        "新線同舊約點樣術接先唔會空窗？",
+        "新線同舊約點樣銜接先唔會空窗？",
       ],
     );
     assert.match(switched.faq?.[2]?.a ?? "", /\[攜號轉台\]\(\/guides\/port-in\)/);
@@ -976,9 +976,9 @@ describe("switch and renewal guides", () => {
     assert.match(method?.paragraphs[2] ?? "", /呢頁唔放具體數字例子/);
     assert.doesNotMatch(method?.paragraphs.join("\n") ?? "", /HK\$/);
     const ask = renewal.body.find((section) => section.heading === "續約前要問清楚嘅清單");
-    assert.match(ask?.paragraphs.join("\n") ?? "", /\[寬頻路由器點據\]\(\/guides\/router-wifi\)/);
+    assert.match(ask?.paragraphs.join("\n") ?? "", /\[寬頻路由器點揀\]\(\/guides\/router-wifi\)/);
     assert.match(ask?.paragraphs.join("\n") ?? "", /\[月費以外\]\(\/guides\/contract-fees\)/);
-    assert.match(ask?.paragraphs.join("\n") ?? "", /就嚾搬家/);
+    assert.match(ask?.paragraphs.join("\n") ?? "", /就嚟搬家/);
     assert.match(
       renewal.body.find((section) => section.heading === "邊種情況續約、邊種轉台")?.paragraphs[1] ?? "",
       /\[轉台寬頻\]\(\/guides\/switch-broadband\)/,
@@ -989,7 +989,7 @@ describe("switch and renewal guides", () => {
         "續約價會唔會同新客價一樣？",
         "點計續約嘅實際平均月費？",
         "續約定轉台好？",
-        "完約冊回覆會唔會自動續？",
+        "完約冇回覆會唔會自動續？",
       ],
     );
     assert.match(renewal.faq?.[1]?.a ?? "", /\[寬頻合約總成本點計\]\(\/guides\/broadband-total-cost\)/);
