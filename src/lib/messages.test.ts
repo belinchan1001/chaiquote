@@ -7,7 +7,7 @@ import { MESSAGES } from "./messages.ts";
 import { ESTATE_COUNT } from "./estate-count.ts";
 import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
 import { FAQ, FEE_RANGE_QUESTION, fillSiteTemplate, SITE } from "./site.ts";
-import { aboutJsonLd, homeJsonLd } from "./canonical.ts";
+import { ABOUT_SEO, aboutJsonLd, homeJsonLd } from "./canonical.ts";
 import { formatFee, getPlan } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
 
@@ -76,9 +76,19 @@ describe("trust/compliance copy", () => {
     const footer = readFileSync(join(here, "../components/site-footer.tsx"), "utf8");
     const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
     const picks = readFileSync(join(here, "../components/home-best-picks.tsx"), "utf8");
-    assert.match(about, /t\("aboutIndependent"\)/);
-    assert.match(about, /t\("noCommission"\)/);
-    assert.match(about, /t\("aboutDisclaimer"\)/);
+    assert.match(about, /t\("aboutWhoText"\)/);
+    assert.match(about, /https:\/\/wa\.me\/85263099966/);
+    assert.doesNotMatch(about, /t\("noCommission"\)|t\("aboutDisclaimer"\)|t\("disclaimer1"\)|text=/);
+    assert.equal(
+      MESSAGES.zh.aboutWhoText,
+      "齊Quote（chaiquote.hk）係香港獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。我哋將家居寬頻、5G 家居、流動通訊同商業寬頻計劃整理喺同一個地方，等你先格清價錢同條款，再決定。",
+    );
+    assert.equal(
+      MESSAGES.zh.aboutWhyText,
+      "市面上合約、額外收費同報價渠道好散。同一個速率，公屋、居屋、私樓同村屋都可以係另一套計劃。我哋按樓類同計劃卡並列參考，方便你自己比較，而唔使四圍問。",
+    );
+    assert.equal(MESSAGES.zh.contactUsLead, "WhatsApp、致電或電郵都可以。");
+    assert.equal((MESSAGES.zh.aboutWhoText.match(/佣金或廣告費/g) ?? []).length, 1);
     assert.match(footer, /t\("noCommission"\)/);
     assert.match(footer, /t\("disclaimer1"\)/);
     assert.match(home, /HomeBestPicks/);
@@ -465,25 +475,23 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.equal(PROVIDER_COUNT, 8);
     assert.equal(ESTATE_COUNT, 3729);
     assert.match(fillSiteTemplate(MESSAGES.zh.aboutWhoText), /無向電訊商收取佣金或廣告費/);
-    assert.match(fillSiteTemplate(MESSAGES.zh.aboutWhoText), new RegExp(`${ESTATE_COUNT} 個屋苑`));
+    assert.doesNotMatch(fillSiteTemplate(MESSAGES.zh.aboutWhoText), /個屋苑|資料更新|\{date\}|\{providers\}|\{plans\}|\{estates\}/);
     assert.doesNotMatch(MESSAGES.en.faq7a, /cheapest|lowest|best price|best-value/i);
     assert.doesNotMatch(home, /全港最平/);
   });
 });
 
 describe("about page Organization JSON-LD", () => {
-  it("reuses the homepage Organization node and the live catalogue counts", () => {
+  it("reuses the homepage Organization node without catalogue counts", () => {
     const about = readFileSync(join(here, "../routes/about.tsx"), "utf8");
     const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
     assert.equal(quoted(messages, "heroTitle1")[0], "搵寬頻唔使四圍問");
     assert.match(home, /t\("heroTitle1"\)/);
     assert.match(about, /<JsonLd data=\{aboutJsonLd\(\)\} \/>/);
-    assert.match(about, /providers: PROVIDERS\.length/);
-    assert.match(about, /plans: PLANS\.length/);
-    assert.match(about, /estates: ESTATE_COUNT/);
-    assert.match(about, /date: updated/);
-    assert.doesNotMatch(about, /providers:\s*8|plans:\s*193|estates:\s*3729|2026-11-12/);
+    assert.match(about, /https:\/\/wa\.me\/85263099966/);
+    assert.doesNotMatch(about, /providers:|plans: PLANS|estates:|date: updated|text=|api\.whatsapp\.com/);
+    assert.doesNotMatch(about, /t\("aboutDisclaimer"\)|t\("aboutProviders"\)|t\("aboutIndependent"\)/);
     const aboutLd = aboutJsonLd();
     const { "@context": aboutContext, ...aboutOrg } = aboutLd;
     const homeLd = homeJsonLd();
@@ -495,10 +503,12 @@ describe("about page Organization JSON-LD", () => {
     assert.equal(aboutOrg.url, SITE.url);
     assert.equal(aboutOrg.email, SITE.leadEmail);
     assert.equal(aboutOrg.telephone, `+${SITE.whatsappE164}`);
-    assert.equal(aboutOrg.description, SITE.description);
-    assert.deepEqual(aboutOrg.sameAs, [...SITE.sameAs]);
-    assert.deepEqual(aboutOrg.logo, { "@type": "ImageObject", url: `${SITE.url}/icon-512.png` });
-    assert.deepEqual(aboutOrg, homeOrg);
+    assert.equal(aboutOrg.description, ABOUT_SEO.description);
+    assert.doesNotMatch(String(aboutOrg.description), /8|195|3729|\{providers\}|\{plans\}|\{estates\}|\{date\}|資料更新/);
+    assert.equal(homeOrg?.description, SITE.description);
+    const { description: _aboutDescription, ...aboutRest } = aboutOrg;
+    const { description: _homeDescription, ...homeRest } = homeOrg ?? {};
+    assert.deepEqual(aboutRest, homeRest);
     assert.equal(homeLd["@graph"].filter((node) => node["@type"] === "Organization").length, 1);
     assert.equal(JSON.stringify(aboutLd).split(`${SITE.url}/#organization`).length - 1, 1);
   });

@@ -12,7 +12,6 @@ import { SITE } from "./site.ts";
 import type { Inquiry } from "./desk.ts";
 import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
 import { toEnglishLazy } from "./plan-en-lazy.ts";
-import { appendInquiryMark, readLeadTouch } from "./ads-attribution.ts";
 
 const HOUSING_MESSAGE: Record<Housing, MessageKey> = {
   public: "housingPublic",
@@ -20,14 +19,6 @@ const HOUSING_MESSAGE: Record<Housing, MessageKey> = {
   private: "housingPrivate",
   village: "housingVillage",
 };
-
-const BRAND_TAG = `【${SITE.name}】`;
-
-export function withBrandTag(text: string) {
-  const body = text.replace(/^\s+/, "");
-  if (body.startsWith(BRAND_TAG)) return body;
-  return `${BRAND_TAG}\n${body}`;
-}
 
 export type QuoteDesk = "hkt" | "hkbn" | "desk";
 
@@ -76,24 +67,14 @@ export function quoteWhatsappDisplay(plans: Plan[] = [], inquiry?: Partial<Inqui
   return deskNumber(resolveQuoteDesk(plans, inquiry)).display;
 }
 
-function whatsappSendHref(text: string, phone: string) {
-  const params = new URLSearchParams({
-    phone,
-    text,
-    type: "phone_number",
-    app_absent: "0",
-  });
-  return `https://api.whatsapp.com/send/?${params.toString()}`;
+/** Inquiry chats open with no prefilled text. */
+export function whatsappHref(_text = "", phone: string = SITE.whatsappE164) {
+  return `https://wa.me/${phone}`;
 }
 
-export function whatsappHref(text: string, phone: string = SITE.whatsappE164) {
-  return whatsappSendHref(withBrandTag(text), phone);
-}
-
-/** Outbound quote URL. The prefill names the page they opened, never the ad network. */
-export function quoteWhatsappHref(text: string, phone: string = SITE.whatsappE164) {
-  const marked = appendInquiryMark(text, readLeadTouch());
-  return whatsappSendHref(text.trim() ? withBrandTag(marked) : marked, phone);
+/** Same bare chat link. Click stamps must not put a text query back on the URL. */
+export function quoteWhatsappHref(_text = "", phone: string = SITE.whatsappE164) {
+  return whatsappHref("", phone);
 }
 
 export function planLine(plan: Plan, locale: Locale = "zh") {
@@ -163,14 +144,6 @@ export function quoteAsk(plans: Plan[], locale: Locale = "zh") {
   return mobileOnly ? ASK_MOBILE_ZH : ASK_COVERAGE_ZH;
 }
 
-function expiryForSales(raw?: string) {
-  const trimmed = (raw ?? "").trim();
-  if (!trimmed) return "";
-  const iso = trimmed.match(/^(\d{4}-\d{2}-\d{2})/);
-  if (!iso) return trimmed;
-  return trimmed.includes("客人自行提供") ? trimmed : `${iso[1]}（客人自行提供）`;
-}
-
 export type SalesQuoteInput = {
   serviceType?: string;
   address?: string;
@@ -188,60 +161,9 @@ export type SalesQuoteInput = {
   mobile?: boolean;
 };
 
-function mobileApplyMode(current: string) {
-  if (!current) return "";
-  if (/新號碼|新開戶|無用緊/.test(current)) return "新號碼";
-  return "轉台";
-}
-
-function mobileDataNeed(need: string) {
-  if (!need || /學生|長者/.test(need)) return "";
-  return need;
-}
-
-/** One prefill for every message a salesperson receives. */
-export function salesQuoteMessage(input: SalesQuoteInput = {}) {
-  const plan = input.planName?.trim()
-    ? `${input.planName.trim()}${input.monthlyFee != null ? ` (${formatFee(input.monthlyFee)}/月)` : ""}`
-    : "";
-  const source = input.source === "ai" ? "AI 智能推薦" : input.source === "filter" ? "手動條件篩選" : "";
-  const current = input.currentProvider?.trim() ?? "";
-  const audience = /學生|長者/.test(input.need ?? "") ? input.need!.trim() : "";
-  const special = input.special?.trim() || (input.esports ? "需要電競神線" : audience || "無");
-  const mobile = input.mobile ?? /手機/.test(input.serviceType ?? "");
-  if (mobile) {
-    return [
-      `👋 你好！我想查詢／申請【${SITE.name} 轉台獨家優惠】：`,
-      "--------------------------------",
-      `📌 服務類型：${input.serviceType?.trim() || "手機月費"}`,
-      `📱 申請方式：${mobileApplyMode(current)}`,
-      `🔄 現時電訊商：${mobileApplyMode(current) === "新號碼" ? "" : current}`,
-      `🎯 指定心水電訊商：${input.targetProvider?.trim() ?? ""}`,
-      `📅 合約到期日：${expiryForSales(input.expiry)}`,
-      `📶 數據需求：${mobileDataNeed(input.need?.trim() ?? "")}`,
-      `🎮 特殊需求：${special}`,
-      `🎯 目標心水計劃：${plan}`,
-      `🤖 篩選方式：${source}`,
-      "--------------------------------",
-      "請幫我確認攜號轉台／新號碼優惠與預留禮品，謝謝！",
-    ].join("\n");
-  }
-  return [
-    `👋 你好！我想查詢／申請【${SITE.name} 轉台獨家優惠】：`,
-    "--------------------------------",
-    `📌 服務類型：${input.serviceType?.trim() ?? ""}`,
-    `📍 安裝/常用地址：${input.address?.trim() ?? ""}`,
-    `🏢 屋樓類型：${input.housing?.trim() ?? ""}`,
-    `🔄 現時電訊商：${input.currentProvider?.trim() ?? ""}`,
-    `🎯 指定心水電訊商：${input.targetProvider?.trim() ?? ""}`,
-    `📅 合約到期日：${expiryForSales(input.expiry)}`,
-    `⚡ 需求規格：${input.need?.trim() || "速度不限 / 預設"}`,
-    `🎮 特殊需求：${special}`,
-    `🎯 目標心水計劃：${plan}`,
-    `🤖 篩選方式：${source}`,
-    "--------------------------------",
-    "請幫我確認覆蓋/訊號與預留轉台禮品，謝謝！",
-  ].join("\n");
+/** Inquiry WhatsApp opens with no sales prefill. */
+export function salesQuoteMessage(_input: SalesQuoteInput = {}) {
+  return "";
 }
 
 export function quoteMessage(

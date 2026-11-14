@@ -522,13 +522,13 @@ function GuidePage() {
                 </Button>
               ) : null}
               {showInlinePlan ? (
-                copy.ctaButton && copy.waText ? (
+                copy.ctaButton ? (
                   <Button asChild variant="whatsapp" className="w-full sm:w-auto">
                     <a
-                      href={whatsappHref(copy.waText)}
+                      href={whatsappHref("", SITE.whatsappE164)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      {...quoteWhatsAppActivateProps(copy.waText, SITE.whatsappE164, {
+                      {...quoteWhatsAppActivateProps("", SITE.whatsappE164, {
                         source: "guide",
                       })}
                     >

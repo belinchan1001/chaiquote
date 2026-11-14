@@ -48,13 +48,8 @@ describe("AI filter parse", () => {
     assert.equal(inquiry.estate, "太古城");
     assert.match(inquiry.need ?? "", /電競神線/);
     const text = portInQuoteFromInquiry(inquiry, { name: "2500M 光纖", monthlyFee: 149, providerId: "hkbn" });
-    assert.match(text, /太古城/);
-    assert.match(text, /現時電訊商：香港寬頻/);
-    assert.doesNotMatch(text, /轉台客戶/);
-    assert.match(text, /指定心水電訊商：網上行/);
-    assert.match(text, /目標心水計劃：香港寬頻 2500M 光纖 \(HK\$149\/月\)/);
-    assert.match(text, /需要電競神線/);
-    assert.match(text, /篩選方式：AI 智能推薦/);
+    assert.equal(text, "");
+    assert.doesNotMatch(text, /獨家優惠|轉台禮品|心水電訊商|轉台客戶/);
   });
 
   it("treats 新號碼 as a new line, not a port-in exclude", () => {
@@ -68,9 +63,8 @@ describe("AI filter parse", () => {
     const inquiry = inquiryFromAiParse(parsed);
     assert.equal(inquiry.currentProvider, "新號碼");
     const text = portInQuoteFromInquiry(inquiry, { name: "5G 無限", monthlyFee: 98 });
-    assert.match(text, /申請方式：新號碼/);
-    assert.doesNotMatch(text, /現時電訊商：新號碼/);
-    assert.match(text, /篩選方式：AI 智能推薦/);
+    assert.equal(text, "");
+    assert.doesNotMatch(text, /獨家優惠|轉台禮品|心水電訊商|現時電訊商：新號碼/);
   });
 
   it("holds plan cards until current carrier and expiry are known, then writes the same /plans search", () => {

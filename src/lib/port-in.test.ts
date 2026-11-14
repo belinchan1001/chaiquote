@@ -289,42 +289,32 @@ describe("port-in intake", () => {
       esports: true,
       source: "filter",
     });
-    assert.match(text, /轉台獨家優惠/);
-    assert.match(text, /太古城/);
-    assert.match(text, /現時電訊商：香港寬頻/);
-    assert.doesNotMatch(text, /轉台客戶/);
-    assert.match(text, /指定心水電訊商：網上行 \(HKT\)/);
-    assert.match(text, /2500M 光纖 \(HK\$149\/月\)/);
-    assert.match(text, /需要電競神線/);
-    assert.match(text, /篩選方式：手動條件篩選/);
+    assert.equal(text, "");
+    assert.doesNotMatch(text, /獨家優惠|轉台禮品|心水電訊商|轉台客戶/);
     const open = portInQuoteMessage({
       serviceType: "光纖寬頻",
       currentProvider: "網上行",
       expiry: "2–3個月內",
       need: "1000M / 1G",
     });
-    assert.match(open, /指定心水電訊商：\n/);
+    assert.equal(open, "");
     const href = generateWhatsAppLink({
       serviceType: "光纖寬頻",
       currentProvider: "網上行",
       expiry: "2–3個月內",
       need: "1000M / 1G",
     });
-    assert.match(href, /api\.whatsapp\.com\/send/);
-    assert.match(href, /text=/);
-    assert.match(href, /85263099966/);
-    const decoded = new URL(href).searchParams.get("text") ?? "";
-    assert.match(decoded, /【查詢】(網站|家居寬頻|5G 家居寬頻|村屋寬頻|公屋寬頻|居屋寬頻|私人樓宇|手機計劃|商業寬頻) #[0-4]/);
-    assert.doesNotMatch(decoded, /google_ads|gclid|fbclid/);
+    assert.equal(href, "https://wa.me/85263099966");
+    assert.equal(new URL(href).search, "");
+    assert.doesNotMatch(href, /text=|獨家優惠|轉台禮品|google_ads|gclid|fbclid/);
     const newNumber = portInQuoteMessage({
       serviceType: "手機月費",
       currentProvider: "新號碼",
       expiry: "半年以上／不清楚",
       need: "5G 全速無限",
     });
-    assert.match(newNumber, /申請方式：新號碼/);
-    assert.doesNotMatch(newNumber, /現時電訊商：新號碼/);
-    assert.doesNotMatch(newNumber, /轉台客戶/);
+    assert.equal(newNumber, "");
+    assert.doesNotMatch(newNumber, /轉台客戶|獨家優惠|轉台禮品/);
   });
 });
 

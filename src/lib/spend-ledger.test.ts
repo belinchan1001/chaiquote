@@ -64,7 +64,8 @@ describe("spend ledger", () => {
     assert.equal(patch.customerExpiry, "2026-11-08（客人自行提供）");
     assert.equal(staffExpiryText("2026-11-08"), "2026-11-08（客人自行提供）");
     const text = portInQuoteFromInquiry(patch, { name: "1000M", monthlyFee: 168 });
-    assert.match(text, /合約到期日：2026-11-08（客人自行提供）/);
+    assert.equal(text, "");
+    assert.doesNotMatch(text, /獨家優惠|轉台禮品|合約到期日/);
   });
 
   it("round-trips through storage and reads the v1 key", () => {

@@ -1,13 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Mail } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
-import { Button } from "@/components/ui/button";
-import { QuoteLink } from "@/components/quote-link";
-import { ProviderMark } from "@/components/provider-mark";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { ABOUT_SEO, aboutJsonLd, canonicalUrl, shareHead } from "@/lib/canonical";
-import { ESTATE_COUNT } from "@/lib/estate-count";
-import { PLANS, PROVIDERS } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 
 export const Route = createFileRoute("/about")({
@@ -16,7 +10,7 @@ export const Route = createFileRoute("/about")({
 });
 
 function AboutPage() {
-  const { t, updated } = useI18n();
+  const { t } = useI18n();
   usePageTitle(ABOUT_SEO.title);
   return (
     <div className="mx-auto max-w-2xl px-4 py-10">
@@ -25,14 +19,7 @@ function AboutPage() {
 
       <section className="mt-10">
         <h2 className="text-lg font-semibold">{t("aboutWho")}</h2>
-        <p className="mt-3 text-sm leading-relaxed text-muted">
-          {t("aboutWhoText", {
-            date: updated,
-            providers: PROVIDERS.length,
-            plans: PLANS.length,
-            estates: ESTATE_COUNT,
-          })}
-        </p>
+        <p className="mt-3 text-sm leading-relaxed text-muted">{t("aboutWhoText")}</p>
       </section>
 
       <section className="mt-8">
@@ -40,70 +27,37 @@ function AboutPage() {
         <p className="mt-3 text-sm leading-relaxed text-muted">{t("aboutWhyText")}</p>
       </section>
 
-      <section className="mt-8">
-        <h2 className="text-lg font-semibold">{t("aboutIndependent")}</h2>
-        <p className="mt-3 text-sm leading-relaxed text-muted">
-          {t("aboutIndependentText", {
-            date: updated,
-            providers: PROVIDERS.length,
-            plans: PLANS.length,
-            estates: ESTATE_COUNT,
-          })}
-        </p>
-        <p className="mt-3 text-sm leading-relaxed text-muted">{t("noCommission")}</p>
-      </section>
-
-      <section className="mt-8">
-        <h2 className="text-lg font-semibold">{t("aboutProviders")}</h2>
-        <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
-          {PROVIDERS.map((p) => (
-            <li key={p.id} className="rounded-lg bg-surface px-3 py-3">
-              <ProviderMark id={p.id} />
-            </li>
-          ))}
-        </ul>
-        <p className="mt-3 text-sm text-muted">
-          {t("logoSee")}{" "}
-          <Link to="/brand" className="text-accent underline-offset-4 hover:underline">
-            {t("aboutBrand")}
-          </Link>
-        </p>
-      </section>
-
-      <section className="mt-8">
-        <h2 className="text-lg font-semibold">{t("aboutDisclaimer")}</h2>
-        <p className="mt-3 text-sm leading-relaxed text-muted">{t("noCommission")}</p>
-        <p className="mt-3 text-sm leading-relaxed text-muted">{t("referencePrice")}</p>
-        <p className="mt-3 text-sm leading-relaxed text-muted">{t("disclaimer1")}</p>
-        <p className="mt-3 text-sm leading-relaxed text-muted">{t("disclaimer2")}</p>
-        <p className="mt-3 text-sm leading-relaxed text-muted">{t("disclaimer3")}</p>
-        <p className="mt-3 text-sm leading-relaxed text-muted">
-          <Link to="/privacy" className="text-accent underline-offset-4 hover:underline">
-            {t("aboutPrivacy")}
-          </Link>
-        </p>
-      </section>
-
       <section className="mt-10">
         <h2 className="text-lg font-semibold">{t("contactUs")}</h2>
         <p className="mt-3 text-sm leading-relaxed text-muted">{t("contactUsLead")}</p>
-        <p className="mt-3 text-sm">
-          <a href={`mailto:${SITE.leadEmail}`} className="text-accent underline-offset-4 hover:underline">
-            {SITE.leadEmail}
-          </a>
-        </p>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <QuoteLink showNumber />
-          <Button asChild variant="outline">
-            <a href={`mailto:${SITE.leadEmail}`}>
-              <Mail />
-              {t("emailUs")}
+        <ul className="mt-4 space-y-2 text-sm">
+          <li>
+            <a
+              href="https://wa.me/85263099966"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent underline-offset-4 hover:underline"
+            >
+              {t("aboutWa", { phone: SITE.phoneDisplay })}
             </a>
-          </Button>
-          <Button asChild variant="outline">
-            <Link to="/quote">{t("formQuote")}</Link>
-          </Button>
-        </div>
+          </li>
+          <li>
+            {t("aboutEmail")}{" "}
+            <a href={`mailto:${SITE.leadEmail}`} className="text-accent underline-offset-4 hover:underline">
+              {SITE.leadEmail}
+            </a>
+          </li>
+          <li>
+            <Link to="/quote" className="text-accent underline-offset-4 hover:underline">
+              {t("aboutQuote")}
+            </Link>
+          </li>
+          <li>
+            <Link to="/privacy" className="text-accent underline-offset-4 hover:underline">
+              {t("aboutPrivacy")}
+            </Link>
+          </li>
+        </ul>
       </section>
     </div>
   );

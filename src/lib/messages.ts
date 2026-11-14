@@ -1,4 +1,4 @@
-import { FAQ_EN, FAQ_ZH, INDEPENDENT_BODY, INDEPENDENT_BODY_EN, LEGAL } from "./site.ts";
+import { FAQ_EN, FAQ_ZH, LEGAL } from "./site.ts";
 
 export type Locale = "zh" | "en";
 
@@ -289,19 +289,22 @@ export const MESSAGES = {
     removeCompare: "移出比較：{name}",
     aboutTitle: "關於我們",
     aboutWho: "我哋係邊個",
-    aboutWhoText: INDEPENDENT_BODY,
+    aboutWhoText:
+      "齊Quote（chaiquote.hk）係香港獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。我哋將家居寬頻、5G 家居、流動通訊同商業寬頻計劃整理喺同一個地方，等你先格清價錢同條款，再決定。",
     aboutWhy: "點解要有齊Quote",
     aboutWhyText:
-      "市面上合約同額外收費好亂。我哋將各電訊商方案整理好，等你快啲揀到啱預算、啱需要嘅計劃。",
+      "市面上合約、額外收費同報價渠道好散。同一個速率，公屋、居屋、私樓同村屋都可以係另一套計劃。我哋按樓類同計劃卡並列參考，方便你自己比較，而唔使四圍問。",
     aboutIndependent: "獨立聲明",
-    aboutIndependentText:
-      "本平台唔係任何一間電訊商嘅附屬。資料只作中立參考。資料更新：{date}。而家收錄 {providers} 間電訊商、{plans} 個參考計劃同 {estates} 個屋苑。",
+    aboutIndependentText: "本平台唔係任何一間電訊商嘅附屬。資料只作中立參考。",
     noCommission:
       "本網站並沒有向任何電訊商收取佣金或廣告費。所列月費僅供參考，實際以電訊商確認為準。",
     aboutProviders: "而家收錄嘅電訊商",
     aboutBrand: "品牌指引",
     aboutDisclaimer: "免責聲明",
     aboutPrivacy: "私隱政策",
+    aboutWa: "WhatsApp／電話：{phone}",
+    aboutEmail: "電郵：",
+    aboutQuote: "留低電話：填表問價",
     formQuote: "填表問價",
     guidesTitle: "點揀",
     waWelcome: "你好，呢度係 {name}。報價會直達 {phone}。撳下面掣，或者直接打字。",
@@ -861,19 +864,22 @@ export const MESSAGES = {
     removeCompare: "Remove from compare: {name}",
     aboutTitle: "About us",
     aboutWho: "Who we are",
-    aboutWhoText: INDEPENDENT_BODY_EN,
+    aboutWhoText:
+      "ChaiQuote (chaiquote.hk) is an independent Hong Kong comparison site, not a carrier website, and it does not take commission or advertising fees from carriers. We put home broadband, 5G home, mobile and business broadband plans in one place so you can compare prices and terms before you decide.",
     aboutWhy: "Why ChaiQuote exists",
     aboutWhyText:
-      "Contracts and extra charges are messy. We organise current offers so you can pick a plan that fits budget and need in minutes.",
+      "Contracts, extra charges and quote channels are scattered. The same speed can be a different plan for public housing, HOS, private estates and village houses. We line up references by housing type and plan card so you can compare for yourself, without asking around.",
     aboutIndependent: "Independence",
-    aboutIndependentText:
-      "We are not part of any one carrier. Information is for neutral reference. Updated {date}. Currently {providers} carriers, {plans} reference plans and {estates} estates.",
+    aboutIndependentText: "We are not part of any one carrier. Information is for neutral reference.",
     noCommission:
       "We do not receive commission or advertising fees from any carrier. Fees are for reference only; the carrier confirms the final terms.",
     aboutProviders: "Providers listed",
     aboutBrand: "Brand guidelines",
     aboutDisclaimer: "Disclaimer",
     aboutPrivacy: "Privacy policy",
+    aboutWa: "WhatsApp / phone: {phone}",
+    aboutEmail: "Email:",
+    aboutQuote: "Leave a number",
     formQuote: "Leave a number",
     guidesTitle: "How to choose",
     waWelcome: "Hi, this is {name}. Quotes go to {phone}. Tap a button below, or type.",
