@@ -63,7 +63,7 @@ export const MESSAGES = {
     heroTitle1: "搵寬頻唔使四圍問",
     heroLead: "輸入你住邊，即刻比較各大電訊商而家嘅月費同優惠。",
     heroAnswer:
-      "{name} 而家可以一次過睇香港 {providers} 間電訊商、{plans} 個參考計劃同 {estates} 個屋苑。公屋、居屋、私樓同村屋分開列。{date} 目錄入面，光纖、5G 家居、手機同村屋光纖各有一條月費較低嘅參考，大約 HK$58、HK$88、HK$38 同 HK$218，唔代表全港最平。",
+      "{name} 而家可以一次過睇香港 {providers} 間電訊商、{plans} 個參考計劃同 {estates} 個屋苑。公屋、居屋、私樓同村屋分開列。{date} 目錄入面，光纖、5G 家居、手機同村屋光纖各有一條月費較低嘅參考，大約 HK$58、HK$88、HK$38，同村屋指定地址優惠約 HK$218，唔代表全港最平。",
     statProviders: "{n} 間電訊商",
     statPlans: "{n} 個參考計劃",
     statEstates: "{n} 個屋苑",
@@ -629,7 +629,7 @@ export const MESSAGES = {
     heroTitle1: "Stop shopping around for broadband",
     heroLead: "Enter your address and compare current fees and offers from the major providers.",
     heroAnswer:
-      "{name} compares {providers} Hong Kong carriers, {plans} reference plans and {estates} estates in one place. Public housing, HOS, private estates and village houses are listed separately. On {date}, one lower listed reference in each of fibre, 5G home, mobile and village fibre is about HK$58, HK$88, HK$38 and HK$218. This is not a Hong Kong-wide price promise.",
+      "{name} compares {providers} Hong Kong carriers, {plans} reference plans and {estates} estates in one place. Public housing, HOS, private estates and village houses are listed separately. On {date}, one lower listed reference in each of fibre, 5G home, mobile and village fibre is about HK$58, HK$88, HK$38, and a specified-address village promo of about HK$218. This is not a Hong Kong-wide price promise.",
     statProviders: "{n} providers",
     statPlans: "{n} reference plans",
     statEstates: "{n} estates",
