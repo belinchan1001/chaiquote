@@ -177,12 +177,19 @@ describe("HKBN vs Netvigator guide", () => {
     assert.equal(guide.plans?.[0]?.label, "按樓類睇光纖計劃");
     assert.deepEqual(guide.estates, []);
 
-    const cite = `網上行係 HKT 家居寬頻品牌。全站（各電訊商）光纖參考：公居屋約 HK$58–98／月、私樓約 HK$88–109／月、${VILLAGE_SPECIFIED_ADDRESS_CITE}呢條中國移動香港計劃唔屬呢篇兩間比較。2026 年 11 月站內可見，呢篇只比較香港寬頻同網上行：公居屋／私樓 1000M 香港寬頻約 HK$98／月（24 或 36 個月）、網上行約 HK$108／月（36 個月＋路由器）；村屋係另一套，網上行村屋 1000M 約 HK$278／月，香港寬頻特選村屋 2000M 約 HK$229／月（1000M 村屋例子約 HK$378／月）。HK$108 只係網上行公居屋／私樓 1000M 例子，唔係全站私樓參考；HK$229 只係香港寬頻特選村屋 2000M 例子，唔係全站村屋起步價。月費、覆蓋同安裝以電訊商確認為準。`;
+    const cite = `網上行係 HKT 家居寬頻品牌。全站（各電訊商）光纖參考：公居屋約 HK$58–98／月、私樓約 HK$88–109／月、${VILLAGE_SPECIFIED_ADDRESS_CITE}呢條中國移動香港計劃唔屬呢篇兩間比較。2026 年 11 月站內可見，呢篇只比較香港寬頻同網上行：公居屋／私樓 1000M 香港寬頻約 HK$98／月（24 或 36 個月）、網上行約 HK$108／月（36 個月＋路由器）；村屋係另一套，網上行村屋 1000M 約 HK$278／月，香港寬頻特選村屋 2000M 約 HK$229／月（香港寬頻村屋 1000M（27 個月）約 HK$378／月）。HK$108 只係網上行公居屋／私樓 1000M 例子，唔係全站私樓參考；HK$229 只係香港寬頻特選村屋 2000M 例子，唔係全站村屋起步價。月費、覆蓋同安裝以電訊商確認為準。`;
     assert.equal(guide.answer?.lead.length, 0);
     assert.equal(guide.answer?.cite, cite);
     assert.equal(guide.answer?.cite.includes(VILLAGE_SPECIFIED_ADDRESS_CITE), true);
     assert.doesNotMatch(guide.answer?.cite ?? "", /村屋由 HK\$218(?:／月)?起/);
+    assert.match(guide.answer?.cite ?? "", /香港寬頻村屋 1000M（27 個月）約 HK\$378／月/);
+    assert.equal((guide.answer?.cite ?? "").includes("1000M 村屋例子約 HK$378"), false);
     assert.match(guide.answer?.cite ?? "", /呢條中國移動香港計劃唔屬呢篇兩間比較/);
+    assert.match(
+      guide.answerEn?.cite ?? "",
+      /HKBN village 1000M is about HK\$378\/month for 27 months/,
+    );
+    assert.equal((guide.answerEn?.cite ?? "").includes("a village 1000M example is about HK$378/month"), false);
     assert.match(guide.answer?.afterCite?.[0] ?? "", /^你想對香港寬頻同網上行/);
 
     const table = guide.answer?.table;

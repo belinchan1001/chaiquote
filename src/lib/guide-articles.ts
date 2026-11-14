@@ -6383,7 +6383,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     estates: [],
     answer: {
       lead: [],
-      cite: `網上行係 HKT 家居寬頻品牌。全站（各電訊商）光纖參考：公居屋約 HK$58–98／月、私樓約 HK$88–109／月、${VILLAGE_SPECIFIED_ADDRESS_CITE}呢條中國移動香港計劃唔屬呢篇兩間比較。2026 年 11 月站內可見，呢篇只比較香港寬頻同網上行：公居屋／私樓 1000M 香港寬頻約 HK$98／月（24 或 36 個月）、網上行約 HK$108／月（36 個月＋路由器）；村屋係另一套，網上行村屋 1000M 約 HK$278／月，香港寬頻特選村屋 2000M 約 HK$229／月（1000M 村屋例子約 HK$378／月）。HK$108 只係網上行公居屋／私樓 1000M 例子，唔係全站私樓參考；HK$229 只係香港寬頻特選村屋 2000M 例子，唔係全站村屋起步價。月費、覆蓋同安裝以電訊商確認為準。`,
+      cite: `網上行係 HKT 家居寬頻品牌。全站（各電訊商）光纖參考：公居屋約 HK$58–98／月、私樓約 HK$88–109／月、${VILLAGE_SPECIFIED_ADDRESS_CITE}呢條中國移動香港計劃唔屬呢篇兩間比較。2026 年 11 月站內可見，呢篇只比較香港寬頻同網上行：公居屋／私樓 1000M 香港寬頻約 HK$98／月（24 或 36 個月）、網上行約 HK$108／月（36 個月＋路由器）；村屋係另一套，網上行村屋 1000M 約 HK$278／月，香港寬頻特選村屋 2000M 約 HK$229／月（香港寬頻村屋 1000M（27 個月）約 HK$378／月）。HK$108 只係網上行公居屋／私樓 1000M 例子，唔係全站私樓參考；HK$229 只係香港寬頻特選村屋 2000M 例子，唔係全站村屋起步價。月費、覆蓋同安裝以電訊商確認為準。`,
       afterCite: [
         "你想對香港寬頻同網上行邊份計劃啱自己，唔好用一張全港劃一價去打。兩間都按樓類同速率報價，公居屋、私樓、村屋見到嘅月費、合約期同配備都可以唔同。下面再分開講月費、計劃同公司，最後用一個出口按你嘅樓類去睇光纖計劃。",
       ],
@@ -6424,7 +6424,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     },
     answerEn: {
       lead: [],
-      cite: `Netvigator is HKT’s consumer home-broadband brand. Sitewide fibre references (all carriers): public / HOS about HK$58–98/month, private about HK$88–109/month. ${VILLAGE_SPECIFIED_ADDRESS_CITE_EN} That CMHK plan is not part of this two-carrier comparison. In November 2026, this page only compares HKBN and Netvigator: public / HOS and private 1000M is about HK$98/month for HKBN (24 or 36 months) and about HK$108/month for Netvigator (36 months plus a router). Village houses are a separate set: Netvigator village 1000M is about HK$278/month, and the HKBN selected village 2000M example is about HK$229/month (a village 1000M example is about HK$378/month). HK$108 is only the Netvigator public / private 1000M example, not the sitewide private-housing reference. HK$229 is only the HKBN selected village 2000M example, not the sitewide village starting fee. The carrier confirms the monthly fee, coverage and installation.`,
+      cite: `Netvigator is HKT’s consumer home-broadband brand. Sitewide fibre references (all carriers): public / HOS about HK$58–98/month, private about HK$88–109/month. ${VILLAGE_SPECIFIED_ADDRESS_CITE_EN} That CMHK plan is not part of this two-carrier comparison. In November 2026, this page only compares HKBN and Netvigator: public / HOS and private 1000M is about HK$98/month for HKBN (24 or 36 months) and about HK$108/month for Netvigator (36 months plus a router). Village houses are a separate set: Netvigator village 1000M is about HK$278/month, and the HKBN selected village 2000M example is about HK$229/month (HKBN village 1000M is about HK$378/month for 27 months). HK$108 is only the Netvigator public / private 1000M example, not the sitewide private-housing reference. HK$229 is only the HKBN selected village 2000M example, not the sitewide village starting fee. The carrier confirms the monthly fee, coverage and installation.`,
       afterCite: [
         "When you compare an HKBN plan with a Netvigator plan, do not use one territory-wide price. Both quote by housing type and speed, so the monthly fee, contract length and what is included can differ across public housing and HOS, private flats, and village houses. The sections below separate the fee, the plan and the company, then one exit opens fibre plans for your housing type.",
       ],
