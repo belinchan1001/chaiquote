@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { MESSAGES } from "./messages.ts";
@@ -483,6 +483,8 @@ describe("about page Organization JSON-LD", () => {
     assert.match(about, /date: updated/);
     assert.match(about, /<QuoteLink showNumber siteNumber \/>/);
     assert.doesNotMatch(about, /\/brand/);
+    assert.equal(existsSync(join(here, "../routes/brand.tsx")), false);
+    assert.doesNotMatch(readFileSync(join(here, "../routeTree.gen.ts"), "utf8"), /\/brand/);
     assert.doesNotMatch(about, /providers:\s*8|plans:\s*193|estates:\s*3729|2026-11-12/);
     const aboutLd = aboutJsonLd();
     const { "@context": aboutContext, ...aboutOrg } = aboutLd;

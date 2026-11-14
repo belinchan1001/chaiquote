@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as BrandRouteImport } from './routes/brand'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as EstatesRouteImport } from './routes/estates'
 import { Route as GuidesRouteImport } from './routes/guides'
@@ -37,11 +36,6 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BrandRoute = BrandRouteImport.update({
-  id: '/brand',
-  path: '/brand',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompareRoute = CompareRouteImport.update({
@@ -128,7 +122,6 @@ const TechNewsDeskRoute = TechNewsDeskRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/brand': typeof BrandRoute
   '/compare': typeof CompareRoute
   '/estates': typeof EstatesRoute
   '/guides': typeof GuidesRoute
@@ -149,7 +142,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/brand': typeof BrandRoute
   '/compare': typeof CompareRoute
   '/estates': typeof EstatesRoute
   '/guides': typeof GuidesRoute
@@ -171,7 +163,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/brand': typeof BrandRoute
   '/compare': typeof CompareRoute
   '/estates': typeof EstatesRoute
   '/guides': typeof GuidesRoute
@@ -194,7 +185,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
-    | '/brand'
     | '/compare'
     | '/estates'
     | '/guides'
@@ -215,7 +205,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/brand'
     | '/compare'
     | '/estates'
     | '/guides'
@@ -236,7 +225,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
-    | '/brand'
     | '/compare'
     | '/estates'
     | '/guides'
@@ -258,7 +246,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  BrandRoute: typeof BrandRoute
   CompareRoute: typeof CompareRoute
   EstatesRoute: typeof EstatesRoute
   GuidesRoute: typeof GuidesRoute
@@ -291,13 +278,6 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/brand': {
-      id: '/brand'
-      path: '/brand'
-      fullPath: '/brand'
-      preLoaderRoute: typeof BrandRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compare': {
@@ -418,7 +398,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  BrandRoute: BrandRoute,
   CompareRoute: CompareRoute,
   EstatesRoute: EstatesRoute,
   GuidesRoute: GuidesRoute,
