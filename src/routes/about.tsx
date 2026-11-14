@@ -62,12 +62,6 @@ function AboutPage() {
             </li>
           ))}
         </ul>
-        <p className="mt-3 text-sm text-muted">
-          {t("logoSee")}{" "}
-          <Link to="/brand" className="text-accent underline-offset-4 hover:underline">
-            {t("aboutBrand")}
-          </Link>
-        </p>
       </section>
 
       <section className="mt-8">

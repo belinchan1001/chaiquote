@@ -482,6 +482,7 @@ describe("about page Organization JSON-LD", () => {
     assert.match(about, /estates: ESTATE_COUNT/);
     assert.match(about, /date: updated/);
     assert.match(about, /<QuoteLink showNumber siteNumber \/>/);
+    assert.doesNotMatch(about, /\/brand/);
     assert.doesNotMatch(about, /providers:\s*8|plans:\s*193|estates:\s*3729|2026-11-12/);
     const aboutLd = aboutJsonLd();
     const { "@context": aboutContext, ...aboutOrg } = aboutLd;
