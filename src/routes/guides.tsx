@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
 import { GUIDE_CATEGORY_META } from "@/lib/guide-articles";
-import { GUIDES, getGuide, guideCopy, guideManuscriptDates, type Guide } from "@/lib/guides";
+import { GUIDES, getGuide, guideCopy, guideManuscriptDates, guidePlainText, type Guide } from "@/lib/guides";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
 import { GUIDES_SEO, canonicalUrl, shareHead } from "@/lib/canonical";
@@ -112,7 +112,7 @@ function GuidesPage() {
                   <p className={cn("font-semibold", featured && "text-xl")}>
                     {locale === "en" ? cat.labelEn : cat.label}
                   </p>
-                  <p className="mt-1 flex-1 text-sm leading-relaxed text-muted">{copy?.excerpt}</p>
+                  <p className="mt-1 flex-1 text-sm leading-relaxed text-muted">{guidePlainText(copy?.excerpt ?? "")}</p>
                   <p
                     className={cn(
                       "mt-3 inline-flex items-center gap-1 text-sm font-medium text-accent",
@@ -146,7 +146,7 @@ function GuidesPage() {
                         className="flex h-full min-h-11 flex-col rounded-xl bg-card p-4 shadow-[var(--shadow-border)] transition-[box-shadow] duration-150 hover:shadow-[var(--shadow-border-hover)]"
                       >
                         <p className="font-semibold">{copy.title}</p>
-                        <p className="mt-1 flex-1 text-sm leading-relaxed text-muted">{copy.excerpt}</p>
+                        <p className="mt-1 flex-1 text-sm leading-relaxed text-muted">{guidePlainText(copy.excerpt)}</p>
                         <GuideCardDate guide={guide} />
                         <p className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-accent">
                           {t("seeDetail")}

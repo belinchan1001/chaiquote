@@ -369,28 +369,30 @@ export const CORE_GUIDES: Guide[] = [
     seoTitle: "村屋光纖點算｜邊間有、參考月費｜齊Quote",
     h1: "村屋光纖點算：邊間有、幾多錢",
     description:
-      "村屋光纖站內只列出香港寬頻、網上行同 HGC。特選村屋由 HK$229 起，唔好用太古城、嘉湖或公屋價去估。覆蓋要填完整地址。",
+      "村屋光纖站內由中國移動香港村屋 1000M HK$218／24 個月起，唔好用太古城、嘉湖或公屋價去估。有冇線睇條村、條街，列出嘅月費係參考例子。覆蓋要填完整地址。",
     title: "村屋光纖點算：邊間有、幾多錢",
-    excerpt: "村屋光纖只得香港寬頻、網上行同 HGC。由 HK$229 起，唔好用私樓或公屋價。",
+    excerpt:
+      "村屋光纖站內由[中國移動香港村屋 1000M](/plans/cmhk-ftth-1000-village-24m-218) HK$218／24 個月起，唔好用私樓或公屋價。有冇線睇條村、條街，列出嘅月費係參考例子。完整表見 [村屋光纖月費](/guides/village-fees)。",
     titleEn: "Village fibre: who offers it, and the listed fees",
-    excerptEn: "Only HKBN, Netvigator and HGC list village fibre here, from HK$229. Do not reuse a private-estate or public-housing fee.",
+    excerptEn:
+      "Village fibre on this site starts at [CMHK village 1000M](/plans/cmhk-ftth-1000-village-24m-218), HK$218 for 24 months. Do not reuse a private-estate or public-housing fee. A line depends on the village and the street; listed fees are examples. Full table: [village fibre fees](/guides/village-fees).",
     descriptionEn:
-      "Village fibre on this site is only HKBN, Netvigator and HGC. Listed plans start at HK$229. Do not reuse Taikoo Shing, Kingswood or public-housing fees. Coverage needs the full address.",
+      "Village fibre on this site starts at CMHK village 1000M, HK$218 for 24 months. Do not reuse Taikoo Shing, Kingswood or public-housing fees. Coverage needs the full address. Listed fees are examples, not a promise for every village.",
     h1En: "Village fibre: who offers it, and what it costs",
     published: "2026-09-05",
-    modified: "2026-10-05",
+    modified: "2026-11-14",
     body: [
       {
         heading: "邊間有村屋光纖",
         paragraphs: [
-          "站內村屋光纖只得三間：香港寬頻、網上行、HGC。有線、中國移動、數碼通嘅家居光纖計劃唔適用村屋。",
+          "站內村屋光纖包括中國移動香港、香港寬頻、網上行同 HGC。有線同數碼通嘅家居光纖計劃唔適用村屋。",
           "有冇線睇條村、條街，甚至左右鄰。下面月費係站內列出嘅參考，唔等於新界每條村都裝到。",
         ],
       },
       {
         heading: "站內參考月費",
         paragraphs: [
-          "香港寬頻特選村屋 2000M（24 個月）HK$229。網上行村屋 1000M（24 個月）HK$278。HGC 村屋 1G 連電話（24 個月）HK$319。完整表見 [村屋光纖月費](/guides/village-fees)。",
+          "站內村屋光纖由[中國移動香港村屋 1000M](/plans/cmhk-ftth-1000-village-24m-218)（24 個月）HK$218 起。香港寬頻特選村屋 2000M（24 個月）HK$229。網上行村屋 1000M（24 個月）HK$278。HGC 村屋 1G 連電話（24 個月）HK$319。完整表見 [村屋光纖月費](/guides/village-fees)。",
           "太古城、嘉湖山莊、沙田第一城同 YOHO 係私樓，見 [太古城寬頻](/estates/taikoo-shing)、[嘉湖山莊寬頻](/estates/kingswood-villas)、[沙田第一城寬頻](/estates/city-one)、[YOHO寬頻](/estates/yoho)。嗰啲月費唔可以搬去村屋。公屋批量價同樣唔適用，分別見 [公屋居屋寬頻分別](/guides/public-vs-hos)。",
         ],
       },
@@ -406,14 +408,14 @@ export const CORE_GUIDES: Guide[] = [
       {
         heading: "Who lists village fibre",
         paragraphs: [
-          "Village fibre on this site is only HKBN, Netvigator and HGC. i-Cable, CMHK and SmarTone home-fibre plans are not for village houses.",
+          "Village fibre on this site includes CMHK, HKBN, Netvigator and HGC. i-Cable and SmarTone home-fibre plans are not for village houses.",
           "Whether a line exists depends on the village and the street. The fees below are listed examples, not a promise for every village.",
         ],
       },
       {
         heading: "Listed reference fees",
         paragraphs: [
-          "HKBN selected village 2000M (24 months) is HK$229. Netvigator village 1000M (24 months) is HK$278. HGC village 1G with a phone line (24 months) is HK$319. Full table: [village fibre fees](/guides/village-fees).",
+          "Sitewide village fibre starts at [CMHK village 1000M](/plans/cmhk-ftth-1000-village-24m-218) (24 months), HK$218. HKBN selected village 2000M (24 months) is HK$229. Netvigator village 1000M (24 months) is HK$278. HGC village 1G with a phone line (24 months) is HK$319. Full table: [village fibre fees](/guides/village-fees).",
           "Taikoo Shing, Kingswood Villas, City One and YOHO are private estates. Those fees do not carry over to a village house. Public-housing bulk prices do not either.",
         ],
       },
@@ -561,6 +563,11 @@ export function guideManuscriptDates(guide: Pick<Guide, "published" | "modified"
   const modified =
     guide.modified && guide.published && guide.modified !== guide.published ? guide.modified : undefined;
   return { published, modified };
+}
+
+/** Card blurbs stay plain. Article openings may use the same markdown links as the body. */
+export function guidePlainText(text: string) {
+  return text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*\*([^*]+)\*\*/g, "$1");
 }
 
 export function guideCopy(guide: Guide, locale: "zh" | "en") {
