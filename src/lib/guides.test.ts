@@ -566,3 +566,47 @@ describe("CMHK village 1000M guide", () => {
     assert.equal(sitemapLastmod("/guides/fiber-vs-5g"), "2026-11-14");
   });
 });
+
+describe("guide end CTA mobile clearance", () => {
+  it("lifts the WhatsApp FAB and pads #guide-end-cta without touching the banner or exits", () => {
+    const css = readFileSync(join(here, "../styles.css"), "utf8");
+    const route = readFileSync(join(here, "../routes/guides_.$slug.tsx"), "utf8");
+    const widget = readFileSync(join(here, "../components/whatsapp-widget.tsx"), "utf8");
+    const tip = readFileSync(join(here, "../components/pwa-install-tip.tsx"), "utf8");
+    const phone = css.slice(css.indexOf("@media (max-width: 639px) {\n  article[data-guide-fab-clear]"));
+    assert.ok(phone.startsWith("@media (max-width: 639px)"));
+    assert.match(phone, /article\[data-guide-fab-clear\][\s\S]*padding-bottom:\s*calc\(11rem \+ env\(safe-area-inset-bottom, 0px\)\)/);
+    assert.match(phone, /#guide-end-cta[\s\S]*padding-bottom:\s*calc\(11rem \+ env\(safe-area-inset-bottom, 0px\)\)/);
+    assert.match(
+      phone,
+      /body:has\(\[data-guide-fab-clear\]\) \.guide-fab:not\(\.is-lifted\)[\s\S]*bottom:\s*calc\(2\.75rem \+ env\(safe-area-inset-bottom, 0px\)\)/,
+    );
+    assert.match(phone, /body:has\(#guide-end-cta\) \.guide-fab:not\(\.is-lifted\)/);
+
+    assert.match(route, /id="guide-end-cta"/);
+    assert.match(route, /data-guide-fab-clear=\{answerLed \? "" : undefined\}/);
+    assert.match(route, /href=\{primaryPlan\.href\}/);
+    assert.match(route, /guide\.plansOnlyCta/);
+    assert.match(route, /variant="whatsapp"/);
+    assert.match(route, /copy\.ctaButton && copy\.waText/);
+    assert.doesNotMatch(route, /guide-end-cta[\s\S]{0,800}wa-pulse-fab/);
+
+    assert.match(widget, /lifted && "is-lifted"/);
+    assert.match(widget, /bottom-\[calc\(6\.5rem\+env\(safe-area-inset-bottom\)\)\] sm:bottom-20/);
+    assert.match(widget, /trackWaClick/);
+    assert.match(tip, /aria-label="加到主畫面"/);
+    assert.match(tip, /加到主畫面/);
+    assert.match(tip, /aria-label="關閉"/);
+    assert.match(tip, /bottom-6/);
+    assert.doesNotMatch(tip, /hidden|display:\s*none/);
+
+    const hkbn = getGuide("hkbn-vs-netvigator");
+    const village = getGuide("village-fees");
+    assert.equal(hkbn?.plansOnlyCta, true);
+    assert.equal(hkbn?.plans?.[0]?.href, "/plans?cat=broadband");
+    assert.equal(hkbn?.cta, undefined);
+    assert.equal(village?.plansOnlyCta, undefined);
+    assert.equal(village?.plans?.[0]?.href, "/plans?cat=broadband&housing=village");
+    assert.equal(village?.cta?.button, "WhatsApp 查核村屋光纖月費");
+  });
+});

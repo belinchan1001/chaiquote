@@ -203,6 +203,7 @@ export function WhatsAppWidget({ cornerClear }: { cornerClear: boolean }) {
       className={cn(
         "guide-fab fab-lift fixed right-4 z-50 flex flex-col items-end gap-3 transition-[bottom] duration-200 ease-out",
         cornerClear && "is-corner-clear",
+        lifted && "is-lifted",
         lifted ? "bottom-[calc(6.5rem+env(safe-area-inset-bottom))] sm:bottom-20" : "bottom-6",
       )}
       inert={cornerClear ? undefined : true}
@@ -350,6 +351,7 @@ export function DeferredWhatsApp() {
         className={cn(
           "guide-fab wa-pulse wa-pulse-fab fixed right-4 z-50 flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)]",
           cornerClear && "is-corner-clear",
+          lifted && "is-lifted",
           lifted ? "bottom-[calc(6.5rem+env(safe-area-inset-bottom))] sm:bottom-20" : "bottom-6",
         )}
         inert={cornerClear ? undefined : true}

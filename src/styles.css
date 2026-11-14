@@ -1189,6 +1189,24 @@
   }
 }
 
+/*
+  Phone: the fixed WhatsApp FAB and the add-to-home banner share the bottom band.
+  #guide-end-cta keeps its buttons above that band. The FAB sits a little higher
+  on guide pages, still beside the banner, and the compare bar keeps its own lift.
+*/
+@media (max-width: 639px) {
+  article[data-guide-fab-clear] {
+    padding-bottom: calc(11rem + env(safe-area-inset-bottom, 0px));
+  }
+  #guide-end-cta {
+    padding-bottom: calc(11rem + env(safe-area-inset-bottom, 0px));
+  }
+  body:has([data-guide-fab-clear]) .guide-fab:not(.is-lifted),
+  body:has(#guide-end-cta) .guide-fab:not(.is-lifted) {
+    bottom: calc(2.75rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 ::view-transition-old(root) {
   animation: vt-out 160ms var(--ease-out-smooth) both;
 }
