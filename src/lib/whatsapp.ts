@@ -244,6 +244,21 @@ export function salesQuoteMessage(input: SalesQuoteInput = {}) {
   ].join("\n");
 }
 
+const FAB_INQUIRY_ZH = "你好，我想查詢覆蓋同計劃。";
+const FAB_INQUIRY_EN = "Hi, I would like to ask about coverage and plans.";
+
+/** Sitewide chat button only. A short coverage-and-plan note, not the sales form. */
+export function fabInquiryMessage(note: string, plans: Plan[] = [], locale: Locale = "zh") {
+  const lines = [locale === "en" ? FAB_INQUIRY_EN : FAB_INQUIRY_ZH];
+  const names = plans
+    .map((plan) => `${PROVIDER_MAP[plan.providerId]?.name ?? ""} ${plan.name}`.trim())
+    .filter(Boolean);
+  if (names.length) lines.push(names.join("；"));
+  const extra = note.trim();
+  if (extra) lines.push(extra);
+  return lines.join("\n");
+}
+
 export function quoteMessage(
   plans: Plan[] = [],
   inquiry?: Partial<Inquiry> | null,
@@ -302,25 +317,25 @@ export const QUICK_REPLIES = [
   {
     id: "broadband",
     label: "光纖寬頻",
-    text: salesQuoteMessage({ serviceType: "光纖寬頻", source: "filter" }),
-    textEn: salesQuoteMessage({ serviceType: "光纖寬頻", source: "filter" }),
+    text: "家居寬頻",
+    textEn: "home broadband",
   },
   {
     id: "mobile",
     label: "手機月費",
-    text: salesQuoteMessage({ serviceType: "手機月費", source: "filter", mobile: true }),
-    textEn: salesQuoteMessage({ serviceType: "手機月費", source: "filter", mobile: true }),
+    text: "流動通訊",
+    textEn: "mobile plans",
   },
   {
     id: "business",
     label: "商業寬頻",
-    text: salesQuoteMessage({ serviceType: "商業寬頻", source: "filter" }),
-    textEn: salesQuoteMessage({ serviceType: "商業寬頻", source: "filter" }),
+    text: "商業寬頻",
+    textEn: "business broadband",
   },
   {
     id: "home5g",
     label: "5G 家居",
-    text: salesQuoteMessage({ serviceType: "5G 家居寬頻", source: "filter" }),
-    textEn: salesQuoteMessage({ serviceType: "5G 家居寬頻", source: "filter" }),
+    text: "5G 家居寬頻",
+    textEn: "5G home broadband",
   },
 ] as const;

@@ -2,11 +2,11 @@ import { Link } from "@tanstack/react-router";
 import { Logo } from "@/components/logo";
 import { useI18n } from "@/lib/i18n";
 import { SITE } from "@/lib/site";
-import { quoteWhatsAppActivateProps } from "@/lib/wa-quote-open";
+import { bareWhatsAppActivateProps } from "@/lib/wa-quote-open";
 
 export function SiteFooter() {
   const { t, updated, locale } = useI18n();
-  const waOpenProps = quoteWhatsAppActivateProps("", SITE.whatsappE164, {
+  const waOpenProps = bareWhatsAppActivateProps(SITE.whatsappE164, {
     source: "footer",
     waPhone: SITE.whatsappE164,
   });

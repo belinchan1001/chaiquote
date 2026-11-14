@@ -9,7 +9,7 @@ import { LangToggle } from "@/components/lang-toggle";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
 import { quoteWhatsappE164 } from "@/lib/whatsapp";
-import { quoteWhatsAppActivateProps } from "@/lib/wa-quote-open";
+import { bareWhatsAppActivateProps } from "@/lib/wa-quote-open";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
@@ -28,7 +28,7 @@ export function SiteHeader() {
   const newsLabel = locale === "en" ? "News" : "電訊新聞";
   const waMenuLabel = locale === "en" ? "WhatsApp ChaiQuote desk" : "WhatsApp 齊Quote客服";
   const waE164 = quoteWhatsappE164([], inquiry);
-  const waOpenProps = quoteWhatsAppActivateProps("", waE164, { source: "header", waPhone: waE164 });
+  const waOpenProps = bareWhatsAppActivateProps(waE164, { source: "header", waPhone: waE164 });
 
   const links: {
     to: "/plans" | "/guides" | "/about" | "/estates" | "/new-intake" | "/spend" | "/tech-news";

@@ -1,4 +1,4 @@
-import { FAQ_EN, FAQ_ZH, INDEPENDENT_BODY, INDEPENDENT_BODY_EN, LEGAL } from "./site.ts";
+import { FAQ_EN, FAQ_ZH, LEGAL } from "./site.ts";
 
 export type Locale = "zh" | "en";
 
@@ -289,10 +289,11 @@ export const MESSAGES = {
     removeCompare: "移出比較：{name}",
     aboutTitle: "關於我們",
     aboutWho: "我哋係邊個",
-    aboutWhoText: INDEPENDENT_BODY,
+    aboutWhoText:
+      "齊Quote（chaiquote.hk）係香港獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。我哋將家居寬頻、5G 家居、流動通訊同商業寬頻計劃整理喺同一個地方，等你先格清價錢同條款，再決定。",
     aboutWhy: "點解要有齊Quote",
     aboutWhyText:
-      "市面上合約同額外收費好亂。我哋將各電訊商方案整理好，等你快啲揀到啱預算、啱需要嘅計劃。",
+      "市面上合約、額外收費同報價渠道好散。同一個速率，公屋、居屋、私樓同村屋都可以係另一套計劃。我哋按樓類同計劃卡並列參考，方便你自己比較，而唔使四圍問。",
     aboutIndependent: "獨立聲明",
     aboutIndependentText:
       "本平台唔係任何一間電訊商嘅附屬。資料只作中立參考。資料更新：{date}。而家收錄 {providers} 間電訊商、{plans} 個參考計劃同 {estates} 個屋苑。",
@@ -861,10 +862,11 @@ export const MESSAGES = {
     removeCompare: "Remove from compare: {name}",
     aboutTitle: "About us",
     aboutWho: "Who we are",
-    aboutWhoText: INDEPENDENT_BODY_EN,
+    aboutWhoText:
+      "齊Quote（chaiquote.hk）係香港獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。我哋將家居寬頻、5G 家居、流動通訊同商業寬頻計劃整理喺同一個地方，等你先格清價錢同條款，再決定。",
     aboutWhy: "Why ChaiQuote exists",
     aboutWhyText:
-      "Contracts and extra charges are messy. We organise current offers so you can pick a plan that fits budget and need in minutes.",
+      "市面上合約、額外收費同報價渠道好散。同一個速率，公屋、居屋、私樓同村屋都可以係另一套計劃。我哋按樓類同計劃卡並列參考，方便你自己比較，而唔使四圍問。",
     aboutIndependent: "Independence",
     aboutIndependentText:
       "We are not part of any one carrier. Information is for neutral reference. Updated {date}. Currently {providers} carriers, {plans} reference plans and {estates} estates.",

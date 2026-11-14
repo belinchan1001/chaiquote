@@ -8,6 +8,7 @@ import { SITE } from "./site.ts";
 import {
   planLine,
   quoteAsk,
+  fabInquiryMessage,
   quoteMessage,
   quoteWhatsappDisplay,
   quoteWhatsappE164,
@@ -102,10 +103,13 @@ describe("WhatsApp quote prefill closing line", () => {
     const staff = readFileSync(join(here, "../components/ai-staff.tsx"), "utf8");
     const src = readFileSync(join(here, "whatsapp.ts"), "utf8");
     assert.match(quote, /const resolved = inquiry \?\? stored/);
-    assert.match(quote, /quoteMessage\(selected, resolved, locale\)/);
+    assert.match(quote, /quoteMessage\(selected, siteNumber \? \{\} : resolved, locale\)/);
+    assert.match(quote, /siteNumber \? SITE\.whatsappE164 : quoteWhatsappE164/);
     assert.match(quote, /quoteWhatsappE164\(selected, resolved\)/);
     assert.match(quote, /quoteWhatsAppActivateProps\(/);
-    assert.match(widget, /quoteMessage\(plans, inquiry, locale\)/);
+    assert.match(widget, /fabInquiryMessage\(/);
+    assert.doesNotMatch(widget, /quoteMessage\(/);
+    assert.doesNotMatch(widget, /轉台獨家優惠|轉台禮品|心水電訊商/);
     assert.match(widget, /quoteWhatsappHref\(/);
     assert.match(widget, /trackWaClick\(/);
     assert.match(staff, /portInQuoteFromInquiry\(/);
@@ -116,9 +120,17 @@ describe("WhatsApp quote prefill closing line", () => {
     assert.doesNotMatch(src, /好過轉台|𨍭台/);
     const mobileQuick = QUICK_REPLIES.find((item) => item.id === "mobile");
     assert.ok(mobileQuick);
-    assert.match(mobileQuick.text, /服務類型：手機月費/);
-    assert.match(mobileQuick.text, /轉台獨家優惠/);
-    assert.match(mobileQuick.textEn, /服務類型：手機月費/);
+    assert.equal(mobileQuick.text, "流動通訊");
+    assert.equal(mobileQuick.textEn, "mobile plans");
+    assert.doesNotMatch(mobileQuick.text, /轉台獨家優惠|轉台禮品|心水電訊商/);
+    const fab = fabInquiryMessage("家居寬頻", [plan("hkbn-ftth-1000-36m-98")]);
+    assert.match(fab, /^你好，我想查詢覆蓋同計劃。/);
+    assert.match(fab, /香港寬頻/);
+    assert.doesNotMatch(fab, /獨家優惠|轉台禮品|心水電訊商|服務類型|申請方式/);
+    const href = quoteWhatsappHref(fabInquiryMessage(""));
+    const text = new URL(href).searchParams.get("text") ?? "";
+    assert.match(text, /我想查詢覆蓋同計劃/);
+    assert.doesNotMatch(text, /獨家優惠|轉台禮品|心水電訊商/);
   });
 });
 
