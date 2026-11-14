@@ -35,10 +35,13 @@ export type GuideLink = { href: string; label: string; labelEn?: string };
 export type GuideAnswer = {
   lead: string[];
   cite: string;
+  /** Prose after the cite and before the table, when the cite must stay the first body paragraph. */
+  afterCite?: string[];
   table: {
     caption: string;
     headers: [string, string, string];
     rows: [string, string, string][];
+    notes?: string[];
   };
 };
 
