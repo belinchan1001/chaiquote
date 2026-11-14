@@ -257,6 +257,16 @@ describe("HKBN vs Netvigator guide", () => {
       guide.body.map((section) => section.heading),
       ["點樣睇呢張表", "月費比較", "計劃比較", "公司比較", "下一步：按樓類睇光纖計劃"],
     );
+    const company = guide.body.find((section) => section.heading === "公司比較");
+    assert.deepEqual(company?.flow?.filter((block) => block.kind === "p").slice(0, 3).map((block) => block.kind === "p" ? block.text : ""), [
+      "網上行係香港電訊（HKT）嘅家居寬頻品牌，服務由 Hong Kong Telecommunications (HKT) Limited 提供。香港寬頻係另一間獨立電訊商，同樣做家居光纖，但兩間唔屬同一集團。",
+      "對用家嚟講，分別主要喺報價同配套點組：網上行同一集團仲有流動同媒體服務，所以站內私樓計劃有時會連電話、電視或者其他會籍一齊報。香港寬頻家居計劃多數以寬頻合約同配備為主，部分價錢屬限時快閃，預約安裝有期限。呢啲只係營運同報價方式嘅分別，唔等於邊間覆蓋更廣、安裝更快，或者整體較好。",
+      "控股股東係中國移動香港有限公司，仍然獨立上市、分開報價，呢篇比較嘅係香港寬頻家居光纖計劃，唔等同中國移動香港嘅村屋計劃。",
+    ]);
+    assert.equal(JSON.stringify(company).includes("2025 年 9 月"), false);
+    assert.equal(JSON.stringify(company).includes("78%"), false);
+    assert.equal(JSON.stringify(guide.body).includes("HK$148"), false);
+    assert.match(company?.flow?.at(-1) && company.flow.at(-1)?.kind === "p" ? company.flow.at(-1)?.text ?? "" : "", /^呢四樣要以電訊商確認為準/);
     assert.equal(
       GUIDES.filter((item) => item.category === "fiber").some(
         (item) => item.slug === "hkbn-vs-netvigator",
