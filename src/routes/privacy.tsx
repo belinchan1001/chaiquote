@@ -20,7 +20,6 @@ const SECTIONS: { title: MessageKey; body: MessageKey | MessageKey[] }[] = [
   { title: "privacyContactHow", body: "privacyContactHowText" },
   { title: "privacyThird", body: "privacyThirdText" },
   { title: "privacyKeep", body: "privacyKeepText" },
-  { title: "privacyOverseas", body: "overseasNote" },
   { title: "privacyRights", body: "privacyRightsText" },
   {
     title: "privacyAndroid",

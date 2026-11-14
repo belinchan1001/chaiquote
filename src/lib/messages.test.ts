@@ -341,6 +341,7 @@ describe("privacy Android app section", () => {
     );
     assert.equal(quoted(messages, "privacyUpdate")[0], "更新");
     assert.match(privacy, /privacyAndroid[\s\S]*privacyUpdate/);
+    assert.doesNotMatch(privacy, /privacyOverseas|overseasNote/);
     assert.match(privacy, /<QuoteLink showNumber siteNumber \/>/);
     assert.doesNotMatch(privacy, /privacyUpdate[\s\S]*privacyAndroid/);
     for (const word of ["最平", "保證", "官方"]) {
