@@ -14,7 +14,7 @@ import {
   type CompareCopy,
 } from "./compare.ts";
 import { toEnglish } from "./plan-en.ts";
-import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, getPlan, hasCertifiedStaff, isHgcVillage, isHkbnVillage, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, planPerks, staffOfferLabel, staffOfferPlans, averageFee, cardHeadlineFee, registerByLabel, type Category } from "./plans.ts";
+import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, getPlan, hasCertifiedStaff, isCmhkVillage, isHgcVillage, isHkbnVillage, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, planPerks, staffOfferLabel, staffOfferPlans, averageFee, cardHeadlineFee, registerByLabel, type Category } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
 import {
   HGC_VILLAGE_COVERAGE,
@@ -1381,6 +1381,15 @@ describe("HGC village coverage lock", () => {
     const pingShan = filterPlans({ cat: "broadband", housing: "village", estate: "屏山楊屋村" });
     assert.equal(pingShan.filter((row) => isHkbnVillage(row)).length, hkbnVillageCount);
     assert.equal(pingShan.some((row) => isHgcVillage(row)), false);
+
+    const cmhkVillageCount = PLANS.filter((row) => isCmhkVillage(row)).length;
+    assert.equal(cmhkVillageCount, 2);
+    assert.equal(generic.filter((row) => isCmhkVillage(row)).length, cmhkVillageCount);
+    for (const name of listed) {
+      const rows = filterPlans({ cat: "broadband", housing: "village", estate: name });
+      assert.equal(rows.some((row) => isCmhkVillage(row)), false, name);
+    }
+    assert.equal(pingShan.filter((row) => isCmhkVillage(row)).length, cmhkVillageCount);
   });
 });
 
@@ -1717,7 +1726,7 @@ describe("CMHK village 1000M $218", () => {
     assert.deepEqual(row.housing, ["village"]);
     assert.equal(row.quotePick, undefined);
     assert.equal(row.latestOffer, true);
-    assert.equal(row.limits, "僅適用於村屋。不適用於公屋、居屋及私人樓宇。實際覆蓋須核對門牌。");
+    assert.equal(row.limits, "僅適用於村屋。不適用於公屋、居屋及私人樓宇。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須核對門牌。");
     assert.equal(toEnglish(row.name), "Village 1000M fibre (24 months)");
     assert.equal(toEnglish(row.install), "Installation waived (was HK$680)");
 

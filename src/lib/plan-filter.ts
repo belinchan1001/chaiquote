@@ -6,6 +6,7 @@ import {
   PROVIDER_MAP,
   averageFee,
   isHgcVillage,
+  isCmhkVillage,
   isHkbnVillage,
   isOfferExpired,
   matchesHousing,
@@ -53,7 +54,7 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
       }
     }
     if (isHgcVillage(plan) && !hgcVillageOk) return false;
-    if (isHkbnVillage(plan) && blockHkbnVillage) return false;
+    if ((isHkbnVillage(plan) || isCmhkVillage(plan)) && blockHkbnVillage) return false;
     if (search.intake && !plan.newIntakeOffer) return false;
     if (!matchesHousing(plan, housing)) return false;
     if (search.maxFee && plan.monthlyFee > search.maxFee) return false;

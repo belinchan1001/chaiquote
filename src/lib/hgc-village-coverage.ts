@@ -362,8 +362,8 @@ export function estateHasHgcVillageCoverage(estateQuery: string | undefined): bo
 }
 
 /**
- * HKBN village plans stay on the generic village list (no address yet).
- * A named village on the HGC May 2026 list does not list HKBN village fibre.
+ * HKBN and CMHK village plans stay on the generic village list (no address yet).
+ * A named village on the HGC May 2026 list does not list HKBN or CMHK village fibre.
  */
 export function estateBlocksHkbnVillage(estateQuery: string | undefined): boolean {
   const raw = estateQuery?.trim();
