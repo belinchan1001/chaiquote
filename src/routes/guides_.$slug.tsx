@@ -10,6 +10,7 @@ import {
   getGuide,
   guideCopy,
   guideManuscriptDates,
+  rowDisplayText,
   splitTrailingFigure,
   type GuideAnswer,
   type GuideFlowBlock,
@@ -149,7 +150,9 @@ function GuideRichText({
 const FIGURE_SPLIT = /(HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?(?:／月(?:起)?|\/month)?|\d{3,5}M)/g;
 
 function isFigure(part: string) {
-  return /^HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?(?:／月(?:起)?|\/month)?$/.test(part) || /^\d{3,5}M$/.test(part);
+  return (
+    /^HK\$\d[\d,]*(?:[–—-]\d[\d,]*)?(?:／月(?:起)?|\/month)?$/.test(part) || /^\d{3,5}M$/.test(part)
+  );
 }
 
 function FigureText({ text }: { text: string }) {
@@ -333,7 +336,10 @@ function GuideCite({ text, part }: { text: string; part: CitePlacement }) {
         }
         if (role === "compare-intro") {
           return (
-            <p key={role} className="border-t border-border pt-3 text-sm font-semibold break-keep text-fg">
+            <p
+              key={role}
+              className="border-t border-border pt-3 text-sm font-semibold break-keep text-fg"
+            >
               <CiteSentence text={group.map((piece) => piece.text).join("")} />
             </p>
           );
@@ -344,7 +350,10 @@ function GuideCite({ text, part }: { text: string; part: CitePlacement }) {
             return (
               <ul key={role} className="space-y-1.5">
                 {group.map((piece) => (
-                  <li key={piece.id} className="break-keep text-base font-medium leading-snug text-fg">
+                  <li
+                    key={piece.id}
+                    className="break-keep text-base font-medium leading-snug text-fg"
+                  >
                     <CiteSentence text={piece.text} />
                   </li>
                 ))}
@@ -702,7 +711,11 @@ function GuideFlow({
                       key={item}
                       className="border-b border-border px-3 py-2.5 text-sm leading-snug text-fg last:border-b-0"
                     >
-                      <GuideRichText text={item} figures={figures} strong={weight} />
+                      <GuideRichText
+                        text={rowDisplayText(item)}
+                        figures={figures}
+                        strong={weight}
+                      />
                     </li>
                   );
                 }
@@ -712,10 +725,18 @@ function GuideFlow({
                     className="flex items-baseline justify-between gap-3 border-b border-border px-3 py-2.5 last:border-b-0"
                   >
                     <span className="min-w-0 text-sm leading-snug text-fg">
-                      <GuideRichText text={row.label} figures={figures} strong={weight} />
+                      <GuideRichText
+                        text={rowDisplayText(row.label)}
+                        figures={figures}
+                        strong={weight}
+                      />
                     </span>
                     <span className="shrink-0 text-base leading-none whitespace-nowrap">
-                      <GuideRichText text={row.value} figures={figures} strong={weight} />
+                      <GuideRichText
+                        text={rowDisplayText(row.value)}
+                        figures={figures}
+                        strong={weight}
+                      />
                     </span>
                   </li>
                 );
@@ -896,7 +917,11 @@ function GuidePage() {
               id={headingId(section.heading)}
               className={article || costGuide ? "mt-12 scroll-mt-24" : "mt-8 scroll-mt-24"}
             >
-              <h2 className={article || costGuide ? "text-2xl font-bold text-fg" : "text-lg font-semibold"}>
+              <h2
+                className={
+                  article || costGuide ? "text-2xl font-bold text-fg" : "text-lg font-semibold"
+                }
+              >
                 {section.heading}
               </h2>
               {section.flow?.length ? (
@@ -935,8 +960,15 @@ function GuidePage() {
             </section>
           ))}
           {copy.faq.length > 0 ? (
-            <section id="faq" className={article || costGuide ? "mt-12 scroll-mt-24" : "mt-10 scroll-mt-24"}>
-              <h2 className={article || costGuide ? "text-2xl font-bold text-fg" : "text-lg font-semibold"}>
+            <section
+              id="faq"
+              className={article || costGuide ? "mt-12 scroll-mt-24" : "mt-10 scroll-mt-24"}
+            >
+              <h2
+                className={
+                  article || costGuide ? "text-2xl font-bold text-fg" : "text-lg font-semibold"
+                }
+              >
                 {t("faqHeading")}
               </h2>
               <div className="mt-3 divide-y divide-border rounded-xl bg-card px-4 shadow-[var(--shadow-border)]">

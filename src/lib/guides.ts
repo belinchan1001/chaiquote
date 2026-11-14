@@ -625,6 +625,11 @@ export function formulaLines(text: string): string[] {
   return lines;
 }
 
+/** Drop sentence punctuation that only joined the worked-example row. Words and figures stay. */
+export function rowDisplayText(text: string): string {
+  return text.replace(/[、，。：]+$/u, "");
+}
+
 /** Pull a trailing price onto its own column. Returns null unless the words stay intact. */
 export function splitTrailingFigure(text: string): { label: string; value: string } | null {
   const match = /^(.*\S) (\*\*(?:HK\$[\d,.]+)\*\*(?:／月)?[、：，。]?)$/.exec(text);

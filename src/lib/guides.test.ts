@@ -23,6 +23,7 @@ import {
   getGuide,
   guidePlainText,
   guideReadingMinutes,
+  rowDisplayText,
   splitTrailingFigure,
 } from "./guides.ts";
 import { SITEMAP_PAGES, sitemapLastmod } from "./seo.ts";
@@ -210,7 +211,10 @@ describe("HKBN vs Netvigator guide", () => {
       guide.answerEn?.cite ?? "",
       /HKBN village 1000M is about HK\$378\/month for 27 months/,
     );
-    assert.equal((guide.answerEn?.cite ?? "").includes("a village 1000M example is about HK$378/month"), false);
+    assert.equal(
+      (guide.answerEn?.cite ?? "").includes("a village 1000M example is about HK$378/month"),
+      false,
+    );
     assert.match(guide.answer?.afterCite?.[0] ?? "", /^你想對香港寬頻同網上行/);
 
     const table = guide.answer?.table;
@@ -265,15 +269,26 @@ describe("HKBN vs Netvigator guide", () => {
       ["點樣睇呢張表", "月費比較", "計劃比較", "公司比較", "下一步：按樓類睇光纖計劃"],
     );
     const company = guide.body.find((section) => section.heading === "公司比較");
-    assert.deepEqual(company?.flow?.filter((block) => block.kind === "p").slice(0, 3).map((block) => block.kind === "p" ? block.text : ""), [
-      "網上行係香港電訊（HKT）嘅家居寬頻品牌，服務由 Hong Kong Telecommunications (HKT) Limited 提供。香港寬頻係另一間獨立電訊商，同樣做家居光纖，但兩間唔屬同一集團。",
-      "對用家嚟講，分別主要喺報價同配套點組：網上行同一集團仲有流動同媒體服務，所以站內私樓計劃有時會連電話、電視或者其他會籍一齊報。香港寬頻家居計劃多數以寬頻合約同配備為主，部分價錢屬限時快閃，預約安裝有期限。呢啲只係營運同報價方式嘅分別，唔等於邊間覆蓋更廣、安裝更快，或者整體較好。",
-      "控股股東係中國移動香港有限公司，仍然獨立上市、分開報價，呢篇比較嘅係香港寬頻家居光纖計劃，唔等同中國移動香港嘅村屋計劃。",
-    ]);
+    assert.deepEqual(
+      company?.flow
+        ?.filter((block) => block.kind === "p")
+        .slice(0, 3)
+        .map((block) => (block.kind === "p" ? block.text : "")),
+      [
+        "網上行係香港電訊（HKT）嘅家居寬頻品牌，服務由 Hong Kong Telecommunications (HKT) Limited 提供。香港寬頻係另一間獨立電訊商，同樣做家居光纖，但兩間唔屬同一集團。",
+        "對用家嚟講，分別主要喺報價同配套點組：網上行同一集團仲有流動同媒體服務，所以站內私樓計劃有時會連電話、電視或者其他會籍一齊報。香港寬頻家居計劃多數以寬頻合約同配備為主，部分價錢屬限時快閃，預約安裝有期限。呢啲只係營運同報價方式嘅分別，唔等於邊間覆蓋更廣、安裝更快，或者整體較好。",
+        "控股股東係中國移動香港有限公司，仍然獨立上市、分開報價，呢篇比較嘅係香港寬頻家居光纖計劃，唔等同中國移動香港嘅村屋計劃。",
+      ],
+    );
     assert.equal(JSON.stringify(company).includes("2025 年 9 月"), false);
     assert.equal(JSON.stringify(company).includes("78%"), false);
     assert.equal(JSON.stringify(guide.body).includes("HK$148"), false);
-    assert.match(company?.flow?.at(-1) && company.flow.at(-1)?.kind === "p" ? company.flow.at(-1)?.text ?? "" : "", /^呢四樣要以電訊商確認為準/);
+    assert.match(
+      company?.flow?.at(-1) && company.flow.at(-1)?.kind === "p"
+        ? (company.flow.at(-1)?.text ?? "")
+        : "",
+      /^呢四樣要以電訊商確認為準/,
+    );
     assert.equal(
       GUIDES.filter((item) => item.category === "fiber").some(
         (item) => item.slug === "hkbn-vs-netvigator",
@@ -500,19 +515,16 @@ describe("CMHK village 1000M guide", () => {
     const cmhkPieces = cmhkVillageCitePieces(guide.answer?.cite ?? "");
     const cmhkEn = cmhkVillageCitePieces(guide.answerEn?.cite ?? "");
     assert.ok(cmhkPieces && cmhkEn);
-    assert.equal(
-      cmhkPieces.map((piece) => piece.text).join(""),
-      guide.answer?.cite,
-    );
-    assert.equal(
-      cmhkEn.map((piece) => piece.text).join(""),
-      guide.answerEn?.cite,
-    );
+    assert.equal(cmhkPieces.map((piece) => piece.text).join(""), guide.answer?.cite);
+    assert.equal(cmhkEn.map((piece) => piece.text).join(""), guide.answerEn?.cite);
     assert.equal(
       cmhkPieces.every((piece) => piece.placement === "opening"),
       true,
     );
-    assert.equal(guidePlainText(cmhkPieces.map((piece) => piece.text).join("")), VILLAGE_CMHK_OPENING);
+    assert.equal(
+      guidePlainText(cmhkPieces.map((piece) => piece.text).join("")),
+      VILLAGE_CMHK_OPENING,
+    );
     const cmhkTitle = splitGuideTitle(guide.h1);
     assert.ok(cmhkTitle);
     assert.equal(cmhkTitle.title + cmhkTitle.mark + cmhkTitle.subtitle, guide.h1);
@@ -580,10 +592,18 @@ describe("guide end CTA mobile clearance", () => {
     const route = readFileSync(join(here, "../routes/guides_.$slug.tsx"), "utf8");
     const widget = readFileSync(join(here, "../components/whatsapp-widget.tsx"), "utf8");
     const tip = readFileSync(join(here, "../components/pwa-install-tip.tsx"), "utf8");
-    const phone = css.slice(css.indexOf("@media (max-width: 639px) {\n  article[data-guide-fab-clear]"));
+    const phone = css.slice(
+      css.indexOf("@media (max-width: 639px) {\n  article[data-guide-fab-clear]"),
+    );
     assert.ok(phone.startsWith("@media (max-width: 639px)"));
-    assert.match(phone, /article\[data-guide-fab-clear\][\s\S]*padding-bottom:\s*calc\(11rem \+ env\(safe-area-inset-bottom, 0px\)\)/);
-    assert.match(phone, /#guide-end-cta[\s\S]*padding-bottom:\s*calc\(11rem \+ env\(safe-area-inset-bottom, 0px\)\)/);
+    assert.match(
+      phone,
+      /article\[data-guide-fab-clear\][\s\S]*padding-bottom:\s*calc\(11rem \+ env\(safe-area-inset-bottom, 0px\)\)/,
+    );
+    assert.match(
+      phone,
+      /#guide-end-cta[\s\S]*padding-bottom:\s*calc\(11rem \+ env\(safe-area-inset-bottom, 0px\)\)/,
+    );
     assert.match(
       phone,
       /body:has\(\[data-guide-fab-clear\]\) \.guide-fab:not\(\.is-lifted\)[\s\S]*bottom:\s*calc\(2\.75rem \+ env\(safe-area-inset-bottom, 0px\)\)/,
@@ -732,11 +752,36 @@ describe("total-cost and contract-fee guides", () => {
     assert.equal(formulaLines(FORMULA).join(""), FORMULA);
     assert.equal(worked?.paragraphs[3], EXAMPLE);
     assert.equal(worked?.paragraphs[4], WITH_EXTRAS);
-    const exampleRows = worked?.flow?.find((block) => block.kind === "rows");
-    assert.ok(exampleRows && exampleRows.kind === "rows");
-    assert.equal(exampleRows.items.join(""), EXAMPLE);
+    const exampleRows = worked?.flow?.filter((block) => block.kind === "rows") ?? [];
+    assert.equal(exampleRows.length, 2);
+    assert.equal(exampleRows[0]?.kind === "rows" ? exampleRows[0].items.join("") : "", EXAMPLE);
     assert.equal(splitTrailingFigure("假設牌面月費 **HK$98**／月、")?.value, "**HK$98**／月、");
     assert.equal(splitTrailingFigure("**36** 個月合約、"), null);
+    for (const [source, shown] of [
+      ["**HK$98**／月、", "**HK$98**／月"],
+      ["**36** 個月合約、", "**36** 個月合約"],
+      ["其中 **3** 個月免月費：", "其中 **3** 個月免月費"],
+      ["實付 33 個月，", "實付 33 個月"],
+      ["**HK$3,234**。", "**HK$3,234**"],
+      ["**HK$89.8**／月。", "**HK$89.8**／月"],
+      ["**HK$800**、", "**HK$800**"],
+      ["**HK$500**，", "**HK$500**"],
+      ["**HK$3,534**，", "**HK$3,534**"],
+      ["若只計月費，平均約", "若只計月費，平均約"],
+    ] as const) {
+      assert.equal(rowDisplayText(source), shown, source);
+    }
+    for (const block of exampleRows) {
+      if (block.kind !== "rows") continue;
+      for (const item of block.items) {
+        const row = splitTrailingFigure(item);
+        const visible = row
+          ? `${rowDisplayText(row.label)} ${rowDisplayText(row.value)}`
+          : rowDisplayText(item);
+        assert.equal(/[、，。：]$/u.test(rowDisplayText(row?.label ?? item)), false, item);
+        assert.equal(/[、，。：]$/u.test(visible.trim()), false, item);
+      }
+    }
     assert.match(worked?.paragraphs.at(-1) ?? "", /\[村屋光纖月費\]\(\/guides\/village-fees\)/);
     assert.doesNotMatch(worked?.paragraphs.at(-1) ?? "", /HK\$218|HK\$378/);
 
