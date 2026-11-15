@@ -285,6 +285,7 @@ export function organizationJsonLd() {
     url: SITE.url,
     sameAs: SITE.sameAs,
     logo: { "@type": "ImageObject", url: `${SITE.url}/icon-512.png` },
+    image: `${SITE.url}/icon-512.png`,
     email: SITE.leadEmail,
     telephone: `+${SITE.whatsappE164}`,
     description: SITE.description,

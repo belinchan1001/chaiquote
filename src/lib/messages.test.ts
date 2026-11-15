@@ -506,6 +506,8 @@ describe("about page Organization JSON-LD", () => {
     assert.doesNotMatch(JSON.stringify(aboutLd), /8 間電訊商|195 個參考計劃|3729 個屋苑/);
     assert.deepEqual(aboutOrg.sameAs, [...SITE.sameAs]);
     assert.deepEqual(aboutOrg.logo, { "@type": "ImageObject", url: `${SITE.url}/icon-512.png` });
+    assert.equal(aboutOrg.image, `${SITE.url}/icon-512.png`);
+    assert.equal(aboutOrg.image, aboutOrg.logo.url);
     assert.deepEqual(aboutOrg, homeOrg);
     assert.equal(homeLd["@graph"].filter((node) => node["@type"] === "Organization").length, 1);
     assert.equal(JSON.stringify(aboutLd).split(`${SITE.url}/#organization`).length - 1, 1);
