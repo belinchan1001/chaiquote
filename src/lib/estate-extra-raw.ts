@@ -2,4 +2,6 @@
 export const EXTRA_RAW = `
 偉恆昌新邭|偉恆昌,Wyler Gardens,Wyler Garden|九龍城|private|土瓜灣
 觀龍樓|觀龍,Kwun Lung Lau|中西區|public
+麗玥苑|麗玥,Lai Yuet Court|深水埗|hos|長沙灣|覆蓋需查核|東京街3號
+華富北邨|華富北,Wah Fu North Estate|南區|public|薄扶林|覆蓋需查核
 `.trim();
