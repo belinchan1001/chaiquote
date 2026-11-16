@@ -32,6 +32,16 @@ const FILES = [
       const from = "柏傲莊III|The Pavilia Farm III,Pavilia Farm 3,柏傲莊 III,車公廟路18號柏傲莊|";
       const to = "柏傲莊III|The Pavilia Farm III,Pavilia Farm 3,柏傲莊 III,柏傲莊三期,柏傲莊3期,車公廟路18號柏傲莊|";
       if (text.includes(from)) text = text.replace(from, to);
+      if (!text.includes("KOKO ROSSO|")) {
+        const rows = [
+          "KOKO ROSSO|KOKO Hills Phase 3A,KOKO HILLS Phase 3A,KOKO Hills第6座,KOKO Hills第7座,KOKO HILLS第6座,KOKO HILLS第7座,Tower 6 KOKO ROSSO,Tower 7 KOKO ROSSO,高嶺道3號KOKO ROSSO|觀塘|private|茶果嶺||高嶺道3號",
+          "KOKO MARE|KOKO Hills Phase 3B,KOKO HILLS Phase 3B,KOKO Hills第8座,KOKO Hills第9座,KOKO HILLS第8座,KOKO HILLS第9座,Tower 8 KOKO MARE,Tower 9 KOKO MARE,高嶺道3號KOKO MARE|觀塘|private|茶果嶺||高嶺道3號",
+        ].join("\n");
+        const needle = "`.trim();";
+        const idx = text.lastIndexOf(needle);
+        const block = rows + "\n";
+        text = idx === -1 ? text + "\n" + block : text.slice(0, idx) + block + text.slice(idx);
+      }
       return text;
     },
   },

@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { confirmedFibreProviders } from "./estate-fibre-coverage.ts";
+import { confirmedFibreProviders, estateBlocksIcable } from "./estate-fibre-coverage.ts";
 import { filterPlans } from "./plan-filter.ts";
 import { matchKnownEstate } from "./estates.ts";
 
@@ -48,5 +48,23 @@ describe("confirmed home fibre coverage", () => {
     assert.equal(confirmedFibreProviders("天耀邨"), undefined);
     assert.equal(providers("天耀邨").includes("icable"), true);
     assert.equal(filterPlans({ cat: "home5g", estate: "雋東邨" }).some((plan) => plan.providerId === "three"), true);
+  });
+
+  it("hides i-Cable home fibre at KOKO Hills phase 3 towers 6 to 9", () => {
+    assert.equal(matchKnownEstate("KOKO ROSSO")?.name, "KOKO ROSSO");
+    assert.equal(matchKnownEstate("KOKO MARE")?.name, "KOKO MARE");
+    assert.equal(matchKnownEstate("KOKO Hills")?.name, "KOKO Hills");
+    assert.equal(matchKnownEstate("KOKO Hills第6座")?.name, "KOKO ROSSO");
+    assert.equal(matchKnownEstate("KOKO Hills 第9座")?.name, "KOKO MARE");
+    assert.equal(estateBlocksIcable("KOKO ROSSO"), true);
+    assert.equal(estateBlocksIcable("Tower 8, KOKO MARE"), true);
+    assert.equal(estateBlocksIcable("KOKO Hills"), false);
+    assert.equal(estateBlocksIcable("KOKO Reserve"), false);
+    for (const name of ["KOKO ROSSO", "KOKO MARE", "KOKO Hills Phase 3A", "KOKO Hills第8座"]) {
+      assert.equal(providers(name).includes("icable"), false, name);
+      assert.equal(providers(name).includes("hkbn"), true, name);
+    }
+    assert.equal(providers("KOKO Hills").includes("icable"), true);
+    assert.equal(providers("KOKO Reserve").includes("icable"), true);
   });
 });

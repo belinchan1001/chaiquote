@@ -468,7 +468,7 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.equal(getPlan("three-home5g-c-190")?.monthlyFee, 190);
     assert.equal(PLAN_COUNT, 195);
     assert.equal(PROVIDER_COUNT, 8);
-    assert.equal(ESTATE_COUNT, 3729);
+    assert.equal(ESTATE_COUNT, 3732);
     assert.doesNotMatch(MESSAGES.en.faq7a, /cheapest|lowest|best price|best-value/i);
     assert.doesNotMatch(home, /全港最平/);
   });

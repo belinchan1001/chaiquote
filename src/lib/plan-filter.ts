@@ -1,5 +1,5 @@
 import { estateUnlocksPlan, isNetvigatorOnlyEstate } from "./estate-new-intake.ts";
-import { confirmedFibreProviders } from "./estate-fibre-coverage.ts";
+import { confirmedFibreProviders, estateBlocksIcable } from "./estate-fibre-coverage.ts";
 import { matchKnownEstate } from "./estates.ts";
 import { estateHasHgcVillageCoverage } from "./hgc-village-coverage.ts";
 import {
@@ -26,6 +26,7 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
     (search.cat === "broadband" || search.cat === "business") &&
     isNetvigatorOnlyEstate(estate);
   const fibreProviders = search.cat === "broadband" ? confirmedFibreProviders(estate) : undefined;
+  const blockIcable = search.cat === "broadband" && (estateBlocksIcable(estate) || estateBlocksIcable(search.q));
   const hgcVillageOk = estateHasHgcVillageCoverage(estate);
   const blockHkbnVillage = Boolean(estate) && hgcVillageOk;
   const unlockCache = new Map<string, boolean>();
@@ -45,6 +46,7 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
     if (isOfferExpired(plan)) return false;
     if (limitToNetvigator && plan.providerId !== "netvigator") return false;
     if (fibreProviders && !fibreProviders.includes(plan.providerId)) return false;
+    if (blockIcable && plan.providerId === "icable") return false;
     if (plan.onlyEstates?.length) {
       const unlocked = unlockedFor(plan.onlyEstates);
       if (search.intake) {

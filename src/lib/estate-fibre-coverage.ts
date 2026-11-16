@@ -32,6 +32,17 @@ export const CONFIRMED_FIBRE_COVERAGE: Record<string, readonly ProviderId[]> = {
   安麗苑: ALL_FIBRE,
 };
 
+/** Phase 3 towers 6–9 have no i-Cable home fibre. Other carriers stay listed. */
+export function estateBlocksIcable(query?: string): boolean {
+  const raw = query?.trim();
+  if (!raw) return false;
+  const folded = compact(raw);
+  if (folded.includes("kokorosso") || folded.includes("kokomare")) return true;
+  if (/kokohills/.test(folded) && /phase3|第[6-9]座|tower[6-9]/.test(folded)) return true;
+  const known = matchKnownEstate(raw);
+  return known?.name === "KOKO ROSSO" || known?.name === "KOKO MARE";
+}
+
 /** Carriers allowed for this address, or undefined when coverage has not been checked. */
 export function confirmedFibreProviders(query?: string): readonly ProviderId[] | undefined {
   const raw = query?.trim();

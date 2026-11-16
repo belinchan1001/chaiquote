@@ -14,7 +14,7 @@ describe("plan-count", () => {
     assert.equal(PLAN_COUNT, PLANS.length);
     assert.equal(PROVIDERS.length, 8);
     assert.equal(PROVIDER_COUNT, PROVIDERS.length);
-    assert.equal(ESTATE_COUNT, 3729);
+    assert.equal(ESTATE_COUNT, 3732);
     const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
     assert.match(home, /HOME_PROVIDER_COUNT = 8/);
     assert.match(home, /providers: HOME_PROVIDER_COUNT/);
