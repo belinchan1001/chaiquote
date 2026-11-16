@@ -394,6 +394,25 @@ function GuideCite({ text, part }: { text: string; part: CitePlacement }) {
   );
 }
 
+function GuideOpening({ lines }: { lines: { text: string; caveat?: string }[] }) {
+  return (
+    <div className="mt-4 space-y-3">
+      {lines.map((line) => (
+        <p key={line.text} className="text-base leading-relaxed text-fg">
+          {[
+            <GuideRichText key="line" text={line.text} />,
+            line.caveat ? (
+              <span key="caveat" className="text-sm leading-relaxed text-subtle">
+                {line.caveat}
+              </span>
+            ) : null,
+          ]}
+        </p>
+      ))}
+    </div>
+  );
+}
+
 function GuideTitle({ text, split }: { text: string; split: boolean }) {
   const parts = split ? splitGuideTitle(text) : null;
   if (!parts) return <h1 className="mt-2 text-title font-semibold">{text}</h1>;
@@ -906,6 +925,8 @@ function GuidePage() {
                 <GuideToc items={toc} label={t("tocLabel")} className={`${tocClass} lg:hidden`} />
               ) : null}
             </>
+          ) : copy.opening?.length ? (
+            <GuideOpening lines={copy.opening} />
           ) : (
             <p className="mt-3 text-base leading-relaxed text-muted">
               <GuideRichText text={copy.excerpt} />
