@@ -979,13 +979,14 @@ describe("switch and renewal guides", () => {
       }
     }
 
-    assert.equal(switched.minutes, 4);
+    assert.equal(switched.minutes, 6);
     assert.equal(renewal.minutes, 5);
     assert.deepEqual(
       switched.body.map((section) => section.heading),
       [
         "先查舊約完約日",
         "轉台前對一次嘅清單",
+        "轉台實際成本同回本期",
         "新線安裝期",
         "重疊幾日，好過空窗",
         "安裝費、預繳、路由器",
@@ -1031,9 +1032,36 @@ describe("switch and renewal guides", () => {
         "申請要唔要證件？",
         "寬頻可唔可以攜號？",
         "新線同舊約點樣銜接先唔會空窗？",
+        "香港轉寬頻點樣計總成本同回本期？",
       ],
     );
     assert.match(switched.faq?.[2]?.a ?? "", /\[攜號轉台\]\(\/guides\/port-in\)/);
+    const cost = switched.body.find((section) => section.heading === "轉台實際成本同回本期");
+    assert.equal(
+      cost?.paragraphs[0],
+      "轉寬頻除咗對好舊約完約日同新線安裝期，仲要計轉台實際成本同回本期，先決定而家轉定等到完約。",
+    );
+    assert.equal(cost?.paragraphs[0]?.includes("除咁") || cost?.paragraphs[0]?.includes("除咋"), false);
+    assert.equal(
+      cost?.paragraphs[1],
+      "轉台實際成本 = 舊約解約費 + 新計劃一次性開支（未豁免安裝費、預繳、行政費）。回本期（月）= 轉台實際成本 ÷ 每月月費差額。",
+    );
+    assert.equal(
+      cost?.paragraphs[2],
+      "每月月費差額，係舊計劃牌面月費減新計劃牌面月費（牌面月費即計劃卡上嘅標示月費）。",
+    );
+    assert.equal([..."設備未攤折舊"].includes("攤") && "設備未攤折舊".codePointAt("設備未攤折舊".indexOf("攤")), 0x6524);
+    assert.match(cost?.paragraphs.join("\n") ?? "", /設備未攤折舊/);
+    assert.equal((cost?.paragraphs.join("") ?? "").includes("攥"), false);
+    assert.match(
+      switched.body.find((section) => section.heading === "安裝費、預繳、路由器")?.paragraphs[2] ?? "",
+      /轉台涉及嘅解約費、一次性開支同回本期，見上面「轉台實際成本同回本期」。/,
+    );
+    assert.match(
+      switched.faq?.[4]?.a ?? "",
+      /每月月費差額用舊計劃同新計劃嘅牌面月費/,
+    );
+    assert.equal((switched.faq?.[4]?.a ?? "").includes("轉台實際成本 = 舊約解約費"), true);
 
     const method = renewal.body.find((section) => section.heading === "點計實際平均月費");
     assert.match(method?.paragraphs[0] ?? "", /\[寬頻合約總成本點計\]\(\/guides\/broadband-total-cost\)/);
