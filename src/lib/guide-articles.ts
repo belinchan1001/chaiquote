@@ -2959,6 +2959,14 @@ export const GUIDE_ARTICLES: Guide[] = [
     description: "轉寬頻先查舊約完約日同新線安裝期，避免空窗。寬頻唔能夠攜號，要先裝後停。唔好自行違法解約。實際安排以電訊商確認。",
     title: "轉台寬頻：舊約、安裝期、點樣銜接",
     excerpt: "先查完約日，再約新線。寬頻唔能夠攜號，要先裝後停。手機轉台見攜號文。",
+    opening: [
+      { text: "轉家居寬頻要先查舊約完約日，再約新線安裝期，而唔係先取消舊台。" },
+      { text: "家居寬頻唔能夠攜號，要先裝後停：新線裝好、測到上網，先停舊台，減少斷網空窗。" },
+      {
+        text: "留手機號碼係另一套攜號流程，見[攜號攻略](/guides/port-in)。",
+        caveat: "實際安裝期同完約安排以電訊商確認為準。",
+      },
+    ],
     titleEn: "Switching fibre with less downtime",
     excerptEn: "Check the old contract end date, then book the new install. Broadband cannot port a number — install first, then stop the old line.",
     descriptionEn:

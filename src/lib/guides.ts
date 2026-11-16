@@ -36,6 +36,12 @@ export type GuideCta = {
 
 export type GuideLink = { href: string; label: string; labelEn?: string };
 
+/** One citable line under the H1. `caveat` stays in that same line, in quieter type. */
+export type GuideOpeningLine = {
+  text: string;
+  caveat?: string;
+};
+
 /** Scannable answer placed above the long article: short lead, cite sentence, housing-fee table. */
 export type GuideAnswer = {
   lead: string[];
@@ -76,6 +82,8 @@ export type Guide = {
   description: string;
   title: string;
   excerpt: string;
+  /** Short citable lines under the H1. Not shown on guide cards. */
+  opening?: GuideOpeningLine[];
   body: GuideSection[];
   titleEn: string;
   excerptEn: string;
@@ -592,6 +600,7 @@ export function guideCopy(guide: Guide, locale: "zh" | "en") {
       ctaButton: guide.cta?.buttonEn,
       waText: guide.cta?.waTextEn,
       faq: guide.faqEn ?? [],
+      opening: undefined,
     };
   }
   return {
@@ -601,6 +610,7 @@ export function guideCopy(guide: Guide, locale: "zh" | "en") {
     description: guide.description,
     body: guide.body,
     answer: guide.answer,
+    opening: guide.opening,
     disclaimer: guide.disclaimer,
     ctaLead: guide.cta?.lead,
     ctaButton: guide.cta?.button,

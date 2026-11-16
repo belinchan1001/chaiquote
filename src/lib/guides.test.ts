@@ -21,6 +21,7 @@ import {
   GUIDES,
   formulaLines,
   getGuide,
+  guideCopy,
   guidePlainText,
   guideReadingMinutes,
   rowDisplayText,
@@ -855,6 +856,28 @@ describe("switch and renewal guides", () => {
       "轉寬頻先查舊約完約日同新線安裝期，避免空窗。寬頻唔能夠攜號，要先裝後停。唔好自行違法解約。實際安排以電訊商確認。",
     );
     assert.equal(switched.excerpt, "先查完約日，再約新線。寬頻唔能夠攜號，要先裝後停。手機轉台見攜號文。");
+    const opening = switched.opening ?? [];
+    assert.deepEqual(
+      opening.map((line) => line.text),
+      [
+        "轉家居寬頻要先查舊約完約日，再約新線安裝期，而唔係先取消舊台。",
+        "家居寬頻唔能夠攜號，要先裝後停：新線裝好、測到上網，先停舊台，減少斷網空窗。",
+        "留手機號碼係另一套攜號流程，見[攜號攻略](/guides/port-in)。",
+      ],
+    );
+    assert.equal(opening[0]?.caveat, undefined);
+    assert.equal(opening[1]?.caveat, undefined);
+    assert.equal(opening[2]?.caveat, "實際安裝期同完約安排以電訊商確認為準。");
+    assert.equal(
+      guidePlainText(opening[2]?.text ?? "") + (opening[2]?.caveat ?? ""),
+      "留手機號碼係另一套攜號流程，見攜號攻略。實際安裝期同完約安排以電訊商確認為準。",
+    );
+    const openingPlain = opening.map((line) => guidePlainText(line.text) + (line.caveat ?? "")).join("");
+    assert.equal(openingPlain.includes("牌面月費"), false);
+    assert.equal(openingPlain.includes("HK$"), false);
+    assert.equal(openingPlain.includes("最平"), false);
+    assert.equal(guideCopy(switched, "zh").opening, switched.opening);
+    assert.equal(guideCopy(switched, "en").opening, undefined);
     assert.equal(switched.published, "2026-09-09");
     assert.equal(switched.modified, "2026-09-11");
     assert.equal(sitemapLastmod("/guides/switch-broadband"), "2026-09-11");
@@ -1012,6 +1035,16 @@ describe("switch and renewal guides", () => {
     assert.match(route, /rowDisplayText/);
     assert.match(route, /id="guide-end-cta"/);
     assert.match(route, /guide\.plansOnlyCta/);
+    const openingFn = route.slice(
+      route.indexOf("function GuideOpening"),
+      route.indexOf("function GuideTitle"),
+    );
+    assert.match(openingFn, /<p key=\{line\.text\}/);
+    assert.match(
+      openingFn,
+      /\[\s*<GuideRichText key="line" text=\{line\.text\} \/>,\s*line\.caveat \? \([\s\S]*?text-subtle">\s*\{line\.caveat\}\s*<\/span>[\s\S]*?\]/,
+    );
+    assert.match(route, /copy\.opening\?\.length/);
     assert.doesNotMatch(route, /guide-end-cta[\s\S]{0,800}wa-pulse-fab/);
     assert.match(css, /\.guide-inline-link \{[^}]*color: var\(--color-accent\)/);
     assert.doesNotMatch(css, /\.guide-article \.guide-inline-link/);
