@@ -181,10 +181,10 @@ describe("HKBN vs Netvigator guide", () => {
     assert.ok(guide);
     assert.equal(guide.category, "fiber");
     assert.equal(guide.h1, "香港寬頻 vs 網上行：月費、計劃同公司比較");
-    assert.equal(guide.seoTitle, "香港寬頻 vs 網上行月費比較｜1000M／2500M 計劃｜齊Quote");
+    assert.equal(guide.seoTitle, "香港寬頻 vs 網上行：月費、計劃同公司比較｜1000M／2500M｜齊Quote");
     assert.equal(
       guide.description,
-      "用站內可見例子，按公居屋、私樓、村屋對香港寬頻同網上行嘅 1000M／2500M 參考月費、合約同公司分別。價錢同覆蓋以電訊商確認為準。",
+      "按公居屋、私樓、村屋，用站內可見例子比較香港寬頻同網上行嘅 1000M／2500M 參考月費、合約同公司分別。價錢同覆蓋以電訊商確認為準。",
     );
     assert.equal(
       guide.excerpt,
@@ -665,10 +665,10 @@ describe("total-cost and contract-fee guides", () => {
     assert.ok(total && fees);
 
     assert.equal(total.h1, "寬頻合約總成本點計：標示月費同實際平均月費");
-    assert.equal(total.seoTitle, "寬頻合約總成本點計｜免月費同回贈點計｜齊Quote");
+    assert.equal(total.seoTitle, "寬頻合約總成本點計：標示月費同實際平均月費｜齊Quote");
     assert.equal(
       total.description,
-      "標示月費唔等於合約期內實際平均月費。要計合約期、免月費、回贈、預繳同安裝費。公屋、居屋、私樓同村屋唔好混用數字。僅供參考，以電訊商確認為準。",
+      "標示月費唔等於合約期內實際平均月費。要計免月費、回贈、預繳、安裝費同行政費；公屋、居屋、私樓同村屋數字唔好混用。僅供參考，以電訊商確認為準。",
     );
     assert.equal(
       total.excerpt,
@@ -682,11 +682,13 @@ describe("total-cost and contract-fee guides", () => {
     assert.equal(sitemapLastmod("/guides/broadband-total-cost"), "2026-10-14");
 
     assert.equal(fees.h1, "月費以外：安裝費、預繳、合約");
-    assert.equal(fees.seoTitle, "寬頻安裝費、預繳、合約期點睇｜齊Quote");
+    assert.equal(fees.seoTitle, "月費以外：安裝費、預繳、合約點睇｜齊Quote");
     assert.equal(
       fees.description,
-      "表面月費之外仲有安裝費、預繳、路由器同提早終止。實際條款以電訊商確認為準。",
+      "計首年總支出，唔好只睇標示月費。問清楚安裝費、預繳、路由器送定租、提早終止點計。實際條款以電訊商確認為準。",
     );
+    assert.equal(fees.description.includes("標價"), false);
+    assert.equal(fees.description.includes("標示月費"), true);
     assert.equal(fees.excerpt, "計首年總支出，唔好只睇標價。問路由器送定租、提早終止點計。");
     assert.equal(fees.published, "2026-09-09");
     assert.equal(fees.modified, "2026-09-13");
@@ -850,10 +852,13 @@ describe("switch and renewal guides", () => {
 
     assert.equal(switched.h1, "轉台寬頻：舊約、安裝期、點樣銜接");
     assert.equal(switched.title, switched.h1);
-    assert.equal(switched.seoTitle, "轉寬頻點樣減少斷網｜齊Quote");
+    assert.equal(switched.seoTitle, "轉台寬頻：舊約、安裝期、點樣銜接｜齊Quote");
+    assert.equal(switched.seoTitle.includes("銜"), true);
+    assert.equal([...switched.seoTitle].find((char) => char === "銜" || char === "衔")?.codePointAt(0), 0x929c);
+    assert.equal(switched.h1.codePointAt(switched.h1.indexOf("銜")), 0x929c);
     assert.equal(
       switched.description,
-      "轉寬頻先查舊約完約日同新線安裝期，避免空窗。寬頻唔能夠攜號，要先裝後停。唔好自行違法解約。實際安排以電訊商確認。",
+      "先查完約日，再約新線。寬頻唔能夠攜號，要先裝後停，減少空窗。手機轉台見攜號攻略。實際安排以電訊商確認為準。",
     );
     assert.equal(switched.excerpt, "先查完約日，再約新線。寬頻唔能夠攜號，要先裝後停。手機轉台見攜號文。");
     const opening = switched.opening ?? [];
@@ -884,10 +889,10 @@ describe("switch and renewal guides", () => {
 
     assert.equal(renewal.h1, "寬頻續約點做：新客價同續約價點計");
     assert.equal(renewal.title, renewal.h1);
-    assert.equal(renewal.seoTitle, "寬頻續約點做｜新客價 vs 續約價｜齊Quote");
+    assert.equal(renewal.seoTitle, "寬頻續約點做：新客價同續約價點計｜齊Quote");
     assert.equal(
       renewal.description,
-      "寬頻續約要同時睇續約價同新客價。標示月費未計免月費、回贈同合約期，平均月費先反映真正支出，然後先決定續約或者轉台。最終報價以電訊商確認為準。站內數字只作參考。",
+      "新客價多數吸引轉台，續約價可能較高。要計實際平均月費，先決定續約定轉台。最終報價以電訊商確認為準。",
     );
     assert.equal(renewal.excerpt, "新客價多數吸引轉台，續約價可能較高。點計實際月費同決定續約定轉台。");
     assert.equal(renewal.published, "2026-10-21");
