@@ -3018,7 +3018,6 @@ export const GUIDE_ARTICLES: Guide[] = [
         ],
       },
       {
-      {
         heading: "轉台實際成本同回本期",
         paragraphs: [
           "轉寬頻除咗對好舊約完約日同新線安裝期，仲要計轉台實際成本同回本期，先決定而家轉定等到完約。",
@@ -3058,6 +3057,7 @@ export const GUIDE_ARTICLES: Guide[] = [
           { kind: "p", text: "用齊Quote 格價，可以先對新計劃嘅牌面月費同一次性開支，再按自己份舊約計解約費同回本期；最終條款以電訊商確認為準。" },
         ],
       },
+      {
         heading: "新線安裝期",
         paragraphs: [
           "問新台：幾時可以上門、要唔要管理處批准、舊樓／村屋會唔會加日。村屋有時要現場先確定路經，見[村屋實地視察](/guides/village-onsite)。",
