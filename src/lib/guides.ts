@@ -401,22 +401,25 @@ export const CORE_GUIDES: Guide[] = [
       {
         heading: "邊間有村屋光纖",
         paragraphs: [
-          "站內村屋光纖包括中國移動香港、香港寬頻、網上行同 HGC。有線同數碼通嘅家居光纖計劃唔適用村屋。",
-          "有冇線睇條村、條街，甚至左右鄰。下面月費係站內列出嘅參考，唔等於新界每條村都裝到。",
+          "站內列出嘅村屋光纖計劃，包括中國移動香港、香港寬頻、網上行同 HGC。有線同數碼通嘅家居光纖計劃唔適用村屋。",
+          "有冇線唔係「新界村屋一律有」，而係睇你條村、條街，甚至左右鄰。同一條村兩邊，可能一邊拉到、一邊要另計路經。下面月費係站內列出嘅參考例子，唔等於新界每條村都裝到，亦唔等於你個地址一定用到同一檔指定地址優惠。覆蓋、上門安裝同最終月費，要填完整地址，以電訊商確認為準。",
+          "如果你而家轉台，要先查舊約完約日，再約新線；做法係先裝後停，見[轉台寬頻](/guides/switch-broadband)。",
         ],
       },
       {
         heading: "站內參考月費",
         paragraphs: [
-          `${linkCmhkVillageAmounts(VILLAGE_SPECIFIED_ADDRESS_CITE)}香港寬頻特選村屋 2000M（24 個月）HK$229。網上行村屋 1000M（24 個月）HK$278。HGC 村屋 1G 連電話（24 個月）HK$319。完整表見 [村屋光纖月費](/guides/village-fees)。新選擇見 [中國移動香港村屋 1000M](/guides/village-cmhk)。`,
-          "太古城、嘉湖山莊、沙田第一城同 YOHO 係私樓，見 [太古城寬頻](/estates/taikoo-shing)、[嘉湖山莊寬頻](/estates/kingswood-villas)、[沙田第一城寬頻](/estates/city-one)、[YOHO寬頻](/estates/yoho)。嗰啲月費唔可以搬去村屋。公屋批量價同樣唔適用，分別見 [公屋居屋寬頻分別](/guides/public-vs-hos)。",
+          `${linkCmhkVillageAmounts(VILLAGE_SPECIFIED_ADDRESS_CITE)}香港寬頻特選村屋 2000M（24 個月）HK$229。網上行村屋 1000M（36 個月）HK$278。HGC 村屋 1G 連電話（24 個月）HK$319。完整表見 [村屋光纖月費](/guides/village-fees)。新選擇見 [中國移動香港村屋 1000M](/guides/village-cmhk)。`,
+          "以上都係計劃卡上嘅牌面月費；合約期以各計劃為準，唔好當成一律 24 個月（網上行村屋 1000M 為 36 個月）。HK$218 只係中國移動香港村屋 1000M 嘅指定地址優惠，同一系列正價係 HK$378；你個地址計唔計到優惠，要電訊商用完整地址確認。比較計劃時用牌面月費；免月費、回贈、預繳同安裝費要另外計真實平均月費，見[寬頻合約總成本點計](/guides/broadband-total-cost)。真實平均月費只供自己判斷，站內列出嘅係牌面月費。",
+          "太古城、嘉湖山莊、沙田第一城同 YOHO 係私樓，見[太古城寬頻](/estates/taikoo-shing)、[嘉湖山莊寬頻](/estates/kingswood-villas)、[沙田第一城寬頻](/estates/city-one)、[YOHO寬頻](/estates/yoho)。嗰啲月費唔可以搬去村屋。公屋批量價同樣唔適用，見[公屋居屋寬頻分別](/guides/public-vs-hos)。",
         ],
       },
       {
         heading: "拉唔到點算",
         paragraphs: [
-          "拉線路經、井蓋、天台機位，網上相睇唔晒。需要就約 [實地視察同現場測 5G](/guides/village-onsite)。",
-          "未有光纖可以一併睇 [5G 家居](/guides/home5g)。5G 家居速度視訊號，唔好當固定光纖替代。實際覆蓋、安裝期同月費以電訊商確認為準。",
+          "拉線路經、井蓋、天台機位，網上相睇唔晒。需要就約[實地視察同現場測 5G](/guides/village-onsite)。",
+          "未有光纖可以一併睇 [5G 家居](/guides/home5g)。5G 家居速度同穩定度視現場訊號，唔好當固定光纖替代。實際覆蓋、安裝期同月費以電訊商確認為準。",
+          "以上僅供參考，唔係排名，亦唔保證你座村屋一定有線；實際覆蓋、安裝期、月費同合約，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。",
         ],
       },
     ],
@@ -431,7 +434,7 @@ export const CORE_GUIDES: Guide[] = [
       {
         heading: "Listed reference fees",
         paragraphs: [
-          "Village houses from a specified-address promo of [HK$218/month](/plans/cmhk-ftth-1000-village-24m-218) (CMHK village 1000M, 24 months, installation waived from HK$680) are not that price at every village house; the list price in the same series is [HK$378](/plans/cmhk-ftth-1000-village-24m-378). HKBN selected village 2000M (24 months) is HK$229. Netvigator village 1000M (24 months) is HK$278. HGC village 1G with a phone line (24 months) is HK$319. Full table: [village fibre fees](/guides/village-fees). New choice: [CMHK village 1000M](/guides/village-cmhk).",
+          "Village houses from a specified-address promo of [HK$218/month](/plans/cmhk-ftth-1000-village-24m-218) (CMHK village 1000M, 24 months, installation waived from HK$680) are not that price at every village house; the list price in the same series is [HK$378](/plans/cmhk-ftth-1000-village-24m-378). HKBN selected village 2000M (24 months) is HK$229. Netvigator village 1000M (36 months) is HK$278. HGC village 1G with a phone line (24 months) is HK$319. Full table: [village fibre fees](/guides/village-fees). New choice: [CMHK village 1000M](/guides/village-cmhk).",
           "Taikoo Shing, Kingswood Villas, City One and YOHO are private estates. Those fees do not carry over to a village house. Public-housing bulk prices do not either.",
         ],
       },
