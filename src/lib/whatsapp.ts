@@ -3,10 +3,12 @@ import {
   PROVIDER_MAP,
   formatFee,
   cardHeadlineFee,
+  getPlan,
   isHktPlan,
   type Category,
   type Housing,
   type Plan,
+  type ProviderId,
 } from "./plans.ts";
 import { SITE } from "./site.ts";
 import type { Inquiry } from "./desk.ts";
@@ -74,6 +76,33 @@ export function quoteWhatsappE164(plans: Plan[] = [], inquiry?: Partial<Inquiry>
 
 export function quoteWhatsappDisplay(plans: Plan[] = [], inquiry?: Partial<Inquiry> | null) {
   return deskNumber(resolveQuoteDesk(plans, inquiry)).display;
+}
+
+/** The plan open at /plans/$id. Sitewide WhatsApp follows this before the compare list. */
+export function quotePlansOnPage(pathname: string): Plan[] {
+  const match = pathname.match(/^\/plans\/([^/?#]+)/);
+  if (!match?.[1]) return [];
+  const plan = getPlan(decodeURIComponent(match[1]));
+  return plan ? [plan] : [];
+}
+
+/**
+ * Green button and header. A plan page wins, then the compare list, then a
+ * provider chip, then the saved target carrier.
+ */
+export function quoteVisitDesk(
+  pathname: string,
+  compared: readonly Plan[] = [],
+  inquiry?: Partial<Inquiry> | null,
+  provider?: string | null,
+) {
+  const pagePlans = quotePlansOnPage(pathname);
+  const plans = pagePlans.length ? pagePlans : [...compared];
+  if (!plans.length && provider && provider in PROVIDER_MAP) {
+    const hinted = quoteDeskFromHint(PROVIDER_MAP[provider as ProviderId].name);
+    if (hinted) return deskNumber(hinted);
+  }
+  return deskNumber(resolveQuoteDesk(plans, inquiry));
 }
 
 function whatsappSendHref(text: string, phone: string) {

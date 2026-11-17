@@ -10,6 +10,7 @@ import {
   quoteAsk,
   fabInquiryMessage,
   quoteMessage,
+  quoteVisitDesk,
   quoteWhatsappDisplay,
   quoteWhatsappE164,
   quoteWhatsappHref,
@@ -172,6 +173,12 @@ describe("HKBN plan-card WhatsApp routing", () => {
     assert.equal(quoteWhatsappDisplay([fibre]), SITE.hkbnPhoneDisplay);
     assert.match(whatsappHref("你好", quoteWhatsappE164([fibre])), /phone=85261118499/);
     assert.doesNotMatch(whatsappHref("你好", quoteWhatsappE164([fibre])), /96642675|63099966/);
+    const id = fibre.id;
+    assert.equal(quoteVisitDesk(`/plans/${id}`, []).e164, SITE.hkbnWhatsappE164);
+    assert.equal(quoteVisitDesk("/plans", [], null, "hkbn").e164, SITE.hkbnWhatsappE164);
+    assert.equal(quoteVisitDesk("/plans", [fibre]).e164, SITE.hkbnWhatsappE164);
+    assert.equal(quoteVisitDesk("/", [], { targetProvider: "網上行" }).e164, SITE.hktWhatsappE164);
+    assert.equal(quoteVisitDesk("/", []).e164, SITE.whatsappE164);
   });
 });
 

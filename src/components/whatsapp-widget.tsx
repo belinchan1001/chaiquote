@@ -12,9 +12,9 @@ import { SITE } from "@/lib/site";
 import {
   QUICK_REPLIES,
   fabInquiryMessage,
-  quoteWhatsappDisplay,
-  quoteWhatsappE164,
   quoteWhatsappHref,
+  quotePlansOnPage,
+  quoteVisitDesk,
 } from "@/lib/whatsapp";
 import { trackWaClick } from "@/lib/track-client";
 import { bareWhatsAppActivateProps } from "@/lib/wa-quote-open";
@@ -147,10 +147,16 @@ export function WhatsAppWidget({ cornerClear }: { cornerClear: boolean }) {
   const toggleWa = useDesk((s) => s.toggleWa);
   const closeWa = useDesk((s) => s.closeWa);
   const plans = useComparedPlans(compare);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const href = useRouterState({ select: (s) => s.location.href });
+  const provider = new URL(href, "https://quote.local").searchParams.get("provider");
+  const pagePlans = quotePlansOnPage(pathname);
+  const quotePlans = pagePlans.length ? pagePlans : plans;
   const lifted = compare.length > 0;
   const { t, locale } = useI18n();
-  const deskPhone = quoteWhatsappDisplay(plans, inquiry);
-  const deskE164 = quoteWhatsappE164(plans, inquiry);
+  const visit = quoteVisitDesk(pathname, plans, inquiry, provider);
+  const deskPhone = visit.display;
+  const deskE164 = visit.e164;
 
   useEffect(() => {
     setBubbles([
@@ -178,8 +184,8 @@ export function WhatsAppWidget({ cornerClear }: { cornerClear: boolean }) {
 
   function send(text: string, allowPlansOnly = false) {
     const trimmed = text.trim();
-    if (!trimmed && (!allowPlansOnly || plans.length === 0)) return;
-    const outbound = fabInquiryMessage(trimmed, plans, locale);
+    if (!trimmed && (!allowPlansOnly || quotePlans.length === 0)) return;
+    const outbound = fabInquiryMessage(trimmed, quotePlans, locale);
     setBubbles((prev) => [
       ...prev,
       { id: `${Date.now()}`, from: "me", text: trimmed || outbound },
@@ -194,7 +200,7 @@ export function WhatsAppWidget({ cornerClear }: { cornerClear: boolean }) {
     trackWaClick({
       source: "widget",
       waPhone: deskE164,
-      planIds: plans.map((plan) => plan.id),
+      planIds: quotePlans.map((plan) => plan.id),
     });
   }
 
@@ -327,12 +333,18 @@ export function DeferredWhatsApp() {
   useHydrateDesk();
   const compare = useDesk((s) => s.compare);
   const inquiry = useDesk((s) => s.inquiry);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const href = useRouterState({ select: (s) => s.location.href });
+  const provider = new URL(href, "https://quote.local").searchParams.get("provider");
   const plans = useComparedPlans(compare);
+  const pagePlans = quotePlansOnPage(pathname);
+  const quotePlans = pagePlans.length ? pagePlans : plans;
   const lifted = compare.length > 0;
   const cornerClear = useGuideCornerClear();
   const { t } = useI18n();
-  const deskE164 = quoteWhatsappE164(plans, inquiry);
-  const deskPhone = quoteWhatsappDisplay(plans, inquiry);
+  const visit = quoteVisitDesk(pathname, plans, inquiry, provider);
+  const deskE164 = visit.e164;
+  const deskPhone = visit.display;
   useEffect(() => {
     const timer = window.setTimeout(() => setReady(true), 1800);
     return () => window.clearTimeout(timer);
@@ -346,7 +358,7 @@ export function DeferredWhatsApp() {
         {...bareWhatsAppActivateProps(deskE164, {
           source: "widget",
           waPhone: deskE164,
-          planIds: plans.map((plan) => plan.id),
+          planIds: quotePlans.map((plan) => plan.id),
         })}
         className={cn(
           "guide-fab wa-pulse wa-pulse-fab fixed right-4 z-50 flex size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[var(--shadow-border-hover)]",

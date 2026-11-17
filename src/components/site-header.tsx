@@ -8,7 +8,8 @@ import { LogoMarkLooking } from "@/components/logo-mark-looking";
 import { LangToggle } from "@/components/lang-toggle";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
-import { quoteWhatsappE164 } from "@/lib/whatsapp";
+import { getPlan } from "@/lib/plans";
+import { quoteVisitDesk } from "@/lib/whatsapp";
 import { bareWhatsAppActivateProps } from "@/lib/wa-quote-open";
 import { cn } from "@/lib/utils";
 
@@ -18,7 +19,8 @@ export function SiteHeader() {
   const href = useRouterState({ select: (s) => s.location.href });
   const currentCat = new URL(href, "https://quote.local").searchParams.get("cat");
   useHydrateDesk();
-  const compareCount = useDesk((s) => s.compare.length);
+  const compareIds = useDesk((s) => s.compare);
+  const compareCount = compareIds.length;
   const inquiry = useDesk((s) => s.inquiry);
   const aiOpen = useDesk((s) => s.aiOpen);
   const toggleAi = useDesk((s) => s.toggleAi);
@@ -27,7 +29,13 @@ export function SiteHeader() {
   const guidesLabel = locale === "en" ? "How-to guides" : "點揀攻略";
   const newsLabel = locale === "en" ? "News" : "電訊新聞";
   const waMenuLabel = locale === "en" ? "WhatsApp ChaiQuote desk" : "WhatsApp 齊Quote客服";
-  const waE164 = quoteWhatsappE164([], inquiry);
+  const provider = new URL(href, "https://quote.local").searchParams.get("provider");
+  const compared = compareIds.flatMap((id) => {
+    const plan = getPlan(id);
+    return plan ? [plan] : [];
+  });
+  const visit = quoteVisitDesk(pathname, compared, inquiry, provider);
+  const waE164 = visit.e164;
   const waOpenProps = bareWhatsAppActivateProps(waE164, { source: "header", waPhone: waE164 });
 
   const links: {
