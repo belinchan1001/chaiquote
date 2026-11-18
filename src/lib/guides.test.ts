@@ -764,13 +764,14 @@ describe("total-cost and contract-fee guides", () => {
       }
     }
 
-    assert.equal(total.minutes, 5);
+    assert.equal(total.minutes, 6);
     assert.equal(fees.minutes, 4);
     assert.deepEqual(
       total.body.map((section) => section.heading),
       [
         "牌面月費係用來比較，平均月費要自己計",
         "點計真實平均月費",
+        "如果係轉台",
         "樓類唔好混用",
         "下一步：對自己地址格價",
       ],
@@ -839,6 +840,7 @@ describe("total-cost and contract-fee guides", () => {
         "有免月費，係咪一定平過牌面？",
         "禮券同現金回贈點計？",
         "點解唔好用其他樓類嘅月費來計？",
+        "轉台解約費要唔要計入平均月費？",
       ],
     );
     assert.deepEqual(
@@ -979,7 +981,7 @@ describe("switch and renewal guides", () => {
       }
     }
 
-    assert.equal(switched.minutes, 6);
+    assert.equal(switched.minutes, 9);
     assert.equal(renewal.minutes, 5);
     assert.deepEqual(
       switched.body.map((section) => section.heading),
@@ -989,6 +991,7 @@ describe("switch and renewal guides", () => {
         "轉台實際成本同回本期",
         "新線安裝期",
         "重疊幾日，好過空窗",
+        "先安裝後生效，同先裝後停唔同",
         "安裝費、預繳、路由器",
         "下一步：對自己地址格價",
       ],
@@ -1033,6 +1036,7 @@ describe("switch and renewal guides", () => {
         "寬頻可唔可以攜號？",
         "新線同舊約點樣銜接先唔會空窗？",
         "香港轉寬頻點樣計總成本同回本期？",
+        "先安裝後生效，係咪等於先裝後停？",
       ],
     );
     assert.match(switched.faq?.[2]?.a ?? "", /\[攜號轉台\]\(\/guides\/port-in\)/);

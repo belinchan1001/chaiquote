@@ -446,6 +446,12 @@ export const CORE_GUIDES: Guide[] = [
         ],
       },
     ],
+    faq: [
+      {
+        q: "村屋光纖月費係咪一律 HK$218？",
+        a: "村屋由指定地址優惠 HK$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。有冇線睇條村、條街，列出嘅月費係參考例子。覆蓋要填完整地址，以電訊商確認為準。",
+      },
+    ],
     related: ["village-cmhk", "village-onsite", "fiber", "fiber-vs-5g", "estate-filter", "home-broadband-2026", "village-fees"],
     plans: [
       { href: "/plans?cat=broadband&housing=village", label: "村屋光纖計劃" },
