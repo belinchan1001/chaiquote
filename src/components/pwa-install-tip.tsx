@@ -117,7 +117,6 @@ export function PwaInstallTip() {
       <div className="flex items-start gap-2">
         <div className="min-w-0 flex-1">
           <p className="text-sm leading-relaxed">{pwaInstallTip(platform)}</p>
-          <p className="mt-1.5 text-[11px] leading-relaxed text-subtle">{PWA.disclaimer}</p>
           {installEvent ? (
             <Button type="button" size="sm" className="mt-2.5" onClick={() => void install()}>
               加到主畫面

@@ -140,10 +140,10 @@ export const BUDGET_OPTIONS = [
 
 /** Facts an answer page can quote without a second copy of the numbers. */
 export const INDEPENDENT_BODY =
-  "齊Quote（chaiquote.hk）係香港獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。資料更新 {date}，可以一次過比較 {providers} 間電訊商、{plans} 個參考計劃同 {estates} 個屋苑；公屋、居屋、私樓同村屋分開列。最終月費、覆蓋同安裝以電訊商確認為準。";
+  "齊Quote（chaiquote.hk）係香港獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。資料更新 {date}，可以一次過比較 {providers} 間電訊商、{plans} 個參考計劃同 {estates} 個屋苑；公屋、居屋、私樓同村屋分開列。";
 
 export const INDEPENDENT_BODY_EN =
-  "ChaiQuote (chaiquote.hk) is an independent Hong Kong telecom comparison site, not a carrier website, and it does not take commission or advertising fees from carriers. As of {date}, you can compare {providers} carriers, {plans} reference plans and {estates} estates in one place. Public housing, HOS, private estates and village houses are listed separately. The carrier confirms the final fee, coverage and installation.";
+  "ChaiQuote (chaiquote.hk) is an independent Hong Kong telecom comparison site, not a carrier website, and it does not take commission or advertising fees from carriers. As of {date}, you can compare {providers} carriers, {plans} reference plans and {estates} estates in one place. Public housing, HOS, private estates and village houses are listed separately.";
 
 export const FEE_RANGE_QUESTION = "香港寬頻月費大概幾錢？有冇一條適用全港嘅價？";
 
@@ -191,10 +191,10 @@ export const PLANS_BROADBAND_H1 = "香港光纖寬頻報價比較";
 export const PLANS_BROADBAND_H1_EN = "Compare Hong Kong fibre broadband quotes";
 
 const PLANS_BROADBAND_LEAD_ZH =
-  "齊Quote 係獨立寬頻比較站（非電訊商官網、無向電訊商收佣金或廣告費）。光纖參考月費按樓類：公居屋約 HK$58–98、私樓約 HK$88–109、村屋由指定地址優惠 HK$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。（資料更新 {date}）；唔係全港劃一價，以電訊商確認為準。";
+  "齊Quote 係獨立寬頻比較站。光纖參考月費按樓類：公居屋約 HK$58–98、私樓約 HK$88–109、村屋由指定地址優惠 HK$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。（資料更新 {date}）；唔係全港劃一價，以電訊商確認為準。";
 
 const PLANS_BROADBAND_LEAD_EN =
-  "ChaiQuote is an independent broadband comparison site (not a carrier website, and it does not take commission or advertising fees from carriers). Fibre reference fees by housing type: public / HOS about HK$58–98, private estates about HK$88–109, village houses from a specified-address promo of HK$218/month (CMHK village 1000M, 24 months, installation waived from HK$680), which is not the fee for every village house; the list price in the same series is HK$378 (updated {date}); not one territory-wide fee. The carrier confirms.";
+  "ChaiQuote is an independent broadband comparison site. Fibre reference fees by housing type: public / HOS about HK$58–98, private estates about HK$88–109, village houses from a specified-address promo of HK$218/month (CMHK village 1000M, 24 months, installation waived from HK$680), which is not the fee for every village house; the list price in the same series is HK$378 (updated {date}); not one territory-wide fee. The carrier confirms.";
 
 export function plansBroadbandLead(locale: "zh" | "en", date = hongKongCalendarDate()) {
   return (locale === "en" ? PLANS_BROADBAND_LEAD_EN : PLANS_BROADBAND_LEAD_ZH).replaceAll("{date}", date);
@@ -233,7 +233,7 @@ export const FAQ_ZH = [
   },
   {
     q: "公屋同埋居屋價錢會唔會唔同？",
-    a: "公屋同埋居屋好多時有指定供應商同批量價，每個屋邨／屋苑合約都可能唔同。站內光纖入門參考可見「指定屋苑 1000M 光纖入屋（48 個月）」約 HK$58／月起（有線寬頻）；篩選時分開揀公屋／居屋，問價填齊屋苑名稱。僅供參考，以電訊商確認為準。",
+    a: "公屋同埋居屋好多時有指定供應商同批量價，每個屋邨／屋苑合約都可能唔同。站內光纖入門參考可見「指定屋苑 1000M 光纖入屋（48 個月）」約 HK$58／月起（有線寬頻）；篩選時分開揀公屋／居屋，問價填齊屋苑名稱。實際以電訊商確認為準。",
   },
   {
     q: "村屋有冇光纖？",
@@ -264,7 +264,7 @@ export const FAQ_EN = [
   },
   {
     q: "Do public housing and HOS prices differ?",
-    a: "Public housing and HOS often have designated providers and bulk rates, and each estate contract can differ. The on-site fibre entry reference is “指定屋苑 1000M 光纖入屋（48 個月）”, about HK$58/month (i-Cable). Filter public housing and HOS separately, and include the estate name. For reference only; the carrier confirms.",
+    a: "Public housing and HOS often have designated providers and bulk rates, and each estate contract can differ. The on-site fibre entry reference is “指定屋苑 1000M 光纖入屋（48 個月）”, about HK$58/month (i-Cable). Filter public housing and HOS separately, and include the estate name. The actual terms are confirmed by the carrier.",
   },
   {
     q: "Can village houses get fibre?",

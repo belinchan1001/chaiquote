@@ -16,8 +16,7 @@ export const MESSAGES = {
       "齊Quote 係獨立電訊比較平台，一次過比較香港家居寬頻、5G 家居、商業寬頻同手機計劃。所列月費僅供參考。",
     updatedPrefix: "資料更新：",
     hkUpdated: "香港 · 資料更新 {date}",
-    headerStrip:
-      "資料更新：{date}　｜　本站無向電訊商收取佣金或廣告費；列出月費僅供參考，以電訊商確認為準。",
+    headerStrip: "資料更新：{date}",
     dataUpdated: "資料更新 {date}",
     manuscriptDate: "稿件日期 {date}",
     manuscriptUpdated: "稿件日期 {published} · 更新 {modified}",
@@ -215,13 +214,13 @@ export const MESSAGES = {
     filterPlans: "格價",
     foundPlans: "搵到 {n} 個計劃",
     broadbandHubSummary:
-      "{date}，{name} 光纖分類共 {n} 個參考計劃。站內可見入門例：指定屋苑 1000M 約 {fee58}／月（{months58} 個月）；公居屋轉台 1000M 約 {fee75}／月（{months75} 個月，HGC）；香港寬頻 1000M 限時快閃連 Wi-Fi 7 標示 {fee98}／月（{months98} 個月，須 2026-09-22 至 2026-11-30 成功預約安裝）。村屋計劃分開列。村屋由指定地址優惠 {fee218}／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。唔好用私樓價估。月費、覆蓋、安裝以電訊商確認為準；本站無收取電訊商佣金或廣告費。",
+      "{date}，{name} 光纖分類共 {n} 個參考計劃。站內可見入門例：指定屋苑 1000M 約 {fee58}／月（{months58} 個月）；公居屋轉台 1000M 約 {fee75}／月（{months75} 個月，HGC）；香港寬頻 1000M 限時快閃連 Wi-Fi 7 標示 {fee98}／月（{months98} 個月，須 2026-09-22 至 2026-11-30 成功預約安裝）。村屋計劃分開列。村屋由指定地址優惠 {fee218}／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。唔好用私樓價估。",
     home5gHubSummary:
-      "{date}，{name} 5G 家居分類共 {n} 個參考計劃。站內可見入門例：{plan88} 標示 {fee88}／月（{months88} 個月）；{plan98} 標示 {fee98}／月（{months98} 個月）；{plan108} 標示 {fee108}／月（{months108} 個月，豁免 {free108} 個月）。免拉線入屋，實際速度視現場訊號。月費同覆蓋以電訊商確認為準；本站無收取電訊商佣金或廣告費。",
+      "{date}，{name} 5G 家居分類共 {n} 個參考計劃。站內可見入門例：{plan88} 標示 {fee88}／月（{months88} 個月）；{plan98} 標示 {fee98}／月（{months98} 個月）；{plan108} 標示 {fee108}／月（{months108} 個月，豁免 {free108} 個月）。免拉線入屋，實際速度視現場訊號。月費同覆蓋以電訊商確認為準。",
     mobileHubSummary:
-      "{date}，{name} 手機分類共 {n} 個參考計劃。站內月費較低一例：{lowName} 標示 {lowFee}／月（{lowMonths} 個月），屬低用量參考，唔代表 5G 月費。5G 一例：{fiveName} 標示 {fiveFee}／月（{fiveMonths} 個月）。4G／5G、攜號轉台同大灣區數據另見計劃卡。月費以電訊商確認為準；本站無收取電訊商佣金或廣告費。",
+      "{date}，{name} 手機分類共 {n} 個參考計劃。站內月費較低一例：{lowName} 標示 {lowFee}／月（{lowMonths} 個月），屬低用量參考，唔代表 5G 月費。5G 一例：{fiveName} 標示 {fiveFee}／月（{fiveMonths} 個月）。4G／5G、攜號轉台同大灣區數據另見計劃卡。月費以電訊商確認為準。",
     businessHubSummary:
-      "{date}，{name} 商業寬頻分類共 {n} 個參考計劃。站內可見入門例：{provider1000}{name1000} 標示 {fee1000}／月（{months1000} 個月）；{provider1000b}{name1000b} 標示 {fee1000b}／月（{months1000b} 個月）。10000M 一例標示 {fee10000}／月（{months10000} 個月）。月費、安裝同舖址覆蓋僅供參考，以電訊商確認為準；本站無收取電訊商佣金或廣告費。",
+      "{date}，{name} 商業寬頻分類共 {n} 個參考計劃。站內可見入門例：{provider1000}{name1000} 標示 {fee1000}／月（{months1000} 個月）；{provider1000b}{name1000b} 標示 {fee1000b}／月（{months1000b} 個月）。10000M 一例標示 {fee10000}／月（{months10000} 個月）。月費、安裝同舖址覆蓋僅供參考，以電訊商確認為準。",
     planQuoteCta: "索取報價",
     feeSummaryTitle: "參考月費摘要",
     hubFactsTitle: "分類說明",
@@ -388,6 +387,8 @@ export const MESSAGES = {
     disclaimer2:
       "本平台將盡力維持資料之準確性，惟各營運商之優惠可能隨時調整，最終價格以用戶與電訊商簽署之合約為準。",
     disclaimer3: "各電訊商名稱及標誌為其商標，僅供識別所比較之計劃。",
+    footerNotice:
+      "齊Quote 係獨立比較站，無向電訊商收取佣金或廣告費；所列月費、覆蓋同條款僅供參考，一律以電訊商確認，並以你同電訊商簽署嘅合約為準。",
     referencePrice: LEGAL.referencePrice,
     overseasNote: LEGAL.overseas,
     whatsappTip: LEGAL.whatsappTip,
@@ -572,7 +573,6 @@ export const MESSAGES = {
     pwaInstallTitle: "加到主畫面／安裝",
     pwaAndroidTip: "想更快開啟？加到主畫面，之後撳圖示就用齊Quote。",
     pwaIosTip: "用 Safari 開本站 → 分享掣 →「加入主畫面」，之後好似 App 一樣開。",
-    pwaDisclaimer: "月費同覆蓋僅供參考，實際以查核報價為準。",
     errorTitle: "呢頁暫時出咗問題",
     errorLead: "請重新整理，或者返去首頁再試。",
   },
@@ -582,8 +582,7 @@ export const MESSAGES = {
       "ChaiQuote is an independent telecom comparison site for Hong Kong home fibre, 5G home, business broadband and mobile plans. Fees are for reference only.",
     updatedPrefix: "Data updated: ",
     hkUpdated: "Hong Kong · Updated {date}",
-    headerStrip:
-      "Data updated: {date} ｜ This site does not take commission or advertising fees from carriers; listed monthly fees are for reference only. The carrier confirms the final terms.",
+    headerStrip: "Data updated: {date}",
     dataUpdated: "Data updated {date}",
     manuscriptDate: "Published {date}",
     manuscriptUpdated: "Published {published} · Updated {modified}",
@@ -787,13 +786,13 @@ export const MESSAGES = {
     filterPlans: "Filter plans",
     foundPlans: "{n} plans found",
     broadbandHubSummary:
-      "{date}: {name} lists {n} fibre reference plans. Designated-estate 1000M is about {fee58}/month ({months58} months). Public-housing and HOS port-in 1000M is about {fee75}/month ({months75} months, HGC). HKBN 1000M limited flash with Wi-Fi 7 is marked {fee98}/month ({months98} months; installation must be booked successfully from 2026-09-22 to 2026-11-30). Village plans are listed separately. Village houses from a specified-address promo of {fee218}/month (CMHK village 1000M, 24 months, installation waived from HK$680) are not that price at every village house; the list price in the same series is HK$378. Do not reuse a private-estate price. Fees, coverage and installation are confirmed by the carrier. This site does not take carrier commission or advertising fees.",
+      "{date}: {name} lists {n} fibre reference plans. Designated-estate 1000M is about {fee58}/month ({months58} months). Public-housing and HOS port-in 1000M is about {fee75}/month ({months75} months, HGC). HKBN 1000M limited flash with Wi-Fi 7 is marked {fee98}/month ({months98} months; installation must be booked successfully from 2026-09-22 to 2026-11-30). Village plans are listed separately. Village houses from a specified-address promo of {fee218}/month (CMHK village 1000M, 24 months, installation waived from HK$680) are not that price at every village house; the list price in the same series is HK$378. Do not reuse a private-estate price.",
     home5gHubSummary:
-      "{date}: {name} lists {n} 5G home reference plans. {plan88} is marked {fee88}/month ({months88} months). {plan98} is marked {fee98}/month ({months98} months). {plan108} is marked {fee108}/month ({months108} months, {free108} free month). No cabling; actual speed depends on the signal. Fees and coverage are confirmed by the carrier. This site does not take carrier commission or advertising fees.",
+      "{date}: {name} lists {n} 5G home reference plans. {plan88} is marked {fee88}/month ({months88} months). {plan98} is marked {fee98}/month ({months98} months). {plan108} is marked {fee108}/month ({months108} months, {free108} free month). No cabling; actual speed depends on the signal. Fees and coverage are confirmed by the carrier.",
     mobileHubSummary:
-      "{date}: {name} lists {n} mobile reference plans. A lower monthly-fee example on this site: {lowName} at {lowFee}/month ({lowMonths} months). It is a low-usage reference and is not a 5G price. A 5G example: {fiveName} at {fiveFee}/month ({fiveMonths} months). 4G/5G, number porting and Greater Bay Area data are on the plan cards. Fees are confirmed by the carrier. This site does not take carrier commission or advertising fees.",
+      "{date}: {name} lists {n} mobile reference plans. A lower monthly-fee example on this site: {lowName} at {lowFee}/month ({lowMonths} months). It is a low-usage reference and is not a 5G price. A 5G example: {fiveName} at {fiveFee}/month ({fiveMonths} months). 4G/5G, number porting and Greater Bay Area data are on the plan cards. Fees are confirmed by the carrier.",
     businessHubSummary:
-      "{date}: {name} lists {n} business broadband reference plans. {provider1000} {name1000} is marked {fee1000}/month ({months1000} months). {provider1000b} {name1000b} is marked {fee1000b}/month ({months1000b} months). A 10000M example is marked {fee10000}/month ({months10000} months). Fees, installation and shop coverage are for reference only and are confirmed by the carrier. This site does not take carrier commission or advertising fees.",
+      "{date}: {name} lists {n} business broadband reference plans. {provider1000} {name1000} is marked {fee1000}/month ({months1000} months). {provider1000b} {name1000b} is marked {fee1000b}/month ({months1000b} months). A 10000M example is marked {fee10000}/month ({months10000} months). Fees, installation and shop coverage are for reference only and are confirmed by the carrier.",
     planQuoteCta: "Request a quote",
     feeSummaryTitle: "Reference fee summary",
     hubFactsTitle: "About this list",
@@ -961,6 +960,8 @@ export const MESSAGES = {
     disclaimer2:
       "We keep information as current as we can. Offers can change. The signed contract is final.",
     disclaimer3: "Carrier names and logos are trademarks of their owners, used here only to identify the plans being compared.",
+    footerNotice:
+      "ChaiQuote is an independent comparison site and does not take commission or advertising fees from carriers; listed monthly fees, coverage and terms are for reference only, are confirmed by the carrier, and the contract you sign with the carrier is final.",
     referencePrice:
       "Fees and offers above are market reference only. Actual price, coverage, contract term and installation are confirmed by the carrier.",
     overseasNote:
@@ -1151,7 +1152,6 @@ export const MESSAGES = {
     pwaInstallTitle: "Add to Home Screen",
     pwaAndroidTip: "Want a faster launch? Add this site to your Home Screen, then tap the icon.",
     pwaIosTip: "Open this site in Safari → Share → Add to Home Screen. It then opens like an app.",
-    pwaDisclaimer: "Fees and coverage are for reference only. Confirm the quote before you apply.",
     errorTitle: "This page isn’t working right now",
     errorLead: "Refresh, or go back home and try again.",
   },

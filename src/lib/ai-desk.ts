@@ -642,7 +642,7 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
     id: "official",
     re: /官網|官方|係咪電訊|係咪獨立|獨立比較|chaiquote.*(carrier|official)|independent/i,
     zh: FAQ_ZH[0].a,
-    en: "Yes. ChaiQuote (chaiquote.hk) is an independent comparison site, not a carrier website, and it does not take commission or advertising fees from carriers. The carrier confirms the final fee, coverage and installation.",
+    en: "Yes. ChaiQuote (chaiquote.hk) is an independent comparison site, not a carrier website, and it does not take commission or advertising fees from carriers.",
     attach: false,
     href: "/about",
     linkZh: "關於齊Quote",

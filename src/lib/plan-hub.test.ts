@@ -66,7 +66,9 @@ describe("plan category hub", () => {
       fee218: formatFee(fibre218.monthlyFee),
     });
     assertBulletsCover(fibre);
-    assert.match(fibre, /無收取電訊商佣金或廣告費/);
+    assert.match(fibre, /唔好用私樓價估。$/);
+    assert.doesNotMatch(fibre, /月費、覆蓋、安裝以電訊商確認為準/);
+    assert.doesNotMatch(fibre, /無收取電訊商佣金或廣告費/);
     assert.match(fibre, /2026-09-22 至 2026-11-30/);
 
     const home88 = getPlan(HOME5G_SUMMARY_IDS[0]);
@@ -95,7 +97,8 @@ describe("plan category hub", () => {
     });
     assertBulletsCover(home);
     assert.match(home, /免拉線入屋/);
-    assert.match(home, /無收取電訊商佣金或廣告費/);
+    assert.match(home, /月費同覆蓋以電訊商確認為準。$/);
+    assert.doesNotMatch(home, /無收取電訊商佣金或廣告費/);
 
     const low = getPlan(MOBILE_SUMMARY_IDS[0]);
     const five = getPlan(MOBILE_SUMMARY_IDS[1]);
@@ -118,7 +121,8 @@ describe("plan category hub", () => {
     });
     assertBulletsCover(mobile);
     assert.match(mobile, /唔代表 5G 月費/);
-    assert.match(mobile, /無收取電訊商佣金或廣告費/);
+    assert.match(mobile, /月費以電訊商確認為準。$/);
+    assert.doesNotMatch(mobile, /無收取電訊商佣金或廣告費/);
 
     const biz1000 = getPlan(BUSINESS_SUMMARY_IDS[0]);
     const biz1000b = getPlan(BUSINESS_SUMMARY_IDS[1]);
@@ -147,7 +151,8 @@ describe("plan category hub", () => {
     assertBulletsCover(business);
     assert.match(business, /HK\$248/);
     assert.match(business, /HK\$798/);
-    assert.match(business, /無收取電訊商佣金或廣告費/);
+    assert.match(business, /月費、安裝同舖址覆蓋僅供參考，以電訊商確認為準。$/);
+    assert.doesNotMatch(business, /無收取電訊商佣金或廣告費/);
 
     assertBulletsCover(fill(MESSAGES.en.broadbandHubSummary, {
       date: SITE.updated,
@@ -237,7 +242,7 @@ describe("plan category hub", () => {
     assert.equal(zh.lead, plansBroadbandLead("zh"));
     assert.match(
       zh.lead,
-      /^齊Quote 係獨立寬頻比較站（非電訊商官網、無向電訊商收佣金或廣告費）。光纖參考月費按樓類：公居屋約 HK\$58–98、私樓約 HK\$88–109、村屋由指定地址優惠 HK\$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK\$680），唔等於所有村屋都係呢個價；同系列正價為 HK\$378。（資料更新 \d{4}-\d{2}-\d{2}）；唔係全港劃一價，以電訊商確認為準。$/,
+      /^齊Quote 係獨立寬頻比較站。光纖參考月費按樓類：公居屋約 HK\$58–98、私樓約 HK\$88–109、村屋由指定地址優惠 HK\$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK\$680），唔等於所有村屋都係呢個價；同系列正價為 HK\$378。（資料更新 \d{4}-\d{2}-\d{2}）；唔係全港劃一價，以電訊商確認為準。$/,
     );
     assert.equal(zh.lead.includes(SITE.updated), true);
     assert.doesNotMatch(`${zh.h1}${zh.lead}`, /最平|最抵|最低|全港最平/);

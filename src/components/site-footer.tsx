@@ -44,7 +44,6 @@ export function SiteFooter() {
             <p className="tracking-wider text-primary-foreground/55">{t("pwaInstallTitle")}</p>
             <p>{t("pwaAndroidTip")}</p>
             <p>{t("pwaIosTip")}</p>
-            <p className="text-primary-foreground/55">{t("pwaDisclaimer")}</p>
           </div>
         </div>
         <div>
@@ -120,7 +119,7 @@ export function SiteFooter() {
       </div>
       <div className="border-t border-primary-foreground/10 px-4 py-6">
         <p className="mx-auto max-w-6xl text-xs leading-relaxed text-primary-foreground/55">
-          {t("noCommission")} {t("referencePrice")} {t("disclaimer1")} {t("disclaimer2")} {t("disclaimer3")}
+          {t("footerNotice")} {t("disclaimer3")}
         </p>
       </div>
     </footer>
