@@ -1857,7 +1857,7 @@ export const PLANS: Plan[] = [
       PERK_HKBN_SEP30_FREE3,
       "免費送 36 個月 Wi-Fi 7 TP-Link Archer BE220 路由器",
       "免費送 36 個月 myTV SUPER（智能電視版）",
-      "免費送 12 個月 HBO Max 標準版 標準版",
+      "免費送 12 個月 Disney+ 標準版",
     ],
     limits: LIMITS_HKBN_SEP30,
     flashOffer: true,
@@ -1934,7 +1934,7 @@ export const PLANS: Plan[] = [
     perks: [
       PERK_HKBN_SEP30_FREE3,
       "免費送 36 個月 myTV SUPER（智能電視版）",
-      "免費送 12 個月 HBO Max 標準版 標準版",
+      "免費送 12 個月 Disney+ 標準版",
     ],
     limits: LIMITS_HKBN_SEP30_PRIVATE,
     flashOffer: true,
