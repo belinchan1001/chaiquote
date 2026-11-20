@@ -2,7 +2,16 @@ import { ESTATES, estateDisplayName, estateEnglishName, firstEnglishAlias, paren
 import { NETVIGATOR_ONLY_ESTATES } from "./estate-new-intake.ts";
 import { CONFIRMED_FIBRE_COVERAGE } from "./estate-fibre-coverage.ts";
 import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
-import { formatFee, formatPlanSpeed, matchesHousing, PLANS, PROVIDER_MAP, type Housing, type Plan } from "./plans.ts";
+import {
+  formatFee,
+  formatPlanSpeed,
+  isIcableDesignatedEstatePlan,
+  matchesHousing,
+  PLANS,
+  PROVIDER_MAP,
+  type Housing,
+  type Plan,
+} from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
 import { DISTRICTS, SITE } from "./site.ts";
 
@@ -452,11 +461,11 @@ export function estateSearchNote(estate: Estate, locale: Locale = "zh"): string 
     case "太古城":
       return en
         ? "Taikoo Shing is a private estate in Eastern District. This page uses private-housing plans, not public, HOS or village fees. A plan limited to a named estate appears only when the address is on that list. Coverage and installation are confirmed by the carrier."
-        : "太古城係東區私樓。呢頁用私樓計劃，唔好用公屋、居屋或者村屋月費。指定屋苑先有嘅計劃，要地址喺名單內先會出現，唔會因為打開太古城頁就自動列出。實際覆蓋同安裝以電訊商確認為準。";
+        : "太古城係東區私樓。呢頁用私樓計劃，唔好用公屋、居屋或者村屋月費。實際覆蓋同安裝以電訊商確認為準。";
     case "天水圍嘉湖山莊":
       return en
         ? "Kingswood Villas is a private estate in Yuen Long, not a public estate like Tin Yiu. Public-housing bulk prices and village fibre fees do not apply. Named-estate offers appear only when the address is on that list."
-        : "嘉湖山莊係元朗私樓，唔係天耀邨呢類公屋。公屋批量價同村屋光纖價都唔適用。指定屋苑隱藏計劃要地址喺名單內先會出現。天水圍其他屋邨見天水圍寬頻攻略。";
+        : "嘉湖山莊係元朗私樓，唔係天耀邨呢類公屋。公屋批量價同村屋光纖價都唔適用。天水圍其他屋邨見天水圍寬頻攻略。";
     case "沙田第一城":
       return en
         ? "City One is a private estate in Sha Tin. Lek Yuen and Wo Che are public estates, so those fees do not apply here. An exclusive plan for Mei Ying Court or Kam Fai Court applies only at that estate, not across City One."
@@ -471,7 +480,7 @@ export function estateSearchNote(estate: Estate, locale: Locale = "zh"): string 
     case "天耀邨":
       return en
         ? "Tin Yiu Estate is a public housing estate in Yuen Long. This page uses public-housing plans only. Do not use private-estate or village fees. Named-estate offers appear only when the address is on that list."
-        : "天耀邨係元朗公屋。呢頁只列出適用公屋嘅參考計劃，唔好用私樓或村屋月費。指定屋苑計劃要地址在名單內先出現。實際覆蓋同安裝以電訊商確認為準。";
+        : "天耀邨係元朗公屋。呢頁只列出適用公屋嘅參考計劃，唔好用私樓或村屋月費。實際覆蓋同安裝以電訊商確認為準。";
     case "瀝源邨":
       return en
         ? "Lek Yuen Estate is a public housing estate in Sha Tin. City One is a private estate — do not mix the fees."
@@ -484,32 +493,6 @@ export function estateSearchNote(estate: Estate, locale: Locale = "zh"): string 
       return en
         ? "Tin Shui Estate is a public housing estate in Yuen Long."
         : "天瑞邨係元朗公屋。用公屋計劃，唔好用嘉湖山莊私樓月費。";
-    default:
-      return undefined;
-  }
-}
-
-export function estateSearchSeo(estate: Estate): string | undefined {
-  switch (estate.name) {
-    case "太古城":
-      return "太古城寬頻用東區私樓計劃，唔好用公屋或村屋價。指定屋苑計劃要地址在名單內先出現。覆蓋同安裝以電訊商確認為準。";
-    case "天水圍嘉湖山莊":
-      return "嘉湖山莊係元朗私樓，唔係天耀邨公屋。公屋價同村屋光纖價唔適用。指定屋苑計劃要地址在名單內。";
-    case "沙田第一城":
-      return "沙田第一城係沙田私樓。瀝源邨、禾輋邨公屋價唔適用。美盈苑、錦暉苑指定計劃只適用該苑。";
-    case "YOHO Town":
-    case "YOHO Midtown":
-    case "YOHO West":
-    case "Grand YOHO":
-      return "YOHO Town、Midtown、West 係元朗私樓。朗城匯同芊御係另一個地方。指定屋苑計劃唔會因為個名有 YOHO 就適用每一座。";
-    case "天耀邨":
-      return "天耀邨係元朗公屋。呢頁只列出適用公屋嘅參考計劃，唔好用私樓或村屋月費。指定屋苑計劃要地址在名單內先出現。";
-    case "瀝源邨":
-      return "瀝源邨係沙田公屋。沙田第一城係私樓，月費唔好混用。呢頁用公屋計劃。";
-    case "秀茂坪邨":
-      return "秀茂坪邨係觀塘公屋。呢頁用公屋批量計劃，唔好用私樓價去估。";
-    case "天瑞邨":
-      return "天瑞邨係元朗公屋。用公屋計劃，唔好用嘉湖山莊私樓月費。";
     default:
       return undefined;
   }
@@ -547,9 +530,10 @@ export function estateIntro(estate: Estate, locale: Locale = "zh"): string {
 }
 
 export function estatePlans(estate: Estate): { broadband: Plan[]; home5g: Plan[] } {
+  const options = { estatePage: true as const };
   return {
-    broadband: filterPlans({ cat: "broadband", housing: estate.housing, estate: estate.name }),
-    home5g: filterPlans({ cat: "home5g", housing: estate.housing, estate: estate.name }),
+    broadband: filterPlans({ cat: "broadband", housing: estate.housing, estate: estate.name }, [], options),
+    home5g: filterPlans({ cat: "home5g", housing: estate.housing, estate: estate.name }, [], options),
   };
 }
 
@@ -711,10 +695,94 @@ export type EstateCiteRow = {
 
 export type EstateCite = {
   sentences: string[];
+  /** Filter count. Not part of the citable opening or the 幾錢 answer. */
+  note?: string;
   caption: string;
   headers: [string, string, string, string];
   rows: EstateCiteRow[];
 };
+
+const FLASH_OPENING_ADDON = "呢條係限時快閃，唔等於呢個屋苑嘅一般月費。";
+const ICABLE_OPENING_ADDON =
+  "呢條計劃名雖然寫指定屋苑，但適用於公屋、居屋同私樓，不適用於村屋；在適用樓類入面唔使再限指定屋苑名單，仍然唔等於呢個屋苑一律係呢個價。實際覆蓋同裝唔裝到，以電訊商確認為準。";
+const LIST_OPENING_ADDON =
+  "指定屋苑優惠只適用於地址已在該計劃名單內嘅單位，唔等於呢個屋苑一律係呢個價。";
+const FEE_FAQ_EXTRA = "想對其他適用計劃，可以喺呢頁繼續睇牌面月費同條款。";
+
+function boardFeeAmount(plan: Plan): string {
+  return formatFee(plan.monthlyFee).replace(/^HK\$/, "");
+}
+
+function isFlashReference(plan: Plan): boolean {
+  return plan.flashOffer === true || plan.name.includes("限時快閃");
+}
+
+/** Other providers' plans that still require the address to be on a list. Not i-CABLE 指定屋苑. */
+export function isAddressListPlan(plan: Plan): boolean {
+  if (isIcableDesignatedEstatePlan(plan)) return false;
+  if (plan.onlyEstates?.length) return true;
+  const text = `${plan.name}\n${plan.limits ?? ""}`;
+  if (text.includes("指定地址")) return true;
+  if (text.includes("僅適用於指定屋苑") || text.includes("指定屋苑專享")) return true;
+  if (text.includes("僅適用於指定村屋") || text.includes("適用於指定村屋")) return true;
+  return false;
+}
+
+/** Locked add-on sentences for the first listed fibre plan. Empty when the plan is an ordinary fibre row. */
+export function fibreOpeningAddon(plan: Plan, housing: Housing): string {
+  let extra = "";
+  if (isFlashReference(plan)) extra += FLASH_OPENING_ADDON;
+  if (isIcableDesignatedEstatePlan(plan) && housing !== "village") extra += ICABLE_OPENING_ADDON;
+  else if (isAddressListPlan(plan)) extra += LIST_OPENING_ADDON;
+  return extra;
+}
+
+/** Locked zh opening. Fees come from the first fibre row still listed after this page's filters. */
+export function estateOpeningParagraphs(estate: Estate): string[] {
+  const name = estate.name;
+  const district = estate.district;
+  const housing = ESTATE_HOUSING_LABEL[estate.housing];
+  const lead = `${name}喺${district}，屬${housing}。呢頁只列出適用於呢個樓類嘅參考計劃，唔好用其他樓類嘅月費去估；覆蓋同裝唔裝到，以電訊商確認為準。`;
+  const first = estatePlans(estate).broadband[0];
+  if (!first) {
+    return [lead, `以站內篩選，而家未有列出適用於${name}（${housing}）嘅光纖參考計劃。`];
+  }
+  const provider = PROVIDER_MAP[first.providerId].name;
+  const second = `以站內篩選，適用於${name}（${housing}）嘅光纖參考計劃，列表第一條係${provider} ${first.name}，牌面月費 HK$${boardFeeAmount(first)}，合約 ${first.contractMonths} 個月。${fibreOpeningAddon(first, estate.housing)}`;
+  return [lead, second];
+}
+
+export type EstateFaqItem = { q: string; a: string };
+
+/** Visible FAQ and FAQPage JSON-LD both read this list. Zh only; English is not in this round. */
+export function estateFaq(estate: Estate): EstateFaqItem[] {
+  const name = estate.name;
+  const housing = ESTATE_HOUSING_LABEL[estate.housing];
+  const priceQ =
+    estate.housing === "public"
+      ? `${name}寬頻係咪一律同一個價，或者同其他公屋同一個價？`
+      : `${name}寬頻係咪同公屋同一個價？`;
+  const priceA =
+    estate.housing === "village"
+      ? `唔係。${name}屬村屋。公屋、居屋、私樓、村屋要分開報。有線寬頻嘅指定屋苑計劃適用於公屋、居屋同私樓，不適用於村屋。其他供應商仍然要地址在名單內嘅指定屋苑或指定地址計劃，唔等於呢條村一律係呢個價。實際覆蓋同月費以電訊商確認為準。`
+      : `唔係。${name}屬${housing}。公屋、居屋、私樓、村屋要分開報。有線寬頻嘅指定屋苑計劃適用於公屋、居屋同私樓，不適用於村屋；在適用樓類入面唔使再限指定屋苑名單，但仍唔等於呢個屋苑一律係呢個價。其他供應商仍然要地址在名單內嘅指定屋苑計劃，亦唔等於呢個屋苑一律係呢個價。實際覆蓋同月費以電訊商確認為準。`;
+  const opening = estateOpeningParagraphs(estate).join("");
+  return [
+    { q: priceQ, a: priceA },
+    { q: `${name}寬頻幾錢？`, a: `${opening}${FEE_FAQ_EXTRA}` },
+  ];
+}
+
+/** Locked surrounding copy under the head table. Replaces the old name-list sentence. */
+export function estateSurroundingCopy(estate: Estate): string {
+  const name = estate.name;
+  const district = estate.district;
+  const housing = ESTATE_HOUSING_LABEL[estate.housing];
+  if (estate.housing === "village") {
+    return `${name}寬頻用${district}村屋計劃，唔好用其他樓類嘅價。有線寬頻嘅指定屋苑計劃適用於公屋、居屋同私樓，不適用於村屋。其他供應商仍然要地址在名單內嘅指定屋苑或指定地址計劃，只有地址在名單內先會出現。覆蓋同安裝以電訊商確認為準。`;
+  }
+  return `${name}寬頻用${district}${housing}計劃，唔好用其他樓類嘅價。有線寬頻嘅指定屋苑計劃適用於公屋、居屋同私樓，不適用於村屋；在適用樓類入面唔使再限指定屋苑名單，仍然唔等於呢個屋苑一律係呢個價。其他供應商仍然要地址在名單內嘅指定屋苑計劃，只有地址在名單內先會出現。覆蓋同安裝以電訊商確認為準。`;
+}
 
 /** Answer-first cite for an estate page. Fees come from the filtered catalogue, never a ranking. */
 export function estateCite(estate: Estate, locale: Locale = "zh"): EstateCite {
@@ -737,17 +805,14 @@ export function estateCite(estate: Estate, locale: Locale = "zh"): EstateCite {
           : []),
         "Coverage and installation are confirmed by the carrier.",
       ]
-    : [
-        `${name}喺${place}，屬${housing}。`,
-        `${SITE.updated} 按${housing}篩到 ${broadband.length} 個光纖參考計劃同 ${home5g.length} 個 5G 家居參考計劃。`,
-        ...(first
-          ? [`列表第一條係${provider}${first.name}，月費${formatFee(first.monthlyFee)}，合約${first.contractMonths}個月。`]
-          : []),
-        "覆蓋同裝唔裝到，要再同電訊商確認。",
-      ];
+    : estateOpeningParagraphs(estate);
+  const note = en
+    ? undefined
+    : `${SITE.updated} 按${housing}篩到 ${broadband.length} 個光纖參考計劃同 ${home5g.length} 個 5G 家居參考計劃。`;
   return {
     sentences,
-    caption: en ? "First fibre rows on this housing filter" : "呢個樓類列表頭幾個光纖參考計劃",
+    note,
+    caption: en ? "First fibre rows on this housing filter" : `適用${estate.name}嘅光纖參考計劃（頭幾條）`,
     headers: en ? ["Plan", "Monthly fee", "Contract", "Speed"] : ["計劃", "月費", "合約", "速度"],
     rows: preview.map((plan) => ({
       id: plan.id,
@@ -771,12 +836,9 @@ export function estatePageFacts(estate: Estate, locale: Locale = "zh"): EstatePa
       ? " Coverage for this address still needs a check."
       : "呢個地址嘅覆蓋要再核對。"
     : "";
-  const specific = !en ? estateSearchSeo(estate) : undefined;
-  const lead = specific
-    ? `${specific}${check}`
-    : en
-      ? `${name} is at ${street}${place}. Housing type: ${housing}.${check} `
-      : `${name}喺${street}${place}，屬${housing}。${check}`;
+  const lead = en
+    ? `${name} is at ${street}${place}. Housing type: ${housing}.${check} `
+    : `${estateSurroundingCopy(estate)}${check}`;
 
   const { broadband, home5g } = estatePlans(estate);
   const plans = [...broadband, ...home5g];

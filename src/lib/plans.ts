@@ -4136,6 +4136,11 @@ export function cardHeadlineFee(plan: Plan) {
   return plan.double11Offer ? averageFee(plan) : plan.monthlyFee;
 }
 
+/** i-CABLE plans whose name says 指定屋苑. Housing type still applies; a name list does not. */
+export function isIcableDesignatedEstatePlan(plan: Plan): boolean {
+  return plan.providerId === "icable" && plan.name.includes("指定屋苑");
+}
+
 export function isOfferExpired(plan: Plan, now = Date.now()) {
   if (!plan.offerEndsAt) return false;
   const ends = Date.parse(plan.offerEndsAt);

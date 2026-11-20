@@ -4,14 +4,22 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ESTATES, matchKnownEstate, searchEstates } from "./estates.ts";
-import { formatFee, getPlan } from "./plans.ts";
+import { formatFee, getPlan, isIcableDesignatedEstatePlan } from "./plans.ts";
+import { estateFaqJsonLd, estateJsonLd } from "./seo.ts";
 import { filterPlans } from "./plan-filter.ts";
 import {
   ESTATE_PAGES,
   estateCite,
+  estateFaq,
   estateIntro,
+  estateOpeningParagraphs,
+  estatePageFacts,
   estatePlans,
   estateSearchNote,
+  estateSeoDescription,
+  estateSurroundingCopy,
+  fibreOpeningAddon,
+  isAddressListPlan,
   estateSelectTarget,
   estateSeoTitle,
   getEstatePage,
@@ -91,7 +99,8 @@ describe("estate SEO pages", () => {
     assert.equal(isIndexableEstatePage(getEstatePage("yoho")!), true);
     assert.equal(isIndexableEstatePage(getEstatePage("wah-fu")!), false);
     const taikoo = getEstatePage("taikoo-shing")!;
-    assert.match(estateSearchNote(taikoo.estate) ?? "", /指定屋苑/);
+    assert.match(estateSearchNote(taikoo.estate) ?? "", /東區私樓/);
+    assert.doesNotMatch(estateSearchNote(taikoo.estate) ?? "", /要地址喺名單內先會出現/);
     assert.match(estateSeoTitle(taikoo.estate), /^太古城寬頻｜/);
     assert.match(estateSeoTitle(getEstatePage("kingswood-villas")!.estate), /^嘉湖山莊寬頻｜/);
     assert.match(estateSeoTitle(getEstatePage("city-one")!.estate), /^沙田第一城寬頻｜/);
@@ -597,22 +606,134 @@ describe("estate SEO pages", () => {
     const estate = getEstatePage("tin-yiu")!.estate;
     const cite = estateCite(estate, "zh");
     const { broadband, home5g } = estatePlans(estate);
+    const first = broadband[0]!;
     const text = cite.sentences.join("");
-    assert.ok(cite.sentences.length >= 2 && cite.sentences.length <= 4);
-    assert.match(text, /天耀邨/);
-    assert.match(text, /公屋/);
-    assert.match(text, new RegExp(`${broadband.length} 個光纖`));
-    assert.match(text, new RegExp(`${home5g.length} 個 5G`));
+    assert.equal(cite.sentences.length, 2);
+    assert.equal(
+      cite.sentences[0],
+      "天耀邨喺元朗，屬公屋。呢頁只列出適用於呢個樓類嘅參考計劃，唔好用其他樓類嘅月費去估；覆蓋同裝唔裝到，以電訊商確認為準。",
+    );
+    assert.match(
+      cite.sentences[1] ?? "",
+      new RegExp(
+        `^以站內篩選，適用於天耀邨（公屋）嘅光纖參考計劃，列表第一條係.+ ${first.name.replace(/[()]/g, "\\$&")}，牌面月費 HK\\$${first.monthlyFee}，合約 ${first.contractMonths} 個月。`,
+      ),
+    );
+    assert.match(cite.note ?? "", new RegExp(`${broadband.length} 個光纖`));
+    assert.match(cite.note ?? "", new RegExp(`${home5g.length} 個 5G`));
+    assert.equal(cite.caption, "適用天耀邨嘅光纖參考計劃（頭幾條）");
     assert.equal(cite.rows.length, Math.min(4, broadband.length));
-    assert.equal(cite.rows[0]?.fee, formatFee(broadband[0]!.monthlyFee));
-    assert.match(text, new RegExp(String(broadband[0]!.monthlyFee)));
-    for (const word of ["最抵", "最低", "最平", "保證價"]) {
+    assert.equal(cite.rows[0]?.fee, formatFee(first.monthlyFee));
+    assert.equal(cite.rows[0]?.name.includes(first.name), true);
+    for (const word of ["最抵", "最低", "最平", "保證價", "全部地址都可以申請"]) {
       assert.equal(text.includes(word), false, word);
     }
     const page = readFileSync(join(here, "../routes/estates_.$slug.tsx"), "utf8");
     assert.match(page, /estateCite\(estate, locale\)/);
+    assert.match(page, /estateFaq\(estate\)/);
+    assert.match(page, /twitter:description/);
     const en = estateCite(estate, "en").sentences.join(" ");
     assert.match(en, /Tin Yiu/);
     assert.match(en, /public housing/i);
+  });
+
+  it("uses one locked opening, FAQ, and surrounding template without hardcoded board fees", () => {
+    const source = readFileSync(join(here, "estate-pages.ts"), "utf8");
+    assert.doesNotMatch(source, /牌面月費 HK\$\d/);
+    assert.doesNotMatch(source, /最平|全部地址都可以申請|指定屋苑計劃要地址在名單內/);
+    const flash = getPlan("hkbn-ftth-1000-36m-98-sep30")!;
+    const icable = getPlan("icable-ftth-1000-48m-58")!;
+    const listedFlash = getPlan("hkbn-ftth-1000-36m-63-flash")!;
+    const ordinary = getPlan("hkbn-ftth-1000-36m-98")!;
+    const villageAddress = getPlan("cmhk-ftth-1000-village-24m-218")!;
+    assert.equal(isIcableDesignatedEstatePlan(icable), true);
+    assert.equal(fibreOpeningAddon(flash, "private"), "呢條係限時快閃，唔等於呢個屋苑嘅一般月費。");
+    assert.equal(fibreOpeningAddon(flash, "private").includes("指定屋苑"), false);
+    assert.match(fibreOpeningAddon(icable, "private"), /^呢條計劃名雖然寫指定屋苑/);
+    assert.doesNotMatch(fibreOpeningAddon(icable, "private"), /要地址在名單內|全部地址都可以申請/);
+    assert.equal(fibreOpeningAddon(icable, "village"), "");
+    assert.match(fibreOpeningAddon(listedFlash, "public"), /呢條係限時快閃/);
+    assert.match(fibreOpeningAddon(listedFlash, "public"), /指定屋苑優惠只適用於地址已在該計劃名單內嘅單位/);
+    assert.doesNotMatch(fibreOpeningAddon(listedFlash, "public"), /呢條計劃名雖然寫指定屋苑/);
+    assert.equal(fibreOpeningAddon(ordinary, "private"), "");
+    assert.equal(isAddressListPlan(ordinary), false);
+    assert.match(fibreOpeningAddon(villageAddress, "village"), /指定屋苑優惠只適用於地址已在該計劃名單內嘅單位/);
+
+    const taikoo = getEstatePage("taikoo-shing")!.estate;
+    const opening = estateOpeningParagraphs(taikoo);
+    const first = estatePlans(taikoo).broadband[0]!;
+    assert.equal(opening[0], "太古城喺東區，屬私樓。呢頁只列出適用於呢個樓類嘅參考計劃，唔好用其他樓類嘅月費去估；覆蓋同裝唔裝到，以電訊商確認為準。");
+    assert.match(opening[1] ?? "", new RegExp(`列表第一條係.+，牌面月費 HK\\$${first.monthlyFee}，合約 ${first.contractMonths} 個月。`));
+    assert.equal(opening[1]?.endsWith(fibreOpeningAddon(first, taikoo.housing)) ?? false, true);
+    assert.equal(estatePlans(taikoo).broadband.some((plan) => plan.id === "icable-ftth-1000-48m-58"), true);
+    assert.equal(estateCite(taikoo, "zh").rows.some((row) => row.id === "icable-ftth-1000-48m-58") || estatePlans(taikoo).broadband.findIndex((plan) => plan.id === "icable-ftth-1000-48m-58") >= 4, true);
+
+    const faq = estateFaq(taikoo);
+    assert.equal(faq[0]?.q, "太古城寬頻係咪同公屋同一個價？");
+    assert.match(faq[0]?.a ?? "", /^唔係。太古城屬私樓。/);
+    assert.match(faq[0]?.a ?? "", /在適用樓類入面唔使再限指定屋苑名單，但仍唔等於呢個屋苑一律係呢個價/);
+    assert.equal(faq[1]?.q, "太古城寬頻幾錢？");
+    assert.equal(faq[1]?.a, `${opening.join("")}想對其他適用計劃，可以喺呢頁繼續睇牌面月費同條款。`);
+    const ld = estateJsonLd(getEstatePage("taikoo-shing")!);
+    const faqLd = ld["@graph"].find((node) => node["@type"] === "FAQPage");
+    assert.equal(faqLd?.mainEntity.length, faq.length);
+    faq.forEach((item, index) => {
+      assert.equal(faqLd?.mainEntity[index]?.name, item.q);
+      assert.equal(faqLd?.mainEntity[index]?.acceptedAnswer.text, item.a);
+    });
+    const wahFu = getEstatePage("wah-fu")!;
+    assert.equal(isIndexableEstatePage(wahFu), false);
+    const wahFaq = estateFaq(wahFu.estate);
+    const wahLd = estateFaqJsonLd(wahFu);
+    assert.equal(wahLd["@type"], "FAQPage");
+    wahFaq.forEach((item, index) => {
+      assert.equal(wahLd.mainEntity[index]?.name, item.q);
+      assert.equal(wahLd.mainEntity[index]?.acceptedAnswer.text, item.a);
+    });
+
+    const surrounding = estateSurroundingCopy(taikoo);
+    assert.equal(
+      surrounding,
+      "太古城寬頻用東區私樓計劃，唔好用其他樓類嘅價。有線寬頻嘅指定屋苑計劃適用於公屋、居屋同私樓，不適用於村屋；在適用樓類入面唔使再限指定屋苑名單，仍然唔等於呢個屋苑一律係呢個價。其他供應商仍然要地址在名單內嘅指定屋苑計劃，只有地址在名單內先會出現。覆蓋同安裝以電訊商確認為準。",
+    );
+    assert.doesNotMatch(estateSeoDescription(taikoo), /指定屋苑計劃要地址在名單內/);
+    assert.match(estateSeoDescription(taikoo), /太古城寬頻用東區私樓計劃/);
+
+    const tinYiu = getEstatePage("tin-yiu")!.estate;
+    assert.equal(estateFaq(tinYiu)[0]?.q, "天耀邨寬頻係咪一律同一個價，或者同其他公屋同一個價？");
+    assert.doesNotMatch(estateFaq(tinYiu)[0]?.q ?? "", /HK\$/);
+    assert.match(estateFaq(tinYiu)[0]?.a ?? "", /^唔係。天耀邨屬公屋。/);
+    assert.match(estateSurroundingCopy(tinYiu), /^天耀邨寬頻用元朗公屋計劃/);
+
+    const village = ESTATES.find((item) => item.housing === "village");
+    assert.ok(village);
+    const villagePlans = estatePlans(village);
+    assert.equal(villagePlans.broadband.some((plan) => isIcableDesignatedEstatePlan(plan)), false);
+    const villageFaq = estateFaq(village);
+    assert.match(villageFaq[0]?.a ?? "", new RegExp(`^唔係。${village.name}屬村屋。`));
+    assert.match(villageFaq[0]?.a ?? "", /不適用於村屋。其他供應商仍然要地址在名單內嘅指定屋苑或指定地址計劃，唔等於呢條村一律係呢個價。/);
+    assert.doesNotMatch(villageFaq[0]?.a ?? "", /在適用樓類入面唔使再限指定屋苑名單/);
+    assert.match(estateSurroundingCopy(village), new RegExp(`^${village.name}寬頻用${village.district}村屋計劃`));
+    assert.match(estateSurroundingCopy(village), /或指定地址計劃，只有地址在名單內先會出現/);
+    if (!villagePlans.broadband.length) {
+      assert.equal(
+        estateOpeningParagraphs(village)[1],
+        `以站內篩選，而家未有列出適用於${village.name}（村屋）嘅光纖參考計劃。`,
+      );
+    }
+
+    const facts = estatePageFacts(taikoo, "zh");
+    assert.deepEqual(
+      facts.neighbors.map((item) => item.slug),
+      ["sheung-on-street-lph", "hong-tung-estate"],
+    );
+    assert.deepEqual(
+      facts.neighbors.map((item) => item.label),
+      ["柴灣常安街簡約公屋", "康東邨"],
+    );
+    for (const item of facts.neighbors) {
+      assert.equal(item.href, `/estates/${item.slug}`);
+      assert.notEqual(item.href, "/estates");
+    }
   });
 });

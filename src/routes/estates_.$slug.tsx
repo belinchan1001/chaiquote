@@ -7,6 +7,7 @@ import {
   estateHousingLabel,
   estateIntro,
   estateCite,
+  estateFaq,
   estatePageFacts,
   estateSearchNote,
   estatePagePath,
@@ -23,7 +24,7 @@ import {
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { canonicalUrl, notFoundHead } from "@/lib/canonical";
 import { estateDisplayName, parentEstate, placeDisplayName } from "@/lib/estates";
-import { estateJsonLd } from "@/lib/seo";
+import { estateFaqJsonLd, estateJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 import { isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
 import { confirmedFibreProviders } from "@/lib/estate-fibre-coverage";
@@ -52,6 +53,7 @@ export const Route = createFileRoute("/estates_/$slug")({
         { name: "description", content: description },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
+        { name: "twitter:description", content: description },
         { property: "og:url", content: canonicalHref },
         ...(indexable ? [] : [{ name: "robots", content: "noindex,follow" }]),
       ],
@@ -86,10 +88,11 @@ function EstatePage() {
   const indexable = isIndexableEstatePage(page);
   const facts = estatePageFacts(estate, locale);
   const cite = estateCite(estate, locale);
+  const faq = estateFaq(estate);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      {indexable ? <JsonLd data={estateJsonLd(page)} /> : null}
+      <JsonLd data={indexable ? estateJsonLd(page) : estateFaqJsonLd(page)} />
       <Link to="/estates" className="text-sm text-muted hover:text-fg">
         香港屋苑寬頻比較
       </Link>
@@ -105,6 +108,7 @@ function EstatePage() {
             {sentence}
           </p>
         ))}
+        {cite.note ? <p className="mt-2 text-sm leading-relaxed text-muted">{cite.note}</p> : null}
         {cite.rows.length ? (
           <table className="mt-4 w-full border-collapse text-sm">
             <caption className="mb-2 text-left text-xs text-muted">{cite.caption}</caption>
@@ -139,6 +143,17 @@ function EstatePage() {
         ) : null}
       </div>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{facts.lead}</p>
+      <section className="mt-6 max-w-2xl">
+        <h2 className="text-lg font-semibold">{t("faqTitle")}</h2>
+        <div className="mt-3 divide-y divide-border">
+          {faq.map((item) => (
+            <details key={item.q} className="group py-3">
+              <summary className="cursor-pointer list-none text-sm font-semibold">{item.q}</summary>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-fg">{facts.provider}</p>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
         {locale === "en" ? "Compare monthly fees: " : "想對月費可以睇"}
