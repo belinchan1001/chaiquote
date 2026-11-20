@@ -11,8 +11,8 @@ import type { Plan } from "@/lib/plans";
 import { SITE } from "@/lib/site";
 import {
   QUICK_REPLIES,
+  quoteWhatsappHref,
   widgetQuoteMessage,
-  widgetWhatsappHref,
   quotePlansOnPage,
   quoteVisitDesk,
 } from "@/lib/whatsapp";
@@ -196,7 +196,7 @@ export function WhatsAppWidget({ cornerClear }: { cornerClear: boolean }) {
       },
     ]);
     setDraft("");
-    window.open(widgetWhatsappHref(outbound, deskE164, locale), "_blank", "noopener,noreferrer");
+    window.open(quoteWhatsappHref(outbound, deskE164), "_blank", "noopener,noreferrer");
     trackWaClick({
       source: "widget",
       waPhone: deskE164,

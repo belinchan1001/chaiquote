@@ -14,12 +14,7 @@ import { SITE } from "./site.ts";
 import type { Inquiry } from "./desk.ts";
 import { MESSAGES, type Locale, type MessageKey } from "./messages.ts";
 import { toEnglishLazy } from "./plan-en-lazy.ts";
-import {
-  appendInquiryMark,
-  classifyLeadSource,
-  readLeadTouch,
-  type LeadSource,
-} from "./ads-attribution.ts";
+import { appendInquiryMark, readLeadTouch } from "./ads-attribution.ts";
 
 const HOUSING_MESSAGE: Record<Housing, MessageKey> = {
   public: "housingPublic",
@@ -276,40 +271,6 @@ export function salesQuoteMessage(input: SalesQuoteInput = {}) {
     "--------------------------------",
     "請幫我確認覆蓋/訊號與預留轉台禮品，謝謝！",
   ].join("\n");
-}
-
-const WIDGET_SOURCE_ZH: Record<LeadSource, string> = {
-  unknown: "來源：未知",
-  organic: "來源：自然搜尋",
-  google_ads: "來源：Google 廣告",
-  meta: "來源：Meta 廣告",
-  other: "來源：其他渠道",
-};
-
-const WIDGET_SOURCE_EN: Record<LeadSource, string> = {
-  unknown: "Source: unknown",
-  organic: "Source: organic search",
-  google_ads: "Source: Google Ads",
-  meta: "Source: Meta Ads",
-  other: "Source: other",
-};
-
-export function widgetSourceLabel(source: LeadSource, locale: Locale = "zh") {
-  return locale === "en" ? WIDGET_SOURCE_EN[source] : WIDGET_SOURCE_ZH[source];
-}
-
-/** Floating widget only. Spoken source line, never the plan-card `#0`–`#4` mark. */
-function appendWidgetSource(text: string, locale: Locale) {
-  const line = widgetSourceLabel(classifyLeadSource(readLeadTouch()).source, locale);
-  if (/(^|\n)來源：/.test(text) || /(^|\n)Source: /.test(text)) return text;
-  const body = text.replace(/\s+$/, "");
-  return body ? `${body}\n${line}` : line;
-}
-
-/** Same brand prefix as other quote links, plus the spoken source. Does not call quoteWhatsappHref. */
-export function widgetWhatsappHref(text: string, phone: string = SITE.whatsappE164, locale: Locale = "zh") {
-  const marked = appendWidgetSource(text, locale);
-  return whatsappSendHref(text.trim() ? withBrandTag(marked) : marked, phone);
 }
 
 export function quoteMessage(

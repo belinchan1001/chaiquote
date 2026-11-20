@@ -15,8 +15,6 @@ import {
   quoteWhatsappE164,
   quoteWhatsappHref,
   QUICK_REPLIES,
-  widgetSourceLabel,
-  widgetWhatsappHref,
   whatsappHref,
 } from "./whatsapp.ts";
 
@@ -111,13 +109,12 @@ describe("WhatsApp quote prefill closing line", () => {
     assert.match(quote, /quoteWhatsappE164\(selected, resolved\)/);
     assert.match(quote, /quoteWhatsAppActivateProps\(/);
     assert.match(widget, /widgetQuoteMessage\(/);
-    assert.doesNotMatch(widget, /fabInquiryMessage\(/);
-    assert.doesNotMatch(widget, /quoteWhatsappHref\(/);
+    assert.match(widget, /quoteWhatsappHref\(/);
+    assert.doesNotMatch(widget, /fabInquiryMessage\(|widgetWhatsappHref\(|來源：/);
     assert.doesNotMatch(widget, /你好，我想查詢覆蓋同計劃/);
-    assert.match(widget, /widgetWhatsappHref\(/);
     assert.match(widget, /trackWaClick\(/);
     assert.doesNotMatch(quote, /widgetQuoteMessage\(|widgetWhatsappHref\(/);
-    assert.doesNotMatch(src, /你好，我想查詢覆蓋同計劃|fabInquiryMessage/);
+    assert.doesNotMatch(src, /你好，我想查詢覆蓋同計劃|fabInquiryMessage|widgetWhatsappHref|來源：Google 廣告/);
     assert.match(staff, /portInQuoteFromInquiry\(/);
     assert.match(staff, /quoteWhatsAppActivateProps\(/);
     assert.match(src, /category === "mobile"/);
@@ -242,10 +239,10 @@ function withLead(search: string, run: () => void) {
   }
 }
 
-function widgetPrefill(search: string, text: string, locale: "zh" | "en" = "zh") {
+function widgetPrefill(search: string, text: string) {
   let out = "";
   withLead(search, () => {
-    out = new URL(widgetWhatsappHref(text, SITE.whatsappE164, locale)).searchParams.get("text") ?? "";
+    out = new URL(quoteWhatsappHref(text, SITE.whatsappE164)).searchParams.get("text") ?? "";
   });
   return out;
 }
@@ -269,7 +266,7 @@ const PLAN_PREFILL = [
   "🤖 篩選方式：手動條件篩選",
   "--------------------------------",
   "請幫我確認覆蓋/訊號與預留轉台禮品，謝謝！",
-  "來源：Google 廣告",
+  "【查詢】家居寬頻 #2",
 ].join("\n");
 
 const CHIP_PREFILL = [
@@ -288,7 +285,7 @@ const CHIP_PREFILL = [
   "🤖 篩選方式：手動條件篩選",
   "--------------------------------",
   "請幫我確認覆蓋/訊號與預留轉台禮品，謝謝！",
-  "來源：Google 廣告",
+  "【查詢】家居寬頻 #2",
 ].join("\n");
 
 const MOBILE_PREFILL = [
@@ -306,18 +303,18 @@ const MOBILE_PREFILL = [
   "🤖 篩選方式：手動條件篩選",
   "--------------------------------",
   "請幫我確認攜號轉台／新號碼優惠與預留禮品，謝謝！",
-  "來源：未知",
+  "【查詢】網站 #0",
 ].join("\n");
 
 describe("floating WhatsApp widget prefill", () => {
-  it("uses the plan-card sales form, with the listed fee and a spoken source", () => {
+  it("uses the plan-card sales form, then the same 【查詢】#n mark", () => {
     const flash = plan(FLASH_PLAN);
     assert.equal(flash.monthlyFee, 128);
     const body = widgetQuoteMessage("", [flash], { estate: "", housing: "" });
     assert.equal(body, quoteMessage([flash], { estate: "", housing: "" }));
     const text = widgetPrefill(GOOGLE_BROADBAND, body);
     assert.equal(text, PLAN_PREFILL);
-    assert.doesNotMatch(text, /#\d|你好，我想查詢覆蓋同計劃|月費：HK\$|申請地址：|6309|6111|5436|852\d{8}|最平|最抵|低至|gclid|CjwKCAjwSECRET/);
+    assert.doesNotMatch(text, /來源：|你好，我想查詢覆蓋同計劃|月費：HK\$|申請地址：|6309|6111|5436|852\d{8}|最平|最抵|低至|gclid|CjwKCAjwSECRET/);
 
     const chosen = widgetQuoteMessage("", [flash], { estate: "太古城", housing: "private" });
     assert.equal(chosen, quoteMessage([flash], { estate: "太古城", housing: "private" }));
@@ -329,7 +326,7 @@ describe("floating WhatsApp widget prefill", () => {
     assert.equal(body, quoteMessage([], { serviceType: "光纖寬頻" }));
     const text = widgetPrefill(GOOGLE_BROADBAND, body);
     assert.equal(text, CHIP_PREFILL);
-    assert.doesNotMatch(text, /#\d|你好，我想查詢覆蓋同計劃/);
+    assert.doesNotMatch(text, /來源：|你好，我想查詢覆蓋同計劃/);
   });
 
   it("uses the mobile sales form for a mobile-only chip or plan", () => {
@@ -347,30 +344,26 @@ describe("floating WhatsApp widget prefill", () => {
     assert.doesNotMatch(withPlan, /安裝\/常用地址|屋樓類型/);
   });
 
-  it("labels every lead source in words and leaves the plan-card # mark alone", () => {
-    assert.equal(widgetSourceLabel("unknown"), "來源：未知");
-    assert.equal(widgetSourceLabel("organic"), "來源：自然搜尋");
-    assert.equal(widgetSourceLabel("google_ads"), "來源：Google 廣告");
-    assert.equal(widgetSourceLabel("meta"), "來源：Meta 廣告");
-    assert.equal(widgetSourceLabel("other"), "來源：其他渠道");
+  it("uses the same #0–#4 inquiry mark as other quote links", () => {
     const body = quoteMessage([plan(FLASH_PLAN)]);
     const cases: [string, string][] = [
-      ["", "來源：未知"],
-      ["?utm_source=organic", "來源：自然搜尋"],
-      ["?utm_source=google&utm_medium=cpc", "來源：Google 廣告"],
-      ["?fbclid=IwAR2click", "來源：Meta 廣告"],
-      ["?utm_source=newsletter&utm_campaign=spring", "來源：其他渠道"],
+      ["", "【查詢】網站 #0"],
+      ["?utm_source=organic", "【查詢】網站 #1"],
+      ["?utm_source=google&utm_medium=cpc", "【查詢】網站 #2"],
+      ["?cat=broadband&utm_source=google&utm_medium=cpc", "【查詢】家居寬頻 #2"],
+      ["?fbclid=IwAR2click", "【查詢】網站 #3"],
+      ["?utm_source=newsletter&utm_campaign=spring", "【查詢】網站 #4"],
     ];
     for (const [search, label] of cases) {
       const text = widgetPrefill(search, body);
       assert.match(text, new RegExp(`${label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`));
       assert.match(text, /轉台獨家優惠/);
-      assert.doesNotMatch(text, /#\d|【查詢】/);
+      assert.doesNotMatch(text, /來源：/);
+      withLead(search, () => {
+        const card = new URL(quoteWhatsappHref(body)).searchParams.get("text") ?? "";
+        assert.equal(text, card);
+      });
     }
-    assert.doesNotMatch(body, /來源：|#\d/);
-    const planCard = new URL(quoteWhatsappHref(body)).searchParams.get("text") ?? "";
-    assert.match(planCard, /轉台獨家優惠/);
-    assert.match(planCard, /#0$/);
-    assert.doesNotMatch(planCard, /來源：/);
+    assert.doesNotMatch(body, /來源：|#\d|【查詢】/);
   });
 });
