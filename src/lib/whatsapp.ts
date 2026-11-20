@@ -17,10 +17,8 @@ import { toEnglishLazy } from "./plan-en-lazy.ts";
 import {
   appendInquiryMark,
   classifyLeadSource,
-  inquiryTopic,
   readLeadTouch,
   type LeadSource,
-  type LeadTouch,
 } from "./ads-attribution.ts";
 
 const HOUSING_MESSAGE: Record<Housing, MessageKey> = {
@@ -280,9 +278,6 @@ export function salesQuoteMessage(input: SalesQuoteInput = {}) {
   ].join("\n");
 }
 
-const FAB_INQUIRY_ZH = "你好，我想查詢覆蓋同計劃。";
-const FAB_INQUIRY_EN = "Hi, I would like to ask about coverage and plans.";
-
 const WIDGET_SOURCE_ZH: Record<LeadSource, string> = {
   unknown: "來源：未知",
   organic: "來源：自然搜尋",
@@ -303,77 +298,18 @@ export function widgetSourceLabel(source: LeadSource, locale: Locale = "zh") {
   return locale === "en" ? WIDGET_SOURCE_EN[source] : WIDGET_SOURCE_ZH[source];
 }
 
-function inquiryTopicEn(touch: LeadTouch | null | undefined) {
-  const housing = touch?.housing;
-  const cat = touch?.cat;
-  if (housing === "village") return "village broadband";
-  if (housing === "public") return "public-housing broadband";
-  if (housing === "hos") return "HOS broadband";
-  if (housing === "private") return "private estate";
-  if (cat === "home5g") return "5G home broadband";
-  if (cat === "mobile") return "mobile plans";
-  if (cat === "business") return "business broadband";
-  if (cat === "broadband") return "home broadband";
-  return "website";
-}
-
-/** Floating widget only. Spoken source label, never a bare #0–#4. */
-export function widgetAttributionText(touch: LeadTouch | null | undefined, locale: Locale = "zh") {
-  const source = widgetSourceLabel(classifyLeadSource(touch).source, locale);
-  if (locale === "en") return `Enquiry: ${inquiryTopicEn(touch)}\n${source}`;
-  return `【查詢】${inquiryTopic(touch)}\n${source}`;
-}
-
-function appendWidgetAttribution(text: string, touch: LeadTouch | null | undefined, locale: Locale) {
+/** Floating widget only. Spoken source line, never the plan-card `#0`–`#4` mark. */
+function appendWidgetSource(text: string, locale: Locale) {
+  const line = widgetSourceLabel(classifyLeadSource(readLeadTouch()).source, locale);
   if (/(^|\n)來源：/.test(text) || /(^|\n)Source: /.test(text)) return text;
-  const block = widgetAttributionText(touch, locale);
   const body = text.replace(/\s+$/, "");
-  return body ? `${body}\n${block}` : block;
+  return body ? `${body}\n${line}` : line;
 }
 
-/** Floating widget prefill. Does not change the plan-card quote href. */
+/** Same brand prefix as other quote links, plus the spoken source. Does not call quoteWhatsappHref. */
 export function widgetWhatsappHref(text: string, phone: string = SITE.whatsappE164, locale: Locale = "zh") {
-  const marked = appendWidgetAttribution(text, readLeadTouch(), locale);
+  const marked = appendWidgetSource(text, locale);
   return whatsappSendHref(text.trim() ? withBrandTag(marked) : marked, phone);
-}
-
-function fabSkipsAddress(plans: readonly Plan[], note: string) {
-  if (plans.length > 0) return plans.every((plan) => plan.category === "mobile");
-  return note === "流動通訊" || note === "mobile plans";
-}
-
-/** Sitewide chat button only. A short coverage-and-plan note, not the sales form. */
-export function fabInquiryMessage(
-  note: string,
-  plans: Plan[] = [],
-  locale: Locale = "zh",
-  inquiry?: Partial<Inquiry> | null,
-) {
-  const lines = [locale === "en" ? FAB_INQUIRY_EN : FAB_INQUIRY_ZH];
-  for (const plan of plans) {
-    const provider = PROVIDER_MAP[plan.providerId];
-    const title =
-      locale === "en"
-        ? `${provider?.nameEn ?? ""} ${toEnglishLazy(plan.name)}`.trim()
-        : `${provider?.name ?? ""} ${plan.name}`.trim();
-    if (title) lines.push(title);
-    const fee = formatFee(plan.monthlyFee);
-    lines.push(locale === "en" ? `Monthly fee: ${fee}` : `月費：${fee}`);
-  }
-  const extra = note.trim();
-  if (!fabSkipsAddress(plans, extra)) {
-    const estate = inquiry?.estate?.trim() ?? "";
-    const housing = housingLabel(inquiry?.housing?.trim() ?? "", locale);
-    if (locale === "en") {
-      lines.push(`Address: ${estate}`);
-      lines.push(`Housing type: ${housing}`);
-    } else {
-      lines.push(`申請地址：${estate}`);
-      lines.push(`樓宇類型：${housing}`);
-    }
-  }
-  if (extra) lines.push(extra);
-  return lines.join("\n");
 }
 
 export function quoteMessage(
@@ -456,3 +392,18 @@ export const QUICK_REPLIES = [
     textEn: "5G home broadband",
   },
 ] as const;
+
+/**
+ * Floating widget body. Same sales form as a plan-card quote.
+ * A category chip sets 服務類型 only when no plan is selected.
+ * Typed notes that are not a chip go in 特殊需求.
+ */
+export function widgetQuoteMessage(note: string, plans: Plan[] = [], inquiry?: Partial<Inquiry> | null) {
+  const trimmed = note.trim();
+  const chip = QUICK_REPLIES.find((item) => item.text === trimmed || item.textEn === trimmed);
+  const stored = inquiry ?? {};
+  const serviceType = stored.serviceType?.trim() || (plans.length === 0 && chip ? CATEGORY_LABEL[chip.id] : "");
+  const next = serviceType ? { ...stored, serviceType } : stored;
+  const special = !chip && trimmed ? trimmed : undefined;
+  return quoteMessage(plans, next, "zh", special);
+}
