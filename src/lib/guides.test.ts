@@ -143,7 +143,7 @@ describe("village guide cite", () => {
     );
     assert.equal(
       guide.body[2]?.paragraphs[2],
-      "以上僅供參考，唔係排名，亦唔保證你座村屋一定有線；實際覆蓋、安裝期、月費同合約，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。",
+      "以上僅供參考，唔係排名，亦唔保證你座村屋一定有線；實際覆蓋、安裝期、月費同合約，一律以電訊商確認為準。",
     );
     assert.match(guide.excerptEn, /specified-address promo of \[HK\$218\/month\]/);
     assert.match(guide.excerptEn, /list price in the same series is \[HK\$378\]/);
@@ -839,11 +839,11 @@ describe("total-cost and contract-fee guides", () => {
 
     assert.equal(
       total.disclaimer,
-      "以上例子僅供示範計法，連同站內列出計劃一律只供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。",
+      "以上例子僅供示範計法，連同站內列出計劃一律只供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。",
     );
     assert.equal(
       fees.disclaimer,
-      "以上僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。",
+      "以上僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。",
     );
     assert.deepEqual(
       total.faq?.map((item) => item.q),
@@ -881,7 +881,7 @@ describe("total-cost and contract-fee guides", () => {
 
 describe("switch and renewal guides", () => {
   const DISCLAIMER =
-    "以上僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。";
+    "以上僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。";
 
   function shown(section: {
     paragraphs: string[];

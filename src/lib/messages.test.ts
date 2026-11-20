@@ -84,8 +84,9 @@ describe("trust/compliance copy", () => {
     assert.match(about, /https:\/\/wa\.me\/\$\{SITE\.whatsappE164\}/);
     assert.doesNotMatch(about, /t\("aboutIndependent"\)|t\("noCommission"\)|t\("aboutDisclaimer"\)|t\("aboutProviders"\)/);
     assert.doesNotMatch(about, /間電訊商|個參考計劃|個屋苑|資料更新|轉台獨家優惠|排版備註|\/brand|QuoteLink|61118499/);
-    assert.match(footer, /t\("noCommission"\)/);
-    assert.match(footer, /t\("disclaimer1"\)/);
+    assert.match(footer, /t\("footerNotice"\)/);
+    assert.match(footer, /t\("disclaimer3"\)/);
+    assert.doesNotMatch(footer, /t\("noCommission"\)|t\("referencePrice"\)|t\("disclaimer1"\)|t\("disclaimer2"\)/);
     assert.match(home, /HomeBestPicks/);
     assert.match(picks, /cheapestPlan\("broadband"\)/);
     assert.match(picks, /t\("bestPicksTitle"\)/);
@@ -302,10 +303,8 @@ describe("date stamps", () => {
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
     const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
     assert.equal(quoted(messages, "hkUpdated")[0], "香港 · 資料更新 {date}");
-    assert.equal(
-      quoted(messages, "headerStrip")[0],
-      "資料更新：{date}　｜　本站無向電訊商收取佣金或廣告費；列出月費僅供參考，以電訊商確認為準。",
-    );
+    assert.equal(quoted(messages, "headerStrip")[0], "資料更新：{date}");
+    assert.equal(quoted(messages, "headerStrip")[1], "Data updated: {date}");
     const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
     assert.match(header, /t\("headerStrip", \{ date: updated \}\)/);
     assert.match(header, /text-fg/);
@@ -434,7 +433,12 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.match(independent?.a ?? "", new RegExp(`${PLAN_COUNT} 個參考計劃`));
     assert.match(independent?.a ?? "", new RegExp(`${ESTATE_COUNT} 個屋苑`));
     assert.match(independent?.a ?? "", new RegExp(SITE.updated));
-    assert.match(independent?.a ?? "", /最終月費、覆蓋同安裝以電訊商確認為準/);
+    assert.doesNotMatch(independent?.a ?? "", /最終月費、覆蓋同安裝以電訊商確認為準/);
+    assert.match(independent?.a ?? "", /公屋、居屋、私樓同村屋分開列。$/);
+    const publicHos = FAQ.find((item) => item.q === "公屋同埋居屋價錢會唔會唔同？");
+    assert.match(publicHos?.a ?? "", /約 HK\$58／月起/);
+    assert.match(publicHos?.a ?? "", /實際以電訊商確認為準。$/);
+    assert.doesNotMatch(publicHos?.a ?? "", /僅供參考，以電訊商確認為準/);
     const fees = FAQ.find((item) => item.q === FEE_RANGE_QUESTION);
     assert.ok(fees);
     assert.match(fees.a, /^冇。香港寬頻冇一條適用所有地區、所有樓類嘅單一參考月費/);
@@ -554,7 +558,7 @@ describe("broadband hub answer-first summary", () => {
       .replaceAll("{fee218}", formatFee(fibre218.monthlyFee));
     assert.equal(
       filled,
-      `${SITE.updated}，齊Quote 光纖分類共 76 個參考計劃。站內可見入門例：指定屋苑 1000M 約 HK$58／月（48 個月）；公居屋轉台 1000M 約 HK$75／月（36 個月，HGC）；香港寬頻 1000M 限時快閃連 Wi-Fi 7 標示 HK$98／月（36 個月，須 2026-09-22 至 2026-11-30 成功預約安裝）。村屋計劃分開列。村屋由指定地址優惠 HK$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。唔好用私樓價估。月費、覆蓋、安裝以電訊商確認為準；本站無收取電訊商佣金或廣告費。`,
+      `${SITE.updated}，齊Quote 光纖分類共 76 個參考計劃。站內可見入門例：指定屋苑 1000M 約 HK$58／月（48 個月）；公居屋轉台 1000M 約 HK$75／月（36 個月，HGC）；香港寬頻 1000M 限時快閃連 Wi-Fi 7 標示 HK$98／月（36 個月，須 2026-09-22 至 2026-11-30 成功預約安裝）。村屋計劃分開列。村屋由指定地址優惠 HK$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。唔好用私樓價估。`,
     );
   });
 });

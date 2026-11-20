@@ -5,7 +5,6 @@ export const PWA = {
   description: "香港寬頻／手機月費參考比較，WhatsApp 查核報價",
   androidTip: "想更快開啟？加到主畫面，之後撳圖示就用齊Quote。",
   iosTip: "用 Safari 開本站 → 分享掣 →「加入主畫面」，之後好似 App 一樣開。",
-  disclaimer: "月費同覆蓋僅供參考，實際以查核報價為準。",
   themeColor: "#1557C4",
   backgroundColor: "#F4F8FF",
   startUrl: "https://www.chaiquote.hk/",

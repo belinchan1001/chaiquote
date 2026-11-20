@@ -36,7 +36,9 @@ describe("locked PWA copy", () => {
       PWA.iosTip,
       "用 Safari 開本站 → 分享掣 →「加入主畫面」，之後好似 App 一樣開。",
     );
-    assert.equal(PWA.disclaimer, "月費同覆蓋僅供參考，實際以查核報價為準。");
+    assert.equal("disclaimer" in PWA, false);
+    assert.doesNotMatch(readFileSync(join(ROOT, "src/components/pwa-install-tip.tsx"), "utf8"), /月費同覆蓋僅供參考/);
+    assert.doesNotMatch(readFileSync(join(ROOT, "src/components/site-footer.tsx"), "utf8"), /pwaDisclaimer/);
     assert.equal(PWA.name, CHAIQUOTE_APP_NAME);
     assert.equal(PWA.description, CHAIQUOTE_APP_DESCRIPTION);
     assert.equal(PWA.themeColor, CHAIQUOTE_THEME_COLOR);

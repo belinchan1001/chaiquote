@@ -96,9 +96,9 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
     },
     disclaimer:
-      "以上月費同例子來自齊Quote 站內列出計劃，僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。",
+      "以上月費同例子來自齊Quote 站內列出計劃，僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。",
     disclaimerEn:
-      "The fees and examples above are plans listed on ChaiQuote. They are a reference, not a ranking, and they do not mean your building has them. The carrier confirms coverage, install timing, the fee, the contract and router terms. This site does not take commission or advertising fees from carriers.",
+      "The fees and examples above are plans listed on ChaiQuote. They are a reference, not a ranking, and they do not mean your building has them. The carrier confirms coverage, install timing, the fee, the contract and router terms.",
     related: [
       "home-broadband-2026",
       "public-hos-fees",
@@ -2595,9 +2595,9 @@ export const GUIDE_ARTICLES: Guide[] = [
     ],
     estates: [],
     disclaimer:
-      "以上例子僅供示範計法，連同站內列出計劃一律只供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。",
+      "以上例子僅供示範計法，連同站內列出計劃一律只供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。",
     disclaimerEn:
-      "The example above only shows the method. Plans listed on this site are a reference, not a ranking, and they do not mean your building has them. The carrier confirms coverage, install timing, the fee, the contract and router terms. This site does not take commission or advertising fees from carriers.",
+      "The example above only shows the method. Plans listed on this site are a reference, not a ranking, and they do not mean your building has them. The carrier confirms coverage, install timing, the fee, the contract and router terms.",
     faq: [
       {
         q: "標示月費同平均月費，邊個先係齊Quote 引用？",
@@ -2990,7 +2990,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     plans: [{ href: "/plans?cat=broadband", label: "按樓類睇光纖計劃" }],
     estates: [],
     disclaimer:
-      "以上僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。",
+      "以上僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。",
     body: [
       {
         heading: "先查舊約完約日",
@@ -3382,9 +3382,9 @@ export const GUIDE_ARTICLES: Guide[] = [
     ],
     estates: [],
     disclaimer:
-      "以上僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。",
+      "以上僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。",
     disclaimerEn:
-      "The above is a reference, not a ranking, and it does not mean your building has the plan. The carrier confirms coverage, install timing, the fee, the contract and router terms. This site does not take commission or advertising fees from carriers.",
+      "The above is a reference, not a ranking, and it does not mean your building has the plan. The carrier confirms coverage, install timing, the fee, the contract and router terms.",
     faq: [
       {
         q: "計劃卡上嘅月費包唔包安裝費？",
@@ -3576,7 +3576,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     plans: [{ href: "/plans?cat=broadband", label: "按樓類睇光纖計劃" }],
     estates: [],
     disclaimer:
-      "以上僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。本站無向電訊商收取佣金或廣告費。",
+      "以上僅供參考，唔係排名，亦唔保證你座樓一定有；實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準。",
     body: [
       {
         heading: "新客價同續約價通常唔同",
