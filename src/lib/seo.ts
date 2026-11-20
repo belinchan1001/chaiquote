@@ -1,5 +1,12 @@
 import { cardHeadlineFee, formatFee, formatPlanSpeed, getPlan, isListedPlan, PLANS, PROVIDER_MAP, type Category, type Housing, type Plan, type ProviderId } from "./plans.ts";
-import { INDEXABLE_ESTATE_PAGES, estatePagePath, estateSeoDescription, estateSeoTitle, type EstatePage } from "./estate-pages.ts";
+import {
+  INDEXABLE_ESTATE_PAGES,
+  estateFaq,
+  estatePagePath,
+  estateSeoDescription,
+  estateSeoTitle,
+  type EstatePage,
+} from "./estate-pages.ts";
 import { GUIDES, getGuide, type Guide } from "./guides.ts";
 import { TECH_NEWS_ARTICLES, TECH_NEWS_CATEGORIES } from "./tech-news.ts";
 import { guideTopicImage } from "./guide-media.ts";
@@ -416,6 +423,25 @@ export function guideJsonLd(guide: Guide) {
   return { "@context": "https://schema.org", "@graph": graph };
 }
 
+function estateFaqMainEntity(page: EstatePage) {
+  return estateFaq(page.estate).map((item) => ({
+    "@type": "Question" as const,
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer" as const, text: item.a },
+  }));
+}
+
+/** FAQPage only. Noindex estate rows use this so the visible FAQ still matches JSON-LD. */
+export function estateFaqJsonLd(page: EstatePage) {
+  const url = canonicalUrl(estatePagePath(page));
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${url}#faq`,
+    mainEntity: estateFaqMainEntity(page),
+  };
+}
+
 export function estateJsonLd(page: EstatePage) {
   const url = canonicalUrl(estatePagePath(page));
   return {
@@ -436,6 +462,11 @@ export function estateJsonLd(page: EstatePage) {
           { "@type": "ListItem", position: 2, name: "香港屋苑寬頻比較", item: canonicalUrl("/estates") },
           { "@type": "ListItem", position: 3, name: page.estate.name, item: url },
         ],
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${url}#faq`,
+        mainEntity: estateFaqMainEntity(page),
       },
     ],
   };

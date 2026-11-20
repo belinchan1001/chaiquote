@@ -8,6 +8,7 @@ import {
   isHgcVillage,
   isCmhkVillage,
   isHkbnVillage,
+  isIcableDesignatedEstatePlan,
   isOfferExpired,
   matchesHousing,
   planGeneration,
@@ -16,7 +17,16 @@ import {
 } from "./plans.ts";
 import { catalogPlans } from "./plan-overrides.ts";
 
-export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
+export type FilterPlansOptions = {
+  /**
+   * Estate pages only. i-CABLE 指定屋苑 plans stay on 公屋／居屋／私樓 even if a
+   * name list is set, and never count as applicable on 村屋 pages.
+   * /plans does not pass this flag.
+   */
+  estatePage?: boolean;
+};
+
+export function filterPlans(search: PlansSearch, savedIds: string[] = [], options?: FilterPlansOptions) {
   const qEstate = !search.estate?.trim() && search.q ? matchKnownEstate(search.q) : undefined;
   const estate = search.estate?.trim() || qEstate?.name;
   const housing = search.housing ?? qEstate?.housing;
@@ -47,7 +57,11 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = []) {
     if (limitToNetvigator && plan.providerId !== "netvigator") return false;
     if (fibreProviders && !fibreProviders.includes(plan.providerId)) return false;
     if (blockIcable && plan.providerId === "icable") return false;
-    if (plan.onlyEstates?.length) {
+    const icableDesignated = isIcableDesignatedEstatePlan(plan);
+    if (options?.estatePage && housing === "village" && icableDesignated) return false;
+    const keepIcableDesignated =
+      options?.estatePage === true && housing !== "village" && icableDesignated;
+    if (plan.onlyEstates?.length && !keepIcableDesignated) {
       const unlocked = unlockedFor(plan.onlyEstates);
       if (search.intake) {
         if (estate && !unlocked) return false;
