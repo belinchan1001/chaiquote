@@ -1,5 +1,15 @@
+import { hongKongCalendarDate } from "./catalogue-date.ts";
 import { ESTATE_COUNT } from "./estate-count.ts";
 import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
+
+/**
+ * Last manual catalogue revision. Sitemap `lastmod` for non-article URLs and
+ * Offer.priceValidUntil stay on this stamp. The visible「資料更新」date does not.
+ */
+export const CATALOGUE_CONTENT_STAMP = "2026-11-14";
+
+/** Privacy policy「最後更新日期」. Legal copy; not the daily catalogue display date. */
+export const PRIVACY_UPDATED = "2026-11-14";
 
 export const SITE = {
   name: "齊Quote",
@@ -12,8 +22,13 @@ export const SITE = {
     "https://www.facebook.com/p/%E9%BD%8AQuote-61594256257767/",
   ],
   description: `齊Quote（chaiquote.hk）係獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。所列月費僅供參考，實際以電訊商確認為準。`,
-  /** Catalogue stamp shown on the homepage hero as YYYY-MM-DD. */
-  updated: "2026-11-14",
+  /**
+   * Catalogue display date (YYYY-MM-DD) in Asia/Hong_Kong.
+   * Read at render time. A date of today does not mean prices were re-checked today.
+   */
+  get updated(): string {
+    return hongKongCalendarDate();
+  },
   phoneDisplay: "6309 9966",
   whatsappE164: "85263099966",
   hktPhoneDisplay: "5436 3004",
@@ -175,31 +190,34 @@ export const FEE_RANGE_ANSWER_EN =
 export const PLANS_BROADBAND_H1 = "香港光纖寬頻報價比較";
 export const PLANS_BROADBAND_H1_EN = "Compare Hong Kong fibre broadband quotes";
 
-export const PLANS_BROADBAND_LEAD =
-  "齊Quote 係獨立寬頻比較站（非電訊商官網、無向電訊商收佣金或廣告費）。光纖參考月費按樓類：公居屋約 HK$58–98、私樓約 HK$88–109、村屋由指定地址優惠 HK$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。（資料更新 2026-11-14）；唔係全港劃一價，以電訊商確認為準。";
+const PLANS_BROADBAND_LEAD_ZH =
+  "齊Quote 係獨立寬頻比較站（非電訊商官網、無向電訊商收佣金或廣告費）。光纖參考月費按樓類：公居屋約 HK$58–98、私樓約 HK$88–109、村屋由指定地址優惠 HK$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。（資料更新 {date}）；唔係全港劃一價，以電訊商確認為準。";
 
-export const PLANS_BROADBAND_LEAD_EN =
-  "ChaiQuote is an independent broadband comparison site (not a carrier website, and it does not take commission or advertising fees from carriers). Fibre reference fees by housing type: public / HOS about HK$58–98, private estates about HK$88–109, village houses from a specified-address promo of HK$218/month (CMHK village 1000M, 24 months, installation waived from HK$680), which is not the fee for every village house; the list price in the same series is HK$378 (updated 2026-11-14); not one territory-wide fee. The carrier confirms.";
+const PLANS_BROADBAND_LEAD_EN =
+  "ChaiQuote is an independent broadband comparison site (not a carrier website, and it does not take commission or advertising fees from carriers). Fibre reference fees by housing type: public / HOS about HK$58–98, private estates about HK$88–109, village houses from a specified-address promo of HK$218/month (CMHK village 1000M, 24 months, installation waived from HK$680), which is not the fee for every village house; the list price in the same series is HK$378 (updated {date}); not one territory-wide fee. The carrier confirms.";
+
+export function plansBroadbandLead(locale: "zh" | "en", date = hongKongCalendarDate()) {
+  return (locale === "en" ? PLANS_BROADBAND_LEAD_EN : PLANS_BROADBAND_LEAD_ZH).replaceAll("{date}", date);
+}
 
 export function plansBroadbandHero(locale: "zh" | "en") {
   const en = locale === "en";
   return {
     h1: en ? PLANS_BROADBAND_H1_EN : PLANS_BROADBAND_H1,
-    lead: en ? PLANS_BROADBAND_LEAD_EN : PLANS_BROADBAND_LEAD,
+    lead: plansBroadbandLead(locale),
   };
 }
 
-const FAQ_VARS = {
-  phone: SITE.phoneDisplay,
-  email: SITE.leadEmail,
-  date: SITE.updated,
-  providers: String(PROVIDER_COUNT),
-  plans: String(PLAN_COUNT),
-  estates: String(ESTATE_COUNT),
-} as const;
-
 export function fillSiteTemplate(template: string, extra?: Record<string, string | number>) {
-  const vars: Record<string, string | number> = { ...FAQ_VARS, ...extra };
+  const vars: Record<string, string | number> = {
+    phone: SITE.phoneDisplay,
+    email: SITE.leadEmail,
+    date: hongKongCalendarDate(),
+    providers: String(PROVIDER_COUNT),
+    plans: String(PLAN_COUNT),
+    estates: String(ESTATE_COUNT),
+    ...extra,
+  };
   return template.replace(/\{(\w+)\}/g, (_, key: string) => String(vars[key] ?? `{${key}}`));
 }
 
@@ -266,8 +284,10 @@ export const FAQ_EN = [
   },
 ] as const;
 
-/** Filled zh answers for FAQPage JSON-LD. Visible zh copy uses the same templates. */
-export const FAQ = FAQ_ZH.map((item) => ({
-  q: item.q,
-  a: fillSiteTemplate(item.a),
-}));
+/** Filled zh answers for FAQPage JSON-LD. Call at render so `{date}` is today's Hong Kong date. */
+export function siteFaq() {
+  return FAQ_ZH.map((item) => ({
+    q: item.q,
+    a: fillSiteTemplate(item.a),
+  }));
+}

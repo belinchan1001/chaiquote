@@ -3,7 +3,9 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { hongKongCalendarDate } from "./catalogue-date.ts";
 import {
+  CATALOGUE_CONTENT_STAMP,
   SITE,
   VILLAGE_CMHK_OPENING,
   VILLAGE_SPECIFIED_ADDRESS_CITE,
@@ -33,7 +35,8 @@ const here = dirname(fileURLToPath(import.meta.url));
 
 describe("guide manuscript dates vs catalogue stamp", () => {
   it("keeps guide lastmod on the manuscript date, not SITE.updated", () => {
-    assert.equal(SITE.updated, "2026-11-14");
+    assert.equal(SITE.updated, hongKongCalendarDate());
+    assert.equal(CATALOGUE_CONTENT_STAMP, "2026-11-14");
     const fiber = getGuide("fiber");
     assert.ok(fiber);
     assert.equal(fiber.published, "2026-09-09");
@@ -45,7 +48,16 @@ describe("guide manuscript dates vs catalogue stamp", () => {
     assert.equal(port.published, "2026-09-05");
     assert.equal(port.modified, "2026-09-06");
     assert.equal(sitemapLastmod("/guides/port-in"), "2026-09-06");
-    assert.notEqual(sitemapLastmod("/guides/port-in"), SITE.updated);
+    assert.equal(sitemapLastmod("/guides/port-in"), port.modified);
+    if (SITE.updated !== port.modified) {
+      assert.notEqual(sitemapLastmod("/guides/port-in"), SITE.updated);
+    }
+    const feeGuide = getGuide("home-broadband-2026");
+    const feeParagraph = feeGuide?.body
+      .flatMap((section) => section.paragraphs)
+      .find((paragraph) => paragraph.includes("資料更新"));
+    assert.match(feeParagraph ?? "", /資料更新 2026-11-14/);
+    assert.equal(feeGuide?.modified, "2026-11-14");
 
     for (const slug of ["broadband-total-cost", "1000m-or-2500m"] as const) {
       const guide = getGuide(slug);

@@ -112,28 +112,23 @@ const CHANNEL_CODE: Record<LeadSource, string> = {
   other: "4",
 };
 
-export function customerInquiryLine(touch: LeadTouch | null | undefined): string {
+/** Category the visitor landed on. Shown in the WhatsApp 【查詢】 line. Not a plan number. */
+export function inquiryTopic(touch: LeadTouch | null | undefined): string {
   const housing = touch?.housing;
   const cat = touch?.cat;
-  const topic =
-    housing === "village"
-      ? "村屋寬頻"
-      : housing === "public"
-        ? "公屋寬頻"
-        : housing === "hos"
-          ? "居屋寬頻"
-          : housing === "private"
-            ? "私人樓宇"
-            : cat === "home5g"
-              ? "5G 家居寬頻"
-              : cat === "mobile"
-                ? "手機計劃"
-                : cat === "business"
-                  ? "商業寬頻"
-                  : cat === "broadband"
-                    ? "家居寬頻"
-                    : "網站";
-  return `【查詢】${topic} #${CHANNEL_CODE[classifyLeadSource(touch).source]}`;
+  if (housing === "village") return "村屋寬頻";
+  if (housing === "public") return "公屋寬頻";
+  if (housing === "hos") return "居屋寬頻";
+  if (housing === "private") return "私人樓宇";
+  if (cat === "home5g") return "5G 家居寬頻";
+  if (cat === "mobile") return "手機計劃";
+  if (cat === "business") return "商業寬頻";
+  if (cat === "broadband") return "家居寬頻";
+  return "網站";
+}
+
+export function customerInquiryLine(touch: LeadTouch | null | undefined): string {
+  return `【查詢】${inquiryTopic(touch)} #${CHANNEL_CODE[classifyLeadSource(touch).source]}`;
 }
 
 export function appendInquiryMark(text: string, touch: LeadTouch | null | undefined): string {

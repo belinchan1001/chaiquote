@@ -10,7 +10,7 @@ import {
 import { GUIDES, getGuide, type Guide } from "./guides.ts";
 import { TECH_NEWS_ARTICLES, TECH_NEWS_CATEGORIES } from "./tech-news.ts";
 import { guideTopicImage } from "./guide-media.ts";
-import { SITE } from "./site.ts";
+import { CATALOGUE_CONTENT_STAMP, SITE } from "./site.ts";
 import {
   ABOUT_SEO,
   CATEGORY_SEO,
@@ -85,11 +85,11 @@ export const SITEMAP_URL_LIMIT = 50_000;
 const W3C_LASTMOD = /^\d{4}(?:-\d{2}(?:-\d{2})?)?$/;
 
 /**
- * SITE.updated is a catalogue stamp (`2026-09-20`, `2026年9月20日`, or `2026年9月`).
- * Convert documented forms to W3C `YYYY-MM` / `YYYY-MM-DD`.
- * Do not invent a clock date.
+ * Convert a catalogue content stamp (`2026-09-20`, `2026年9月20日`, or `2026年9月`)
+ * to W3C `YYYY-MM` / `YYYY-MM-DD`. Defaults to the manual content stamp.
+ * The visible「資料更新」date is Hong Kong's calendar day and must not be used here.
  */
-export function siteDataLastmod(stamp: string = SITE.updated): string | undefined {
+export function siteDataLastmod(stamp: string = CATALOGUE_CONTENT_STAMP): string | undefined {
   if (W3C_LASTMOD.test(stamp)) return stamp;
   const day = /^(\d{4})年(\d{1,2})月(\d{1,2})日$/.exec(stamp);
   if (day) {
@@ -100,8 +100,8 @@ export function siteDataLastmod(stamp: string = SITE.updated): string | undefine
   return `${match[1]}-${match[2]!.padStart(2, "0")}`;
 }
 
-/** Last calendar day of SITE.updated, for Offer.priceValidUntil. */
-export function siteOfferValidUntil(stamp: string = SITE.updated): string | undefined {
+/** Last calendar day of the manual catalogue stamp, for Offer.priceValidUntil. */
+export function siteOfferValidUntil(stamp: string = CATALOGUE_CONTENT_STAMP): string | undefined {
   const month = siteDataLastmod(stamp);
   if (!month) return undefined;
   const year = Number(month.slice(0, 4));
@@ -114,8 +114,8 @@ export function siteOfferValidUntil(stamp: string = SITE.updated): string | unde
 
 /**
  * lastmod only from repo-backed dates. Guide `modified` / `published` win
- * for article URLs. Other URLs use the site catalogue stamp. Omit when
- * neither source exists — never use the clock.
+ * for article URLs. News uses `published`. Other URLs use the manual
+ * catalogue content stamp. Omit when neither source exists — never use the clock.
  */
 export function sitemapLastmod(path: string): string | undefined {
   if (path.startsWith("/guides/")) {

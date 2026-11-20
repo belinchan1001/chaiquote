@@ -273,21 +273,6 @@ export function salesQuoteMessage(input: SalesQuoteInput = {}) {
   ].join("\n");
 }
 
-const FAB_INQUIRY_ZH = "你好，我想查詢覆蓋同計劃。";
-const FAB_INQUIRY_EN = "Hi, I would like to ask about coverage and plans.";
-
-/** Sitewide chat button only. A short coverage-and-plan note, not the sales form. */
-export function fabInquiryMessage(note: string, plans: Plan[] = [], locale: Locale = "zh") {
-  const lines = [locale === "en" ? FAB_INQUIRY_EN : FAB_INQUIRY_ZH];
-  const names = plans
-    .map((plan) => `${PROVIDER_MAP[plan.providerId]?.name ?? ""} ${plan.name}`.trim())
-    .filter(Boolean);
-  if (names.length) lines.push(names.join("；"));
-  const extra = note.trim();
-  if (extra) lines.push(extra);
-  return lines.join("\n");
-}
-
 export function quoteMessage(
   plans: Plan[] = [],
   inquiry?: Partial<Inquiry> | null,
@@ -368,3 +353,18 @@ export const QUICK_REPLIES = [
     textEn: "5G home broadband",
   },
 ] as const;
+
+/**
+ * Floating widget body. Same sales form as a plan-card quote.
+ * A category chip sets 服務類型 only when no plan is selected.
+ * Typed notes that are not a chip go in 特殊需求.
+ */
+export function widgetQuoteMessage(note: string, plans: Plan[] = [], inquiry?: Partial<Inquiry> | null) {
+  const trimmed = note.trim();
+  const chip = QUICK_REPLIES.find((item) => item.text === trimmed || item.textEn === trimmed);
+  const stored = inquiry ?? {};
+  const serviceType = stored.serviceType?.trim() || (plans.length === 0 && chip ? CATEGORY_LABEL[chip.id] : "");
+  const next = serviceType ? { ...stored, serviceType } : stored;
+  const special = !chip && trimmed ? trimmed : undefined;
+  return quoteMessage(plans, next, "zh", special);
+}

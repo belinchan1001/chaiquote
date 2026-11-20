@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import { MESSAGES } from "./messages.ts";
 import { ESTATE_COUNT } from "./estate-count.ts";
 import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
-import { FAQ, FEE_RANGE_QUESTION, fillSiteTemplate, INDEPENDENT_BODY, SITE } from "./site.ts";
+import { FEE_RANGE_QUESTION, PRIVACY_UPDATED, fillSiteTemplate, INDEPENDENT_BODY, SITE, siteFaq } from "./site.ts";
 import { aboutJsonLd, homeJsonLd } from "./canonical.ts";
 import { formatFee, getPlan } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
@@ -339,6 +339,10 @@ describe("privacy Android app section", () => {
       quoted(messages, "privacyAndroidP3")[0],
       "應用程式沿用網站同一套 Cookie／本機儲存及分析設定，並非另開追蹤。應用程式內的瀏覽技術資料、廣告識別相關處理（如有），以及你透過「留低電話」或 WhatsApp 提交的資料，處理目的、保存及權利與網站相同。查閱或改正個人資料，聯絡方式同上。",
     );
+    assert.equal(
+      quoted(messages, "privacyUpdateText")[0].replaceAll("{date}", PRIVACY_UPDATED),
+      "政策或會更新；重大改動喺本頁公布。最後更新日期：2026-11-14。",
+    );
     assert.equal(quoted(messages, "privacyUpdate")[0], "更新");
     assert.match(privacy, /privacyAndroid[\s\S]*privacyUpdate/);
     assert.doesNotMatch(privacy, /privacyOverseas|overseasNote/);
@@ -389,6 +393,7 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
       [MESSAGES.zh.faq5q, MESSAGES.zh.faq5a],
       [MESSAGES.zh.faq6q, MESSAGES.zh.faq6a],
     ] as const;
+    const FAQ = siteFaq();
     assert.equal(FAQ.length, ui.length);
     ui.forEach(([q, a], index) => {
       assert.equal(q, FAQ[index]?.q);
