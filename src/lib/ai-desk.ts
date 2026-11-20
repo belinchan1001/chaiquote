@@ -17,7 +17,7 @@ import {
   type SpeedMbps,
 } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
-import { FAQ } from "./site.ts";
+import { FAQ_ZH, fillSiteTemplate } from "./site.ts";
 import {
   currentIdFromLabel,
   currentLabel,
@@ -641,7 +641,7 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
   {
     id: "official",
     re: /官網|官方|係咪電訊|係咪獨立|獨立比較|chaiquote.*(carrier|official)|independent/i,
-    zh: FAQ[0].a,
+    zh: FAQ_ZH[0].a,
     en: "Yes. ChaiQuote (chaiquote.hk) is an independent comparison site, not a carrier website, and it does not take commission or advertising fees from carriers. The carrier confirms the final fee, coverage and installation.",
     attach: false,
     href: "/about",
@@ -730,14 +730,29 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
   },
 ];
 
+function presentKnowledge(hit: (typeof KNOWLEDGE)[number]): KnowledgeHit {
+  return {
+    id: hit.id,
+    zh: hit.zh.includes("{") ? fillSiteTemplate(hit.zh) : hit.zh,
+    en: hit.en,
+    attach: hit.attach,
+    href: hit.href,
+    linkZh: hit.linkZh,
+    linkEn: hit.linkEn,
+  };
+}
+
 export function matchKnowledge(message: string): KnowledgeHit | undefined {
   const hit = KNOWLEDGE.find((row) => row.re.test(message));
   if (!hit) return undefined;
-  return { id: hit.id, zh: hit.zh, en: hit.en, attach: hit.attach, href: hit.href, linkZh: hit.linkZh, linkEn: hit.linkEn };
+  return presentKnowledge(hit);
 }
 
 export function knowledgeBriefs() {
-  return KNOWLEDGE.map((row) => ({ id: row.id, zh: row.zh, en: row.en }));
+  return KNOWLEDGE.map((row) => {
+    const hit = presentKnowledge(row);
+    return { id: hit.id, zh: hit.zh, en: hit.en };
+  });
 }
 
 export function composeFallback(input: {

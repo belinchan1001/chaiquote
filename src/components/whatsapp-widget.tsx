@@ -5,6 +5,7 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { WhatsAppTip } from "@/components/whatsapp-tip";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { readLeadTouch } from "@/lib/ads-attribution";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
 import type { Plan } from "@/lib/plans";
@@ -12,7 +13,7 @@ import { SITE } from "@/lib/site";
 import {
   QUICK_REPLIES,
   fabInquiryMessage,
-  quoteWhatsappHref,
+  widgetWhatsappHref,
   quotePlansOnPage,
   quoteVisitDesk,
 } from "@/lib/whatsapp";
@@ -185,7 +186,11 @@ export function WhatsAppWidget({ cornerClear }: { cornerClear: boolean }) {
   function send(text: string, allowPlansOnly = false) {
     const trimmed = text.trim();
     if (!trimmed && (!allowPlansOnly || quotePlans.length === 0)) return;
-    const outbound = fabInquiryMessage(trimmed, quotePlans, locale);
+    const touch = readLeadTouch();
+    const outbound = fabInquiryMessage(trimmed, quotePlans, locale, {
+      estate: inquiry.estate,
+      housing: inquiry.housing.trim() || touch.housing || "",
+    });
     setBubbles((prev) => [
       ...prev,
       { id: `${Date.now()}`, from: "me", text: trimmed || outbound },
@@ -196,7 +201,7 @@ export function WhatsAppWidget({ cornerClear }: { cornerClear: boolean }) {
       },
     ]);
     setDraft("");
-    window.open(quoteWhatsappHref(outbound, deskE164), "_blank", "noopener,noreferrer");
+    window.open(widgetWhatsappHref(outbound, deskE164, locale), "_blank", "noopener,noreferrer");
     trackWaClick({
       source: "widget",
       waPhone: deskE164,

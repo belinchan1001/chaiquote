@@ -15,6 +15,8 @@ import {
   quoteWhatsappE164,
   quoteWhatsappHref,
   QUICK_REPLIES,
+  widgetSourceLabel,
+  widgetWhatsappHref,
   whatsappHref,
 } from "./whatsapp.ts";
 
@@ -110,9 +112,11 @@ describe("WhatsApp quote prefill closing line", () => {
     assert.match(quote, /quoteWhatsAppActivateProps\(/);
     assert.match(widget, /fabInquiryMessage\(/);
     assert.doesNotMatch(widget, /quoteMessage\(/);
+    assert.doesNotMatch(widget, /quoteWhatsappHref\(/);
     assert.doesNotMatch(widget, /轉台獨家優惠|轉台禮品|心水電訊商/);
-    assert.match(widget, /quoteWhatsappHref\(/);
+    assert.match(widget, /widgetWhatsappHref\(/);
     assert.match(widget, /trackWaClick\(/);
+    assert.doesNotMatch(quote, /fabInquiryMessage\(|widgetWhatsappHref\(/);
     assert.match(staff, /portInQuoteFromInquiry\(/);
     assert.match(staff, /quoteWhatsAppActivateProps\(/);
     assert.match(src, /category === "mobile"/);
@@ -127,6 +131,8 @@ describe("WhatsApp quote prefill closing line", () => {
     const fab = fabInquiryMessage("家居寬頻", [plan("hkbn-ftth-1000-36m-98")]);
     assert.match(fab, /^你好，我想查詢覆蓋同計劃。/);
     assert.match(fab, /香港寬頻/);
+    assert.match(fab, /月費：HK\$98/);
+    assert.match(fab, /申請地址：\n樓宇類型：\n家居寬頻$/);
     assert.doesNotMatch(fab, /獨家優惠|轉台禮品|心水電訊商|服務類型|申請方式/);
     const href = quoteWhatsappHref(fabInquiryMessage(""));
     const text = new URL(href).searchParams.get("text") ?? "";
@@ -211,5 +217,130 @@ describe("WhatsApp source mark", () => {
 
     const blank = new URL(quoteWhatsappHref("")).searchParams.get("text") ?? "";
     assert.equal(blank, "【查詢】網站 #0");
+  });
+});
+
+function withLead(search: string, run: () => void) {
+  const store = new Map<string, string>();
+  const previous = globalThis.window;
+  globalThis.window = {
+    location: { search },
+    sessionStorage: {
+      getItem: (key: string) => store.get(key) ?? null,
+      setItem: (key: string, value: string) => {
+        store.set(key, value);
+      },
+    },
+  } as unknown as Window & typeof globalThis;
+  try {
+    run();
+  } finally {
+    globalThis.window = previous;
+  }
+}
+
+function widgetPrefill(search: string, text: string, locale: "zh" | "en" = "zh") {
+  let out = "";
+  withLead(search, () => {
+    out = new URL(widgetWhatsappHref(text, SITE.whatsappE164, locale)).searchParams.get("text") ?? "";
+  });
+  return out;
+}
+
+const FLASH_PLAN = "hkbn-ftth-1000-36m-128-sep30";
+const GOOGLE_BROADBAND = "?cat=broadband&utm_source=google&utm_medium=cpc&gclid=CjwKCAjwSECRET";
+
+describe("floating WhatsApp widget prefill", () => {
+  it("names the plan, board fee, and a fillable address, and spells out the source", () => {
+    const flash = plan(FLASH_PLAN);
+    assert.equal(flash.monthlyFee, 128);
+    const withPlan = fabInquiryMessage("家居寬頻", [flash], "zh", { estate: "", housing: "" });
+    assert.equal(
+      withPlan,
+      [
+        "你好，我想查詢覆蓋同計劃。",
+        "香港寬頻 1000M 限時快閃連影視會籍（36 個月）",
+        "月費：HK$128",
+        "申請地址：",
+        "樓宇類型：",
+        "家居寬頻",
+      ].join("\n"),
+    );
+    const text = widgetPrefill(GOOGLE_BROADBAND, withPlan);
+    assert.equal(
+      text,
+      [
+        "【齊Quote】",
+        "你好，我想查詢覆蓋同計劃。",
+        "香港寬頻 1000M 限時快閃連影視會籍（36 個月）",
+        "月費：HK$128",
+        "申請地址：",
+        "樓宇類型：",
+        "家居寬頻",
+        "【查詢】家居寬頻",
+        "來源：Google 廣告",
+      ].join("\n"),
+    );
+    assert.doesNotMatch(text, /#\d|6309|6111|5436|852\d{8}|最平|最抵|低至|gclid|CjwKCAjwSECRET/);
+
+    const chosen = fabInquiryMessage("家居寬頻", [flash], "zh", { estate: "太古城", housing: "private" });
+    assert.match(chosen, /申請地址：太古城\n樓宇類型：私人樓/);
+    const village = fabInquiryMessage("", [flash], "zh", { estate: "", housing: "village" });
+    assert.match(village, /樓宇類型：村屋/);
+    assert.match(village, /月費：HK\$128/);
+  });
+
+  it("keeps a fillable address when only a category chip is used", () => {
+    const chip = fabInquiryMessage("家居寬頻", [], "zh");
+    assert.equal(
+      chip,
+      ["你好，我想查詢覆蓋同計劃。", "申請地址：", "樓宇類型：", "家居寬頻"].join("\n"),
+    );
+    const text = widgetPrefill(GOOGLE_BROADBAND, chip);
+    assert.equal(
+      text,
+      [
+        "【齊Quote】",
+        "你好，我想查詢覆蓋同計劃。",
+        "申請地址：",
+        "樓宇類型：",
+        "家居寬頻",
+        "【查詢】家居寬頻",
+        "來源：Google 廣告",
+      ].join("\n"),
+    );
+    const mobile = fabInquiryMessage("流動通訊", [], "zh");
+    assert.match(mobile, /^你好，我想查詢覆蓋同計劃。\n流動通訊$/);
+    assert.doesNotMatch(mobile, /申請地址|樓宇類型|月費/);
+  });
+
+  it("labels every lead source in words", () => {
+    assert.equal(widgetSourceLabel("unknown"), "來源：未知");
+    assert.equal(widgetSourceLabel("organic"), "來源：自然搜尋");
+    assert.equal(widgetSourceLabel("google_ads"), "來源：Google 廣告");
+    assert.equal(widgetSourceLabel("meta"), "來源：Meta 廣告");
+    assert.equal(widgetSourceLabel("other"), "來源：其他渠道");
+    const cases: [string, string][] = [
+      ["", "來源：未知"],
+      ["?utm_source=organic", "來源：自然搜尋"],
+      ["?utm_source=google&utm_medium=cpc", "來源：Google 廣告"],
+      ["?fbclid=IwAR2click", "來源：Meta 廣告"],
+      ["?utm_source=newsletter&utm_campaign=spring", "來源：其他渠道"],
+    ];
+    for (const [search, label] of cases) {
+      const text = widgetPrefill(search, "你好，我想查詢覆蓋同計劃。");
+      assert.match(text, new RegExp(`${label}$`));
+      assert.doesNotMatch(text, /#\d/);
+    }
+    const long = quoteMessage([plan(FLASH_PLAN)]);
+    assert.match(long, /轉台獨家優惠/);
+    assert.match(long, /目標心水計劃：香港寬頻 1000M 限時快閃連影視會籍（36 個月） \(HK\$128\/月\)/);
+    assert.doesNotMatch(long, /來源：|【查詢】|#\d/);
+    const stamped = widgetPrefill("", "");
+    assert.equal(stamped, "【查詢】網站\n來源：未知");
+    const planCard = new URL(quoteWhatsappHref(long)).searchParams.get("text") ?? "";
+    assert.match(planCard, /轉台獨家優惠/);
+    assert.match(planCard, /#0$/);
+    assert.doesNotMatch(planCard, /來源：/);
   });
 });

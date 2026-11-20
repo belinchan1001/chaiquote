@@ -3,7 +3,7 @@
  * homepage / shell do not load the full estate catalogue on first paint.
  */
 import type { Category } from "./plans.ts";
-import { SITE, FAQ, PLANS_BROADBAND_H1, PLANS_BROADBAND_LEAD } from "./site.ts";
+import { SITE, siteFaq, PLANS_BROADBAND_H1, plansBroadbandLead } from "./site.ts";
 
 export const DEFAULT_SEO_ORIGIN = "https://www.chaiquote.hk";
 
@@ -146,12 +146,12 @@ export function catalogueMonthLabel(stamp: string = SITE.updated): string {
   return year ? `${year[1]}年` : "2026年";
 }
 
-const CATALOGUE_MONTH = catalogueMonthLabel();
-
 export const HOME_SEO = {
   title: "香港寬頻報價2026｜1000M月費比較｜公屋居屋私樓村屋｜齊Quote",
-  description: `${CATALOGUE_MONTH}可以一次過比較1000M光纖月費，公屋、居屋、私樓同村屋分開列。想對2500M或者查屋苑覆蓋，可以入去格價。實際價錢同安裝以電訊商確認為準。`,
-} as const satisfies SeoCopy;
+  get description() {
+    return `${catalogueMonthLabel()}可以一次過比較1000M光纖月費，公屋、居屋、私樓同村屋分開列。想對2500M或者查屋苑覆蓋，可以入去格價。實際價錢同安裝以電訊商確認為準。`;
+  },
+} satisfies SeoCopy;
 
 export const HOME_SEO_TITLE = HOME_SEO.title;
 
@@ -167,17 +167,23 @@ export const PRIVACY_SEO = {
 
 export const GUIDES_SEO = {
   title: "寬頻報價攻略｜光纖、村屋同5G家居月費｜齊Quote",
-  description: `${CATALOGUE_MONTH}嘅寬頻同手機攻略：點比較光纖月費、村屋同5G家居，再查覆蓋。內容僅供參考，實際條款同安裝以電訊商確認為準。`,
-} as const satisfies SeoCopy;
+  get description() {
+    return `${catalogueMonthLabel()}嘅寬頻同手機攻略：點比較光纖月費、村屋同5G家居，再查覆蓋。內容僅供參考，實際條款同安裝以電訊商確認為準。`;
+  },
+} satisfies SeoCopy;
 
 export const CATEGORY_SEO: Record<Category, SeoCopy> = {
   broadband: {
     title: `${PLANS_BROADBAND_H1}｜齊Quote`,
-    description: PLANS_BROADBAND_LEAD,
+    get description() {
+      return plansBroadbandLead("zh");
+    },
   },
   home5g: {
     title: "5G家居寬頻報價｜免拉線月費比較｜齊Quote",
-    description: `${CATALOGUE_MONTH}比較5G家居寬頻月費，適合未有光纖或者想免拉線嘅地址。可以同光纖一齊睇，再查覆蓋。實際速度以電訊商確認為準。`,
+    get description() {
+      return `${catalogueMonthLabel()}比較5G家居寬頻月費，適合未有光纖或者想免拉線嘅地址。可以同光纖一齊睇，再查覆蓋。實際速度以電訊商確認為準。`;
+    },
   },
   mobile: {
     title: "齊Quote｜手機月費報價",
@@ -328,7 +334,7 @@ export function homeJsonLd() {
       {
         "@type": "FAQPage",
         "@id": `${SITE.url}/#faq`,
-        mainEntity: FAQ.map((item) => ({
+        mainEntity: siteFaq().map((item) => ({
           "@type": "Question",
           name: item.q,
           acceptedAnswer: { "@type": "Answer", text: item.a },

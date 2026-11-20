@@ -8,6 +8,7 @@ import {
   VILLAGE_CMHK_OPENING_EN,
   VILLAGE_SPECIFIED_ADDRESS_CITE,
   VILLAGE_SPECIFIED_ADDRESS_CITE_EN,
+  CATALOGUE_CONTENT_STAMP,
   fillSiteTemplate,
   linkCmhkVillageAmounts,
 } from "./site.ts";
@@ -1447,7 +1448,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "六大電訊 1000M 參考月費",
         paragraphs: [
-          fillSiteTemplate(FEE_RANGE_ANSWER),
+          fillSiteTemplate(FEE_RANGE_ANSWER, { date: CATALOGUE_CONTENT_STAMP }),
           "2026 年家居寬頻，1000M 係最常見嘅速度。下表係站內六大電訊商（香港寬頻、網上行、HGC、有線寬頻、中國移動香港、數碼通）嘅 1000M 參考月費範圍。",
           "數字沿用站內現價，待核實，**僅供參考**。呢張表**唔係**全港劃一價，亦**唔係**排名。實際覆蓋、月費同合約以電訊商確認為準。",
           "想對自己屋苑：用 [齊Quote 點用屋苑篩](/guides/estate-filter) 入 [光纖格價](/plans?cat=broadband)，或者 WhatsApp **6309 9966** 免費核實。非官方客服，唔好傳銀行戶口或信用卡密碼。",
@@ -1634,7 +1635,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "Six carriers: 1000M reference fees",
         paragraphs: [
-          fillSiteTemplate(FEE_RANGE_ANSWER_EN),
+          fillSiteTemplate(FEE_RANGE_ANSWER_EN, { date: CATALOGUE_CONTENT_STAMP }),
           "In 2026, 1000M is the usual home-broadband speed. The table below is this site's 1000M reference range for six carriers: HKBN, Netvigator, HGC, i-Cable, CMHK and SmarTone.",
           "Figures follow prices listed on this site and still need checking. They are **for reference only**. This table is **not** one Hong Kong-wide price, and it is **not** a ranking. The carrier confirms coverage, fees and the contract.",
           "To check your estate, use the [estate filter](/guides/estate-filter) and open [fibre compare](/plans?cat=broadband), or confirm free on WhatsApp **6309 9966**. Not official customer service. Do not send bank or card passwords.",
@@ -1822,7 +1823,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     faq: [
       {
         q: FEE_RANGE_QUESTION,
-        a: fillSiteTemplate(FEE_RANGE_ANSWER),
+        a: fillSiteTemplate(FEE_RANGE_ANSWER, { date: CATALOGUE_CONTENT_STAMP }),
       },
       {
         q: "六大電訊 1000M 大約幾錢？",
@@ -1856,7 +1857,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     faqEn: [
       {
         q: FEE_RANGE_QUESTION_EN,
-        a: fillSiteTemplate(FEE_RANGE_ANSWER_EN),
+        a: fillSiteTemplate(FEE_RANGE_ANSWER_EN, { date: CATALOGUE_CONTENT_STAMP }),
       },
       {
         q: "What do the six carriers charge for 1000M?",

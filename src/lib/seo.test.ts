@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { SITE } from "./site.ts";
+import { hongKongCalendarDate } from "./catalogue-date.ts";
+import { CATALOGUE_CONTENT_STAMP, PRIVACY_UPDATED, SITE, plansBroadbandLead } from "./site.ts";
 import { getPlan } from "./plans.ts";
 import { HOME_SEO, CATEGORY_SEO, GUIDES_SEO, PLAN_DETAIL_ROUTE_ID, catalogueMonthLabel, canonicalUrlFromMatches } from "./canonical.ts";
 import { getGuide } from "./guides.ts";
@@ -26,28 +27,36 @@ import {
 const here = dirname(fileURLToPath(import.meta.url));
 
 describe("catalogue stamp", () => {
-  it("pins the homepage data stamp to today as YYYY-MM-DD", () => {
-    assert.equal(SITE.updated, "2026-11-14");
+  it("shows today's Asia/Hong_Kong date and keeps sitemap lastmod on the manual stamp", () => {
+    assert.equal(hongKongCalendarDate(new Date("2026-11-19T15:59:59.000Z")), "2026-11-19");
+    assert.equal(hongKongCalendarDate(new Date("2026-11-19T16:00:00.000Z")), "2026-11-20");
+    assert.equal(hongKongCalendarDate(new Date("2026-12-31T16:00:00.000Z")), "2027-01-01");
+    assert.equal(SITE.updated, hongKongCalendarDate());
     assert.match(SITE.updated, /^\d{4}-\d{2}-\d{2}$/);
     assert.doesNotMatch(SITE.updated, /\u5e74|\u6708|\u65e5/);
+    assert.equal(CATALOGUE_CONTENT_STAMP, "2026-11-14");
+    assert.equal(PRIVACY_UPDATED, "2026-11-14");
     assert.equal(siteDataLastmod(), "2026-11-14");
     assert.equal(sitemapLastmod("/"), "2026-11-14");
     assert.equal(sitemapLastmod("/plans"), "2026-11-14");
     assert.equal(sitemapLastmod("/estates"), "2026-11-14");
+    assert.equal(sitemapLastmod("/guides/village"), "2026-11-14");
+    assert.equal(sitemapLastmod("/privacy"), "2026-11-14");
+    const privacy = readFileSync(join(here, "../routes/privacy.tsx"), "utf8");
+    assert.match(privacy, /date: PRIVACY_UPDATED/);
+    assert.doesNotMatch(privacy, /date: updated/);
   });
 });
 
 describe("search-first titles", () => {
   it("puts the query before 齊Quote and names the catalogue month", () => {
-    assert.equal(catalogueMonthLabel(), "2026年11月");
+    assert.equal(catalogueMonthLabel(), catalogueMonthLabel(hongKongCalendarDate()));
     assert.equal(HOME_SEO.title, "香港寬頻報價2026｜1000M月費比較｜公屋居屋私樓村屋｜齊Quote");
-    assert.match(HOME_SEO.description, /^2026年11月/);
+    assert.match(HOME_SEO.description, new RegExp(`^${catalogueMonthLabel()}`));
     assert.match(HOME_SEO.description, /查屋苑覆蓋/);
     assert.equal(CATEGORY_SEO.broadband.title, "香港光纖寬頻報價比較｜齊Quote");
-    assert.equal(
-      CATEGORY_SEO.broadband.description,
-      "齊Quote 係獨立寬頻比較站（非電訊商官網、無向電訊商收佣金或廣告費）。光纖參考月費按樓類：公居屋約 HK$58–98、私樓約 HK$88–109、村屋由指定地址優惠 HK$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。（資料更新 2026-11-14）；唔係全港劃一價，以電訊商確認為準。",
-    );
+    assert.equal(CATEGORY_SEO.broadband.description, plansBroadbandLead("zh"));
+    assert.match(CATEGORY_SEO.broadband.description, new RegExp(`（資料更新 ${SITE.updated}）`));
     assert.doesNotMatch(CATEGORY_SEO.broadband.title + CATEGORY_SEO.broadband.description, /最平|最抵|最低|全港最平/);
     assert.equal(CATEGORY_SEO.home5g.title, "5G家居寬頻報價｜免拉線月費比較｜齊Quote");
     assert.equal(GUIDES_SEO.title, "寬頻報價攻略｜光纖、村屋同5G家居月費｜齊Quote");
@@ -70,7 +79,7 @@ describe("search-first titles", () => {
     assert.ok(smartone);
     assert.equal(planSeoTitle(hkbn), "1000M 家居寬頻（24 個月）｜月費 HK$109｜香港寬頻 1000M｜齊Quote");
     assert.equal(planSeoTitle(smartone), "1000M 家居寬頻（36 個月）｜月費 HK$88｜數碼通 1000M｜齊Quote");
-    assert.match(planSeoDescription(hkbn), /2026年11月/);
+    assert.match(planSeoDescription(hkbn), new RegExp(catalogueMonthLabel()));
     assert.match(planSeoDescription(hkbn), /公屋、居屋、私樓/);
     assert.match(planSeoDescription(hkbn), /查覆蓋/);
     const ld = planJsonLd(hkbn);

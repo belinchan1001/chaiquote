@@ -89,7 +89,9 @@ function createI18nValue(locale: Locale, setLocale: (locale: Locale) => void): I
     housingLabel,
     housingList,
     callWindowLabel,
-    updated: SITE.updated,
+    get updated() {
+      return SITE.updated;
+    },
   };
 }
 
