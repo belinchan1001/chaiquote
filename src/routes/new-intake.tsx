@@ -5,13 +5,20 @@ import { canonicalUrl } from "@/lib/canonical";
 import { compact, estateDisplayName, placeDisplayName } from "@/lib/estates";
 import { getEstatePage } from "@/lib/estate-pages";
 import { useI18n, usePageTitle } from "@/lib/i18n";
+import { MESSAGES, type MessageKey } from "@/lib/messages";
 import { newIntakeCards, type NewIntakeCard } from "@/lib/new-intake-page";
 import { formatFee, type Housing } from "@/lib/plans";
 import { cn } from "@/lib/utils";
 
-const TITLE = "新入伙屋苑寬頻｜齊Quote";
-const DESCRIPTION =
-  "近年入伙或即將入伙的屋苑。指定新入伙優惠只在名單內的屋苑顯示月費，公屋、居屋同私樓分開。實際覆蓋同安裝期以電訊商確認為準。";
+const HEADING = "新入伙屋苑寬頻：有冇指定優惠？";
+const TITLE = "新入伙屋苑寬頻：有冇指定優惠？｜齊Quote";
+const DESCRIPTION = MESSAGES.zh.newIntakeLead;
+
+const FAQ = [
+  { qKey: "newIntakeFaq1q", aKey: "newIntakeFaq1a" },
+  { qKey: "newIntakeFaq2q", aKey: "newIntakeFaq2a" },
+  { qKey: "newIntakeFaq3q", aKey: "newIntakeFaq3a" },
+] as const satisfies readonly { qKey: MessageKey; aKey: MessageKey }[];
 
 const CARDS = newIntakeCards();
 const OFFER_COUNT = CARDS.filter((card) => card.offers.length > 0).length;
@@ -93,38 +100,18 @@ function NewIntakePage() {
             {
               "@type": "BreadcrumbList",
               itemListElement: [
-                { "@type": "ListItem", position: 1, name: "齊Quote", item: canonicalUrl("/") },
-                { "@type": "ListItem", position: 2, name: TITLE, item: url },
+                { "@type": "ListItem", position: 1, name: MESSAGES.zh.crumbHome, item: canonicalUrl("/") },
+                { "@type": "ListItem", position: 2, name: MESSAGES.zh.navEstates, item: canonicalUrl("/estates") },
+                { "@type": "ListItem", position: 3, name: MESSAGES.zh.navNewIntake, item: url },
               ],
             },
             {
               "@type": "FAQPage",
-              mainEntity: [
-                {
-                  "@type": "Question",
-                  name: "點解有啲屋苑有價，有啲冇？",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "指定新入伙優惠只適用於電訊商名單內的屋苑。名單以外用該樓類的一般計劃，唔會借用其他屋苑的月費。",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "未入伙可唔可以預約安裝？",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "部分計劃可以選擇延遲服務生效。實際安裝期同覆蓋以電訊商確認為準。",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "公屋價可唔可以用喺私樓？",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "唔可以。每張卡標明樓類，入去只會見到該樓類適用的計劃。",
-                  },
-                },
-              ],
+              mainEntity: FAQ.map((item) => ({
+                "@type": "Question",
+                name: MESSAGES.zh[item.qKey],
+                acceptedAnswer: { "@type": "Answer", text: MESSAGES.zh[item.aKey] },
+              })),
             },
           ],
         }}
@@ -146,8 +133,10 @@ function NewIntakePage() {
           <li>{t("navNewIntake")}</li>
         </ol>
       </nav>
-      <h1 className="mt-4 text-title font-semibold sm:mt-6">{t("newIntakeTitle")}</h1>
-      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted sm:mt-3">{t("newIntakeLead")}</p>
+      <h1 className="mt-4 text-title font-semibold sm:mt-6">{locale === "en" ? t("newIntakeTitle") : HEADING}</h1>
+      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted sm:mt-3">
+        {locale === "en" ? t("newIntakeLead") : DESCRIPTION}
+      </p>
 
       <div className="mt-4 space-y-2 sm:mt-6 sm:space-y-3">
         <label htmlFor="new-intake-q" className="text-xs font-medium tracking-wider text-muted">
@@ -322,12 +311,14 @@ function NewIntakePage() {
       <section className="mt-10 max-w-2xl border-t border-border pt-6">
         <h2 className="text-lg font-semibold">{t("faqTitle")}</h2>
         <div className="mt-3 divide-y divide-border">
-          {(["1", "2", "3"] as const).map((n) => (
-            <details key={n} className="group py-3">
+          {FAQ.map((item) => (
+            <details key={item.qKey} className="group py-3">
               <summary className="cursor-pointer list-none text-sm font-semibold">
-                {t(`newIntakeFaq${n}q` as "newIntakeFaq1q")}
+                {locale === "en" ? t(item.qKey) : MESSAGES.zh[item.qKey]}
               </summary>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{t(`newIntakeFaq${n}a` as "newIntakeFaq1a")}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted">
+                {locale === "en" ? t(item.aKey) : MESSAGES.zh[item.aKey]}
+              </p>
             </details>
           ))}
         </div>
