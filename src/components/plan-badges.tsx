@@ -1,5 +1,5 @@
 import { useI18n } from "@/lib/i18n";
-import type { Plan } from "@/lib/plans";
+import { hasOnSiteTest, type Plan } from "@/lib/plans";
 import { cn } from "@/lib/utils";
 
 const pillClass = "rounded-full bg-hot px-2.5 py-1 text-sm font-medium text-hot-foreground";
@@ -7,10 +7,12 @@ const quotePickClass = "rounded-full bg-fg px-2.5 py-1 text-sm font-medium text-
 const intakeClass = "rounded-full bg-intake px-2.5 py-1 text-sm font-medium text-intake-foreground";
 const flashClass = "rounded-full bg-flash px-2.5 py-1 text-sm font-medium text-flash-foreground";
 const double11Class = "rounded-full bg-double11 px-2.5 py-1 text-sm font-medium text-double11-foreground";
+const visitClass = "rounded-full bg-[#E7F4F1] px-2.5 py-1 text-sm font-medium text-[#0C6B5C]";
 
 export function PlanBadges({ plan, className }: { plan: Plan; className?: string }) {
-  const { t } = useI18n();
-  if (!plan.quotePick && !plan.latestOffer && !plan.hot && !plan.newIntakeOffer && !plan.flashOffer && !plan.double11Offer) return null;
+  const { t, locale } = useI18n();
+  const visit = hasOnSiteTest(plan);
+  if (!plan.quotePick && !plan.latestOffer && !plan.hot && !plan.newIntakeOffer && !plan.flashOffer && !plan.double11Offer && !visit) return null;
 
   return (
     <div className={cn("mt-3 flex flex-wrap items-center gap-1.5", className)}>
@@ -20,6 +22,7 @@ export function PlanBadges({ plan, className }: { plan: Plan; className?: string
       {plan.quotePick ? <span className={quotePickClass}>👍 {t("quotePick")}</span> : null}
       {plan.latestOffer ? <span className={pillClass}>{t("latestOffer")}</span> : null}
       {plan.hot ? <span className={pillClass}>{t("hot")}</span> : null}
+      {visit ? <span className={visitClass}>{locale === "en" ? "On-site test" : "專人上門測試"}</span> : null}
     </div>
   );
 }

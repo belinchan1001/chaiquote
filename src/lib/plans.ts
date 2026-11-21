@@ -4359,6 +4359,11 @@ export function planPerks(plan: Plan) {
   });
 }
 
+/** 3HK 5G home broadband includes an on-site signal test. */
+export function hasOnSiteTest(plan: Pick<Plan, "providerId" | "category">) {
+  return plan.providerId === "three" && plan.category === "home5g";
+}
+
 export const CATEGORY_LABEL: Record<Category, string> = {
   broadband: "光纖寬頻",
   mobile: "手機月費",

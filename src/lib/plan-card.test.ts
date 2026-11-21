@@ -4,7 +4,22 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
+import { PLANS, hasOnSiteTest } from "./plans.ts";
+
 const here = dirname(fileURLToPath(import.meta.url));
+
+describe("3HK on-site test badge", () => {
+  it("labels every 3HK 5G home plan and no other carrier", () => {
+    const badges = readFileSync(join(here, "../components/plan-badges.tsx"), "utf8");
+    assert.match(badges, /hasOnSiteTest\(plan\)/);
+    assert.match(badges, /專人上門測試/);
+    assert.match(badges, /On-site test/);
+    assert.match(badges, /bg-\[#E7F4F1\]/);
+    for (const plan of PLANS) {
+      assert.equal(hasOnSiteTest(plan), plan.providerId === "three" && plan.category === "home5g", plan.id);
+    }
+  });
+});
 
 describe("plan card corner brand", () => {
   it("locks option ①: LogoMark + 齊Quote corner only, no foil/fee/motion changes", () => {

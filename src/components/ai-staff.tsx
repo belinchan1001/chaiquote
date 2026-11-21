@@ -26,7 +26,7 @@ import {
 } from "@/lib/ai-desk";
 import { useDesk, useHydrateDesk, type Inquiry } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
-import { averageFee, cardHeadlineFee, formatFee, planPerks, type Category, type Housing, type Plan } from "@/lib/plans";
+import { averageFee, cardHeadlineFee, formatFee, hasOnSiteTest, planPerks, type Category, type Housing, type Plan } from "@/lib/plans";
 import {
   currentOptions,
   EXPIRY_OPTIONS,
@@ -70,6 +70,7 @@ const ROLE_KEY = { flash: "aiRoleFlash", pick: "aiRolePick", low: "aiRoleLow" } 
 
 function aiHighlights(plan: Plan, locale: string) {
   const lines: string[] = [];
+  if (hasOnSiteTest(plan)) lines.push(locale === "en" ? "On-site test" : "專人上門測試");
   if (plan.double11Offer) lines.push(locale === "en" ? "11.11 limited offer" : "雙11限時優惠");
   if (plan.freeMonths > 0) {
     lines.push(locale === "en" ? `${plan.freeMonths} months free` : `送 ${plan.freeMonths} 個月月費`);
@@ -77,6 +78,7 @@ function aiHighlights(plan: Plan, locale: string) {
   for (const perk of planPerks(plan)) {
     if (lines.length >= 3) break;
     if (plan.freeMonths > 0 && /豁免\s*\d+\s*個月|免\s*\d+\s*個月/.test(perk)) continue;
+    if (hasOnSiteTest(plan) && perk.includes("上門測試")) continue;
     lines.push(perk);
   }
   if (lines.length < 3 && /豁免安裝/.test(plan.install)) lines.push(plan.install);
