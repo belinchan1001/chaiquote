@@ -1,2 +1,2 @@
 /** Display count on the homepage. Keep equal to ESTATES.length. */
-export const ESTATE_COUNT = 3732;
+export const ESTATE_COUNT = 3733;
