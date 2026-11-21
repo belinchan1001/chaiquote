@@ -6,14 +6,14 @@ import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
  * Last manual catalogue revision. Sitemap `lastmod` for non-article URLs and
  * Offer.priceValidUntil stay on this stamp. The visible「資料更新」date does not.
  */
-export const CATALOGUE_CONTENT_STAMP = "2026-11-14";
+export const CATALOGUE_CONTENT_STAMP = "2026-11-21";
 
 /** Privacy policy「最後更新日期」. Legal copy; not the daily catalogue display date. */
 export const PRIVACY_UPDATED = "2026-11-14";
 
 export const SITE = {
   name: "齊Quote",
-  tagline: "搵寬頻唔使四圍問",
+  tagline: "搭寬頻唔使四圍問",
   searchHint: "電訊報價",
   url: "https://www.chaiquote.hk",
   /** Confirmed public profiles for Organization.sameAs. */
