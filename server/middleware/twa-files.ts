@@ -5,6 +5,12 @@
  * is the lambda fallback: Vercel functions cannot read public/ at runtime, so
  * the bytes are bundled with `?raw`. Content-Type is set explicitly because
  * `.webmanifest` is not always `application/manifest+json`.
+ *
+ * Chrome's TWA check GETs `/.well-known/assetlinks.json` itself. It does not
+ * call the Digital Asset Links API, run JavaScript, or send the page's
+ * challenge cookie. HTTP 429 HTML (`x-vercel-mitigated: challenge`) fails
+ * verification and the shell becomes a Custom Tab. `vercel.json` cannot set a
+ * WAF bypass; the Firewall rule is in `android/README.md`.
  */
 import assetlinks from "../../public/.well-known/assetlinks.json?raw";
 import webManifest from "../../public/manifest.webmanifest?raw";
