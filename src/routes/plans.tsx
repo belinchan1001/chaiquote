@@ -32,7 +32,7 @@ import { indexableEstateNavLinks } from "@/lib/estate-pages";
 import { categoryJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 import { bringPlanListIntoView, holdPlanListScroll, isPlanListInView, watchPlanListInView } from "@/lib/plan-list-fade";
-import { CATEGORY_OPTIONS, SITE, plansBroadbandHero } from "@/lib/site";
+import { CATEGORY_OPTIONS, SITE, plansBroadbandHero, plansBroadbandLeadParts } from "@/lib/site";
 import {
   currentLabel,
   currentOptions,
@@ -48,6 +48,14 @@ import {
 import type { MessageKey } from "@/lib/messages";
 
 const PAGE_SIZE = 12;
+
+function PlansLeadCopy({ lead }: { lead: string }) {
+  const parts = plansBroadbandLeadParts(lead);
+  if (!parts.date) return lead;
+  // Keep the three parts adjacent so the visible lead stays character-for-character.
+  // prettier-ignore
+  return [parts.before, <span key="date" className="nowrap">{parts.date}</span>, parts.after];
+}
 
 const CAT_KEYS: Record<Category, MessageKey> = {
   broadband: "catBroadband",
@@ -543,29 +551,26 @@ function PlansPage() {
               })
             : "";
 
+  const catalogueFromFee = entry ? t("fromFee", { fee: formatFee(entry.monthlyFee) }) : null;
+
   return (
-    <div className="mx-auto max-w-6xl px-4 py-4 sm:py-6">
+    <div className="plans-layout mx-auto max-w-6xl px-4 py-4 sm:py-6">
       <JsonLd data={categoryJsonLd(search.cat)} />
       <PageBackButton />
       <p className="text-xs font-medium tracking-wider text-accent">{t("filterPlans")}</p>
       <div className="mt-2">
         <h1 className="text-title font-semibold">{broadbandHero ? broadbandHero.h1 : categoryLabel(search.cat)}</h1>
-        {broadbandHero ? (
-          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted">{broadbandHero.lead}</p>
-        ) : null}
-        <p className="mt-1 text-sm text-muted">
-          {entry ? (
-            <>
-              <span className="font-medium tabular-nums text-fg">
-                {t("fromFee", { fee: formatFee(entry.monthlyFee) })}
-              </span>
-              {broadbandHero ? null : <span aria-hidden="true"> · </span>}
-            </>
-          ) : null}
-          {broadbandHero ? null : (
+        {broadbandHero ? null : (
+          <p className="mt-1 text-sm text-muted">
+            {catalogueFromFee ? (
+              <>
+                <span className="font-medium tabular-nums text-fg">{catalogueFromFee}</span>
+                <span aria-hidden="true"> · </span>
+              </>
+            ) : null}
             <span className="text-xs text-subtle">{t("dataUpdated", { date: updated })}</span>
-          )}
-        </p>
+          </p>
+        )}
       </div>
 
       <div className="mt-3 space-y-4 rounded-lg border border-border bg-card p-3.5 shadow-[var(--shadow-home)] sm:p-5">
@@ -714,6 +719,7 @@ function PlansPage() {
         </details>
       </div>
 
+      <div className="plan-results">
       {search.exclude && search.provider ? (
         <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
           {t("intakeTargetNote", {
@@ -831,6 +837,18 @@ function PlansPage() {
           ) : null}
         </>
       )}
+      </div>
+      {broadbandHero ? (
+        <section className="lead-band" aria-label={locale === "en" ? "Reference fees and notes" : "參考月費同說明"}>
+          <p className="lead-copy"><PlansLeadCopy lead={broadbandHero.lead} /></p>
+          {catalogueFromFee ? (
+            <p className="from-fee">
+              <span className="font-medium tabular-nums text-fg">{catalogueFromFee}</span>
+            </p>
+          ) : null}
+        </section>
+      ) : null}
+      <div className="lower-matter">
       {summaryPlans.length || hubText ? (
         <div className="mt-10 rounded-lg border border-border bg-card px-4 shadow-[var(--shadow-home)]">
           {summaryPlans.length ? (
@@ -899,6 +917,7 @@ function PlansPage() {
           </ul>
         </nav>
       ) : null}
+      </div>
     </div>
   );
 }

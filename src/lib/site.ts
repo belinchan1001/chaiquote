@@ -200,6 +200,18 @@ export function plansBroadbandLead(locale: "zh" | "en", date = hongKongCalendarD
   return (locale === "en" ? PLANS_BROADBAND_LEAD_EN : PLANS_BROADBAND_LEAD_ZH).replaceAll("{date}", date);
 }
 
+/** Split the shared lead around its catalogue date. Joining the parts returns the lead unchanged. */
+export function plansBroadbandLeadParts(lead: string): { before: string; date: string; after: string } {
+  const match = /\d{4}-\d{2}-\d{2}/.exec(lead);
+  if (!match) return { before: lead, date: "", after: "" };
+  const at = match.index;
+  return {
+    before: lead.slice(0, at),
+    date: lead.slice(at, at + match[0].length),
+    after: lead.slice(at + match[0].length),
+  };
+}
+
 export function plansBroadbandHero(locale: "zh" | "en") {
   const en = locale === "en";
   return {
