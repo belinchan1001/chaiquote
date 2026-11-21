@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { MESSAGES } from "./messages.ts";
-import { plansBroadbandHero, plansBroadbandLead, SITE } from "./site.ts";
+import { plansBroadbandHero, plansBroadbandLead, plansBroadbandLeadParts, SITE } from "./site.ts";
 import { formatFee, getPlan } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
 import {
@@ -255,5 +255,87 @@ describe("plan category hub", () => {
     assert.match(en.lead, new RegExp(`updated ${SITE.updated}`));
     assert.doesNotMatch(zh.lead, /村屋由 HK\$218 起/);
     assert.doesNotMatch(`${en.h1}${en.lead}`, /cheapest|lowest|best-value|best price/i);
+  });
+
+  it("keeps the locked broadband lead in one A1 tray and moves the catalogue from-fee with it", () => {
+    const plans = readFileSync(join(here, "../routes/plans.tsx"), "utf8");
+    const css = readFileSync(join(here, "../styles.css"), "utf8");
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+    const at = (needle: string) => {
+      const index = plans.indexOf(needle);
+      assert.ok(index >= 0, needle);
+      return index;
+    };
+
+    assert.ok(at("broadbandHero.h1") < at('id="plans-estate"'));
+    assert.ok(at('id="plans-estate"') < at("<PlanCard"));
+    assert.ok(at("<PlanCard") < at('className="lead-band"'));
+    assert.ok(at('className="lower-matter"') < at('t("feeSummaryTitle")'));
+    const band = plans.slice(at('className="lead-band"'), at('className="lower-matter"'));
+    assert.match(band, /className="lead-copy"><PlansLeadCopy lead=\{broadbandHero\.lead\} \/>/);
+    assert.match(band, /className="from-fee"[\s\S]*\{catalogueFromFee\}/);
+    assert.equal(plans.match(/broadbandHero\.lead/g)?.length, 1);
+    assert.doesNotMatch(
+      plans.slice(at("broadbandHero.h1"), at('id="plans-estate"')),
+      /broadbandHero\.lead/,
+    );
+    assert.doesNotMatch(band, /display:\s*none|hidden|truncate|line-clamp|<details/);
+
+    const copy = plans.slice(
+      plans.indexOf("function PlansLeadCopy"),
+      plans.indexOf("function PlansPage"),
+    );
+    assert.match(
+      copy,
+      /return \[parts\.before, <span key="date" className="nowrap">\{parts\.date\}<\/span>, parts\.after\];/,
+    );
+
+    assert.match(css, /\.plans-layout > \.lead-band \{\s*order: 5;/);
+    assert.match(css, /\.plans-layout > \.plan-results \{\s*order: 4;/);
+    assert.match(css, /\.plans-layout > \.lower-matter \{\s*order: 6;/);
+    assert.match(
+      css,
+      /@media \(min-width: 640px\) \{\s*\.plans-layout > \.lead-band \{\s*order: 3;/,
+    );
+    assert.match(
+      css,
+      /\.lead-band \{[\s\S]*background: var\(--color-surface\);[\s\S]*border: 1px solid var\(--color-border\);[\s\S]*border-radius: var\(--radius-md, 12px\);/,
+    );
+    assert.match(
+      css,
+      /\.lead-band \.lead-copy \{[\s\S]*font-size: 0\.8125rem;[\s\S]*line-height: 1\.8;/,
+    );
+    assert.match(css, /\.lead-band \.nowrap \{\s*white-space: nowrap;/);
+    assert.match(
+      css,
+      /\.lead-band \.from-fee \{[\s\S]*border-top: 1px solid var\(--color-border\);/,
+    );
+    const leadCss = css.slice(
+      css.indexOf(".lead-band {"),
+      css.indexOf("@media (max-width: 639.98px)"),
+    );
+    assert.doesNotMatch(leadCss, /box-shadow|border-left|display:\s*none/);
+    assert.doesNotMatch(home, /lead-band|plansBroadbandLeadParts/);
+
+    for (const locale of ["zh", "en"] as const) {
+      const lead = plansBroadbandLead(locale);
+      const parts = plansBroadbandLeadParts(lead);
+      assert.equal(parts.before + parts.date + parts.after, lead);
+      assert.match(parts.date, /^\d{4}-\d{2}-\d{2}$/);
+      assert.equal(parts.date, SITE.updated);
+    }
+    const zh = plansBroadbandLead("zh", "2026-11-21");
+    const zhParts = plansBroadbandLeadParts(zh);
+    assert.equal(zhParts.before.endsWith("（資料更新 "), true);
+    assert.equal(zhParts.after.startsWith("）"), true);
+    assert.equal(
+      zh,
+      "齊Quote 係獨立寬頻比較站。光纖參考月費按樓類：公居屋約 HK$58–98、私樓約 HK$88–109、村屋由指定地址優惠 HK$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。（資料更新 2026-11-21）；唔係全港劃一價，以電訊商確認為準。",
+    );
+    const en = plansBroadbandLead("en", "2026-11-21");
+    const enParts = plansBroadbandLeadParts(en);
+    assert.equal(enParts.before.endsWith("(updated "), true);
+    assert.equal(enParts.after.startsWith(")"), true);
+    assert.equal(enParts.before + enParts.date + enParts.after, en);
   });
 });
