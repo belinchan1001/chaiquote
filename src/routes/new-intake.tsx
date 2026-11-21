@@ -5,20 +5,36 @@ import { canonicalUrl } from "@/lib/canonical";
 import { compact, estateDisplayName, placeDisplayName } from "@/lib/estates";
 import { getEstatePage } from "@/lib/estate-pages";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import { MESSAGES, type MessageKey } from "@/lib/messages";
+import type { MessageKey } from "@/lib/messages";
 import { newIntakeCards, type NewIntakeCard } from "@/lib/new-intake-page";
 import { formatFee, type Housing } from "@/lib/plans";
 import { cn } from "@/lib/utils";
 
 const HEADING = "新入伙屋苑寬頻：有冇指定優惠？";
 const TITLE = "新入伙屋苑寬頻：有冇指定優惠？｜齊Quote";
-const DESCRIPTION = MESSAGES.zh.newIntakeLead;
+const DESCRIPTION =
+  "呢頁幫你對近年入伙或者即將入伙嘅屋苑，有冇指定新入伙優惠。指定優惠只會喺電訊商名單內嘅屋苑顯示月費；名單以外用同一樓類嘅一般計劃，公屋、居屋同私樓嘅價唔可以混用。";
 
 const FAQ = [
-  { qKey: "newIntakeFaq1q", aKey: "newIntakeFaq1a" },
-  { qKey: "newIntakeFaq2q", aKey: "newIntakeFaq2a" },
-  { qKey: "newIntakeFaq3q", aKey: "newIntakeFaq3a" },
-] as const satisfies readonly { qKey: MessageKey; aKey: MessageKey }[];
+  {
+    qKey: "newIntakeFaq1q",
+    aKey: "newIntakeFaq1a",
+    q: "點解有啲屋苑有價，有啲冇？",
+    a: "指定新入伙優惠只會喺電訊商名單內嘅屋苑顯示月費。唔在名單內就用同一樓類嘅一般計劃，唔會借用其他屋苑嘅月費。",
+  },
+  {
+    qKey: "newIntakeFaq2q",
+    aKey: "newIntakeFaq2a",
+    q: "未入伙可唔可以預約安裝？",
+    a: "部分計劃可以選擇延遲服務生效。可唔可以預約、幾時裝到，同覆蓋一併以電訊商確認為準。",
+  },
+  {
+    qKey: "newIntakeFaq3q",
+    aKey: "newIntakeFaq3a",
+    q: "公屋價可唔可以用喺私樓？",
+    a: "唔可以。公屋、居屋同私樓嘅價唔可以混用。每張卡都標明樓類，入去只會見到該樓類適用嘅計劃。",
+  },
+] as const satisfies readonly { qKey: MessageKey; aKey: MessageKey; q: string; a: string }[];
 
 const CARDS = newIntakeCards();
 const OFFER_COUNT = CARDS.filter((card) => card.offers.length > 0).length;
@@ -100,17 +116,17 @@ function NewIntakePage() {
             {
               "@type": "BreadcrumbList",
               itemListElement: [
-                { "@type": "ListItem", position: 1, name: MESSAGES.zh.crumbHome, item: canonicalUrl("/") },
-                { "@type": "ListItem", position: 2, name: MESSAGES.zh.navEstates, item: canonicalUrl("/estates") },
-                { "@type": "ListItem", position: 3, name: MESSAGES.zh.navNewIntake, item: url },
+                { "@type": "ListItem", position: 1, name: "首頁", item: canonicalUrl("/") },
+                { "@type": "ListItem", position: 2, name: "屋苑索引", item: canonicalUrl("/estates") },
+                { "@type": "ListItem", position: 3, name: "新入伙", item: url },
               ],
             },
             {
               "@type": "FAQPage",
               mainEntity: FAQ.map((item) => ({
                 "@type": "Question",
-                name: MESSAGES.zh[item.qKey],
-                acceptedAnswer: { "@type": "Answer", text: MESSAGES.zh[item.aKey] },
+                name: item.q,
+                acceptedAnswer: { "@type": "Answer", text: item.a },
               })),
             },
           ],
@@ -314,11 +330,9 @@ function NewIntakePage() {
           {FAQ.map((item) => (
             <details key={item.qKey} className="group py-3">
               <summary className="cursor-pointer list-none text-sm font-semibold">
-                {locale === "en" ? t(item.qKey) : MESSAGES.zh[item.qKey]}
+                {locale === "en" ? t(item.qKey) : item.q}
               </summary>
-              <p className="mt-2 text-sm leading-relaxed text-muted">
-                {locale === "en" ? t(item.aKey) : MESSAGES.zh[item.aKey]}
-              </p>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{locale === "en" ? t(item.aKey) : item.a}</p>
             </details>
           ))}
         </div>

@@ -84,7 +84,11 @@ describe("new intake landing", () => {
     const page = readFileSync(join(here, "../routes/new-intake.tsx"), "utf8");
     assert.match(page, /const HEADING = "新入伙屋苑寬頻：有冇指定優惠？"/);
     assert.match(page, /const TITLE = "新入伙屋苑寬頻：有冇指定優惠？｜齊Quote"/);
-    assert.match(page, /const DESCRIPTION = MESSAGES\.zh\.newIntakeLead/);
+    assert.ok(page.includes(OPENING));
+    for (const item of FAQ) {
+      assert.ok(page.includes(item.q));
+      assert.ok(page.includes(item.a));
+    }
     assert.match(page, /name: TITLE/);
     assert.match(page, /description: DESCRIPTION/);
     assert.match(page, /\{ title: TITLE \}/);
@@ -93,19 +97,18 @@ describe("new intake landing", () => {
     assert.match(page, /\{ property: "og:description", content: DESCRIPTION \}/);
     assert.match(page, /\{ name: "twitter:title", content: TITLE \}/);
     assert.match(page, /\{ name: "twitter:description", content: DESCRIPTION \}/);
-    assert.match(page, /name: MESSAGES\.zh\[item\.qKey\]/);
-    assert.match(page, /text: MESSAGES\.zh\[item\.aKey\]/);
-    assert.match(page, /locale === "en" \? t\(item\.aKey\) : MESSAGES\.zh\[item\.aKey\]/);
+    assert.match(page, /name: item\.q/);
+    assert.match(page, /text: item\.a/);
+    assert.match(page, /locale === "en" \? t\(item\.aKey\) : item\.a/);
     assert.match(page, /locale === "en" \? t\("newIntakeLead"\) : DESCRIPTION/);
-    assert.match(page, /name: MESSAGES\.zh\.crumbHome/);
-    assert.match(page, /name: MESSAGES\.zh\.navEstates/);
-    assert.match(page, /name: MESSAGES\.zh\.navNewIntake/);
     const crumbs = page.slice(page.indexOf('"@type": "BreadcrumbList"'), page.indexOf('"@type": "FAQPage"'));
-    assert.match(crumbs, /crumbHome/);
-    assert.match(crumbs, /navEstates/);
-    assert.match(crumbs, /navNewIntake/);
+    assert.match(crumbs, /name: "首頁"/);
+    assert.match(crumbs, /name: "屋苑索引"/);
+    assert.match(crumbs, /name: "新入伙"/);
     assert.doesNotMatch(crumbs, /TITLE|｜齊Quote/);
     assert.doesNotMatch(page, /的/);
+    const restore = readFileSync(join(here, "../../scripts/restore-truncated-catalogues.mjs"), "utf8");
+    assert.match(restore, /3cc20e5fbe87a6ee9b1f99f26204b42aa7dd8283\/src\/lib\/messages\.ts/);
     assert.doesNotMatch(page, /display:\s*none|line-clamp|truncate/);
     const listAt = page.indexOf("<ul");
     const faqAt = page.indexOf('t("faqTitle")');
