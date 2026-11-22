@@ -25,7 +25,7 @@ export function SiteHeader() {
   const aiOpen = useDesk((s) => s.aiOpen);
   const toggleAi = useDesk((s) => s.toggleAi);
   const { t, updated, locale } = useI18n();
-  const spendLabel = locale === "en" ? "Personal spend" : "個人月費開銷";
+  const spendLabel = locale === "en" ? "Compare my fees" : "個人月費對照";
   const guidesLabel = locale === "en" ? "How-to guides" : "點揀攻略";
   const newsLabel = locale === "en" ? "News" : "電訊新聞";
   const waMenuLabel = locale === "en" ? "WhatsApp ChaiQuote desk" : "WhatsApp 齊Quote客服";

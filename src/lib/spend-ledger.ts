@@ -126,7 +126,8 @@ export function speedLabel(item: Pick<SpendItem, "speedPreset" | "speedCustom">,
 
 export function normalizeItem(raw: Partial<SpendItem> & { id?: string }): SpendItem {
   const kind = isSpendKind(raw.kind) ? raw.kind : "other";
-  const speedPreset = kind === "broadband" && isSpeedPreset(raw.speedPreset) ? raw.speedPreset : "";
+  const speedPreset =
+    (kind === "broadband" || kind === "home5g") && isSpeedPreset(raw.speedPreset) ? raw.speedPreset : "";
   return {
     id: String(raw.id || newSpendId()),
     kind,

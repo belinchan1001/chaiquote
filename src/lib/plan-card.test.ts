@@ -93,4 +93,12 @@ describe("plan card corner brand", () => {
     );
     assert.doesNotMatch(css, /prefers-reduced-motion[\s\S]{0,400}LogoMark|plan-card-brand/);
   });
+
+  it("adds 設為我而家用緊 under the existing quote actions", () => {
+    const source = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
+    assert.match(source, /WhatsApp 問呢個計劃[\s\S]*設為我而家用緊[\s\S]*\{t\("referencePrice"\)\}/);
+    assert.match(source, /to="\/spend"[\s\S]*search=\{\{ usePlan: plan\.id \}\}/);
+    assert.match(source, /<QuoteLink plan=\{plan\}/);
+    assert.doesNotMatch(source, /靜態預覽/);
+  });
 });
