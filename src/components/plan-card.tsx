@@ -272,6 +272,13 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
           </Button>
           {plan.staffOffer ? null : <PlanShareButton plan={plan} />}
         </div>
+        <Link
+          to="/spend"
+          search={{ usePlan: plan.id }}
+          className="inline-flex h-11 w-full items-center justify-center rounded-md border border-primary px-3 text-sm font-medium text-primary hover:bg-surface"
+        >
+          {locale === "en" ? "Set as what I use now" : "設為我而家用緊"}
+        </Link>
       </div>
       <p className="mt-3 text-[11px] leading-relaxed text-subtle">{t("referencePrice")}</p>
       <span
