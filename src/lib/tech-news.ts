@@ -336,6 +336,18 @@ export function articlesInCategory(id: TechNewsCategoryId) {
   return TECH_NEWS_ARTICLES.filter((item) => item.category === id);
 }
 
+/**
+ * Cover to show on a Scheme A listing card.
+ * Articles with no image, and the site default og.jpg, are not covers.
+ * Does not invent a photo or copy a category image onto an article.
+ */
+export function newsListingCover(article: Pick<TechNewsArticle, "image">): string | null {
+  const image = article.image?.trim() ?? "";
+  if (!image) return null;
+  if (/(?:^|\/)og\.jpe?g(?:[?#]|$)/i.test(image)) return null;
+  return image;
+}
+
 export function techNewsCopy(article: TechNewsArticle, locale: "zh" | "en") {
   if (locale === "en") {
     return {
