@@ -10,12 +10,20 @@ import {
   EDITOR_TAKE_DISCLAIMER,
   getTechNewsArticle,
   getTechNewsCategory,
+  newsListingCover,
 } from "./tech-news.ts";
 import { SITEMAP_PAGES, renderRobotsTxt } from "./seo.ts";
 import { newsShareText, newsWhatsAppHref, shareOrCopyNews } from "./news-share.ts";
 import { HOME_NEWS_TEASERS } from "./home-news-teaser.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
+
+function sourceBetween(source: string, start: string, end: string) {
+  const from = source.indexOf(start);
+  const to = source.indexOf(end, from + start.length);
+  assert.ok(from >= 0 && to > from, `missing slice ${start} … ${end}`);
+  return source.slice(from, to);
+}
 
 describe("tech news channel", () => {
   it("keeps four desks, a GTA 6 gaming story, and no invented cheapest-price claims", () => {
@@ -99,7 +107,10 @@ describe("tech news channel", () => {
       assert.equal(article.category, "telecom");
       assert.equal(item.desk, "電訊");
     }
-    assert.match(feed, /line-clamp-2/);
+    assert.match(feed, /NewsFeaturedStory/);
+    assert.match(feed, /NewsCompactRows/);
+    assert.doesNotMatch(feed, /line-clamp-2/);
+    assert.doesNotMatch(feed, /color-intake|#ea580c/);
     assert.ok(SITEMAP_PAGES.some((page) => page.path === "/tech-news"));
     for (const slug of [
       "telecom",
@@ -173,6 +184,48 @@ describe("tech news channel", () => {
       "shared",
     );
     assert.equal(shared[0]?.url, url);
+  });
+
+  it("lists Scheme A as one featured story plus compact title rows", () => {
+    const index = readFileSync(join(here, "../routes/tech-news.tsx"), "utf8");
+    const slugPage = readFileSync(join(here, "../routes/tech-news_.$slug.tsx"), "utf8");
+    const feed = readFileSync(join(here, "../components/news-feed.tsx"), "utf8");
+    const featured = sourceBetween(feed, "function NewsFeaturedStory", "function NewsCompactRows");
+    const compact = sourceBetween(feed, "function NewsCompactRows", "export function NewsStoryList");
+
+    assert.equal(TECH_NEWS_ARTICLES[0]?.slug, "blast-premier-rivals-hk-2026-netvigator-csl");
+    assert.equal(
+      newsListingCover(getTechNewsArticle("blast-premier-rivals-hk-2026-netvigator-csl")!),
+      "/images/news-blast-rivals-hk-2026.jpg",
+    );
+    for (const slug of ["hkt-ai-data-waiver-oct7", "how-we-cover", "read-offer-news"]) {
+      const article = getTechNewsArticle(slug);
+      assert.ok(article, slug);
+      assert.equal(article.image, undefined, slug);
+      assert.equal(newsListingCover(article), null, slug);
+    }
+    assert.equal(newsListingCover({ image: "/og.jpg" }), null);
+    assert.equal(newsListingCover({ image: "https://www.chaiquote.hk/og.jpg" }), null);
+    assert.equal(newsListingCover({ image: "/images/news-telecom.jpg" }), "/images/news-telecom.jpg");
+    assert.equal(newsListingCover({ image: "  " }), null);
+
+    assert.match(featured, /newsListingCover\(article\)/);
+    assert.match(featured, /copy\.excerpt/);
+    assert.match(featured, /<img/);
+    assert.doesNotMatch(featured, /category\.image|desk\.image|cat\.image/);
+    assert.doesNotMatch(compact, /excerpt/);
+    assert.doesNotMatch(compact, /<img/);
+    assert.doesNotMatch(compact, /newsListingCover|category\.image|desk\.image/);
+    assert.match(feed, /const \[featured, \.\.\.rest\] = articles/);
+    assert.doesNotMatch(feed, /grid-cols-2|tn-grid|tn-card__ph/);
+
+    assert.match(index, /電訊同科技新聞/);
+    assert.match(index, /香港電訊、出機、科技同電玩。呢度唔係即時價表，月費以電訊商確認為準。/);
+    assert.match(index, /電訊新聞/);
+    assert.match(index, /TECH_NEWS_SEO/);
+    assert.match(slugPage, /<NewsStoryList articles=\{items\} \/>/);
+    assert.doesNotMatch(index, /color-intake|#ea580c/);
+    assert.doesNotMatch(slugPage, /color-intake|#ea580c/);
   });
 
   it("ships a full WebP and a 400w WebP for every news JPEG cover", () => {

@@ -29,7 +29,7 @@ function TechNewsIndex() {
   );
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
+    <div className="mx-auto max-w-4xl px-4 pb-10 pt-[1.35rem] lg:pb-12 lg:pt-[2.15rem]">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -56,13 +56,15 @@ function TechNewsIndex() {
           <li>{isEn ? "Tech news" : "電訊新聞"}</li>
         </ol>
       </nav>
-      <h1 className="mt-6 text-title font-semibold">{isEn ? "Telecom and tech news" : "電訊同科技新聞"}</h1>
-      <p className="mt-2 max-w-2xl text-sm text-muted">
+      <h1 className="mt-[1.15rem] text-title font-semibold leading-[1.22] tracking-[-0.01em] text-pretty lg:mt-[1.35rem]">
+        {isEn ? "Telecom and tech news" : "電訊同科技新聞"}
+      </h1>
+      <p className="mt-2 max-w-[42rem] text-[0.9375rem] leading-[1.7] text-pretty text-muted lg:mt-[0.6rem] lg:text-base">
         {isEn
           ? "Hong Kong telecom, phones, gadgets and games. Not a live price list — the carrier confirms fees."
           : "香港電訊、出機、科技同電玩。呢度唔係即時價表，月費以電訊商確認為準。"}
       </p>
-      <div className="mt-6">
+      <div className="mt-[1.15rem] lg:mt-[1.35rem]">
         <NewsDeskChips />
       </div>
       <NewsStoryList articles={latest} />

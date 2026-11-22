@@ -111,7 +111,7 @@ function HubPage({ category, extra }: { category: TechNewsCategory; extra: TechN
   );
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
+    <div className="mx-auto max-w-4xl px-4 pb-10 pt-[1.35rem] lg:pb-12 lg:pt-[2.15rem]">
       <nav aria-label={isEn ? "Breadcrumb" : "面包屑"} className="text-sm text-muted">
         <ol className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
           <li>
@@ -129,9 +129,13 @@ function HubPage({ category, extra }: { category: TechNewsCategory; extra: TechN
           <li>{isEn ? category.labelEn : category.label}</li>
         </ol>
       </nav>
-      <h1 className="mt-6 text-title font-semibold">{isEn ? category.labelEn : category.label}</h1>
-      <p className="mt-2 text-sm text-muted">{isEn ? category.excerptEn : category.excerpt}</p>
-      <div className="mt-6">
+      <h1 className="mt-[1.15rem] text-title font-semibold leading-[1.22] tracking-[-0.01em] text-pretty lg:mt-[1.35rem]">
+        {isEn ? category.labelEn : category.label}
+      </h1>
+      <p className="mt-2 max-w-[42rem] text-[0.9375rem] leading-[1.7] text-pretty text-muted lg:mt-[0.6rem] lg:text-base">
+        {isEn ? category.excerptEn : category.excerpt}
+      </p>
+      <div className="mt-[1.15rem] lg:mt-[1.35rem]">
         <NewsDeskChips active={category.id} />
       </div>
       <NewsStoryList articles={items} />
