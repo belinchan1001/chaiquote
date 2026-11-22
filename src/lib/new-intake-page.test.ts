@@ -117,7 +117,7 @@ describe("new intake landing", () => {
     assert.doesNotMatch(crumbs, /TITLE|｜齊Quote/);
     assert.doesNotMatch(page, /的/);
     const restore = readFileSync(join(here, "../../scripts/restore-truncated-catalogues.mjs"), "utf8");
-    assert.match(restore, /aecebae7c184623af2b129d2116cf93101dc67c4\/src\/lib\/messages\.ts/);
+    assert.match(restore, /12ab0682f3c057654208f59bebb3ef264931ba4e\/src\/lib\/messages\.ts/);
     assert.doesNotMatch(page, /display:\s*none|line-clamp|truncate/);
     const listAt = page.indexOf("<ul");
     const faqAt = page.indexOf(FAQ_HEADING);
