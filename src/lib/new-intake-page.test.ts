@@ -9,19 +9,20 @@ import { MESSAGES } from "./messages.ts";
 import { SITEMAP_PAGES } from "./seo.ts";
 
 const OPENING =
-  "呢頁幫你對近年入伙或者即將入伙嘅屋苑，有冇指定新入伙優惠。指定優惠只會喺電訊商名單內嘅屋苑顯示月費；名單以外用同一樓類嘅一般計劃，公屋、居屋同私樓嘅價唔可以混用。";
+  "呢頁幫你對近年入伙或者即將入伙嘅屋苑，有冇指定新入伙優惠。指定新入伙計劃只適用於電訊商名單內嘅新入伙屋苑，其他普通屋苑唔可以用呢啲指定計劃。";
+const FAQ_HEADING = "指定新入伙屋苑優惠常見問題";
 const FAQ = [
   {
     q: "點解有啲屋苑有價，有啲冇？",
-    a: "指定新入伙優惠只會喺電訊商名單內嘅屋苑顯示月費。唔在名單內就用同一樓類嘅一般計劃，唔會借用其他屋苑嘅月費。",
+    a: "指定新入伙計劃只適用於電訊商名單內嘅新入伙屋苑。其他普通屋苑唔可以用呢啲指定計劃，只用同一樓類嘅一般計劃，亦唔會借用其他屋苑嘅月費。",
   },
   {
     q: "未入伙可唔可以預約安裝？",
-    a: "部分計劃可以選擇延遲服務生效。可唔可以預約、幾時裝到，同覆蓋一併以電訊商確認為準。",
+    a: "未入伙可以預約安裝。指定新入伙優惠係為新入伙屋苑而設，月費通常會平過同一樓類嘅一般計劃；優惠好多時有限期，入伙之後可能會調整到普通屋苑嘅一般計劃。好多計劃都有一段可預先約定嘅生效期，建議配合裝修預先安裝，入伙之後先開通。可唔可以預約、幾時裝到、生效期同覆蓋，以電訊商確認為準。",
   },
   {
     q: "公屋價可唔可以用喺私樓？",
-    a: "唔可以。公屋、居屋同私樓嘅價唔可以混用。每張卡都標明樓類，入去只會見到該樓類適用嘅計劃。",
+    a: "唔可以。公屋價唔可以用喺私樓，居屋價亦唔可以用喺公屋或者私樓。每張卡都標明樓類，入去只會見到該樓類適用嘅計劃。",
   },
 ] as const;
 
@@ -75,10 +76,13 @@ describe("new intake landing", () => {
     assert.equal(MESSAGES.zh.crumbHome, "首頁");
     assert.equal(MESSAGES.zh.navEstates, "屋苑索引");
     assert.equal(MESSAGES.zh.navNewIntake, "新入伙");
-    for (const text of [OPENING, ...FAQ.flatMap((item) => [item.q, item.a])]) {
+    for (const text of [OPENING, FAQ_HEADING, ...FAQ.flatMap((item) => [item.q, item.a])]) {
       assert.equal(text.includes("的"), false, text);
+      assert.equal(text.includes("混用"), false, text);
       assert.equal(text.includes("邸"), false, text);
       assert.equal(text.includes("邭"), false, text);
+      assert.equal(text.includes("\uFFFC"), false, text);
+      assert.equal(/180|365|半年至一年/.test(text), false, text);
     }
 
     const page = readFileSync(join(here, "../routes/new-intake.tsx"), "utf8");
@@ -101,6 +105,11 @@ describe("new intake landing", () => {
     assert.match(page, /text: item\.a/);
     assert.match(page, /locale === "en" \? t\(item\.aKey\) : item\.a/);
     assert.match(page, /locale === "en" \? t\("newIntakeLead"\) : DESCRIPTION/);
+    assert.ok(page.includes(FAQ_HEADING));
+    assert.doesNotMatch(page, /faqTitle/);
+    assert.match(page, /text-intake/);
+    assert.match(page, /bg-intake/);
+    assert.doesNotMatch(page, /混用/);
     const crumbs = page.slice(page.indexOf('"@type": "BreadcrumbList"'), page.indexOf('"@type": "FAQPage"'));
     assert.match(crumbs, /name: "首頁"/);
     assert.match(crumbs, /name: "屋苑索引"/);
@@ -111,7 +120,8 @@ describe("new intake landing", () => {
     assert.match(restore, /3cc20e5fbe87a6ee9b1f99f26204b42aa7dd8283\/src\/lib\/messages\.ts/);
     assert.doesNotMatch(page, /display:\s*none|line-clamp|truncate/);
     const listAt = page.indexOf("<ul");
-    const faqAt = page.indexOf('t("faqTitle")');
-    assert.ok(listAt > 0 && faqAt > listAt);
+    const faqAt = page.indexOf(FAQ_HEADING);
+    assert.ok(faqAt > 0 && listAt > faqAt);
+    assert.equal(page.indexOf(FAQ_HEADING, listAt), -1);
   });
 });
