@@ -275,10 +275,10 @@ function NewIntakePage() {
       </div>
       <details className="group mt-[0.65rem] rounded-[12px] border border-border bg-surface sm:mt-[0.7rem]">
         <summary
-          className="flex min-h-[3.05rem] cursor-pointer list-none items-center justify-between gap-3 px-4 text-sm font-semibold tracking-[0.01em] text-fg"
+          className="flex min-h-[3.05rem] cursor-pointer list-none items-center justify-between gap-3 px-4 py-[0.65rem] text-sm font-semibold leading-[1.35] tracking-[0.01em] text-fg"
           aria-label={locale === "en" ? FAQ_HEADING_EN : FAQ_HEADING}
         >
-          <h2 className="text-sm font-semibold tracking-[0.01em] text-fg">
+          <h2 className="m-0 min-w-0 text-pretty text-sm font-semibold leading-[1.35] tracking-[0.01em] text-fg">
             {locale === "en" ? FAQ_HEADING_EN : FAQ_HEADING}
           </h2>
           <span
