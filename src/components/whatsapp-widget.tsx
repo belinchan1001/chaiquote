@@ -345,10 +345,12 @@ export function DeferredWhatsApp() {
   const visit = quoteVisitDesk(pathname, plans, inquiry, provider);
   const deskE164 = visit.e164;
   const deskPhone = visit.display;
+  const aiOpen = useDesk((s) => s.aiOpen);
   useEffect(() => {
     const timer = window.setTimeout(() => setReady(true), 1800);
     return () => window.clearTimeout(timer);
   }, []);
+  if (aiOpen) return null;
   if (!ready) {
     return (
       <a

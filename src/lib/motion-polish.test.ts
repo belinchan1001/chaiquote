@@ -96,8 +96,9 @@ describe("light UX motion polish", () => {
     assert.match(staff, /inert=\{!shown\}/);
     assert.match(staff, /AI_CLOSE_MS = 180/);
     assert.match(staff, /prefers-reduced-motion: reduce/);
-    assert.match(staff, /inset-x-0 bottom-24/);
-    assert.match(staff, /lg:left-4 lg:top-20/);
+    assert.match(staff, /inset-x-0 bottom-0 top-\[6\.1rem\]/);
+    assert.match(staff, /max-w-xl/);
+    assert.doesNotMatch(staff, /lg:left-4 lg:top-20/);
     assert.doesNotMatch(staff, /translate-y-full/);
     assert.doesNotMatch(staff, /pointer-events-none translate-y-full/);
 

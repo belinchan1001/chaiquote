@@ -115,8 +115,10 @@ describe("WhatsApp quote prefill closing line", () => {
     assert.match(widget, /trackWaClick\(/);
     assert.doesNotMatch(quote, /widgetQuoteMessage\(|widgetWhatsappHref\(/);
     assert.doesNotMatch(src, /你好，我想查詢覆蓋同計劃|fabInquiryMessage|widgetWhatsappHref|來源：Google 廣告/);
-    assert.match(staff, /portInQuoteFromInquiry\(/);
-    assert.match(staff, /quoteWhatsAppActivateProps\(/);
+    assert.match(staff, /<PlanCard /);
+    assert.match(staff, /bareWhatsAppActivateProps\(/);
+    assert.match(staff, /setInquiry\(/);
+    assert.doesNotMatch(staff, /quoteWhatsAppActivateProps\(/);
     assert.match(src, /category === "mobile"/);
     assert.match(src, /請幫我核對新號碼上台優惠／攜號轉台優惠/);
     assert.match(src, /請幫我核對覆蓋同最新優惠/);
