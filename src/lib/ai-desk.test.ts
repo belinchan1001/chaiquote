@@ -214,17 +214,11 @@ describe("AI desk safety", () => {
     const desk = readFileSync(join(here, "ai-desk.ts"), "utf8");
     const widget = readFileSync(join(here, "../components/whatsapp-widget.tsx"), "utf8");
 
-    assert.equal(quoted(messages, "aiStaffLead")[0], "講下想要咩，我幫你對站內計劃");
-    assert.match(quoted(messages, "aiStaffLead")[1] ?? "", /match plans on this site/);
-    assert.equal(quoted(messages, "aiBeta")[0], "測試版");
-    assert.equal(quoted(messages, "aiBeta")[1], "Beta");
-    assert.equal(
-      quoted(messages, "aiWelcome")[0],
-      "你好，我係齊Quote。\\n你想睇邊種服務？",
-    );
-    assert.match(quoted(messages, "aiWelcome")[1] ?? "", /Which service do you want/);
-    assert.equal(quoted(messages, "aiWelcomeTrial")[0], "功能試用中，結果僅供參考");
-    assert.match(quoted(messages, "aiWelcomeTrial")[1] ?? "", /on trial/);
+    assert.equal(quoted(messages, "aiStaff")[0], "齊Quote AI (測試版)");
+    assert.equal(quoted(messages, "aiStaff")[1], "齊Quote AI (測試版)");
+    assert.equal(quoted(messages, "aiEntryCta")[0], "齊Quote AI (測試版)");
+    assert.equal(quoted(messages, "aiEntryLead")[0], "輸入地址，對照站內參考月費");
+    assert.doesNotMatch(quoted(messages, "aiStaff")[0] ?? "", /AI 篩選|查參考月費/);
     assert.equal(quoted(messages, "aiCardRef")[0], "僅供參考");
     for (const key of ["aiWelcome", "aiWelcomeTrial", "aiHint"] as const) {
       for (const text of quoted(messages, key)) {
@@ -233,22 +227,14 @@ describe("AI desk safety", () => {
       }
     }
 
-    assert.match(staff, /aiWelcomeCopy\(t\)/);
-    assert.match(staff, /<AiBetaMark className="shrink-0 text-primary-foreground\/75" \/>/);
-    assert.match(header, /<AiBetaMark className="hidden text-primary-foreground\/80 sm:inline" \/>/);
-    assert.match(header, /AiBetaMark className="pointer-events-none absolute inset-x-0 bottom-0.5/);
+    assert.match(staff, /openingTurn\(\)/);
+    assert.doesNotMatch(staff, /aiWelcomeCopy|AiBetaMark|aiStaffLead/);
+    assert.doesNotMatch(header, /AiBetaMark/);
     assert.match(header, /t\("aiStaffTiny"\)/);
+    assert.match(header, /aria-label=\{t\("aiStaff"\)\}/);
     assert.doesNotMatch(header, /sr-only sm:hidden/);
     assert.doesNotMatch(header, /max-sm:w-11/);
-    assert.match(staff, /plansForAiCards\(bubble\.planIds/);
-    assert.match(staff, /aiHighlights\(plan, locale\)/);
-    assert.match(staff, /送 \$\{plan\.freeMonths\} 個月月費/);
-    assert.match(staff, /<ProviderMark id=\{plan\.providerId\} size="sm"/);
-    assert.match(staff, /formatFee\(plan\.monthlyFee\)/);
-    assert.match(staff, /t\("months", \{ n: plan\.contractMonths \}\)/);
-    assert.match(staff, /t\("aiCardRef"\)/);
-    assert.match(staff, /to="\/plans\/\$planId"/);
-    assert.match(staff, /t\("aiWaCta"\)/);
+    assert.match(staff, /<PlanCard /);
     assert.doesNotMatch(staff, /QUICK_REPLIES/);
     assert.doesNotMatch(staff, /QUESTION_CHIPS\.map/);
     assert.doesNotMatch(staff, /aiFaqMore/);
@@ -257,8 +243,9 @@ describe("AI desk safety", () => {
     assert.match(desk, /id: "housing"/);
 
     assert.doesNotMatch(staff, /fixed right-3 top-20/);
-    assert.match(staff, /inset-x-0 bottom-24/);
-    assert.match(staff, /lg:left-4 lg:top-20/);
+    assert.match(staff, /inset-x-0 bottom-0 top-\[6\.1rem\]/);
+    assert.match(staff, /max-w-xl/);
+    assert.doesNotMatch(staff, /lg:left-4 lg:top-20/);
     assert.doesNotMatch(staff, /lg:right-3|lg:right-4|right-3 top-20/);
 
     assert.match(ask, /listing or filtering plans/);
@@ -283,12 +270,12 @@ describe("AI desk safety", () => {
     const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
     const root = readFileSync(join(here, "../routes/__root.tsx"), "utf8");
 
-    assert.equal(quoted(messages, "aiStaffTiny")[0], "AI");
-    assert.equal(quoted(messages, "aiStaffTiny")[1], "AI");
-    assert.equal(quoted(messages, "aiEntryLead")[0], "唔知點揀？");
-    assert.equal(quoted(messages, "aiEntryCta")[0], "用 AI 篩選（測試版）");
-    assert.match(quoted(messages, "aiEntryLead")[1] ?? "", /Not sure how to choose/);
-    assert.equal(quoted(messages, "aiEntryCta")[1], "Use AI filter (Beta)");
+    assert.equal(quoted(messages, "aiStaffTiny")[0], "齊Quote AI (測試版)");
+    assert.equal(quoted(messages, "aiStaffTiny")[1], "齊Quote AI (測試版)");
+    assert.equal(quoted(messages, "aiEntryLead")[0], "輸入地址，對照站內參考月費");
+    assert.equal(quoted(messages, "aiEntryCta")[0], "齊Quote AI (測試版)");
+    assert.equal(quoted(messages, "aiEntryLead")[1], "輸入地址，對照站內參考月費");
+    assert.equal(quoted(messages, "aiEntryCta")[1], "齊Quote AI (測試版)");
     assert.equal(quoted(messages, "aiBeta")[0], "測試版");
 
     assert.match(entry, /toggleAi/);
@@ -365,7 +352,8 @@ describe("AI desk safety", () => {
     assert.doesNotMatch(header, /<LogoMarkLooking[^>]*(?:size-full|w-full|h-full|object-)/);
     assert.match(header, /<Logo className="shrink-0" \/>/);
     assert.match(header, /aria-expanded=\{aiOpen\}/);
-    assert.match(header, /aria-label=\{`\$\{t\("aiStaff"\)\}（\$\{t\("aiBeta"\)\}）`\}/);
+    assert.match(header, /aria-label=\{t\("aiStaff"\)\}/);
+    assert.doesNotMatch(header, /AiBetaMark/);
     assert.match(header, /toggleAi\(\)/);
     assert.doesNotMatch(header, /plan-card-shine|ai-filter-shine|className="foil"/);
 
@@ -379,11 +367,11 @@ describe("AI desk safety", () => {
     const logo = readFileSync(join(here, "../components/logo.tsx"), "utf8");
 
     assert.match(staff, /import \{ LogoMarkLooking \} from "@\/components\/logo-mark-looking"/);
-    assert.match(staff, /<LogoMarkLooking className="size-7" \/>/);
-    assert.match(staff, /flex size-11 items-center justify-center bg-accent/);
-    assert.match(staff, /flex items-center gap-3 bg-primary px-4 py-3/);
+    assert.match(staff, /<LogoMarkLooking className="size-8" \/>/);
+    assert.match(staff, /<h1 className="min-w-0 flex-1 text-lg font-semibold text-fg">\{t\("aiStaff"\)\}<\/h1>/);
     assert.doesNotMatch(staff, /<LogoMarkLooking[^>]*(?:size-full|w-full|h-full|object-)/);
     assert.doesNotMatch(staff, /Sparkles/);
+    assert.doesNotMatch(staff, /AiBetaMark/);
     assert.match(staff, /<X className="size-4" \/>/);
     assert.match(staff, /const closeAi = useDesk\(\(s\) => s\.closeAi\)/);
     assert.match(staff, /onClick=\{closeAi\}/);
@@ -412,9 +400,9 @@ describe("AI desk safety", () => {
     assert.doesNotMatch(JSON.stringify(found.plans), /monthlyFee|HK\$/);
 
     const staff = readFileSync(join(here, "../components/ai-staff.tsx"), "utf8");
-    assert.match(staff, /\{bubble\.text\}/);
-    assert.doesNotMatch(staff, /formatFee\([^)]*bubble\.text/);
-    assert.match(staff, /aiHighlights\(plan, locale\)[\s\S]*formatFee\(plan\.monthlyFee\)[\s\S]*t\("aiCardRef"\)/);
+    assert.match(staff, /<LinkedCopy text=\{item\.text\} \/>/);
+    assert.doesNotMatch(staff, /formatFee\(/);
+    assert.match(staff, /<PlanCard /);
   });
 
   it("turns the AI chat into a filter workstation with a slow accent pulse on the entry", () => {
@@ -424,21 +412,15 @@ describe("AI desk safety", () => {
     const css = readFileSync(join(here, "../styles.css"), "utf8");
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
 
-    assert.match(staff, /function IntakeProgress/);
-    assert.match(staff, /t\("aiStillNeed"/);
-    assert.match(staff, /t\("aiAutoFilter"\)/);
-    assert.match(staff, /t\("aiTapToClear"\)/);
+    assert.match(staff, /suggestionChips\(session\)/);
+    assert.match(staff, /applyUserMessage/);
+    assert.doesNotMatch(staff, /function IntakeProgress/);
+    assert.doesNotMatch(staff, /type="date"|datetime-local/);
     assert.doesNotMatch(staff, /aiFaqMore/);
     assert.doesNotMatch(staff, /QUESTION_CHIPS\.map/);
-    assert.match(staff, /blankGuide/);
+    assert.doesNotMatch(staff, /askAiDesk/);
     assert.equal(quoted(messages, "aiSlotCurrent")[0], "現用台");
     assert.equal(quoted(messages, "aiFaqMore")[0], "常見問題");
-    assert.equal(quoted(messages, "aiAskHousingBiz")[0], "請提供商業寬頻的安裝地址");
-    assert.match(staff, /categoryFromInquiry\(inquiry\) === "business"/);
-    assert.match(staff, /guideCat !== "business"/);
-    assert.match(staff, /bizCs: true/);
-    assert.match(staff, /t\("aiBizFeeNote"\)/);
-    assert.match(staff, /t\("aiBizCsCta"\)/);
 
     assert.match(entry, /plan-card-shine ai-filter-shine ai-entry-pulse/);
     assert.match(entry, /aiOpen && "is-open"/);

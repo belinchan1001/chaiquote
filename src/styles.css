@@ -252,6 +252,7 @@
   .esports-line-chip,
   .wa-pulse::after,
   .ai-entry-pulse::after,
+  .ai-quote-idle,
   .ai-overlay,
   .ai-panel,
   .intake-overlay,
@@ -808,6 +809,21 @@
     .ai-panel.is-open {
       transform: none;
     }
+  }
+
+  @keyframes ai-quote-idle {
+    0%,
+    100% {
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      transform: translateY(-1px) scale(1.03);
+    }
+  }
+
+  .ai-quote-idle {
+    transform-origin: center;
+    animation: ai-quote-idle 5.5s ease-in-out infinite;
   }
 
   .action-hot {

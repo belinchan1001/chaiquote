@@ -848,6 +848,27 @@ export function matchKnownEstate(name: string, address = ""): Estate | undefined
   return found;
 }
 
+/**
+ * Confident catalogue hits for one query. One row is a unique match.
+ * Two or more are close names the caller should ask the visitor to pick.
+ * Score rules match `matchKnownEstate` (600 floor, 80-point band).
+ */
+export function closeEstateMatches(query: string, limit = 5): Estate[] {
+  if (isBareHousingTypeQuery(query)) return [];
+  const ranked = rankEstates(query);
+  const top = ranked[0];
+  if (!top || top.score < 600) return [];
+  const out: Estate[] = [];
+  for (const row of ranked) {
+    if (row.score < 600 || row.score < top.score - 80) continue;
+    if (out.some((item) => item.name === row.estate.name)) continue;
+    if (out.some((item) => isRelatedBlock(row.estate, item) || isRelatedBlock(item, row.estate))) continue;
+    out.push(row.estate);
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
 function resolveKnownEstate(name: string, address = ""): Estate | undefined {
   if (isBareHousingTypeQuery(name) && !compact(address)) return undefined;
   const nameCompact = compact(name);

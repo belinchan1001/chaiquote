@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
-import { AiBetaMark } from "@/components/ai-beta-mark";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
 import { LogoMarkLooking } from "@/components/logo-mark-looking";
@@ -94,7 +93,7 @@ export function SiteHeader() {
               type="button"
               size="sm"
               aria-expanded={aiOpen}
-              aria-label={`${t("aiStaff")}（${t("aiBeta")}）`}
+              aria-label={t("aiStaff")}
               className={cn("max-sm:h-11 max-sm:px-2 sm:px-3", aiOpen && "ai-header-live")}
               onClick={() => {
                 setOpen(false);
@@ -111,9 +110,7 @@ export function SiteHeader() {
               <span className="hidden lg:inline" aria-hidden>
                 {t("aiStaff")}
               </span>
-              <AiBetaMark className="hidden text-primary-foreground/80 sm:inline" />
             </Button>
-            <AiBetaMark className="pointer-events-none absolute inset-x-0 bottom-0.5 text-center text-[8px] leading-none text-primary-foreground/85 sm:hidden" />
           </div>
           <Button
             type="button"
@@ -157,7 +154,6 @@ export function SiteHeader() {
               }}
             >
               {t("aiStaff")}
-              <AiBetaMark className="text-muted" />
             </button>
             <a
               href={`https://wa.me/${waE164}`}
