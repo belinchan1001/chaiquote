@@ -138,6 +138,7 @@ export const NEW_INTAKE: { name: string; group: string }[] = [
   { name: "幸薈", group: "九龍" },
   { name: "朗然", group: "九龍" },
   { name: "海璇", group: "港島" },
+  { name: "麗玥苑", group: "九龍" },
   { name: "朗譽", group: "九龍" },
   { name: "南首", group: "九龍" },
   { name: "海嵎", group: "港島" },
