@@ -3,6 +3,67 @@ import type { TechNewsArticle } from "./tech-news.ts";
 /** Extra news pieces. GTA 6 still lives in TECH_NEWS_ARTICLES. */
 export const TECH_NEWS_BATCH: readonly TechNewsArticle[] = [
 {
+    slug: "sim-prepaid-limit-3-criminalise-nov18",
+    category: "telecom",
+    minutes: 4,
+    published: "2026-11-23",
+    seoTitle: "儲值卡上限擬降至3張｜借售刑事化｜齊Quote",
+    h1: "儲值卡上限擬降至3張：借售行為刑事化",
+    description: "2026年11月18日立法會答覆寫死個人用戶向每間電訊商登記電話儲值卡上限由10張降至3張，約98%用戶已不多於3張。自2023年2月起約420萬張因未能核實被取消。買賣租借已登記卡擬刑事化。內容僅供參考，以官方公布為準。",
+    excerpt: "11月18日立法會答覆寫死儲值卡上限由10降至3張，約98%用戶已不多於3張。約420萬張因未能核實被取消。借售已登記卡擬刑事化。以官方公布為準。",
+    seoTitleEn: "Prepaid SIM cap proposed at 3: lending or selling to be criminalised | 齊Quote",
+    h1En: "Prepaid SIM limit proposed down to 3: lending or selling to be criminalised",
+    descriptionEn: "On 18 November 2026 a LegCo reply stated the personal prepaid-SIM cap per operator will fall from 10 to 3. About 98% of users already hold no more than 3. Since February 2023 about 4.2 million cards were cancelled for failed verification. Buying, selling or lending registered cards is proposed to be criminalised. Official announcements prevail.",
+    excerptEn: "18 November LegCo reply sets the prepaid cap at 3 (from 10). About 98% already hold ≤3. About 4.2 million cancelled since 2023 for failed checks. Lending or selling registered cards proposed as an offence.",
+    bullets: [
+      "11月18日立法會答覆：個人用戶向每間電訊商登記電話儲值卡上限由現時最多10張大幅減少至3張。",
+      "電訊商數據：約98%個人用戶在每間電訊商登記不多於3張；自2023年2月起因未能核實被取消登記約420萬張。",
+      "建議將無合法權限或無合理辯解下，提供個人資料登記他人卡、以及買賣租借已登記電話智能卡列為刑事罪行。",
+      "通訊辦已要求電訊商加強核查接近現行上限的用戶；未能按指示核實者會被取消登記。修例細節籌備中，未來數月諮詢公眾及業界。",
+    ],
+    bulletsEn: [
+      "18 November LegCo reply: personal prepaid-SIM registration limit per operator to be cut from the current maximum of 10 to 3.",
+      "Carrier data: about 98% of individual users register no more than 3 cards per operator; about 4.2 million cards cancelled since February 2023 for failed verification.",
+      "Proposal to criminalise providing personal data to register a card for another person, and buying, selling or lending registered SIM cards, without lawful authority or reasonable excuse.",
+      "OFCA has asked carriers to step up checks on users near the current limit; failure to verify leads to cancellation. Legislative details are being prepared; public and industry consultation in the coming months.",
+    ],
+    body: [
+      {
+        heading: "答覆寫死咗咩新事實",
+        headingEn: "What the reply stated as new facts",
+        paragraphs: [
+          "2026年11月18日立法會會議上，署理商務及經濟發展局局長陳百里博士書面答覆議員提問，政府建議將個人用戶可向每間電訊商登記的電話儲值卡數量上限，由現時最多10張大幅減少至3張。根據電訊商提供的數據分析，現時絕大部分（約98%）個人用戶在每間電訊商登記不多於3張。",
+          "同一答覆指，電訊商自2023年2月起進行多輪核查，因未能遵從核實要求而被取消登記的電話儲值卡號碼累計約420萬張。政府亦建議將若干不當利用電話智能卡的行為刑事化，包括無合法權限或無合理因由下提供個人資料用作登記他人的卡，以及買賣、租借或以其他方式提供或獲取已登記的電話智能卡。",
+        ],
+        paragraphsEn: [
+          "On 18 November 2026 in the Legislative Council, the Acting Secretary for Commerce and Economic Development stated in reply that the government proposes to lower the personal prepaid-SIM registration limit per telecommunications service provider from the current maximum of 10 to 3. According to carrier data analysis, the vast majority (about 98%) of individual users currently register no more than 3 prepaid cards with each operator.",
+          "The same reply noted that since February 2023 carriers have conducted multiple verification rounds, resulting in about 4.2 million prepaid-SIM numbers being cancelled for failure to comply with verification requirements. The government also proposes to criminalise certain improper uses of SIM cards, including providing personal information to register a card for another person, and buying, selling, lending or otherwise supplying or acquiring registered SIM cards, without lawful authority or reasonable excuse.",
+        ],
+      },
+      {
+        heading: "對用戶有咩影響同下一步",
+        headingEn: "What it means for users and next steps",
+        paragraphs: [
+          "通訊辦已要求電訊商加強監察及進一步核查持有接近現行登記數目上限的已登記電話儲值卡用戶。被抽查而未能按電訊商指示核實資料者，有關儲值卡會被取消登記及失效。政府正積極籌備修改相關法例的細節，並計劃在未來數月盡快就建議諮詢公眾及業界。",
+          "若你持有多張同一電訊商的儲值卡，建議盡早核對自己的登記狀況，並留意電訊商以「#SIMREG」發送者發出的核實短訊。修例未生效前，借名或買賣已登記卡已屬高風險行為。所有安排以官方公布及所屬電訊商確認為準。",
+        ],
+        paragraphsEn: [
+          "OFCA has already asked carriers to strengthen monitoring and further verify users holding numbers of registered prepaid SIMs close to the current limit. Cards of users who fail to verify as instructed will be deregistered and deactivated. The government is actively preparing the legislative details and plans to consult the public and the industry as soon as possible in the coming months.",
+          "If you hold multiple prepaid cards from the same operator, check your registration status early and watch for verification SMS from the sender “#SIMREG”. Until the amendments take effect, lending your name or trading registered cards remains high-risk. All arrangements follow official announcements and confirmation from your carrier.",
+        ],
+      },
+    ],
+    tags: ["儲值卡", "實名登記", "上限3張", "刑事化", "立法會"],
+    tagsEn: ["prepaid SIM", "real-name registration", "limit of 3", "criminalise", "LegCo"],
+    editorNote: "電訊專區今次唔係再講一次10月籌備修例。新事實係11月18日立法會答覆寫死上限由10降至3張，約98%用戶已不多於3張，自2023年2月起約420萬張因未能核實被取消，借售已登記卡擬刑事化。\\n\\n我唔會代填任何月費或者作出任何最抵聲稱。答覆數字同建議係官方事實。想核對自己有幾多張已登記卡，對所屬電訊商或者通訊辦頁面，唔好當呢篇係合約報價。",
+    editorNoteEn: "This is not a repeat of the October draft note. The new fact is the 18 November LegCo reply that writes the cap down from 10 to 3, that about 98% of users already hold no more than 3, that about 4.2 million cards have been cancelled since February 2023 for failed verification, and that lending or selling registered cards is proposed to be criminalised.\\n\\nNo monthly fee is filled in and no deal claim is made. The reply’s numbers and proposals are official facts. To check how many cards you have registered, go to your carrier or the OFCA page rather than treating this as a contract quote.",
+    sourceUrl: "https://www.info.gov.hk/gia/general/202611/18/P2026111800295.htm",
+    image: "/images/news-sim-limit-3-nov18.jpg",
+    imageAlt: "csl Discover Hong Kong Tourist SIM Card 包裝，顯示香港地標同5G標誌，適合旅遊及儲值卡使用",
+    imageCredit: "香港旅遊發展局 / csl Discover Hong Kong Tourist SIM Card",
+  },
+
+{
     slug: "blast-premier-rivals-hk-2026-netvigator-csl",
     category: "gaming",
     minutes: 4,
