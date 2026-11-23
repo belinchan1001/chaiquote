@@ -12,10 +12,10 @@ const WYLER = "偉恆昌新邨|偉恆昌,Wyler Gardens,Wyler Garden|九龍城|pr
 const FILES = [
   {
     dest: "src/lib/messages.ts",
-    // Must be a main commit whose messages.ts already contains every key the
-    // app renders. Bump this hash whenever src/lib/messages.ts changes, or the
-    // build will ship an older catalogue and the UI will show raw key names.
-    url: "https://raw.githubusercontent.com/belinchan1001/chaiquote/12ab0682f3c057654208f59bebb3ef264931ba4e/src/lib/messages.ts",
+    // Must be a commit whose messages.ts already contains every key the app
+    // renders, including the locked 齊Quote AI entry. Bump this hash whenever
+    // src/lib/messages.ts changes, or the build will ship an older catalogue.
+    url: "https://raw.githubusercontent.com/belinchan1001/chaiquote/f13d9c40ed3645d8e4089b678b4df1c7ac2e99f9/src/lib/messages.ts",
     minBytes: 40000,
   },
   {
