@@ -223,7 +223,9 @@ function isNoneProvider(text: string) {
 }
 
 function confirmsHousing(text: string) {
-  return /啱|正確|無錯|沒錯|就係|yes|對呀|對啊|係呀|係啊|係呢個|係私人|係公屋|係居屋|係村屋/i.test(text);
+  const trimmed = text.trim();
+  if (/^(啱|啱呀|啱啊|啱嘅|係|係呀|係啊|係嘅|正確|無錯|沒錯|yes|對|對呀|對啊)$/i.test(trimmed)) return true;
+  return /啱|正確|無錯|沒錯|就係|yes|對呀|對啊|係呀|係啊|係呢個/i.test(text);
 }
 
 function rejectsHousing(text: string) {
@@ -404,15 +406,10 @@ function answerHousing(draft: QuoteSession, text: string, turns: AssistantTurn[]
   const provider = detectProvider(text);
   const none = isNoneProvider(text);
   const undecided = isUndecided(text);
-  if (!housing && !provider && !none && !undecided && !confirmsHousing(text) && !rejectsHousing(text)) return false;
+  const affirm = confirmsHousing(text);
+  const reject = rejectsHousing(text);
+  if (!housing && !provider && !none && !undecided && !affirm && !reject) return false;
   if (housing) draft.housing = housing;
-  if (draft.phase === "ask-housing" && !draft.housing) return false;
-  if (draft.phase === "ask-housing" && housing && !provider && !none && !undecided) {
-    draft.phase = "ask-speed";
-    draft.chipsHidden = false;
-    goSpeed(draft, turns);
-    return true;
-  }
   if (provider) {
     draft.providerId = provider;
     draft.providerKnown = true;
@@ -422,20 +419,18 @@ function answerHousing(draft: QuoteSession, text: string, turns: AssistantTurn[]
     draft.providerKnown = true;
     draft.newOrNone = true;
   }
-  if (rejectsHousing(text) && !housing) {
-    draft.phase = "confirm-housing";
-    draft.chipsHidden = false;
-    const word = housingWord(draft.housing);
-    if (word) push(draft, turns, confirmHousing(word));
+  if (draft.phase === "ask-housing") {
+    if (!draft.housing) return false;
+    goSpeed(draft, turns);
     return true;
   }
-  if (!draft.providerKnown) {
+  if (reject && !housing) {
     draft.phase = "confirm-housing";
     draft.chipsHidden = false;
-    const word = housingWord(draft.housing);
-    if (word) push(draft, turns, confirmHousing(word));
     return true;
   }
+  const housingSet = Boolean(housing) || affirm || Boolean(provider) || none || undecided;
+  if (!housingSet || !draft.housing) return false;
   goSpeed(draft, turns);
   return true;
 }

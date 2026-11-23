@@ -107,6 +107,36 @@ describe("齊Quote AI locked conversation", () => {
     assert.doesNotMatch(intro?.text ?? "", BANNED);
   });
 
+  it("confirms housing once and does not repeat the bubble", () => {
+    const matched = say(createQuoteSession(), "太古城");
+    assert.equal(matched.turns[0]?.text, confirmHousing("私人樓"));
+    assert.deepEqual(suggestionChips(matched.session).map((chip) => chip.label), [...HOUSING_CHIPS]);
+
+    const chip = say(matched.session, "私人樓");
+    assert.equal(chip.turns.at(-1)?.text, SPEED_ASK);
+    assert.equal(chip.turns.some((turn) => turn.text.startsWith("站內按")), false);
+    assert.equal(suggestionChips(chip.session).some((item) => item.label === "公屋"), false);
+    assert.equal(suggestionChips(chip.session).some((item) => item.label === "私人樓"), false);
+
+    const again = say(chip.session, "私人樓");
+    assert.equal(again.turns.some((turn) => turn.text.startsWith("站內按")), false);
+    assert.notEqual(again.session.phase, "confirm-housing");
+
+    for (const answer of ["正確", "啱", "係", "啱呀"]) {
+      const next = say(matched.session, answer);
+      assert.equal(next.turns.at(-1)?.text, SPEED_ASK, answer);
+      assert.equal(next.turns.some((turn) => turn.text.startsWith("站內按")), false, answer);
+      assert.equal(suggestionChips(next.session).some((item) => HOUSING_CHIPS.includes(item.label as (typeof HOUSING_CHIPS)[number])), false, answer);
+    }
+
+    const named = say(matched.session, "正確，而家用緊網上行");
+    assert.equal(named.turns[0]?.text, REMEMBER);
+    assert.equal(named.turns.at(-1)?.text, SPEED_ASK);
+    const install = say(named.session, "未定");
+    const results = say(install.session, "未定");
+    assert.match(results.turns.at(-1)?.text ?? "", /已剔除你而家呢間營辦商/);
+  });
+
   it("asks housing without prices when the street is not an estate", () => {
     const result = say(createQuoteSession(), "觀塘巧明街 9 號");
     assert.equal(result.turns[0]?.text, UNMATCHED);
