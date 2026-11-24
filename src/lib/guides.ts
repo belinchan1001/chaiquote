@@ -121,6 +121,11 @@ export const CORE_GUIDES: Guide[] = [
     description: "留舊號碼轉去新電訊商：行政費、幾時生效，同寬頻轉台有咩分別。實際以電訊商確認為準。",
     title: "攜號轉台點樣做，先唔會斷線",
     excerpt: "留舊號碼轉去新電訊商：行政費、幾時生效，同寬頻轉台有咩分別。",
+    opening: [
+      { text: "留舊號碼轉去新電訊商：行政費、幾時生效，同寬頻轉台有咩分別。" },
+      { text: "攜號轉台係手機留舊號碼轉去新電訊商，唔係 5G 家居寬頻，亦唔係寬頻轉台。" },
+      { text: "邊間適合要睇生效日、行政費同舊約條款，唔可以只憑牌面月費斷定；實際以電訊商確認為準。" },
+    ],
     titleEn: "How to port your number without losing service",
     excerptEn: "Keep your number when you switch. Admin fees, when it takes effect, and how broadband switching is different.",
     published: "2026-09-05",
@@ -167,6 +172,12 @@ export const CORE_GUIDES: Guide[] = [
           "Broadband cannot “port a number”. A technician installs the new line. Book the install, test the new line, then cancel the old one so you are not left without internet.",
           "Some contracts include one free relocation. If you are moving soon, ask before you sign.",
         ],
+      },
+    ],
+    faq: [
+      {
+        q: "攜號轉台點樣比較，先唔會斷線？",
+        a: "向新台申請攜號轉台，新 SIM 未生效前，舊卡仍然用得；唔好提早自己取消舊約。行政費是否豁免，以申請時電訊商確認為準。呢頁講手機攜號，唔係 5G 家居寬頻，亦唔係寬頻轉台。",
       },
     ],
     related: ["mobile", "gba-mobile", "switch-broadband"],

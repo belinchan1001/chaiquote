@@ -437,6 +437,10 @@ export const GUIDE_ARTICLES: Guide[] = [
         q: "點查自己屋苑？",
         a: "去 [光纖格價](/plans?cat=broadband) 揀樓類，或者按 [屋苑篩說明](/guides/estate-filter) 輸入屋苑。覆蓋同最終月費以電訊商確認為準。",
       },
+      {
+        q: "家居寬頻邊間好？",
+        a: "唔可以一句話斷定邊間好。電訊商多數按樓類同屋苑入線路經報價；要先分公屋、居屋、私樓定村屋，再用同一樓類、同一速率嘅牌面月費並排。呢頁唔係全港排名，亦唔保證邊間適合你個地址。價錢同覆蓋以電訊商確認為準。",
+      },
     ],
     faqEn: [
       {
@@ -482,7 +486,19 @@ export const GUIDE_ARTICLES: Guide[] = [
     h1En: "Hong Kong 5G home: no cabling, speed depends on the site",
     published: "2026-09-09",
     modified: "2026-09-10",
-    related: ["fiber-vs-5g", "village", "village-onsite", "fiber", "is-1000m-enough"],
+    opening: [
+      {
+        text: "5G 家居寬頻邊間好，唔可以一句話斷定；要先查你個地址嘅覆蓋同訊號，再對計劃卡嘅牌面月費、合約同數據上限。",
+      },
+      {
+        text: "呢頁講 5G 家居寬頻（免拉線、插電路由器），唔係手機 5G 上台，亦唔好當固定光纖替代。",
+      },
+      {
+        text: "數據上限同覆蓋要以電訊商確認為準；用量用完之後點算，見[5G 家居數據上限同公平使用](/guides/home5g-data-cap)。",
+      },
+      { text: "插電路由器就用。啱未有光纖、租樓或者趕時間；唔好當固定光纖替代。" },
+    ],
+    related: ["home5g-data-cap", "fiber-vs-5g", "village", "village-onsite", "fiber", "is-1000m-enough"],
     plans: [
       { href: "/plans?cat=home5g", label: "去 5G 家居格價" },
       { href: "/plans?cat=broadband", label: "去光纖格價" },
@@ -535,7 +551,7 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "數據上限同速度",
         paragraphs: [
           "部分計劃有高速數據上限，用完會降速或者降低優先權。繁忙時間、附近用戶多、室內擺位差，體感都會變。廣告上嘅「最高速度」唔等於你屋企每個鐘都係嗰個數。",
-          "比較時一齊睇：月費、合約、高速數據用量、包定租路由器、冷靜期。詳情見 [月費以外](/guides/contract-fees)。",
+          "比較時一齊睇：月費、合約、高速數據用量、包定租路由器、冷靜期。詳情見 [月費以外](/guides/contract-fees)。用量用完之後點算，見[5G 家居數據上限同公平使用](/guides/home5g-data-cap)。",
         ],
       },
       {
@@ -663,6 +679,10 @@ export const GUIDE_ARTICLES: Guide[] = [
         q: "點樣查核 5G 家居報價？",
         a: "喺齊Quote 填地址，開 [5G 家居格價](/plans?cat=home5g)，再用 WhatsApp 查核。覆蓋、數據上限同月費以電訊商確認為準。",
       },
+      {
+        q: "5G 家居寬頻幾錢？邊間好？",
+        a: "唔可以一句話斷定邊間好，亦唔好用一張全港劃一價去估。要先查你個地址嘅覆蓋同訊號，再對計劃卡嘅牌面月費、合約同數據上限。呢頁講 5G 家居寬頻，唔係手機 5G 上台。數據上限同覆蓋要以電訊商確認為準。用量用完之後點算，見 [5G 家居數據上限同公平使用](/guides/home5g-data-cap)。",
+      },
     ],
     faqEn: [
       {
@@ -704,6 +724,16 @@ export const GUIDE_ARTICLES: Guide[] = [
     h1En: "Hong Kong mobile plans: local data first, then 5G and GBA",
     published: "2026-09-09",
     modified: "2026-09-10",
+    opening: [
+      { text: "呢頁講手機 5G／4G 上台同月費點揀，唔係 5G 家居寬頻。" },
+      {
+        text: "5G 上台優惠要先睇本地數據、合約期、行政費，同你部手機係唔係支援 5G，再對計劃卡；實際月費、數據同優惠以電訊商確認為準。",
+      },
+      {
+        text: "攜號轉台要問生效日同行政費，唔好提早自己取消舊約；流程見[攜號轉台點樣做](/guides/port-in)。",
+      },
+      { text: "本地夠用先加漫遊或者大灣區。轉台見攜號轉台攻略。" },
+    ],
     related: ["port-in", "gba-mobile", "contract-fees", "fiber-vs-5g"],
     plans: [{ href: "/plans?cat=mobile", label: "去手機格價" }],
     estates: [
@@ -870,6 +900,14 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         q: "點樣比較手機報價？",
         a: "開 [手機格價](/plans?cat=mobile)，再用 WhatsApp 查核。月費、數據同轉台優惠以電訊商確認為準。",
+      },
+      {
+        q: "5G 上台有咩優惠？",
+        a: "呢條係手機上台，唔係 5G 家居寬頻。優惠要先睇本地數據、合約期、行政費，同手機係唔係支援 5G，再對計劃卡；實際月費、數據、轉台優惠同生效日以電訊商確認為準。",
+      },
+      {
+        q: "攜號轉台點樣比較？",
+        a: "唔可以一句話斷定邊間適合。要先問舊約完約日、新台生效日同行政費，唔好提早自己取消舊約。流程見[攜號轉台點樣做](/guides/port-in)。實際安排以電訊商確認為準。",
       },
     ],
     faqEn: [
@@ -1376,6 +1414,10 @@ export const GUIDE_ARTICLES: Guide[] = [
         q: "係咪保證價？",
         a: "唔係保證價。站內列出只供參考，實際月費、合約同覆蓋一律以電訊商確認為準。",
       },
+      {
+        q: "家居寬頻報價點攞？",
+        a: "報價要有地址同申請資格。呢頁係公屋／居屋 1000M 嘅站內參考月費例子，只供參考，唔代表你屋苑一定有；實際月費、覆蓋同安裝，一律以電訊商確認為準。",
+      },
     ],
     faqEn: [
       {
@@ -1414,6 +1456,17 @@ export const GUIDE_ARTICLES: Guide[] = [
     h1En: "2026 home broadband 1000M: six-carrier reference monthly fees",
     published: "2026-09-12",
     modified: "2026-11-14",
+    opening: [
+      {
+        text: "家居寬頻邊間好，唔可以一句話斷定；要先分樓類同地址覆蓋，再用同一樓類、同一速率嘅牌面月費並排，亦要睇合約期、路由器同係唔係限時快閃。",
+      },
+      {
+        text: "呢頁係六大電訊 1000M 參考月費一眼表，唔係全港排名，亦唔保證邊間適合你個地址。",
+      },
+      {
+        text: "公屋、居屋、私樓、村屋唔好混價；僅供參考，唔係劃一價，月費、覆蓋同安裝以電訊商確認為準。",
+      },
+    ],
     related: [
       "public-hos-fees",
       "private-1000-fees",
@@ -1853,6 +1906,10 @@ export const GUIDE_ARTICLES: Guide[] = [
         q: "點解表入面冇快閃優惠？",
         a: "快閃／入伙限定只適用指定屋苑同限期，**唔入**六大主區間。要對自己屋苑，用 [齊Quote 點用屋苑篩](/guides/estate-filter)。",
       },
+      {
+        q: "家居寬頻比較，邊間家居寬頻好？",
+        a: "唔可以一句話斷定邊間好。要先分樓類同地址覆蓋，再用同一樓類、同一速率嘅牌面月費並排，亦要睇合約期、路由器同係唔係限時快閃。呢頁係六大電訊 1000M 參考月費一眼表，唔係全港排名，亦唔保證邊間適合你個地址。月費、覆蓋同安裝以電訊商確認為準。",
+      },
     ],
     faqEn: [
       {
@@ -2066,6 +2123,10 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         q: "點查覆蓋／自己屋苑？",
         a: "先用樓類篩（私樓），再睇計劃卡，最後用 WhatsApp 查核。輸入屋苑名見 [齊Quote 點用屋苑篩](/guides/estate-filter)。覆蓋以電訊商確認為準。",
+      },
+      {
+        q: "家居寬頻報價點攞？",
+        a: "報價要有地址同申請資格。呢頁係私樓 1000M 嘅站內參考月費例子，只供參考，唔代表你屋苑一定有；部分計劃亦適用公屋或居屋，以計劃卡為準。實際月費、覆蓋同安裝，一律以電訊商確認為準。",
       },
     ],
     faqEn: [

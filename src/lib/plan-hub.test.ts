@@ -4,7 +4,15 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { MESSAGES } from "./messages.ts";
-import { plansBroadbandHero, plansBroadbandLead, plansBroadbandLeadParts, SITE } from "./site.ts";
+import {
+  PLANS_BROADBAND_FAQ,
+  PLANS_BROADBAND_QUOTE_NOTE,
+  plansBroadbandHero,
+  plansBroadbandLead,
+  plansBroadbandLeadParts,
+  SITE,
+} from "./site.ts";
+import { categoryJsonLd } from "./seo.ts";
 import { formatFee, getPlan } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
 import {
@@ -324,6 +332,12 @@ describe("plan category hub", () => {
       assert.match(parts.date, /^\d{4}-\d{2}-\d{2}$/);
       assert.equal(parts.date, SITE.updated);
     }
+    assert.match(band, /\{PLANS_BROADBAND_QUOTE_NOTE\}/);
+    const noteAt = plans.indexOf("{PLANS_BROADBAND_QUOTE_NOTE}");
+    const leadAt = plans.indexOf("lead={broadbandHero.lead}");
+    assert.ok(leadAt >= 0 && noteAt > leadAt);
+    assert.equal(PLANS_BROADBAND_QUOTE_NOTE.includes(plansBroadbandLead("zh").slice(0, 12)), false);
+    assert.doesNotMatch(PLANS_BROADBAND_QUOTE_NOTE, /最平|最抵|最佳|最真實|低至/);
     const zh = plansBroadbandLead("zh", "2026-11-21");
     const zhParts = plansBroadbandLeadParts(zh);
     assert.equal(zhParts.before.endsWith("（資料更新 "), true);
@@ -337,5 +351,27 @@ describe("plan category hub", () => {
     assert.equal(enParts.before.endsWith("(updated "), true);
     assert.equal(enParts.after.startsWith(")"), true);
     assert.equal(enParts.before + enParts.date + enParts.after, en);
+  });
+
+  it("adds the broadband FAQ after the plan list and keeps FAQPage word-for-word", () => {
+    const plans = readFileSync(join(here, "../routes/plans.tsx"), "utf8");
+    const faqAt = plans.indexOf('id="faq"');
+    const listAt = plans.indexOf('id="plan-list"');
+    assert.ok(listAt >= 0 && faqAt > listAt);
+    assert.match(plans, /PLANS_BROADBAND_FAQ\.map/);
+    assert.equal(PLANS_BROADBAND_FAQ.length, 1);
+    assert.equal(PLANS_BROADBAND_FAQ[0]?.q, "家居寬頻報價點攞？");
+    assert.equal(
+      PLANS_BROADBAND_FAQ[0]?.a,
+      "報價要有地址同申請資格，先可以對到適用計劃。你可喺呢頁輸入屋苑或地址，對照站內參考月費。計劃卡只供參考，實際月費、覆蓋、合約同安裝安排，一律以電訊商確認為準。",
+    );
+    const broadband = categoryJsonLd("broadband") as {
+      "@graph": { "@type": string; mainEntity?: { name: string; acceptedAnswer: { text: string } }[] }[];
+    };
+    const faq = broadband["@graph"].find((node) => node["@type"] === "FAQPage");
+    assert.equal(faq?.mainEntity?.[0]?.name, PLANS_BROADBAND_FAQ[0]?.q);
+    assert.equal(faq?.mainEntity?.[0]?.acceptedAnswer.text, PLANS_BROADBAND_FAQ[0]?.a);
+    const mobile = categoryJsonLd("mobile") as { "@graph": { "@type": string }[] };
+    assert.equal(mobile["@graph"].some((node) => node["@type"] === "FAQPage"), false);
   });
 });
