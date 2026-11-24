@@ -51,7 +51,7 @@ export const LEGAL = {
   referencePrice:
     "以上月費及優惠為市場參考資料，實際價格、覆蓋、合約期及安裝安排，一律以電訊商確認為準。",
   whatsappTip:
-    "撲落去會開啟 WhatsApp 聯絡我哋（{phone}）。請勿分享銀行戶口或信用卡密碼。非電訊商官方客服。",
+    "撳落去會開啟 WhatsApp 聯絡我哋（{phone}）。請勿分享銀行戶口或信用卡密碼。非電訊商官方客服。",
 } as const;
 
 export const DISCLAIMER = [
@@ -273,7 +273,7 @@ export const FAQ_ZH = [
   },
   {
     q: "點樣查核報價？",
-    a: "最快用 WhatsApp {phone}。冇 WhatsApp 可以撲「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 {email}。",
+    a: "最快用 WhatsApp {phone}。冇 WhatsApp 可以撳「留低電話」，填姓名同電話，我哋會致電你；亦可直接致電同一號碼，或電郵 {email}。",
   },
 ] as const;
 

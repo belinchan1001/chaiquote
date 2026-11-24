@@ -425,6 +425,11 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.equal(graph.includes("擣"), false);
     assert.equal(graph.includes("有唔有"), false);
     assert.equal(graph.includes("摶"), false);
+    assert.equal(graph.includes("撲"), false);
+    faqLd?.mainEntity.forEach((entity, index) => {
+      assert.equal(entity.name, FAQ[index]?.q);
+      assert.equal(entity.acceptedAnswer.text, FAQ[index]?.a);
+    });
     const independent = FAQ[0];
     assert.match(independent?.q ?? "", /獨立/);
     assert.match(independent?.a ?? "", /^有。齊Quote（chaiquote\.hk）係香港獨立比較網站/);
@@ -465,6 +470,12 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.match(fillSiteTemplate(INDEPENDENT_BODY), new RegExp(`${ESTATE_COUNT} 個屋苑`));
     const contact = FAQ.find((item) => item.q === "點樣查核報價？");
     assert.match(contact?.a ?? "", /撳「留低電話」/);
+    assert.equal((contact?.a ?? "").includes("撲"), false);
+    assert.equal(
+      fillSiteTemplate(MESSAGES.zh.whatsappTip),
+      `撳落去會開啟 WhatsApp 聯絡我哋（${SITE.phoneDisplay}）。請勿分享銀行戶口或信用卡密碼。非電訊商官方客服。`,
+    );
+    assert.equal(MESSAGES.zh.whatsappTip.includes("撲"), false);
     assert.equal(getPlan("icable-ftth-1000-48m-58")?.monthlyFee, 58);
     assert.equal(getPlan("icable-ftth-1000-48m-58")?.contractMonths, 48);
     assert.equal(getPlan("hkbn-ftth-1000-36m-98")?.monthlyFee, 98);
