@@ -30,14 +30,46 @@ function isSort(value: unknown): value is NonNullable<PlansSearch["sort"]> {
   return value === "fee" || value === "avg" || value === "speed" || value === "data";
 }
 
+function readProviderIds(value: unknown): ProviderId[] {
+  const parts = Array.isArray(value) ? value : typeof value === "string" ? value.split(",") : [];
+  const ids: ProviderId[] = [];
+  for (const part of parts) {
+    const id = String(part).trim();
+    if (PROVIDERS.includes(id as ProviderId)) ids.push(id as ProviderId);
+  }
+  return ids;
+}
+
+export function sortProviderIds(ids: readonly ProviderId[]): ProviderId[] {
+  const rank = (id: ProviderId) => {
+    const index = PROVIDERS.indexOf(id);
+    return index === -1 ? PROVIDERS.length : index;
+  };
+  return [...new Set(ids)].sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
+}
+
+/** Every preferred carrier on the search, whether it was stored as one id or many. */
+export function preferredProviderIds(search: Pick<PlansSearch, "provider" | "providers">): ProviderId[] {
+  return sortProviderIds([...readProviderIds(search.provider), ...readProviderIds(search.providers)]);
+}
+
+/** One carrier stays on `provider` so existing links keep working. Two or more use `providers`. */
+export function carrierFields(ids: readonly ProviderId[]): Pick<PlansSearch, "provider" | "providers"> {
+  const sorted = sortProviderIds(ids);
+  if (sorted.length > 1) return { providers: sorted };
+  if (sorted.length === 1) return { provider: sorted[0] };
+  return {};
+}
+
 export function parsePlansSearch(search: Record<string, unknown>): PlansSearch {
   const cat = CATS.includes(search.cat as Category) ? (search.cat as Category) : "broadband";
   const housing = HOUSING.includes(search.housing as Housing) ? (search.housing as Housing) : undefined;
-  const providerRaw = PROVIDERS.includes(search.provider as ProviderId)
-    ? (search.provider as ProviderId)
-    : undefined;
   const exclude = PROVIDERS.includes(search.exclude as ProviderId) ? (search.exclude as ProviderId) : undefined;
-  const provider = providerRaw && providerRaw !== exclude ? providerRaw : undefined;
+  const carriers = carrierFields(
+    sortProviderIds([...readProviderIds(search.provider), ...readProviderIds(search.providers)]).filter(
+      (id) => id !== exclude,
+    ),
+  );
   const speedNum = asNumber(search.speed);
   const speed = SPEEDS.includes(speedNum as SpeedMbps) ? (speedNum as SpeedMbps) : undefined;
   const generation = GENERATIONS.includes(search.generation as Generation)
@@ -49,7 +81,8 @@ export function parsePlansSearch(search: Record<string, unknown>): PlansSearch {
   return {
     cat,
     housing,
-    provider,
+    provider: carriers.provider,
+    providers: carriers.providers,
     speed,
     generation,
     sort: isSort(search.sort) ? search.sort : undefined,
@@ -76,6 +109,7 @@ export function parsePlansSearch(search: Record<string, unknown>): PlansSearch {
 }
 
 export function compactSearch(search: PlansSearch): PlansSearch {
+  const carriers = carrierFields(preferredProviderIds(search));
   return {
     cat: search.cat,
     ...(search.housing ? { housing: search.housing } : {}),
@@ -83,7 +117,7 @@ export function compactSearch(search: PlansSearch): PlansSearch {
     ...(search.speed ? { speed: search.speed } : {}),
     ...(search.minSpeed ? { minSpeed: search.minSpeed } : {}),
     ...(search.minData ? { minData: search.minData } : {}),
-    ...(search.provider ? { provider: search.provider } : {}),
+    ...carriers,
     ...(search.generation ? { generation: search.generation } : {}),
     ...(search.portIn ? { portIn: true } : {}),
     ...(search.gba ? { gba: true } : {}),
@@ -108,7 +142,7 @@ export function planListReplayKey(search: PlansSearch) {
     search.housing ?? "",
     search.speed ?? "",
     search.minSpeed ?? "",
-    search.provider ?? "",
+    preferredProviderIds(search).join(","),
     search.exclude ?? "",
     search.esports ? "1" : "",
     search.intake ? "1" : "",

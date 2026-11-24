@@ -16,6 +16,7 @@ import {
   type PlansSearch,
 } from "./plans.ts";
 import { catalogPlans } from "./plan-overrides.ts";
+import { preferredProviderIds } from "./search.ts";
 
 export type FilterPlansOptions = {
   /**
@@ -39,6 +40,7 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = [], option
   const blockIcable = search.cat === "broadband" && (estateBlocksIcable(estate) || estateBlocksIcable(search.q));
   const hgcVillageOk = estateHasHgcVillageCoverage(estate);
   const blockHkbnVillage = Boolean(estate) && hgcVillageOk;
+  const preferred = new Set(preferredProviderIds(search));
   const unlockCache = new Map<string, boolean>();
   const unlockedFor = (onlyEstates: readonly string[]) => {
     const key = onlyEstates.join("\n");
@@ -81,7 +83,7 @@ export function filterPlans(search: PlansSearch, savedIds: string[] = [], option
       if (data < search.minData) return false;
     }
     if (search.exclude && plan.providerId === search.exclude) return false;
-    if (search.provider && plan.providerId !== search.provider) return false;
+    if (preferred.size && !preferred.has(plan.providerId)) return false;
     if (search.portIn && !plan.portInPerk) return false;
     if (search.generation && planGeneration(plan) !== search.generation) return false;
     if (search.gba && !isGbaDataPlan(plan)) return false;

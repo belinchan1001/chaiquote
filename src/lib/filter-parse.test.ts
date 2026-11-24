@@ -8,6 +8,7 @@ import {
   retrievePlansForAsk,
   shouldHoldForIntake,
 } from "./ai-desk.ts";
+import { filterPlans } from "./plan-filter.ts";
 import { compactSearch } from "./search.ts";
 import { portInQuoteFromInquiry } from "./port-in.ts";
 
@@ -40,6 +41,7 @@ describe("AI filter parse", () => {
     });
     assert.equal(parsed.current, "hkbn");
     assert.equal(parsed.target, "netvigator");
+    assert.deepEqual(parsed.targets, ["netvigator"]);
     assert.equal(parsed.esports, true);
     const inquiry = inquiryFromAiParse(parsed);
     assert.equal(inquiry.source, "ai");
@@ -55,6 +57,28 @@ describe("AI filter parse", () => {
     assert.match(text, /目標心水計劃：香港寬頻 2500M 光纖 \(HK\$149\/月\)/);
     assert.match(text, /需要電競神線/);
     assert.match(text, /篩選方式：AI 智能推薦/);
+  });
+
+  it("keeps every named preferred carrier and matches plans from any of them", () => {
+    const parsed = parseFilterState({
+      message: "我用緊香港寬頻，想轉網上行同HGC，下個月到期。",
+    });
+    assert.equal(parsed.current, "hkbn");
+    assert.deepEqual(parsed.targets, ["netvigator", "hgc"]);
+    const cleared = mergeFilterParse(parseFilterState({ message: "想轉不限" }), {}, parsed);
+    assert.deepEqual(cleared.targets, []);
+    const search = plansSearchFromAiParse(parsed);
+    assert.deepEqual(search.providers, ["netvigator", "hgc"]);
+    const rows = filterPlans(search);
+    assert.ok(rows.some((plan) => plan.providerId === "netvigator"));
+    assert.ok(rows.some((plan) => plan.providerId === "hgc"));
+    assert.equal(
+      rows.every((plan) => plan.providerId === "netvigator" || plan.providerId === "hgc"),
+      true,
+    );
+    const inquiry = inquiryFromAiParse(parsed);
+    assert.match(inquiry.targetProvider ?? "", /網上行/);
+    assert.match(inquiry.targetProvider ?? "", /HGC/);
   });
 
   it("treats 新號碼 as a new line, not a port-in exclude", () => {

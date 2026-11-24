@@ -4102,6 +4102,8 @@ export type PlansSearch = {
   minSpeed?: number;
   minData?: number;
   provider?: ProviderId;
+  /** Preferred carriers when more than one is selected. Matched with OR. */
+  providers?: ProviderId[];
   portIn?: boolean;
   generation?: Generation;
   gba?: boolean;

@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
 import { useI18n, usePageTitle } from "@/lib/i18n";
-import { formatFee, getPlan, type Category, type Housing, type PlansSearch } from "@/lib/plans";
+import { formatFee, getPlan, type Category, type Housing, type PlansSearch, type ProviderId } from "@/lib/plans";
 import {
   BUSINESS_SCENARIO_SPEEDS,
   BUSINESS_SUMMARY_IDS,
@@ -26,7 +26,7 @@ import { filterPlans } from "@/lib/plan-filter";
 import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { isHkbnFlashEstate, isNetvigatorOnlyEstate } from "@/lib/estate-new-intake";
 import { confirmedFibreProviders } from "@/lib/estate-fibre-coverage";
-import { compactSearch, parsePlansSearch, planListReplayKey, rememberPlansSearch } from "@/lib/search";
+import { carrierFields, compactSearch, parsePlansSearch, planListReplayKey, preferredProviderIds, rememberPlansSearch } from "@/lib/search";
 import { CATEGORY_SEO, plansCategoryPath, canonicalUrl, shareHead } from "@/lib/canonical";
 import { indexableEstateNavLinks } from "@/lib/estate-pages";
 import { categoryJsonLd } from "@/lib/seo";
@@ -43,9 +43,9 @@ import {
 import {
   currentLabel,
   currentOptions,
+  dropConflictingTargets,
   expiryLabel,
   fromPortInSearch,
-  isTargetConflict,
   mergePortInSearch,
   needLabel,
   serviceTypeLabel,
@@ -83,14 +83,15 @@ export const Route = createFileRoute("/plans")({
 function catPatch(search: PlansSearch, cat: Category): PlansSearch {
   const intake = fromPortInSearch({ ...search, cat });
   const currentOk = currentOptions(cat).some((item) => item.id === intake.current);
-  const targetOk = targetOptions(cat).some((item) => item.id === intake.target);
+  const allowedTargets = new Set(targetOptions(cat).map((item) => item.id));
+  const targets = intake.targets.filter((id) => allowedTargets.has(id));
   return compactSearch(
     mergePortInSearch(search, {
       cat,
       estate: search.estate,
       housing: search.housing,
       current: currentOk ? intake.current : "",
-      target: targetOk ? intake.target : "all",
+      targets,
       expiry: intake.expiry,
       fibreSpeed: cat === "broadband" ? "any" : "",
       businessSpeed: cat === "business" ? "any" : "",
@@ -124,13 +125,15 @@ function PlansPage() {
   const entry = categoryEntryPlan(search.cat, search.housing);
   const showHousing = search.cat === "broadband" || search.cat === "home5g";
   const intake = fromPortInSearch(search);
+  const preferred = preferredProviderIds(search);
+  const preferredKey = preferred.join(",");
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [estateDraft, setEstateDraft] = useState(search.estate ?? "");
   const [qDraft, setQDraft] = useState(search.q ?? "");
   const [listEntering, setListEntering] = useState(false);
   const moreFiltersActive = Boolean(
-    search.exclude ||
-      search.provider ||
+      search.exclude ||
+      preferred.length > 0 ||
       search.expiry ||
       search.intake ||
       search.housing === "hos" ||
@@ -172,28 +175,31 @@ function PlansPage() {
   }, [moreFiltersActive]);
 
   useEffect(() => {
+    const picked = (preferredKey ? preferredKey.split(",") : []) as ProviderId[];
     if (
       !search.estate &&
       !search.housing &&
       !search.exclude &&
       !search.expiry &&
       !search.esports &&
-      !search.provider
+      !picked.length
     )
       return;
-    const fromIntake = Boolean(search.exclude || search.expiry || search.esports || search.provider);
+    const fromIntake = Boolean(search.exclude || search.expiry || search.esports || picked.length);
     setInquiry({
       estate: search.estate ?? "",
       housing: search.housing ?? "",
       ...(search.exclude ? { currentProvider: currentLabel(search.exclude) } : {}),
       ...(fromIntake
-        ? { targetProvider: search.provider ? targetLabel(search.provider) : "" }
+        ? {
+            targetProvider: picked.length ? picked.map((id) => targetLabel(id)).join("、") : "",
+          }
         : {}),
       ...(search.expiry ? { expiry: expiryLabel(search.expiry) } : {}),
       ...(search.esports ? { esports: true } : {}),
       ...(fromIntake ? { serviceType: serviceTypeLabel(search.cat) } : {}),
     });
-  }, [search.estate, search.housing, search.exclude, search.provider, search.expiry, search.esports, search.cat, setInquiry]);
+  }, [search.estate, search.housing, search.exclude, search.expiry, search.esports, search.cat, setInquiry, preferredKey]);
 
   useEffect(() => {
     const next = estateDraft.trim();
@@ -283,11 +289,9 @@ function PlansPage() {
       resetScroll: false,
       search: (prev) => {
         const merged = { ...prev, ...next, esports: next.esports || undefined };
-        if (
-          merged.provider &&
-          filterPlans({ ...merged, provider: merged.provider }, saved).length === 0
-        ) {
+        if (preferredProviderIds(merged).length && filterPlans(merged, saved).length === 0) {
           merged.provider = undefined;
+          merged.providers = undefined;
         }
         return compactSearch(merged);
       },
@@ -302,7 +306,7 @@ function PlansPage() {
 
   function applyIntake(next: Partial<ReturnType<typeof fromPortInSearch>> & { housing?: Housing | ""; estate?: string }) {
     const merged = { ...intake, ...next };
-    if (merged.current && isTargetConflict(merged.current, merged.target)) merged.target = "all";
+    const targets = dropConflictingTargets(merged.current, merged.targets);
     const housingValue = showHousing ? (next.housing !== undefined ? next.housing : search.housing) : undefined;
     void navigate({
       resetScroll: false,
@@ -312,7 +316,7 @@ function PlansPage() {
           estate: next.estate !== undefined ? next.estate : search.estate,
           housing: housingValue || undefined,
           current: merged.current,
-          target: merged.target,
+          targets,
           expiry: merged.expiry,
           fibreSpeed: merged.fibreSpeed,
           businessSpeed: merged.businessSpeed,
@@ -378,11 +382,12 @@ function PlansPage() {
   if (search.maxFee) {
     active.push({ key: "fee", label: t("budgetUnder", { n: search.maxFee }), search: { ...search, maxFee: undefined } });
   }
-  if (search.provider) {
+  for (const id of preferred) {
+    const rest = carrierFields(preferred.filter((item) => item !== id));
     active.push({
-      key: "prov",
-      label: t("intakeTargetChip", { name: providerName(search.provider) }),
-      search: { ...search, provider: undefined },
+      key: `prov-${id}`,
+      label: t("intakeTargetChip", { name: providerName(id) }),
+      search: { ...search, provider: rest.provider, providers: rest.providers },
     });
   }
   if (search.saved) active.push({ key: "saved", label: t("savedOnly"), search: { ...search, saved: undefined } });
@@ -662,8 +667,8 @@ function PlansPage() {
               onHousing={(id) => applyIntake({ housing: id })}
               current={intake.current}
               onCurrent={(id) => applyIntake({ current: id })}
-              target={intake.target}
-              onTarget={(id) => applyIntake({ target: id })}
+              targets={intake.targets}
+              onTargets={(ids) => applyIntake({ targets: ids })}
               expiry={intake.expiry}
               onExpiry={(id) => applyIntake({ expiry: id })}
               fibreSpeed={intake.fibreSpeed}
@@ -727,11 +732,11 @@ function PlansPage() {
       </div>
 
       <div className="plan-results">
-      {search.exclude && search.provider ? (
+      {search.exclude && preferred.length ? (
         <p className="mt-4 rounded-lg bg-surface px-4 py-3 text-sm text-muted">
           {t("intakeTargetNote", {
             current: providerName(search.exclude),
-            target: providerName(search.provider),
+            target: preferred.map((id) => providerName(id)).join(locale === "en" ? ", " : "、"),
           })}
         </p>
       ) : search.exclude ? (

@@ -7,6 +7,7 @@ import {
   type PlansSearch,
   type ProviderId,
 } from "./plans.ts";
+import { carrierFields, preferredProviderIds } from "./search.ts";
 import { SITE } from "./site.ts";
 import { quoteWhatsappHref, salesQuoteMessage } from "./whatsapp.ts";
 
@@ -225,6 +226,48 @@ export function resolveTargetProvider(
   return target;
 }
 
+/** Empty means 不限. Picking 不限 clears specifics; picking a specific carrier leaves 不限 off. */
+export function togglePreferredTarget(
+  selected: readonly ProviderId[],
+  id: TargetId,
+  order: readonly string[] = [],
+): ProviderId[] {
+  const next =
+    !id || id === "all"
+      ? []
+      : selected.includes(id)
+        ? selected.filter((item) => item !== id)
+        : [...selected, id];
+  if (!order.length) return next;
+  return [...next].sort((a, b) => {
+    const ai = order.indexOf(a);
+    const bi = order.indexOf(b);
+    return (ai === -1 ? order.length : ai) - (bi === -1 ? order.length : bi);
+  });
+}
+
+export function dropConflictingTargets(current: CurrentId | "", targets: readonly ProviderId[]): ProviderId[] {
+  return targets.filter((id) => !isTargetConflict(current, id));
+}
+
+export function resolveTargetProviders(
+  current: CurrentId | "",
+  targets: readonly (TargetId | "")[],
+): ProviderId[] {
+  const out: ProviderId[] = [];
+  for (const id of targets) {
+    const resolved = resolveTargetProvider(current, id);
+    if (resolved && !out.includes(resolved)) out.push(resolved);
+  }
+  return out;
+}
+
+export function targetListLabel(ids: readonly (TargetId | "")[]): string {
+  const specific = ids.filter((id): id is ProviderId => Boolean(id) && id !== "all");
+  if (!specific.length) return targetLabel("all");
+  return specific.map((id) => targetLabel(id)).join("、");
+}
+
 export function currentIdFromLabel(label: string): ProviderId | undefined {
   const trimmed = label.trim();
   if (!trimmed) return undefined;
@@ -244,6 +287,8 @@ export function toPortInSearch(input: {
   housing?: Housing;
   current?: CurrentId | "";
   target?: TargetId | "";
+  /** Specific preferred carriers. Empty array means 不限 and overrides `target`. */
+  targets?: readonly ProviderId[];
   fibreSpeed?: FibreSpeedId | "";
   businessSpeed?: BusinessSpeedId | "";
   mobileNeed?: MobileNeedId | "";
@@ -251,6 +296,13 @@ export function toPortInSearch(input: {
   expiry?: ExpiryId | "";
 }): PlansSearch {
   const exclude = excludeProvider(input.current ?? "");
+  const rawTargets =
+    input.targets !== undefined
+      ? input.targets
+      : input.target && input.target !== "all"
+        ? [input.target]
+        : [];
+  const carriers = carrierFields(resolveTargetProviders(input.current ?? "", rawTargets));
   const fibreSpeed = input.cat === "broadband" ? FIBRE_SPEEDS.find((item) => item.id === input.fibreSpeed) : undefined;
   const businessSpeed =
     input.cat === "business" ? BUSINESS_SPEEDS.find((item) => item.id === input.businessSpeed) : undefined;
@@ -265,7 +317,8 @@ export function toPortInSearch(input: {
     estate: input.estate?.trim() || undefined,
     housing,
     exclude,
-    provider: resolveTargetProvider(input.current ?? "", input.target ?? ""),
+    provider: carriers.provider,
+    providers: carriers.providers,
     minSpeed: input.esports ? 2500 : fibreSpeed?.minSpeed ?? businessSpeed?.minSpeed,
     generation: mobile === "5g" ? "5g" : mobile === "45g" ? "4g" : undefined,
     portIn: mobile === "mnp" ? true : undefined,
@@ -279,7 +332,8 @@ export function toPortInSearch(input: {
 
 export function fromPortInSearch(search: PlansSearch) {
   const current = (search.exclude ?? "") as CurrentId | "";
-  const target = (search.provider ?? "all") as TargetId;
+  const targets = preferredProviderIds(search);
+  const target = (targets[0] ?? "all") as TargetId;
   const expiry = (search.expiry ?? "") as ExpiryId | "";
   const esports = Boolean(search.esports);
   const floor = search.minSpeed ?? search.speed ?? 0;
@@ -306,7 +360,7 @@ export function fromPortInSearch(search: PlansSearch) {
     else if (search.generation === "5g") mobileNeed = "5g";
     else if (search.generation === "4g") mobileNeed = "45g";
   }
-  return { current, target, expiry, fibreSpeed, businessSpeed, mobileNeed, esports };
+  return { current, target, targets, expiry, fibreSpeed, businessSpeed, mobileNeed, esports };
 }
 
 export function mergePortInSearch(
@@ -320,6 +374,7 @@ export function mergePortInSearch(
     housing: next.housing,
     exclude: next.exclude,
     provider: next.provider,
+    providers: next.providers,
     minSpeed: next.minSpeed,
     generation: next.generation,
     portIn: next.portIn,

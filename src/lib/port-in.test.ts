@@ -8,11 +8,14 @@ import {
   FIBRE_SPEEDS,
   fromPortInSearch,
   generateWhatsAppLink,
+  dropConflictingTargets,
   isTargetConflict,
   mergePortInSearch,
   portInQuoteMessage,
   resolveTargetProvider,
+  resolveTargetProviders,
   targetOptions,
+  togglePreferredTarget,
   toPortInSearch,
 } from "./port-in.ts";
 import { compactSearch, parsePlansSearch, readPlansSearch, rememberPlansSearch } from "./search.ts";
@@ -325,6 +328,71 @@ describe("port-in intake", () => {
     assert.match(newNumber, /申請方式：新號碼/);
     assert.doesNotMatch(newNumber, /現時電訊商：新號碼/);
     assert.doesNotMatch(newNumber, /轉台客戶/);
+  });
+});
+
+describe("preferred carrier multi-select", () => {
+  const fibreOrder = targetOptions("broadband").map((item) => item.id);
+
+  it("keeps every selected carrier, and toggles one off without clearing the rest", () => {
+    const hkbn = togglePreferredTarget([], "hkbn", fibreOrder);
+    assert.deepEqual(hkbn, ["hkbn"]);
+    const both = togglePreferredTarget(hkbn, "hgc", fibreOrder);
+    assert.deepEqual(both, ["hkbn", "hgc"]);
+    const again = togglePreferredTarget(both, "netvigator", fibreOrder);
+    assert.deepEqual(again, ["hkbn", "netvigator", "hgc"]);
+    assert.deepEqual(togglePreferredTarget(again, "netvigator", fibreOrder), ["hkbn", "hgc"]);
+    assert.deepEqual(togglePreferredTarget(["icable"], "icable", fibreOrder), []);
+  });
+
+  it("treats 不限 as no preferred-carrier filter and exclusive with specific carriers", () => {
+    assert.deepEqual(togglePreferredTarget(["hkbn", "hgc"], "all", fibreOrder), []);
+    assert.deepEqual(togglePreferredTarget([], "all", fibreOrder), []);
+    const picked = togglePreferredTarget([], "hkbn", fibreOrder);
+    assert.deepEqual(picked, ["hkbn"]);
+    assert.equal(picked.includes("all" as never), false);
+    const search = toPortInSearch({ cat: "broadband", current: "smartone", targets: [] });
+    assert.equal(search.provider, undefined);
+    assert.equal(search.providers, undefined);
+    assert.ok(filterPlans(search).some((plan) => plan.providerId === "hkbn"));
+    assert.ok(filterPlans(search).some((plan) => plan.providerId === "hgc"));
+  });
+
+  it("filters results to any selected preferred carrier", () => {
+    assert.deepEqual(dropConflictingTargets("hkbn", ["hkbn", "hgc", "netvigator"]), ["hgc", "netvigator"]);
+    assert.deepEqual(resolveTargetProviders("hkbn", ["hkbn", "hgc", "netvigator"]), ["hgc", "netvigator"]);
+    const search = toPortInSearch({
+      cat: "broadband",
+      current: "smartone",
+      targets: ["hgc", "hkbn"],
+    });
+    assert.equal(search.provider, undefined);
+    assert.deepEqual(search.providers, ["hkbn", "hgc"]);
+    assert.equal(search.exclude, "smartone");
+    const rows = filterPlans(search);
+    assert.ok(rows.length > 1);
+    assert.ok(rows.some((plan) => plan.providerId === "hkbn"));
+    assert.ok(rows.some((plan) => plan.providerId === "hgc"));
+    assert.equal(
+      rows.every((plan) => plan.providerId === "hkbn" || plan.providerId === "hgc"),
+      true,
+    );
+    const parsed = parsePlansSearch({ cat: "broadband", exclude: "smartone", providers: ["hgc", "hkbn"] });
+    assert.deepEqual(parsed.providers, ["hkbn", "hgc"]);
+    assert.equal(parsed.provider, undefined);
+    assert.deepEqual(compactSearch(parsed).providers, ["hkbn", "hgc"]);
+    const comma = parsePlansSearch({ cat: "broadband", provider: "hkbn,hgc" });
+    assert.deepEqual(comma.providers, ["hkbn", "hgc"]);
+    const single = parsePlansSearch({ cat: "broadband", provider: "hkbn" });
+    assert.equal(single.provider, "hkbn");
+    assert.equal(single.providers, undefined);
+    assert.equal(compactSearch(single).provider, "hkbn");
+    const back = fromPortInSearch(search);
+    assert.deepEqual(back.targets, ["hkbn", "hgc"]);
+    assert.equal(back.target, "hkbn");
+    const dropped = parsePlansSearch({ cat: "broadband", exclude: "hkbn", provider: "hkbn,netvigator" });
+    assert.equal(dropped.provider, "netvigator");
+    assert.equal(dropped.providers, undefined);
   });
 });
 
