@@ -6,10 +6,10 @@ import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
  * Last manual catalogue revision. Sitemap `lastmod` for non-article URLs and
  * Offer.priceValidUntil stay on this stamp. The visible「資料更新」date does not.
  */
-export const CATALOGUE_CONTENT_STAMP = "2026-11-14";
+export const CATALOGUE_CONTENT_STAMP = "2026-11-24";
 
 /** Privacy policy「最後更新日期」. Legal copy; not the daily catalogue display date. */
-export const PRIVACY_UPDATED = "2026-11-14";
+export const PRIVACY_UPDATED = "2026-11-24";
 
 export const SITE = {
   name: "齊Quote",
