@@ -220,6 +220,18 @@ export function plansBroadbandHero(locale: "zh" | "en") {
   };
 }
 
+/** After the locked lead. Not part of lead-copy, title, or meta. */
+export const PLANS_BROADBAND_QUOTE_NOTE =
+  "家居寬頻報價要有地址同申請資格，先可以對到適用計劃。呢頁計劃卡只供參考，實際月費、覆蓋、合約同安裝安排，一律以電訊商確認為準。";
+
+/** Visible /plans FAQ and broadband FAQPage JSON-LD both read this list. */
+export const PLANS_BROADBAND_FAQ = [
+  {
+    q: "家居寬頻報價點攞？",
+    a: "報價要有地址同申請資格，先可以對到適用計劃。你可喺呢頁輸入屋苑或地址，對照站內參考月費。計劃卡只供參考，實際月費、覆蓋、合約同安裝安排，一律以電訊商確認為準。",
+  },
+] as const;
+
 export function fillSiteTemplate(template: string, extra?: Record<string, string | number>) {
   const vars: Record<string, string | number> = {
     phone: SITE.phoneDisplay,

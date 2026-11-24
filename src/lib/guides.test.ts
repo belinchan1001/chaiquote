@@ -29,7 +29,7 @@ import {
   rowDisplayText,
   splitTrailingFigure,
 } from "./guides.ts";
-import { SITEMAP_PAGES, sitemapLastmod } from "./seo.ts";
+import { SITEMAP_PAGES, guideJsonLd, sitemapLastmod } from "./seo.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -1147,5 +1147,165 @@ describe("switch and renewal guides", () => {
     );
     assert.match(tip, /aria-label="加到主畫面"/);
     assert.match(tip, /加到主畫面/);
+  });
+});
+
+describe("2026-11-24 GEO citation copy", () => {
+  const BANNED = /最平|最抵|最佳|最真實|低至/;
+
+  function faqAnswer(ld: ReturnType<typeof guideJsonLd>, q: string) {
+    const faq = ld["@graph"].find((node) => node["@type"] === "FAQPage") as
+      | { mainEntity: { name: string; acceptedAnswer: { text: string } }[] }
+      | undefined;
+    return faq?.mainEntity.find((item) => item.name === q)?.acceptedAnswer.text;
+  }
+
+  it("replaces the home-broadband opening and appends one FAQ in sync with FAQPage", () => {
+    const guide = getGuide("home-broadband-2026");
+    assert.ok(guide);
+    assert.equal(guide.h1, "2026 家居寬頻 1000M：六大電訊商參考月費比較");
+    assert.equal(guide.seoTitle, "2026家居寬頻1000M｜六大電訊月費比較｜齊Quote");
+    assert.equal(
+      guide.excerpt,
+      "六大電訊 1000M 參考月費一眼表。公屋、居屋、私樓、村屋唔好混價。僅供參考，唔係劃一價。",
+    );
+    assert.deepEqual(
+      guide.opening?.map((line) => line.text),
+      [
+        "家居寬頻邊間好，唔可以一句話斷定；要先分樓類同地址覆蓋，再用同一樓類、同一速率嘅牌面月費並排，亦要睇合約期、路由器同係唔係限時快閃。",
+        "呢頁係六大電訊 1000M 參考月費一眼表，唔係全港排名，亦唔保證邊間適合你個地址。",
+        "公屋、居屋、私樓、村屋唔好混價；僅供參考，唔係劃一價，月費、覆蓋同安裝以電訊商確認為準。",
+      ],
+    );
+    assert.equal(guide.opening?.some((line) => line.text === guide.excerpt), false);
+    const item = guide.faq?.at(-1);
+    assert.equal(item?.q, "家居寬頻比較，邊間家居寬頻好？");
+    assert.equal(
+      item?.a,
+      "唔可以一句話斷定邊間好。要先分樓類同地址覆蓋，再用同一樓類、同一速率嘅牌面月費並排，亦要睇合約期、路由器同係唔係限時快閃。呢頁係六大電訊 1000M 參考月費一眼表，唔係全港排名，亦唔保證邊間適合你個地址。月費、覆蓋同安裝以電訊商確認為準。",
+    );
+    assert.equal(faqAnswer(guideJsonLd(guide), item?.q ?? ""), item?.a);
+    assert.doesNotMatch((guide.opening ?? []).map((line) => line.text).join("\n") + (item?.a ?? ""), BANNED);
+  });
+
+  it("adds the fiber, public and private FAQs without touching openings", () => {
+    const fiber = getGuide("fiber");
+    const publicHos = getGuide("public-hos-fees");
+    const privateFees = getGuide("private-1000-fees");
+    assert.ok(fiber && publicHos && privateFees);
+    assert.equal(fiber.opening, undefined);
+    assert.equal(publicHos.opening, undefined);
+    assert.equal(privateFees.opening, undefined);
+    assert.equal(
+      fiber.answer?.lead[0],
+      "電訊商多數按**樓類**同屋苑入線路經報價。公屋、居屋、私樓、村屋，同一句「1000M」都可以差好遠，所以要先分樓類，再睇月費。",
+    );
+    assert.equal(publicHos.excerpt, "公屋寬頻月費唔係劃一價。下列係站內列出例子，僅供參考，唔代表你屋苑一定有。");
+    assert.equal(privateFees.excerpt, "唔係劃一價。下列係站內列出例子，僅供參考。部分計劃亦適用公屋／居屋，以計劃卡為準。");
+    assert.equal(fiber.faq?.at(-1)?.q, "家居寬頻邊間好？");
+    assert.equal(
+      fiber.faq?.at(-1)?.a,
+      "唔可以一句話斷定邊間好。電訊商多數按樓類同屋苑入線路經報價；要先分公屋、居屋、私樓定村屋，再用同一樓類、同一速率嘅牌面月費並排。呢頁唔係全港排名，亦唔保證邊間適合你個地址。價錢同覆蓋以電訊商確認為準。",
+    );
+    assert.equal(publicHos.faq?.at(-1)?.q, "家居寬頻報價點攞？");
+    assert.equal(
+      publicHos.faq?.at(-1)?.a,
+      "報價要有地址同申請資格。呢頁係公屋／居屋 1000M 嘅站內參考月費例子，只供參考，唔代表你屋苑一定有；實際月費、覆蓋同安裝，一律以電訊商確認為準。",
+    );
+    assert.equal(privateFees.faq?.at(-1)?.q, "家居寬頻報價點攞？");
+    assert.equal(
+      privateFees.faq?.at(-1)?.a,
+      "報價要有地址同申請資格。呢頁係私樓 1000M 嘅站內參考月費例子，只供參考，唔代表你屋苑一定有；部分計劃亦適用公屋或居屋，以計劃卡為準。實際月費、覆蓋同安裝，一律以電訊商確認為準。",
+    );
+    for (const guide of [fiber, publicHos, privateFees]) {
+      const item = guide.faq?.at(-1);
+      assert.ok(item);
+      assert.equal(faqAnswer(guideJsonLd(guide), item.q), guidePlainText(item.a));
+      assert.doesNotMatch(`${item.q}\n${item.a}`, BANNED);
+      assert.equal(item.a.includes("的"), false);
+    }
+  });
+
+  it("puts the new 5G home and mobile sentences in the first three lines and links the data-cap guide", () => {
+    const home5g = getGuide("home5g");
+    const mobile = getGuide("mobile");
+    const cap = getGuide("home5g-data-cap");
+    assert.ok(home5g && mobile && cap);
+    assert.equal(home5g.h1, "香港 5G 家居點揀：免拉線，速度視現場");
+    assert.equal(mobile.h1, "香港手機月費點揀：先分本地、5G、大灣區");
+    assert.equal(cap.excerpt, "5G 家居唔好只睇標示速度。問清楚用量上限、公平使用同用完之後點算。");
+    assert.equal(cap.opening, undefined);
+    assert.deepEqual(
+      home5g.opening?.slice(0, 3).map((line) => line.text),
+      [
+        "5G 家居寬頻邊間好，唔可以一句話斷定；要先查你個地址嘅覆蓋同訊號，再對計劃卡嘅牌面月費、合約同數據上限。",
+        "呢頁講 5G 家居寬頻（免拉線、插電路由器），唔係手機 5G 上台，亦唔好當固定光纖替代。",
+        "數據上限同覆蓋要以電訊商確認為準；用量用完之後點算，見[5G 家居數據上限同公平使用](/guides/home5g-data-cap)。",
+      ],
+    );
+    assert.equal(home5g.opening?.[3]?.text, home5g.excerpt);
+    assert.equal(home5g.related?.[0], "home5g-data-cap");
+    assert.match(
+      home5g.body.find((section) => section.heading === "數據上限同速度")?.paragraphs[1] ?? "",
+      /詳情見 \[月費以外\]\(\/guides\/contract-fees\)。用量用完之後點算，見\[5G 家居數據上限同公平使用\]\(\/guides\/home5g-data-cap\)。/,
+    );
+    const homeFaq = home5g.faq?.at(-1);
+    assert.equal(homeFaq?.q, "5G 家居寬頻幾錢？邊間好？");
+    assert.equal(
+      guidePlainText(homeFaq?.a ?? ""),
+      "唔可以一句話斷定邊間好，亦唔好用一張全港劃一價去估。要先查你個地址嘅覆蓋同訊號，再對計劃卡嘅牌面月費、合約同數據上限。呢頁講 5G 家居寬頻，唔係手機 5G 上台。數據上限同覆蓋要以電訊商確認為準。用量用完之後點算，見 5G 家居數據上限同公平使用。",
+    );
+    assert.equal(faqAnswer(guideJsonLd(home5g), homeFaq?.q ?? ""), guidePlainText(homeFaq?.a ?? ""));
+    assert.deepEqual(
+      mobile.opening?.slice(0, 3).map((line) => line.text),
+      [
+        "呢頁講手機 5G／4G 上台同月費點揀，唔係 5G 家居寬頻。",
+        "5G 上台優惠要先睇本地數據、合約期、行政費，同你部手機係唔係支援 5G，再對計劃卡；實際月費、數據同優惠以電訊商確認為準。",
+        "攜號轉台要問生效日同行政費，唔好提早自己取消舊約；流程見[攜號轉台點樣做](/guides/port-in)。",
+      ],
+    );
+    assert.equal(mobile.opening?.[3]?.text, mobile.excerpt);
+    assert.equal(mobile.faq?.at(-2)?.q, "5G 上台有咩優惠？");
+    assert.equal(
+      mobile.faq?.at(-2)?.a,
+      "呢條係手機上台，唔係 5G 家居寬頻。優惠要先睇本地數據、合約期、行政費，同手機係唔係支援 5G，再對計劃卡；實際月費、數據、轉台優惠同生效日以電訊商確認為準。",
+    );
+    assert.equal(mobile.faq?.at(-1)?.q, "攜號轉台點樣比較？");
+    assert.equal(
+      guidePlainText(mobile.faq?.at(-1)?.a ?? ""),
+      "唔可以一句話斷定邊間適合。要先問舊約完約日、新台生效日同行政費，唔好提早自己取消舊約。流程見攜號轉台點樣做。實際安排以電訊商確認為準。",
+    );
+    assert.equal(
+      faqAnswer(guideJsonLd(mobile), "攜號轉台點樣比較？"),
+      guidePlainText(mobile.faq?.at(-1)?.a ?? ""),
+    );
+    assert.doesNotMatch(
+      [...(home5g.opening ?? []), ...(mobile.opening ?? [])].map((line) => line.text).join("\n"),
+      BANNED,
+    );
+  });
+
+  it("keeps the port-in first sentence and adds two sentences plus a FAQPage", () => {
+    const guide = getGuide("port-in");
+    assert.ok(guide);
+    assert.equal(guide.h1, "攜號轉台點樣做，先唔會斷線");
+    assert.equal(guide.seoTitle, "攜號轉台點樣做｜齊Quote");
+    assert.equal(guide.description, "留舊號碼轉去新電訊商：行政費、幾時生效，同寬頻轉台有咩分別。實際以電訊商確認為準。");
+    assert.deepEqual(
+      guide.opening?.map((line) => line.text),
+      [
+        guide.excerpt,
+        "攜號轉台係手機留舊號碼轉去新電訊商，唔係 5G 家居寬頻，亦唔係寬頻轉台。",
+        "邊間適合要睇生效日、行政費同舊約條款，唔可以只憑牌面月費斷定；實際以電訊商確認為準。",
+      ],
+    );
+    assert.equal(guide.faq?.length, 1);
+    assert.equal(guide.faq?.[0]?.q, "攜號轉台點樣比較，先唔會斷線？");
+    assert.equal(
+      guide.faq?.[0]?.a,
+      "向新台申請攜號轉台，新 SIM 未生效前，舊卡仍然用得；唔好提早自己取消舊約。行政費是否豁免，以申請時電訊商確認為準。呢頁講手機攜號，唔係 5G 家居寬頻，亦唔係寬頻轉台。",
+    );
+    assert.equal(faqAnswer(guideJsonLd(guide), guide.faq?.[0]?.q ?? ""), guide.faq?.[0]?.a);
+    assert.doesNotMatch((guide.opening ?? []).map((line) => line.text).join(""), BANNED);
   });
 });

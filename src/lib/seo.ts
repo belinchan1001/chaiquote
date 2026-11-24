@@ -10,7 +10,7 @@ import {
 import { GUIDES, getGuide, type Guide } from "./guides.ts";
 import { TECH_NEWS_ARTICLES, TECH_NEWS_CATEGORIES } from "./tech-news.ts";
 import { guideTopicImage } from "./guide-media.ts";
-import { CATALOGUE_CONTENT_STAMP, SITE } from "./site.ts";
+import { CATALOGUE_CONTENT_STAMP, PLANS_BROADBAND_FAQ, SITE } from "./site.ts";
 import {
   ABOUT_SEO,
   CATEGORY_SEO,
@@ -366,6 +366,19 @@ export function categoryJsonLd(cat: Category) {
           { "@type": "ListItem", position: 2, name: seo.title.replace(/^齊Quote｜/, "").replace(/｜齊Quote$/, ""), item: url },
         ],
       },
+      ...(cat === "broadband"
+        ? [
+            {
+              "@type": "FAQPage",
+              "@id": `${url}#faq`,
+              mainEntity: PLANS_BROADBAND_FAQ.map((item) => ({
+                "@type": "Question",
+                name: item.q,
+                acceptedAnswer: { "@type": "Answer", text: item.a },
+              })),
+            },
+          ]
+        : []),
     ],
   };
 }

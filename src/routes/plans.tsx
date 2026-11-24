@@ -32,7 +32,14 @@ import { indexableEstateNavLinks } from "@/lib/estate-pages";
 import { categoryJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
 import { bringPlanListIntoView, holdPlanListScroll, isPlanListInView, watchPlanListInView } from "@/lib/plan-list-fade";
-import { CATEGORY_OPTIONS, SITE, plansBroadbandHero, plansBroadbandLeadParts } from "@/lib/site";
+import {
+  CATEGORY_OPTIONS,
+  PLANS_BROADBAND_FAQ,
+  PLANS_BROADBAND_QUOTE_NOTE,
+  SITE,
+  plansBroadbandHero,
+  plansBroadbandLeadParts,
+} from "@/lib/site";
 import {
   currentLabel,
   currentOptions,
@@ -841,6 +848,7 @@ function PlansPage() {
       {broadbandHero ? (
         <section className="lead-band" aria-label={locale === "en" ? "Reference fees and notes" : "參考月費同說明"}>
           <p className="lead-copy"><PlansLeadCopy lead={broadbandHero.lead} /></p>
+          <p className="mt-3 text-base leading-relaxed text-fg">{PLANS_BROADBAND_QUOTE_NOTE}</p>
           {catalogueFromFee ? (
             <p className="from-fee">
               <span className="font-medium tabular-nums text-fg">{catalogueFromFee}</span>
@@ -849,6 +857,22 @@ function PlansPage() {
         </section>
       ) : null}
       <div className="lower-matter">
+      {search.cat === "broadband" ? (
+        <section id="faq" className="mt-10 scroll-mt-24">
+          <h2 className="text-lg font-semibold">{t("faqHeading")}</h2>
+          <div className="mt-3 divide-y divide-border rounded-xl bg-card px-4 shadow-[var(--shadow-border)]">
+            {PLANS_BROADBAND_FAQ.map((item) => (
+              <details key={item.q} className="group py-3">
+                <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-left text-base font-medium">
+                  {item.q}
+                  <span className="text-subtle transition-transform duration-150 group-open:rotate-45">+</span>
+                </summary>
+                <p className="pb-3 text-sm leading-relaxed text-muted">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      ) : null}
       {summaryPlans.length || hubText ? (
         <div className="mt-10 rounded-lg border border-border bg-card px-4 shadow-[var(--shadow-home)]">
           {summaryPlans.length ? (
