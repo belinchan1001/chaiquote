@@ -50,6 +50,39 @@ android/upload-keystore.jks
 
 如果 Vercel Project Settings → Domains 仲有 `chaiquote.hk` → `www.chaiquote.hk` 嘅 **308**，個 308 喺 `vercel.json` 同 Nitro 之前發生，repo 改唔到。發佈後如果 Google 對 apex 仍然係 `ERROR_CODE_REDIRECT`，就要喺 Domains 取消呢個 redirect。取消之後，in-app 301 同 `vercel.json` 都會放行上面兩條路徑。
 
+## 網址列（Custom Tab）
+
+1.0.2 由主畫面打開仍然見到 X、網址、分享，**唔使**再出一包 AAB，versionCode 維持 **3**。啟動網址、`assetStatements`、`additionalTrustedOrigins` 已經係 `https://www.chaiquote.hk`，另外信任 `https://chaiquote.hk`。Chrome 網址列會收起 `www.`，所以顯示 `chaiquote.hk` 唔代表跳咗去 apex。
+
+Google `assetlinks:check` 可以 `linked: true`，但 Chrome 唔用呢個 API。佢自己 GET `https://<origin>/.well-known/assetlinks.json`（背景請求，唔行 JavaScript，亦唔帶頁面解完 checkpoint 之後嘅 cookie）。只要回應唔係 HTTP 200 嘅 JSON，驗證失敗，TWA 就跌返 Custom Tab。
+
+Vercel Bot Protection／Attack Mode 對部分 IP 回 `429`、`content-type: text/html`、`x-vercel-mitigated: challenge`（Vercel Security Checkpoint），連 `/.well-known/assetlinks.json` 都中。`vercel.json` 的 `routes.mitigate.action` 只可以 `challenge` 或 `deny`，**寫唔到 `bypass`**。要喺 Dashboard 加 Custom Rule（即時生效，唔使重新 deploy）：
+
+1. 開呢個 project → **Firewall** → 右上 **⋯** → **Configure**。
+2. **Add New…** → **Rule**。
+3. Name：`Allow Digital Asset Links`。
+4. If：**Path** → **equals** → `/.well-known/assetlinks.json`。
+5. Then：**Bypass**（唔好揀 Challenge）。
+6. 如果上面仲有會 challenge／deny 同一條 path 嘅 custom rule，將呢條拉到佢哋上面。Bypass 會跳過後面嘅 custom rules 同 Bot Protection managed ruleset。
+7. **Save Rule** → **Review Changes** → **Publish**。
+8. 同一頁 **Bot Management** → **Attack Mode** 要係 **Disable**。Custom Bypass 跳唔過 Attack Mode。開住嘅話，Chrome 呢個背景請求解唔到 JS checkpoint，網址列會繼續在。Attack Mode 冇按 path 豁免。
+
+Publish 之後，用唔會解 JavaScript 嘅 client 打兩條，都要係 `200`、`content-type` 含 `application/json`、冇 `location`、冇 `x-vercel-mitigated`：
+
+```bash
+curl -sI -A "Chrome-OriginVerifier" https://www.chaiquote.hk/.well-known/assetlinks.json
+curl -sI -A "Chrome-OriginVerifier" https://chaiquote.hk/.well-known/assetlinks.json
+```
+
+Chrome 會記住驗證失敗。清完 Firewall 之後：
+
+1. 完全關閉齊Quote同 Chrome。
+2. 設定 → 應用程式 → Chrome → 儲存空間 → 清除快取。網址列仲在就清除 Chrome 資料（會登出 Chrome）。
+3. 用而家內部測試嘅 **1.0.2（versionCode 3）** 由主畫面圖示打開。唔使裝新包。
+4. 成功：頂部冇 X、冇網址、冇分享。見到網站內容係正常。
+
+唔好開 production release。
+
 ## 重新打包
 
 需要 JDK 17、Android SDK（Bubblewrap 1.22 用 build-tools `36.1.0` 同 platform `android-36`）。
@@ -65,7 +98,7 @@ export BUBBLEWRAP_KEY_PASSWORD='（同 store password）'
 bubblewrap build --manifest=./twa-manifest.json
 ```
 
-呢版 versionCode 已經係 **3**。唔好跑 `bubblewrap update`：佢會按 template 重寫 `strings.xml`，把 `assetStatements` 拆成兩個 JSON array。git 入面嘅 Android 專案先係準。下次先改 `appVersion` / `appVersionCode`，再對住改過嘅檔 `build`。
+呢版 versionCode 已經係 **3**／1.0.2。網址列問題見上面「網址列（Custom Tab）」：修 Firewall，唔好為呢件事加 versionCode。唔好跑 `bubblewrap update`：佢會按 template 重寫 `strings.xml`，把 `assetStatements` 拆成兩個 JSON array。git 入面嘅 Android 專案先係準。下次先改 `appVersion` / `appVersionCode`，再對住改過嘅檔 `build`。
 
 簽名 AAB 輸出：`android/app-release-bundle.aab`。呢個檔唔好 commit。
 
