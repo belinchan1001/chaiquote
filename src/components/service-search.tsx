@@ -8,21 +8,20 @@ import { IntakeFields } from "@/components/intake-fields";
 import { Button } from "@/components/ui/button";
 import { useDesk } from "@/lib/desk";
 import { useI18n } from "@/lib/i18n";
-import type { Category, Housing } from "@/lib/plans";
+import type { Category, Housing, ProviderId } from "@/lib/plans";
 import {
   currentLabel,
+  dropConflictingTargets,
   expiryLabel,
-  isTargetConflict,
   needLabel,
   serviceTypeLabel,
-  targetLabel,
+  targetListLabel,
   toPortInSearch,
   type BusinessSpeedId,
   type CurrentId,
   type ExpiryId,
   type FibreSpeedId,
   type MobileNeedId,
-  type TargetId,
 } from "@/lib/port-in";
 import { compactSearch } from "@/lib/search";
 import type { MessageKey } from "@/lib/messages";
@@ -75,7 +74,7 @@ export function ServiceSearch() {
   const [block, setBlock] = useState(stored.block ?? "");
   const [openCat, setOpenCat] = useState<Category | null>(null);
   const [current, setCurrent] = useState<CurrentId | "">("");
-  const [target, setTarget] = useState<TargetId>("all");
+  const [targets, setTargets] = useState<ProviderId[]>([]);
   const [expiry, setExpiry] = useState<ExpiryId>("6m+");
   const [fibreSpeed, setFibreSpeed] = useState<FibreSpeedId | "">("any");
   const [businessSpeed, setBusinessSpeed] = useState<BusinessSpeedId | "">("any");
@@ -112,7 +111,7 @@ export function ServiceSearch() {
           estate: estate.trim() || undefined,
           housing: housingValue || undefined,
           current,
-          target,
+          targets,
           fibreSpeed,
           businessSpeed,
           mobileNeed,
@@ -181,7 +180,7 @@ export function ServiceSearch() {
   function openService(cat: Category) {
     setOpenCat(cat);
     setCurrent("");
-    setTarget("all");
+    setTargets([]);
     setExpiry("6m+");
     setFibreSpeed(cat === "broadband" ? "any" : "");
     setBusinessSpeed(cat === "business" ? "any" : "");
@@ -210,7 +209,7 @@ export function ServiceSearch() {
       district,
       block,
       currentProvider: currentLabel(current),
-      targetProvider: targetLabel(target),
+      targetProvider: targetListLabel(targets),
       expiry: expiryLabel(expiry),
       need: needLabel(
         openCat,
@@ -336,11 +335,11 @@ export function ServiceSearch() {
                 current={current}
                 onCurrent={(id) => {
                   setCurrent(id);
-                  if (isTargetConflict(id, target)) setTarget("all");
+                  setTargets((prev) => dropConflictingTargets(id, prev));
                   if (error === "current") setError("");
                 }}
-                target={target}
-                onTarget={setTarget}
+                targets={targets}
+                onTargets={setTargets}
                 expiry={expiry}
                 onExpiry={setExpiry}
                 fibreSpeed={fibreSpeed}

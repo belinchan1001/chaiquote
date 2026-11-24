@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { EsportsLineToggle } from "@/components/esports-line-tag";
 import { useI18n } from "@/lib/i18n";
-import type { Category, Housing } from "@/lib/plans";
+import type { Category, Housing, ProviderId } from "@/lib/plans";
 import {
   BUSINESS_SPEEDS,
   EXPIRY_OPTIONS,
@@ -11,12 +11,12 @@ import {
   excludeProvider,
   isTargetConflict,
   targetOptions,
+  togglePreferredTarget,
   type BusinessSpeedId,
   type CurrentId,
   type ExpiryId,
   type FibreSpeedId,
   type MobileNeedId,
-  type TargetId,
 } from "@/lib/port-in";
 import { HOUSING_OPTIONS } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -86,8 +86,8 @@ export function IntakeFields({
   onHousing,
   current,
   onCurrent,
-  target,
-  onTarget,
+  targets,
+  onTargets,
   expiry,
   onExpiry,
   fibreSpeed,
@@ -107,8 +107,8 @@ export function IntakeFields({
   onHousing: (id: Housing) => void;
   current: CurrentId | "";
   onCurrent: (id: CurrentId) => void;
-  target: TargetId;
-  onTarget: (id: TargetId) => void;
+  targets: readonly ProviderId[];
+  onTargets: (ids: ProviderId[]) => void;
   expiry: ExpiryId | "";
   onExpiry: (id: ExpiryId) => void;
   fibreSpeed: FibreSpeedId | "";
@@ -127,6 +127,7 @@ export function IntakeFields({
   const showHousing = cat === "broadband" || cat === "home5g";
   const providerChoices = currentOptions(cat);
   const targetChoices = targetOptions(cat);
+  const targetOrder = targetChoices.map((option) => option.id);
 
   return (
     <>
@@ -171,17 +172,18 @@ export function IntakeFields({
         <div className={cn("mt-2 flex flex-wrap gap-2", jelly && "jelly-row")}>
           {targetChoices.map((option) => {
             const blocked = isTargetConflict(current, option.id);
+            const picked = option.id !== "all" && targets.includes(option.id);
             return (
               <Chip
                 jelly={jelly}
                 key={option.id}
-                selected={!blocked && target === option.id}
+                selected={!blocked && (option.id === "all" ? targets.length === 0 : picked)}
                 disabled={blocked}
                 title={blocked ? t("intakeTargetHint") : undefined}
                 dataId={`target-${option.id}`}
                 onSelect={() => {
                   if (blocked) return;
-                  onTarget(option.id);
+                  onTargets(togglePreferredTarget(targets, option.id, targetOrder));
                 }}
               >
                 {option.id === "all" ? t("intakeTargetAny") : option.label}

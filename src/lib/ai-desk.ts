@@ -166,17 +166,24 @@ export function detectSpeed(message: string) {
   return hits[0].speed;
 }
 
-export function detectProvider(message: string): ProviderId | undefined {
+const PROVIDER_RULES: { re: RegExp; id: ProviderId }[] = [
+  { re: /香港寬頻|hkbn/, id: "hkbn" },
+  { re: /網上行|netvigator|pccw/, id: "netvigator" },
+  { re: /中國移動|中移動|cmhk/, id: "cmhk" },
+  { re: /\bhgc\b/, id: "hgc" },
+  { re: /有線|icable|i-cable/, id: "icable" },
+  { re: /3香港|3hk|\bthree\b/, id: "three" },
+  { re: /數碼通|smartone/, id: "smartone" },
+  { re: /\bcsl\b/, id: "csl" },
+];
+
+export function detectProviders(message: string): ProviderId[] {
   const blob = message.toLowerCase();
-  if (/香港寬頻|hkbn/.test(blob)) return "hkbn";
-  if (/網上行|netvigator|pccw/.test(blob)) return "netvigator";
-  if (/中國移動|中移動|cmhk/.test(blob)) return "cmhk";
-  if (/\bhgc\b/.test(blob)) return "hgc";
-  if (/有線|icable|i-cable/.test(blob)) return "icable";
-  if (/3香港|3hk|\bthree\b/.test(blob)) return "three";
-  if (/數碼通|smartone/.test(blob)) return "smartone";
-  if (/\bcsl\b/.test(blob)) return "csl";
-  return undefined;
+  return PROVIDER_RULES.filter((rule) => rule.re.test(blob)).map((rule) => rule.id);
+}
+
+export function detectProvider(message: string): ProviderId | undefined {
+  return detectProviders(message)[0];
 }
 
 const VILLAGE_HOUSING_INTENT = /村屋|丁屋|village\s*houses?/i;
@@ -215,10 +222,17 @@ export function resolveEstate(message: string, inquiryEstate?: string): Estate |
 }
 
 
-export function detectTargetProvider(message: string): ProviderId | undefined {
+/** Undefined when the message never names a preferred carrier. Empty when it says 不限. */
+export function detectTargetProviders(message: string): ProviderId[] | undefined {
   const clause = message.split(/想轉|轉去|轉做|心水|指定/)[1];
   if (!clause) return undefined;
-  return detectProvider(clause);
+  if (/不限|睇晒/.test(clause)) return [];
+  const found = detectProviders(clause);
+  return found.length ? found : undefined;
+}
+
+export function detectTargetProvider(message: string): ProviderId | undefined {
+  return detectTargetProviders(message)?.[0];
 }
 
 export function detectMobileNeed(message: string): MobileNeedId | undefined {
@@ -262,6 +276,8 @@ export type FilterParse = {
   current?: CurrentId;
   exclude?: ProviderId;
   target?: ProviderId;
+  /** Every named preferred carrier. Empty means 不限. Omit when the message did not say. */
+  targets?: ProviderId[];
   expiry?: "1m" | "2-3m" | "4-6m" | "6m+";
   estate?: string;
   housing?: Housing;
@@ -294,8 +310,15 @@ export function parseFilterState(input: {
   const housing = wanted ?? keptEstate?.housing ?? (dropStoredEstate ? undefined : storedHousing) ?? guessed.housing;
   const cat = detectCategory(message);
   const current = detectCurrentProvider(message, Boolean(input.looseCurrent));
-  const target = detectTargetProvider(message);
+  const detectedTargets = detectTargetProviders(message);
   const exclude = current && current !== "none" && current !== "other" ? current : undefined;
+  const targets =
+    detectedTargets === undefined
+      ? undefined
+      : detectedTargets.length === 0
+        ? []
+        : detectedTargets.filter((id) => id !== exclude);
+  const namedTargets = targets && targets.length ? targets : undefined;
   const esports = detectEsportsLine(message);
   const speed = cat === "broadband" || cat === "business" ? detectSpeed(message) : undefined;
   const mobileNeed = cat === "mobile" ? detectMobileNeed(message) : undefined;
@@ -303,7 +326,8 @@ export function parseFilterState(input: {
     cat,
     current,
     exclude,
-    target: target && target !== exclude ? target : undefined,
+    target: namedTargets?.[0],
+    targets: detectedTargets?.length === 0 ? [] : namedTargets,
     expiry: detectExpiry(message),
     estate: keptEstate?.name ?? (dropStoredEstate || villageIntent ? undefined : input.estate || undefined),
     housing,
@@ -324,12 +348,18 @@ export function retrievePlansForAsk(input: {
 }): AiRetrieveResult {
   const parsed = parseFilterState(input);
   const exclude = parsed.exclude ?? input.exclude;
+  const carrier = toPortInSearch({
+    cat: parsed.cat,
+    current: exclude ?? "",
+    targets: parsed.targets ?? (parsed.target ? [parsed.target] : []),
+  });
   const base = {
     cat: parsed.cat,
     estate: parsed.estate,
     housing: parsed.housing,
     exclude,
-    provider: parsed.target,
+    provider: carrier.provider,
+    providers: carrier.providers,
     minSpeed: parsed.esports ? 2500 : undefined,
     esports: parsed.esports ? true : undefined,
   };
@@ -368,7 +398,13 @@ export function inquiryFromAiParse(
   const current = parsed.current
     ? (currentOptions(parsed.cat).find((item) => item.id === parsed.current)?.label ?? currentLabel(parsed.current))
     : previous?.currentProvider || "";
-  const target = parsed.target ? targetLabel(parsed.target) : previous?.targetProvider || "";
+  const ids = parsed.targets ?? (parsed.target ? [parsed.target] : undefined);
+  const target =
+    ids === undefined
+      ? previous?.targetProvider || ""
+      : ids.length
+        ? ids.map((id) => targetLabel(id)).join("、")
+        : targetLabel("all");
   return {
     estate: parsed.dropStoredEstate ? parsed.estate || "" : parsed.estate || previous?.estate || "",
     housing: parsed.housing || (parsed.dropStoredEstate ? "" : previous?.housing || ""),
@@ -404,6 +440,11 @@ export function mergeFilterParse(
         ? (previous?.housing as Housing)
         : undefined);
   const exclude = current && current !== "none" && current !== "other" ? current : undefined;
+  const keptTargets =
+    parsed.targets !== undefined
+      ? parsed.targets
+      : prior?.targets ?? (prior?.target ? [prior.target] : undefined);
+  const targets = keptTargets?.filter((id) => id !== exclude);
   return {
     ...parsed,
     cat: prior?.cat && parsed.cat === "broadband" && !parsed.speed && !parsed.esports && !parsed.estate
@@ -414,7 +455,8 @@ export function mergeFilterParse(
     estate,
     housing,
     exclude,
-    target: parsed.target ?? prior?.target,
+    targets,
+    target: targets?.[0],
     speed: parsed.speed ?? prior?.speed,
     mobileNeed: parsed.mobileNeed ?? prior?.mobileNeed,
     esports: parsed.esports || Boolean(prior?.esports),
@@ -438,7 +480,7 @@ export function shouldHoldForIntake(message: string, parsed: FilterParse) {
 export function portInInputFromParse(
   parsed: FilterParse,
   previous?: { estate?: string; housing?: string },
-) {
+): Parameters<typeof toPortInSearch>[0] {
   const fibreSpeed: FibreSpeedId | "" = parsed.cat === "broadband" ? needIdFromParse(parsed) as FibreSpeedId : "";
   const businessSpeed = parsed.cat === "business" ? needIdFromParse(parsed) : "";
   const mobileNeed = (parsed.mobileNeed ?? "") as MobileNeedId | "";
@@ -447,7 +489,7 @@ export function portInInputFromParse(
     estate: parsed.estate || previous?.estate,
     housing: parsed.housing,
     current: parsed.current ?? "",
-    target: (parsed.target ?? "all") as const,
+    targets: parsed.targets ?? (parsed.target ? [parsed.target] : []),
     fibreSpeed,
     businessSpeed: businessSpeed as "any" | "1000" | "dedicated" | "",
     mobileNeed,
