@@ -13,7 +13,7 @@ import {
   type Plan,
 } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
-import { DISTRICTS, SITE } from "./site.ts";
+import { DISTRICTS, ESTATE_PAGE_CONTENT_DATE } from "./site.ts";
 
 /** First-batch SEO estate pages. Their slugs stay stable. */
 export const ESTATE_PAGE_NAMES = [
@@ -797,7 +797,7 @@ export function estateCite(estate: Estate, locale: Locale = "zh"): EstateCite {
   const sentences = en
     ? [
         `${name} is in ${place}. Housing type: ${housing}.`,
-        `On ${SITE.updated} the ${housing} filter lists ${broadband.length} fibre reference plans and ${home5g.length} 5G home reference plans.`,
+        `On ${ESTATE_PAGE_CONTENT_DATE} the ${housing} filter lists ${broadband.length} fibre reference plans and ${home5g.length} 5G home reference plans.`,
         ...(first
           ? [
               `The first listed row is ${provider} ${first.name} at ${formatFee(first.monthlyFee)} per month for ${first.contractMonths} months.`,
@@ -808,7 +808,7 @@ export function estateCite(estate: Estate, locale: Locale = "zh"): EstateCite {
     : estateOpeningParagraphs(estate);
   const note = en
     ? undefined
-    : `${SITE.updated} 按${housing}篩到 ${broadband.length} 個光纖參考計劃同 ${home5g.length} 個 5G 家居參考計劃。`;
+    : `${ESTATE_PAGE_CONTENT_DATE} 按${housing}篩到 ${broadband.length} 個光纖參考計劃同 ${home5g.length} 個 5G 家居參考計劃。`;
   return {
     sentences,
     note,

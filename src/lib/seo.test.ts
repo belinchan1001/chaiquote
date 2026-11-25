@@ -4,7 +4,9 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { hongKongCalendarDate } from "./catalogue-date.ts";
-import { CATALOGUE_CONTENT_STAMP, PRIVACY_UPDATED, SITE, plansBroadbandLead } from "./site.ts";
+import { contentLastmod } from "./content-lastmod.ts";
+import { CATALOGUE_CONTENT_STAMP, HOME_CONTENT_DATE, PLANS_LISTING_COPY_DATE, PRIVACY_UPDATED, SITE, plansBroadbandLead } from "./site.ts";
+import { filterPlans } from "./plan-filter.ts";
 import { getPlan } from "./plans.ts";
 import { HOME_SEO, CATEGORY_SEO, GUIDES_SEO, PLAN_DETAIL_ROUTE_ID, catalogueMonthLabel, canonicalUrlFromMatches } from "./canonical.ts";
 import { getGuide } from "./guides.ts";
@@ -13,6 +15,7 @@ import { getEstatePage, estateSeoDescription, isIndexableEstatePage } from "./es
 import {
   AI_CITATION_USER_AGENTS,
   BLOCKED_SCRAPER_USER_AGENTS,
+  categoryJsonLd,
   planJsonLd,
   planPageCanonicalUrl,
   planSeoDescription,
@@ -27,7 +30,7 @@ import {
 const here = dirname(fileURLToPath(import.meta.url));
 
 describe("catalogue stamp", () => {
-  it("shows today's Asia/Hong_Kong date and keeps sitemap lastmod on the manual stamp", () => {
+  it("keeps the clock off sitemap lastmod and uses each URL's content date", () => {
     assert.equal(hongKongCalendarDate(new Date("2026-11-19T15:59:59.000Z")), "2026-11-19");
     assert.equal(hongKongCalendarDate(new Date("2026-11-19T16:00:00.000Z")), "2026-11-20");
     assert.equal(hongKongCalendarDate(new Date("2026-12-31T16:00:00.000Z")), "2027-01-01");
@@ -37,11 +40,32 @@ describe("catalogue stamp", () => {
     assert.equal(CATALOGUE_CONTENT_STAMP, "2026-11-14");
     assert.equal(PRIVACY_UPDATED, "2026-11-14");
     assert.equal(siteDataLastmod(), "2026-11-14");
-    assert.equal(sitemapLastmod("/"), "2026-11-14");
-    assert.equal(sitemapLastmod("/plans"), "2026-11-14");
+    assert.equal(sitemapLastmod("/"), HOME_CONTENT_DATE);
+    assert.equal(contentLastmod("/"), HOME_CONTENT_DATE);
+    assert.equal(sitemapLastmod("/plans?cat=broadband"), contentLastmod("/plans?cat=broadband"));
+    assert.equal(sitemapLastmod("/plans"), sitemapLastmod("/plans?cat=broadband"));
     assert.equal(sitemapLastmod("/estates"), "2026-11-14");
-    assert.equal(sitemapLastmod("/guides/village"), "2026-11-14");
+    assert.equal(sitemapLastmod("/estates/cheerful-court"), "2026-11-20");
     assert.equal(sitemapLastmod("/privacy"), "2026-11-14");
+    assert.equal(sitemapLastmod("/new-intake"), "2026-11-22");
+    assert.equal(sitemapLastmod("/tech-news"), "2026-11-23");
+    const switched = getGuide("switch-broadband");
+    assert.ok(switched);
+    assert.equal(switched.published, "2026-09-09");
+    assert.equal(switched.modified, "2026-11-20");
+    assert.equal(sitemapLastmod("/guides/switch-broadband"), "2026-11-20");
+    assert.equal(contentLastmod("/guides/switch-broadband"), switched.modified);
+    if (SITE.updated !== HOME_CONTENT_DATE) {
+      assert.notEqual(sitemapLastmod("/"), SITE.updated);
+      assert.notEqual(sitemapLastmod("/guides/switch-broadband"), SITE.updated);
+    }
+    const listed = filterPlans({ cat: "broadband" });
+    const graph = categoryJsonLd("broadband")["@graph"] as { "@type": string; numberOfItems?: number }[];
+    const list = graph.find((node) => node["@type"] === "ItemList");
+    assert.equal(list?.numberOfItems, listed.length);
+    assert.equal(listed.some((plan) => plan.id === "icable-ftth-1000-36m-58-flash"), false);
+    assert.equal(listed.some((plan) => plan.id === "cmhk-ftth-1000-36m-98-1111"), false);
+    assert.equal(listed.some((plan) => plan.id === "cmhk-ftth-2500-24m-148-1111"), false);
     const privacy = readFileSync(join(here, "../routes/privacy.tsx"), "utf8");
     assert.match(privacy, /date: PRIVACY_UPDATED/);
     assert.doesNotMatch(privacy, /date: updated/);
@@ -56,7 +80,8 @@ describe("search-first titles", () => {
     assert.match(HOME_SEO.description, /查屋苑覆蓋/);
     assert.equal(CATEGORY_SEO.broadband.title, "香港光纖寬頻報價比較｜齊Quote");
     assert.equal(CATEGORY_SEO.broadband.description, plansBroadbandLead("zh"));
-    assert.match(CATEGORY_SEO.broadband.description, new RegExp(`（資料更新 ${SITE.updated}）`));
+    assert.match(CATEGORY_SEO.broadband.description, new RegExp(`（資料更新 ${contentLastmod("/plans?cat=broadband")}）`));
+    assert.equal(plansBroadbandLead("zh"), plansBroadbandLead("zh", PLANS_LISTING_COPY_DATE.broadband));
     assert.doesNotMatch(CATEGORY_SEO.broadband.title + CATEGORY_SEO.broadband.description, /最平|最抵|最低|全港最平/);
     assert.equal(CATEGORY_SEO.home5g.title, "5G家居寬頻報價｜免拉線月費比較｜齊Quote");
     assert.equal(GUIDES_SEO.title, "寬頻報價攻略｜光纖、村屋同5G家居月費｜齊Quote");

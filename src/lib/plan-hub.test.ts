@@ -10,6 +10,7 @@ import {
   plansBroadbandHero,
   plansBroadbandLead,
   plansBroadbandLeadParts,
+  PLANS_LISTING_COPY_DATE,
   SITE,
 } from "./site.ts";
 import { categoryJsonLd } from "./seo.ts";
@@ -235,7 +236,7 @@ describe("plan category hub", () => {
     const card = readFileSync(join(here, "../components/plan-card.tsx"), "utf8");
     const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
     assert.equal((plans.match(/<h1/g) ?? []).length, 1);
-    assert.match(plans, /plansBroadbandHero\(locale\)/);
+    assert.match(plans, /plansBroadbandHero\(locale, updated\)/);
     assert.match(plans, /broadbandHero \? broadbandHero\.h1 : categoryLabel\(search\.cat\)/);
     assert.match(plans, /<AiFilterEntry/);
     assert.match(plans, /<QuoteLink size="lg"/);
@@ -252,7 +253,7 @@ describe("plan category hub", () => {
       zh.lead,
       /^齊Quote 係獨立寬頻比較站。光纖參考月費按樓類：公居屋約 HK\$58–98、私樓約 HK\$88–109、村屋由指定地址優惠 HK\$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK\$680），唔等於所有村屋都係呢個價；同系列正價為 HK\$378。（資料更新 \d{4}-\d{2}-\d{2}）；唔係全港劃一價，以電訊商確認為準。$/,
     );
-    assert.equal(zh.lead.includes(SITE.updated), true);
+    assert.equal(zh.lead.includes(PLANS_LISTING_COPY_DATE.broadband), true);
     assert.doesNotMatch(`${zh.h1}${zh.lead}`, /最平|最抵|最低|全港最平/);
     assert.equal(en.h1, "Compare Hong Kong fibre broadband quotes");
     assert.match(en.lead, /HK\$58–98/);
@@ -260,7 +261,7 @@ describe("plan category hub", () => {
     assert.match(en.lead, /HK\$218/);
     assert.match(en.lead, /specified-address promo of HK\$218\/month/);
     assert.match(en.lead, /list price in the same series is HK\$378/);
-    assert.match(en.lead, new RegExp(`updated ${SITE.updated}`));
+    assert.match(en.lead, new RegExp(`updated ${PLANS_LISTING_COPY_DATE.broadband}`));
     assert.doesNotMatch(zh.lead, /村屋由 HK\$218 起/);
     assert.doesNotMatch(`${en.h1}${en.lead}`, /cheapest|lowest|best-value|best price/i);
   });
@@ -330,7 +331,7 @@ describe("plan category hub", () => {
       const parts = plansBroadbandLeadParts(lead);
       assert.equal(parts.before + parts.date + parts.after, lead);
       assert.match(parts.date, /^\d{4}-\d{2}-\d{2}$/);
-      assert.equal(parts.date, SITE.updated);
+      assert.equal(parts.date, PLANS_LISTING_COPY_DATE.broadband);
     }
     assert.match(band, /\{PLANS_BROADBAND_QUOTE_NOTE\}/);
     const noteAt = plans.indexOf("{PLANS_BROADBAND_QUOTE_NOTE}");

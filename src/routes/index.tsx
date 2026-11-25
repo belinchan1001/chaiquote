@@ -56,7 +56,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const { t, locale } = useI18n();
+  const { t, locale, updated } = useI18n();
   usePageTitle(HOME_SEO.title);
   const categories: {
     to: "/guides/$slug";
@@ -230,7 +230,7 @@ function Home() {
               providers: HOME_PROVIDER_COUNT,
               plans: PLAN_COUNT,
               estates: ESTATE_COUNT,
-              date: SITE.updated,
+              date: updated,
             })}
           </p>
           <div className="mt-6 rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-home)] sm:p-5">
@@ -246,7 +246,7 @@ function Home() {
                     {t(item.a, {
                       phone: SITE.phoneDisplay,
                       email: SITE.leadEmail,
-                      date: SITE.updated,
+                      date: updated,
                       providers: HOME_PROVIDER_COUNT,
                       plans: PLAN_COUNT,
                       estates: ESTATE_COUNT,
