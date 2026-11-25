@@ -120,3 +120,57 @@ test("Nitro has dedicated sitemap and robots routes plus early middleware", () =
   assert.match(canonical, /canonicalRedirectLocation/);
   assert.match(canonical, /status:\s*301/);
 });
+
+// Bill-approved body. Trailing newline only; no extra marketing lines.
+const LLMS_TXT = `# 齊Quote
+
+> 齊Quote（https://www.chaiquote.hk）係香港獨立電訊比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。
+
+齊Quote 將家居寬頻、5G 家居、流動通訊同商業寬頻計劃整理喺同一個地方，並按公屋、居屋、私樓同村屋分開列出，方便先比較月費同條款，再決定。實際安裝同報價以電訊商確認為準，網站數字唔代表全港劃一價或最平。
+
+資料更新：2026-11-25。當時目錄載有 8 間電訊商、195 個參考計劃同 3732 個屋苑。最新數字以網站當頁為準。
+
+聯絡：WhatsApp／電話 6309 9966；電郵 info@chaiquote.hk
+
+## 主要欄目
+
+- [首頁](https://www.chaiquote.hk/)：香港寬頻同電訊月費比較入口
+- [光纖寬頻格價](https://www.chaiquote.hk/plans?cat=broadband)：並列比較家居光纖計劃
+- [點揀攻略](https://www.chaiquote.hk/guides)：轉台、續約同選購說明
+- [轉台寬頻點做](https://www.chaiquote.hk/guides/switch-broadband)：先查舊約完約日，再約新線；寬頻唔能攜號，宜先裝後停
+- [屋苑索引](https://www.chaiquote.hk/estates)：按屋苑查站內參考月費
+- [電訊新聞](https://www.chaiquote.hk/tech-news)：電訊相關資訊
+- [關於我們](https://www.chaiquote.hk/about)：獨立聲明同聯絡方法
+`;
+
+test("/llms.txt is the approved text/plain file, not an HTML 404", () => {
+  const file = readFileSync(join(ROOT, "public/llms.txt"), "utf8");
+  assert.equal(file, LLMS_TXT);
+  assert.equal(file.endsWith("\n"), true);
+  assert.equal(file.includes("\r"), false);
+
+  const route = readFileSync(join(ROOT, "server/routes/llms.txt.ts"), "utf8");
+  const helper = readFileSync(join(ROOT, "server/llms-txt.ts"), "utf8");
+  const middleware = readFileSync(join(ROOT, "server/middleware/seo-files.ts"), "utf8");
+  assert.match(route, /llmsTxtResponse/);
+  assert.match(helper, /public\/llms\.txt\?raw/);
+  assert.match(helper, /text\/plain; charset=utf-8/);
+  assert.match(helper, /status:\s*200/);
+  assert.match(middleware, /path === "\/llms\.txt"/);
+
+  const vercel = JSON.parse(readFileSync(join(ROOT, "vercel.json"), "utf8"));
+  const headers = (vercel.headers ?? []).find((rule) => rule.source === "/llms.txt");
+  assert.equal(
+    headers?.headers?.find((header) => header.key === "Content-Type")?.value,
+    "text/plain; charset=utf-8",
+  );
+  assert.equal(
+    headers?.headers?.find((header) => header.key === "Cache-Control")?.value,
+    "public, max-age=3600",
+  );
+
+  const robots = readFileSync(join(ROOT, "public/robots.txt"), "utf8");
+  const sitemap = readFileSync(join(ROOT, "public/sitemap.xml"), "utf8");
+  assert.doesNotMatch(robots, /llms\.txt/);
+  assert.doesNotMatch(sitemap, /llms\.txt/);
+});
