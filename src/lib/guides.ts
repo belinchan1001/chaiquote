@@ -129,7 +129,7 @@ export const CORE_GUIDES: Guide[] = [
     titleEn: "How to port your number without losing service",
     excerptEn: "Keep your number when you switch. Admin fees, when it takes effect, and how broadband switching is different.",
     published: "2026-09-05",
-    modified: "2026-09-06",
+    modified: "2026-11-24",
     body: [
       {
         heading: "手機：先申請、後停舊台",
@@ -407,7 +407,7 @@ export const CORE_GUIDES: Guide[] = [
       "Village houses from a specified-address promo of HK$218/month (CMHK village 1000M, 24 months, installation waived from HK$680) are not that price at every village house; the list price in the same series is HK$378. Do not reuse Taikoo Shing, Kingswood or public-housing fees. Coverage needs the full address. Listed fees are examples, not a promise for every village.",
     h1En: "Village fibre: who offers it, and what it costs",
     published: "2026-09-05",
-    modified: "2026-11-14",
+    modified: "2026-11-20",
     body: [
       {
         heading: "邊間有村屋光纖",
@@ -486,7 +486,7 @@ export const CORE_GUIDES: Guide[] = [
     excerptEn:
       "Not sure whether fibre is worth installing at a village house, or whether 5G home is stable enough? We can visit, or bring a router to test the signal, then advise.",
     published: "2026-09-07",
-    modified: "2026-09-13",
+    modified: "2026-11-16",
     related: ["village", "fiber-vs-5g", "village-fees"],
     plans: [{ href: "/plans?cat=broadband&housing=village", label: "村屋光纖計劃" }],
     estates: [

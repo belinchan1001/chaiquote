@@ -1,3 +1,5 @@
+import { contentLastmod } from "./content-lastmod.ts";
+import { filterPlans } from "./plan-filter.ts";
 import { cardHeadlineFee, formatFee, formatPlanSpeed, getPlan, isListedPlan, PLANS, PROVIDER_MAP, type Category, type Housing, type Plan, type ProviderId } from "./plans.ts";
 import {
   INDEXABLE_ESTATE_PAGES,
@@ -7,7 +9,7 @@ import {
   estateSeoTitle,
   type EstatePage,
 } from "./estate-pages.ts";
-import { GUIDES, getGuide, type Guide } from "./guides.ts";
+import { GUIDES, type Guide } from "./guides.ts";
 import { TECH_NEWS_ARTICLES, TECH_NEWS_CATEGORIES } from "./tech-news.ts";
 import { guideTopicImage } from "./guide-media.ts";
 import { CATALOGUE_CONTENT_STAMP, PLANS_BROADBAND_FAQ, SITE } from "./site.ts";
@@ -113,29 +115,13 @@ export function siteOfferValidUntil(stamp: string = CATALOGUE_CONTENT_STAMP): st
 }
 
 /**
- * lastmod only from repo-backed dates. Guide `modified` / `published` win
- * for article URLs. News uses `published`. Other URLs use the manual
- * catalogue content stamp. Omit when neither source exists — never use the clock.
+ * lastmod from the same content date as the visible「資料更新」.
+ * Guide `modified` / `published` and news `published` win for those URLs.
+ * Other URLs use the catalogue stamp, or a later page-specific revision.
+ * Never the clock.
  */
-export function sitemapLastmod(path: string): string | undefined {
-  if (path.startsWith("/guides/")) {
-    const slug = path.slice("/guides/".length);
-    if (slug && !slug.includes("/")) {
-      const guide = getGuide(slug);
-      if (guide) {
-        const date = guide.modified ?? guide.published;
-        return date && W3C_LASTMOD.test(date) ? date : undefined;
-      }
-    }
-  }
-  if (path.startsWith("/tech-news/")) {
-    const slug = path.slice("/tech-news/".length);
-    if (slug && !slug.includes("/")) {
-      const article = TECH_NEWS_ARTICLES.find((item) => item.slug === slug);
-      if (article?.published && W3C_LASTMOD.test(article.published)) return article.published;
-    }
-  }
-  return siteDataLastmod();
+export function sitemapLastmod(path: string): string {
+  return contentLastmod(path);
 }
 
 /** Static indexable URLs. Filter-parameter pages are not listed. */
@@ -334,7 +320,7 @@ export function planJsonLd(plan: Plan) {
 export function categoryJsonLd(cat: Category) {
   const seo = CATEGORY_SEO[cat];
   const url = canonicalUrl(plansCategoryPath(cat));
-  const plans = PLANS.filter((plan) => isListedPlan(plan) && plan.category === cat);
+  const plans = filterPlans({ cat });
   return {
     "@context": "https://schema.org",
     "@graph": [

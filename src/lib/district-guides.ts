@@ -72,6 +72,7 @@ export const DISTRICT_GUIDES: Guide[] = [
       "Tin Shui Wai broadband is not one district fee. Public estates such as Tin Yiu, HOS courts and Kingswood Villas are usually quoted separately. Listed fees are a reference. Coverage is confirmed by the carrier.",
     h1En: "Tin Shui Wai broadband: sort public, HOS and Kingswood first",
     published: "2026-09-13",
+    modified: "2026-11-01",
     related: [
       "public-hos-fees",
       "private-1000-fees",
@@ -219,6 +220,7 @@ export const DISTRICT_GUIDES: Guide[] = [
       "Sha Tin broadband is not one district fee. City One, Lek Yuen, Wo Che, Shui Chuen O and Ma On Shan private estates are quoted by housing type. Listed fees are a reference. Coverage is confirmed by the carrier.",
     h1En: "Sha Tin broadband: City One, Lek Yuen and Ma On Shan separately",
     published: "2026-09-13",
+    modified: "2026-11-01",
     related: [
       "private-1000-fees",
       "public-hos-fees",
@@ -362,6 +364,7 @@ export const DISTRICT_GUIDES: Guide[] = [
       "Tseung Kwan O broadband is not one district fee. LOHAS Park and Ocean Shores are private; Hang Hau, Po Lam and Sheung Tak are public. Listed fees are a reference. Coverage is confirmed by the carrier.",
     h1En: "Tseung Kwan O broadband: LOHAS, Hang Hau and Po Lam by type",
     published: "2026-09-13",
+    modified: "2026-11-01",
     related: [
       "private-1000-fees",
       "public-hos-fees",

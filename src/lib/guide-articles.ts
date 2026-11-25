@@ -38,7 +38,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Hong Kong fibre is not one price. Sort public housing, HOS, private or village first, then compare 1000M and 2500M reference fees. No commission. The carrier confirms the price and coverage.",
     h1En: "Hong Kong fibre: sort the housing type, then the monthly fee",
     published: "2026-09-09",
-    modified: "2026-11-14",
+    modified: "2026-11-24",
     plansOnlyCta: true,
     estateChipLimit: 4,
     answer: {
@@ -485,7 +485,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Hong Kong 5G home uses a mobile network for Wi-Fi. Fast to install, but speed depends on the signal and some plans have a data cap. Confirm with the carrier.",
     h1En: "Hong Kong 5G home: no cabling, speed depends on the site",
     published: "2026-09-09",
-    modified: "2026-09-10",
+    modified: "2026-11-24",
     opening: [
       {
         text: "5G 家居寬頻邊間好，唔可以一句話斷定；要先查你個地址嘅覆蓋同訊號，再對計劃卡嘅牌面月費、合約同數據上限。",
@@ -723,7 +723,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Compare local data, 4G/5G, Greater Bay Area usage and port-in notes. Real plans are on the mobile compare page. The carrier confirms fees and activation.",
     h1En: "Hong Kong mobile plans: local data first, then 5G and GBA",
     published: "2026-09-09",
-    modified: "2026-09-10",
+    modified: "2026-11-24",
     opening: [
       { text: "呢頁講手機 5G／4G 上台同月費點揀，唔係 5G 家居寬頻。" },
       {
@@ -949,7 +949,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Hong Kong shops and offices need business fibre. Address, static IP, install window and support differ from home plans. Confirm against the commercial address.",
     h1En: "Hong Kong business broadband: shops and offices should not use home plans",
     published: "2026-09-09",
-    modified: "2026-09-10",
+    modified: "2026-09-15",
     related: ["shop-broadband", "contract-fees", "fiber", "switch-broadband"],
     plans: [{ href: "/plans?cat=business", label: "去商業寬頻格價" }],
     estates: [
@@ -1167,7 +1167,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     descriptionEn: "Public housing and HOS broadband are usually quoted separately. Pick the right housing type; coverage is confirmed by the carrier.",
     h1En: "Do public housing and HOS broadband fees differ?",
     published: "2026-09-09",
-    modified: "2026-09-13",
+    modified: "2026-10-05",
     related: ["fiber", "is-1000m-enough", "public-hos-fees", "estate-filter"],
     plans: [
       { href: "/plans?cat=broadband&housing=public", label: "公屋光纖計劃" },
@@ -1254,7 +1254,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Public and HOS 1000M fibre is not one flat price. Examples below are listed on this site for reference only, not a guaranteed fee. Filter by housing type; coverage and fees are confirmed by the carrier.",
     h1En: "What are common listed 1000M fees for public / HOS housing?",
     published: "2026-09-11",
-    modified: "2026-09-13",
+    modified: "2026-11-24",
     related: ["public-vs-hos", "home-broadband-2026", "private-1000-fees", "village-fees", "estate-filter", "fiber", "switch-broadband", "is-1000m-enough", "tin-shui-wai", "sha-tin"],
     plans: [
       { href: "/plans?cat=broadband&housing=public", label: "公屋光纖計劃" },
@@ -1455,7 +1455,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Compare 2026 1000M reference fees for HKBN, Netvigator, HGC, i-Cable, CMHK and SmarTone by public, HOS and private housing. Compare free on ChaiQuote, or confirm on WhatsApp 6309 9966. For reference only; the carrier confirms.",
     h1En: "2026 home broadband 1000M: six-carrier reference monthly fees",
     published: "2026-09-12",
-    modified: "2026-11-14",
+    modified: "2026-11-24",
     opening: [
       {
         text: "家居寬頻邊間好，唔可以一句話斷定；要先分樓類同地址覆蓋，再用同一樓類、同一速率嘅牌面月費並排，亦要睇合約期、路由器同係唔係限時快閃。",
@@ -1963,7 +1963,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Private-estate 1000M fibre is not one flat price. Examples below are listed on this site for reference only, not a guaranteed fee. Some plans also apply to public / HOS; the plan card wins. Coverage and fees are confirmed by the carrier.",
     h1En: "What are common listed 1000M fees for private estates?",
     published: "2026-09-12",
-    modified: "2026-09-13",
+    modified: "2026-11-24",
     related: ["public-hos-fees", "home-broadband-2026", "village-fees", "estate-filter", "fiber", "public-vs-hos", "sha-tin", "tseung-kwan-o"],
     plans: [{ href: "/plans?cat=broadband&housing=private", label: "私樓光纖計劃" }],
     estates: [
@@ -2423,6 +2423,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Type an estate name to match housing type and reference-applicable plans. Incomplete names or intake-only offers are not city-wide. Coverage is confirmed by the carrier.",
     h1En: "How do I use the ChaiQuote estate filter?",
     published: "2026-09-11",
+    modified: "2026-09-14",
     related: ["fiber", "village", "public-hos-fees", "private-1000-fees", "village-fees", "public-vs-hos", "switch-broadband"],
     plans: [
       { href: "/", label: "返首頁搜屋苑" },
@@ -2565,7 +2566,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     descriptionEn: "Most households are fine on 1000M. Fix Wi-Fi before buying more speed. Install is confirmed by the carrier.",
     h1En: "Is 1000M enough? When to consider 2500M",
     published: "2026-09-09",
-    modified: "2026-09-13",
+    modified: "2026-10-14",
     related: ["fiber", "fiber-vs-5g", "contract-fees", "broadband-total-cost", "1000m-or-2500m"],
     plans: [{ href: "/plans?cat=broadband", label: "去光纖格價" }],
     estates: [
@@ -2637,7 +2638,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "The listed monthly fee is not the average you pay over the contract. Count free months, rebates, prepayment and installation fees. Public, HOS, private and village fees must not be mixed. For reference only.",
     h1En: "How to calculate broadband total contract cost",
     published: "2026-10-14",
-    modified: "2026-10-14",
+    modified: "2026-11-20",
     plansOnlyCta: true,
     related: [
       "fiber",
@@ -2955,7 +2956,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "1000M is enough for most households. 2500M suits simultaneous large downloads or heavy upload. Real experience depends on the router and internal wiring. Confirm estate coverage first, then compare total cost. For reference only.",
     h1En: "How to choose between 1000M and 2500M",
     published: "2026-10-14",
-    modified: "2026-10-14",
+    modified: "2026-11-01",
     related: ["fiber", "broadband-total-cost", "home-broadband-2026", "estate-filter", "is-1000m-enough"],
     plans: [{ href: "/plans?cat=broadband", label: "去光纖格價" }],
     estates: [{ href: "/estates", label: "屋苑目錄" }],
@@ -3045,7 +3046,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Check the old contract and the new install date before you switch. Broadband cannot port a number; install the new line first, then stop the old one. Do not break a contract unlawfully. The carrier confirms the schedule.",
     h1En: "Switching broadband: old contract, install date, handover",
     published: "2026-09-09",
-    modified: "2026-09-11",
+    modified: "2026-11-20",
     plansOnlyCta: true,
     related: ["port-in", "contract-fees", "fiber", "public-hos-fees", "private-1000-fees", "village-fees", "home-broadband-2026", "estate-filter"],
     plans: [{ href: "/plans?cat=broadband", label: "按樓類睇光纖計劃" }],
@@ -3289,7 +3290,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     descriptionEn: "GBA add-ons depend on the carrier’s zone and quota. Confirm extra charges before you port.",
     h1En: "Greater Bay Area data: where, how it counts, how to avoid extra fees",
     published: "2026-09-09",
-    modified: "2026-09-13",
+    modified: "2026-09-14",
     related: ["mobile", "port-in"],
     plans: [{ href: "/plans?cat=mobile", label: "去手機格價" }],
     estates: [
@@ -3353,7 +3354,7 @@ export const GUIDE_ARTICLES: Guide[] = [
     descriptionEn: "Business fibre needs a commercial address, documents and often a static IP. Home plans cannot usually be used in a shop.",
     h1En: "Shop / office broadband application checklist",
     published: "2026-09-09",
-    modified: "2026-09-13",
+    modified: "2026-09-14",
     related: ["business", "contract-fees"],
     plans: [{ href: "/plans?cat=business", label: "去商業寬頻格價" }],
     estates: [
@@ -3431,7 +3432,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Install fees, prepayments, router ownership and early termination sit outside the monthly fee. The carrier confirms the contract.",
     h1En: "Beyond the monthly fee: install, prepay, contract",
     published: "2026-09-09",
-    modified: "2026-09-13",
+    modified: "2026-11-20",
     plansOnlyCta: true,
     related: ["switch-broadband", "fiber", "shop-broadband"],
     plans: [
@@ -3625,7 +3626,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Renewal prices differ from new-customer deals. Count free months and rebates for the real average fee, then renew or switch. Confirm the quote.",
     h1En: "Renewing broadband: new-customer price vs renewal price",
     published: "2026-10-21",
-    modified: "2026-10-21",
+    modified: "2026-11-20",
     plansOnlyCta: true,
     related: [
       "broadband-total-cost",
@@ -4315,7 +4316,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Before you move, check the end date, any relocation fee and the new install date. Test the new line before you stop the old one. The carrier confirms it.",
     h1En: "Moving home: old contract, relocation fee and a new install",
     published: "2026-10-21",
-    modified: "2026-10-21",
+    modified: "2026-11-19",
     related: ["switch-broadband", "contract-fees", "fiber", "broadband-renewal", "estate-filter", "port-in"],
     plans: [{ href: "/plans?cat=broadband", label: "去光纖格價" }],
     estates: [{ href: "/estates", label: "屋苑目錄" }],
@@ -4505,7 +4506,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Yuen Long broadband splits by public, HOS and private housing. Tin Shui Wai has its own page. Compare by estate name. Coverage is confirmed by the carrier.",
     h1En: "Yuen Long broadband: sort public, HOS and private estates first",
     published: "2026-10-21",
-    modified: "2026-10-21",
+    modified: "2026-11-01",
     related: [
       "public-hos-fees",
       "private-1000-fees",
@@ -5106,7 +5107,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Tuen Mun broadband splits by public, HOS and private housing. Do not use one district fee. Compare by estate name. Coverage is confirmed by the carrier.",
     h1En: "Tuen Mun broadband: sort housing type before the monthly fee",
     published: "2026-10-21",
-    modified: "2026-10-21",
+    modified: "2026-11-01",
     related: [
       "public-hos-fees",
       "private-1000-fees",
@@ -5698,7 +5699,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Kwun Tong and Kowloon Bay broadband splits by housing type, not one district fee. Compare by estate name. Coverage is confirmed by the carrier.",
     h1En: "Kwun Tong and Kowloon Bay broadband: sort housing type first",
     published: "2026-10-21",
-    modified: "2026-10-21",
+    modified: "2026-11-01",
     related: [
       "public-hos-fees",
       "private-1000-fees",
@@ -5952,7 +5953,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Ma On Shan splits private estates from public housing. See the Sha Tin page for the rest. Compare by estate name. The carrier confirms coverage.",
     h1En: "Ma On Shan broadband: private estates and public housing separately",
     published: "2026-10-21",
-    modified: "2026-10-21",
+    modified: "2026-11-01",
     related: [
       "sha-tin",
       "public-hos-fees",
@@ -6205,7 +6206,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Early termination follows the unused term, the clause, and whether the router goes back. This page states no amount. Ask first. The carrier confirms it.",
     h1En: "How a broadband early-termination charge is worked out",
     published: "2026-10-21",
-    modified: "2026-10-21",
+    modified: "2026-11-19",
     related: ["contract-fees", "switch-broadband", "move-broadband", "broadband-renewal", "broadband-total-cost", "fiber"],
     plans: [{ href: "/plans?cat=broadband", label: "去光纖格價" }],
     estates: [{ href: "/estates", label: "屋苑目錄" }],
@@ -6589,7 +6590,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "November 2024 2.3 GHz: China Mobile Hong Kong won 50 MHz; 3HK and HKT 20 MHz each. More spectrum is not a faster plan. Compare coverage, then confirm with OFCA.",
     h1En: "Hong Kong 2.3 GHz spectrum auction: impact on 5G capacity",
     published: "2026-10-21",
-    modified: "2026-10-21",
+    modified: "2026-11-14",
     related: ["mobile", "home5g", "gba-mobile"],
     plans: [{ href: "/plans?cat=mobile", label: "去手機月費格價" }],
     estates: [{ href: "/estates", label: "屋苑目錄" }],
@@ -6935,7 +6936,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Listed examples compare HKBN and Netvigator 1000M and 2500M reference fees, contracts and the two companies for public housing, private flats and village houses. The carrier confirms the price and coverage.",
     h1En: "HKBN vs Netvigator: monthly fees, plans and the companies",
     published: "2026-11-10",
-    modified: "2026-11-14",
+    modified: "2026-11-19",
     plansOnlyCta: true,
     estates: [],
     answer: {

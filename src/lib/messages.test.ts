@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import { MESSAGES } from "./messages.ts";
 import { ESTATE_COUNT } from "./estate-count.ts";
 import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
-import { FEE_RANGE_QUESTION, PRIVACY_UPDATED, fillSiteTemplate, INDEPENDENT_BODY, SITE, siteFaq } from "./site.ts";
+import { FEE_RANGE_QUESTION, HOME_CONTENT_DATE, PRIVACY_UPDATED, fillSiteTemplate, INDEPENDENT_BODY, SITE, siteFaq } from "./site.ts";
 import { aboutJsonLd, homeJsonLd } from "./canonical.ts";
 import { formatFee, getPlan } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
@@ -437,7 +437,7 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.match(independent?.a ?? "", new RegExp(`${PROVIDER_COUNT} 間電訊商`));
     assert.match(independent?.a ?? "", new RegExp(`${PLAN_COUNT} 個參考計劃`));
     assert.match(independent?.a ?? "", new RegExp(`${ESTATE_COUNT} 個屋苑`));
-    assert.match(independent?.a ?? "", new RegExp(SITE.updated));
+    assert.match(independent?.a ?? "", new RegExp(HOME_CONTENT_DATE));
     assert.doesNotMatch(independent?.a ?? "", /最終月費、覆蓋同安裝以電訊商確認為準/);
     assert.match(independent?.a ?? "", /公屋、居屋、私樓同村屋分開列。$/);
     const publicHos = FAQ.find((item) => item.q === "公屋同埋居屋價錢會唔會唔同？");
@@ -454,7 +454,7 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.doesNotMatch(fees.a, /村屋光纖由 HK\$218／月起/);
     assert.match(fees.a, /HK\$376／月/);
     assert.match(fees.a, /5G 家居約 HK\$88 至 HK\$190／月/);
-    assert.match(fees.a, new RegExp(SITE.updated));
+    assert.match(fees.a, new RegExp(HOME_CONTENT_DATE));
     assert.match(fees.a, /唔係排名，亦唔代表你座樓一定有/);
     for (const word of ["最平", "最抵", "最低", "全港最平", "保證"]) {
       assert.equal(independent?.a.includes(word), false, independent?.q);
@@ -555,11 +555,12 @@ describe("broadband hub answer-first summary", () => {
     assert.match(fibre98.limits ?? "", /2026 年 9 月 22 日/);
     assert.match(fibre98.limits ?? "", /11 月 30 日/);
     assert.equal(fibre218.monthlyFee, 218);
-    assert.equal(filterPlans({ cat: "broadband" }).length, 76);
+    const fibreCount = filterPlans({ cat: "broadband" }).length;
+    assert.equal(fibreCount, 73);
     const filled = summary
       .replaceAll("{date}", SITE.updated)
       .replaceAll("{name}", SITE.name)
-      .replaceAll("{n}", "76")
+      .replaceAll("{n}", String(fibreCount))
       .replaceAll("{fee58}", formatFee(fibre58.monthlyFee))
       .replaceAll("{months58}", String(fibre58.contractMonths))
       .replaceAll("{fee75}", formatFee(fibre75.monthlyFee))
@@ -569,7 +570,7 @@ describe("broadband hub answer-first summary", () => {
       .replaceAll("{fee218}", formatFee(fibre218.monthlyFee));
     assert.equal(
       filled,
-      `${SITE.updated}，齊Quote 光纖分類共 76 個參考計劃。站內可見入門例：指定屋苑 1000M 約 HK$58／月（48 個月）；公居屋轉台 1000M 約 HK$75／月（36 個月，HGC）；香港寬頻 1000M 限時快閃連 Wi-Fi 7 標示 HK$98／月（36 個月，須 2026-09-22 至 2026-11-30 成功預約安裝）。村屋計劃分開列。村屋由指定地址優惠 HK$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。唔好用私樓價估。`,
+      `${SITE.updated}，齊Quote 光纖分類共 ${fibreCount} 個參考計劃。站內可見入門例：指定屋苑 1000M 約 HK$58／月（48 個月）；公居屋轉台 1000M 約 HK$75／月（36 個月，HGC）；香港寬頻 1000M 限時快閃連 Wi-Fi 7 標示 HK$98／月（36 個月，須 2026-09-22 至 2026-11-30 成功預約安裝）。村屋計劃分開列。村屋由指定地址優惠 HK$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。唔好用私樓價估。`,
     );
   });
 });

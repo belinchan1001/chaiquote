@@ -40,14 +40,14 @@ describe("guide manuscript dates vs catalogue stamp", () => {
     const fiber = getGuide("fiber");
     assert.ok(fiber);
     assert.equal(fiber.published, "2026-09-09");
-    assert.equal(fiber.modified, "2026-11-14");
-    assert.equal(sitemapLastmod("/guides/fiber"), "2026-11-14");
+    assert.equal(fiber.modified, "2026-11-24");
+    assert.equal(sitemapLastmod("/guides/fiber"), "2026-11-24");
 
     const port = getGuide("port-in");
     assert.ok(port);
     assert.equal(port.published, "2026-09-05");
-    assert.equal(port.modified, "2026-09-06");
-    assert.equal(sitemapLastmod("/guides/port-in"), "2026-09-06");
+    assert.equal(port.modified, "2026-11-24");
+    assert.equal(sitemapLastmod("/guides/port-in"), "2026-11-24");
     assert.equal(sitemapLastmod("/guides/port-in"), port.modified);
     if (SITE.updated !== port.modified) {
       assert.notEqual(sitemapLastmod("/guides/port-in"), SITE.updated);
@@ -57,39 +57,35 @@ describe("guide manuscript dates vs catalogue stamp", () => {
       .flatMap((section) => section.paragraphs)
       .find((paragraph) => paragraph.includes("資料更新"));
     assert.match(feeParagraph ?? "", /資料更新 2026-11-14/);
-    assert.equal(feeGuide?.modified, "2026-11-14");
+    assert.equal(feeGuide?.modified, "2026-11-24");
 
-    for (const slug of ["broadband-total-cost", "1000m-or-2500m"] as const) {
+    const publishedWithModified: Record<string, { published: string; modified: string }> = {
+      "broadband-total-cost": { published: "2026-10-14", modified: "2026-11-20" },
+      "1000m-or-2500m": { published: "2026-10-14", modified: "2026-11-01" },
+      "broadband-renewal": { published: "2026-10-21", modified: "2026-11-20" },
+      "broadband-stability": { published: "2026-10-21", modified: "2026-10-21" },
+      "old-building-broadband": { published: "2026-10-21", modified: "2026-10-21" },
+      "home5g-data-cap": { published: "2026-10-21", modified: "2026-10-21" },
+      "move-broadband": { published: "2026-10-21", modified: "2026-11-19" },
+      "yuen-long": { published: "2026-10-21", modified: "2026-11-01" },
+      "mobile-broadband-bundle": { published: "2026-10-21", modified: "2026-10-21" },
+      "router-wifi": { published: "2026-10-21", modified: "2026-10-21" },
+      "tuen-mun": { published: "2026-10-21", modified: "2026-11-01" },
+      "student-plans": { published: "2026-10-21", modified: "2026-10-21" },
+      "elderly-broadband": { published: "2026-10-21", modified: "2026-10-21" },
+      "kwun-tong": { published: "2026-10-21", modified: "2026-11-01" },
+      "ma-on-shan": { published: "2026-10-21", modified: "2026-11-01" },
+      "early-termination": { published: "2026-10-21", modified: "2026-11-19" },
+      "10g-broadband": { published: "2026-10-21", modified: "2026-10-21" },
+      "village-5g-test": { published: "2026-10-21", modified: "2026-10-21" },
+      "spectrum-2-3ghz": { published: "2026-10-21", modified: "2026-11-14" },
+    };
+    for (const [slug, dates] of Object.entries(publishedWithModified)) {
       const guide = getGuide(slug);
       assert.ok(guide, slug);
-      assert.equal(guide.published, "2026-10-14");
-      assert.equal(sitemapLastmod(`/guides/${slug}`), "2026-10-14");
-    }
-
-    for (const slug of [
-      "broadband-renewal",
-      "broadband-stability",
-      "old-building-broadband",
-      "home5g-data-cap",
-      "move-broadband",
-      "yuen-long",
-      "mobile-broadband-bundle",
-      "router-wifi",
-      "tuen-mun",
-      "student-plans",
-      "elderly-broadband",
-      "kwun-tong",
-      "ma-on-shan",
-      "early-termination",
-      "10g-broadband",
-      "village-5g-test",
-      "spectrum-2-3ghz",
-    ] as const) {
-      const guide = getGuide(slug);
-      assert.ok(guide, slug);
-      assert.equal(guide.published, "2026-10-21");
-      assert.equal(guide.modified, "2026-10-21");
-      assert.equal(sitemapLastmod(`/guides/${slug}`), "2026-10-21");
+      assert.equal(guide.published, dates.published);
+      assert.equal(guide.modified, dates.modified);
+      assert.equal(sitemapLastmod(`/guides/${slug}`), dates.modified);
     }
   });
 });
@@ -108,7 +104,7 @@ describe("village guide cite", () => {
     assert.equal(guide.title, guide.h1);
     assert.equal(guide.seoTitle, "村屋光纖點算｜邊間有、參考月費｜齊Quote");
     assert.equal(guide.published, "2026-09-05");
-    assert.equal(guide.modified, "2026-11-14");
+    assert.equal(guide.modified, "2026-11-20");
     assert.equal(guide.excerpt, opening);
     assert.equal(guide.description, cite);
     assert.equal(guide.body[0]?.paragraphs[0], who);
@@ -160,7 +156,7 @@ describe("village guide cite", () => {
     assert.equal(guidePlainText(opening).includes("["), false);
     assert.equal(guidePlainText(opening).includes(VILLAGE_SPECIFIED_ADDRESS_CITE), true);
     assert.doesNotMatch(guidePlainText(opening), /村屋由 HK\$218(?:／月)?起/);
-    assert.equal(sitemapLastmod("/guides/village"), "2026-11-14");
+    assert.equal(sitemapLastmod("/guides/village"), "2026-11-20");
 
     const blob = [
       guide.excerpt,
@@ -239,8 +235,8 @@ describe("HKBN vs Netvigator guide", () => {
       "同一句 1000M，兩間喺公居屋、私樓、村屋見到嘅月費同合約都可以唔同。下面用站內可見例子分開睇。",
     );
     assert.equal(guide.published, "2026-11-10");
-    assert.equal(guide.modified, "2026-11-14");
-    assert.equal(sitemapLastmod("/guides/hkbn-vs-netvigator"), "2026-11-14");
+    assert.equal(guide.modified, "2026-11-19");
+    assert.equal(sitemapLastmod("/guides/hkbn-vs-netvigator"), "2026-11-19");
     assert.equal(guide.plansOnlyCta, true);
     assert.equal(guide.cta, undefined);
     assert.equal(guide.plans?.length, 1);
@@ -630,7 +626,7 @@ describe("CMHK village 1000M guide", () => {
     const fiber = getGuide("fiber");
     assert.equal(fiber?.answer?.cite.includes(VILLAGE_SPECIFIED_ADDRESS_CITE), true);
     assert.doesNotMatch(fiber?.answer?.cite ?? "", /村屋由 HK\$218(?:／月)?起/);
-    assert.equal(sitemapLastmod("/guides/home-broadband-2026"), "2026-11-14");
+    assert.equal(sitemapLastmod("/guides/home-broadband-2026"), "2026-11-24");
     assert.equal(sitemapLastmod("/guides/fiber-vs-5g"), "2026-11-14");
   });
 });
@@ -726,8 +722,8 @@ describe("total-cost and contract-fee guides", () => {
     assert.match(total.excerpt, /行政費/);
     assert.match(total.excerpt, /超市禮券/);
     assert.equal(total.published, "2026-10-14");
-    assert.equal(total.modified, "2026-10-14");
-    assert.equal(sitemapLastmod("/guides/broadband-total-cost"), "2026-10-14");
+    assert.equal(total.modified, "2026-11-20");
+    assert.equal(sitemapLastmod("/guides/broadband-total-cost"), "2026-11-20");
 
     assert.equal(fees.h1, "月費以外：安裝費、預繳、合約");
     assert.equal(fees.seoTitle, "月費以外：安裝費、預繳、合約點睇｜齊Quote");
@@ -739,8 +735,8 @@ describe("total-cost and contract-fee guides", () => {
     assert.equal(fees.description.includes("標示月費"), true);
     assert.equal(fees.excerpt, "計首年總支出，唔好只睇標價。問路由器送定租、提早終止點計。");
     assert.equal(fees.published, "2026-09-09");
-    assert.equal(fees.modified, "2026-09-13");
-    assert.equal(sitemapLastmod("/guides/contract-fees"), "2026-09-13");
+    assert.equal(fees.modified, "2026-11-20");
+    assert.equal(sitemapLastmod("/guides/contract-fees"), "2026-11-20");
 
     for (const guide of [total, fees]) {
       const title = splitGuideTitle(guide.h1);
@@ -934,8 +930,8 @@ describe("switch and renewal guides", () => {
     assert.equal(guideCopy(switched, "zh").opening, switched.opening);
     assert.equal(guideCopy(switched, "en").opening, undefined);
     assert.equal(switched.published, "2026-09-09");
-    assert.equal(switched.modified, "2026-09-11");
-    assert.equal(sitemapLastmod("/guides/switch-broadband"), "2026-09-11");
+    assert.equal(switched.modified, "2026-11-20");
+    assert.equal(sitemapLastmod("/guides/switch-broadband"), "2026-11-20");
 
     assert.equal(renewal.h1, "寬頻續約點做：新客價同續約價點計");
     assert.equal(renewal.title, renewal.h1);
@@ -946,8 +942,8 @@ describe("switch and renewal guides", () => {
     );
     assert.equal(renewal.excerpt, "新客價多數吸引轉台，續約價可能較高。點計實際月費同決定續約定轉台。");
     assert.equal(renewal.published, "2026-10-21");
-    assert.equal(renewal.modified, "2026-10-21");
-    assert.equal(sitemapLastmod("/guides/broadband-renewal"), "2026-10-21");
+    assert.equal(renewal.modified, "2026-11-20");
+    assert.equal(sitemapLastmod("/guides/broadband-renewal"), "2026-11-20");
 
     for (const guide of [switched, renewal]) {
       const title = splitGuideTitle(guide.h1);

@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.chaiquote.hk/</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://www.chaiquote.hk/plans?cat=broadband</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.chaiquote.hk/plans?cat=home5g</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.chaiquote.hk/plans?cat=mobile</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.chaiquote.hk/plans?cat=business</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.chaiquote.hk/tech-news</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/</loc><lastmod>2026-11-24</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans?cat=broadband</loc><lastmod>2026-11-24</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans?cat=home5g</loc><lastmod>2026-11-21</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans?cat=mobile</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans?cat=business</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides</loc><lastmod>2026-11-24</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/tech-news</loc><lastmod>2026-11-23</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/estates</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.chaiquote.hk/new-intake</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.chaiquote.hk/new-intake</loc><lastmod>2026-11-22</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.chaiquote.hk/about</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://www.chaiquote.hk/privacy</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/port-in</loc><lastmod>2026-09-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/port-in</loc><lastmod>2026-11-24</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/guides/fiber-vs-5g</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/village</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/village-onsite</loc><lastmod>2026-09-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/fiber</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/home5g</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/mobile</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/business</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/public-vs-hos</loc><lastmod>2026-09-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/public-hos-fees</loc><lastmod>2026-09-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/home-broadband-2026</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/private-1000-fees</loc><lastmod>2026-09-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/village</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/village-onsite</loc><lastmod>2026-11-16</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/fiber</loc><lastmod>2026-11-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/home5g</loc><lastmod>2026-11-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/mobile</loc><lastmod>2026-11-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/business</loc><lastmod>2026-09-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/public-vs-hos</loc><lastmod>2026-10-05</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/public-hos-fees</loc><lastmod>2026-11-24</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/home-broadband-2026</loc><lastmod>2026-11-24</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/private-1000-fees</loc><lastmod>2026-11-24</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/guides/village-fees</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/estate-filter</loc><lastmod>2026-09-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/is-1000m-enough</loc><lastmod>2026-09-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/broadband-total-cost</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/1000m-or-2500m</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/switch-broadband</loc><lastmod>2026-09-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/gba-mobile</loc><lastmod>2026-09-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/shop-broadband</loc><lastmod>2026-09-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/contract-fees</loc><lastmod>2026-09-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/broadband-renewal</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/estate-filter</loc><lastmod>2026-09-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/is-1000m-enough</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/broadband-total-cost</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/1000m-or-2500m</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/switch-broadband</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/gba-mobile</loc><lastmod>2026-09-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/shop-broadband</loc><lastmod>2026-09-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/contract-fees</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/broadband-renewal</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/guides/broadband-stability</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/guides/old-building-broadband</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/guides/home5g-data-cap</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/move-broadband</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/yuen-long</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/move-broadband</loc><lastmod>2026-11-19</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/yuen-long</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/guides/mobile-broadband-bundle</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/guides/router-wifi</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/tuen-mun</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/tuen-mun</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/guides/student-plans</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/guides/elderly-broadband</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/kwun-tong</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/ma-on-shan</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/early-termination</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/kwun-tong</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/ma-on-shan</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/early-termination</loc><lastmod>2026-11-19</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/guides/10g-broadband</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/guides/village-5g-test</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/spectrum-2-3ghz</loc><lastmod>2026-10-21</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/spectrum-2-3ghz</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/guides/village-cmhk</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/hkbn-vs-netvigator</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/tin-shui-wai</loc><lastmod>2026-09-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/sha-tin</loc><lastmod>2026-09-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/guides/tseung-kwan-o</loc><lastmod>2026-09-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/tech-news/telecom</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/hkbn-vs-netvigator</loc><lastmod>2026-11-19</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/tin-shui-wai</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/sha-tin</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/guides/tseung-kwan-o</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/tech-news/telecom</loc><lastmod>2026-11-23</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://www.chaiquote.hk/tech-news/phones</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://www.chaiquote.hk/tech-news/gadgets</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://www.chaiquote.hk/tech-news/gaming</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
@@ -87,55 +87,55 @@
   <url><loc>https://www.chaiquote.hk/tech-news/gta-6-november-2026</loc><lastmod>2026-09-21</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://www.chaiquote.hk/tech-news/how-we-cover</loc><lastmod>2026-09-21</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://www.chaiquote.hk/tech-news/read-offer-news</loc><lastmod>2026-09-21</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/tin-yiu</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/tin-shui</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/tin-tsz</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/tin-shing-court</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/tin-wah</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/tin-ching</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/tin-heng</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/tin-fu-court</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/kingswood-villas</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/tin-shui-wai-north</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/city-one</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/sha-tin-wai</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/lek-yuen</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/wo-che</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/hang-hau</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/po-lam</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/kwun-tong-estate</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/upper-ngau-tau-kok</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/lower-ngau-tau-kok</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/sau-mau-ping</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/kwai-chung-estate</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/leung-king</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/siu-hong-court</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/long-ping</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/taikoo-shing</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/whampoa-garden</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/mei-foo-sun-chuen</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/lower-wong-tai-sin</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/upper-wong-tai-sin</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/tsz-wan-shan</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/tung-wui</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/pak-tin</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/cheung-sha-wan-estate</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/po-tin</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/siu-chui-court</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/wang-fu-court</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/long-tin-court</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/wang-chi-court</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/shing-chi-court</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/kai-yuet-court</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/kai-yan-court</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/kai-ying-court</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/yoho</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/rambler-crest</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/mun-tung</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/on-tai</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/on-ying-court</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/on-wah-court</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates/on-lai-court</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/tin-yiu</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/tin-shui</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/tin-tsz</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/tin-shing-court</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/tin-wah</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/tin-ching</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/tin-heng</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/tin-fu-court</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/kingswood-villas</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/tin-shui-wai-north</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/city-one</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/sha-tin-wai</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/lek-yuen</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/wo-che</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/hang-hau</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/po-lam</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/kwun-tong-estate</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/upper-ngau-tau-kok</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/lower-ngau-tau-kok</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/sau-mau-ping</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/kwai-chung-estate</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/leung-king</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/siu-hong-court</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/long-ping</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/taikoo-shing</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/whampoa-garden</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/mei-foo-sun-chuen</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/lower-wong-tai-sin</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/upper-wong-tai-sin</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/tsz-wan-shan</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/tung-wui</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/pak-tin</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/cheung-sha-wan-estate</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/po-tin</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/siu-chui-court</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/wang-fu-court</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/long-tin-court</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/wang-chi-court</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/shing-chi-court</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/kai-yuet-court</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/kai-yan-court</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/kai-ying-court</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/yoho</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/rambler-crest</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/mun-tung</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/on-tai</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/on-ying-court</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/on-wah-court</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/on-lai-court</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-1000-36m-98</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-1000-36m-108</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-1000-24m-109</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -207,17 +207,17 @@
   <url><loc>https://www.chaiquote.hk/plans/cmhk-ftth-2500-24m-148-1111</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-1000-24m-98-sep30</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-1000-36m-98-sep30</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-1000-36m-128-sep30</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-1000-36m-128-sep30</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-2500-24m-148-sep30</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-2500-36m-158-sep30</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-2500-36m-178-sep30</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/hkbn-ftth-2500-36m-178-sep30</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.chaiquote.hk/plans/smartone-ftth-1000</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.chaiquote.hk/plans/three-home5g-a-118</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.chaiquote.hk/plans/three-home5g-b-158</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.chaiquote.hk/plans/three-home5g-c-190</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.chaiquote.hk/plans/three-home5g-e-108</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.chaiquote.hk/plans/three-home5g-w7</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.chaiquote.hk/plans/three-home5g-unlimited-48-138-public</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-home5g-a-118</loc><lastmod>2026-11-21</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-home5g-b-158</loc><lastmod>2026-11-21</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-home5g-c-190</loc><lastmod>2026-11-21</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-home5g-e-108</loc><lastmod>2026-11-21</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-home5g-w7</loc><lastmod>2026-11-21</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/plans/three-home5g-unlimited-48-138-public</loc><lastmod>2026-11-21</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.chaiquote.hk/plans/smartone-home5g-w6</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.chaiquote.hk/plans/cmhk-home5g-350-48-88</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.chaiquote.hk/plans/cmhk-home5g-350-30-118</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>

@@ -3,10 +3,31 @@ import { ESTATE_COUNT } from "./estate-count.ts";
 import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
 
 /**
- * Last manual catalogue revision. Sitemap `lastmod` for non-article URLs and
- * Offer.priceValidUntil stay on this stamp. The visible「資料更新」date does not.
+ * Fallback content date for URLs with no later page-specific revision.
+ * Offer.priceValidUntil stays on this month. Visible「資料更新」uses
+ * `contentLastmod` for the current URL, not the clock.
  */
 export const CATALOGUE_CONTENT_STAMP = "2026-11-14";
+
+/** Homepage FAQ / hero copy last changed on this day (quote-FAQ wording). */
+export const HOME_CONTENT_DATE = "2026-11-24";
+
+/** Estate page opening and FAQ copy from the 2026-11-20 revision. */
+export const ESTATE_PAGE_CONTENT_DATE = "2026-11-20";
+
+/** New-intake page copy from the 2026-11-22 revision. */
+export const NEW_INTAKE_CONTENT_DATE = "2026-11-22";
+
+/**
+ * Last copy change on each plans category hub, before a later offer drop.
+ * Listing lastmod is the later of this date and the day an expired offer left the list.
+ */
+export const PLANS_LISTING_COPY_DATE = {
+  broadband: "2026-11-24",
+  home5g: "2026-11-21",
+  mobile: "2026-11-20",
+  business: "2026-11-20",
+} as const;
 
 /** Privacy policy「最後更新日期」. Legal copy; not the daily catalogue display date. */
 export const PRIVACY_UPDATED = "2026-11-14";
@@ -23,8 +44,8 @@ export const SITE = {
   ],
   description: `齊Quote（chaiquote.hk）係獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。所列月費僅供參考，實際以電訊商確認為準。`,
   /**
-   * Catalogue display date (YYYY-MM-DD) in Asia/Hong_Kong.
-   * Read at render time. A date of today does not mean prices were re-checked today.
+   * Asia/Hong_Kong calendar day. This is the clock, not a content revision.
+   * Page「資料更新」and sitemap lastmod use contentLastmod instead.
    */
   get updated(): string {
     return hongKongCalendarDate();
@@ -196,7 +217,10 @@ const PLANS_BROADBAND_LEAD_ZH =
 const PLANS_BROADBAND_LEAD_EN =
   "ChaiQuote is an independent broadband comparison site. Fibre reference fees by housing type: public / HOS about HK$58–98, private estates about HK$88–109, village houses from a specified-address promo of HK$218/month (CMHK village 1000M, 24 months, installation waived from HK$680), which is not the fee for every village house; the list price in the same series is HK$378 (updated {date}); not one territory-wide fee. The carrier confirms.";
 
-export function plansBroadbandLead(locale: "zh" | "en", date = hongKongCalendarDate()) {
+export function plansBroadbandLead(
+  locale: "zh" | "en",
+  date = PLANS_LISTING_COPY_DATE.broadband,
+) {
   return (locale === "en" ? PLANS_BROADBAND_LEAD_EN : PLANS_BROADBAND_LEAD_ZH).replaceAll("{date}", date);
 }
 
@@ -212,11 +236,11 @@ export function plansBroadbandLeadParts(lead: string): { before: string; date: s
   };
 }
 
-export function plansBroadbandHero(locale: "zh" | "en") {
+export function plansBroadbandHero(locale: "zh" | "en", date = PLANS_LISTING_COPY_DATE.broadband) {
   const en = locale === "en";
   return {
     h1: en ? PLANS_BROADBAND_H1_EN : PLANS_BROADBAND_H1,
-    lead: plansBroadbandLead(locale),
+    lead: plansBroadbandLead(locale, date),
   };
 }
 
@@ -236,7 +260,7 @@ export function fillSiteTemplate(template: string, extra?: Record<string, string
   const vars: Record<string, string | number> = {
     phone: SITE.phoneDisplay,
     email: SITE.leadEmail,
-    date: hongKongCalendarDate(),
+    date: HOME_CONTENT_DATE,
     providers: String(PROVIDER_COUNT),
     plans: String(PLAN_COUNT),
     estates: String(ESTATE_COUNT),
@@ -308,7 +332,7 @@ export const FAQ_EN = [
   },
 ] as const;
 
-/** Filled zh answers for FAQPage JSON-LD. Call at render so `{date}` is today's Hong Kong date. */
+/** Filled zh answers for FAQPage JSON-LD. `{date}` is the homepage content date, not the clock. */
 export function siteFaq() {
   return FAQ_ZH.map((item) => ({
     q: item.q,

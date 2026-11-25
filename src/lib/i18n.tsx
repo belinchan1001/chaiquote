@@ -4,7 +4,8 @@ import { loadPlanEn, toEnglishLazy } from "@/lib/plan-en-lazy";
 import { localeFromHref } from "@/lib/locale";
 import { MESSAGES, type Locale, type MessageKey } from "@/lib/messages";
 import { PROVIDER_MAP, type Category, type Housing, type ProviderId } from "@/lib/plans";
-import { SITE } from "@/lib/site";
+import { contentLastmod } from "@/lib/content-lastmod";
+import { CATALOGUE_CONTENT_STAMP } from "@/lib/site";
 
 const STORAGE_KEY = "chaiquote-lang";
 
@@ -54,7 +55,11 @@ function translate(locale: Locale, key: MessageKey, vars?: Record<string, string
   return fill(table[key] ?? MESSAGES.zh[key] ?? key, vars);
 }
 
-function createI18nValue(locale: Locale, setLocale: (locale: Locale) => void): I18nValue {
+function createI18nValue(
+  locale: Locale,
+  setLocale: (locale: Locale) => void,
+  updatedDate: string,
+): I18nValue {
   function t(key: MessageKey, vars?: Record<string, string | number>) {
     return translate(locale, key, vars);
   }
@@ -89,14 +94,12 @@ function createI18nValue(locale: Locale, setLocale: (locale: Locale) => void): I
     housingLabel,
     housingList,
     callWindowLabel,
-    get updated() {
-      return SITE.updated;
-    },
+    updated: updatedDate,
   };
 }
 
 /** zh-only fallback for chrome that can render outside I18nProvider (root error / 404). */
-const FALLBACK_I18N = createI18nValue("zh", () => {});
+const FALLBACK_I18N = createI18nValue("zh", () => {}, CATALOGUE_CONTENT_STAMP);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const href = useRouterState({ select: (s) => s.location.href });
@@ -155,8 +158,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
         resetScroll: false,
       });
     }
-    return createI18nValue(locale, setLocale);
-  }, [locale, enReady, navigate]);
+    return createI18nValue(locale, setLocale, contentLastmod(href));
+  }, [locale, enReady, navigate, href]);
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }

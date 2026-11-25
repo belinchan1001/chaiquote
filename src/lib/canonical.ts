@@ -3,6 +3,7 @@
  * homepage / shell do not load the full estate catalogue on first paint.
  */
 import type { Category } from "./plans.ts";
+import { contentLastmod } from "./content-lastmod.ts";
 import { SITE, siteFaq, PLANS_BROADBAND_H1, plansBroadbandLead } from "./site.ts";
 
 export const DEFAULT_SEO_ORIGIN = "https://www.chaiquote.hk";
@@ -176,7 +177,7 @@ export const CATEGORY_SEO: Record<Category, SeoCopy> = {
   broadband: {
     title: `${PLANS_BROADBAND_H1}｜齊Quote`,
     get description() {
-      return plansBroadbandLead("zh");
+      return plansBroadbandLead("zh", contentLastmod("/plans?cat=broadband"));
     },
   },
   home5g: {
