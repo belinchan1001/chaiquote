@@ -6,14 +6,14 @@ import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
  * Last manual catalogue revision. Sitemap `lastmod` for non-article URLs and
  * Offer.priceValidUntil stay on this stamp. The visible「資料更新」date does not.
  */
-export const CATALOGUE_CONTENT_STAMP = "2026-11-14";
+export const CATALOGUE_CONTENT_STAMP = "2026-11-25";
 
 /** Privacy policy「最後更新日期」. Legal copy; not the daily catalogue display date. */
 export const PRIVACY_UPDATED = "2026-11-14";
 
 export const SITE = {
   name: "齊Quote",
-  tagline: "搵寬頻唔使四圍問",
+  tagline: "揚寬頻唔使四圍問",
   searchHint: "電訊報價",
   url: "https://www.chaiquote.hk",
   /** Confirmed public profiles for Organization.sameAs. */
@@ -227,7 +227,7 @@ export const PLANS_BROADBAND_QUOTE_NOTE =
 /** Visible /plans FAQ and broadband FAQPage JSON-LD both read this list. */
 export const PLANS_BROADBAND_FAQ = [
   {
-    q: "家居寬頻報價點攞？",
+    q: "家居寬頻報價點擱？",
     a: "報價要有地址同申請資格，先可以對到適用計劃。你可喺呢頁輸入屋苑或地址，對照站內參考月費。計劃卡只供參考，實際月費、覆蓋、合約同安裝安排，一律以電訊商確認為準。",
   },
 ] as const;
