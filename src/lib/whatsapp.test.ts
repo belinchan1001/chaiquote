@@ -144,7 +144,7 @@ describe("WhatsApp quote prefill closing line", () => {
 });
 
 describe("HKT plan-card WhatsApp routing", () => {
-  it("sends Netvigator, CSL and Netvigator business quotes to 5436 3004", () => {
+  it("sends Netvigator, CSL and Netvigator business quotes to 5588 3226", () => {
     const netvigator = plan("netvigator-ftth-1000-private-36m");
     const csl = plan("csl-5g-20-108-24m");
     const biz = plan("netvigator-biz-1000");
@@ -152,7 +152,9 @@ describe("HKT plan-card WhatsApp routing", () => {
     assert.equal(quoteWhatsappE164([csl]), SITE.hktWhatsappE164);
     assert.equal(quoteWhatsappE164([biz]), SITE.hktWhatsappE164);
     assert.equal(quoteWhatsappE164([netvigator, csl]), SITE.hktWhatsappE164);
-    assert.match(whatsappHref("你好", quoteWhatsappE164([netvigator])), /phone=85254363004/);
+    assert.equal(SITE.hktWhatsappE164, "85255883226");
+    assert.match(whatsappHref("你好", quoteWhatsappE164([netvigator])), /phone=85255883226/);
+    assert.doesNotMatch(whatsappHref("你好", quoteWhatsappE164([csl])), /54363004|63099966/);
   });
 
   it("keeps other plan cards and generic quotes on the desk number", () => {
@@ -162,7 +164,7 @@ describe("HKT plan-card WhatsApp routing", () => {
     assert.equal(quoteWhatsappE164([three]), SITE.whatsappE164);
     assert.equal(quoteWhatsappE164(mixed), SITE.whatsappE164);
     assert.match(whatsappHref("你好"), /phone=85263099966/);
-    assert.doesNotMatch(whatsappHref("你好"), /54363004|96642675|61118499/);
+    assert.doesNotMatch(whatsappHref("你好"), /54363004|55883226|96642675|61118499/);
   });
 });
 
