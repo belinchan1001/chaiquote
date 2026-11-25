@@ -3,10 +3,11 @@
  * serving. On Vercel the lambda cannot read public/, and the catch-all
  * used to render /sitemap.xml as an app document (intermittent HTTP 500).
  *
- * server/routes/sitemap.xml.ts and robots.txt.ts are the named routes;
- * this middleware is the guaranteed early hook if a request still hits
- * the function (same pattern as grok-pwa.ts).
+ * server/routes/sitemap.xml.ts, robots.txt.ts, and llms.txt.ts are the
+ * named routes; this middleware is the guaranteed early hook if a request
+ * still hits the function (same pattern as grok-pwa.ts).
  */
+import { llmsTxtResponse } from "../llms-txt";
 import {
   renderRobotsTxt,
   renderSitemapXml,
@@ -49,5 +50,6 @@ export default function seoFilesMiddleware(
       },
     });
   }
+  if (path === "/llms.txt") return llmsTxtResponse();
   return next();
 }

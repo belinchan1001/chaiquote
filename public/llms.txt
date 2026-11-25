@@ -1,0 +1,19 @@
+# 齊Quote
+
+> 齊Quote（https://www.chaiquote.hk）係香港獨立電訊比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。
+
+齊Quote 將家居寬頻、5G 家居、流動通訊同商業寬頻計劃整理喺同一個地方，並按公屋、居屋、私樓同村屋分開列出，方便先比較月費同條款，再決定。實際安裝同報價以電訊商確認為準，網站數字唔代表全港劃一價或最平。
+
+資料更新：2026-11-25。當時目錄載有 8 間電訊商、195 個參考計劃同 3732 個屋苑。最新數字以網站當頁為準。
+
+聯絡：WhatsApp／電話 6309 9966；電郵 info@chaiquote.hk
+
+## 主要欄目
+
+- [首頁](https://www.chaiquote.hk/)：香港寬頻同電訊月費比較入口
+- [光纖寬頻格價](https://www.chaiquote.hk/plans?cat=broadband)：並列比較家居光纖計劃
+- [點揀攻略](https://www.chaiquote.hk/guides)：轉台、續約同選購說明
+- [轉台寬頻點做](https://www.chaiquote.hk/guides/switch-broadband)：先查舊約完約日，再約新線；寬頻唔能攜號，宜先裝後停
+- [屋苑索引](https://www.chaiquote.hk/estates)：按屋苑查站內參考月費
+- [電訊新聞](https://www.chaiquote.hk/tech-news)：電訊相關資訊
+- [關於我們](https://www.chaiquote.hk/about)：獨立聲明同聯絡方法
