@@ -12,6 +12,7 @@ export type Locale = "zh" | "en";
 export const MESSAGES = {
   zh: {
     tagline: "搵寬頻唔使四圍問",
+    searchHint: "電訊報價",
     description:
       "齊Quote 係獨立電訊比較平台，一次過比較香港家居寬頻、5G 家居、商業寬頻同手機計劃。所列月費僅供參考。",
     updatedPrefix: "資料更新：",
@@ -578,6 +579,7 @@ export const MESSAGES = {
   },
   en: {
     tagline: "Compare Hong Kong broadband in one place",
+    searchHint: "Telecom quotes",
     description:
       "ChaiQuote is an independent telecom comparison site for Hong Kong home fibre, 5G home, business broadband and mobile plans. Fees are for reference only.",
     updatedPrefix: "Data updated: ",
@@ -597,17 +599,17 @@ export const MESSAGES = {
     navCompare: "Compare",
     waHeader: "Check quote on WhatsApp",
     waHeaderShort: "WhatsApp",
-    aiStaff: "齊Quote AI (測試版)",
-    aiStaffShort: "齊Quote AI (測試版)",
-    aiStaffTiny: "齊Quote AI (測試版)",
+    aiStaff: "齊Quote AI (Beta)",
+    aiStaffShort: "齊Quote AI (Beta)",
+    aiStaffTiny: "齊Quote AI (Beta)",
     aiBeta: "Beta",
-    aiEntryLead: "輸入地址，對照站內參考月費",
-    aiEntryCta: "齊Quote AI (測試版)",
+    aiEntryLead: "Enter an address to match in-site reference fees.",
+    aiEntryCta: "齊Quote AI (Beta)",
     aiStaffLead: "Tell me what you need. I’ll match plans on this site.",
     aiWelcome: "Hi, I’m 齊Quote.\nWhich service do you want to look at?",
     aiWelcomeTrial: "This feature is on trial. Results are for reference only.",
     aiDraft: "Estate, 1000M or mobile…",
-    aiClose: "關閉齊Quote AI (測試版)",
+    aiClose: "Close 齊Quote AI (Beta)",
     waQuote: "Check quote on WhatsApp",
     waQuoteWithNumber: "WhatsApp {phone}",
     menuOpen: "Open menu",

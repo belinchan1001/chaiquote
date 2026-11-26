@@ -38,6 +38,8 @@ describe("locked PWA copy", () => {
     );
     assert.equal("disclaimer" in PWA, false);
     assert.doesNotMatch(readFileSync(join(ROOT, "src/components/pwa-install-tip.tsx"), "utf8"), /月費同覆蓋僅供參考/);
+    assert.match(readFileSync(join(ROOT, "src/components/pwa-install-tip.tsx"), "utf8"), /t\("pwaAndroidTip"\)/);
+    assert.match(readFileSync(join(ROOT, "src/components/site-footer.tsx"), "utf8"), /t\("pwaAndroidTip"\)/);
     assert.doesNotMatch(readFileSync(join(ROOT, "src/components/site-footer.tsx"), "utf8"), /pwaDisclaimer/);
     assert.equal(PWA.name, CHAIQUOTE_APP_NAME);
     assert.equal(PWA.description, CHAIQUOTE_APP_DESCRIPTION);

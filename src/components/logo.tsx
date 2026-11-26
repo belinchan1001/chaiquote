@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { useI18n } from "@/lib/i18n";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -39,6 +40,7 @@ export function BrandLockup({
   markVariant?: LogoVariant;
   markClassName?: string;
 }) {
+  const { t } = useI18n();
   return (
     <span
       className={cn(
@@ -58,7 +60,7 @@ export function BrandLockup({
             variant === "reverse" ? "text-primary-foreground/75" : "text-muted",
           )}
         >
-          {SITE.searchHint}
+          {t("searchHint")}
         </span>
       </span>
     </span>
@@ -72,8 +74,9 @@ export function Logo({
   className?: string;
   onPrimary?: boolean;
 }) {
+  const { t } = useI18n();
   return (
-    <Link to="/" className={className} aria-label={`${SITE.name} ${SITE.searchHint}`}>
+    <Link to="/" className={className} aria-label={`${SITE.name} ${t("searchHint")}`}>
       <BrandLockup variant={onPrimary ? "reverse" : "color"} markVariant="color" />
     </Link>
   );

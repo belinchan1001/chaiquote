@@ -26,9 +26,9 @@ const EXACT: Record<string, string> = {
   "限時快閃：只適用於 2026 年 9 月 22 日至 11 月 30 日成功預約安裝之客戶。適用於私人樓宇。不適用於公屋、居屋及村屋。所列路由器、會籍及電話已包括在月費，無需另付。實際覆蓋、安裝期及月費以電訊商確認為準。":
     "Flash offer: only for customers who successfully book installation from 22 Sep to 30 Nov 2026. For private buildings. Not for public housing, HOS or village houses. The listed router, memberships and phone line are included in the monthly fee, with no extra charge. Coverage, install date and monthly fee are confirmed by the carrier.",
   "指定地址優惠。僅適用於村屋。不適用於公屋、居屋及私人樓宇。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須核對門牌。":
-    "Specified-address promo. Village houses only. Not for public housing, HOS or private buildings. Not for villages with HGC fibre coverage. Coverage must be checked against the address.",
+    "Specified-address promo. Village houses only. Not available for public housing, HOS or private housing. Not available for village houses already covered by HGC fibre. Coverage must be checked against the exact address.",
   "正價。僅適用於村屋。不適用於公屋、居屋及私人樓宇。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須核對門牌。":
-    "List price. Village houses only. Not for public housing, HOS or private buildings. Not for villages with HGC fibre coverage. Coverage must be checked against the address.",
+    "List price. Village houses only. Not available for public housing, HOS or private housing. Not available for village houses already covered by HGC fibre. Coverage must be checked against the exact address.",
   "僅適用於指定村屋地址。本計劃為 27 個月合約。可選擇延遲服務生效日（最長 365 日）。香港寬頻之公屋、居屋及私人樓宇計劃不適用於村屋地址。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須另行核對。":
     "Village-house addresses only. 27-month contract. Service start can be deferred up to 365 days. HKBN public/HOS/private plans do not apply to village houses. Not for villages with HGC fibre coverage. Coverage must be confirmed separately.",
   "僅適用於指定村屋地址。本計劃為 24 個月合約。可選擇延遲服務生效日（最長 365 日）。HGC 已有光纖覆蓋嘅村屋不適用。實際覆蓋須另行核對。":
@@ -82,7 +82,7 @@ const EXACT: Record<string, string> = {
   "須預繳 HK$3,600，第 1 至第 24 個月每月回贈 HK$150":
     "Prepaid HK$3,600; HK$150 rebate/month in months 1–24",
   "此流動通訊計劃使用 3香港網絡。客戶須承諾最短合約期 24 個月。所有優惠及服務受條款及細則約束。":
-    "This mobile plan uses the 3HK network. Minimum 24-month contract. All offers and services are subject to terms.",
+    "This mobile plan uses the 3HK network. Minimum 24-month contract. All offers and services are subject to terms and conditions.",
   "企業員工優惠。任何企業的員工證或員工卡均可，不限香港寬頻員工。此流動通訊計劃使用中國移動香港（CMHK）網絡。客戶須承諾最短合約期 24 個月。禮券、轉台優惠及家居寬頻現有客戶回贈以電訊商確認為準。":
     "Corporate staff offer. Any company's staff ID or staff card is accepted, not only HKBN staff. This mobile plan uses the CMHK network. Minimum 24-month contract. Vouchers, port-in offers and the existing home-broadband rebate are confirmed by the carrier.",
   "須年滿 60 歲並出示身份證。此流動通訊計劃使用中國移動香港網絡。香港寬頻現有客戶適用以下月費；非現有客戶以原價為準。客戶須承諾最短合約期 24 個月。實際月費、數據用量及申請資格以電訊商確認為準。":
@@ -126,6 +126,85 @@ const EXACT: Record<string, string> = {
     "For public, HOS or private homes on 1000M that also have a CMHK mobile plan",
   "適合公屋、居屋或私人樓宇，需要 2500M 光纖之住戶":
     "For public, HOS or private homes that want 2500M fibre",
+  "不適用": "N/A",
+  "指定地址優惠。": "Specified-address promo.",
+  "僅適用於村屋。": "Village houses only.",
+  "不適用於公屋、居屋及私人樓宇。": "Not available for public housing, HOS or private housing.",
+  "公屋、居屋及私樓不適用。": "Not available for public housing, HOS or private housing.",
+  "HGC 已有光纖覆蓋嘅村屋不適用。": "Not available for village houses already covered by HGC fibre.",
+  "實際覆蓋須核對門牌。": "Coverage must be checked against the exact address.",
+  "網上行／HKT": "Netvigator",
+  "網上行 (HKT)": "Netvigator",
+  "中國移動 (CMHK)": "CMHK",
+  "其他": "Other",
+  "新開戶": "New customer",
+  "新號碼": "New number",
+  "新開戶／無用緊": "New customer / no current provider",
+  "5G 全速無限": "Full-speed unlimited 5G",
+  "4.5G 平價入門": "Affordable 4.5G starter",
+  "帶號轉台 MNP": "Port-in (MNP)",
+  "學生優惠": "Student offer",
+  "大灣區數據": "Greater Bay Area data",
+  "長者優惠": "Elderly offer",
+  "30G 本地數據以下": "Under 30GB local data",
+  "30G 至 100G 本地數據": "30GB–100GB local data",
+  "三地共用數據": "Three-place shared data",
+  "商業專線／高頻寬": "Business dedicated line / high bandwidth",
+  "實際速度介乎 100M 至 1000M，視乎訊號覆蓋、裝置數量及現場環境而定。必須信用卡付款。":
+    "Typical speed 100M–1000M, depending on coverage, devices and site conditions. Credit card payment required.",
+  "此流動通訊計劃使用 3香港網絡。月費 HK$88.5，24 個月合約，第 13 及第 14 個月免月費。基本每月 15GB 5G 本地數據，最短合約期內首 24 個繳費月另送 15GB，合共 30GB。最短合約期每月 4GB 中國內地及澳門數據，其後可經 SMS 增值 HK$38／2GB。首 24 個繳費月可任用指定本地串流及社交應用程式（YouTube、Disney+、Netflix、Apple TV、myTV SUPER、hmvod、Facebook、Instagram、WhatsApp、WeChat、Signal、LINE、Zoom、Microsoft Teams 及 Douyin）。新號碼可於 30 日內延遲生效；攜號轉台可於 180 日內延遲生效。合約期滿後月費 HK$178，行政費 HK$28／月。":
+    "This mobile plan uses the 3HK network. Monthly fee HK$88.5, 24-month contract; months 13 and 14 waived. Base 15GB of 5G local data per month, plus an extra 15GB in each of the first 24 billable months of the minimum term, 30GB in total. 4GB Mainland China and Macau data per month during the minimum term; then HK$38 per 2GB by SMS. Unlimited use of designated local streaming and social apps for the first 24 billable months (YouTube, Disney+, Netflix, Apple TV, myTV SUPER, hmvod, Facebook, Instagram, WhatsApp, WeChat, Signal, LINE, Zoom, Microsoft Teams and Douyin). New numbers can defer activation by up to 30 days; port-in can defer activation by up to 180 days. After the contract, monthly fee HK$178, plus an HK$28 admin fee per month.",
+  "每月 10GB 中國內地及澳門數據": "10GB Mainland China and Macau data per month",
+  "每月 15GB 中國內地及澳門數據": "15GB Mainland China and Macau data per month",
+  "s/ash 每一實際使用人只可辦理一個計劃。實際月費、數據用量及轉台條款以電訊商確認為準。":
+    "s/ash: each actual user may take out only one plan. Actual monthly fee, data and port-in terms are confirmed by the carrier.",
+  "優惠代碼互斥；部分至 2026/09/30。實際月費、數據用量及轉台條款以電訊商確認為準。":
+    "Promo codes are mutually exclusive; some apply until 30 Sep 2026. Actual monthly fee, data and port-in terms are confirmed by the carrier.",
+  "須核對現用 3香港客戶身份，只適用於由 3香港轉台之客戶。實際月費、數據用量及轉台條款以電訊商確認為準。":
+    "Current 3HK customer status must be verified. For customers porting in from 3HK only. Actual monthly fee, data and port-in terms are confirmed by the carrier.",
+  "實際月費、數據用量及轉台條款以電訊商確認為準。":
+    "Actual monthly fee, data and port-in terms are confirmed by the carrier.",
+  "限時計劃至 2026/09/30。實際月費、數據用量及轉台條款以電訊商確認為準。":
+    "Time-limited plan until 30 Sep 2026. Actual monthly fee, data and port-in terms are confirmed by the carrier.",
+  "須年滿 65 歲並持綜援或長者生活津貼證明。實際月費、數據用量及申請資格以電訊商確認為準。":
+    "Must be 65 or above and hold proof of CSSA or Old Age Living Allowance. Actual monthly fee, data and eligibility are confirmed by the carrier.",
+  "須年滿 60 歲。實際月費、數據用量及申請資格以電訊商確認為準。":
+    "Must be 60 or above. Actual monthly fee, data and eligibility are confirmed by the carrier.",
+  "轉台免 6 個月月費至 2026/09/30。實際月費、數據用量及轉台條款以電訊商確認為準。":
+    "Port-in: 6 months of monthly fees waived, until 30 Sep 2026. Actual monthly fee, data and port-in terms are confirmed by the carrier.",
+  "限時計劃。實際月費、數據用量及轉台條款以電訊商確認為準。":
+    "Time-limited plan. Actual monthly fee, data and port-in terms are confirmed by the carrier.",
+  "須符合 18 至 29 歲或教職員資格。實際月費、數據用量及申請資格以電訊商確認為準。":
+    "Must be 18–29 or a member of teaching or school staff. Actual monthly fee, data and eligibility are confirmed by the carrier.",
+  "須持有中小學學生手冊或學生證。不適用於大專或大學。實際月費、數據用量及申請資格以電訊商確認為準。":
+    "Must hold a primary or secondary student handbook or student ID. Not for tertiary or university students. Actual monthly fee, data and eligibility are confirmed by the carrier.",
+  "中澳 3GB；送內地通話 50 分鐘（至 2026/12/31）":
+    "3GB Mainland China and Macau; 50 minutes of Mainland calls included (until 31 Dec 2026)",
+  "中澳 1GB；限時額外 5GB 中澳（至 2026/12/31）":
+    "1GB Mainland China and Macau; time-limited extra 5GB Mainland China and Macau (until 31 Dec 2026)",
+  "中澳 1+1GB；疊優惠再 +1GB（至 2026/09/30）":
+    "1+1GB Mainland China and Macau; plus another 1GB with stacked offers (until 30 Sep 2026)",
+  "接聽中港澳免費；撥打中港澳 HK$0.65／分鐘":
+    "Incoming calls in Mainland China, Hong Kong and Macau are free; outgoing calls in Mainland China, Hong Kong and Macau HK$0.65/min",
+  "超出後 $0.5／MB（每日上限 HK$48）": "Thereafter $0.5/MB (daily cap HK$48)",
+  "中澳 2GB；中港澳接聽免費，撥打 HK$0.65／分鐘":
+    "2GB Mainland China and Macau; incoming calls in Mainland China, Hong Kong and Macau free, outgoing HK$0.65/min",
+  "中澳 3+3GB": "3+3GB Mainland China and Macau",
+  "中港共用 10+5GB": "10+5GB shared across Mainland China and Hong Kong",
+  "中澳 4+2GB": "4+2GB Mainland China and Macau",
+  "中澳 6+6GB": "6+6GB Mainland China and Macau",
+  "中澳 2+2GB（轉台）": "2+2GB Mainland China and Macau (port-in)",
+  "全中國及澳門 9GB": "9GB throughout Mainland China and Macau",
+  "全中國及澳門 10GB": "10GB throughout Mainland China and Macau",
+  "全中國及澳門 3GB": "3GB throughout Mainland China and Macau",
+  "中港澳台共用 50GB": "50GB shared across Mainland China, Hong Kong, Macau and Taiwan",
+  "中澳 2+1+2GB（轉台）": "2+1+2GB Mainland China and Macau (port-in)",
+  "中澳 2+2+2GB（轉台）": "2+2+2GB Mainland China and Macau (port-in)",
+  "中港共用 20GB": "20GB shared across Mainland China and Hong Kong",
+  "中港共用 50GB": "50GB shared across Mainland China and Hong Kong",
+  "大灣區 15GB": "15GB Greater Bay Area data",
+  "每月 3GB 中國內地及澳門數據": "3GB Mainland China and Macau data per month",
+  "每月 1GB 中國內地及澳門數據": "1GB Mainland China and Macau data per month",
 };
 
 const PHRASES: [string, string][] = [
@@ -172,7 +251,7 @@ const PHRASES: [string, string][] = [
   ["5G 100GB（36 個月）", "5G 100GB (36 months)"],
   ["可豁免每月行政費 HK$18", "HK$18 admin/month can be waived"],
   ["須持有中小學學生手冊或學生證（不適用於大專／大學）", "Must hold a primary/secondary student handbook or student ID (not for tertiary/university)"],
-  ["須持有中小學學生手冊或學生證。不適用於大專或大學。實際月費、數據用量及申請資格以電訊商確認為準。", "Must hold a primary/secondary student handbook or student ID. Not for tertiary or university. Monthly fee, data and eligibility are confirmed by the carrier."],
+  ["須持有中小學學生手冊或學生證。不適用於大專或大學。實際月費、數據用量及申請資格以電訊商確認為準。", "Must hold a primary or secondary student handbook or student ID. Not for tertiary or university students. Actual monthly fee, data and eligibility are confirmed by the carrier."],
   ["適合需要 5G 20GB 及每月 3GB 中澳數據之用戶", "For 5G 20GB and 3GB Mainland & Macao data/month"],
   ["適合持有中小學學生手冊或學生證之用戶（不適用於大專／大學）", "For users with a primary/secondary student handbook or student ID (not for tertiary/university)"],
   ["適合需要 5G 30GB 及無限通話之用戶", "For 5G 30GB and unlimited calls"],
@@ -562,12 +641,12 @@ const PHRASES: [string, string][] = [
   ["每月 50 分鐘中國內地及澳門通話", "50 Mainland & Macao minutes/month"],
   ["每月 10 分鐘中國內地及澳門通話", "10 Mainland & Macao minutes/month"],
   ["每月 12GB 中國及澳門數據", "12GB China & Macao data/month"],
-  ["每月 1GB 中國內地及澳門數據", "1GB Mainland & Macao data/month"],
+  ["每月 1GB 中國內地及澳門數據", "1GB Mainland China and Macau data per month"],
   ["每月 1GB 中國內地數據", "1GB Mainland data/month"],
   ["每月 2GB 中國內地及澳門數據", "2GB Mainland & Macao data/month"],
   ["每月 2–4GB 中澳數據", "2–4GB Mainland & Macao data/month"],
   ["合約期內每月 3GB 中國內地及澳門", "Monthly 3GB Mainland China & Macau during contract period"],
-  ["每月 3GB 中國內地及澳門數據", "3GB Mainland & Macao data/month"],
+  ["每月 3GB 中國內地及澳門數據", "3GB Mainland China and Macau data per month"],
   ["每月 3GB 中國內地數據", "3GB Mainland data/month"],
   ["每月 3GB 中澳數據", "3GB Mainland & Macao data/month"],
   ["4GB 中國內地及澳門數據", "4GB Mainland & Macao data"],
@@ -806,7 +885,6 @@ const PHRASES: [string, string][] = [
   ["光纖寬頻", "Fibre broadband"],
   ["商業寬頻", "Business fibre"],
   ["手機月費", "Mobile"],
-  ["不適用", "N/A"],
   ["視計劃而定", "Depends on plan"],
   ["香港寬頻", "HKBN"],
   ["網上行", "Netvigator"],
@@ -817,7 +895,8 @@ const PHRASES: [string, string][] = [
   ["有線寬頻", "i-Cable"],
   ["公屋", "public housing"],
   ["居屋", "HOS"],
-  ["私人樓", "private"],
+  ["私人樓宇", "private buildings"],
+  ["私樓", "private housing"],
   ["村屋", "village house"],
 ];
 

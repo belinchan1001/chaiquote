@@ -3,7 +3,8 @@ import { useRouterState } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useDesk, useHydrateDesk } from "@/lib/desk";
-import { PWA, isStandaloneDisplay, pwaInstallPlatform, pwaInstallTip } from "@/lib/pwa";
+import { useI18n } from "@/lib/i18n";
+import { PWA, isStandaloneDisplay, pwaInstallPlatform } from "@/lib/pwa";
 import { cn } from "@/lib/utils";
 
 type BeforeInstallPromptEvent = Event & {
@@ -12,6 +13,7 @@ type BeforeInstallPromptEvent = Event & {
 };
 
 export function PwaInstallTip() {
+  const { t } = useI18n();
   const [visible, setVisible] = useState(false);
   const [platform, setPlatform] = useState<ReturnType<typeof pwaInstallPlatform>>("other");
   const [installEvent, setInstallEvent] = useState<BeforeInstallPromptEvent | null>(null);
@@ -116,7 +118,7 @@ export function PwaInstallTip() {
     >
       <div className="flex items-start gap-2">
         <div className="min-w-0 flex-1">
-          <p className="text-sm leading-relaxed">{pwaInstallTip(platform)}</p>
+          <p className="text-sm leading-relaxed">{platform === "ios" ? t("pwaIosTip") : t("pwaAndroidTip")}</p>
           {installEvent ? (
             <Button type="button" size="sm" className="mt-2.5" onClick={() => void install()}>
               加到主畫面

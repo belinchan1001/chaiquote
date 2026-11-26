@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { EsportsLineToggle } from "@/components/esports-line-tag";
+import { filterChipText } from "@/lib/filter-chip";
 import { useI18n } from "@/lib/i18n";
 import type { Category, Housing, ProviderId } from "@/lib/plans";
 import {
@@ -123,7 +124,8 @@ export function IntakeFields({
   extraHousing?: ReactNode;
   jelly?: boolean;
 }) {
-  const { t } = useI18n();
+  const { t, tx, locale, providerName } = useI18n();
+  const chip = (id: string, label: string) => filterChipText(id, label, locale, providerName, tx);
   const showHousing = cat === "broadband" || cat === "home5g";
   const providerChoices = currentOptions(cat);
   const targetChoices = targetOptions(cat);
@@ -160,7 +162,7 @@ export function IntakeFields({
               dataId={`current-${option.id}`}
               onSelect={() => onCurrent(option.id)}
             >
-              {option.label}
+              {chip(option.id, option.label)}
             </Chip>
           ))}
         </div>
@@ -186,7 +188,7 @@ export function IntakeFields({
                   onTargets(togglePreferredTarget(targets, option.id, targetOrder));
                 }}
               >
-                {option.id === "all" ? t("intakeTargetAny") : option.label}
+                {option.id === "all" ? t("intakeTargetAny") : chip(option.id, option.label)}
               </Chip>
             );
           })}
@@ -230,7 +232,7 @@ export function IntakeFields({
                 dataId={`speed-${option.id}`}
                 onSelect={() => onFibreSpeed(option.id)}
               >
-                {option.id === "any" ? t("intakeSpeedAny") : option.label}
+                {option.id === "any" ? t("intakeSpeedAny") : chip(option.id, option.label)}
               </Chip>
             ))}
             <EsportsLineToggle
@@ -253,7 +255,7 @@ export function IntakeFields({
                 dataId={`biz-speed-${option.id}`}
                 onSelect={() => onBusinessSpeed(option.id)}
               >
-                {option.id === "any" ? t("intakeSpeedAny") : option.label}
+                {option.id === "any" ? t("intakeSpeedAny") : chip(option.id, option.label)}
               </Chip>
             ))}
           </div>
@@ -272,7 +274,7 @@ export function IntakeFields({
                 dataId={`need-${option.id}`}
                 onSelect={() => onMobileNeed(mobileNeed === option.id ? "" : option.id)}
               >
-                {option.label}
+                {chip(option.id, option.label)}
               </Chip>
             ))}
           </div>

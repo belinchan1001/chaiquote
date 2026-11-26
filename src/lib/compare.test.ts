@@ -13,8 +13,10 @@ import {
   visibleCompareFields,
   type CompareCopy,
 } from "./compare.ts";
+import { filterChipText } from "./filter-chip.ts";
+import { limitDisplayLines } from "./limit-lines.ts";
 import { toEnglish } from "./plan-en.ts";
-import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, getPlan, hasCertifiedStaff, isCmhkVillage, isHgcVillage, isHkbnVillage, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, planPerks, staffOfferLabel, staffOfferPlans, averageFee, cardHeadlineFee, registerByLabel, type Category } from "./plans.ts";
+import { certifiedStaffNoteKey, cheapestPlan, cheapestVillageBroadbandPlan, getPlan, hasCertifiedStaff, isCmhkVillage, isHgcVillage, isHkbnVillage, isHktPlan, isNetvigatorVillage, minMonthlyFee, minVillageBroadbandFee, PLANS, planPerks, staffOfferLabel, staffOfferPlans, averageFee, cardHeadlineFee, registerByLabel, PROVIDER_MAP, type Category, type ProviderId } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
 import {
   HGC_VILLAGE_COVERAGE,
@@ -1934,7 +1936,7 @@ describe("CSL 5G 20GB $108", () => {
       toEnglish(a36.portInPerk ?? ""),
       "Port-in can waive HK$18 admin/month; port-in adds 10GB local data a month. Extra HK$100 fee rebate if port-in within 6 months; HK$10 a month if port-in within 12 months",
     );
-    assert.equal(toEnglish(a24.roaming ?? ""), "3GB Mainland & Macao data/month");
+    assert.equal(toEnglish(a24.roaming ?? ""), "3GB Mainland China and Macau data per month");
     assert.equal(toEnglish(a24.voice ?? ""), "Unlimited local minutes");
   });
 });
@@ -1972,7 +1974,7 @@ describe("CSL 5G student 10GB $78", () => {
     assert.equal(s24.contractMonths, 24);
     assert.equal(s36.contractMonths, 36);
     assert.equal(toEnglish(s24.name), "5G primary/secondary student 10GB (24 months)");
-    assert.equal(toEnglish(s24.roaming ?? ""), "1GB Mainland & Macao data/month");
+    assert.equal(toEnglish(s24.roaming ?? ""), "1GB Mainland China and Macau data per month");
     assert.match(toEnglish(s24.limits ?? ""), /Not for tertiary or university/);
     assert.match(toEnglish(s24.bestFor), /not for tertiary\/university/);
     assert.equal(toEnglish(s24.voice ?? ""), "Unlimited local minutes");
@@ -2151,5 +2153,91 @@ describe("cheapest plan auto-picks", () => {
         ).map((p) => p.monthlyFee),
       ),
     );
+  });
+});
+
+describe("English preview copy", () => {
+  function enChip(id: string, label: string) {
+    return filterChipText(id, label, "en", (providerId: ProviderId) => PROVIDER_MAP[providerId].nameEn, toEnglish);
+  }
+
+  it("translates a limits paragraph before splitting it into lines", () => {
+    const village = plan("cmhk-ftth-1000-village-24m-218").limits ?? "";
+    const english = toEnglish(village);
+    assert.equal(
+      english,
+      "Specified-address promo. Village houses only. Not available for public housing, HOS or private housing. Not available for village houses already covered by HGC fibre. Coverage must be checked against the exact address.",
+    );
+    assert.deepEqual(limitDisplayLines(english), [
+      "Specified-address promo.",
+      "Village houses only.",
+      "Not available for public housing, HOS or private housing.",
+      "Not available for village houses already covered by HGC fibre.",
+      "Coverage must be checked against the exact address.",
+    ]);
+    assert.equal(english.includes("private宇"), false);
+    assert.equal(english.includes("village houseN/A"), false);
+    assert.equal(/[\u3400-\u9FFF]/.test(english), false);
+    assert.equal(
+      toEnglish("不適用於公屋、居屋及私人樓宇。"),
+      "Not available for public housing, HOS or private housing.",
+    );
+    assert.equal(toEnglish("HGC 已有光纖覆蓋嘅村屋不適用。").includes("N/A"), false);
+  });
+
+  it("keeps the mobile third sentence and does not add Time-limited plan to the confirmation-only limits", () => {
+    const third = toEnglish(plan("hkbn-5g-100").limits ?? "");
+    assert.equal(
+      third,
+      "This mobile plan uses the 3HK network. Minimum 24-month contract. All offers and services are subject to terms and conditions.",
+    );
+    assert.deepEqual(limitDisplayLines(third), [
+      "This mobile plan uses the 3HK network.",
+      "Minimum 24-month contract.",
+      "All offers and services are subject to terms and conditions.",
+    ]);
+
+    const confirmOnly = toEnglish("實際月費、數據用量及轉台條款以電訊商確認為準。");
+    assert.equal(confirmOnly, "Actual monthly fee, data and port-in terms are confirmed by the carrier.");
+    assert.equal(confirmOnly.includes("Time-limited"), false);
+    assert.equal(
+      toEnglish("限時計劃至 2026/09/30。實際月費、數據用量及轉台條款以電訊商確認為準。"),
+      "Time-limited plan until 30 Sep 2026. Actual monthly fee, data and port-in terms are confirmed by the carrier.",
+    );
+    assert.equal(
+      toEnglish("限時計劃。實際月費、數據用量及轉台條款以電訊商確認為準。"),
+      "Time-limited plan. Actual monthly fee, data and port-in terms are confirmed by the carrier.",
+    );
+  });
+
+  it("uses provider English names on filter chips and keeps the separate new-customer labels", () => {
+    assert.equal(enChip("hkbn", "香港寬頻"), "HKBN");
+    assert.equal(enChip("netvigator", "網上行"), "Netvigator");
+    assert.equal(enChip("netvigator", "網上行／HKT"), "Netvigator");
+    assert.equal(enChip("netvigator", "網上行 (HKT)"), "Netvigator");
+    assert.equal(enChip("smartone", "數碼通"), "SmarTone");
+    assert.equal(enChip("cmhk", "中國移動香港"), "CMHK");
+    assert.equal(enChip("cmhk", "中國移動 (CMHK)"), "CMHK");
+    assert.equal(enChip("icable", "有線寬頻"), "i-Cable");
+    assert.equal(enChip("hgc", "HGC"), "HGC");
+    assert.equal(enChip("three", "3香港"), "3HK");
+    assert.equal(enChip("csl", "CSL / 1O1O"), "CSL / 1O1O");
+    assert.equal(enChip("csl", "CSL / 1O1O").includes("csl."), false);
+    assert.equal(enChip("other", "其他"), "Other");
+    assert.equal(enChip("none", "新開戶"), "New customer");
+    assert.equal(enChip("none", "新開戶／無用緊"), "New customer / no current provider");
+    assert.equal(enChip("none", "新號碼"), "New number");
+    assert.equal(enChip("5g", "5G 全速無限"), "Full-speed unlimited 5G");
+    assert.equal(enChip("45g", "4.5G 平價入門"), "Affordable 4.5G starter");
+    assert.equal(enChip("mnp", "帶號轉台 MNP"), "Port-in (MNP)");
+    assert.equal(enChip("student", "學生優惠"), "Student offer");
+    assert.equal(enChip("gba", "大灣區數據"), "Greater Bay Area data");
+    assert.equal(enChip("elder", "長者優惠"), "Elderly offer");
+    assert.equal(enChip("local30", "30G 本地數據以下"), "Under 30GB local data");
+    assert.equal(enChip("local100", "30G 至 100G 本地數據"), "30GB–100GB local data");
+    assert.equal(enChip("tri", "三地共用數據"), "Three-place shared data");
+    assert.equal(enChip("dedicated", "商業專線／高頻寬"), "Business dedicated line / high bandwidth");
+    assert.equal(enChip("1000", "1000M / 1G"), "1000M / 1G");
+    assert.equal(filterChipText("hkbn", "香港寬頻", "zh", () => "HKBN", toEnglish), "香港寬頻");
   });
 });

@@ -215,7 +215,7 @@ describe("AI desk safety", () => {
     const widget = readFileSync(join(here, "../components/whatsapp-widget.tsx"), "utf8");
 
     assert.equal(quoted(messages, "aiStaff")[0], "齊Quote AI (測試版)");
-    assert.equal(quoted(messages, "aiStaff")[1], "齊Quote AI (測試版)");
+    assert.equal(quoted(messages, "aiStaff")[1], "齊Quote AI (Beta)");
     assert.equal(quoted(messages, "aiEntryCta")[0], "齊Quote AI (測試版)");
     assert.equal(quoted(messages, "aiEntryLead")[0], "輸入地址，對照站內參考月費");
     assert.doesNotMatch(quoted(messages, "aiStaff")[0] ?? "", /AI 篩選|查參考月費/);
@@ -271,11 +271,11 @@ describe("AI desk safety", () => {
     const root = readFileSync(join(here, "../routes/__root.tsx"), "utf8");
 
     assert.equal(quoted(messages, "aiStaffTiny")[0], "齊Quote AI (測試版)");
-    assert.equal(quoted(messages, "aiStaffTiny")[1], "齊Quote AI (測試版)");
+    assert.equal(quoted(messages, "aiStaffTiny")[1], "齊Quote AI (Beta)");
     assert.equal(quoted(messages, "aiEntryLead")[0], "輸入地址，對照站內參考月費");
     assert.equal(quoted(messages, "aiEntryCta")[0], "齊Quote AI (測試版)");
-    assert.equal(quoted(messages, "aiEntryLead")[1], "輸入地址，對照站內參考月費");
-    assert.equal(quoted(messages, "aiEntryCta")[1], "齊Quote AI (測試版)");
+    assert.equal(quoted(messages, "aiEntryLead")[1], "Enter an address to match in-site reference fees.");
+    assert.equal(quoted(messages, "aiEntryCta")[1], "齊Quote AI (Beta)");
     assert.equal(quoted(messages, "aiBeta")[0], "測試版");
 
     assert.match(entry, /toggleAi/);
