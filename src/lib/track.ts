@@ -114,8 +114,8 @@ export function waPhoneLabel(e164: string | null | undefined) {
   if (digits === "85263099966") return "6309 9966（預設）";
   if (digits === "85261118499") return "6111 8499（香港寬頻）";
   if (digits === "85296642675") return "9664 2675（香港寬頻）";
-  if (digits === "85255883226") return "5588 3226（網上行／HKT／CSL）";
-  if (digits === "85254363004") return "5436 3004（網上行／HKT）";
+  if (digits === "85255883226") return "5588 3226（網上行商業）";
+  if (digits === "85254363004") return "5436 3004（CSL／HKT 家居）";
   if (!digits) return "未標示";
   if (digits.startsWith("852") && digits.length === 11) {
     return `${digits.slice(3, 7)} ${digits.slice(7)}`;

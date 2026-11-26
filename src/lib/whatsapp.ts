@@ -31,20 +31,27 @@ export function withBrandTag(text: string) {
   return `${BRAND_TAG}\n${body}`;
 }
 
-export type QuoteDesk = "hkt" | "hkbn" | "desk";
+export type QuoteDesk = "hktHome" | "hkt" | "hkbn" | "desk";
 
 export function quoteDeskFromHint(hint?: string | null): Exclude<QuoteDesk, "desk"> | null {
   const raw = (hint ?? "").trim();
   if (!raw) return null;
   const text = raw.toLowerCase();
-  if (/網上行|netvigator|\bhkt\b|電訊盈科|csl|1o1o|1010/.test(text)) return "hkt";
+  if (/網上行|netvigator|\bhkt\b|電訊盈科|csl|1o1o|1010/.test(text)) return "hktHome";
   if (/香港寬頻|hkbn/.test(text)) return "hkbn";
   return null;
 }
 
+function isHktHomePlan(plan: Plan) {
+  if (plan.providerId === "csl") return true;
+  return plan.providerId === "netvigator" && plan.category !== "business";
+}
+
 export function quoteDeskFromPlans(plans: readonly Plan[]): QuoteDesk | null {
   if (!plans.length) return null;
-  if (plans.every(isHktPlan)) return "hkt";
+  if (plans.every(isHktPlan)) {
+    return plans.some(isHktHomePlan) ? "hktHome" : "hkt";
+  }
   if (
     plans.every(
       (plan) =>
@@ -61,6 +68,7 @@ export function quoteDeskFromPlans(plans: readonly Plan[]): QuoteDesk | null {
 }
 
 function deskNumber(desk: QuoteDesk) {
+  if (desk === "hktHome") return { e164: SITE.hktHomeWhatsappE164, display: SITE.hktHomePhoneDisplay };
   if (desk === "hkt") return { e164: SITE.hktWhatsappE164, display: SITE.hktPhoneDisplay };
   if (desk === "hkbn") return { e164: SITE.hkbnWhatsappE164, display: SITE.hkbnPhoneDisplay };
   return { e164: SITE.whatsappE164, display: SITE.phoneDisplay };
