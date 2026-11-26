@@ -150,11 +150,12 @@ export function WhatsAppWidget({ cornerClear }: { cornerClear: boolean }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const href = useRouterState({ select: (s) => s.location.href });
   const provider = new URL(href, "https://quote.local").searchParams.get("provider");
+  const category = new URL(href, "https://quote.local").searchParams.get("cat");
   const pagePlans = quotePlansOnPage(pathname);
   const quotePlans = pagePlans.length ? pagePlans : plans;
   const lifted = compare.length > 0;
   const { t, locale } = useI18n();
-  const visit = quoteVisitDesk(pathname, plans, inquiry, provider);
+  const visit = quoteVisitDesk(pathname, plans, inquiry, provider, category);
   const deskPhone = visit.display;
   const deskE164 = visit.e164;
 
@@ -336,13 +337,14 @@ export function DeferredWhatsApp() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const href = useRouterState({ select: (s) => s.location.href });
   const provider = new URL(href, "https://quote.local").searchParams.get("provider");
+  const category = new URL(href, "https://quote.local").searchParams.get("cat");
   const plans = useComparedPlans(compare);
   const pagePlans = quotePlansOnPage(pathname);
   const quotePlans = pagePlans.length ? pagePlans : plans;
   const lifted = compare.length > 0;
   const cornerClear = useGuideCornerClear();
   const { t } = useI18n();
-  const visit = quoteVisitDesk(pathname, plans, inquiry, provider);
+  const visit = quoteVisitDesk(pathname, plans, inquiry, provider, category);
   const deskE164 = visit.e164;
   const deskPhone = visit.display;
   const aiOpen = useDesk((s) => s.aiOpen);

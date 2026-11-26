@@ -50,7 +50,7 @@ function isHktHomePlan(plan: Plan) {
 export function quoteDeskFromPlans(plans: readonly Plan[]): QuoteDesk | null {
   if (!plans.length) return null;
   if (plans.every(isHktPlan)) {
-    return plans.some(isHktHomePlan) ? "hktHome" : "hkt";
+    return plans.some(isHktHomePlan) ? "hktHome" : "desk";
   }
   if (
     plans.every(
@@ -103,9 +103,13 @@ export function quoteVisitDesk(
   compared: readonly Plan[] = [],
   inquiry?: Partial<Inquiry> | null,
   provider?: string | null,
+  category?: string | null,
 ) {
   const pagePlans = quotePlansOnPage(pathname);
   const plans = pagePlans.length ? pagePlans : [...compared];
+  if (!plans.length && category === "business" && provider === "netvigator") {
+    return deskNumber("desk");
+  }
   if (!plans.length && provider && provider in PROVIDER_MAP) {
     const hinted = quoteDeskFromHint(PROVIDER_MAP[provider as ProviderId].name);
     if (hinted) return deskNumber(hinted);

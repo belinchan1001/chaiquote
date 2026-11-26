@@ -33,7 +33,7 @@ export function SiteHeader() {
     const plan = getPlan(id);
     return plan ? [plan] : [];
   });
-  const visit = quoteVisitDesk(pathname, compared, inquiry, provider);
+  const visit = quoteVisitDesk(pathname, compared, inquiry, provider, currentCat);
   const waE164 = visit.e164;
   const waOpenProps = bareWhatsAppActivateProps(waE164, { source: "header", waPhone: waE164 });
 
