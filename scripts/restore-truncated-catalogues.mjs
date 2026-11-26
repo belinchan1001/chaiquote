@@ -15,7 +15,7 @@ const FILES = [
     // Must be a commit whose messages.ts already contains every key the app
     // renders, including the locked 齊Quote AI entry. Bump this hash whenever
     // src/lib/messages.ts changes, or the build will ship an older catalogue.
-    url: "https://raw.githubusercontent.com/belinchan1001/chaiquote/1b8377bd2dc951cc57d5c8dcc7c6c42976f1dbc6/src/lib/messages.ts",
+    url: "https://raw.githubusercontent.com/belinchan1001/chaiquote/28b3c6f9371702b3e5a4889711cab54003b71486/src/lib/messages.ts",
     minBytes: 40000,
   },
   {
