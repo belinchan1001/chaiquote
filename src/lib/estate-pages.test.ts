@@ -97,7 +97,36 @@ describe("estate SEO pages", () => {
     assert.equal(isIndexableEstatePage(getEstatePage("kingswood-villas")!), true);
     assert.equal(isIndexableEstatePage(getEstatePage("city-one")!), true);
     assert.equal(isIndexableEstatePage(getEstatePage("yoho")!), true);
-    assert.equal(isIndexableEstatePage(getEstatePage("wah-fu")!), false);
+    const discoveryParents = [
+      "century-gateway",
+      "lohas-park",
+      "south-horizons",
+      "festival-city",
+      "laguna-city",
+      "heng-fa-chuen",
+      "nam-fung-sun-chuen",
+      "discovery-bay",
+      "metro-city",
+      "amoy-gardens",
+      "yat-tung",
+      "choi-wan",
+      "wah-fu",
+      "shui-chuen-o",
+      "wang-tau-hom",
+      "yuet-wu-villa",
+      "choi-ming-court",
+      "tin-chung-court",
+    ] as const;
+    assert.equal(discoveryParents.length, 18);
+    for (const slug of discoveryParents) {
+      const page = getEstatePage(slug);
+      assert.ok(page, slug);
+      assert.equal(isIndexableEstatePage(page), true, slug);
+      assert.equal(sitemapPaths.has(`/estates/${slug}`), true, slug);
+    }
+    assert.equal(isIndexableEstatePage(getEstatePage("wah-sang-house")!), false);
+    assert.equal(sitemapPaths.has("/estates/wah-sang-house"), false);
+    assert.equal(isIndexableEstatePage(getEstatePage("wah-kwai")!), false);
     const taikoo = getEstatePage("taikoo-shing")!;
     assert.match(estateSearchNote(taikoo.estate) ?? "", /東區私樓/);
     assert.doesNotMatch(estateSearchNote(taikoo.estate) ?? "", /要地址喺名單內先會出現/);
@@ -682,9 +711,11 @@ describe("estate SEO pages", () => {
       assert.equal(faqLd?.mainEntity[index]?.acceptedAnswer.text, item.a);
     });
     const wahFu = getEstatePage("wah-fu")!;
-    assert.equal(isIndexableEstatePage(wahFu), false);
-    const wahFaq = estateFaq(wahFu.estate);
-    const wahLd = estateFaqJsonLd(wahFu);
+    assert.equal(isIndexableEstatePage(wahFu), true);
+    const noindexEstate = getEstatePage("wah-kwai")!;
+    assert.equal(isIndexableEstatePage(noindexEstate), false);
+    const wahFaq = estateFaq(noindexEstate.estate);
+    const wahLd = estateFaqJsonLd(noindexEstate);
     assert.equal(wahLd["@type"], "FAQPage");
     wahFaq.forEach((item, index) => {
       assert.equal(wahLd.mainEntity[index]?.name, item.q);
