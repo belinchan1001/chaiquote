@@ -12,6 +12,7 @@ import { QuoteLink } from "@/components/quote-link";
 import { useDesk } from "@/lib/desk";
 import { registerFoilCard } from "@/lib/foil-scroll";
 import { useI18n } from "@/lib/i18n";
+import { limitDisplayLines } from "@/lib/limit-lines";
 import {
   averageFee,
   cardHeadlineFee,
@@ -59,13 +60,6 @@ function cardSpecLines(plan: Plan) {
     seen.add(key);
     return true;
   });
-}
-
-function termLines(text: string | undefined) {
-  return (text ?? "")
-    .split(/(?<=。)/)
-    .map((line) => line.trim())
-    .filter(Boolean);
 }
 
 export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePriority?: boolean }) {
@@ -118,7 +112,7 @@ export function PlanCard({ plan, imagePriority = false }: { plan: Plan; imagePri
   const specs = cardSpecLines(plan);
   const face = specs.slice(0, 3);
   const more = specs.slice(3);
-  const terms = termLines(plan.limits);
+  const terms = limitDisplayLines(tx(plan.limits ?? ""));
   const notes = [plan.prepaid ? formatPrepaidShort(plan.prepaid) : "", plan.fupNote ?? "", isNetvigatorVillage(plan) ? t("villageFeeNote") : ""].filter(Boolean);
 
   return (

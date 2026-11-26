@@ -100,5 +100,7 @@ describe("plan card corner brand", () => {
     assert.match(source, /to="\/spend"[\s\S]*search=\{\{ usePlan: plan\.id \}\}/);
     assert.match(source, /<QuoteLink plan=\{plan\}/);
     assert.doesNotMatch(source, /靜態預覽/);
+    assert.match(source, /limitDisplayLines\(tx\(plan\.limits \?\? ""\)\)/);
+    assert.doesNotMatch(source, /split\(\/\(\?<=。\)\/\)/);
   });
 });
