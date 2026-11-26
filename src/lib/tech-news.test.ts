@@ -37,7 +37,8 @@ describe("tech news channel", () => {
         "/images/news-gaming.jpg",
       ],
     );
-    assert.equal(TECH_NEWS_ARTICLES.length, 29);
+    assert.equal(TECH_NEWS_ARTICLES.length, 30);
+    assert.ok(getTechNewsArticle("hkt-3g-shutdown-2027-feb25"));
     assert.ok(getTechNewsArticle("sim-prepaid-limit-3-criminalise-nov18"));
     assert.ok(getTechNewsArticle("blast-premier-rivals-hk-2026-netvigator-csl"));
     assert.ok(getTechNewsArticle("honor-magic9-pro-max-hk-launch"));
@@ -77,7 +78,7 @@ describe("tech news channel", () => {
     const byDesk = { telecom: 0, phones: 0, gadgets: 0, gaming: 0 };
     for (const article of TECH_NEWS_ARTICLES) {
       assert.match(article.description, /以電訊商確認為準|以電訊商及官方確認為準|以官方及平台商店確認為準|以官方公布為準|以 SmarTone 及通訊辦公布為準|以商店確認為準/);
-      assert.match(article.published, /^2026-09-(18|21|24|28)$|^2026-10-(0[1258]|15|19|22|26|29)$|^2026-11-(0[125]|12|23)$/);
+      assert.match(article.published, /^2026-09-(18|21|24|28)$|^2026-10-(0[1258]|15|19|22|26|29)$|^2026-11-(0[125]|12|23|26)$/);
       assert.ok(article.editorNote.length > 80, article.slug);
       if (article.category in byDesk) byDesk[article.category] += 1;
     }
@@ -146,6 +147,7 @@ describe("tech news channel", () => {
       "blast-premier-rivals-hk-2026-netvigator-csl",
       "honor-magic9-pro-max-hk-launch",
       "hkt-fcc-consent-decree-us-exit",
+      "hkt-3g-shutdown-2027-feb25",
       "sim-prepaid-limit-3-criminalise-nov18",
     ]) {
       assert.ok(
@@ -195,7 +197,7 @@ describe("tech news channel", () => {
     const featured = sourceBetween(feed, "function NewsFeaturedStory", "function NewsCompactRows");
     const compact = sourceBetween(feed, "function NewsCompactRows", "export function NewsStoryList");
 
-    assert.equal(TECH_NEWS_ARTICLES[0]?.slug, "sim-prepaid-limit-3-criminalise-nov18");
+    assert.equal(TECH_NEWS_ARTICLES[0]?.slug, "hkt-3g-shutdown-2027-feb25");
     assert.equal(
       newsListingCover(getTechNewsArticle("sim-prepaid-limit-3-criminalise-nov18")!),
       "/images/news-sim-limit-3-nov18.jpg",
