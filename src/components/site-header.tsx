@@ -93,8 +93,8 @@ export function SiteHeader() {
               type="button"
               size="sm"
               aria-expanded={aiOpen}
-              aria-label={t("aiStaff")}
-              className={cn("max-sm:h-11 max-sm:px-2 sm:px-3", aiOpen && "ai-header-live")}
+              aria-labelledby="header-ai-staff"
+              className={cn("relative max-sm:h-11 max-sm:px-2 sm:px-3", aiOpen && "ai-header-live")}
               onClick={() => {
                 setOpen(false);
                 toggleAi();
@@ -107,7 +107,7 @@ export function SiteHeader() {
               <span className="hidden sm:inline lg:hidden" aria-hidden>
                 {t("aiStaffShort")}
               </span>
-              <span className="hidden lg:inline" aria-hidden>
+              <span id="header-ai-staff" className="header-ai-name">
                 {t("aiStaff")}
               </span>
             </Button>
@@ -153,7 +153,7 @@ export function SiteHeader() {
                 toggleAi();
               }}
             >
-              {t("aiStaff")}
+              {t("aiStaffShort")}
             </button>
             <a
               href={`https://wa.me/${waE164}`}

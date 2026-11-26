@@ -635,6 +635,30 @@
     box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-accent) 72%, transparent);
   }
 
+  /* One full AI-staff name in the header DOM. Clipped below the desktop nav; the button labels itself from this node. */
+  .header-ai-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  @media (min-width: 64rem) {
+    .header-ai-name {
+      position: static;
+      width: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      clip-path: none;
+    }
+  }
+
   .intake-overlay {
     position: fixed;
     inset: 0;

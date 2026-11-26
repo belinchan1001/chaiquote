@@ -213,6 +213,7 @@ describe("AI desk safety", () => {
     const ask = readFileSync(join(here, "ai-ask.ts"), "utf8");
     const desk = readFileSync(join(here, "ai-desk.ts"), "utf8");
     const widget = readFileSync(join(here, "../components/whatsapp-widget.tsx"), "utf8");
+    const css = readFileSync(join(here, "../styles.css"), "utf8");
 
     assert.equal(quoted(messages, "aiStaff")[0], "齊Quote AI (測試版)");
     assert.equal(quoted(messages, "aiStaff")[1], "齊Quote AI (Beta)");
@@ -231,8 +232,14 @@ describe("AI desk safety", () => {
     assert.doesNotMatch(staff, /aiWelcomeCopy|AiBetaMark|aiStaffLead/);
     assert.doesNotMatch(header, /AiBetaMark/);
     assert.match(header, /t\("aiStaffTiny"\)/);
-    assert.match(header, /aria-label=\{t\("aiStaff"\)\}/);
+    assert.match(header, /aria-labelledby="header-ai-staff"/);
+    assert.match(header, /id="header-ai-staff" className="header-ai-name">\s*\{t\("aiStaff"\)\}/);
+    assert.equal((header.match(/\{t\("aiStaff"\)\}/g) ?? []).length, 1);
+    assert.doesNotMatch(header, /aria-label=\{t\("aiStaff"\)\}/);
+    assert.match(header, /\{t\("aiStaffShort"\)\}/);
     assert.doesNotMatch(header, /sr-only sm:hidden/);
+    assert.match(css, /\.header-ai-name\s*\{[^}]*clip-path:\s*inset\(50%\)/);
+    assert.match(css, /@media \(min-width: 64rem\)\s*\{\s*\.header-ai-name\s*\{[^}]*position:\s*static/);
     assert.doesNotMatch(header, /max-sm:w-11/);
     assert.match(staff, /<PlanCard /);
     assert.doesNotMatch(staff, /QUICK_REPLIES/);
@@ -270,8 +277,12 @@ describe("AI desk safety", () => {
     const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
     const root = readFileSync(join(here, "../routes/__root.tsx"), "utf8");
 
-    assert.equal(quoted(messages, "aiStaffTiny")[0], "齊Quote AI (測試版)");
-    assert.equal(quoted(messages, "aiStaffTiny")[1], "齊Quote AI (Beta)");
+    assert.equal(quoted(messages, "aiStaff")[0], "齊Quote AI (測試版)");
+    assert.equal(quoted(messages, "aiStaff")[1], "齊Quote AI (Beta)");
+    assert.equal(quoted(messages, "aiStaffShort")[0], "齊Quote AI");
+    assert.equal(quoted(messages, "aiStaffShort")[1], "齊Quote AI");
+    assert.equal(quoted(messages, "aiStaffTiny")[0], "AI");
+    assert.equal(quoted(messages, "aiStaffTiny")[1], "AI");
     assert.equal(quoted(messages, "aiEntryLead")[0], "輸入地址，對照站內參考月費");
     assert.equal(quoted(messages, "aiEntryCta")[0], "齊Quote AI (測試版)");
     assert.equal(quoted(messages, "aiEntryLead")[1], "Enter an address to match in-site reference fees.");
@@ -352,7 +363,9 @@ describe("AI desk safety", () => {
     assert.doesNotMatch(header, /<LogoMarkLooking[^>]*(?:size-full|w-full|h-full|object-)/);
     assert.match(header, /<Logo className="shrink-0" \/>/);
     assert.match(header, /aria-expanded=\{aiOpen\}/);
-    assert.match(header, /aria-label=\{t\("aiStaff"\)\}/);
+    assert.match(header, /aria-labelledby="header-ai-staff"/);
+    assert.match(header, /id="header-ai-staff" className="header-ai-name">\s*\{t\("aiStaff"\)\}/);
+    assert.doesNotMatch(header, /aria-label=\{t\("aiStaff"\)\}/);
     assert.doesNotMatch(header, /AiBetaMark/);
     assert.match(header, /toggleAi\(\)/);
     assert.doesNotMatch(header, /plan-card-shine|ai-filter-shine|className="foil"/);
