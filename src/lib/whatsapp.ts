@@ -31,26 +31,22 @@ export function withBrandTag(text: string) {
   return `${BRAND_TAG}\n${body}`;
 }
 
-export type QuoteDesk = "hktHome" | "hkt" | "hkbn" | "desk";
+export type QuoteDesk = "hktBroadband" | "hktHome" | "hkt" | "hkbn" | "desk";
 
 export function quoteDeskFromHint(hint?: string | null): Exclude<QuoteDesk, "desk"> | null {
   const raw = (hint ?? "").trim();
   if (!raw) return null;
   const text = raw.toLowerCase();
-  if (/網上行|netvigator|\bhkt\b|電訊盈科|csl|1o1o|1010/.test(text)) return "hktHome";
+  if (/網上行|netvigator|\bhkt\b|電訊盈科|csl|1o1o|1010/.test(text)) return "hktBroadband";
   if (/香港寬頻|hkbn/.test(text)) return "hkbn";
   return null;
-}
-
-function isHktHomePlan(plan: Plan) {
-  if (plan.providerId === "csl") return true;
-  return plan.providerId === "netvigator" && plan.category !== "business";
 }
 
 export function quoteDeskFromPlans(plans: readonly Plan[]): QuoteDesk | null {
   if (!plans.length) return null;
   if (plans.every(isHktPlan)) {
-    return plans.some(isHktHomePlan) ? "hktHome" : "desk";
+    if (plans.every((plan) => plan.providerId === "netvigator" && plan.category === "business")) return "desk";
+    return "hktBroadband";
   }
   if (
     plans.every(
@@ -68,6 +64,7 @@ export function quoteDeskFromPlans(plans: readonly Plan[]): QuoteDesk | null {
 }
 
 function deskNumber(desk: QuoteDesk) {
+  if (desk === "hktBroadband") return { e164: SITE.hktBroadbandWhatsappE164, display: SITE.hktBroadbandPhoneDisplay };
   if (desk === "hktHome") return { e164: SITE.hktHomeWhatsappE164, display: SITE.hktHomePhoneDisplay };
   if (desk === "hkt") return { e164: SITE.hktWhatsappE164, display: SITE.hktPhoneDisplay };
   if (desk === "hkbn") return { e164: SITE.hkbnWhatsappE164, display: SITE.hkbnPhoneDisplay };
@@ -109,6 +106,13 @@ export function quoteVisitDesk(
   const plans = pagePlans.length ? pagePlans : [...compared];
   if (!plans.length && category === "business" && provider === "netvigator") {
     return deskNumber("desk");
+  }
+  if (
+    !plans.length &&
+    (category === "broadband" || category === "home5g") &&
+    (provider === "netvigator" || provider === "csl")
+  ) {
+    return deskNumber("hktBroadband");
   }
   if (!plans.length && provider && provider in PROVIDER_MAP) {
     const hinted = quoteDeskFromHint(PROVIDER_MAP[provider as ProviderId].name);

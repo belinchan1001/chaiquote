@@ -52,6 +52,8 @@ export const SITE = {
   },
   phoneDisplay: "6309 9966",
   whatsappE164: "85263099966",
+  hktBroadbandPhoneDisplay: "6749 1503",
+  hktBroadbandWhatsappE164: "85267491503",
   hktHomePhoneDisplay: "5436 3004",
   hktHomeWhatsappE164: "85254363004",
   hktPhoneDisplay: "5588 3226",
