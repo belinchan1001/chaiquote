@@ -404,6 +404,7 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.match(home, /providers: HOME_PROVIDER_COUNT/);
     assert.match(home, /estates: ESTATE_COUNT/);
     assert.match(home, /t\("heroTitle1"\)/);
+    assert.match(home, /homeJsonLd\(locale\)/);
     const ld = homeJsonLd();
     const org = ld["@graph"].find((node) => node["@type"] === "Organization");
     assert.deepEqual(org?.sameAs, [
@@ -442,7 +443,8 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.match(independent?.a ?? "", /公屋、居屋、私樓同村屋分開列。$/);
     const publicHos = FAQ.find((item) => item.q === "公屋同埋居屋價錢會唔會唔同？");
     assert.match(publicHos?.a ?? "", /約 HK\$58／月起/);
-    assert.match(publicHos?.a ?? "", /實際以電訊商確認為準。$/);
+    assert.match(publicHos?.a ?? "", /問價填齊屋苑名稱。$/);
+    assert.doesNotMatch(publicHos?.a ?? "", /實際以電訊商確認為準/);
     assert.doesNotMatch(publicHos?.a ?? "", /僅供參考，以電訊商確認為準/);
     const fees = FAQ.find((item) => item.q === FEE_RANGE_QUESTION);
     assert.ok(fees);
@@ -455,7 +457,8 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.match(fees.a, /HK\$376／月/);
     assert.match(fees.a, /5G 家居約 HK\$88 至 HK\$190／月/);
     assert.match(fees.a, new RegExp(HOME_CONTENT_DATE));
-    assert.match(fees.a, /唔係排名，亦唔代表你座樓一定有/);
+    assert.match(fees.a, /唔係排名，亦唔代表你座樓一定有。$/);
+    assert.doesNotMatch(fees.a, /最終月費、覆蓋同安裝以電訊商確認為準/);
     for (const word of ["最平", "最抵", "最低", "全港最平", "保證"]) {
       assert.equal(independent?.a.includes(word), false, independent?.q);
       assert.equal(independent?.q.includes(word), false, independent?.q);
@@ -464,6 +467,8 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     }
     const village = FAQ.find((item) => item.q.includes("村屋有冇光纖"));
     assert.match(village?.a ?? "", /HK\$218／月起/);
+    assert.match(village?.a ?? "", /實際覆蓋要核對門牌。$/);
+    assert.doesNotMatch(village?.a ?? "", /以電訊商確認為準/);
     assert.equal((village?.a ?? "").includes("HK$229／月起"), false);
     assert.equal((village?.a ?? "").includes("229／24 個月起"), false);
     assert.match(village?.q ?? "", /有冇/);
@@ -490,7 +495,35 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.equal(PROVIDER_COUNT, 8);
     assert.equal(ESTATE_COUNT, 3732);
     assert.doesNotMatch(MESSAGES.en.faq7a, /cheapest|lowest|best price|best-value/i);
+    assert.match(
+      fillSiteTemplate(MESSAGES.en.faq7a),
+      /These are listed examples, not a ranking, and they do not mean your building has them\.$/,
+    );
+    assert.doesNotMatch(MESSAGES.en.faq7a, /The carrier confirms the final fee, coverage and installation/);
+    assert.match(MESSAGES.en.faq2a, /include the estate name\.$/);
+    assert.doesNotMatch(MESSAGES.en.faq2a, /The actual terms are confirmed by the carrier/);
+    assert.match(MESSAGES.en.faq3a, /Coverage must be checked against the address\.$/);
+    assert.doesNotMatch(MESSAGES.en.faq3a, /the carrier confirms/);
     assert.doesNotMatch(home, /全港最平/);
+    const enUi = [
+      [MESSAGES.en.faq1q, MESSAGES.en.faq1a],
+      [MESSAGES.en.faq7q, MESSAGES.en.faq7a],
+      [MESSAGES.en.faq2q, MESSAGES.en.faq2a],
+      [MESSAGES.en.faq3q, MESSAGES.en.faq3a],
+      [MESSAGES.en.faq4q, MESSAGES.en.faq4a],
+      [MESSAGES.en.faq5q, MESSAGES.en.faq5a],
+      [MESSAGES.en.faq6q, MESSAGES.en.faq6a],
+    ] as const;
+    const enLd = homeJsonLd("en");
+    const enFaqLd = enLd["@graph"].find((node) => node["@type"] === "FAQPage");
+    assert.equal(enFaqLd?.mainEntity.length, enUi.length);
+    enUi.forEach(([q, a], index) => {
+      assert.equal(enFaqLd?.mainEntity[index]?.name, q);
+      assert.equal(enFaqLd?.mainEntity[index]?.acceptedAnswer.text, fillSiteTemplate(a));
+    });
+    assert.notEqual(enFaqLd?.mainEntity[0]?.name, FAQ[0]?.q);
+    assert.match(enFaqLd?.mainEntity[1]?.acceptedAnswer.text ?? "", /not a ranking/);
+    assert.doesNotMatch(enFaqLd?.mainEntity[1]?.acceptedAnswer.text ?? "", /最終月費/);
   });
 });
 

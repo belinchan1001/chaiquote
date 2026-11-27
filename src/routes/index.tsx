@@ -84,7 +84,7 @@ function Home() {
 
   return (
     <div>
-      <JsonLd data={homeJsonLd()} />
+      <JsonLd data={homeJsonLd(locale)} />
       <section className="relative overflow-hidden">
         <picture>
           <source

@@ -206,10 +206,10 @@ export function linkCmhkVillageAmounts(text: string) {
 
 /** Floor-type bands already printed on the public / HOS, private and village fee guides, plus listed 5G home. */
 export const FEE_RANGE_ANSWER =
-  `冇。香港寬頻冇一條適用所有地區、所有樓類嘅單一參考月費，公屋、居屋、私樓同村屋要分開報。資料更新 {date}，站內列出例子：公居屋 1000M 約 ${PUBLIC_HOS_1000_BAND}／月（有線指定屋苑 48 個月 HK$58 起；香港寬頻 36 個月 HK$98）；私樓 1000M 約 ${PRIVATE_1000_BAND}／月（有線私人樓宇 36 個月 HK$88 起；香港寬頻 24 個月 HK$109）；${VILLAGE_SPECIFIED_ADDRESS_CITE}村屋參考表例子去到 HK$376／月；5G 家居約 HK$88 至 HK$190／月（中國移動香港 350GB、48 個月 HK$88 起）。以上只係站內列出參考，唔係排名，亦唔代表你座樓一定有。最終月費、覆蓋同安裝以電訊商確認為準。`;
+  `冇。香港寬頻冇一條適用所有地區、所有樓類嘅單一參考月費，公屋、居屋、私樓同村屋要分開報。資料更新 {date}，站內列出例子：公居屋 1000M 約 ${PUBLIC_HOS_1000_BAND}／月（有線指定屋苑 48 個月 HK$58 起；香港寬頻 36 個月 HK$98）；私樓 1000M 約 ${PRIVATE_1000_BAND}／月（有線私人樓宇 36 個月 HK$88 起；香港寬頻 24 個月 HK$109）；${VILLAGE_SPECIFIED_ADDRESS_CITE}村屋參考表例子去到 HK$376／月；5G 家居約 HK$88 至 HK$190／月（中國移動香港 350GB、48 個月 HK$88 起）。以上只係站內列出參考，唔係排名，亦唔代表你座樓一定有。`;
 
 export const FEE_RANGE_ANSWER_EN =
-  `No. There is no single reference monthly fee for every district and housing type. Public housing, HOS, private estates and village houses are quoted separately. As of {date}, examples listed on this site: public / HOS 1000M about ${PUBLIC_HOS_1000_BAND_EN}/month (i-Cable designated estate, 48 months, from HK$58; HKBN 36 months HK$98); private-estate 1000M about ${PRIVATE_1000_BAND_EN}/month (i-Cable private buildings, 36 months, from HK$88; HKBN 24 months HK$109); ${VILLAGE_SPECIFIED_ADDRESS_CITE_EN} Village-table examples go up to HK$376/month; 5G home about HK$88 to HK$190/month (CMHK 350GB, 48 months, from HK$88). These are listed examples, not a ranking, and they do not mean your building has them. The carrier confirms the final fee, coverage and installation.`;
+  `No. There is no single reference monthly fee for every district and housing type. Public housing, HOS, private estates and village houses are quoted separately. As of {date}, examples listed on this site: public / HOS 1000M about ${PUBLIC_HOS_1000_BAND_EN}/month (i-Cable designated estate, 48 months, from HK$58; HKBN 36 months HK$98); private-estate 1000M about ${PRIVATE_1000_BAND_EN}/month (i-Cable private buildings, 36 months, from HK$88; HKBN 24 months HK$109); ${VILLAGE_SPECIFIED_ADDRESS_CITE_EN} Village-table examples go up to HK$376/month; 5G home about HK$88 to HK$190/month (CMHK 350GB, 48 months, from HK$88). These are listed examples, not a ranking, and they do not mean your building has them.`;
 
 /** Final /plans broadband first screen. Wording is fixed; do not paraphrase. */
 export const PLANS_BROADBAND_H1 = "香港光纖寬頻報價比較";
@@ -250,13 +250,13 @@ export function plansBroadbandHero(locale: "zh" | "en", date = PLANS_LISTING_COP
 
 /** After the locked lead. Not part of lead-copy, title, or meta. */
 export const PLANS_BROADBAND_QUOTE_NOTE =
-  "家居寬頻報價要有地址同申請資格，先可以對到適用計劃。呢頁計劃卡只供參考，實際月費、覆蓋、合約同安裝安排，一律以電訊商確認為準。";
+  "家居寬頻報價要有地址同申請資格，先可以對到適用計劃。";
 
 /** Visible /plans FAQ and broadband FAQPage JSON-LD both read this list. */
 export const PLANS_BROADBAND_FAQ = [
   {
     q: "家居寬頻報價點攞？",
-    a: "報價要有地址同申請資格，先可以對到適用計劃。你可喺呢頁輸入屋苑或地址，對照站內參考月費。計劃卡只供參考，實際月費、覆蓋、合約同安裝安排，一律以電訊商確認為準。",
+    a: "報價要有地址同申請資格，先可以對到適用計劃。你可喺呢頁輸入屋苑或地址，對照站內參考月費。",
   },
 ] as const;
 
@@ -285,11 +285,11 @@ export const FAQ_ZH = [
   },
   {
     q: "公屋同埋居屋價錢會唔會唔同？",
-    a: "公屋同埋居屋好多時有指定供應商同批量價，每個屋邨／屋苑合約都可能唔同。站內光纖入門參考可見「指定屋苑 1000M 光纖入屋（48 個月）」約 HK$58／月起（有線寬頻）；篩選時分開揀公屋／居屋，問價填齊屋苑名稱。實際以電訊商確認為準。",
+    a: "公屋同埋居屋好多時有指定供應商同批量價，每個屋邨／屋苑合約都可能唔同。站內光纖入門參考可見「指定屋苑 1000M 光纖入屋（48 個月）」約 HK$58／月起（有線寬頻）；篩選時分開揀公屋／居屋，問價填齊屋苑名稱。",
   },
   {
     q: "村屋有冇光纖？",
-    a: "村屋光纖包括中國移動香港、香港寬頻、HGC 同網上行嘅指定計劃；公屋、居屋同私樓計劃一般唔適用於村屋地址。村屋由指定地址優惠 HK$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。另有香港寬頻「特選村屋 2000M 光纖（24 個月）」HK$229 等較高規格計劃。未有光纖可一併比較 5G 家居寬頻（站內約 HK$88 起）。實際覆蓋要核對門牌，以電訊商確認為準。",
+    a: "村屋光纖包括中國移動香港、香港寬頻、HGC 同網上行嘅指定計劃；公屋、居屋同私樓計劃一般唔適用於村屋地址。村屋由指定地址優惠 HK$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK$680），唔等於所有村屋都係呢個價；同系列正價為 HK$378。另有香港寬頻「特選村屋 2000M 光纖（24 個月）」HK$229 等較高規格計劃。未有光纖可一併比較 5G 家居寬頻（站內約 HK$88 起）。實際覆蓋要核對門牌。",
   },
   {
     q: "商業寬頻同家居計劃有咩分別？",
@@ -316,11 +316,11 @@ export const FAQ_EN = [
   },
   {
     q: "Do public housing and HOS prices differ?",
-    a: "Public housing and HOS often have designated providers and bulk rates, and each estate contract can differ. The on-site fibre entry reference is “指定屋苑 1000M 光纖入屋（48 個月）”, about HK$58/month (i-Cable). Filter public housing and HOS separately, and include the estate name. The actual terms are confirmed by the carrier.",
+    a: "Public housing and HOS often have designated providers and bulk rates, and each estate contract can differ. The on-site fibre entry reference is “指定屋苑 1000M 光纖入屋（48 個月）”, about HK$58/month (i-Cable). Filter public housing and HOS separately, and include the estate name.",
   },
   {
     q: "Can village houses get fibre?",
-    a: "Village fibre on this site includes designated plans from China Mobile Hong Kong, HKBN, HGC and Netvigator. Public, HOS and private plans usually do not apply to a village address. Village houses from a specified-address promo of HK$218/month (CMHK village 1000M, 24 months, installation waived from HK$680) are not that price at every village house; the list price in the same series is HK$378. HKBN “特選村屋 2000M 光纖（24 個月）” at HK$229 is a higher-spec example. Where there is no fibre, also compare 5G home broadband (about HK$88 on this site). Coverage must be checked against the address; the carrier confirms.",
+    a: "Village fibre on this site includes designated plans from China Mobile Hong Kong, HKBN, HGC and Netvigator. Public, HOS and private plans usually do not apply to a village address. Village houses from a specified-address promo of HK$218/month (CMHK village 1000M, 24 months, installation waived from HK$680) are not that price at every village house; the list price in the same series is HK$378. HKBN “特選村屋 2000M 光纖（24 個月）” at HK$229 is a higher-spec example. Where there is no fibre, also compare 5G home broadband (about HK$88 on this site). Coverage must be checked against the address.",
   },
   {
     q: "How is business broadband different?",
@@ -336,9 +336,10 @@ export const FAQ_EN = [
   },
 ] as const;
 
-/** Filled zh answers for FAQPage JSON-LD. `{date}` is the homepage content date, not the clock. */
-export function siteFaq() {
-  return FAQ_ZH.map((item) => ({
+/** Filled FAQPage answers. `{date}` is the homepage content date, not the clock. `en` is the `?lang=en` visible list. */
+export function siteFaq(locale: "zh" | "en" = "zh") {
+  const items = locale === "en" ? FAQ_EN : FAQ_ZH;
+  return items.map((item) => ({
     q: item.q,
     a: fillSiteTemplate(item.a),
   }));

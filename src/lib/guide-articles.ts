@@ -1680,7 +1680,6 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "去 [光纖格價](/plans?cat=broadband) 免費比較計劃卡。覆蓋同月費以電訊商確認為準。地區例子：[天水圍寬頻](/guides/tin-shui-wai)、[沙田寬頻](/guides/sha-tin)、[將軍澳寬頻](/guides/tseung-kwan-o)。",
           DISCLAIMER,
-          "本網站並沒有向任何電訊商收取佣金或廣告費。所列月費僅供參考，實際以電訊商確認為準。",
         ],
       },
     ],
@@ -1869,7 +1868,6 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "Open [fibre compare](/plans?cat=broadband) and compare the cards for free. Coverage and fees are confirmed by the carrier. District pages: [Tin Shui Wai](/guides/tin-shui-wai), [Sha Tin](/guides/sha-tin), [Tseung Kwan O](/guides/tseung-kwan-o).",
           DISCLAIMER_EN,
-          "We do not receive commission or advertising fees from any carrier. Fees are for reference only; the carrier confirms the final terms.",
         ],
       },
     ],
@@ -1900,7 +1898,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         q: "邊度可以免費比較？",
-        a: "用齊Quote 輸入屋苑，開 [光纖格價](/plans?cat=broadband) 睇計劃卡，再用 WhatsApp 6309 9966 核實。比較免費。本站無向電訊商收取佣金或廣告費。非官方客服，唔好傳銀行戶口或信用卡密碼。",
+        a: "用齊Quote 輸入屋苑，開 [光纖格價](/plans?cat=broadband) 睇計劃卡，再用 WhatsApp 6309 9966 核實。比較免費。非官方客服，唔好傳銀行戶口或信用卡密碼。",
       },
       {
         q: "點解表入面冇快閃優惠？",
@@ -1938,7 +1936,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       },
       {
         q: "Where can I compare for free?",
-        a: "Enter your estate on ChaiQuote, open [fibre compare](/plans?cat=broadband), then confirm on WhatsApp 6309 9966. Comparison is free. This site does not take commission or advertising fees from carriers. Not official customer service. Do not send bank or card passwords.",
+        a: "Enter your estate on ChaiQuote, open [fibre compare](/plans?cat=broadband), then confirm on WhatsApp 6309 9966. Comparison is free. Not official customer service. Do not send bank or card passwords.",
       },
       {
         q: "Why are flash offers missing?",

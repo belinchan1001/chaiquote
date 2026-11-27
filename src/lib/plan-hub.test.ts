@@ -337,6 +337,10 @@ describe("plan category hub", () => {
     const noteAt = plans.indexOf("{PLANS_BROADBAND_QUOTE_NOTE}");
     const leadAt = plans.indexOf("lead={broadbandHero.lead}");
     assert.ok(leadAt >= 0 && noteAt > leadAt);
+    assert.equal(
+      PLANS_BROADBAND_QUOTE_NOTE,
+      "家居寬頻報價要有地址同申請資格，先可以對到適用計劃。",
+    );
     assert.equal(PLANS_BROADBAND_QUOTE_NOTE.includes(plansBroadbandLead("zh").slice(0, 12)), false);
     assert.doesNotMatch(PLANS_BROADBAND_QUOTE_NOTE, /最平|最抵|最佳|最真實|低至/);
     const zh = plansBroadbandLead("zh", "2026-11-21");
@@ -364,7 +368,7 @@ describe("plan category hub", () => {
     assert.equal(PLANS_BROADBAND_FAQ[0]?.q, "家居寬頻報價點攞？");
     assert.equal(
       PLANS_BROADBAND_FAQ[0]?.a,
-      "報價要有地址同申請資格，先可以對到適用計劃。你可喺呢頁輸入屋苑或地址，對照站內參考月費。計劃卡只供參考，實際月費、覆蓋、合約同安裝安排，一律以電訊商確認為準。",
+      "報價要有地址同申請資格，先可以對到適用計劃。你可喺呢頁輸入屋苑或地址，對照站內參考月費。",
     );
     const broadband = categoryJsonLd("broadband") as {
       "@graph": { "@type": string; mainEntity?: { name: string; acceptedAnswer: { text: string } }[] }[];
