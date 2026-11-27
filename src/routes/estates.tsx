@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { addressHitValue, matchKnownEstate } from "@/lib/address-search";
 import { useDesk } from "@/lib/desk";
 import { compact, estateDisplayName, ESTATES, placeDisplayName } from "@/lib/estates";
-import { estatePagesByDistrict, estateSelectTarget, ESTATE_PAGES, getEstatePage, INDEXABLE_ESTATE_PAGES } from "@/lib/estate-pages";
+import { estatePagesByDistrict, estateSelectTarget, ESTATE_PAGES, getEstatePage, LINKED_INDEXABLE_ESTATE_PAGES } from "@/lib/estate-pages";
 import { isNewIntakeEstate, NEW_INTAKE_NAMES, newIntakeGroups } from "@/lib/estate-new-intake";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import { canonicalUrl } from "@/lib/canonical";
@@ -398,14 +398,14 @@ function EstatesIndexPage() {
       <details className="estate-dir-group mt-10">
         <summary className="flex cursor-pointer list-none items-center text-lg font-semibold">
           <h2 className="text-lg font-semibold">指定屋苑計劃</h2>
-          <span className="ml-2 text-sm font-normal tabular-nums text-muted">{INDEXABLE_ESTATE_PAGES.length}</span>
+          <span className="ml-2 text-sm font-normal tabular-nums text-muted">{LINKED_INDEXABLE_ESTATE_PAGES.length}</span>
           <span className="ml-2 text-subtle">+</span>
         </summary>
         <p className="mt-1 max-w-2xl text-sm text-muted">
           呢啲屋苑有專屬或指定供應商參考計劃，唔係淨係樓類通用價。
         </p>
         <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
-          {INDEXABLE_ESTATE_PAGES.map((page) => (
+          {LINKED_INDEXABLE_ESTATE_PAGES.map((page) => (
             <li key={page.slug}>
               <a
                 href={`/estates/${page.slug}`}

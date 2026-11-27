@@ -454,6 +454,33 @@ export function estateSeoDescription(estate: Estate): string {
 
 const SEARCH_INDEX_ESTATES = new Set(["YOHO Town"]);
 
+/**
+ * Existing parent pages opened for indexing. Each name is a catalogue parent
+ * (not a 座／樓／閣 child). Children stay noindex because `parentEstate()`
+ * is checked first. These rows are not flagship copy and do not have a
+ * named-plan list, so neighbour sentences and on-site estate lists omit them.
+ */
+const DISCOVERY_INDEX_ESTATES = new Set([
+  "瓏門",
+  "日出康城",
+  "海怡半島",
+  "名城",
+  "麗港城",
+  "杏花邨",
+  "南豐新邨",
+  "愉景灣",
+  "新都城",
+  "淘大花園",
+  "東涌逸東邨",
+  "彩雲邨",
+  "華富邨",
+  "水泉澳邨",
+  "橫頭磡邨",
+  "悅湖山莊",
+  "彩明苑",
+  "天頌苑",
+]);
+
 /** Extra copy for pages people actually search. Generic estates keep the one-line intro. */
 export function estateSearchNote(estate: Estate, locale: Locale = "zh"): string | undefined {
   const en = locale === "en";
@@ -568,6 +595,18 @@ function indexableEstateNames(): Set<string> {
 const INDEXABLE_ESTATE_NAMES = indexableEstateNames();
 
 /**
+ * Flagship, YOHO, and named-plan pages. Neighbour sentences, plan chips,
+ * guide crawls, and the「指定屋苑計劃」list use this set so discovery-only
+ * parents do not rewrite copy on other pages.
+ */
+function isLinkedIndexableEstatePage(page: EstatePage): boolean {
+  if (parentEstate(page.estate)) return false;
+  if ((ESTATE_PAGE_NAMES as readonly string[]).includes(page.estate.name)) return true;
+  if (SEARCH_INDEX_ESTATES.has(page.estate.name)) return true;
+  return INDEXABLE_ESTATE_NAMES.has(page.estate.name);
+}
+
+/**
  * Sitemap / indexable estate pages.
  *
  * Indexed when either:
@@ -575,19 +614,22 @@ const INDEXABLE_ESTATE_NAMES = indexableEstateNames();
  *    and housing copy, linked from homepage 熱門. These are not doorway pages.
  * 2. The estate lists broadband / home5g cards that differ from the generic
  *    樓類 catalogue (exclusive `onlyEstates` offers or a provider lock).
+ * 3. `SEARCH_INDEX_ESTATES` (YOHO Town) or `DISCOVERY_INDEX_ESTATES` (a fixed
+ *    parent allowlist). Discovery parents are indexable and sitemap-listed,
+ *    but they stay off neighbour copy and the named-estate lists.
  *
- * Related 座／樓／閣 stay on the site but stay noindex unless they themselves
- * appear in `onlyEstates`. Other generic catalogue rows stay noindex so Google
- * does not see 1,800 near-duplicate 樓類 templates.
+ * Related 座／樓／閣 stay on the site but stay noindex. Other generic catalogue
+ * rows stay noindex so Google does not see 1,800 near-duplicate 樓類 templates.
  */
 export function isIndexableEstatePage(page: EstatePage): boolean {
   if (parentEstate(page.estate)) return false;
-  if ((ESTATE_PAGE_NAMES as readonly string[]).includes(page.estate.name)) return true;
-  if (SEARCH_INDEX_ESTATES.has(page.estate.name)) return true;
-  return INDEXABLE_ESTATE_NAMES.has(page.estate.name);
+  if (DISCOVERY_INDEX_ESTATES.has(page.estate.name)) return true;
+  return isLinkedIndexableEstatePage(page);
 }
 
 export const INDEXABLE_ESTATE_PAGES: readonly EstatePage[] = ESTATE_PAGES.filter(isIndexableEstatePage);
+
+export const LINKED_INDEXABLE_ESTATE_PAGES: readonly EstatePage[] = ESTATE_PAGES.filter(isLinkedIndexableEstatePage);
 
 const HOUSING_GUIDE: Record<Housing, { slug: string; label: string }> = {
   public: { slug: "public-hos-fees", label: "公屋寬頻報價" },
@@ -656,7 +698,7 @@ function providerNames(plans: readonly Plan[], locale: Locale, limit = 4): strin
 
 /** Same-district indexable neighbours, rotating so two estates do not share the same pair. */
 export function neighborIndexableEstates(estate: Estate, limit = 2): EstatePage[] {
-  const pool = INDEXABLE_ESTATE_PAGES.filter(
+  const pool = LINKED_INDEXABLE_ESTATE_PAGES.filter(
     (page) => page.estate.district === estate.district && page.estate.name !== estate.name,
   );
   const names = [...pool].sort((a, b) => a.estate.name.localeCompare(b.estate.name, "zh-Hant"));
@@ -916,7 +958,7 @@ export function crawlEstateLinksForGuide(
 ): { href: string; label: string }[] {
   const match = GUIDE_ESTATE_MATCH[slug];
   if (!match) return [];
-  return INDEXABLE_ESTATE_PAGES.filter((page) => match(page.estate)).map((page) => ({
+  return LINKED_INDEXABLE_ESTATE_PAGES.filter((page) => match(page.estate)).map((page) => ({
     href: estatePagePath(page),
     label: estateDisplayName(page.estate, locale),
   }));
@@ -956,7 +998,7 @@ export function mergeEstateLinks(
 }
 
 export function indexableEstateNavLinks(locale: Locale = "zh"): { href: string; label: string }[] {
-  return INDEXABLE_ESTATE_PAGES.map((page) => ({
+  return LINKED_INDEXABLE_ESTATE_PAGES.map((page) => ({
     href: estatePagePath(page),
     label: estateDisplayName(page.estate, locale),
   }));
@@ -966,7 +1008,7 @@ export function indexableEstateNavLinks(locale: Locale = "zh"): { href: string; 
 export function planEstateLinks(plan: Plan, locale: Locale = "zh", limit = 8): { href: string; label: string }[] {
   if (plan.category !== "broadband" && plan.category !== "home5g") return [];
   const exclusive = new Set(plan.onlyEstates ?? []);
-  const pages = INDEXABLE_ESTATE_PAGES.filter(
+  const pages = LINKED_INDEXABLE_ESTATE_PAGES.filter(
     (page) => plan.housing === "all" || plan.housing.includes(page.estate.housing),
   );
   const ranked = [...pages].sort((a, b) => {
