@@ -311,6 +311,14 @@ describe("date stamps", () => {
     assert.doesNotMatch(header, /headerStrip[\s\S]*text-subtle/);
     assert.doesNotMatch(home, /t\("hkUpdated"/);
     assert.doesNotMatch(home, /headerStrip/);
+    const i18n = readFileSync(join(here, "i18n.tsx"), "utf8");
+    assert.match(i18n, /get updated\(\) \{\s*return SITE\.updated;\s*\}/);
+    assert.doesNotMatch(i18n, /contentLastmod\(/);
+    const hero = home.slice(home.indexOf('t("heroAnswer"'), home.indexOf('t("faqTitle")'));
+    const faq = home.slice(home.indexOf('t("faqTitle")'));
+    assert.match(hero, /date: updated/);
+    assert.match(faq, /date: HOME_CONTENT_DATE/);
+    assert.doesNotMatch(faq, /date: updated/);
     assert.equal(quoted(messages, "dataUpdated")[0], "資料更新 {date}");
     assert.equal(quoted(messages, "manuscriptDate")[0], "稿件日期 {date}");
     assert.equal(quoted(messages, "manuscriptUpdated")[0], "稿件日期 {published} · 更新 {modified}");

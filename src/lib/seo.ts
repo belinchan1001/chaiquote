@@ -115,10 +115,10 @@ export function siteOfferValidUntil(stamp: string = CATALOGUE_CONTENT_STAMP): st
 }
 
 /**
- * lastmod from the same content date as the visible「資料更新」.
- * Guide `modified` / `published` and news `published` win for those URLs.
- * Other URLs use the catalogue stamp, or a later page-specific revision.
- * Never the clock.
+ * 每個 URL 最後一次有意義嘅內容改動，用作 sitemap lastmod。
+ * 攻略用稿件 modified／published，新聞用 published。
+ * 其他 URL 用目錄印，或者較後嘅頁面修訂。
+ * 唔用時鐘，亦唔用頁面可見「資料更新」。
  */
 export function sitemapLastmod(path: string): string {
   return contentLastmod(path);

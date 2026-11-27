@@ -4,6 +4,7 @@ import { WhatsAppTip } from "@/components/whatsapp-tip";
 import { PlanCard } from "@/components/plan-card";
 import { ProviderMark } from "@/components/provider-mark";
 import { useHydrateDesk } from "@/lib/desk";
+import { contentLastmod } from "@/lib/content-lastmod";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import {
   averageFee,
@@ -97,7 +98,9 @@ function PlanDetailPage() {
   useHydrateDesk();
   const avg = averageFee(plan);
   const related = relatedComparePlans(plan, housing, estate);
-  const { t, tx, categoryLabel, housingList, locale, updated } = useI18n();
+  const { t, tx, categoryLabel, housingList, locale } = useI18n();
+  // 計劃頁英文 As of 跟呢條計劃嘅內容改動日，唔跟頁首「資料更新」嘅香港曆日。
+  const catalogueDate = contentLastmod(`/plans/${plan.id}`);
   usePageTitle(planSeoTitle(plan));
   const remembered = readPlansSearch();
   const backSearch =
@@ -148,8 +151,8 @@ function PlanDetailPage() {
       <p className="mt-4 max-w-3xl text-sm leading-relaxed text-fg">
         {locale === "en"
           ? plan.double11Offer && avg !== plan.monthlyFee
-            ? `As of ${updated}, ${PROVIDER_MAP[plan.providerId].nameEn} lists ${tx(plan.name)} at an average of ${formatFee(avg)} per month (listed ${formatFee(plan.monthlyFee)}, ${plan.freeMonths} free months included) for ${plan.contractMonths} months. Housing: ${housingList(plan.housing)}. Speed: ${tx(formatPlanSpeed(plan))}.`
-            : `As of ${updated}, ${PROVIDER_MAP[plan.providerId].nameEn} lists ${tx(plan.name)} at ${formatFee(plan.monthlyFee)} per month for ${plan.contractMonths} months. Housing: ${housingList(plan.housing)}. Speed: ${tx(formatPlanSpeed(plan))}.`
+            ? `As of ${catalogueDate}, ${PROVIDER_MAP[plan.providerId].nameEn} lists ${tx(plan.name)} at an average of ${formatFee(avg)} per month (listed ${formatFee(plan.monthlyFee)}, ${plan.freeMonths} free months included) for ${plan.contractMonths} months. Housing: ${housingList(plan.housing)}. Speed: ${tx(formatPlanSpeed(plan))}.`
+            : `As of ${catalogueDate}, ${PROVIDER_MAP[plan.providerId].nameEn} lists ${tx(plan.name)} at ${formatFee(plan.monthlyFee)} per month for ${plan.contractMonths} months. Housing: ${housingList(plan.housing)}. Speed: ${tx(formatPlanSpeed(plan))}.`
           : planSeoDescription(plan)}
       </p>
       <table className="mt-4 w-full max-w-3xl border-collapse text-sm">

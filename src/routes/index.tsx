@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { ServiceSearch } from "@/components/service-search";
 import { ESTATE_COUNT } from "@/lib/estate-count";
 import { PLAN_COUNT } from "@/lib/plan-count";
-import { HOME_SEARCH_V2, SITE } from "@/lib/site";
+import { HOME_CONTENT_DATE, HOME_SEARCH_V2, SITE } from "@/lib/site";
 import { useI18n, usePageTitle } from "@/lib/i18n";
 import type { MessageKey } from "@/lib/messages";
 import { HOME_SEO, canonicalUrl, homeJsonLd, shareHead } from "@/lib/canonical";
@@ -246,7 +246,8 @@ function Home() {
                     {t(item.a, {
                       phone: SITE.phoneDisplay,
                       email: SITE.leadEmail,
-                      date: updated,
+                      // FAQ 內文「資料更新」跟內容印，唔跟香港曆日。
+                      date: HOME_CONTENT_DATE,
                       providers: HOME_PROVIDER_COUNT,
                       plans: PLAN_COUNT,
                       estates: ESTATE_COUNT,

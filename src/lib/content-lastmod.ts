@@ -89,7 +89,7 @@ function planLastmod(id: string): string {
   return latest;
 }
 
-/** Path the sitemap and the visible「資料更新」share. Query filters other than `cat` are ignored. */
+/** Sitemap lastmod 用嘅路徑。可見「資料更新」跟香港曆日，唔共用呢度。除咗 `cat` 之外嘅 query 都唔計。 */
 export function canonicalContentPath(hrefOrPath: string): string {
   let path = hrefOrPath.trim();
   const hash = path.indexOf("#");
