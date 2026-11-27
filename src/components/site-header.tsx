@@ -82,7 +82,7 @@ export function SiteHeader() {
         </nav>
         <div className="flex min-w-0 shrink items-center gap-1 sm:gap-2">
           <LangToggle className="max-sm:w-20" />
-          <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
+          <Button asChild variant="ghost" size="sm" className="hidden lg:inline-flex">
             <Link to="/compare">
               {t("navCompare")}
               {compareCount ? ` ${compareCount}` : ""}
@@ -101,10 +101,10 @@ export function SiteHeader() {
               }}
             >
               <LogoMarkLooking className="!size-5" />
-              <span className="sm:hidden" aria-hidden>
+              <span className="lg:hidden" aria-hidden>
                 {t("aiStaffTiny")}
               </span>
-              <span className="hidden sm:inline lg:hidden" aria-hidden>
+              <span className="hidden" aria-hidden>
                 {t("aiStaffShort")}
               </span>
               <span id="header-ai-staff" className="header-ai-name">

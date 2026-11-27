@@ -345,11 +345,14 @@
   /* Card / topic photos: kill the inline <img> baseline seam; crop from the top. */
   .photo-strip {
     display: block;
+    min-width: 0;
+    max-width: 100%;
     line-height: 0;
   }
   .photo-strip img {
     display: block;
     width: 100%;
+    max-width: 100%;
     object-fit: cover;
     object-position: top;
   }

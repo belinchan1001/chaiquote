@@ -126,7 +126,7 @@ function Home() {
         </Suspense>
       </IdleMount>
 
-      <section className="home-below-fold mx-auto max-w-6xl px-4 py-8 sm:py-10">
+      <section className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
         <Link
           to="/new-intake"
           className="mb-3 flex flex-col gap-4 rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-home-tile)] sm:flex-row sm:items-center sm:justify-between sm:p-5"
@@ -143,12 +143,12 @@ function Home() {
             <ArrowRight className="ml-1 size-4" />
           </span>
         </Link>
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div className="grid min-w-0 grid-cols-1 gap-3 lg:grid-cols-2 xl:grid-cols-4">
           {categories.map((item) => {
             return (
             <div
               key={item.label}
-              className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card shadow-[var(--shadow-home-tile)]"
+              className="flex h-full min-w-0 flex-col overflow-hidden rounded-lg border border-border bg-card shadow-[var(--shadow-home-tile)]"
             >
               <Link to={item.to} params={{ slug: item.slug }} className="group flex min-h-0 flex-1 flex-col">
                 <picture className="photo-strip photo-strip-card">
