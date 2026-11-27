@@ -176,6 +176,7 @@ export const GUIDES_SEO = {
 export const CATEGORY_SEO: Record<Category, SeoCopy> = {
   broadband: {
     title: `${PLANS_BROADBAND_H1}｜齊Quote`,
+    /** 搜尋結果摘要跟內容改動日。頁面上嘅「資料更新」跟香港曆日。 */
     get description() {
       return plansBroadbandLead("zh", contentLastmod("/plans?cat=broadband"));
     },

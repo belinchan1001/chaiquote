@@ -5,7 +5,18 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { hongKongCalendarDate } from "./catalogue-date.ts";
 import { contentLastmod } from "./content-lastmod.ts";
-import { CATALOGUE_CONTENT_STAMP, HOME_CONTENT_DATE, PLANS_LISTING_COPY_DATE, PRIVACY_UPDATED, SITE, plansBroadbandLead } from "./site.ts";
+import { MESSAGES } from "./messages.ts";
+import {
+  CATALOGUE_CONTENT_STAMP,
+  FEE_RANGE_ANSWER,
+  HOME_CONTENT_DATE,
+  INDEPENDENT_BODY,
+  PLANS_LISTING_COPY_DATE,
+  PRIVACY_UPDATED,
+  SITE,
+  fillSiteTemplate,
+  plansBroadbandLead,
+} from "./site.ts";
 import { filterPlans } from "./plan-filter.ts";
 import { getPlan } from "./plans.ts";
 import { HOME_SEO, CATEGORY_SEO, GUIDES_SEO, PLAN_DETAIL_ROUTE_ID, catalogueMonthLabel, canonicalUrlFromMatches } from "./canonical.ts";
@@ -48,7 +59,7 @@ describe("catalogue stamp", () => {
     assert.equal(sitemapLastmod("/estates/cheerful-court"), "2026-11-20");
     assert.equal(sitemapLastmod("/privacy"), "2026-11-14");
     assert.equal(sitemapLastmod("/new-intake"), "2026-11-22");
-    assert.equal(sitemapLastmod("/tech-news"), "2026-11-23");
+    assert.equal(sitemapLastmod("/tech-news"), "2026-11-26");
     const switched = getGuide("switch-broadband");
     assert.ok(switched);
     assert.equal(switched.published, "2026-09-09");
@@ -69,6 +80,91 @@ describe("catalogue stamp", () => {
     const privacy = readFileSync(join(here, "../routes/privacy.tsx"), "utf8");
     assert.match(privacy, /date: PRIVACY_UPDATED/);
     assert.doesNotMatch(privacy, /date: updated/);
+  });
+
+  it("puts header, footer, homepage, and directory 資料更新 on the Hong Kong day, not sitemap lastmod", () => {
+    const beforeMidnight = hongKongCalendarDate(new Date("2026-11-19T15:59:59.000Z"));
+    const afterMidnight = hongKongCalendarDate(new Date("2026-11-19T16:00:00.000Z"));
+    const newYear = hongKongCalendarDate(new Date("2026-12-31T16:00:00.000Z"));
+    assert.equal(beforeMidnight, "2026-11-19");
+    assert.equal(afterMidnight, "2026-11-20");
+    assert.equal(newYear, "2027-01-01");
+    assert.equal(SITE.updated, hongKongCalendarDate());
+    assert.notEqual(afterMidnight, HOME_CONTENT_DATE);
+    assert.notEqual(newYear, PLANS_LISTING_COPY_DATE.broadband);
+
+    assert.equal(MESSAGES.zh.headerStrip.replaceAll("{date}", afterMidnight), "資料更新：2026-11-20");
+    assert.equal(MESSAGES.zh.headerStrip.replaceAll("{date}", beforeMidnight), "資料更新：2026-11-19");
+    assert.equal(MESSAGES.en.headerStrip.replaceAll("{date}", newYear), "Data updated: 2027-01-01");
+    assert.equal(`${MESSAGES.zh.updatedPrefix}${afterMidnight}`, "資料更新：2026-11-20");
+    assert.equal(`${MESSAGES.en.updatedPrefix}${afterMidnight}`, "Data updated: 2026-11-20");
+    assert.equal(MESSAGES.zh.dataUpdated.replaceAll("{date}", afterMidnight), "資料更新 2026-11-20");
+    assert.equal(MESSAGES.en.dataUpdated.replaceAll("{date}", afterMidnight), "Data updated 2026-11-20");
+    assert.equal(MESSAGES.zh.hkUpdated.replaceAll("{date}", newYear), "香港 · 資料更新 2027-01-01");
+    assert.match(MESSAGES.zh.heroAnswer, /\{date\} 目錄入面/);
+    assert.equal(MESSAGES.zh.heroTitle1, "搵寬頻唔使四圍問");
+    assert.equal("搵".codePointAt(0), 0x6435);
+
+    const visibleLead = plansBroadbandLead("zh", afterMidnight);
+    const contentLead = plansBroadbandLead("zh");
+    assert.equal(contentLead.includes(PLANS_LISTING_COPY_DATE.broadband), true);
+    assert.match(visibleLead, /（資料更新 2026-11-20）/);
+    assert.equal(visibleLead.replaceAll(afterMidnight, PLANS_LISTING_COPY_DATE.broadband), contentLead);
+    assert.match(
+      visibleLead,
+      /村屋由指定地址優惠 HK\$218／月起（中國移動香港村屋 1000M、24 個月，豁免安裝費原價 HK\$680），唔等於所有村屋都係呢個價；同系列正價為 HK\$378。/,
+    );
+    const visibleEn = plansBroadbandLead("en", newYear);
+    assert.match(visibleEn, /\(updated 2027-01-01\)/);
+    assert.equal(visibleEn.replaceAll(newYear, PLANS_LISTING_COPY_DATE.broadband), plansBroadbandLead("en"));
+
+    assert.match(fillSiteTemplate(INDEPENDENT_BODY), new RegExp(`資料更新 ${HOME_CONTENT_DATE}`));
+    assert.match(fillSiteTemplate(FEE_RANGE_ANSWER), new RegExp(`資料更新 ${HOME_CONTENT_DATE}`));
+    assert.doesNotMatch(fillSiteTemplate(INDEPENDENT_BODY), /2026-11-20|2027-01-01/);
+    assert.doesNotMatch(fillSiteTemplate(FEE_RANGE_ANSWER), /2026-11-20|2027-01-01/);
+
+    const i18n = readFileSync(join(here, "i18n.tsx"), "utf8");
+    const header = readFileSync(join(here, "../components/site-header.tsx"), "utf8");
+    const footer = readFileSync(join(here, "../components/site-footer.tsx"), "utf8");
+    const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
+    const plans = readFileSync(join(here, "../routes/plans.tsx"), "utf8");
+    const estates = readFileSync(join(here, "../routes/estates.tsx"), "utf8");
+    const estatePage = readFileSync(join(here, "../routes/estates_.$slug.tsx"), "utf8");
+    assert.match(i18n, /get updated\(\) \{\s*return SITE\.updated;\s*\}/);
+    assert.doesNotMatch(i18n, /contentLastmod\(/);
+    assert.match(header, /t\("headerStrip", \{ date: updated \}\)/);
+    assert.match(footer, /t\("updatedPrefix"\)\}\s*\{updated\}/);
+    const hero = home.slice(home.indexOf('t("heroAnswer"'), home.indexOf('t("faqTitle")'));
+    assert.match(hero, /date: updated/);
+    const faq = home.slice(home.indexOf('t("faqTitle")'));
+    assert.match(faq, /date: HOME_CONTENT_DATE/);
+    assert.doesNotMatch(faq, /date: updated/);
+    assert.match(plans, /plansBroadbandHero\(locale, updated\)/);
+    assert.doesNotMatch(plans, /plansBroadbandHero\(locale,\s*(contentLastmod|HOME_CONTENT_DATE|PLANS_LISTING_COPY_DATE)/);
+    assert.match(plans, /t\("dataUpdated", \{ date: updated \}\)/);
+    assert.match(plans, /t\("broadbandHubSummary", \{\s*date: updated/);
+    assert.match(estates, /t\("dataUpdated", \{ date: updated \}\)/);
+    assert.match(estatePage, /t\("dataUpdated", \{ date: updated \}\)/);
+    const planPage = readFileSync(join(here, "../routes/plans_.$planId.tsx"), "utf8");
+    assert.match(planPage, /contentLastmod\(`\/plans\/\$\{plan\.id\}`\)/);
+    assert.doesNotMatch(planPage, /As of \$\{updated\}/);
+
+    assert.equal(sitemapLastmod("/"), HOME_CONTENT_DATE);
+    assert.notEqual(sitemapLastmod("/"), newYear);
+    assert.equal(sitemapLastmod("/plans?cat=broadband"), contentLastmod("/plans?cat=broadband"));
+    assert.notEqual(sitemapLastmod("/plans?cat=broadband"), newYear);
+    assert.equal(sitemapLastmod("/privacy"), PRIVACY_UPDATED);
+    assert.equal(sitemapLastmod("/guides/switch-broadband"), "2026-11-20");
+    const news = getTechNewsArticle("iphone-18-handset-plan");
+    assert.ok(news?.published);
+    assert.equal(sitemapLastmod(`/tech-news/${news.slug}`), news.published);
+    assert.notEqual(news.published, newYear);
+    const xml = renderSitemapXml();
+    assert.equal(xml.includes("<lastmod>2027-01-01</lastmod>"), false);
+    const lastmods = [...xml.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((match) => match[1]);
+    assert.ok(lastmods.length > 20);
+    assert.equal(lastmods.every((value) => value === newYear), false);
+    assert.equal(lastmods.includes(HOME_CONTENT_DATE), true);
   });
 });
 

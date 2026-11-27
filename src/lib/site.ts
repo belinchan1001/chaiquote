@@ -4,8 +4,8 @@ import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
 
 /**
  * Fallback content date for URLs with no later page-specific revision.
- * Offer.priceValidUntil stays on this month. Visible「資料更新」uses
- * `contentLastmod` for the current URL, not the clock.
+ * Offer.priceValidUntil stays on this month.
+ * 可見「資料更新」用香港曆日，唔用呢個印。Sitemap lastmod 用 contentLastmod。
  */
 export const CATALOGUE_CONTENT_STAMP = "2026-11-14";
 
@@ -44,8 +44,9 @@ export const SITE = {
   ],
   description: `齊Quote（chaiquote.hk）係獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。所列月費僅供參考，實際以電訊商確認為準。`,
   /**
-   * Asia/Hong_Kong calendar day. This is the clock, not a content revision.
-   * Page「資料更新」and sitemap lastmod use contentLastmod instead.
+   * 香港時區（Asia/Hong_Kong）曆日。
+   * 頁首、頁尾、主頁同目錄嘅可見「資料更新」用呢個日子，唔代表當日重新核實價錢。
+   * Sitemap lastmod、稿件日期、私隱政策最後更新，同 FAQ 內文日期，都唔跟呢個時鐘。
    */
   get updated(): string {
     return hongKongCalendarDate();
