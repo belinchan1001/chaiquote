@@ -1182,6 +1182,37 @@ describe("2026-11-24 GEO citation copy", () => {
     );
     assert.equal(faqAnswer(guideJsonLd(guide), item?.q ?? ""), item?.a);
     assert.doesNotMatch((guide.opening ?? []).map((line) => line.text).join("\n") + (item?.a ?? ""), BANNED);
+    const next = guide.body.find((section) => section.heading === "下一步");
+    assert.deepEqual(next?.paragraphs, [
+      "去 [光纖格價](/plans?cat=broadband) 免費比較計劃卡。覆蓋同月費以電訊商確認為準。地區例子：[天水圍寬頻](/guides/tin-shui-wai)、[沙田寬頻](/guides/sha-tin)、[將軍澳寬頻](/guides/tseung-kwan-o)。",
+      "以上只供參考。實際覆蓋、安裝期、月費、合約同路由器條款，一律以電訊商確認為準，唔好假設一定有線或者一定裝到。",
+    ]);
+    const nextEn = guide.bodyEn.find((section) => section.heading === "Next step");
+    assert.deepEqual(nextEn?.paragraphs, [
+      "Open [fibre compare](/plans?cat=broadband) and compare the cards for free. Coverage and fees are confirmed by the carrier. District pages: [Tin Shui Wai](/guides/tin-shui-wai), [Sha Tin](/guides/sha-tin), [Tseung Kwan O](/guides/tseung-kwan-o).",
+      "The above is for reference only. Coverage, install dates, fees, contracts and router terms are confirmed by the carrier. Do not assume a line exists or that it can be installed.",
+    ]);
+    const free = guide.faq?.find((item) => item.q === "邊度可以免費比較？");
+    assert.equal(
+      free?.a,
+      "用齊Quote 輸入屋苑，開 [光纖格價](/plans?cat=broadband) 睇計劃卡，再用 WhatsApp 6309 9966 核實。比較免費。非官方客服，唔好傳銀行戶口或信用卡密碼。",
+    );
+    assert.equal(faqAnswer(guideJsonLd(guide), free?.q ?? ""), guidePlainText(free?.a ?? ""));
+    assert.doesNotMatch(free?.a ?? "", /本站無向電訊商收取佣金或廣告費/);
+    const freeEn = guide.faqEn?.find((item) => item.q === "Where can I compare for free?");
+    assert.equal(
+      freeEn?.a,
+      "Enter your estate on ChaiQuote, open [fibre compare](/plans?cat=broadband), then confirm on WhatsApp 6309 9966. Comparison is free. Not official customer service. Do not send bank or card passwords.",
+    );
+    assert.doesNotMatch(freeEn?.a ?? "", /commission or advertising fees/);
+    const sharedFee = guide.body[0]?.paragraphs[0] ?? "";
+    assert.match(sharedFee, /資料更新 2026-11-14/);
+    assert.match(sharedFee, /以上只係站內列出參考，唔係排名，亦唔代表你座樓一定有。$/);
+    assert.doesNotMatch(sharedFee, /最終月費、覆蓋同安裝以電訊商確認為準/);
+    const sharedFeeEn = guide.bodyEn[0]?.paragraphs[0] ?? "";
+    assert.match(sharedFeeEn, /As of 2026-11-14/);
+    assert.match(sharedFeeEn, /These are listed examples, not a ranking, and they do not mean your building has them\.$/);
+    assert.doesNotMatch(sharedFeeEn, /The carrier confirms the final fee, coverage and installation/);
   });
 
   it("adds the fiber, public and private FAQs without touching openings", () => {

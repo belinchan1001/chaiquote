@@ -308,8 +308,8 @@ export function aboutJsonLd() {
   };
 }
 
-/** Homepage graph. Lives here so `/` does not import the estate catalogue. */
-export function homeJsonLd() {
+/** Homepage graph. Lives here so `/` does not import the estate catalogue. FAQPage follows `siteFaq(locale)`. */
+export function homeJsonLd(locale: "zh" | "en" = "zh") {
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -335,7 +335,7 @@ export function homeJsonLd() {
       {
         "@type": "FAQPage",
         "@id": `${SITE.url}/#faq`,
-        mainEntity: siteFaq().map((item) => ({
+        mainEntity: siteFaq(locale).map((item) => ({
           "@type": "Question",
           name: item.q,
           acceptedAnswer: { "@type": "Answer", text: item.a },
