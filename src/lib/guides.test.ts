@@ -75,7 +75,7 @@ describe("guide manuscript dates vs catalogue stamp", () => {
       "broadband-renewal": { published: "2026-10-21", modified: "2026-11-20" },
       "broadband-stability": { published: "2026-10-21", modified: "2026-10-21" },
       "old-building-broadband": { published: "2026-10-21", modified: "2026-10-21" },
-      "home5g-data-cap": { published: "2026-10-21", modified: "2026-10-21" },
+      "home5g-data-cap": { published: "2026-10-21", modified: "2026-11-29" },
       "move-broadband": { published: "2026-10-21", modified: "2026-11-19" },
       "yuen-long": { published: "2026-10-21", modified: "2026-11-01" },
       "mobile-broadband-bundle": { published: "2026-10-21", modified: "2026-10-21" },
@@ -1286,7 +1286,7 @@ describe("2026-11-24 GEO citation copy", () => {
       home5g.body.find((section) => section.heading === "數據上限同速度")?.paragraphs[1] ?? "",
       /詳情見 \[月費以外\]\(\/guides\/contract-fees\)。用量用完之後點算，見\[5G 家居數據上限同公平使用\]\(\/guides\/home5g-data-cap\)。/,
     );
-    const homeFaq = home5g.faq?.at(-1);
+    const homeFaq = home5g.faq?.find((item) => item.q === "5G 家居寬頻幾錢？邊間好？");
     assert.equal(homeFaq?.q, "5G 家居寬頻幾錢？邊間好？");
     assert.equal(
       guidePlainText(homeFaq?.a ?? ""),
@@ -1344,5 +1344,107 @@ describe("2026-11-24 GEO citation copy", () => {
     );
     assert.equal(faqAnswer(guideJsonLd(guide), guide.faq?.[0]?.q ?? ""), guide.faq?.[0]?.a);
     assert.doesNotMatch((guide.opening ?? []).map((line) => line.text).join(""), BANNED);
+  });
+});
+
+describe("2027 guide preview batch", () => {
+  function faqAnswer(ld: ReturnType<typeof guideJsonLd>, q: string) {
+    const faq = ld["@graph"].find((node) => node["@type"] === "FAQPage") as
+      | { mainEntity: { name: string; acceptedAnswer: { text: string } }[] }
+      | undefined;
+    return faq?.mainEntity.find((item) => item.name === q)?.acceptedAnswer.text;
+  }
+
+  const banned =
+    /最平|最抵|最佳|低至|不偏幫|零佣金|研究組|three-home5g-w6|(?<![\d])HK\$78(?![\d])|88–\$128|88-\$128|兩年慳超過|相差超過 HK\$4,000|／月起/;
+
+  function blob(slug: string) {
+    const guide = getGuide(slug);
+    assert.ok(guide, slug);
+    return [
+      guide.seoTitle,
+      guide.h1,
+      guide.description,
+      guide.excerpt,
+      guide.titleEn,
+      guide.excerptEn,
+      guide.descriptionEn ?? "",
+      guide.h1En ?? "",
+      ...(guide.opening ?? []).map((line) => line.text),
+      ...guide.body.flatMap((section) => [
+        section.heading,
+        ...section.paragraphs,
+        ...(section.flow ?? []).flatMap((block) =>
+          block.kind === "ul" || block.kind === "ol" || block.kind === "rows" ? block.items : [block.text],
+        ),
+        ...(section.matrix ? [section.matrix.caption, ...section.matrix.headers, ...section.matrix.rows.flat()] : []),
+      ]),
+      ...guide.bodyEn.flatMap((section) => [
+        section.heading,
+        ...section.paragraphs,
+        ...(section.flow ?? []).flatMap((block) =>
+          block.kind === "ul" || block.kind === "ol" || block.kind === "rows" ? block.items : [block.text],
+        ),
+        ...(section.matrix ? [section.matrix.caption, ...section.matrix.headers, ...section.matrix.rows.flat()] : []),
+      ]),
+      ...(guide.faq ?? []).flatMap((item) => [item.q, item.a]),
+      ...(guide.faqEn ?? []).flatMap((item) => [item.q, item.a]),
+      guide.disclaimer ?? "",
+      guide.disclaimerEn ?? "",
+    ].join("\n");
+  }
+
+  it("adds the hub and the intake timeline without changing locked openings", () => {
+    const hub = getGuide("hk-telecom-broadband-price-comparison");
+    const intake = getGuide("new-estate-intake-broadband-timeline");
+    const home5g = getGuide("home5g");
+    const cap = getGuide("home5g-data-cap");
+    const year = getGuide("home-broadband-2026");
+    assert.ok(hub && intake && home5g && cap && year);
+    assert.equal(hub.h1.includes("2027"), true);
+    assert.equal(hub.slug.includes("2027"), false);
+    assert.equal(intake.slug.includes("2027"), false);
+    assert.equal(year.h1, "2026 家居寬頻 1000M：六大電訊商參考月費比較");
+    assert.equal(year.seoTitle, "2026家居寬頻1000M｜六大電訊月費比較｜齊Quote");
+    assert.equal(home5g.h1, "香港 5G 家居點揀：免拉線，速度視現場");
+    assert.equal(home5g.seoTitle, "5G家居寬頻點揀｜免拉線月費同覆蓋注意｜齊Quote");
+    assert.equal(cap.h1, "5G 家居寬頻數據上限同公平使用點睇");
+    assert.equal(cap.opening, undefined);
+    assert.equal(
+      home5g.opening?.[0]?.text,
+      "5G 家居寬頻邊間好，唔可以一句話斷定；要先查你個地址嘅覆蓋同訊號，再對計劃卡嘅牌面月費、合約同數據上限。",
+    );
+    assert.equal(
+      home5g.opening?.[1]?.text,
+      "呢頁講 5G 家居寬頻（免拉線、插電路由器），唔係手機 5G 上台，亦唔好當固定光纖替代。",
+    );
+    assert.equal(home5g.body.some((section) => section.heading === "2027 格價時要分清嘅幾件事"), true);
+    assert.equal(cap.body.some((section) => section.heading === "用量點估，同用完之後嘅寫法點樣唔同"), true);
+    assert.match(blob("home5g"), /\/guides\/home5g-data-cap/);
+    assert.match(blob("home5g"), /\/guides\/new-estate-intake-broadband-timeline/);
+    assert.match(blob("home5g-data-cap"), /\/guides\/home5g/);
+    assert.match(blob("hk-telecom-broadband-price-comparison"), /\/guides\/new-estate-intake-broadband-timeline/);
+    assert.match(blob("new-estate-intake-broadband-timeline"), /\/guides\/hk-telecom-broadband-price-comparison/);
+    assert.match(blob("new-estate-intake-broadband-timeline"), /\/new-intake/);
+    assert.doesNotMatch(blob("hk-telecom-broadband-price-comparison"), /\/reports\//);
+    assert.doesNotMatch(blob("new-estate-intake-broadband-timeline"), /\/reports\//);
+    assert.doesNotMatch(blob("home5g"), /\/guides\/5g-home-broadband-fup-comparison/);
+    for (const slug of [
+      "hk-telecom-broadband-price-comparison",
+      "new-estate-intake-broadband-timeline",
+      "home5g",
+      "home5g-data-cap",
+    ]) {
+      const guide = getGuide(slug);
+      assert.ok(guide);
+      assert.doesNotMatch(blob(slug), banned, slug);
+      assert.equal(guide.faq?.length, guide.faqEn?.length, slug);
+      for (const item of guide.faq ?? []) {
+        assert.equal(faqAnswer(guideJsonLd(guide), item.q), guidePlainText(item.a));
+      }
+    }
+    assert.match(blob("hk-telecom-broadband-price-comparison"), /HK\$88 至 HK\$109/);
+    assert.match(blob("hk-telecom-broadband-price-comparison"), /文案修訂日期：2026-11-29/);
+    assert.doesNotMatch(blob("hk-telecom-broadband-price-comparison"), /最後核實日期/);
   });
 });

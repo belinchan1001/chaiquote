@@ -168,6 +168,33 @@ function NewIntakePage() {
       <p className="mt-[0.45rem] max-w-[42rem] text-[0.9375rem] leading-[1.7] text-[color-mix(in_srgb,var(--color-fg)_82%,var(--color-muted))] sm:mt-[0.55rem] sm:text-base sm:leading-[1.7]">
         {locale === "en" ? t("newIntakeLead") : DESCRIPTION}
       </p>
+      <p className="mt-3 max-w-[42rem] text-sm leading-relaxed text-muted">
+        {locale === "en" ? (
+          <>
+            For the handover timeline and cabling notes, see{" "}
+            <Link
+              to="/guides/$slug"
+              params={{ slug: "new-estate-intake-broadband-timeline" }}
+              className="font-medium text-accent underline-offset-4 hover:underline"
+            >
+              2027 new-estate broadband: intake timeline and cabling notes
+            </Link>
+            .
+          </>
+        ) : (
+          <>
+            收樓時間表同拉線避伏，見
+            <Link
+              to="/guides/$slug"
+              params={{ slug: "new-estate-intake-broadband-timeline" }}
+              className="font-medium text-accent underline-offset-4 hover:underline"
+            >
+              2027 新入伙屋苑寬頻：收樓時間表同拉線避伏
+            </Link>
+            。
+          </>
+        )}
+      </p>
 
       <div className="mt-[0.7rem] flex flex-col gap-2 sm:mt-[1.1rem] sm:gap-[0.7rem]">
         <label htmlFor="new-intake-q" className="text-xs font-medium tracking-wider text-muted">
