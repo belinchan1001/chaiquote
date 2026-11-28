@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { describe, it } from "node:test";
 import { fileURLToPath } from "node:url";
-import htmlCacheMiddleware from "./html-cache.ts";
+import htmlCacheMiddleware from "../../server/middleware/html-cache.ts";
 
 const BROWSER_CACHE = "public, max-age=0, must-revalidate";
 const CDN_CACHE = "public, s-maxage=3600";
