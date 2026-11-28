@@ -1284,7 +1284,7 @@ describe("2026-11-24 GEO citation copy", () => {
     assert.equal(home5g.related?.[0], "home5g-data-cap");
     assert.match(
       home5g.body.find((section) => section.heading === "數據上限同速度")?.paragraphs[1] ?? "",
-      /詳情見 \[月費以外\]\(\/guides\/contract-fees\)。用量用完之後點算，見\[5G 家居數據上限同公平使用\]\(\/guides\/home5g-data-cap\)。/,
+      /詳情見 \[月費以外\]\(\/guides\/contract-fees\)。用量用完之後點算，見 \[5G 家居數據上限同公平使用\]\(\/guides\/home5g-data-cap\)。/,
     );
     const homeFaq = home5g.faq?.find((item) => item.q === "5G 家居寬頻幾錢？邊間好？");
     assert.equal(homeFaq?.q, "5G 家居寬頻幾錢？邊間好？");
