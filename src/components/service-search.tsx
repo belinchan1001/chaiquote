@@ -1,9 +1,10 @@
-import { lazy, Suspense, useEffect, useId, useRef, useState } from "react";
+import { lazy, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, useNavigate, useRouter } from "@tanstack/react-router";
 import { Building2, Loader2, Signal, Smartphone, Wifi, X } from "lucide-react";
 import { AiFilterEntry } from "@/components/ai-filter-entry";
 import { LazyEstateSuggest as EstateSuggest } from "@/components/lazy-estate-suggest";
+import { LazyIsland } from "@/lib/lazy-island";
 import { IntakeFields } from "@/components/intake-fields";
 import { Button } from "@/components/ui/button";
 import { useDesk } from "@/lib/desk";
@@ -243,9 +244,9 @@ export function ServiceSearch() {
           onSelect={onPickEstate}
         />
         {estate.trim() ? (
-          <Suspense fallback={null}>
+          <LazyIsland>
             <HousingGuessNote query={estate} applied={(housing || undefined) as Housing | undefined} />
-          </Suspense>
+          </LazyIsland>
         ) : null}
         <p className="text-xs text-muted">{t("intakeAddressHint")}</p>
         <AiFilterEntry className="pt-1" />

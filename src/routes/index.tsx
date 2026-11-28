@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { lazy, Suspense } from "react";
+import { lazy } from "react";
 import { ArrowRight } from "lucide-react";
 import { ServiceSearch } from "@/components/service-search";
 import { ESTATE_COUNT } from "@/lib/estate-count";
@@ -11,6 +11,7 @@ import { HOME_SEO, canonicalUrl, homeJsonLd, shareHead } from "@/lib/canonical";
 import { JsonLd } from "@/components/json-ld";
 import { CARD_IMAGE_SIZES, webpSrcSet } from "@/lib/image-src";
 import { IdleMount } from "@/components/idle-mount";
+import { LazyIsland } from "@/lib/lazy-island";
 
 /** Matches PROVIDERS.length. The homepage shell must not import the plan catalogue. */
 const HOME_PROVIDER_COUNT = 8;
@@ -113,17 +114,17 @@ function Home() {
           {HOME_SEARCH_V2 ? (
             <ServiceSearch />
           ) : (
-            <Suspense fallback={null}>
+            <LazyIsland>
               <SearchPanel />
-            </Suspense>
+            </LazyIsland>
           )}
         </div>
       </section>
 
       <IdleMount fallback={<PicksSkeleton />}>
-        <Suspense fallback={<PicksSkeleton />}>
+        <LazyIsland fallback={<PicksSkeleton />}>
           <HomeBestPicks />
-        </Suspense>
+        </LazyIsland>
       </IdleMount>
 
       <section className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
@@ -211,15 +212,15 @@ function Home() {
       </section>
 
       <IdleMount fallback={<NewsSkeleton />}>
-        <Suspense fallback={<NewsSkeleton />}>
+        <LazyIsland fallback={<NewsSkeleton />}>
           <HomeNewsRail />
-        </Suspense>
+        </LazyIsland>
       </IdleMount>
 
       <IdleMount fallback={<FeaturedSkeleton />}>
-        <Suspense fallback={<FeaturedSkeleton />}>
+        <LazyIsland fallback={<FeaturedSkeleton />}>
           <HomeFeatured />
-        </Suspense>
+        </LazyIsland>
       </IdleMount>
 
       <section className="home-below-fold border-t border-border">
