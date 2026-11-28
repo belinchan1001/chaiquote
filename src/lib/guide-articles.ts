@@ -485,7 +485,7 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Hong Kong 5G home uses a mobile network for Wi-Fi. Fast to install, but speed depends on the signal and some plans have a data cap. Confirm with the carrier.",
     h1En: "Hong Kong 5G home: no cabling, speed depends on the site",
     published: "2026-09-09",
-    modified: "2026-11-24",
+    modified: "2026-11-29",
     opening: [
       {
         text: "5G 家居寬頻邊間好，唔可以一句話斷定；要先查你個地址嘅覆蓋同訊號，再對計劃卡嘅牌面月費、合約同數據上限。",
@@ -494,11 +494,20 @@ export const GUIDE_ARTICLES: Guide[] = [
         text: "呢頁講 5G 家居寬頻（免拉線、插電路由器），唔係手機 5G 上台，亦唔好當固定光纖替代。",
       },
       {
-        text: "數據上限同覆蓋要以電訊商確認為準；用量用完之後點算，見[5G 家居數據上限同公平使用](/guides/home5g-data-cap)。",
+        text: "數據上限同覆蓋要以電訊商確認為準；用量用完之後點算，見 [5G 家居數據上限同公平使用](/guides/home5g-data-cap)。",
       },
       { text: "插電路由器就用。啱未有光纖、租樓或者趕時間；唔好當固定光纖替代。" },
     ],
-    related: ["home5g-data-cap", "fiber-vs-5g", "village", "village-onsite", "fiber", "is-1000m-enough"],
+    related: [
+      "home5g-data-cap",
+      "fiber-vs-5g",
+      "village",
+      "village-onsite",
+      "fiber",
+      "is-1000m-enough",
+      "hk-telecom-broadband-price-comparison",
+      "new-estate-intake-broadband-timeline",
+    ],
     plans: [
       { href: "/plans?cat=home5g", label: "去 5G 家居格價" },
       { href: "/plans?cat=broadband", label: "去光纖格價" },
@@ -551,7 +560,59 @@ export const GUIDE_ARTICLES: Guide[] = [
         heading: "數據上限同速度",
         paragraphs: [
           "部分計劃有高速數據上限，用完會降速或者降低優先權。繁忙時間、附近用戶多、室內擺位差，體感都會變。廣告上嘅「最高速度」唔等於你屋企每個鐘都係嗰個數。",
-          "比較時一齊睇：月費、合約、高速數據用量、包定租路由器、冷靜期。詳情見 [月費以外](/guides/contract-fees)。用量用完之後點算，見[5G 家居數據上限同公平使用](/guides/home5g-data-cap)。",
+          "比較時一齊睇：月費、合約、高速數據用量、包定租路由器、冷靜期。詳情見 [月費以外](/guides/contract-fees)。用量用完之後點算，見 [5G 家居數據上限同公平使用](/guides/home5g-data-cap)。",
+        ],
+      },
+      {
+        heading: "2027 格價時要分清嘅幾件事",
+        paragraphs: [
+          "教學文案修訂：2026-11-29。牌面例子上架前須再對當時目錄，唔等於全表已核。",
+          "齊Quote 唔係電訊商官網、附屬機構或官方客服；用公開市場資料、按同一標準整理，用家自己比較、自己揀計劃。經本站查詢或轉介申請唔會另收費；報酬披露見頁尾。所列月費、數據上限同合約條款僅供參考，一律以電訊商公佈及你同電訊商簽署嘅合約為準。",
+          "5G 家居免拉線、插電就用，啱未有光纖、租樓、趕時間，或者等固網期間做後備；速度同穩定性視現場訊號，唔好當固定光纖替代。格價時唔好只睇牌面一個月費數字：同一電訊商可以同時有淨 SIM（自備 Router）同包機／租機計劃，合約期亦常見 24 至 48 個月，唔係無合約月費。高速數據上限、用完之後點算，見 [5G 家居數據上限同公平使用](/guides/home5g-data-cap)。比較牌面月費、合約同包機條件，開 [5G 家居格價](/plans?cat=home5g)；若單位有機會拉光纖，一併睇 [香港光纖點揀](/guides/fiber) 同 [光纖格價](/plans?cat=broadband)。",
+          "5G 家居計劃要並排睇牌面月費、合約期、高速數據上限、Router 係自備、租借定送出、同用完之後點寫。齊Quote 計劃卡用牌面月費做引用；免月費、回贈、預繳要另外計真實平均月費，見 [寬頻合約總成本點計](/guides/broadband-total-cost)，平均月費唔取代站內引用。",
+          "站內已發布、上架前須再核嘅牌面例子（唔係全港劃一價，亦唔係排行）：[中國移動香港 HK$88／48 個月／350GB](/plans/cmhk-home5g-350-48-88)，各樓類可用；[3香港 HK$138／48 個月真無限](/plans/three-home5g-unlimited-48-138-public)，只限公屋／居屋，唔適用私人樓宇及村屋；[3香港 HK$158／30 個月真無限](/plans/three-home5g-b-158)，各樓類可用。完整檔位以 [5G 家居格價](/plans?cat=home5g) 當時目錄為準。系列總樞紐見 [2027 香港電訊及寬頻月費比較](/guides/hk-telecom-broadband-price-comparison)。",
+        ],
+      },
+      {
+        heading: "淨 SIM、包機，同完約要唔要還 Router",
+        flow: [
+          {
+            kind: "p",
+            text: "市場上主要有三類，簽約前要喺計劃卡同合約對清楚，唔好只睇一個月費數字：",
+          },
+          {
+            kind: "ul",
+            items: [
+              "**淨 SIM：** 月費通常唔包 5G Router，要自備合規格機。目錄可見例如數碼通齋 SIM 計劃；唔好把淨 SIM 價理解成已經包機。",
+              "**租借／包機、完約或須歸還：** 月費已包指定 Router，但完約可能要連配件一齊還。中國移動香港多檔寫「租借 Wi-Fi 7 路由器」。遺失或損壞點計，以該份合約為準，呢頁唔寫一律賠償金額。",
+              "**送機、計劃標明免還：** 個別計劃寫「送指定路由器」或「免還機」，例如目錄可見部分 3香港 48 個月計劃。係咪真係免還，仍以合約原文為準。",
+            ],
+          },
+          {
+            kind: "p",
+            text: "自備機、租機同送機嘅實際開支可以差一截，但差幾多要按你揀嗰張卡計，呢頁唔寫劃一嘅每月差價或 Router 市價。",
+          },
+        ],
+        paragraphs: [],
+      },
+      {
+        heading: "合約期唔係無合約：唔好用嚟頂一兩個月",
+        paragraphs: [
+          "主流 5G 家居計劃有固定合約期，目錄可見 12、24、30、36、48 個月等，並非無合約月費。若只係裝修或者等師傅上門嗰一兩個月，先問有冇無合約預付數據卡或者其他短期方法，唔好為咗過渡而簽一張長年期 5G 家居合約。",
+          "若你係等新屋入伙先裝固網，可先睇 [新入伙屋苑寬頻](/new-intake)。收樓時間表見 [2027 新入伙屋苑寬頻](/guides/new-estate-intake-broadband-timeline)。",
+        ],
+      },
+      {
+        heading: "搬屋帶走部機之前，先問地址點改",
+        paragraphs: [
+          "帶走部機唔等於地址登記自動跟住走。簽約前問：可唔可以改使用地址、有冇次數限制、固網嗰種搬遷費係咪適用。部分 3香港計劃卡寫「不鎖定地區，可隨時搬遷」，仍然以該份合約為準。村屋兩邊一齊比較，見 [村屋光纖點算](/guides/village)（2027 村屋長稿待補）。",
+        ],
+      },
+      {
+        heading: "簽約前喺擺機位置試繁忙時段訊號",
+        paragraphs: [
+          "流動網絡受基站距離、樓層、室內擺位同繁忙程度影響，同一個屋苑唔同朝向都可以差好遠。簽約前最好喺部 Router 準備擺嘅位置，揀附近用量較高嘅時段（例如平日夜晚）試訊號；一次測試只係參考，唔保證之後每個鐘都一樣。要唔要先達某個下載速度先簽約，由你同現場情況決定，呢頁唔設劃一門檻。",
+          "「冷靜期」同「免費試用」唔係同一句。目錄可見部分計劃寫 7 日或 14 日冷靜期；香港寬頻 5G 家居計劃卡另有「7 日免費試用」字樣。有冇試用、點先算訊號欠佳、可唔可以退，要以該計劃條款為準，唔好假設所有 5G 家居都有 7 日試用退款。",
         ],
       },
       {
@@ -579,7 +640,8 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "下一步",
         paragraphs: [
-          "開 [5G 家居格價](/plans?cat=home5g)，填地址再 WhatsApp 查核。可以拉線就一併睇 [光纖格價](/plans?cat=broadband)。",
+          "開 [5G 家居格價](/plans?cat=home5g)，填地址對牌面月費、合約、數據上限同 Router 條款，再用 WhatsApp 6309 9966 查核你個地址嘅覆蓋同條款原文。可以拉線就一併睇 [光纖格價](/plans?cat=broadband)。若要用 WhatsApp，講低地區、屋苑或街道、樓類，同埋你想對比嘅合約期、係咪需要包 Router，就得。電郵：info@chaiquote.hk。",
+          "延伸閱讀：[寬頻合約總成本點計](/guides/broadband-total-cost)、[5G 家居數據上限同公平使用](/guides/home5g-data-cap)、[5G家居定光纖](/guides/fiber-vs-5g)、[村屋光纖點算](/guides/village)（2027 村屋長稿待補）、[新入伙屋苑寬頻](/new-intake)、[2027 新入伙收樓時間表](/guides/new-estate-intake-broadband-timeline)、[2027 電訊及寬頻月費比較](/guides/hk-telecom-broadband-price-comparison)。",
           DISCLAIMER,
         ],
       },
@@ -630,6 +692,46 @@ export const GUIDE_ARTICLES: Guide[] = [
         ],
       },
       {
+        heading: "What to separate when you compare in 2027",
+        paragraphs: [
+          "Teaching copy revised 29 November 2026. Labelled examples must be checked against the catalogue again before publication. This is not a fully verified price table.",
+          "ChaiQuote is not a carrier website, subsidiary or official customer service. It arranges public market information to one standard so you can compare and choose. Enquiries and referred applications through this site are not charged an extra fee; remuneration disclosure is in the footer. Listed fees, data caps and contract terms are for reference only. The carrier’s notice and the contract you sign prevail.",
+          "5G home needs no cable and works when you plug it in. It fits where fibre is not ready, for a rental, when you are in a hurry, or as a backup while you wait. Speed depends on the signal on site. It is not a substitute for fixed fibre. The same carrier can offer a SIM-only plan and a router bundle, and terms of 24 to 48 months are common. It is not a no-contract monthly fee. Data caps: [5G home data cap and fair use](/guides/home5g-data-cap). Compare labelled fees on [5G home plans](/plans?cat=home5g). If a line can be pulled in, also see [how to choose fibre](/guides/fiber) and [fibre plans](/plans?cat=broadband).",
+          "Read the labelled fee, the term, the high-speed allowance, whether the router is yours, rented or gifted, and what the contract says after the allowance. Plan cards quote the labelled fee. Free months, rebates and prepayment go into your own average on [total contract cost](/guides/broadband-total-cost). That average does not replace the labelled fee.",
+          "Published examples to re-check before citing, not a territory-wide price and not a ranking: [CMHK HK$88 / 48 months / 350GB](/plans/cmhk-home5g-350-48-88), all housing types; [3 Hong Kong unlimited HK$138 / 48 months](/plans/three-home5g-unlimited-48-138-public), public housing and HOS only, not private buildings or village houses; [3 Hong Kong unlimited HK$158 / 30 months](/plans/three-home5g-b-158), all housing types. The full list is the [5G home catalogue](/plans?cat=home5g). Series hub: [2027 fee comparison](/guides/hk-telecom-broadband-price-comparison).",
+        ],
+      },
+      {
+        heading: "SIM-only, a bundled router, and whether you return it",
+        paragraphs: [
+          "Three kinds show up. Read the plan card and the contract. Do not stop at one monthly figure.",
+          "SIM-only: the fee usually does not include a 5G router. You bring a compatible one. The catalogue includes a SmarTone SIM-only plan. Do not read a SIM-only fee as if a router were included.",
+          "Rented or bundled, and you may have to return it: the fee includes a named router, and the contract may require the accessories back. Several CMHK plans say “rent a Wi-Fi 7 router”. Loss and damage follow that contract. This page states no flat compensation amount.",
+          "Gifted, or the plan says you do not return it: some plans say “router included” or “no return”, including some 3 Hong Kong 48-month plans in the catalogue. Whether that is really no-return follows the contract.",
+          "Bringing your own router, renting one, or receiving one can change what you spend. The gap depends on the card you pick. This page states no flat monthly difference and no router street price.",
+        ],
+      },
+      {
+        heading: "There is a contract term: do not use it for a month or two",
+        paragraphs: [
+          "Mainstream 5G home plans have a fixed term. The catalogue shows 12, 24, 30, 36 and 48 months, among others. It is not a no-contract monthly fee. If you only need a month or two while decorating or waiting for a technician, ask about a no-contract prepaid data SIM. Do not sign a long 5G home contract as a bridge.",
+          "If you are waiting to move into a new estate before fibre is installed, start with [new-intake estates](/new-intake). The handover timeline is [2027 new-estate broadband](/guides/new-estate-intake-broadband-timeline).",
+        ],
+      },
+      {
+        heading: "Before you take the router to a new address, ask how the address is updated",
+        paragraphs: [
+          "Taking the router with you does not mean the registered address follows automatically. Ask whether the service address can be changed, whether there is a limit on how often, and whether a fibre-style relocation fee applies. This page does not quote an unverified flat relocation range. Some 3 Hong Kong plan cards say the area is not locked and you can move. The contract still prevails. Compare village fibre as well: [village broadband](/guides/village). A 2027 village long guide is still to be written.",
+        ],
+      },
+      {
+        heading: "Test the signal where the router will sit, at a busy hour",
+        paragraphs: [
+          "Mobile coverage changes with distance from the site, the floor, indoor placement and how busy the network is. Two flats in the same estate can differ. Before you sign, test where the router will sit, at a busy time such as a weekday evening. One test is a reference. It does not guarantee every hour afterwards. This page sets no speed threshold you must hit before signing.",
+          "A cooling-off period and a free trial are not the same sentence. Some catalogue plans write a 7-day or 14-day cooling-off period. The HKBN 5G home card also says “7-day free trial”. Whether a trial exists, what counts as a poor signal, and whether you can return the service follow that plan. Do not assume every 5G home plan has a 7-day refund trial.",
+        ],
+      },
+      {
         heading: "Fibre or 5G home",
         paragraphs: [
           "If fibre can be installed, pick fibre. If not, or you need internet today, look at 5G home. See [fibre vs 5G home](/guides/fiber-vs-5g).",
@@ -654,7 +756,8 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         heading: "Next step",
         paragraphs: [
-          "Open the [5G home compare page](/plans?cat=home5g) and confirm on WhatsApp. Coverage and fees are confirmed by the carrier.",
+          "Open [5G home plans](/plans?cat=home5g), enter the address, and check the labelled fee, the term, the data cap and the router clause on WhatsApp 6309 9966. If a line can be pulled in, also see [fibre plans](/plans?cat=broadband). Say the district, estate or street, housing type, the term you want, and whether you need a router. Email: info@chaiquote.hk.",
+          "Further reading: [total contract cost](/guides/broadband-total-cost), [data caps](/guides/home5g-data-cap), [fibre or 5G home](/guides/fiber-vs-5g), [village broadband](/guides/village) (a 2027 village long guide is still to be written), [new-intake estates](/new-intake), [2027 intake timeline](/guides/new-estate-intake-broadband-timeline), [2027 fee hub](/guides/hk-telecom-broadband-price-comparison).",
         ],
       },
     ],
@@ -683,6 +786,18 @@ export const GUIDE_ARTICLES: Guide[] = [
         q: "5G 家居寬頻幾錢？邊間好？",
         a: "唔可以一句話斷定邊間好，亦唔好用一張全港劃一價去估。要先查你個地址嘅覆蓋同訊號，再對計劃卡嘅牌面月費、合約同數據上限。呢頁講 5G 家居寬頻，唔係手機 5G 上台。數據上限同覆蓋要以電訊商確認為準。用量用完之後點算，見 [5G 家居數據上限同公平使用](/guides/home5g-data-cap)。",
       },
+      {
+        q: "5G 家居寬頻有冇合約期？可唔可以只用一兩個月就停？",
+        a: "主流 5G 家居計劃設有固定合約期，目錄可見 12 至 48 個月等，並非無合約月費計劃。若只係等固網安裝嗰一兩個月，應先問短期或者無合約方法，唔好為過渡而簽長年期合約。實際合約期同提前終止條款，以電訊商確認為準。",
+      },
+      {
+        q: "簽 5G 家居寬頻包唔包 5G 路由器？完約後要唔要還機？",
+        a: "視乎計劃而定，主要分三類：淨 SIM（須自備合規格 5G Router）；租借或包機（完約可能要歸還，以合約為準）；送機或計劃標明免還。比較時一齊睇牌面月費同 Router 條款，唔好只睇一個月費數字。實際以計劃卡同電訊商合約為準。",
+      },
+      {
+        q: "租樓搬屋用 5G 家居寬頻，搬去新地址要唔要收搬遷費？",
+        a: "5G 家居免拉光纖入屋，搬屋時好多時可以帶走路由器插電再用，同固網要重新拉線唔同。部分計劃會登記使用地址，或者限制更改次數，搬前要核對條款。有冇搬遷費、點更新地址，以電訊商確認為準。",
+      },
     ],
     faqEn: [
       {
@@ -704,6 +819,22 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         q: "How do I check a quote?",
         a: "Open the [5G home compare page](/plans?cat=home5g) and confirm on WhatsApp.",
+      },
+      {
+        q: "How much is 5G home broadband, and which one is right?",
+        a: "No single sentence can say which plan is right, and there is no territory-wide price to estimate from. Check coverage and signal at your address, then the labelled fee, the term and the data cap on the plan card. This page is 5G home broadband, not a mobile 5G plan. The carrier confirms the data cap and coverage. What happens after the allowance is on the [5G home data-cap guide](/guides/home5g-data-cap).",
+      },
+      {
+        q: "Does 5G home broadband have a contract term? Can I stop after a month or two?",
+        a: "Mainstream 5G home plans have a fixed term. The catalogue shows 12 to 48 months, among others. They are not no-contract monthly plans. If you are only waiting a month or two for fibre, ask about a short-term or no-contract option. Do not sign a long contract as a bridge. The term and any early-exit clause are confirmed by the carrier.",
+      },
+      {
+        q: "Does a 5G home plan include a router, and do I return it?",
+        a: "It depends on the plan. Three kinds: SIM-only (you bring a compatible 5G router); rented or bundled (you may have to return it; follow the contract); gifted, or the plan says you do not return it. Compare the labelled fee and the router clause together. The plan card and the carrier’s contract prevail.",
+      },
+      {
+        q: "If I rent and later move, does 5G home charge a relocation fee?",
+        a: "5G home does not pull fibre into the flat. You can often take the router and plug it in at the new address, which is different from recabling a fixed line. Some plans register a service address or limit how often you can change it. Whether there is a relocation fee, and how the address is updated, is confirmed by the carrier.",
       },
     ],
   },
@@ -4135,8 +4266,17 @@ export const GUIDE_ARTICLES: Guide[] = [
       "Check a 5G home data cap and fair-use clause before you sign. Speed can drop after the allowance. Compare it with fibre. The carrier confirms the terms.",
     h1En: "How to read a 5G home data cap and fair-use clause",
     published: "2026-10-21",
-    modified: "2026-10-21",
-    related: ["home5g", "fiber-vs-5g", "fiber", "is-1000m-enough", "contract-fees", "broadband-total-cost"],
+    modified: "2026-11-29",
+    related: [
+      "home5g",
+      "fiber-vs-5g",
+      "fiber",
+      "is-1000m-enough",
+      "contract-fees",
+      "broadband-total-cost",
+      "hk-telecom-broadband-price-comparison",
+      "new-estate-intake-broadband-timeline",
+    ],
     plans: [
       { href: "/plans?cat=home5g", label: "去 5G 家居格價" },
       { href: "/plans?cat=broadband", label: "去光纖格價" },
@@ -4158,6 +4298,15 @@ export const GUIDE_ARTICLES: Guide[] = [
         paragraphs: [
           "常見寫法係：高速用量用完，其後降速、降低優先，或者繁忙時間先受限。字眼每份合約唔同，唔好用另一間電訊商嘅例子套落自己張單。",
           "屋企如果成日 4K、雲端備份、視像會議，要問「用完之後仲用唔用得」，而唔係只問廣告最高速度。一般家用幾多先夠，見 [1000M 夠唔夠](/guides/is-1000m-enough)。",
+        ],
+      },
+      {
+        heading: "用量點估，同用完之後嘅寫法點樣唔同",
+        paragraphs: [
+          "教學文案修訂：2026-11-29。以下係目錄用字嘅教學，唔係全表已核，亦唔係排行。",
+          "一般上網、視像會議同高清串流，同日日 4K、雲端備份或下載大型遊戲，用量可以差好遠。夠唔夠用，要對你將會簽嗰張卡嘅高速上限，而唔好假設 250GB 或 350GB 一定夠、或者一定唔夠。呢頁唔把「每小時耗幾多 GB」寫成保證數字。",
+          "用完之後嘅寫法因計劃而異，唔好用一間嘅例子套去全部。目錄可見嘅用字包括：其後按公平使用政策、降低網絡優先權、其後提供任用數據，或者個別計劃另列 P2P／Thunder 下載限速。實際速度、係咪另有 Mbps 上限，以合約同電訊商確認為準。長時間 P2P／BT 或作商業用途，好多計劃都會限制，簽約前要問清。",
+          "行政費 HK$18 或 HK$28 只見於部分手機計劃，唔好套去 5G 家居當標準收費。總覽見 [香港 5G 家居點揀](/guides/home5g)。新居等固網，見 [新入伙屋苑寬頻](/new-intake) 同 [2027 新入伙收樓時間表](/guides/new-estate-intake-broadband-timeline)。系列總樞紐見 [2027 香港電訊及寬頻月費比較](/guides/hk-telecom-broadband-price-comparison)。",
         ],
       },
       {
@@ -4223,6 +4372,15 @@ export const GUIDE_ARTICLES: Guide[] = [
         ],
       },
       {
+        heading: "How to estimate usage, and why the after-cap wording differs",
+        paragraphs: [
+          "Teaching copy revised 29 November 2026. This is how catalogue wording differs. It is not a fully checked price table and not a ranking.",
+          "Everyday browsing, video calls and HD streaming can use far less than daily 4K, cloud backup or large game downloads. Whether an allowance is enough depends on the high-speed cap on the card you will sign. Do not assume 250GB or 350GB is always enough, or never enough. This page does not turn “gigabytes per hour” into a guaranteed figure.",
+          "What happens after the allowance differs by plan. Do not copy one carrier’s sentence onto every plan. Catalogue wording includes: fair-use policy afterwards, lower network priority, data that continues, or a separate limit on P2P or Thunder downloads. Actual speed, and whether there is a separate Mbps cap, follows the contract and the carrier. Long-running P2P or BT, or business use, is restricted on many plans. Ask before you sign.",
+          "An admin fee of HK$18 or HK$28 appears only on some mobile plans. Do not treat it as a standard 5G home charge. Overview: [how to choose 5G home](/guides/home5g). Waiting for fibre in a new estate: [new-intake estates](/new-intake) and the [2027 intake timeline](/guides/new-estate-intake-broadband-timeline). Series hub: [2027 fee comparison](/guides/hk-telecom-broadband-price-comparison).",
+        ],
+      },
+      {
         heading: "Lines to read in the contract",
         paragraphs: [
           "Check the high-speed allowance, how fair use is written, what happens after it, when the cycle resets, and whether the router is returned. See [install, prepay, contract](/guides/contract-fees) and [total contract cost](/guides/broadband-total-cost).",
@@ -4282,6 +4440,10 @@ export const GUIDE_ARTICLES: Guide[] = [
         q: "有光纖仲使唔使用 5G 家居？",
         a: "可以拉光纖，多數用光纖做主線。5G 家居可以做後備或者過渡。見 [5G家居定光纖](/guides/fiber-vs-5g)。",
       },
+      {
+        q: "5G 家居每月 250GB 至 350GB 高速數據夠唔夠全屋用？用完會點？",
+        a: "視乎屋企點用。一般上網、視像會議同高清串流，同日日 4K 或者經常下載大型檔案，用量可以差好遠，呢頁唔保證某個 GB 數一定夠或者唔夠。用完之後，有計劃按公平使用降低優先權，有計劃另有限速或者其他寫法，要以你將會簽嘅合約同電訊商確認為準，唔好用另一間嘅例子套用。",
+      },
     ],
     faqEn: [
       {
@@ -4295,6 +4457,10 @@ export const GUIDE_ARTICLES: Guide[] = [
       {
         q: "Do I still want 5G home if fibre is available?",
         a: "Most homes use fibre as the main line when it can be installed. 5G home can be a backup or a stopgap. See [fibre vs 5G home](/guides/fiber-vs-5g).",
+      },
+      {
+        q: "Is 250GB to 350GB of high-speed data enough for a whole home, and what happens after it?",
+        a: "It depends how the home is used. Everyday browsing, video calls and HD streaming can be far from daily 4K or frequent large downloads. This page does not guarantee that a given number of gigabytes is enough or not enough. After the allowance, some plans lower priority under a fair-use clause, and some write a speed limit or another rule. Follow the contract you will sign and the carrier. Do not copy another carrier’s example onto your plan.",
       },
     ],
   },

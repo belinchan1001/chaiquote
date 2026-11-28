@@ -89,6 +89,8 @@ describe("new intake landing", () => {
     assert.match(page, /const HEADING = "新入伙屋苑寬頻：有冇指定優惠？"/);
     assert.match(page, /const TITLE = "新入伙屋苑寬頻：有冇指定優惠？｜齊Quote"/);
     assert.ok(page.includes(OPENING));
+    assert.match(page, /new-estate-intake-broadband-timeline/);
+    assert.ok(page.indexOf(OPENING) < page.indexOf("new-estate-intake-broadband-timeline"));
     for (const item of FAQ) {
       assert.ok(page.includes(item.q));
       assert.ok(page.includes(item.a));

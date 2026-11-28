@@ -1,5 +1,6 @@
 import type { Inquiry } from "./desk.ts";
 import { GUIDE_ARTICLES } from "./guide-articles.ts";
+import { GUIDE_2027 } from "./guide-2027.ts";
 import { DISTRICT_GUIDES } from "./district-guides.ts";
 import { VILLAGE_SPECIFIED_ADDRESS_CITE, linkCmhkVillageAmounts } from "./site.ts";
 import { salesQuoteMessage } from "./whatsapp.ts";
@@ -586,7 +587,7 @@ export const CORE_GUIDES: Guide[] = [
   },
 ];
 
-export const GUIDES: Guide[] = [...CORE_GUIDES, ...GUIDE_ARTICLES, ...DISTRICT_GUIDES];
+export const GUIDES: Guide[] = [...CORE_GUIDES, ...GUIDE_ARTICLES, ...GUIDE_2027, ...DISTRICT_GUIDES];
 
 
 export function getGuide(slug: string) {

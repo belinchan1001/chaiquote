@@ -152,6 +152,9 @@ export const GUIDE_ARTICLE_KEYWORDS: Record<string, string> = {
   "village-fees": "村屋光纖月費,丁屋光纖月費,村屋寬頻月費,丁屋寬頻,村屋光纖參考月費",
   "village-cmhk": "中國移動香港村屋光纖,村屋1000M,指定地址優惠,村屋正價,村屋安裝費",
   "home-broadband-2026": "2026家居寬頻,六大電訊,1000M月費,香港寬頻,網上行,HGC,有線寬頻,中國移動香港,數碼通",
+  "hk-telecom-broadband-price-comparison":
+    "2027香港電訊月費,家居寬頻月費比較,公屋居屋私樓村屋寬頻,5G家居寬頻,攜號轉台,大灣區數據計劃",
+  "new-estate-intake-broadband-timeline": "2027新入伙屋苑,收樓寬頻,拉線,公屋居屋入伙,簡約公屋寬頻",
   "hkbn-vs-netvigator": "香港寬頻,網上行,HKT家居寬頻,1000M月費,2500M,公屋寬頻,私樓寬頻,村屋光纖",
   "estate-filter": "屋苑篩,齊Quote屋苑,寬頻覆蓋查核",
   "switch-broadband": "轉寬頻,轉台寬頻,先裝後停",
