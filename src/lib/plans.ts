@@ -2121,7 +2121,6 @@ export const PLANS: Plan[] = [
     network: "5G 無線（Wi-Fi 7 三頻）",
     perks: [PERK_ST_HOME_ROUTER_W7_TRI, PERK_ST_HOME_500, PERK_SMARTONE_ADMIN_WAIVED, "7 日冷靜期", "豁免搬遷費", PERK_CMHK_HOME_DEPOSIT],
     limits: smartoneHome5gLimits("24 個月平均月費 HK$198。12 個月平均月費 HK$228。"),
-    flashOffer: true,
     bestFor: "適合沒有光纖、村屋或唐樓，需要 Wi-Fi 7 三頻之住戶",
   },
   {
@@ -2139,7 +2138,6 @@ export const PLANS: Plan[] = [
     network: "5G 無線（Wi-Fi 7）",
     perks: [PERK_ST_HOME_ROUTER_W7, PERK_ST_HOME_350, PERK_SMARTONE_ADMIN_WAIVED, "7 日冷靜期", "豁免搬遷費", PERK_CMHK_HOME_DEPOSIT],
     limits: smartoneHome5gLimits("24 個月平均月費 HK$168。12 個月平均月費 HK$208。"),
-    flashOffer: true,
     bestFor: "適合沒有光纖、村屋或唐樓，需要 Wi-Fi 7 之住戶",
   },
   {
@@ -2157,7 +2155,6 @@ export const PLANS: Plan[] = [
     network: "5G 無線（Wi-Fi 6）",
     perks: [PERK_ST_HOME_ROUTER_W6, PERK_ST_HOME_200, PERK_SMARTONE_ADMIN_WAIVED, "7 日冷靜期", "豁免搬遷費", PERK_CMHK_HOME_DEPOSIT],
     limits: smartoneHome5gLimits("24 個月平均月費 HK$128。12 個月平均月費 HK$188。"),
-    flashOffer: true,
     bestFor: "適合沒有光纖、村屋或唐樓，需要較低月費之住戶",
   },
   {

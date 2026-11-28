@@ -1840,7 +1840,7 @@ describe("SmarTone mobile catalogue", () => {
     assert.equal(stW7.monthlyFee, 184);
     assert.equal(stW7dual.monthlyFee, 158);
     assert.equal(stW6.monthlyFee, 118);
-    assert.equal(stW7.flashOffer, true);
+    assert.equal(stW7.flashOffer, undefined);
     assert.match(stW7.limits ?? "", /24 個月平均月費 HK\$198/);
     assert.match(stW6.limits ?? "", /12 個月平均月費 HK\$188/);
     assert.equal(stW7.perks[0], "租借 Wi-Fi 7 三頻路由器（月費已包）");
