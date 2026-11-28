@@ -158,7 +158,7 @@ export const HOME_SEO_TITLE = HOME_SEO.title;
 
 export const ABOUT_SEO = {
   title: "齊Quote｜關於我們",
-  description: `齊Quote 唔係電訊商官網，無向電訊商收取佣金或廣告費。月費僅供參考，以電訊商確認為準。`,
+  description: `齊Quote 唔係電訊商官網或附屬機構。用公開市場資料整理參考月費，用家自己比較、自己揀計劃，實際以電訊商確認為準。`,
 } as const satisfies SeoCopy;
 
 export const PRIVACY_SEO = {

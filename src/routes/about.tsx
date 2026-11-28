@@ -27,7 +27,7 @@ function AboutPage() {
       <section className="mt-10">
         <h2 className="text-lg font-semibold">我哋係邊個</h2>
         <p className="mt-3 text-sm leading-relaxed text-muted">
-          齊Quote（chaiquote.hk）係香港獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。我哋將家居寬頻、5G 家居、流動通訊同商業寬頻計劃整理喺同一個地方，等你先格清價錢同條款，再決定。
+          齊Quote（chaiquote.hk）係香港獨立比較網站，唔係電訊商官網或附屬機構。我哋用公開市場資料，按同一標準整理家居寬頻、5G 家居、流動通訊同商業寬頻計劃，方便你自己比較、自己揀計劃。經本站查詢或轉介申請唔會另收費；營運方或會就部分轉介獲得報酬，詳見頁尾。
         </p>
       </section>
 

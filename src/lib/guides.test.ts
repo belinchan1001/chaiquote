@@ -42,6 +42,16 @@ describe("guide manuscript dates vs catalogue stamp", () => {
     assert.equal(fiber.published, "2026-09-09");
     assert.equal(fiber.modified, "2026-11-24");
     assert.equal(sitemapLastmod("/guides/fiber"), "2026-11-24");
+    assert.equal(fiber.h1, "香港光纖點揀：先分樓類，再睇月費");
+    assert.equal(
+      fiber.description,
+      "香港光纖唔係一張價。先分公屋、居屋、私樓定村屋，再對 1000M／2500M 參考月費。價錢同覆蓋以電訊商確認為準。",
+    );
+    assert.equal(
+      fiber.descriptionEn,
+      "Hong Kong fibre is not one price. Sort public housing, HOS, private or village first, then compare 1000M and 2500M reference fees. The carrier confirms the price and coverage.",
+    );
+    assert.doesNotMatch(`${fiber.description}\n${fiber.descriptionEn}`, /無佣金|No commission|commission/i);
 
     const port = getGuide("port-in");
     assert.ok(port);

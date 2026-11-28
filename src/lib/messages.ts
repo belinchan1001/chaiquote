@@ -290,15 +290,13 @@ export const MESSAGES = {
     aboutTitle: "關於我們",
     aboutWho: "我哋係邊個",
     aboutWhoText:
-      "齊Quote（chaiquote.hk）係香港獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。我哋將家居寬頻、5G 家居、流動通訊同商業寬頻計劃整理喺同一個地方，等你先格清價錢同條款，再決定。",
+      "齊Quote（chaiquote.hk）係香港獨立比較網站，唔係電訊商官網或附屬機構。我哋用公開市場資料，按同一標準整理家居寬頻、5G 家居、流動通訊同商業寬頻計劃，方便你自己比較、自己揀計劃。經本站查詢或轉介申請唔會另收費；營運方或會就部分轉介獲得報酬，詳見頁尾。",
     aboutWhy: "點解要有齊Quote",
     aboutWhyText:
       "市面上合約、額外收費同報價渠道好散。同一個速率，公屋、居屋、私樓同村屋都可以係另一套計劃。我哋按樓類同計劃卡並列參考，方便你自己比較，而唔使四圍問。",
     aboutIndependent: "獨立聲明",
     aboutIndependentText:
       "本平台唔係任何一間電訊商嘅附屬。資料只作中立參考。資料更新：{date}。而家收錄 {providers} 間電訊商、{plans} 個參考計劃同 {estates} 個屋苑。",
-    noCommission:
-      "本網站並沒有向任何電訊商收取佣金或廣告費。所列月費僅供參考，實際以電訊商確認為準。",
     aboutProviders: "而家收錄嘅電訊商",
     aboutBrand: "品牌指引",
     aboutDisclaimer: "免責聲明",
@@ -389,7 +387,7 @@ export const MESSAGES = {
       "本平台將盡力維持資料之準確性，惟各營運商之優惠可能隨時調整，最終價格以用戶與電訊商簽署之合約為準。",
     disclaimer3: "各電訊商名稱及標誌為其商標，僅供識別所比較之計劃。",
     footerNotice:
-      "齊Quote 係獨立比較站，無向電訊商收取佣金或廣告費；所列月費、覆蓋同條款僅供參考，一律以電訊商確認，並以你同電訊商簽署嘅合約為準。",
+      "齊Quote 係獨立比較站，唔係電訊商官網、附屬機構或官方客服；用公開市場資料按同一標準整理，經本站查詢或轉介申請唔會另收費，營運方或會就部分轉介獲得報酬。所列月費、覆蓋同條款僅供參考，一律以電訊商公佈及你同電訊商簽署嘅合約為準。",
     referencePrice: LEGAL.referencePrice,
     overseasNote: LEGAL.overseas,
     whatsappTip: LEGAL.whatsappTip,
@@ -864,15 +862,13 @@ export const MESSAGES = {
     aboutTitle: "About us",
     aboutWho: "Who we are",
     aboutWhoText:
-      "齊Quote（chaiquote.hk）係香港獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。我哋將家居寬頻、5G 家居、流動通訊同商業寬頻計劃整理喺同一個地方，等你先格清價錢同條款，再決定。",
+      "ChaiQuote (chaiquote.hk) is an independent Hong Kong comparison site, not a carrier official website or subsidiary. We compile home broadband, 5G home, mobile and business plans from public market information to the same standard, so you can compare and choose a plan yourself. Enquiries or referred applications through this site do not carry a separate fee; the operator may receive remuneration for some referrals — see the footer.",
     aboutWhy: "Why ChaiQuote exists",
     aboutWhyText:
       "市面上合約、額外收費同報價渠道好散。同一個速率，公屋、居屋、私樓同村屋都可以係另一套計劃。我哋按樓類同計劃卡並列參考，方便你自己比較，而唔使四圍問。",
     aboutIndependent: "Independence",
     aboutIndependentText:
       "We are not part of any one carrier. Information is for neutral reference. Updated {date}. Currently {providers} carriers, {plans} reference plans and {estates} estates.",
-    noCommission:
-      "We do not receive commission or advertising fees from any carrier. Fees are for reference only; the carrier confirms the final terms.",
     aboutProviders: "Providers listed",
     aboutBrand: "Brand guidelines",
     aboutDisclaimer: "Disclaimer",
@@ -963,7 +959,7 @@ export const MESSAGES = {
       "We keep information as current as we can. Offers can change. The signed contract is final.",
     disclaimer3: "Carrier names and logos are trademarks of their owners, used here only to identify the plans being compared.",
     footerNotice:
-      "ChaiQuote is an independent comparison site and does not take commission or advertising fees from carriers; listed monthly fees, coverage and terms are for reference only, are confirmed by the carrier, and the contract you sign with the carrier is final.",
+      "ChaiQuote is an independent comparison site, not a carrier official website, subsidiary or official customer service; it compiles public market information to the same standard. Enquiries or referred applications through this site do not carry a separate fee; the operator may receive remuneration for some referrals. Listed monthly fees, coverage and terms are for reference only, and the carrier’s published terms and the contract you sign with the carrier are final.",
     referencePrice:
       "Fees and offers above are market reference only. Actual price, coverage, contract term and installation are confirmed by the carrier.",
     overseasNote:

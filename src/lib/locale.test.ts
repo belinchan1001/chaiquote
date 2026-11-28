@@ -50,7 +50,8 @@ describe("?lang=en", () => {
     assert.equal(MESSAGES.en.heroTitle1, "Stop shopping around for broadband");
     assert.match(MESSAGES.en.heroLead, /Enter your address/);
     assert.match(MESSAGES.en.faq1q, /independent broadband comparison site/);
-    assert.match(MESSAGES.en.faq1a, /not a carrier website/);
+    assert.match(MESSAGES.en.faq1a, /not a carrier official website or subsidiary/);
+    assert.doesNotMatch(MESSAGES.en.faq1a, /commission|\baffiliate\b/i);
     assert.notEqual(MESSAGES.en.faq1a, MESSAGES.zh.faq1a);
     const guide = getGuide("fiber-vs-5g");
     assert.ok(guide);

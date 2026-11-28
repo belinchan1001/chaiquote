@@ -17,7 +17,7 @@ import {
   type SpeedMbps,
 } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
-import { FAQ_ZH, fillSiteTemplate } from "./site.ts";
+import { FAQ_EN, FAQ_ZH, fillSiteTemplate } from "./site.ts";
 import {
   currentIdFromLabel,
   currentLabel,
@@ -684,7 +684,7 @@ const KNOWLEDGE: (KnowledgeHit & { re: RegExp })[] = [
     id: "official",
     re: /官網|官方|係咪電訊|係咪獨立|獨立比較|chaiquote.*(carrier|official)|independent/i,
     zh: FAQ_ZH[0].a,
-    en: "Yes. ChaiQuote (chaiquote.hk) is an independent comparison site, not a carrier website, and it does not take commission or advertising fees from carriers.",
+    en: FAQ_EN[0].a,
     attach: false,
     href: "/about",
     linkZh: "關於齊Quote",
@@ -776,7 +776,7 @@ function presentKnowledge(hit: (typeof KNOWLEDGE)[number]): KnowledgeHit {
   return {
     id: hit.id,
     zh: hit.zh.includes("{") ? fillSiteTemplate(hit.zh) : hit.zh,
-    en: hit.en,
+    en: hit.en.includes("{") ? fillSiteTemplate(hit.en) : hit.en,
     attach: hit.attach,
     href: hit.href,
     linkZh: hit.linkZh,

@@ -11,6 +11,7 @@ import {
   FEE_RANGE_ANSWER,
   HOME_CONTENT_DATE,
   INDEPENDENT_BODY,
+  INDEPENDENT_FAQ_DATE,
   PLANS_LISTING_COPY_DATE,
   PRIVACY_UPDATED,
   SITE,
@@ -118,7 +119,8 @@ describe("catalogue stamp", () => {
     assert.match(visibleEn, /\(updated 2027-01-01\)/);
     assert.equal(visibleEn.replaceAll(newYear, PLANS_LISTING_COPY_DATE.broadband), plansBroadbandLead("en"));
 
-    assert.match(fillSiteTemplate(INDEPENDENT_BODY), new RegExp(`資料更新 ${HOME_CONTENT_DATE}`));
+    assert.match(fillSiteTemplate(INDEPENDENT_BODY), new RegExp(`資料更新 ${INDEPENDENT_FAQ_DATE}`));
+    assert.doesNotMatch(fillSiteTemplate(INDEPENDENT_BODY), new RegExp(HOME_CONTENT_DATE));
     assert.match(fillSiteTemplate(FEE_RANGE_ANSWER), new RegExp(`資料更新 ${HOME_CONTENT_DATE}`));
     assert.doesNotMatch(fillSiteTemplate(INDEPENDENT_BODY), /2026-11-20|2027-01-01/);
     assert.doesNotMatch(fillSiteTemplate(FEE_RANGE_ANSWER), /2026-11-20|2027-01-01/);

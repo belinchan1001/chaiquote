@@ -247,6 +247,7 @@ function Home() {
                       phone: SITE.phoneDisplay,
                       email: SITE.leadEmail,
                       // FAQ 內文「資料更新」跟內容印，唔跟香港曆日。
+                      // 第 1 題日期已寫入 INDEPENDENT_BODY（INDEPENDENT_FAQ_DATE），唔跟呢個 HOME_CONTENT_DATE。
                       date: HOME_CONTENT_DATE,
                       providers: HOME_PROVIDER_COUNT,
                       plans: PLAN_COUNT,
