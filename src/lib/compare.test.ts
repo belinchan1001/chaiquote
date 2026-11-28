@@ -1834,17 +1834,29 @@ describe("SmarTone mobile catalogue", () => {
     assert.ok(getPlan("smartone-ftth-1000"));
     assert.ok(getPlan("smartone-home5g-w6"));
     assert.equal(getPlan("smartone-home5g-w6")?.contractMonths, 30);
+    const stTerms = [
+      ["smartone-home5g-w7-tri-36-184", 184, 36],
+      ["smartone-home5g-w7-tri-24-198", 198, 24],
+      ["smartone-home5g-w7-tri-12-228", 228, 12],
+      ["smartone-home5g-w7-36-158", 158, 36],
+      ["smartone-home5g-w7-24-168", 168, 24],
+      ["smartone-home5g-w7-12-208", 208, 12],
+      ["smartone-home5g-w6-36-118", 118, 36],
+      ["smartone-home5g-w6-24-128", 128, 24],
+      ["smartone-home5g-w6-12-188", 188, 12],
+    ] as const;
+    for (const [id, fee, months] of stTerms) {
+      const row = plan(id);
+      assert.equal(row.monthlyFee, fee, id);
+      assert.equal(row.contractMonths, months, id);
+      assert.equal(row.flashOffer, undefined, id);
+      assert.doesNotMatch(row.limits ?? "", /個月平均月費/, id);
+    }
     const stW7 = plan("smartone-home5g-w7-tri-36-184");
-    const stW7dual = plan("smartone-home5g-w7-36-158");
     const stW6 = plan("smartone-home5g-w6-36-118");
-    assert.equal(stW7.monthlyFee, 184);
-    assert.equal(stW7dual.monthlyFee, 158);
-    assert.equal(stW6.monthlyFee, 118);
-    assert.equal(stW7.flashOffer, undefined);
-    assert.match(stW7.limits ?? "", /24 個月平均月費 HK\$198/);
-    assert.match(stW6.limits ?? "", /12 個月平均月費 HK\$188/);
     assert.equal(stW7.perks[0], "租借 Wi-Fi 7 三頻路由器（月費已包）");
     assert.equal(toEnglish(stW7.name), "5G Home Wi-Fi 7 tri-band 500GB (36 months)");
+    assert.equal(toEnglish(plan("smartone-home5g-w6-12-188").name), "5G Home Wi-Fi 6 dual-band 200GB (12 months)");
     assert.equal(toEnglish(stW6.perks[0] ?? ""), "Wi-Fi 6 dual-band router rental included in the monthly fee");
     assert.equal(stW7.install.includes("免拉線，隨插即用"), true);
     const youth98 = plan("smartone-5g-youth-60-98");

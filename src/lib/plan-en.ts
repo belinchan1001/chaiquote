@@ -52,8 +52,14 @@ const EXACT: Record<string, string> = {
   "實際速度介乎 100M 至 1000M，視乎訊號覆蓋、裝置數量及現場環境而定。":
     "Typical speed 100M–1000M, depending on coverage, devices and site conditions.",
   "5G 家居 Wi-Fi 7 三頻 500GB（36 個月）": "5G Home Wi-Fi 7 tri-band 500GB (36 months)",
+  "5G 家居 Wi-Fi 7 三頻 500GB（24 個月）": "5G Home Wi-Fi 7 tri-band 500GB (24 months)",
+  "5G 家居 Wi-Fi 7 三頻 500GB（12 個月）": "5G Home Wi-Fi 7 tri-band 500GB (12 months)",
   "5G 家居 Wi-Fi 7 雙頻 350GB（36 個月）": "5G Home Wi-Fi 7 dual-band 350GB (36 months)",
+  "5G 家居 Wi-Fi 7 雙頻 350GB（24 個月）": "5G Home Wi-Fi 7 dual-band 350GB (24 months)",
+  "5G 家居 Wi-Fi 7 雙頻 350GB（12 個月）": "5G Home Wi-Fi 7 dual-band 350GB (12 months)",
   "5G 家居 Wi-Fi 6 雙頻 200GB（36 個月）": "5G Home Wi-Fi 6 dual-band 200GB (36 months)",
+  "5G 家居 Wi-Fi 6 雙頻 200GB（24 個月）": "5G Home Wi-Fi 6 dual-band 200GB (24 months)",
+  "5G 家居 Wi-Fi 6 雙頻 200GB（12 個月）": "5G Home Wi-Fi 6 dual-band 200GB (12 months)",
   "租借 Wi-Fi 7 三頻路由器（月費已包）": "Wi-Fi 7 tri-band router rental included in the monthly fee",
   "租借 Wi-Fi 7 雙頻路由器（月費已包）": "Wi-Fi 7 dual-band router rental included in the monthly fee",
   "租借 Wi-Fi 6 雙頻路由器（月費已包）": "Wi-Fi 6 dual-band router rental included in the monthly fee",
@@ -72,12 +78,8 @@ const EXACT: Record<string, string> = {
     "For homes without fibre, village houses or tong lau that need Wi-Fi 7",
   "適合沒有光纖、村屋或唐樓，需要較低月費之住戶":
     "For homes without fibre, village houses or tong lau that want a lower monthly fee",
-  "所示月費為平均月費，已包租借路由器。24 個月平均月費 HK$198。12 個月平均月費 HK$228。須以信用卡自動轉賬，否則按金 HK$1,500。沒有 5G 覆蓋的位置會以 4G 繼續提供服務。公平使用政策適用。合約期滿後按當時同等計劃收費。可加租 Mesh 路由器每月 HK$28，或固定 IP 每月 HK$100。個人名義可於商業地址登記；公司名義登記須另報價。實際覆蓋及月費以電訊商確認為準。":
-    "The fee shown is the average monthly fee and includes the router rental. 24-month average HK$198. 12-month average HK$228. Credit-card autopay is required, otherwise a HK$1,500 deposit applies. Locations without 5G continue on 4G. Fair-use policy applies. After the contract, the then-current equivalent plan rate applies. Optional mesh router HK$28/month, or a fixed IP HK$100/month. A personal name can be used at a commercial address; a company name needs a separate quote. Coverage and fees are confirmed by the carrier.",
-  "所示月費為平均月費，已包租借路由器。24 個月平均月費 HK$168。12 個月平均月費 HK$208。須以信用卡自動轉賬，否則按金 HK$1,500。沒有 5G 覆蓋的位置會以 4G 繼續提供服務。公平使用政策適用。合約期滿後按當時同等計劃收費。可加租 Mesh 路由器每月 HK$28，或固定 IP 每月 HK$100。個人名義可於商業地址登記；公司名義登記須另報價。實際覆蓋及月費以電訊商確認為準。":
-    "The fee shown is the average monthly fee and includes the router rental. 24-month average HK$168. 12-month average HK$208. Credit-card autopay is required, otherwise a HK$1,500 deposit applies. Locations without 5G continue on 4G. Fair-use policy applies. After the contract, the then-current equivalent plan rate applies. Optional mesh router HK$28/month, or a fixed IP HK$100/month. A personal name can be used at a commercial address; a company name needs a separate quote. Coverage and fees are confirmed by the carrier.",
-  "所示月費為平均月費，已包租借路由器。24 個月平均月費 HK$128。12 個月平均月費 HK$188。須以信用卡自動轉賬，否則按金 HK$1,500。沒有 5G 覆蓋的位置會以 4G 繼續提供服務。公平使用政策適用。合約期滿後按當時同等計劃收費。可加租 Mesh 路由器每月 HK$28，或固定 IP 每月 HK$100。個人名義可於商業地址登記；公司名義登記須另報價。實際覆蓋及月費以電訊商確認為準。":
-    "The fee shown is the average monthly fee and includes the router rental. 24-month average HK$128. 12-month average HK$188. Credit-card autopay is required, otherwise a HK$1,500 deposit applies. Locations without 5G continue on 4G. Fair-use policy applies. After the contract, the then-current equivalent plan rate applies. Optional mesh router HK$28/month, or a fixed IP HK$100/month. A personal name can be used at a commercial address; a company name needs a separate quote. Coverage and fees are confirmed by the carrier.",
+  "所示月費為平均月費，已包租借路由器。須以信用卡自動轉賬，否則按金 HK$1,500。沒有 5G 覆蓋的位置會以 4G 繼續提供服務。公平使用政策適用。合約期滿後按當時同等計劃收費。可加租 Mesh 路由器每月 HK$28，或固定 IP 每月 HK$100。個人名義可於商業地址登記；公司名義登記須另報價。實際覆蓋及月費以電訊商確認為準。":
+    "The fee shown is the average monthly fee and includes the router rental. Credit-card autopay is required, otherwise a HK$1,500 deposit applies. Locations without 5G continue on 4G. Fair-use policy applies. After the contract, the then-current equivalent plan rate applies. Optional mesh router HK$28/month, or a fixed IP HK$100/month. A personal name can be used at a commercial address; a company name needs a separate quote. Coverage and fees are confirmed by the carrier.",
   "實際速度介乎 100M 至 1000M，視乎訊號覆蓋、裝置數量及現場環境而定。本計劃為自動續約。P2P 及 Thunder 下載期間限速至 128kbps。":
     "Typical speed 100M–1000M, depending on coverage, devices and site conditions. This plan auto-renews. P2P and Thunder downloads capped at 128kbps.",
   "任用社交組合 15 個應用程式（Facebook、Instagram、WhatsApp、LINE、WeChat、Signal、Zoom、YouTube、Netflix、Apple TV、myTV SUPER、Disney+、hmvod、Douyin 及 Teams；不包括下載）":
