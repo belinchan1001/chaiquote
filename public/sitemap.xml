@@ -7,8 +7,8 @@
   <url><loc>https://www.chaiquote.hk/plans?cat=business</loc><lastmod>2026-11-20</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.chaiquote.hk/guides</loc><lastmod>2026-11-24</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.chaiquote.hk/tech-news</loc><lastmod>2026-11-26</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.chaiquote.hk/estates</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.chaiquote.hk/new-intake</loc><lastmod>2026-11-22</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates</loc><lastmod>2026-11-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.chaiquote.hk/new-intake</loc><lastmod>2026-11-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.chaiquote.hk/about</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://www.chaiquote.hk/privacy</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
   <url><loc>https://www.chaiquote.hk/guides/port-in</loc><lastmod>2026-11-24</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -337,4 +337,8 @@
   <url><loc>https://www.chaiquote.hk/plans/hkbn-biz-5000</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.chaiquote.hk/plans/hkbn-biz-10000</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.chaiquote.hk/plans/netvigator-biz-10000</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/hiu-yan</loc><lastmod>2026-11-28</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/kam-pak-court</loc><lastmod>2026-11-28</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/lai-yuet-court</loc><lastmod>2026-11-28</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.chaiquote.hk/estates/yu-hing-court</loc><lastmod>2026-11-28</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
 </urlset>
