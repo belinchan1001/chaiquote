@@ -99,6 +99,9 @@ describe("homepage first-load images", () => {
     assert.match(vercel, /X-Content-Type-Options/);
     assert.match(vercel, /Strict-Transport-Security/);
     assert.match(cache, /s-maxage=3600/);
+    assert.match(cache, /const HTML_BROWSER_CACHE = "public, max-age=0, must-revalidate"/);
+    assert.match(cache, /const HTML_CDN_CACHE = "public, s-maxage=3600"/);
+    assert.doesNotMatch(cache, /stale-while-revalidate=/);
     assert.match(cache, /CDN-Cache-Control/);
     assert.match(cache, /Vercel-CDN-Cache-Control/);
     assert.match(cache, /X-Robots-Tag/);
