@@ -1,11 +1,25 @@
 /**
- * CDN-cache HTML documents. Browser still revalidates; Vercel edge keeps a
- * copy so Hong Kong visitors are not hitting a cold function on every click.
- * Plan/estate data lives in the repo, so a deploy already busts this cache.
+ * CDN-cache HTML documents for the current deployment. The browser revalidates
+ * on every navigation; Vercel's edge keeps a one-hour copy so Hong Kong
+ * visitors are not hitting a cold function on every click.
+ *
+ * Do not set stale-while-revalidate. Once an entry is stale, that directive
+ * serves the previous document while the cache revalidates in the background
+ * (`x-vercel-cache: STALE`) for the whole SWR window. Vercel only strips
+ * `s-maxage` and `stale-while-revalidate` from `Cache-Control` when it is the
+ * sole cache header. This middleware also sets `CDN-Cache-Control` and
+ * `Vercel-CDN-Cache-Control`, so those directives would be forwarded to
+ * browsers and to any downstream CDN, neither of which is keyed by deployment.
+ * The production alias only has the current deployment's hashed `/assets/*`
+ * files, so a stale document keeps requesting hashes that are already gone.
+ * `s-maxage=3600` is the fresh CDN lifetime inside this deployment; after that
+ * the next request waits for new HTML. Skew Protection can pin a browser to
+ * one deployment, but it is optional and this policy does not depend on it.
+ *
  * Skip one-time offer links, install tutorial, and cookie'd responses.
  */
-const HTML_CACHE = "public, s-maxage=3600, stale-while-revalidate=86400";
-const NOT_FOUND_CACHE = "public, s-maxage=60, stale-while-revalidate=600";
+const HTML_BROWSER_CACHE = "public, max-age=0, must-revalidate";
+const HTML_CDN_CACHE = "public, s-maxage=3600";
 
 interface HtmlCacheEvent {
   url: URL;
@@ -30,7 +44,13 @@ export default async function htmlCacheMiddleware(
   const result = await next();
   if (!(result instanceof Response) || !shouldCacheHtml(event, result)) return result;
   const path = event.url.pathname;
-  if (result.status === 404 || path === "/staff" || path === "/desk" || path === "/sales" || path === "/sales/register") {
+  if (
+    result.status === 404 ||
+    path === "/staff" ||
+    path === "/desk" ||
+    path === "/sales" ||
+    path === "/sales/register"
+  ) {
     const headers = new Headers(result.headers);
     headers.set("Cache-Control", "private, no-store");
     headers.set("CDN-Cache-Control", "private, no-store");
@@ -42,10 +62,9 @@ export default async function htmlCacheMiddleware(
     });
   }
   const headers = new Headers(result.headers);
-  const cache = HTML_CACHE;
-  headers.set("Cache-Control", cache);
-  headers.set("CDN-Cache-Control", cache);
-  headers.set("Vercel-CDN-Cache-Control", cache);
+  headers.set("Cache-Control", HTML_BROWSER_CACHE);
+  headers.set("CDN-Cache-Control", HTML_CDN_CACHE);
+  headers.set("Vercel-CDN-Cache-Control", HTML_CDN_CACHE);
   if (result.status === 404) {
     headers.set("X-Robots-Tag", "noindex, follow");
   }
