@@ -123,6 +123,14 @@ const PERK_HKBN_SEP30_FREE2 = "寬頻月費豁免 2 個月（第 13–14 個月�
 const PERK_HKBN_SEP30_FREE3 = "寬頻月費豁免 3 個月（第 13–15 個月）";
 const LIMITS_HOME5G_SPEED =
   "實際速度介乎 100M 至 1000M，視乎訊號覆蓋、裝置數量及現場環境而定。";
+const PERK_ST_HOME_ROUTER_W7_TRI = "租借 Wi-Fi 7 三頻路由器（月費已包）";
+const PERK_ST_HOME_ROUTER_W7 = "租借 Wi-Fi 7 雙頻路由器（月費已包）";
+const PERK_ST_HOME_ROUTER_W6 = "租借 Wi-Fi 6 雙頻路由器（月費已包）";
+const PERK_ST_HOME_500 = "500GB 高速數據，其後按公平使用政策";
+const PERK_ST_HOME_350 = "350GB 高速數據，其後按公平使用政策";
+const PERK_ST_HOME_200 = "200GB 高速數據，其後按公平使用政策";
+const smartoneHome5gLimits = (otherTerms: string) =>
+  `所示月費為平均月費，已包租借路由器。${otherTerms}須以信用卡自動轉賬，否則按金 HK$1,500。沒有 5G 覆蓋的位置會以 4G 繼續提供服務。公平使用政策適用。合約期滿後按當時同等計劃收費。可加租 Mesh 路由器每月 HK$28，或固定 IP 每月 HK$100。個人名義可於商業地址登記；公司名義登記須另報價。實際覆蓋及月費以電訊商確認為準。`;
 const LIMITS_CMHK_HOME5G =
   "實際速度介乎 100M 至 1000M，視乎訊號覆蓋、裝置數量及現場環境而定。本計劃為自動續約。P2P 及 Thunder 下載期間限速至 128kbps。";
 const PERK_CMHK_HOME_ROUTER = "租借 Wi-Fi 7 路由器";
@@ -2097,6 +2105,60 @@ export const PLANS: Plan[] = [
     perks: ["需自備 5G 路由器"],
     limits: LIMITS_HOME5G_SPEED,
     bestFor: "適合需要即插即用之住戶",
+  },
+  {
+    id: "smartone-home5g-w7-tri-36-184",
+    providerId: "smartone",
+    category: "home5g",
+    name: "5G 家居 Wi-Fi 7 三頻 500GB（36 個月）",
+    monthlyFee: 184,
+    freeMonths: 0,
+    contractMonths: 36,
+    speedMbps: 1000,
+    fupNote: "500GB 後仍可上網，按公平使用政策降低優先次序，不設另行限速",
+    install: "豁免安裝費，免拉線，隨插即用",
+    housing: "all",
+    network: "5G 無線（Wi-Fi 7 三頻）",
+    perks: [PERK_ST_HOME_ROUTER_W7_TRI, PERK_ST_HOME_500, PERK_SMARTONE_ADMIN_WAIVED, "7 日冷靜期", "豁免搬遷費", PERK_CMHK_HOME_DEPOSIT],
+    limits: smartoneHome5gLimits("24 個月平均月費 HK$198。12 個月平均月費 HK$228。"),
+    flashOffer: true,
+    bestFor: "適合沒有光纖、村屋或唐樓，需要 Wi-Fi 7 三頻之住戶",
+  },
+  {
+    id: "smartone-home5g-w7-36-158",
+    providerId: "smartone",
+    category: "home5g",
+    name: "5G 家居 Wi-Fi 7 雙頻 350GB（36 個月）",
+    monthlyFee: 158,
+    freeMonths: 0,
+    contractMonths: 36,
+    speedMbps: 1000,
+    fupNote: "350GB 後仍可上網，按公平使用政策降低優先次序，不設另行限速",
+    install: "豁免安裝費，免拉線，隨插即用",
+    housing: "all",
+    network: "5G 無線（Wi-Fi 7）",
+    perks: [PERK_ST_HOME_ROUTER_W7, PERK_ST_HOME_350, PERK_SMARTONE_ADMIN_WAIVED, "7 日冷靜期", "豁免搬遷費", PERK_CMHK_HOME_DEPOSIT],
+    limits: smartoneHome5gLimits("24 個月平均月費 HK$168。12 個月平均月費 HK$208。"),
+    flashOffer: true,
+    bestFor: "適合沒有光纖、村屋或唐樓，需要 Wi-Fi 7 之住戶",
+  },
+  {
+    id: "smartone-home5g-w6-36-118",
+    providerId: "smartone",
+    category: "home5g",
+    name: "5G 家居 Wi-Fi 6 雙頻 200GB（36 個月）",
+    monthlyFee: 118,
+    freeMonths: 0,
+    contractMonths: 36,
+    speedMbps: 1000,
+    fupNote: "200GB 後仍可上網，按公平使用政策降低優先次序，不設另行限速",
+    install: "豁免安裝費，免拉線，隨插即用",
+    housing: "all",
+    network: "5G 無線（Wi-Fi 6）",
+    perks: [PERK_ST_HOME_ROUTER_W6, PERK_ST_HOME_200, PERK_SMARTONE_ADMIN_WAIVED, "7 日冷靜期", "豁免搬遷費", PERK_CMHK_HOME_DEPOSIT],
+    limits: smartoneHome5gLimits("24 個月平均月費 HK$128。12 個月平均月費 HK$188。"),
+    flashOffer: true,
+    bestFor: "適合沒有光纖、村屋或唐樓，需要較低月費之住戶",
   },
   {
     id: "cmhk-home5g-350-48-88",
