@@ -48,7 +48,7 @@ export const GUIDE_2027: Guide[] = [
     modified: "2026-11-29",
     opening: [
       {
-        text: "文案修訂日期：2026-11-29（香港時間）。適用於 2026 年底至 2027 年續約、轉台及新居規劃。數字沿用現網已鎖價帶同原稿已寫內容整理，並已再對站內計劃目錄；呢個係文案修訂日，唔係全表核實日期。",
+        text: "文案修訂日期：2026-11-29（香港時間）。適用於 2026 年底至 2027 年續約、轉台及新居規劃。數字沿用現網已鎖價帶同原稿已寫內容整理；呢個係文案修訂日，唔係全表核實日期。發佈前須再同當時站內計劃目錄核對。",
       },
       { text: METHOD_ZH },
     ],
@@ -367,7 +367,7 @@ export const GUIDE_2027: Guide[] = [
       },
       {
         q: "2027 年香港入門手機月費同大灣區中港澳數據計劃大約幾錢？",
-        a: "目錄仍見牌面約 HK$38／月嘅手機計劃，但部分標明限時至 2026-09-30，該日已過；另有須符合長者資格先適用嘅計劃。視計劃、合約同行政費，唔係劃一價。包含中國內地及澳門共享數據嘅大灣區計劃，要以當時計劃卡同電訊商條款為準。簽約前須核對係唔係另收每月 HK$18 至 HK$28 行政費；呢筆行政費只見於部分手機計劃，唔好套去光纖或 5G 家居。攜號轉台同大灣區條款，見〈攜號轉台點樣做〉同〈大灣區手機計劃〉。僅供參考，以電訊商確認為準。",
+        a: "目錄仍見牌面約 HK$38／月嘅手機計劃，但部分標明限時至 2026-09-30，該日已過；另有須符合長者資格先適用嘅計劃。視計劃、合約同行政費，唔係劃一價。包含中國內地及澳門共享數據嘅大灣區計劃，要以當時計劃卡同電訊商條款為準。簽約前須核對係唔係另收每月 HK$18 或 HK$28 行政費；呢筆行政費只見於部分手機計劃，唔好套去光纖或 5G 家居。攜號轉台同大灣區條款，見〈攜號轉台點樣做〉同〈大灣區手機計劃〉。僅供參考，以電訊商確認為準。",
       },
     ],
     faqEn: [
@@ -396,7 +396,7 @@ export const GUIDE_2027: Guide[] = [
       {
         heading: "What to separate in 60 seconds",
         flow: [
-          { kind: "p", text: "Copy revised 29 November 2026 (Hong Kong time). For renewals, switches and new-home planning from late 2026 into 2027. Figures follow locked on-site bands and were checked again against the plan catalogue. This is a copy-revision date, not a date on which every figure was re-verified." },
+          { kind: "p", text: "Copy revised 29 November 2026 (Hong Kong time). For renewals, switches and new-home planning from late 2026 into 2027. Figures follow the locked on-site price bands and the wording already written. This is a copy-revision date, not a full-catalogue verification date. Re-check the figures against the live plan catalogue before publish." },
           { kind: "p", text: METHOD_EN },
           {
             kind: "p",

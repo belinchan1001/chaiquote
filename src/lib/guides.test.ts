@@ -1277,7 +1277,7 @@ describe("2026-11-24 GEO citation copy", () => {
       [
         "5G 家居寬頻邊間好，唔可以一句話斷定；要先查你個地址嘅覆蓋同訊號，再對計劃卡嘅牌面月費、合約同數據上限。",
         "呢頁講 5G 家居寬頻（免拉線、插電路由器），唔係手機 5G 上台，亦唔好當固定光纖替代。",
-        "數據上限同覆蓋要以電訊商確認為準；用量用完之後點算，見[5G 家居數據上限同公平使用](/guides/home5g-data-cap)。",
+        "數據上限同覆蓋要以電訊商確認為準；用量用完之後點算，見 [5G 家居數據上限同公平使用](/guides/home5g-data-cap)。",
       ],
     );
     assert.equal(home5g.opening?.[3]?.text, home5g.excerpt);
@@ -1444,7 +1444,13 @@ describe("2027 guide preview batch", () => {
       }
     }
     assert.match(blob("hk-telecom-broadband-price-comparison"), /HK\$88 至 HK\$109/);
-    assert.match(blob("hk-telecom-broadband-price-comparison"), /文案修訂日期：2026-11-29/);
+    assert.match(
+      blob("hk-telecom-broadband-price-comparison"),
+      /文案修訂日期：2026-11-29（香港時間）。適用於 2026 年底至 2027 年續約、轉台及新居規劃。數字沿用現網已鎖價帶同原稿已寫內容整理；呢個係文案修訂日，唔係全表核實日期。發佈前須再同當時站內計劃目錄核對。/,
+    );
+    assert.doesNotMatch(blob("hk-telecom-broadband-price-comparison"), /並已再對站內計劃目錄/);
+    assert.match(blob("hk-telecom-broadband-price-comparison"), /每月 HK\$18 或 HK\$28/);
+    assert.doesNotMatch(blob("hk-telecom-broadband-price-comparison"), /每月 HK\$18 至 HK\$28/);
     assert.doesNotMatch(blob("hk-telecom-broadband-price-comparison"), /最後核實日期/);
   });
 });

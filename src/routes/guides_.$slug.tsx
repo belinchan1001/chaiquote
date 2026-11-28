@@ -430,10 +430,21 @@ function GuideTitle({ text, split }: { text: string; split: boolean }) {
 }
 
 function GuideMatrixTable({ matrix }: { matrix: GuideMatrix }) {
+  // Wide Chinese matrices were breaking inside words. keep-all plus a
+  // content-sized table lets those columns scroll instead. Four-column
+  // tables, and the six-column 2026 snapshot, stay on the previous layout.
+  const keepWords = matrix.headers.length === 5 || matrix.headers.length === 7;
+  const cell = keepWords ? "break-keep" : "";
   return (
     <div className="mt-4">
       <div className="overflow-x-auto rounded-xl shadow-[var(--shadow-border)]">
-        <table className="w-full min-w-[52rem] border-collapse bg-card text-left text-sm">
+        <table
+          className={
+            keepWords
+              ? "w-max min-w-full border-collapse bg-card text-left text-sm"
+              : "w-full min-w-[52rem] border-collapse bg-card text-left text-sm"
+          }
+        >
           <caption className="border-b border-border px-3 py-3 text-left text-xs leading-relaxed text-subtle">
             {matrix.caption}
           </caption>
@@ -443,7 +454,7 @@ function GuideMatrixTable({ matrix }: { matrix: GuideMatrix }) {
                 <th
                   key={header}
                   scope="col"
-                  className="px-3 py-3 align-bottom font-semibold text-fg"
+                  className={`px-3 py-3 align-bottom font-semibold text-fg ${cell}`}
                 >
                   {header}
                 </th>
@@ -453,18 +464,18 @@ function GuideMatrixTable({ matrix }: { matrix: GuideMatrix }) {
           <tbody>
             {matrix.rows.map((row) => (
               <tr key={row[0]} className="border-b border-border last:border-b-0">
-                {row.map((cell, index) =>
+                {row.map((cellText, index) =>
                   index === 0 ? (
                     <th
                       key={index}
                       scope="row"
-                      className="px-3 py-3 align-top font-semibold text-fg"
+                      className={`px-3 py-3 align-top font-semibold text-fg ${cell}`}
                     >
-                      <GuideRichText text={cell} />
+                      <GuideRichText text={cellText} />
                     </th>
                   ) : (
-                    <td key={index} className="px-3 py-3 align-top leading-relaxed text-muted">
-                      <GuideRichText text={cell} />
+                    <td key={index} className={`px-3 py-3 align-top leading-relaxed text-muted ${cell}`}>
+                      <GuideRichText text={cellText} />
                     </td>
                   ),
                 )}

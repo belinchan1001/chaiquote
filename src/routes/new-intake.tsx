@@ -183,7 +183,7 @@ function NewIntakePage() {
           </>
         ) : (
           <>
-            收樓時間表同拉線避伏，見
+            收樓時間表同拉線避伏，見{" "}
             <Link
               to="/guides/$slug"
               params={{ slug: "new-estate-intake-broadband-timeline" }}
