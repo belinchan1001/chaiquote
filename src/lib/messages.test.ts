@@ -6,8 +6,8 @@ import { fileURLToPath } from "node:url";
 import { MESSAGES } from "./messages.ts";
 import { ESTATE_COUNT } from "./estate-count.ts";
 import { PLAN_COUNT, PROVIDER_COUNT } from "./plan-count.ts";
-import { FEE_RANGE_QUESTION, HOME_CONTENT_DATE, PRIVACY_UPDATED, fillSiteTemplate, INDEPENDENT_BODY, SITE, siteFaq } from "./site.ts";
-import { aboutJsonLd, homeJsonLd } from "./canonical.ts";
+import { FEE_RANGE_QUESTION, HOME_CONTENT_DATE, INDEPENDENT_FAQ_DATE, PRIVACY_UPDATED, fillSiteTemplate, INDEPENDENT_BODY, SITE, siteFaq } from "./site.ts";
+import { ABOUT_SEO, aboutJsonLd, homeJsonLd } from "./canonical.ts";
 import { formatFee, getPlan } from "./plans.ts";
 import { filterPlans } from "./plan-filter.ts";
 
@@ -20,26 +20,22 @@ function quoted(src: string, key: string): string[] {
 }
 
 describe("trust/compliance copy", () => {
-  it("locks featured-plan title, lead, and the no-commission sentence", () => {
+  it("locks featured-plan title and lead, and keeps the absolute commission key off the catalogue", () => {
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
     const [zhTitle, enTitle] = quoted(messages, "bestPicksTitle");
     const [zhLead, enLead] = quoted(messages, "bestPicksLead");
-    const [zhCommission, enCommission] = quoted(messages, "noCommission");
 
     assert.equal(zhTitle, "齊Quote 精選計劃");
     assert.equal(
       zhLead,
       "每個服務類型，由本站現有參考計劃入面揀月費較低嘅一條；唔代表全港最平，實際以電訊商確認為準。",
     );
-    assert.equal(
-      zhCommission,
-      "本網站並沒有向任何電訊商收取佣金或廣告費。所列月費僅供參考，實際以電訊商確認為準。",
+    assert.equal(quoted(messages, "noCommission").length, 0);
+    assert.doesNotMatch(
+      messages,
+      /無向電訊商收取佣金或廣告費|並沒有向任何電訊商收取佣金|無佣金|零佣金|does not take commission|do not receive commission|No commission|advertising fees/,
     );
     assert.equal(enTitle, "ChaiQuote featured reference plans");
-    assert.equal(
-      enCommission,
-      "We do not receive commission or advertising fees from any carrier. Fees are for reference only; the carrier confirms the final terms.",
-    );
 
     for (const word of CLAIM_WORDS) {
       assert.equal(zhTitle.includes(word), false, `title still claims ${word}`);
@@ -70,17 +66,32 @@ describe("trust/compliance copy", () => {
     assert.doesNotMatch(search, /高速打機首選/);
   });
 
-  it("shows the no-commission line on about and in the footer", () => {
+  it("shows the approved independence disclosure on about and in the footer", () => {
     const messages = readFileSync(join(here, "messages.ts"), "utf8");
     const about = readFileSync(join(here, "../routes/about.tsx"), "utf8");
     const footer = readFileSync(join(here, "../components/site-footer.tsx"), "utf8");
     const home = readFileSync(join(here, "../routes/index.tsx"), "utf8");
     const picks = readFileSync(join(here, "../components/home-best-picks.tsx"), "utf8");
-    assert.match(
-      about,
-      /齊Quote（chaiquote\.hk）係香港獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。/,
+    const aboutBody =
+      "齊Quote（chaiquote.hk）係香港獨立比較網站，唔係電訊商官網或附屬機構。我哋用公開市場資料，按同一標準整理家居寬頻、5G 家居、流動通訊同商業寬頻計劃，方便你自己比較、自己揀計劃。經本站查詢或轉介申請唔會另收費；營運方或會就部分轉介獲得報酬，詳見頁尾。";
+    assert.match(about, new RegExp(aboutBody.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.equal(quoted(messages, "aboutWhoText")[0], aboutBody);
+    assert.equal(
+      quoted(messages, "aboutWhoText")[1],
+      "ChaiQuote (chaiquote.hk) is an independent Hong Kong comparison site, not a carrier official website or subsidiary. We compile home broadband, 5G home, mobile and business plans from public market information to the same standard, so you can compare and choose a plan yourself. Enquiries or referred applications through this site do not carry a separate fee; the operator may receive remuneration for some referrals — see the footer.",
     );
-    assert.equal((about.match(/無向電訊商收取佣金或廣告費/g) ?? []).length, 1);
+    assert.doesNotMatch(quoted(messages, "aboutWhoText")[1] ?? "", /\baffiliate\b/i);
+    assert.equal(
+      quoted(messages, "footerNotice")[0],
+      "齊Quote 係獨立比較站，唔係電訊商官網、附屬機構或官方客服；用公開市場資料按同一標準整理，經本站查詢或轉介申請唔會另收費，營運方或會就部分轉介獲得報酬。所列月費、覆蓋同條款僅供參考，一律以電訊商公佈及你同電訊商簽署嘅合約為準。",
+    );
+    assert.equal(
+      quoted(messages, "footerNotice")[1],
+      "ChaiQuote is an independent comparison site, not a carrier official website, subsidiary or official customer service; it compiles public market information to the same standard. Enquiries or referred applications through this site do not carry a separate fee; the operator may receive remuneration for some referrals. Listed monthly fees, coverage and terms are for reference only, and the carrier’s published terms and the contract you sign with the carrier are final.",
+    );
+    assert.doesNotMatch(quoted(messages, "footerNotice").join("\n"), /\baffiliate\b|commission|廣告費|佣金/i);
+    assert.equal(quoted(messages, "disclaimer3")[0], "各電訊商名稱及標誌為其商標，僅供識別所比較之計劃。");
+    assert.doesNotMatch(about, /佣金|廣告費|commission/);
     assert.match(about, /https:\/\/wa\.me\/\$\{SITE\.whatsappE164\}/);
     assert.doesNotMatch(about, /t\("aboutIndependent"\)|t\("noCommission"\)|t\("aboutDisclaimer"\)|t\("aboutProviders"\)/);
     assert.doesNotMatch(about, /間電訊商|個參考計劃|個屋苑|資料更新|轉台獨家優惠|排版備註|\/brand|QuoteLink|61118499/);
@@ -441,12 +452,12 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     });
     const independent = FAQ[0];
     assert.match(independent?.q ?? "", /獨立/);
-    assert.match(independent?.a ?? "", /^有。齊Quote（chaiquote\.hk）係香港獨立比較網站/);
-    assert.match(independent?.a ?? "", /無向電訊商收取佣金或廣告費/);
-    assert.match(independent?.a ?? "", new RegExp(`${PROVIDER_COUNT} 間電訊商`));
-    assert.match(independent?.a ?? "", new RegExp(`${PLAN_COUNT} 個參考計劃`));
-    assert.match(independent?.a ?? "", new RegExp(`${ESTATE_COUNT} 個屋苑`));
-    assert.match(independent?.a ?? "", new RegExp(HOME_CONTENT_DATE));
+    assert.equal(
+      independent?.a,
+      `有。齊Quote（chaiquote.hk）係香港獨立比較網站，唔係電訊商官網或附屬機構，用公開市場資料整理。資料更新 ${INDEPENDENT_FAQ_DATE}，可以一次過比較 ${PROVIDER_COUNT} 間電訊商、${PLAN_COUNT} 個參考計劃同 ${ESTATE_COUNT} 個屋苑；公屋、居屋、私樓同村屋分開列。`,
+    );
+    assert.doesNotMatch(independent?.a ?? "", /佣金|廣告費|報酬|公開參考計劃/);
+    assert.doesNotMatch(independent?.a ?? "", new RegExp(HOME_CONTENT_DATE));
     assert.doesNotMatch(independent?.a ?? "", /最終月費、覆蓋同安裝以電訊商確認為準/);
     assert.match(independent?.a ?? "", /公屋、居屋、私樓同村屋分開列。$/);
     const publicHos = FAQ.find((item) => item.q === "公屋同埋居屋價錢會唔會唔同？");
@@ -464,7 +475,8 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
     assert.doesNotMatch(fees.a, /村屋光纖由 HK\$218／月起/);
     assert.match(fees.a, /HK\$376／月/);
     assert.match(fees.a, /5G 家居約 HK\$88 至 HK\$190／月/);
-    assert.match(fees.a, new RegExp(HOME_CONTENT_DATE));
+    assert.match(fees.a, new RegExp(`資料更新 ${HOME_CONTENT_DATE}`));
+    assert.doesNotMatch(fees.a, new RegExp(INDEPENDENT_FAQ_DATE));
     assert.match(fees.a, /唔係排名，亦唔代表你座樓一定有。$/);
     assert.doesNotMatch(fees.a, /最終月費、覆蓋同安裝以電訊商確認為準/);
     for (const word of ["最平", "最抵", "最低", "全港最平", "保證"]) {
@@ -530,6 +542,11 @@ describe("homepage FAQ matches FAQPage JSON-LD", () => {
       assert.equal(enFaqLd?.mainEntity[index]?.acceptedAnswer.text, fillSiteTemplate(a));
     });
     assert.notEqual(enFaqLd?.mainEntity[0]?.name, FAQ[0]?.q);
+    assert.equal(
+      enFaqLd?.mainEntity[0]?.acceptedAnswer.text,
+      `Yes. ChaiQuote (chaiquote.hk) is an independent Hong Kong telecom comparison site, not a carrier official website or subsidiary. It compiles public market information. As of ${INDEPENDENT_FAQ_DATE}, you can compare ${PROVIDER_COUNT} carriers, ${PLAN_COUNT} reference plans and ${ESTATE_COUNT} estates in one place. Public housing, HOS, private estates and village houses are listed separately.`,
+    );
+    assert.doesNotMatch(enFaqLd?.mainEntity[0]?.acceptedAnswer.text ?? "", /commission|advertising fees|\baffiliate\b/i);
     assert.match(enFaqLd?.mainEntity[1]?.acceptedAnswer.text ?? "", /not a ranking/);
     assert.doesNotMatch(enFaqLd?.mainEntity[1]?.acceptedAnswer.text ?? "", /最終月費/);
   });
@@ -562,7 +579,17 @@ describe("about page Organization JSON-LD", () => {
     assert.equal(aboutOrg.email, SITE.leadEmail);
     assert.equal(aboutOrg.telephone, `+${SITE.whatsappE164}`);
     assert.equal(aboutOrg.description, SITE.description);
-    assert.match(aboutOrg.description, /亦無向電訊商收取佣金或廣告費/);
+    assert.equal(ABOUT_SEO.title, "齊Quote｜關於我們");
+    assert.equal(
+      ABOUT_SEO.description,
+      "齊Quote 唔係電訊商官網或附屬機構。用公開市場資料整理參考月費，用家自己比較、自己揀計劃，實際以電訊商確認為準。",
+    );
+    assert.equal(
+      aboutOrg.description,
+      "齊Quote（chaiquote.hk）係獨立比較網站，唔係電訊商官網或附屬機構。用公開市場資料按同一標準整理，所列月費僅供參考，用家自己比較、自己揀計劃，實際以電訊商公佈及正式合約為準。",
+    );
+    assert.doesNotMatch(aboutOrg.description, /佣金|廣告費|報酬/);
+    assert.doesNotMatch(ABOUT_SEO.description, /佣金|廣告費|報酬/);
     assert.doesNotMatch(aboutOrg.description, /間電訊商|個參考計劃|個屋苑|資料更新/);
     assert.doesNotMatch(JSON.stringify(aboutLd), /8 間電訊商|195 個參考計劃|3729 個屋苑/);
     assert.deepEqual(aboutOrg.sameAs, [...SITE.sameAs]);

@@ -28,14 +28,14 @@ export const GUIDE_ARTICLES: Guide[] = [
     seoTitle: "香港光纖點揀｜公屋居屋私樓村屋＋1000M月費｜齊Quote",
     h1: "香港光纖點揀：先分樓類，再睇月費",
     description:
-      "香港光纖唔係一張價。先分公屋、居屋、私樓定村屋，再對 1000M／2500M 參考月費。無佣金；價錢同覆蓋以電訊商確認為準。",
+      "香港光纖唔係一張價。先分公屋、居屋、私樓定村屋，再對 1000M／2500M 參考月費。價錢同覆蓋以電訊商確認為準。",
     title: "香港光纖點揀：先分樓類，再睇月費",
     excerpt: "同一句「1000M」，公屋同村屋見到嘅價通常唔同。下面教你按樓類收窄，再去格價。",
     titleEn: "Hong Kong fibre: sort the housing type, then the monthly fee",
     excerptEn:
       "The same “1000M” is usually a different price in public housing and a village house. Narrow it by housing type, then compare.",
     descriptionEn:
-      "Hong Kong fibre is not one price. Sort public housing, HOS, private or village first, then compare 1000M and 2500M reference fees. No commission. The carrier confirms the price and coverage.",
+      "Hong Kong fibre is not one price. Sort public housing, HOS, private or village first, then compare 1000M and 2500M reference fees. The carrier confirms the price and coverage.",
     h1En: "Hong Kong fibre: sort the housing type, then the monthly fee",
     published: "2026-09-09",
     modified: "2026-11-24",

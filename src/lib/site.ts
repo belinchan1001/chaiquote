@@ -12,6 +12,9 @@ export const CATALOGUE_CONTENT_STAMP = "2026-11-14";
 /** Homepage FAQ / hero copy last changed on this day (quote-FAQ wording). */
 export const HOME_CONTENT_DATE = "2026-11-24";
 
+/** FAQ Q1「資料更新」only. The price FAQ stays on HOME_CONTENT_DATE. */
+export const INDEPENDENT_FAQ_DATE = "2026-11-28";
+
 /** Estate page opening and FAQ copy from the 2026-11-20 revision. */
 export const ESTATE_PAGE_CONTENT_DATE = "2026-11-20";
 
@@ -42,7 +45,7 @@ export const SITE = {
     "https://www.instagram.com/chaiquote.hk/",
     "https://www.facebook.com/p/%E9%BD%8AQuote-61594256257767/",
   ],
-  description: `齊Quote（chaiquote.hk）係獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。所列月費僅供參考，實際以電訊商確認為準。`,
+  description: `齊Quote（chaiquote.hk）係獨立比較網站，唔係電訊商官網或附屬機構。用公開市場資料按同一標準整理，所列月費僅供參考，用家自己比較、自己揀計劃，實際以電訊商公佈及正式合約為準。`,
   /**
    * 香港時區（Asia/Hong_Kong）曆日。
    * 頁首、頁尾、主頁同目錄嘅可見「資料更新」用呢個日子，唔代表當日重新核實價錢。
@@ -164,12 +167,12 @@ export const BUDGET_OPTIONS = [
   { maxFee: 400, label: "$400 以下" },
 ] as const;
 
-/** Facts an answer page can quote without a second copy of the numbers. */
+/** Facts an answer page can quote without a second copy of the numbers. Date is baked in so it does not follow HOME_CONTENT_DATE. */
 export const INDEPENDENT_BODY =
-  "齊Quote（chaiquote.hk）係香港獨立比較網站，唔係電訊商官網，亦無向電訊商收取佣金或廣告費。資料更新 {date}，可以一次過比較 {providers} 間電訊商、{plans} 個參考計劃同 {estates} 個屋苑；公屋、居屋、私樓同村屋分開列。";
+  `齊Quote（chaiquote.hk）係香港獨立比較網站，唔係電訊商官網或附屬機構，用公開市場資料整理。資料更新 ${INDEPENDENT_FAQ_DATE}，可以一次過比較 {providers} 間電訊商、{plans} 個參考計劃同 {estates} 個屋苑；公屋、居屋、私樓同村屋分開列。`;
 
 export const INDEPENDENT_BODY_EN =
-  "ChaiQuote (chaiquote.hk) is an independent Hong Kong telecom comparison site, not a carrier website, and it does not take commission or advertising fees from carriers. As of {date}, you can compare {providers} carriers, {plans} reference plans and {estates} estates in one place. Public housing, HOS, private estates and village houses are listed separately.";
+  `ChaiQuote (chaiquote.hk) is an independent Hong Kong telecom comparison site, not a carrier official website or subsidiary. It compiles public market information. As of ${INDEPENDENT_FAQ_DATE}, you can compare {providers} carriers, {plans} reference plans and {estates} estates in one place. Public housing, HOS, private estates and village houses are listed separately.`;
 
 export const FEE_RANGE_QUESTION = "香港寬頻月費大概幾錢？有冇一條適用全港嘅價？";
 
@@ -337,7 +340,7 @@ export const FAQ_EN = [
   },
 ] as const;
 
-/** Filled FAQPage answers. `{date}` is the homepage content date, not the clock. `en` is the `?lang=en` visible list. */
+/** Filled FAQPage answers. `{date}` is HOME_CONTENT_DATE, not the clock. Q1 already uses INDEPENDENT_FAQ_DATE. `en` is the `?lang=en` visible list. */
 export function siteFaq(locale: "zh" | "en" = "zh") {
   const items = locale === "en" ? FAQ_EN : FAQ_ZH;
   return items.map((item) => ({

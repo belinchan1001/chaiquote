@@ -26,6 +26,7 @@ import {
   usdToHkd,
 } from "./ai-desk.ts";
 import { isBareHousingTypeQuery, matchKnownEstate, searchEstates } from "./estates.ts";
+import { FAQ_EN, fillSiteTemplate } from "./site.ts";
 import { filterPlans } from "./plan-filter.ts";
 import { averageFee, formatFee, getPlan, type Plan } from "./plans.ts";
 
@@ -103,6 +104,10 @@ describe("AI desk safety", () => {
     assert.equal(official?.id, "official");
     assert.equal(official?.attach, false);
     assert.match(official?.zh ?? "", /獨立比較/);
+    assert.equal(official?.en, fillSiteTemplate(FAQ_EN[0].a));
+    assert.match(official?.en ?? "", /not a carrier official website or subsidiary/);
+    assert.doesNotMatch(official?.zh ?? "", /佣金|廣告費|報酬/);
+    assert.doesNotMatch(official?.en ?? "", /commission|advertising fees|\baffiliate\b/i);
     const village = composeFallback({
       message: "村屋有冇光纖？",
       locale: "zh",
