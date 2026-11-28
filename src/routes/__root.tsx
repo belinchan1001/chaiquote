@@ -1,5 +1,5 @@
 import { createRootRoute, HeadContent, Link, Outlet, Scripts, useRouterState } from "@tanstack/react-router";
-import { lazy, Suspense } from "react";
+import { lazy } from "react";
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { CatalogLive } from "@/components/catalog-live";
@@ -9,6 +9,7 @@ import { NavProgress } from "@/components/nav-progress";
 import { DeferredWhatsApp } from "@/components/whatsapp-widget";
 import { GoogleAdsTag } from "@/components/google-ads-tag";
 import { IdleMount } from "@/components/idle-mount";
+import { ChunkLoadRecovery, LazyIsland } from "@/lib/lazy-island";
 import { PwaServiceWorker } from "@/components/pwa-service-worker";
 import { I18nProvider, useI18n, usePageTitle } from "@/lib/i18n";
 import { keepLangSearch, localeFromHref } from "@/lib/locale";
@@ -140,6 +141,7 @@ function RootLayout() {
         <HeadContent />
       </head>
       <body className="min-h-dvh bg-bg text-fg">
+        <ChunkLoadRecovery />
         <PreviewHostBridge />
         <GoogleAdsTag />
         <PwaServiceWorker />
@@ -151,18 +153,22 @@ function RootLayout() {
               <SiteHeader />
               <PageShell />
               <IdleMount>
-                <Suspense fallback={null}>
+                <LazyIsland>
                   <PwaInstallTip />
-                </Suspense>
+                </LazyIsland>
               </IdleMount>
               <SiteFooter />
             </div>
             <IdleMount>
-              <Suspense fallback={null}>
+              <LazyIsland>
                 <CompareBar />
+              </LazyIsland>
+              <LazyIsland>
                 <AiStaffPanel />
+              </LazyIsland>
+              <LazyIsland>
                 <FirstVisitTour />
-              </Suspense>
+              </LazyIsland>
             </IdleMount>
             <DeferredWhatsApp />
           </AuthProvider>

@@ -1,5 +1,6 @@
-import { lazy, Suspense, useState, type ComponentProps } from "react";
+import { lazy, useState, type ComponentProps } from "react";
 import { Input } from "@/components/ui/input";
+import { LazyIsland } from "@/lib/lazy-island";
 
 const EstateSuggestAsync = lazy(() =>
   import("@/components/estate-suggest").then((mod) => ({ default: mod.EstateSuggest })),
@@ -27,8 +28,8 @@ export function LazyEstateSuggest({ eager = false, ...props }: Props) {
 
   if (!active) return fallback;
   return (
-    <Suspense fallback={fallback}>
+    <LazyIsland fallback={fallback} errorFallback={fallback}>
       <EstateSuggestAsync {...props} />
-    </Suspense>
+    </LazyIsland>
   );
 }
